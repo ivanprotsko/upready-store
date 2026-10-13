@@ -1,6 +1,6 @@
 import { Link, useLoaderData, type LoaderFunctionArgs } from "react-router"
 import { ProgressBar } from "~/components/progress-bar"
-import { mediaUrl, publicApiOrigin } from "~/lib/media"
+import { mediaUrl } from "~/lib/media"
 import { listMyCourses, requireSession } from "~/lib/store-api.server"
 import type { MyCourse } from "~/lib/types"
 
@@ -12,7 +12,7 @@ export function meta() {
 export async function loader({ request }: LoaderFunctionArgs) {
   const session = requireSession(request)
   const courses = await listMyCourses(session)
-  const apiOrigin = publicApiOrigin(session.config.apiBase)
+  const apiOrigin = session.mediaOrigin
 
   return {
     shopOrigin: session.config.shopOrigin,

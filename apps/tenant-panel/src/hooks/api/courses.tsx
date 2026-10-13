@@ -19,6 +19,11 @@ import { queryKeysFactory } from "../../lib/query-key-factory"
 
 export type CourseStatus = "draft" | "published"
 
+// t-2026-10-13-29 stage 2: the stream's Telegram, its start for drip lessons
+// and the access length on the course; the section, cover, list summary,
+// several videos, files, links and the opening day on the lesson. Optional
+// here, so a course saved before them still reads.
+
 export type TenantCourse = {
   id: string
   product_id: string
@@ -26,9 +31,20 @@ export type TenantCourse = {
   slug: string
   description: string | null
   status: CourseStatus
+  telegram_channel_url?: string | null
+  telegram_chat_url?: string | null
+  /** ISO date-time; drip lessons count their day from it or from the buyer's access, whichever is later. */
+  start_date?: string | null
+  /** Days of access; null is no limit. */
+  access_days?: number | null
   created_at: string
   updated_at: string
 }
+
+export type TenantLessonVideo = { url: string; title?: string | null; duration_sec?: number | null; poster_url?: string | null }
+export type TenantLessonAttachment = { name: string; url: string; size_bytes?: number | null; mime?: string | null }
+export type TenantLessonLinkKind = "telegram_channel" | "telegram_chat" | "youtube" | "other"
+export type TenantLessonLink = { kind: TenantLessonLinkKind; url: string; title: string }
 
 export type TenantLesson = {
   id: string
@@ -36,7 +52,17 @@ export type TenantLesson = {
   title: string
   order: number
   body: string
+  /** The first video; the API fills it from `videos[0]` when `videos` is set. */
   video_url: string | null
+  section?: string | null
+  section_order?: number | null
+  cover_url?: string | null
+  summary?: string | null
+  videos?: TenantLessonVideo[] | null
+  attachments?: TenantLessonAttachment[] | null
+  links?: TenantLessonLink[] | null
+  /** The lesson opens on day N of the buyer's access; null is open at once. */
+  available_from_day?: number | null
 }
 
 export type TenantCourseListResponse = { courses: TenantCourse[]; count: number }
@@ -60,16 +86,32 @@ export type UpdateTenantCourseBody = {
   slug?: string
   description?: string | null
   status?: CourseStatus
+  telegram_channel_url?: string | null
+  telegram_chat_url?: string | null
+  start_date?: string | null
+  access_days?: number | null
 }
 
-export type CreateTenantLessonBody = {
+/** What the lesson form sends (`lesson-form/lesson-form-values.ts`). */
+export type TenantLessonContentBody = {
+  section?: string | null
+  section_order?: number | null
+  cover_url?: string | null
+  summary?: string | null
+  videos?: TenantLessonVideo[]
+  attachments?: TenantLessonAttachment[]
+  links?: TenantLessonLink[]
+  available_from_day?: number | null
+}
+
+export type CreateTenantLessonBody = TenantLessonContentBody & {
   title: string
   body?: string
   video_url?: string | null
   order?: number
 }
 
-export type UpdateTenantLessonBody = {
+export type UpdateTenantLessonBody = TenantLessonContentBody & {
   title?: string
   body?: string
   video_url?: string | null

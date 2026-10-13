@@ -24,11 +24,22 @@ The school has no sign-in and no database of its own:
 | `/auth/callback` | Nothing. It trades the code and redirects to `next`, or back to `/login` with the reason |
 | `/logout` | Nothing. It removes `school_jwt` and redirects to `/login` |
 | `/app` | My courses, with progress, and the courses whose order still waits for payment |
-| `/app/<course>` | The lessons in order, which are done, and where to continue |
-| `/app/<course>/<lesson>` | The video, the text, the test when the lesson has one, «Отметить пройденным» |
+| `/app/<course>` | The lessons by section, with their covers and summaries, which are done, which open on a later day, and where to continue. The course's Telegram channel and the stream's chat under its title, and «Доступ до …» when the course has an access limit |
+| `/app/<course>/<lesson>` | The videos in order, the text, the lesson's files and links, the test when the lesson has one, «Отметить пройденным». A lesson whose day has not come shows the date it opens instead |
+| `/app/_media?src=<path>` | Nothing. It asks the backend's media route for one video or file with the buyer's token and redirects the browser to the file |
 
 Every `/app` page without the cookie redirects to `/login?next=<the page>`. A token the API refuses
 removes the cookie and does the same.
+
+A video or a file of a lesson lives behind the backend's media route
+(`apps/backend/src/api/store/tenant/courses/[id]/media`), which checks that the buyer holds the
+course. Only the school's server has the buyer's token, so the lesson page points the browser at
+`/app/_media`, and that route passes the media route's redirect on. It accepts nothing but paths of
+the media route, so it opens no other part of the API. Its static segment wins over a course slug,
+which shadows only a course whose slug is `_media`.
+
+A video remembers where the buyer stopped it, per lesson and per video, in the browser's
+`localStorage` (`app/lib/video-resume.ts`).
 
 The proxy sends the school only `/app`, `/login`, `/auth`, `/logout` and `/assets`. The landing owns
 `/` on the same host and is a separate service.
@@ -45,6 +56,23 @@ The proxy sends the school only `/app`, `/login`, `/auth`, `/logout` and `/asset
 
 A missing variable fails the page with its name, never with a value. The shop's side of the sign-in
 has to list `SCHOOL_DOMAIN` in its `SCHOOL_SSO_RETURN_HOSTS`, or it refuses to send the buyer back.
+
+## Fixture Stand
+
+You can open every page without a backend. Set `SCHOOL_FIXTURE=1` and point `SCHOOL_FIXTURE_DIR`
+at a folder of Store API answers, and the school reads them instead of calling the API and asks for
+no cookie. The four variables above take local values when they are not set.
+
+```bash
+SCHOOL_FIXTURE=1 SCHOOL_FIXTURE_DIR=/abs/path/to/fixture pnpm dev
+```
+
+The folder holds one file per API path, each `{ "status": 200, "body": { … } }`:
+`store/tenant/courses/mine.json`, `store/tenant/courses/mine/<slug>.json` and
+`store/tenant/courses/<course>/lessons/<lesson>.json`. Its `media/` folder is served at
+`/fixture-media/…` with byte ranges, so a video seeks. That route answers 404 whenever
+`SCHOOL_FIXTURE` is not `1`, and the proxy never sends it to the school. `app/lib/fixture.server.ts`
+reads both. Never set `SCHOOL_FIXTURE` on a host.
 
 ## Commands
 

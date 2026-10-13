@@ -18,13 +18,35 @@ import { useDomains } from "../../../hooks/api/domains"
 import { useTenantLocaleSettings } from "../../../hooks/api/locale-settings"
 import { useProduct } from "../../../hooks/api/products"
 import { buildCourseStorefrontUrl } from "../course-labels"
+import { courseScheduleBody, dateInputValue, lessonGroups } from "../lesson-form/lesson-form-values"
 import { CoursePageSection } from "./course-page-section"
+
+const WEB_URL = /^https?:\/\/\S+$/i
 
 // o24-courses: one page for everything an owner does with a course, the same
 // shape `product-attributes/attribute-edit` uses (view and edit share the page,
 // no separate `/edit` route) — a course has four owner-facing fields, same
 // order of magnitude as an attribute. Lessons get their own drawer per lesson
 // (`lessons/new`, `lessons/:lessonId`) because a lesson's text runs long.
+
+/** What a lesson row says about its content: its videos, files and the day it opens. */
+const LessonMarks = ({ lesson }: { lesson: TenantLesson }) => {
+  const videos = lesson.videos?.length ?? (lesson.video_url ? 1 : 0)
+  const files = lesson.attachments?.length ?? 0
+
+  return (
+    <span className="flex items-center gap-x-2 text-ui-fg-muted">
+      {videos > 0 ? (
+        <span className="flex items-center gap-x-0.5">
+          <MediaPlay />
+          {videos > 1 ? <Text size="xsmall">{videos}</Text> : null}
+        </span>
+      ) : null}
+      {files > 0 ? <Text size="xsmall">файлов: {files}</Text> : null}
+      {lesson.available_from_day ? <Text size="xsmall">день {lesson.available_from_day}</Text> : null}
+    </span>
+  )
+}
 
 export const CourseDetail = () => {
   const { id = "" } = useParams()
@@ -56,6 +78,11 @@ export const CourseDetail = () => {
   const [slug, setSlug] = useState("")
   const [description, setDescription] = useState("")
   const [published, setPublished] = useState(false)
+  // t-2026-10-13-29 stage 2: the stream's Telegram, its start and the access length.
+  const [channelUrl, setChannelUrl] = useState("")
+  const [chatUrl, setChatUrl] = useState("")
+  const [startDate, setStartDate] = useState("")
+  const [accessDays, setAccessDays] = useState("")
   const [orderedLessons, setOrderedLessons] = useState<TenantLesson[]>([])
 
   // The fetch resolves whenever the network decides. Filling the form from a
@@ -72,6 +99,10 @@ export const CourseDetail = () => {
     setSlug(course.slug)
     setDescription(course.description ?? "")
     setPublished(course.status === "published")
+    setChannelUrl(course.telegram_channel_url ?? "")
+    setChatUrl(course.telegram_chat_url ?? "")
+    setStartDate(dateInputValue(course.start_date))
+    setAccessDays(course.access_days ? String(course.access_days) : "")
   }, [course])
 
   useEffect(() => {
@@ -92,6 +123,17 @@ export const CourseDetail = () => {
       toast.error("Укажите название курса.")
       return
     }
+    const channel = channelUrl.trim()
+    const chat = chatUrl.trim()
+    if ((channel && !WEB_URL.test(channel)) || (chat && !WEB_URL.test(chat))) {
+      toast.error("Ссылки на Telegram должны начинаться с https://")
+      return
+    }
+    const schedule = courseScheduleBody(startDate, accessDays)
+    if (!schedule.ok) {
+      toast.error(schedule.error)
+      return
+    }
 
     await save(
       {
@@ -99,6 +141,10 @@ export const CourseDetail = () => {
         slug: slug.trim() || undefined,
         description: description.trim() || null,
         status: published ? "published" : "draft",
+        telegram_channel_url: channel || null,
+        telegram_chat_url: chat || null,
+        start_date: schedule.start_date,
+        access_days: schedule.access_days,
       },
       {
         onSuccess: (updated) => {
@@ -131,6 +177,13 @@ export const CourseDetail = () => {
         },
       }
     )
+  }
+
+  /** A drag inside one section: that section's new order, the others as they are. */
+  const handleGroupReorder = (groupIndex: number, items: TenantLesson[]) => {
+    const groups = lessonGroups(orderedLessons)
+    groups[groupIndex] = { title: groups[groupIndex]?.title ?? null, lessons: items }
+    return handleReorder(groups.flatMap((group) => group.lessons))
   }
 
   const handleDeleteLesson = async (lesson: TenantLesson) => {
@@ -201,29 +254,21 @@ export const CourseDetail = () => {
         </div>
 
         <div className="flex flex-col gap-y-4 px-6 py-4">
-          <div className="flex flex-wrap items-end gap-x-3 gap-y-3">
-            <div className="flex w-full max-w-[320px] flex-col gap-y-1">
+          <div className="grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+            <div className="flex flex-col gap-y-1">
               <Text size="small" className="text-ui-fg-subtle">
                 Название
               </Text>
-              <Input
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}
-                className="w-full"
-              />
+              <Input value={title} onChange={(event) => setTitle(event.target.value)} />
             </div>
-            <div className="flex w-full max-w-[220px] flex-col gap-y-1">
+            <div className="flex flex-col gap-y-1">
               <Text size="small" className="text-ui-fg-subtle">
                 Адрес
               </Text>
-              <Input
-                value={slug}
-                onChange={(event) => setSlug(event.target.value)}
-                className="font-mono w-full"
-              />
+              <Input value={slug} onChange={(event) => setSlug(event.target.value)} className="font-mono" />
             </div>
           </div>
-          <div className="flex flex-col gap-y-1 max-w-[640px]">
+          <div className="flex max-w-3xl flex-col gap-y-1">
             <Text size="small" className="text-ui-fg-subtle">
               Описание
             </Text>
@@ -233,6 +278,61 @@ export const CourseDetail = () => {
               rows={4}
               placeholder="Что покупатель узнает и получит на курсе"
             />
+          </div>
+          <div className="grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2" data-testid="course-stream">
+            <div className="flex flex-col gap-y-1">
+              <Text size="small" className="text-ui-fg-subtle">
+                Telegram-канал курса
+              </Text>
+              <Input
+                value={channelUrl}
+                onChange={(event) => setChannelUrl(event.target.value)}
+                placeholder="https://t.me/…"
+                data-testid="course-telegram-channel"
+              />
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <Text size="small" className="text-ui-fg-subtle">
+                Чат потока
+              </Text>
+              <Input
+                value={chatUrl}
+                onChange={(event) => setChatUrl(event.target.value)}
+                placeholder="https://t.me/…"
+                data-testid="course-telegram-chat"
+              />
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <Text size="small" className="text-ui-fg-subtle">
+                Старт потока
+              </Text>
+              <Input
+                type="date"
+                value={startDate}
+                onChange={(event) => setStartDate(event.target.value)}
+                data-testid="course-start-date"
+              />
+              <Text size="xsmall" className="text-ui-fg-muted">
+                Уроки с днём открытия считают дни от старта или от покупки, что позже.
+              </Text>
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <Text size="small" className="text-ui-fg-subtle">
+                Доступ, дней
+              </Text>
+              <Input
+                type="number"
+                min={1}
+                inputMode="numeric"
+                value={accessDays}
+                onChange={(event) => setAccessDays(event.target.value)}
+                placeholder="Без срока"
+                data-testid="course-access-days"
+              />
+              <Text size="xsmall" className="text-ui-fg-muted">
+                Покупатель видит «Доступ до …». Пусто — без срока.
+              </Text>
+            </div>
           </div>
           <label className="flex items-center gap-x-2">
             <Switch checked={published} onCheckedChange={setPublished} />
@@ -251,7 +351,8 @@ export const CourseDetail = () => {
               <Heading level="h3">Уроки</Heading>
               <Text size="small" className="text-ui-fg-subtle">
                 Порядок урока — тот, в котором его увидит покупатель. Перетащите
-                строку за ручку слева, чтобы изменить порядок.
+                строку за ручку слева, чтобы изменить порядок внутри раздела;
+                раздел урока меняется в его форме.
               </Text>
             </div>
             <Link to="lessons/new">
@@ -266,59 +367,68 @@ export const CourseDetail = () => {
               Уроков пока нет. Добавьте первый — кнопка выше.
             </Text>
           ) : (
-            <div className="overflow-hidden rounded-xl border">
-              <SortableList
-                items={orderedLessons}
-                onChange={handleReorder}
-                renderItem={(lesson, index) => (
-                  <SortableList.Item
-                    id={lesson.id}
-                    className={clx("bg-ui-bg-base border-b", {
-                      "border-b-0": index === orderedLessons.length - 1,
-                    })}
-                  >
-                    <div
-                      className="flex w-full items-center gap-3 px-4 py-2.5"
-                      data-testid="lesson-row"
-                    >
-                      <SortableList.DragHandle />
-                      <Link
-                        to={`lessons/${lesson.id}`}
-                        className="flex flex-1 items-center gap-x-2 text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
-                      >
-                        <Text size="small" weight="plus">
-                          {index + 1}. {lesson.title}
-                        </Text>
-                        {lesson.video_url ? (
-                          <MediaPlay className="text-ui-fg-muted" />
-                        ) : null}
-                      </Link>
-                      <Prompt>
-                        <Prompt.Trigger asChild>
-                          <IconButton size="small" variant="transparent" isLoading={isDeletingLesson}>
-                            <Trash />
-                          </IconButton>
-                        </Prompt.Trigger>
-                        <Prompt.Content>
-                          <Prompt.Header>
-                            <Prompt.Title>Удалить урок «{lesson.title}»?</Prompt.Title>
-                            <Prompt.Description>
-                              Прогресс покупателей, уже отметивших его просмотренным,
-                              сохранится как исторический факт. Отменить это нельзя.
-                            </Prompt.Description>
-                          </Prompt.Header>
-                          <Prompt.Footer>
-                            <Prompt.Cancel>Отмена</Prompt.Cancel>
-                            <Prompt.Action onClick={() => handleDeleteLesson(lesson)}>
-                              Удалить
-                            </Prompt.Action>
-                          </Prompt.Footer>
-                        </Prompt.Content>
-                      </Prompt>
-                    </div>
-                  </SortableList.Item>
-                )}
-              />
+            <div className="flex flex-col gap-y-4" data-testid="lesson-groups">
+              {lessonGroups(orderedLessons).map((group, groupIndex) => (
+                <div key={`${group.title ?? ""}-${groupIndex}`} className="flex flex-col gap-y-2" data-testid="lesson-group">
+                  {group.title ? (
+                    <Text size="small" weight="plus" className="text-ui-fg-subtle">
+                      {group.title}
+                    </Text>
+                  ) : null}
+                  <div className="overflow-hidden rounded-xl border">
+                    <SortableList
+                      items={group.lessons}
+                      onChange={(items) => handleGroupReorder(groupIndex, items)}
+                      renderItem={(lesson, index) => (
+                        <SortableList.Item
+                          id={lesson.id}
+                          className={clx("bg-ui-bg-base border-b", {
+                            "border-b-0": index === group.lessons.length - 1,
+                          })}
+                        >
+                          <div
+                            className="flex w-full items-center gap-3 px-4 py-2.5"
+                            data-testid="lesson-row"
+                          >
+                            <SortableList.DragHandle />
+                            <Link
+                              to={`lessons/${lesson.id}`}
+                              className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
+                            >
+                              <Text size="small" weight="plus">
+                                {orderedLessons.indexOf(lesson) + 1}. {lesson.title}
+                              </Text>
+                              <LessonMarks lesson={lesson} />
+                            </Link>
+                            <Prompt>
+                              <Prompt.Trigger asChild>
+                                <IconButton size="small" variant="transparent" isLoading={isDeletingLesson}>
+                                  <Trash />
+                                </IconButton>
+                              </Prompt.Trigger>
+                              <Prompt.Content>
+                                <Prompt.Header>
+                                  <Prompt.Title>Удалить урок «{lesson.title}»?</Prompt.Title>
+                                  <Prompt.Description>
+                                    Прогресс покупателей, уже отметивших его просмотренным,
+                                    сохранится как исторический факт. Отменить это нельзя.
+                                  </Prompt.Description>
+                                </Prompt.Header>
+                                <Prompt.Footer>
+                                  <Prompt.Cancel>Отмена</Prompt.Cancel>
+                                  <Prompt.Action onClick={() => handleDeleteLesson(lesson)}>
+                                    Удалить
+                                  </Prompt.Action>
+                                </Prompt.Footer>
+                              </Prompt.Content>
+                            </Prompt>
+                          </div>
+                        </SortableList.Item>
+                      )}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
