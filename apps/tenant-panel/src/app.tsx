@@ -898,9 +898,34 @@ const routes: RouteObject[] = [
             // install has one store and никуда не подставляет свои реквизиты
             // автоматически.
             path: "/settings/requisites",
-            handle: { breadcrumb: () => "Реквизиты продавца" },
+            handle: { breadcrumb: () => t("requisitesSettings.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/requisites"),
+            // t-2026-10-14-01 (panel redesign, G1): the screen only reads; each
+            // of its five sections is edited in its own drawer, named after the
+            // section, the way profile-edit hangs under /settings/profile.
+            children: [
+              {
+                path: "edit",
+                lazy: () => import("./routes/settings/requisites/edit"),
+              },
+              {
+                path: "edit-contacts",
+                lazy: () => import("./routes/settings/requisites/edit-contacts"),
+              },
+              {
+                path: "edit-personal",
+                lazy: () => import("./routes/settings/requisites/edit-personal"),
+              },
+              {
+                path: "edit-dates",
+                lazy: () => import("./routes/settings/requisites/edit-dates"),
+              },
+              {
+                path: "edit-other",
+                lazy: () => import("./routes/settings/requisites/edit-other"),
+              },
+            ],
           },
           {
             // b10-panel-gaps: «Старые адреса» — the shop's own redirect table.
