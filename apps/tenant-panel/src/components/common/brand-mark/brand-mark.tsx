@@ -1,0 +1,70 @@
+import { motion } from "motion/react"
+
+import brands from "../../../../../../docs/owner-guide/brands.json"
+import { brandOfHost } from "../../../lib/login-brand"
+import { IconAvatar } from "../icon-avatar"
+
+// t-2026-10-13-23: the mark above the title of the sign-in screens is the brand of the host
+// (lib/login-brand.ts), not Medusa's. The table and the logos are the help's own,
+// docs/owner-guide/brands.json and brands/, built into the bundle (the Dockerfile copies
+// docs/owner-guide before `vite build`), so the right mark is there on the first paint. The box and
+// the «checked» badge are AvatarBox's, unchanged.
+const LOGOS = import.meta.glob<string>(
+  "../../../../../../docs/owner-guide/brands/*.{svg,png,webp}",
+  { eager: true, query: "?url", import: "default" }
+)
+
+const logoUrl = (logo: string) => LOGOS[`../../../../../../docs/owner-guide/${logo}`]
+
+export const BrandMark = ({ checked }: { checked?: boolean }) => {
+  const brand = brandOfHost(brands, window.location.hostname)
+
+  return (
+    <IconAvatar
+      size="xlarge"
+      className="bg-ui-button-neutral shadow-buttons-neutral after:button-neutral-gradient relative mb-4 flex h-[50px] w-[50px] items-center justify-center rounded-xl after:inset-0 after:content-['']"
+    >
+      {checked && (
+        <motion.div
+          className="absolute -right-[5px] -top-1 flex size-5 items-center justify-center rounded-full border-[0.5px] border-[rgba(3,7,18,0.2)] bg-[#3B82F6] bg-gradient-to-b from-white/0 to-white/20 shadow-[0px_1px_2px_0px_rgba(3,7,18,0.12),0px_1px_2px_0px_rgba(255,255,255,0.10)_inset,0px_-1px_5px_0px_rgba(255,255,255,0.10)_inset,0px_0px_0px_0px_rgba(3,7,18,0.06)_inset]"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 1.2,
+            delay: 0.8,
+            ease: [0, 0.71, 0.2, 1.01],
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <motion.path
+              d="M5.8335 10.4167L9.16683 13.75L14.1668 6.25"
+              stroke="white"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{
+                duration: 1.3,
+                delay: 1.1,
+                bounce: 0.6,
+                ease: [0.1, 0.8, 0.2, 1.01],
+              }}
+            />
+          </svg>
+        </motion.div>
+      )}
+      <img
+        src={logoUrl(brand.logo)}
+        alt={brand.name}
+        className="size-full rounded-[10px] object-contain"
+      />
+    </IconAvatar>
+  )
+}
