@@ -22,11 +22,15 @@ const sizesOf = (columns: number) =>
   `(min-width: 1024px) ${Math.round(100 / columns)}vw, (min-width: 720px) 33vw, 50vw`
 
 /**
- * One box for every logo: a hard 3 : 2 frame (QR-IMG-ASPECT, one ratio for the role), the logo contained in it
- * on a padding of the density steps, so a 5 : 1 wordmark and a square badge stand one row and neither towers.
- * `group` lets the picture answer the box's hover and focus in `monochrome`.
+ * One box for every logo: a hard 3 : 2 frame (QR-IMG-ASPECT, one ratio for the role), the logo contained in its
+ * middle two thirds across and half down, so a 5 : 1 wordmark meets the area's width, a square badge its height,
+ * and neither towers. A share of the box, not a padding: a step padding leaves a compact template's logo filling
+ * its card at 768 px. `group` lets the picture answer the box's hover and focus in `monochrome`.
  */
-const BOX = "group flex aspect-[3/2] w-full p-[var(--layer-space-4,1rem)] small:p-[var(--layer-space-6,1.5rem)]"
+const BOX = "group flex aspect-[3/2] w-full items-center justify-center"
+
+/** The logo's area inside the box. */
+const AREA = "relative h-1/2 w-2/3"
 
 const STYLE = {
   cards: "rounded-[var(--radius)] bg-[var(--secondary)]",
@@ -89,7 +93,7 @@ export default async function LogosBrands({ header, logos, style, columns, monoc
       >
         {shown.map((logo, index) => {
           const picture = (
-            <div data-role="media" className={clx("relative h-full w-full", monochrome && MONOCHROME)}>
+            <div data-role="media" className={clx(AREA, monochrome && MONOCHROME)}>
               <Image src={logo.url} alt={logo.name} fill sizes={sizes} className="object-contain" />
             </div>
           )

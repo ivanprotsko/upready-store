@@ -185,12 +185,11 @@ describe("LogosBrands", () => {
     expect(plain).toMatch(/<img[^>]* alt="Brightpan"/)
   })
 
-  it("sets every logo in a hard box of one ratio, contained and padded on a density step", async () => {
+  it("sets every logo in a hard box of one ratio, contained in its middle two thirds across and half down", async () => {
     const html = (await render(props([logo("kettle", "Kilnhouse"), logo("pan", "Ольха")])))!
     for (const body of items(html)) {
-      expect(body).toContain("aspect-[3/2]")
-      expect(body).toContain("p-[var(--layer-space-")
-      expect(body).toMatch(/<div data-role="media" class="relative h-full w-full"><img[^>]* data-fill=""[^>]* class="object-contain"/)
+      expect(body).toMatch(/class="group flex aspect-\[3\/2\] w-full items-center justify-center[ "]/)
+      expect(body).toMatch(/<div data-role="media" class="relative h-1\/2 w-2\/3"><img[^>]* data-fill=""[^>]* class="object-contain"/)
     }
   })
 
