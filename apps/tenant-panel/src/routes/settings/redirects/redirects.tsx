@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
+import { TableScroll } from "../../../components/table/table-scroll"
 import { useDomains } from "../../../hooks/api/domains"
 import {
   useCreateTenantRedirect,
@@ -164,14 +165,18 @@ export const Redirects = () => {
           </Text>
         </form>
         {redirects.length > 10 ? (
-          <div className="flex items-center gap-x-3 px-6 py-3">
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder={t("redirects.searchPlaceholder")}
-              className="w-[320px]"
-            />
-            <Text size="small" className="text-ui-fg-subtle">
+          // t-2026-10-13-30: a 320 px field and the counter beside it were
+          // wider than a phone; the counter now wraps under the field.
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-6 py-3">
+            <div className="w-full max-w-[320px]">
+              <Input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={t("redirects.searchPlaceholder")}
+                className="w-full"
+              />
+            </div>
+            <Text size="small" className="text-ui-fg-subtle whitespace-nowrap">
               {t("redirects.counter", {
                 shown: visible.length,
                 total: redirects.length,
@@ -181,25 +186,27 @@ export const Redirects = () => {
         ) : null}
 
         {redirects.length ? (
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{t("redirects.columnFrom")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("redirects.columnTo")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("redirects.columnKind")}</Table.HeaderCell>
-                <Table.HeaderCell />
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {visible.map((redirect) => (
-                <RedirectRow
-                  key={redirect.id}
-                  redirect={redirect}
-                  primaryHost={shopOrigin}
-                />
-              ))}
-            </Table.Body>
-          </Table>
+          <TableScroll>
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>{t("redirects.columnFrom")}</Table.HeaderCell>
+                  <Table.HeaderCell>{t("redirects.columnTo")}</Table.HeaderCell>
+                  <Table.HeaderCell>{t("redirects.columnKind")}</Table.HeaderCell>
+                  <Table.HeaderCell />
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {visible.map((redirect) => (
+                  <RedirectRow
+                    key={redirect.id}
+                    redirect={redirect}
+                    primaryHost={shopOrigin}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          </TableScroll>
         ) : (
           <div className="px-6 py-6">
             <Text size="small" className="text-ui-fg-subtle">

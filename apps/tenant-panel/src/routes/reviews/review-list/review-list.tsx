@@ -16,6 +16,7 @@ import {
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
+import { TableScroll } from "../../../components/table/table-scroll"
 import {
   REVIEW_STATUSES,
   useDeleteTenantReview,
@@ -282,71 +283,73 @@ export const ReviewList = () => {
             </Text>
           </div>
         ) : (
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Товар</Table.HeaderCell>
-                <Table.HeaderCell>Отзыв</Table.HeaderCell>
-                <Table.HeaderCell>Статус</Table.HeaderCell>
-                <Table.HeaderCell />
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {reviews.map((review) => (
-                <Table.Row key={review.id}>
-                  <Table.Cell className="align-top">
-                    <Text
-                      size="small"
-                      weight="plus"
-                      className="truncate"
-                      title={`${REVIEW_SOURCE_LABEL[review.source]}, ${languageLabel(review.language)}`}
-                    >
-                      {review.product?.title ?? "Товар удалён"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell className="max-w-xl align-top">
-                    <div className="flex flex-col gap-y-2 py-2">
-                      <Text size="small" weight="plus">
-                        <span aria-hidden>
-                          {"★".repeat(review.rating)}
-                          <span className="text-ui-fg-muted">{"★".repeat(5 - review.rating)}</span>
-                        </span>{" "}
-                        {/* The stars are decoration; the number is what a
-                            reader (and a screen reader) can actually count. */}
-                        <span className="text-ui-fg-subtle">{review.rating} из 5</span>{" "}
-                        · {review.author_name}
-                        <span className="text-ui-fg-subtle">
-                          {" "}
-                          · {formatReviewDate(review.written_at)}
-                        </span>
-                      </Text>
-                      {review.title && <Text size="small">{review.title}</Text>}
-                      <Text size="small" className="whitespace-pre-line text-ui-fg-subtle">
-                        {review.body}
-                      </Text>
-                      <ReplyBox review={review} />
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell className="align-top">
-                    <div className="flex flex-col gap-y-2 py-2">
-                      <StatusBadge
-                        color={REVIEW_STATUS_COLOR[review.status]}
-                        title={REVIEW_STATUS_HINT[review.status]}
-                      >
-                        {REVIEW_STATUS_LABEL[review.status]}
-                      </StatusBadge>
-                      <StatusActions review={review} />
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell className="align-top">
-                    <div className="py-2">
-                      <DeleteButton review={review} />
-                    </div>
-                  </Table.Cell>
+          <TableScroll>
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Товар</Table.HeaderCell>
+                  <Table.HeaderCell>Отзыв</Table.HeaderCell>
+                  <Table.HeaderCell>Статус</Table.HeaderCell>
+                  <Table.HeaderCell />
                 </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
+              </Table.Header>
+              <Table.Body>
+                {reviews.map((review) => (
+                  <Table.Row key={review.id}>
+                    <Table.Cell className="align-top">
+                      <Text
+                        size="small"
+                        weight="plus"
+                        className="truncate"
+                        title={`${REVIEW_SOURCE_LABEL[review.source]}, ${languageLabel(review.language)}`}
+                      >
+                        {review.product?.title ?? "Товар удалён"}
+                      </Text>
+                    </Table.Cell>
+                    <Table.Cell className="max-w-xl align-top">
+                      <div className="flex flex-col gap-y-2 py-2">
+                        <Text size="small" weight="plus">
+                          <span aria-hidden>
+                            {"★".repeat(review.rating)}
+                            <span className="text-ui-fg-muted">{"★".repeat(5 - review.rating)}</span>
+                          </span>{" "}
+                          {/* The stars are decoration; the number is what a
+                              reader (and a screen reader) can actually count. */}
+                          <span className="text-ui-fg-subtle">{review.rating} из 5</span>{" "}
+                          · {review.author_name}
+                          <span className="text-ui-fg-subtle">
+                            {" "}
+                            · {formatReviewDate(review.written_at)}
+                          </span>
+                        </Text>
+                        {review.title && <Text size="small">{review.title}</Text>}
+                        <Text size="small" className="whitespace-pre-line text-ui-fg-subtle">
+                          {review.body}
+                        </Text>
+                        <ReplyBox review={review} />
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell className="align-top">
+                      <div className="flex flex-col gap-y-2 py-2">
+                        <StatusBadge
+                          color={REVIEW_STATUS_COLOR[review.status]}
+                          title={REVIEW_STATUS_HINT[review.status]}
+                        >
+                          {REVIEW_STATUS_LABEL[review.status]}
+                        </StatusBadge>
+                        <StatusActions review={review} />
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell className="align-top">
+                      <div className="py-2">
+                        <DeleteButton review={review} />
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </TableScroll>
         )}
 
         {pages > 1 && (

@@ -4,6 +4,7 @@ import { Button, Container, Heading, Input, StatusBadge, Table, Text, toast } fr
 import { Link, useNavigate } from "react-router-dom"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
+import { TableScroll } from "../../../components/table/table-scroll"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { useCreateTenantCourse, useTenantCourses } from "../../../hooks/api/courses"
 import { useProducts } from "../../../hooks/api/products"
@@ -76,64 +77,75 @@ export const CourseList = () => {
           </Text>
         </div>
 
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Курс</Table.HeaderCell>
-              <Table.HeaderCell>Товар</Table.HeaderCell>
-              <Table.HeaderCell>Статус</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {courses.length === 0 ? (
+        {/* t-2026-10-13-30: at 390 px the three columns were 435 px wide and
+            pushed the page off the left edge. The course and product cells now
+            share what the status leaves (`w-1/2 max-w-0`) and end in an
+            ellipsis, so the table fits a phone; TableScroll stays as the guard
+            for anything wider. */}
+        <TableScroll>
+          <Table>
+            <Table.Header>
               <Table.Row>
-                {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
-                    state fills the first cell and the rest stay blank. */}
-                <Table.Cell>
-                  <Text size="small" className="text-ui-fg-subtle" data-testid="course-empty">
-                    Курсов пока нет. Создайте первый — форма ниже.
-                  </Text>
-                </Table.Cell>
-                <Table.Cell />
-                <Table.Cell />
+                <Table.HeaderCell className="w-1/2 max-w-0">Курс</Table.HeaderCell>
+                <Table.HeaderCell className="w-1/2 max-w-0">Товар</Table.HeaderCell>
+                <Table.HeaderCell className="whitespace-nowrap">Статус</Table.HeaderCell>
               </Table.Row>
-            ) : null}
-            {courses.map((course) => (
-              <Table.Row key={course.id} data-testid="course-row">
-                <Table.Cell>
-                  <Link
-                    to={course.id}
-                    className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
-                  >
-                    <Text size="small" weight="plus" className="truncate" title={course.slug}>
-                      {course.title}
+            </Table.Header>
+            <Table.Body>
+              {courses.length === 0 ? (
+                <Table.Row>
+                  {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
+                      state fills the first cell and the rest stay blank. */}
+                  <Table.Cell>
+                    <Text
+                      size="small"
+                      className="text-ui-fg-subtle whitespace-nowrap"
+                      data-testid="course-empty"
+                    >
+                      Курсов пока нет. Создайте первый — форма ниже.
                     </Text>
-                  </Link>
-                </Table.Cell>
-                <Table.Cell>
-                  <Text
-                    size="small"
-                    className="text-ui-fg-subtle truncate"
-                    title={titleById.get(course.product_id) ?? "Товар удалён"}
-                  >
-                    {titleById.get(course.product_id) ?? "Товар удалён"}
-                  </Text>
-                </Table.Cell>
-                <Table.Cell>
-                  <StatusBadge color={STATUS_BADGE_COLOR[course.status]}>
-                    {STATUS_LABEL[course.status]}
-                  </StatusBadge>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+                  </Table.Cell>
+                  <Table.Cell />
+                  <Table.Cell />
+                </Table.Row>
+              ) : null}
+              {courses.map((course) => (
+                <Table.Row key={course.id} data-testid="course-row">
+                  <Table.Cell className="max-w-0">
+                    <Link
+                      to={course.id}
+                      className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg block"
+                    >
+                      <Text size="small" weight="plus" className="truncate" title={course.slug}>
+                        {course.title}
+                      </Text>
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell className="max-w-0">
+                    <Text
+                      size="small"
+                      className="text-ui-fg-subtle truncate"
+                      title={titleById.get(course.product_id) ?? "Товар удалён"}
+                    >
+                      {titleById.get(course.product_id) ?? "Товар удалён"}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    <StatusBadge color={STATUS_BADGE_COLOR[course.status]}>
+                      {STATUS_LABEL[course.status]}
+                    </StatusBadge>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </TableScroll>
 
         <form
           onSubmit={handleCreate}
           className="flex flex-wrap items-end gap-x-3 gap-y-2 px-6 py-4"
         >
-          <div className="flex flex-col gap-y-1">
+          <div className="flex w-full max-w-[280px] flex-col gap-y-1">
             <Text size="small" className="text-ui-fg-subtle">
               Товар
             </Text>
@@ -141,7 +153,7 @@ export const CourseList = () => {
               value={productId}
               onChange={(event) => setProductId(event.target.value)}
               disabled={isProductsPending}
-              className="bg-ui-bg-field border-ui-border-base h-8 rounded-md border px-2 text-ui-fg-base txt-compact-small w-[280px]"
+              className="bg-ui-bg-field border-ui-border-base h-8 rounded-md border px-2 text-ui-fg-base txt-compact-small w-full"
               data-testid="course-create-product"
             >
               <option value="">
@@ -158,7 +170,7 @@ export const CourseList = () => {
               ))}
             </select>
           </div>
-          <div className="flex flex-col gap-y-1">
+          <div className="flex w-full max-w-[280px] flex-col gap-y-1">
             <Text size="small" className="text-ui-fg-subtle">
               Название курса
             </Text>
@@ -166,7 +178,7 @@ export const CourseList = () => {
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               placeholder="Очищение печени"
-              className="w-[280px]"
+              className="w-full"
               data-testid="course-create-title"
             />
           </div>

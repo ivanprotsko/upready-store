@@ -17,6 +17,7 @@ import { Link } from "react-router-dom"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
+import { TableScroll } from "../../../components/table/table-scroll"
 import {
   useDeleteShippingMethod,
   useReorderShippingMethods,
@@ -207,103 +208,105 @@ export const ShippingList = () => {
             </Text>
           </div>
         ) : (
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell className="w-24">Порядок</Table.HeaderCell>
-                <Table.HeaderCell>Название</Table.HeaderCell>
-                <Table.HeaderCell>Куда</Table.HeaderCell>
-                <Table.HeaderCell>Цена</Table.HeaderCell>
-                <Table.HeaderCell>Срок</Table.HeaderCell>
-                <Table.HeaderCell>Показывать</Table.HeaderCell>
-                <Table.HeaderCell className="w-24" />
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {methods.map((method, index) => (
-                <Table.Row key={method.id} data-testid={`shipping-method-${method.id}`}>
-                  <Table.Cell>
-                    <div className="flex items-center gap-x-1">
-                      <IconButton
-                        size="small"
-                        variant="transparent"
-                        disabled={index === 0 || isReordering}
-                        onClick={() => move(index, -1)}
-                        aria-label="Выше"
-                      >
-                        <ArrowUpMini />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        variant="transparent"
-                        disabled={index === methods.length - 1 || isReordering}
-                        onClick={() => move(index, 1)}
-                        aria-label="Ниже"
-                      >
-                        <ArrowDownMini />
-                      </IconButton>
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell
-                    title={
-                      [
-                        carrierLabel(method.carrier) ? `Служба: ${carrierLabel(method.carrier)}` : null,
-                        method.description,
-                      ]
-                        .filter(Boolean)
-                        .join(" — ") || undefined
-                    }
-                  >
-                    <Text size="small" weight="plus" className="truncate">
-                      {method.name}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text size="small" className="truncate">
-                      {methodZoneSummary(method)}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell
-                    title={
-                      [
-                        TARIFF_KIND_LABEL[method.tariff.kind],
-                        method.tariff_source === "provisioned-default"
-                          ? "Стоимость по умолчанию — укажите свою"
-                          : null,
-                      ]
-                        .filter(Boolean)
-                        .join(" — ")
-                    }
-                  >
-                    <Text size="small" className="truncate">
-                      {tariffSummary(method.tariff, method.currency_code)}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text size="small">{method.delivery_hint ?? "—"}</Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center gap-x-2">
-                      <EnabledSwitch method={method} />
-                      <StatusBadge color={method.enabled ? "green" : "grey"}>
-                        {method.enabled ? "Да" : "Нет"}
-                      </StatusBadge>
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center justify-end gap-x-1">
-                      <IconButton size="small" variant="transparent" asChild>
-                        <Link to={`${method.id}/edit`} aria-label="Изменить">
-                          <PencilSquare />
-                        </Link>
-                      </IconButton>
-                      <DeleteButton method={method} />
-                    </div>
-                  </Table.Cell>
+          <TableScroll>
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell className="w-24">Порядок</Table.HeaderCell>
+                  <Table.HeaderCell>Название</Table.HeaderCell>
+                  <Table.HeaderCell>Куда</Table.HeaderCell>
+                  <Table.HeaderCell>Цена</Table.HeaderCell>
+                  <Table.HeaderCell>Срок</Table.HeaderCell>
+                  <Table.HeaderCell>Показывать</Table.HeaderCell>
+                  <Table.HeaderCell className="w-24" />
                 </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
+              </Table.Header>
+              <Table.Body>
+                {methods.map((method, index) => (
+                  <Table.Row key={method.id} data-testid={`shipping-method-${method.id}`}>
+                    <Table.Cell>
+                      <div className="flex items-center gap-x-1">
+                        <IconButton
+                          size="small"
+                          variant="transparent"
+                          disabled={index === 0 || isReordering}
+                          onClick={() => move(index, -1)}
+                          aria-label="Выше"
+                        >
+                          <ArrowUpMini />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          variant="transparent"
+                          disabled={index === methods.length - 1 || isReordering}
+                          onClick={() => move(index, 1)}
+                          aria-label="Ниже"
+                        >
+                          <ArrowDownMini />
+                        </IconButton>
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell
+                      title={
+                        [
+                          carrierLabel(method.carrier) ? `Служба: ${carrierLabel(method.carrier)}` : null,
+                          method.description,
+                        ]
+                          .filter(Boolean)
+                          .join(" — ") || undefined
+                      }
+                    >
+                      <Text size="small" weight="plus" className="truncate">
+                        {method.name}
+                      </Text>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Text size="small" className="truncate">
+                        {methodZoneSummary(method)}
+                      </Text>
+                    </Table.Cell>
+                    <Table.Cell
+                      title={
+                        [
+                          TARIFF_KIND_LABEL[method.tariff.kind],
+                          method.tariff_source === "provisioned-default"
+                            ? "Стоимость по умолчанию — укажите свою"
+                            : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" — ")
+                      }
+                    >
+                      <Text size="small" className="truncate">
+                        {tariffSummary(method.tariff, method.currency_code)}
+                      </Text>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Text size="small">{method.delivery_hint ?? "—"}</Text>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex items-center gap-x-2">
+                        <EnabledSwitch method={method} />
+                        <StatusBadge color={method.enabled ? "green" : "grey"}>
+                          {method.enabled ? "Да" : "Нет"}
+                        </StatusBadge>
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex items-center justify-end gap-x-1">
+                        <IconButton size="small" variant="transparent" asChild>
+                          <Link to={`${method.id}/edit`} aria-label="Изменить">
+                            <PencilSquare />
+                          </Link>
+                        </IconButton>
+                        <DeleteButton method={method} />
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </TableScroll>
         )}
       </Container>
       <DefaultWeightForm defaultWeightG={settings.default_weight_g} />

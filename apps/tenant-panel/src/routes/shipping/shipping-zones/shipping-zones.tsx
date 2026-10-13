@@ -13,6 +13,7 @@ import {
 import { InformationCircleSolid } from "@medusajs/icons"
 
 import { RouteFocusModal, useRouteModal } from "../../../components/modals"
+import { TableScroll } from "../../../components/table/table-scroll"
 import {
   useCreateZoneMethods,
   useZonePresets,
@@ -228,88 +229,90 @@ const ZonesScreen = () => {
               Загружаем зоны…
             </Text>
           ) : (
-            <Table>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell className="w-10" />
-                  <Table.HeaderCell>Зона</Table.HeaderCell>
-                  <Table.HeaderCell className="w-40">
-                    Базовая ставка, {currency}
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="w-40">
-                    За килограмм, {currency}
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {presets.map((preset) => {
-                  const row = rowOf(preset)
-                  const exists = alreadyThere(preset)
-                  return (
-                    <Table.Row
-                      key={preset.key}
-                      data-testid={`zone-row-${preset.key}`}
-                    >
-                      <Table.Cell>
-                        <Checkbox
-                          checked={row.checked && !exists}
-                          disabled={exists}
-                          onCheckedChange={(value) =>
-                            setRow(preset.key, { checked: value === true }, preset)
-                          }
-                          aria-label={preset.name}
-                        />
-                      </Table.Cell>
-                      <Table.Cell
-                        title={exists ? "Такой способ уже создан" : preset.description}
+            <TableScroll>
+              <Table>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell className="w-10" />
+                    <Table.HeaderCell>Зона</Table.HeaderCell>
+                    <Table.HeaderCell className="w-40">
+                      Базовая ставка, {currency}
+                    </Table.HeaderCell>
+                    <Table.HeaderCell className="w-40">
+                      За килограмм, {currency}
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {presets.map((preset) => {
+                    const row = rowOf(preset)
+                    const exists = alreadyThere(preset)
+                    return (
+                      <Table.Row
+                        key={preset.key}
+                        data-testid={`zone-row-${preset.key}`}
                       >
-                        <div className="flex items-center gap-x-2">
-                          <Text size="small" weight="plus" className="truncate">
-                            {preset.name}
-                          </Text>
-                          <Tooltip
-                            content={preset.regions
-                              .map((region) => region.name)
-                              .join(", ")}
-                          >
-                            <Text size="xsmall" className="text-ui-fg-muted text-nowrap">
-                              {preset.regions.length}{" "}
-                              {regionWord(preset.regions.length)}
+                        <Table.Cell>
+                          <Checkbox
+                            checked={row.checked && !exists}
+                            disabled={exists}
+                            onCheckedChange={(value) =>
+                              setRow(preset.key, { checked: value === true }, preset)
+                            }
+                            aria-label={preset.name}
+                          />
+                        </Table.Cell>
+                        <Table.Cell
+                          title={exists ? "Такой способ уже создан" : preset.description}
+                        >
+                          <div className="flex items-center gap-x-2">
+                            <Text size="small" weight="plus" className="truncate">
+                              {preset.name}
                             </Text>
-                          </Tooltip>
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Input
-                          type="number"
-                          min={0}
-                          step="0.01"
-                          value={row.base}
-                          disabled={!row.checked || exists}
-                          onChange={(event) =>
-                            setRow(preset.key, { base: event.target.value }, preset)
-                          }
-                          aria-invalid={!isMoney(row.base)}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Input
-                          type="number"
-                          min={0}
-                          step="0.01"
-                          value={row.perKg}
-                          disabled={!row.checked || exists}
-                          onChange={(event) =>
-                            setRow(preset.key, { perKg: event.target.value }, preset)
-                          }
-                          aria-invalid={!isMoney(row.perKg)}
-                        />
-                      </Table.Cell>
-                    </Table.Row>
-                  )
-                })}
-              </Table.Body>
-            </Table>
+                            <Tooltip
+                              content={preset.regions
+                                .map((region) => region.name)
+                                .join(", ")}
+                            >
+                              <Text size="xsmall" className="text-ui-fg-muted text-nowrap">
+                                {preset.regions.length}{" "}
+                                {regionWord(preset.regions.length)}
+                              </Text>
+                            </Tooltip>
+                          </div>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Input
+                            type="number"
+                            min={0}
+                            step="0.01"
+                            value={row.base}
+                            disabled={!row.checked || exists}
+                            onChange={(event) =>
+                              setRow(preset.key, { base: event.target.value }, preset)
+                            }
+                            aria-invalid={!isMoney(row.base)}
+                          />
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Input
+                            type="number"
+                            min={0}
+                            step="0.01"
+                            value={row.perKg}
+                            disabled={!row.checked || exists}
+                            onChange={(event) =>
+                              setRow(preset.key, { perKg: event.target.value }, preset)
+                            }
+                            aria-invalid={!isMoney(row.perKg)}
+                          />
+                        </Table.Cell>
+                      </Table.Row>
+                    )
+                  })}
+                </Table.Body>
+              </Table>
+            </TableScroll>
           )}
 
           <Text size="small" className="text-ui-fg-subtle">

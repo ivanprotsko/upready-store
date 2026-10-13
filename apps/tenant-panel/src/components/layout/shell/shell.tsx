@@ -54,7 +54,9 @@ export const Shell = ({ children }: PropsWithChildren) => {
             <MobileSidebarContainer>{children}</MobileSidebarContainer>
             <DesktopSidebarContainer>{children}</DesktopSidebarContainer>
           </div>
-          <div className="flex h-screen w-full flex-col overflow-auto">
+          {/* t-2026-10-13-30: `min-w-0` so a wide table cannot stretch the
+              column past the screen on the desktop row layout. */}
+          <div className="flex h-screen w-full min-w-0 flex-col overflow-auto">
             <Topbar />
             <main
               className={clx(
@@ -110,7 +112,7 @@ const NavigationBar = ({ loading }: { loading: boolean }) => {
 
 const Gutter = ({ children }: PropsWithChildren) => {
   return (
-    <div className="flex w-full max-w-[1600px] flex-col gap-y-2 p-3">
+    <div className="flex w-full min-w-0 max-w-[1600px] flex-col gap-y-2 p-3">
       {children}
     </div>
   )
