@@ -164,6 +164,9 @@ describe("Steps", () => {
     const html = (await render(LIST_SAMPLE))!
     expect(html).not.toContain("small:grid-cols-")
     expect(html).toContain("max-w-2xl")
+    // The panel ends with the reading column, not at the page's edge; a row's panel spans the page.
+    expect(html).toMatch(/<div class="[^"]*max-w-3xl[^"]*bg-\[var\(--muted\)\]/)
+    expect(await render({ ...LIST_SAMPLE, layout: "row" })).not.toContain("max-w-3xl")
     expect(html).not.toContain("small:h-px")
     expect(count(html, 'data-step-line=""')).toBe(2)
     expect(count(html, "bg-[var(--muted)]")).toBe(1)

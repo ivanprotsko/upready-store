@@ -90,6 +90,8 @@ export default async function Steps({ header, steps, button, layout, tone }: Ste
       <div
         className={clx(
           "flex flex-col items-start gap-[var(--layer-space-8,2rem)]",
+          // A list keeps its reading column, so a muted panel ends with the text, not at the page's edge.
+          !row && "max-w-3xl",
           muted &&
             "rounded-[var(--radius)] bg-[var(--muted)] p-[var(--layer-space-6,1.5rem)] small:p-[var(--layer-space-8,2rem)]"
         )}
