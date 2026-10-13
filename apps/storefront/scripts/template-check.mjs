@@ -328,7 +328,8 @@ try {
           results.push({ target: `playground@${width}`, kind: "playground", width, url: labUrl, results: evaluateTarget({}, { on: "playground", width, errors: pg.errors }) })
         }
         for (const a of pg.anchors) {
-          record(`block/${a.block}${a.state === "empty" ? ":empty" : ""}@${width}`, { kind: "block", block: a.block, anchor: a.anchor, state: a.state, width, url: `${labUrl}#${a.anchor}` }, a.facts, {
+          // `live` keeps the bare id and `empty` its `:empty`, the baseline's keys; a named fixture is `:<name>`.
+          record(`block/${a.block}${a.state === "live" ? "" : `:${a.state}`}@${width}`, { kind: "block", block: a.block, anchor: a.anchor, state: a.state, width, url: `${labUrl}#${a.anchor}` }, a.facts, {
             on: "block",
             state: a.state,
             width,

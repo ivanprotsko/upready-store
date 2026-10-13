@@ -163,9 +163,12 @@ export const parseRichTextProps = (input: unknown) =>
 ## 4. Fixtures Feed the Playground
 
 - `fixtures.empty` and `fixtures.sample` are props the parser accepts; `registry.test.ts` checks both.
+- A further fixture is a named state of the block, kebab-case (`collage/mosaic`'s `five`). The parser
+  accepts it too, and `registry.test.ts` checks every one.
 - The playground `/<locale>/template-lab` answers 404 unless the server runs with
   `STOREFRONT_TEMPLATE_PREVIEW=1`. Every variant renders there on the shop's real catalogue under
-  `#block-<category>-<variant>`, and a block with fixtures once more empty under `…-empty`.
+  `#block-<category>-<variant>`, and a block with fixtures once more empty under `…-empty`, then once
+  per named fixture under `…-<name>`. `template:check` keys those `block/<id>:<name>@<width>`.
 
 ## 5. Shots and Lint Prove the Block
 

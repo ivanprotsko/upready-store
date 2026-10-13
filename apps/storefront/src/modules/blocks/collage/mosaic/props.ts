@@ -15,11 +15,11 @@ export type MosaicTile = MosaicImageTile | MosaicProductTile | MosaicCategoryTil
 
 export type MosaicProps = {
   header: SectionHeader | null
-  /** Exactly three when given, the first one large. Absent or empty: none, and the block draws nothing. */
+  /** Three or five when given, the first one large. Absent or empty: none, and the block draws nothing. */
   tiles: MosaicTile[]
   /** Which side the large tile stands on from 720 px. */
   largeSide: "left" | "right"
-  /** Below 720 px: `stack` puts the large tile across and the two small ones side by side under it, `swipe` lines them up in a row that scrolls. */
+  /** Below 720 px: `stack` puts the large tile across and the small ones two by two under it, `swipe` lines them up in a row that scrolls. */
   mobile: "stack" | "swipe"
 }
 
@@ -61,13 +61,16 @@ export function parseMosaicTile(value: unknown, path: string): PropsResult<Mosai
 export function parseMosaicProps(input: unknown): PropsResult<MosaicProps> {
   return parseProps<MosaicProps>(input, "collage/mosaic", {
     header: (value, path) => parseSectionHeader(value, path),
-    // An empty list is no tiles, as an absent one is (the empty fixture); any tile at all asks for all three.
-    tiles: (value, path) =>
-      parseList(value, path, parseMosaicTile, {
+    // An empty list is no tiles, as an absent one is (the empty fixture); any tile at all asks for three or five.
+    tiles: (value, path) => {
+      const list = parseList(value, path, parseMosaicTile, {
         min: Array.isArray(value) && value.length === 0 ? 0 : 3,
-        max: 3,
+        max: 5,
         fallback: [],
-      }),
+      })
+      if (!Array.isArray(value) || value.length !== 4) return list
+      return { ok: false, errors: [`${path} has 4 items, 3 or 5`, ...(list.ok ? [] : list.errors)] }
+    },
     largeSide: (value, path) => parseEnum(value, path, ["left", "right"] as const, { fallback: "left" }),
     mobile: (value, path) => parseEnum(value, path, ["stack", "swipe"] as const, { fallback: "stack" }),
   })
