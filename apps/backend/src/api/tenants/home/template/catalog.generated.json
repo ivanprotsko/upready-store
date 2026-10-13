@@ -361,6 +361,7 @@
     "zh"
   ],
   "blocks": [
+    {"id":"announcement/marquee","category":"announcement","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"announcement/rotator","category":"announcement","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"announcement/text-bar","category":"announcement","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"banner/image","category":"banner","placement":"home","status":"lab","props":true,"propsEditable":true},
