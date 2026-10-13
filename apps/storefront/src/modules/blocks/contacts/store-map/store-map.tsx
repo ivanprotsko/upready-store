@@ -23,6 +23,9 @@ export type StoreMapLabels = {
   map: string
 }
 
+/** A line-high box that centres a 16px icon on the first line of its text: 24px at 16px type, 20px at 14px. */
+const ICON_BOX = "flex h-6 shrink-0 items-center small:h-5"
+
 const ACTION =
   "inline-flex min-h-11 items-center gap-2 font-medium text-ui-fg-interactive underline-offset-4 hover:text-ui-fg-interactive-hover hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
 
@@ -103,59 +106,66 @@ export default function StoreMap({
                   selected ? "border-[var(--primary)]" : "border-[var(--border)]"
                 )}
               >
-                <h3 className="text-pretty text-base font-semibold text-ui-fg-base small:text-lg">{location.name}</h3>
+                {/* The body grows, so a row of cards ends its actions on one line with no auto margin (QR-SPACE-SCALE). */}
+                <div className="flex flex-1 flex-col gap-[var(--layer-space-4,1rem)]">
+                  <h3 className="text-pretty text-base font-semibold text-ui-fg-base small:text-lg">{location.name}</h3>
 
-                <ul data-role="contacts" className="flex flex-col gap-2 text-base text-ui-fg-subtle small:text-sm">
-                  <li className="flex items-start gap-2">
-                    <BlockIcon name="map-pin" className="mt-1 size-4 shrink-0 text-ui-fg-muted small:mt-0.5" />
-                    <span className="min-w-0 text-pretty">{location.address}</span>
-                  </li>
-                  {location.hours ? (
+                  <ul data-role="contacts" className="flex flex-col gap-2 text-base text-ui-fg-subtle small:text-sm">
                     <li className="flex items-start gap-2">
-                      <BlockIcon name="clock" className="mt-1 size-4 shrink-0 text-ui-fg-muted small:mt-0.5" />
-                      <span className="min-w-0 text-pretty">{location.hours}</span>
+                      <span className={ICON_BOX}>
+                        <BlockIcon name="map-pin" className="size-4 text-ui-fg-muted" />
+                      </span>
+                      <span className="min-w-0 text-pretty">{location.address}</span>
                     </li>
-                  ) : null}
-                  {location.phone ? (
-                    <li className="flex items-center gap-2">
-                      <BlockIcon name="phone" className="size-4 shrink-0 text-ui-fg-muted" />
-                      {/* A 44px target (QR-HIT) that keeps the list's rhythm: the box grows into the gaps. */}
-                      <a
-                        href={telHref(location.phone)}
-                        className="-my-3 inline-flex min-h-11 items-center whitespace-nowrap text-ui-fg-base underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
-                      >
-                        {location.phone}
-                      </a>
-                    </li>
-                  ) : null}
-                </ul>
-
-                {location.note ? (
-                  <p data-role="description" className="text-pretty text-base text-ui-fg-muted small:text-sm">
-                    {location.note}
-                  </p>
-                ) : null}
-
-                {location.links.length ? (
-                  <ul className="flex flex-wrap gap-2">
-                    {location.links.map((link) => (
-                      <li key={link.href}>
+                    {location.hours ? (
+                      <li className="flex items-start gap-2">
+                        <span className={ICON_BOX}>
+                          <BlockIcon name="clock" className="size-4 text-ui-fg-muted" />
+                        </span>
+                        <span className="min-w-0 text-pretty">{location.hours}</span>
+                      </li>
+                    ) : null}
+                    {location.phone ? (
+                      <li className="flex items-center gap-2">
+                        <BlockIcon name="phone" className="size-4 shrink-0 text-ui-fg-muted" />
+                        {/* A 44px target (QR-HIT) that keeps the list's rhythm: the box grows into the gaps. */}
                         <a
-                          data-role="social-link"
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius)] border border-[var(--border)] px-[var(--layer-space-3,0.75rem)] text-base text-ui-fg-base transition-colors duration-150 hover:bg-[var(--muted)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] motion-reduce:transition-none small:text-sm"
+                          href={telHref(location.phone)}
+                          className="-my-3 inline-flex min-h-11 items-center whitespace-nowrap text-ui-fg-base underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
                         >
-                          <BlockIcon name={link.icon} className="size-4 shrink-0 text-ui-fg-muted" />
-                          {link.label}
+                          {location.phone}
                         </a>
                       </li>
-                    ))}
+                    ) : null}
                   </ul>
-                ) : null}
 
-                <div className="mt-auto flex flex-wrap gap-x-[var(--layer-space-6,1.5rem)] text-base small:text-sm">
+                  {location.note ? (
+                    <p data-role="description" className="text-pretty text-base text-ui-fg-muted small:text-sm">
+                      {location.note}
+                    </p>
+                  ) : null}
+
+                  {location.links.length ? (
+                    <ul className="flex flex-wrap gap-2">
+                      {location.links.map((link) => (
+                        <li key={link.href}>
+                          <a
+                            data-role="social-link"
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius)] border border-[var(--border)] px-[var(--layer-space-3,0.75rem)] text-base text-ui-fg-base transition-colors duration-150 hover:bg-[var(--muted)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] motion-reduce:transition-none small:text-sm"
+                          >
+                            <BlockIcon name={link.icon} className="size-4 shrink-0 text-ui-fg-muted" />
+                            {link.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+
+                <div className="flex flex-wrap gap-x-[var(--layer-space-6,1.5rem)] text-base small:text-sm">
                   {showMap ? (
                     <button type="button" aria-pressed={selected} onClick={() => showOnMap(location.id)} className={ACTION}>
                       <BlockIcon name="map-pin" className="size-4 shrink-0" />
