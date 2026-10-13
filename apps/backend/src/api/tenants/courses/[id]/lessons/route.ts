@@ -3,7 +3,14 @@ import { COURSE_MODULE } from "../../../../../modules/course";
 import type CourseModuleService from "../../../../../modules/course/service";
 import { getTenantScope } from "../../../tenant-scope";
 import type { PostTenantLessonBody } from "../../validators";
-import { assertOwnedCourse, byOrderAsc, type LessonRow, toLessonDto } from "../../course-helpers";
+import {
+  assertOwnedCourse,
+  byOrderAsc,
+  lessonContentForWrite,
+  type LessonRow,
+  toLessonDto,
+  videoUrlForWrite,
+} from "../../course-helpers";
 
 /** `GET /tenants/courses/:id/lessons` — the course's lessons, panel order. */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
@@ -44,7 +51,9 @@ export const POST = async (
     course_id: course.id,
     title: body.title,
     body: body.body,
-    video_url: body.video_url ?? null,
+    video_url: null,
+    ...videoUrlForWrite(body),
+    ...lessonContentForWrite(body),
     order,
   });
 

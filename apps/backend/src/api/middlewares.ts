@@ -1763,6 +1763,12 @@ export default defineMiddlewares({
       method: ["POST"],
       middlewares: [authenticate("customer", ["session", "bearer"])],
     },
+    {
+      // t-2026-10-13-29 stage 2: a course's video or file, 302 to its download address.
+      matcher: "/store/tenant/courses/:id/media",
+      method: ["GET"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
 
     // ---- t-2026-10-08-36: the school signs its buyers in through the shop.
     // The storefront asks for a code with the buyer's token; the school's

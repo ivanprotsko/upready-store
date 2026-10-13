@@ -26,6 +26,13 @@ export type CourseStatus = (typeof COURSE_STATUSES)[number];
  * at boot (`onApplicationStart`), so there is no migration for it. The store
  * routes resolve them for `x-medusa-locale` (`translateRows` in
  * `api/store/tenant/courses/store-course-helpers.ts`).
+ *
+ * t-2026-10-13-29 stage 2, all nullable: `telegram_channel_url` and
+ * `telegram_chat_url`, the course's channel and chat the school links to;
+ * `start_date`, the stream's start, before which no buyer's day 1 begins
+ * (drip lessons, `lesson.available_from_day`); `access_days`, how long access
+ * lasts from that day 1, shown in the school as «доступ до …». Nothing is
+ * revoked when it runs out yet; null means no limit is shown.
  */
 const Course = model
   .define("course", {
@@ -36,6 +43,10 @@ const Course = model
     slug: model.text(),
     description: model.text().translatable().nullable(),
     status: model.enum([...COURSE_STATUSES]).default("draft"),
+    telegram_channel_url: model.text().nullable(),
+    telegram_chat_url: model.text().nullable(),
+    start_date: model.dateTime().nullable(),
+    access_days: model.number().nullable(),
   })
   .indexes([
     {
