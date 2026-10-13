@@ -1,0 +1,148 @@
+{
+  "schema": "upready.storefront-template/v1",
+  "id": "katalog",
+  "title": { "ru": "Большой каталог", "en": "Large Catalogue" },
+  "description": {
+    "ru": "Большой каталог техники и товаров для дома: строгий и плотный, с поиском, сеткой товаров и условиями покупки на виду.",
+    "en": "A large catalogue of appliances and home goods: strict and dense, with search, a product grid and the terms of purchase up front."
+  },
+  "settings": { "defaultMode": "light", "header": "h3", "hero": "none", "tiles": "off", "listing": "none", "footer": "f1" },
+  "theme": {
+    "palette": "katalog",
+    "fontPair": { "display": "Inter", "body": "Inter" },
+    "radius": "soft",
+    "buttonStyle": "filled",
+    "photoStyle": "portrait",
+    "density": "compact"
+  },
+  "sections": [
+    {
+      "block": "announcement/rotator",
+      "props": {
+        "messages": [
+          { "text": { "ru": "Техника и товары для дома", "en": "Appliances and home goods" }, "href": null },
+          { "text": { "ru": "Гарантия на технику", "en": "A warranty on appliances" }, "href": null },
+          { "text": { "ru": "Доставка по всей России", "en": "Delivery across Russia" }, "href": null }
+        ],
+        "interval": 5,
+        "dismissible": true
+      }
+    },
+    {
+      "block": "slideshow/banners",
+      "props": {
+        "slides": [
+          {
+            "image": { "src": "/templates/katalog/banner-1.webp" },
+            "imageMobile": null,
+            "heading": {
+              "ru": "Техника и товары для дома в одном каталоге",
+              "en": "Appliances and home goods in one catalogue"
+            },
+            "text": {
+              "ru": "Найдите товар поиском или через категории: в карточке — цена, характеристики и фотографии.",
+              "en": "Find a product with the search or through the categories: each page has the price, the specifications and photos."
+            },
+            "button": { "href": "/store", "label": { "ru": "Открыть каталог", "en": "Open the catalogue" } }
+          },
+          {
+            "image": { "src": "/templates/katalog/banner-2.webp" },
+            "imageMobile": { "src": "/templates/katalog/banner-2-mobile.webp" },
+            "heading": { "ru": "Новинки каталога", "en": "New in the catalogue" },
+            "text": {
+              "ru": "Что недавно появилось в магазине — от мелочей для дома до крупной техники.",
+              "en": "What has just arrived, from small things for the home to large appliances."
+            },
+            "button": { "href": "/store", "label": { "ru": "Смотреть каталог", "en": "Browse the catalogue" } }
+          }
+        ],
+        "height": "large",
+        "autoplay": null,
+        "controls": "both"
+      }
+    },
+    {
+      "block": "columns/multicolumn",
+      "props": {
+        "items": [
+          {
+            "icon": "truck",
+            "title": { "ru": "Доставка по России", "en": "Delivery across Russia" },
+            "text": { "ru": "Курьером или в пункт выдачи", "en": "By courier or to a pick-up point" }
+          },
+          {
+            "icon": "shield-check",
+            "title": { "ru": "Гарантия на технику", "en": "A warranty on appliances" },
+            "text": { "ru": "По документам производителя", "en": "As the maker's papers say" }
+          },
+          {
+            "icon": "rotate-ccw",
+            "title": { "ru": "Обмен и возврат", "en": "Exchange and return" },
+            "text": { "ru": "По закону о защите прав потребителей", "en": "As consumer law provides" }
+          },
+          {
+            "icon": "message-circle",
+            "title": { "ru": "Поможем с выбором", "en": "Help with choosing" },
+            "text": { "ru": "Ответим на вопрос о любом товаре", "en": "We answer questions about any product" }
+          }
+        ],
+        "mode": "cards",
+        "columns": 4,
+        "mobile": "two",
+        "align": "left",
+        "tone": "muted"
+      }
+    },
+    {
+      "block": "collection/tabs",
+      "props": {
+        "header": { "heading": { "ru": "Подборки каталога", "en": "Catalogue picks" } },
+        "tabs": [
+          { "label": { "ru": "Новинки", "en": "New arrivals" }, "source": { "sort": "newest" }, "limit": 8 },
+          { "label": { "ru": "Хиты", "en": "Bestsellers" }, "source": { "collection": "bestsellers" }, "limit": 8 },
+          { "label": { "ru": "Скидки", "en": "On sale" }, "source": { "collection": "sale" }, "limit": 8 }
+        ],
+        "columns": 4
+      }
+    },
+    {
+      "block": "text/rich-text",
+      "props": {
+        "eyebrow": { "ru": "Как выбирать", "en": "How to choose" },
+        "heading": {
+          "ru": "На фото модели похожи — различают их характеристики",
+          "en": "Models look alike in photos; the specifications tell them apart"
+        },
+        "paragraphs": [
+          {
+            "ru": "Смотрите в карточке размеры, мощность, комплектацию и гарантию и сравнивайте модели по ним.",
+            "en": "Look at the size, the power, what is in the box and the warranty on each product page, and compare the models by them."
+          }
+        ],
+        "primary": null,
+        "secondary": null,
+        "align": "center",
+        "width": "wide",
+        "tone": "muted"
+      }
+    },
+    {
+      "block": "newsletter/signup",
+      "props": {
+        "heading": { "ru": "Скидки и поступления — в канале магазина", "en": "Deals and new arrivals, in the shop's channel" },
+        "text": {
+          "ru": "Раз в неделю: что подешевело и что появилось в каталоге.",
+          "en": "Once a week: what got cheaper and what is new in the catalogue."
+        },
+        "mode": "channels",
+        "channels": [
+          { "network": "telegram", "href": null },
+          { "network": "vk", "href": null },
+          { "network": "max", "href": null }
+        ],
+        "align": "left",
+        "tone": "muted"
+      }
+    }
+  ]
+}

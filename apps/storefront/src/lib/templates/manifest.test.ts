@@ -221,6 +221,54 @@ describe("the templates of this branch", () => {
     })
   })
 
+  // The 16.09 lab's «Большой каталог» (`artifacts/docs/store-templates-lab/src/templates/katalog.json`).
+  describe("katalog", () => {
+    const katalog = () => getTemplate("katalog")!
+
+    it("paints the lab's palette, light only, in Inter at compact density", () => {
+      expect(katalog().manifest.theme).toMatchObject({ palette: "katalog", density: "compact" })
+      expect(katalog().manifest.settings.defaultMode).toBe("light")
+      expect(katalog().fonts).toEqual({ display: "Inter", body: "Inter", loaded: true, pair: "Inter|Inter" })
+    })
+
+    it("places the lab's home sections in the lab's order", () => {
+      // announcement, banners, usp cards, product tabs, story, newsletter; header and footer come from settings.
+      // The lab's bundle is left out: `collection/bundle` beside a product card fails QR-TYPE-ROLE and QR-CARD-GRAMMAR.
+      expect(katalog().manifest.sections.map((section) => section.block)).toEqual([
+        "announcement/rotator",
+        "slideshow/banners",
+        "columns/multicolumn",
+        "collection/tabs",
+        "text/rich-text",
+        "newsletter/signup",
+      ])
+      expect(katalog().manifest.settings).toMatchObject({ header: "h3", hero: "none", tiles: "off", listing: "none", footer: "f1" })
+      const props = (block: string) => katalog().manifest.sections.find((section) => section.block === block)?.props
+      // The lab's three tabs; a tab whose source holds no product is dropped by the block.
+      expect(props("collection/tabs")).toMatchObject({
+        tabs: [{ source: { sort: "newest" } }, { source: { collection: "bestsellers" } }, { source: { collection: "sale" } }],
+        columns: 4,
+      })
+    })
+
+    it("draws its pictures from its own files, each one there and within its weight", () => {
+      const files = JSON.stringify(TEMPLATE_SOURCES.katalog).match(/\/templates\/katalog\/[^"]+/g) ?? []
+      expect(files.length).toBeGreaterThan(0)
+      for (const file of files) {
+        const onDisk = path.join(process.cwd(), "public", file)
+        expect(fs.existsSync(onDisk), file).toBe(true)
+        expect(fs.statSync(onDisk).size, file).toBeLessThanOrEqual((file.includes("-mobile") ? 80 : 200) * 1024)
+      }
+    })
+
+    it("carries no shop's identity and no figure a shop may not keep", () => {
+      const text = JSON.stringify(TEMPLATE_SOURCES.katalog)
+      expect(text).not.toMatch(/\+7|\d{3}[- ]\d{2}[- ]\d{2}|@[a-z0-9-]+\.[a-z]|ИНН|ООО|Домовой|domovoy|Химк|Панов/i)
+      // The lab's «Бесплатно от 3 000 ₽», «2–5 дней», «42 сервисных центра»: no sum, term or count in the words.
+      expect(text).not.toMatch(/\d\s?(₽|руб|дн|час|сервис|город|%)|\d+\s?(days?|hours?|cities)/i)
+    })
+  })
+
   // P2b: the panel shows these to the owner, in the owner's language and plain words (rule 18e).
   it.each(Object.keys(TEMPLATE_SOURCES))("%s names itself and says what it is for in Russian and English", (id) => {
     const { title, description } = TEMPLATE_SOURCES[id] as { title: unknown; description: unknown }
