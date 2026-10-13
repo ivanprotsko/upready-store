@@ -19,8 +19,10 @@ import {
  * The courses table was 435 px wide on a 390 px phone and had no box of its
  * own to scroll in, so the shell's `main` scrolled sideways and the whole
  * screen slid off the left edge. The guard is structural: every hand-rolled
- * table sits in `TableScroll` (or an `overflow-x-auto` box / `PHONE_CARDS`,
- * the two shapes that already worked), and the shell column takes `min-w-0`.
+ * table sits in `TableScroll` (or an `overflow-x-auto` box, the shape the
+ * Wildberries tables already had), and the shell column takes `min-w-0`.
+ * `PHONE_CARDS` alone is not enough: it turns rows into cards only below
+ * `md`, and the pages table was 829 px wide on a 768 px screen.
  *
  * Source assertions, not a render, for the reason `error-boundary-auth.test.mjs`
  * gives: the package has no jsdom. The render check is the audit script
@@ -71,7 +73,7 @@ test("every hand-rolled table of the panel sits in a box that scrolls it", () =>
         .filter((l) => l.trim())
         .slice(-2)
         .join("\n")
-      if (/<TableScroll\b|overflow-x-auto|PHONE_CARDS/.test(before)) return
+      if (/<TableScroll\b|overflow-x-auto/.test(before)) return
       bare.push(`${rel}:${index + 1}`)
     })
   }
@@ -94,6 +96,26 @@ test("course list: the table fits a phone and the create form has no fixed-width
   )
   assert.equal((source.match(/className="whitespace-nowrap">/g) ?? []).length, 2, "the status column stays on one line")
   assert.ok(!/w-\[\d+px\]/.test(source.replace(/max-w-\[\d+px\]/g, "")), "no field has a fixed px width")
+})
+
+test("course page: the storefront address ends in an ellipsis and the buttons wrap under the title", () => {
+  const source = read("routes/courses/course-detail/course-detail.tsx")
+  assert.ok(source.includes('"flex flex-wrap items-start justify-between gap-x-4 gap-y-3 px-6 py-4"'))
+  assert.ok(source.includes('"flex min-w-0 max-w-full flex-col gap-y-1"'), "the title column may shrink")
+  assert.ok(source.includes('"text-ui-fg-subtle font-mono truncate"'), "the address stays on one line")
+  assert.ok(source.includes('"flex shrink-0 items-center gap-x-2"'), "the buttons keep their size")
+  assert.ok(!/className="(font-mono )?w-\[\d+px\]"/.test(source), "no field has a fixed px width")
+})
+
+test("old addresses: the search field fits a phone and the counter wraps under it", () => {
+  const source = read("routes/settings/redirects/redirects.tsx")
+  assert.ok(source.includes('"flex flex-wrap items-center gap-x-3 gap-y-2 px-6 py-3"'))
+  assert.ok(source.includes('<div className="w-full max-w-[320px]">'))
+})
+
+test("pages: below md the rows are cards, from md up the table scrolls in its box", () => {
+  const source = read("routes/pages/page-list/page-list.tsx")
+  assert.match(source, /<TableScroll className=\{PHONE_CARDS\}>\s*<Table>/)
 })
 
 test("the audit opens every screen of the router or says why not", () => {

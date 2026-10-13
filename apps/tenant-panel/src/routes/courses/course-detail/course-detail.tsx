@@ -143,10 +143,18 @@ export const CourseDetail = () => {
   return (
     <SingleColumnPage widgets={{ before: [], after: [] }} data={course}>
       <Container className="divide-y p-0">
-        <div className="flex items-start justify-between gap-x-4 px-6 py-4">
-          <div className="flex flex-col gap-y-1">
+        {/* t-2026-10-13-30: the storefront address is one unbreakable mono
+            word; with no `min-w-0` it held its full width and pushed «Удалить»
+            and «Сохранить» off a 390 px screen. It now ends in an ellipsis and
+            the buttons wrap under the title on a phone. */}
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3 px-6 py-4">
+          <div className="flex min-w-0 max-w-full flex-col gap-y-1">
             <Heading level="h2">{course.title}</Heading>
-            <Text size="small" className="text-ui-fg-subtle font-mono">
+            <Text
+              size="small"
+              className="text-ui-fg-subtle font-mono truncate"
+              title={storefrontUrl ?? undefined}
+            >
               {storefrontUrl ? (
                 <a
                   href={storefrontUrl}
@@ -164,7 +172,7 @@ export const CourseDetail = () => {
               )}
             </Text>
           </div>
-          <div className="flex items-center gap-x-2">
+          <div className="flex shrink-0 items-center gap-x-2">
             <Prompt>
               <Prompt.Trigger asChild>
                 <Button size="small" variant="secondary" isLoading={isDeleting}>
@@ -194,24 +202,24 @@ export const CourseDetail = () => {
 
         <div className="flex flex-col gap-y-4 px-6 py-4">
           <div className="flex flex-wrap items-end gap-x-3 gap-y-3">
-            <div className="flex flex-col gap-y-1">
+            <div className="flex w-full max-w-[320px] flex-col gap-y-1">
               <Text size="small" className="text-ui-fg-subtle">
                 Название
               </Text>
               <Input
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
-                className="w-[320px]"
+                className="w-full"
               />
             </div>
-            <div className="flex flex-col gap-y-1">
+            <div className="flex w-full max-w-[220px] flex-col gap-y-1">
               <Text size="small" className="text-ui-fg-subtle">
                 Адрес
               </Text>
               <Input
                 value={slug}
                 onChange={(event) => setSlug(event.target.value)}
-                className="font-mono w-[220px]"
+                className="font-mono w-full"
               />
             </div>
           </div>

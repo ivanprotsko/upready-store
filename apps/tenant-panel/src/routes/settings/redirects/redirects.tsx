@@ -165,14 +165,18 @@ export const Redirects = () => {
           </Text>
         </form>
         {redirects.length > 10 ? (
-          <div className="flex items-center gap-x-3 px-6 py-3">
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder={t("redirects.searchPlaceholder")}
-              className="w-[320px]"
-            />
-            <Text size="small" className="text-ui-fg-subtle">
+          // t-2026-10-13-30: a 320 px field and the counter beside it were
+          // wider than a phone; the counter now wraps under the field.
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-6 py-3">
+            <div className="w-full max-w-[320px]">
+              <Input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={t("redirects.searchPlaceholder")}
+                className="w-full"
+              />
+            </div>
+            <Text size="small" className="text-ui-fg-subtle whitespace-nowrap">
               {t("redirects.counter", {
                 shown: visible.length,
                 total: redirects.length,

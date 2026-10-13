@@ -136,7 +136,7 @@ export const PANEL_ROUTES = [
   { name: "settings-integration-cdek", path: "/settings/integrations/cdek" },
   { name: "settings-staff", path: "/settings/staff" },
   { name: "settings-branding", path: "/settings/branding" },
-  { name: "no-match", path: "/this-page-does-not-exist" },
+  { name: "no-match", path: "/this-page-does-not-exist", public: true },
   { name: "login", path: "/login", public: true },
   { name: "forgot-password", path: "/forgot-password", public: true },
   { name: "reset-password", path: "/reset-password?token=x&email=a%40b.c", public: true },
@@ -181,7 +181,7 @@ const DISCOVER = {
     attribute: ["/tenants/product-attributes", (j) => (j.product_attributes ?? j.attributes)?.[0]?.id],
     category: ["/tenants/product-categories?limit=1", (j) => j.product_categories?.[0]?.id],
     order: ["/tenants/orders?limit=1&fields=id", (j) => j.orders?.[0]?.id],
-    customer: ["/tenants/customers?limit=1&fields=id", (j) => j.customers?.[0]?.id],
+    customer: ["/tenants/customers?limit=1", (j) => j.customers?.[0]?.id],
     promotion: ["/tenants/promotions?limit=1&fields=id", (j) => j.promotions?.[0]?.id],
     campaign: ["/tenants/campaigns?limit=1&fields=id", (j) => j.campaigns?.[0]?.id],
     course: ["/tenants/courses", (j) => j.courses?.[0]?.id],
@@ -217,6 +217,9 @@ export function probeLayout() {
   }
   const visible = (el, cs) => {
     if (cs.display === "none" || cs.visibility === "hidden") return false
+    // Radix keeps a native radio/checkbox under its control, transparent and
+    // shifted left by its own width; nobody sees or reaches it.
+    if (cs.opacity === "0") return false
     if (cs.position === "fixed") return false
     const r = el.getBoundingClientRect()
     if (r.width < 1 || r.height < 1) return false
