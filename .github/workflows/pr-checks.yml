@@ -24,9 +24,9 @@ name: PR Checks
 # Repository and Deploy Checks run only when it touches what they check (t-2026-10-12-33). All jobs share one
 # self-hosted runner on the INTL production host, Backend alone takes about 23 minutes, and up to seven lines open
 # template pull requests at night. The dev releases must not wait behind them (t-2026-10-12-30 measured 164 minutes).
-# When the only backend file a pull request into templates/** changes is the generated catalogue of templates, as
-# every block or template pull request does, Backend Catalogue runs the backend's specs that read it instead of
-# Backend (t-2026-10-12-33 ci-catalog-scope).
+# When the only backend files a pull request into templates/** changes are what `pnpm templates:export` writes, as
+# every block or template pull request does, Backend Catalogue typechecks the backend and runs the specs that read
+# them instead of Backend (t-2026-10-12-33 ci-catalog-scope).
 on:
   pull_request:
     branches: [ dev, 'templates/**' ]
@@ -119,10 +119,11 @@ jobs:
         if: ${{ !cancelled() }}
         run: pnpm check:backend-fixtures
 
-  # The backend's part of a block or template pull request: the unit specs that read the generated catalogue, which
-  # Jest finds through the import graph from the file itself, on an install of the backend alone. Template Scope sets
-  # `catalogue` when that file is the only backend file changed, or when the workflows or the root install change.
-  # When Template Scope fails its outputs are empty: this job is skipped and Backend runs.
+  # The backend's part of a block or template pull request, on an install of the backend alone: the typecheck, since
+  # props.generated/ is TypeScript the backend compiles, and the unit specs that read the catalogue or the parsers,
+  # which Jest finds through the import graph from catalog.generated.json and props.generated/index.ts. Template Scope
+  # sets `catalogue` when the export's files are the only backend files changed, or when the workflows or the root
+  # install change. When Template Scope fails its outputs are empty: this job is skipped and Backend runs.
   backend-catalogue:
     name: Backend Catalogue
     needs: scope
@@ -140,9 +141,16 @@ jobs:
           cache: pnpm
       - name: Install the backend
         run: pnpm install --frozen-lockfile --filter @dtc/gorgo-medusa-backend...
-      - name: Catalogue specs
+      - name: Typecheck
         working-directory: apps/backend
-        run: pnpm run test:unit --findRelatedTests src/api/tenants/home/template/catalog.generated.json
+        run: npx tsc --noEmit
+      - name: Catalogue and props specs
+        if: ${{ !cancelled() }}
+        working-directory: apps/backend
+        run: >-
+          pnpm run test:unit --findRelatedTests
+          src/api/tenants/home/template/catalog.generated.json
+          src/api/tenants/home/template/props.generated/index.ts
 
   storefront:
     name: Storefront

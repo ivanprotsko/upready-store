@@ -85,20 +85,24 @@ test("each heavy job comes back with the paths it checks", () => {
   assert.deepEqual(scopeOf(["deploy/scripts/deploy-instance.sh"]), { ...none, deploy: true })
 })
 
-// Every block or template pull request into templates/main changes one generated line of the catalogue
-// (t-2026-10-12-33 ci-catalog-scope): alone among the backend's files it runs Backend Catalogue, not Backend.
+// Every block or template pull request into templates/main changes what pnpm templates:export writes into the backend,
+// the catalogue's line and, for a block with props, its parser's copy (t-2026-10-12-33 ci-catalog-scope): alone among
+// the backend's files they run Backend Catalogue, not Backend.
 const CATALOGUE = "apps/backend/src/api/tenants/home/template/catalog.generated.json"
+const PROPS = "apps/backend/src/api/tenants/home/template/props.generated/"
 const BLOCK = "apps/storefront/src/modules/blocks/media/stories/index.tsx"
+const EXPORT = [CATALOGUE, `${PROPS}index.ts`, `${PROPS}media/stories/props.ts`]
 
-test("a block and the catalogue line run Backend Catalogue, not Backend", () => {
-  for (const files of [[CATALOGUE], [BLOCK, CATALOGUE]]) {
+test("a block and the export's files run Backend Catalogue, not Backend", () => {
+  for (const files of [[CATALOGUE], [BLOCK, CATALOGUE], [BLOCK, ...EXPORT], [`${PROPS}media/stories/props.ts`]]) {
     assert.deepEqual(scopeOf(files), { backend: false, catalogue: true, panel: false, deploy: false }, files.join(" "))
   }
 })
 
-test("the catalogue beside any other backend file runs Backend, which holds the catalogue's specs", () => {
+test("the export's files beside any other backend file run Backend, which checks them too", () => {
   for (const other of ["apps/backend/src/api/tenants/home/template/validation.ts", "apps/backend/package.json"]) {
     assert.deepEqual(scopeOf([BLOCK, CATALOGUE, other]), { backend: true, catalogue: false, panel: false, deploy: false }, other)
+    assert.deepEqual(scopeOf([BLOCK, ...EXPORT, other]), { backend: true, catalogue: false, panel: false, deploy: false }, other)
   }
 })
 
@@ -109,7 +113,12 @@ test("a change with no backend file runs neither backend job", () => {
     panel: false,
     deploy: false,
   })
-  assert.equal(scopeOf(["apps/backend/src/api/tenants/home/template/catalog.generated.json.bak"]).catalogue, false)
+})
+
+test("a backend file beside the export's, which the export does not write, runs Backend", () => {
+  for (const near of [`${CATALOGUE}.bak`, "apps/backend/src/api/tenants/home/template/props.generated.ts"]) {
+    assert.deepEqual(scopeOf([near]), { backend: true, catalogue: false, panel: false, deploy: false }, near)
+  }
 })
 
 test("a change to the workflows or the root install runs every heavy job, Backend Catalogue too", () => {

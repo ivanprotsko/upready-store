@@ -14,9 +14,9 @@
  *
  * Prints `backend=`, `catalogue=`, `panel=` and `deploy=` lines (true or false) for $GITHUB_OUTPUT. The Template
  * Scope job of pr-checks.yml uses them to run Backend, Backend Catalogue, Panel And Repository and Deploy Checks on a
- * pull request into templates/** only when it changes what those jobs check. When the only backend file it changes is
- * the generated catalogue of templates, as every block or template pull request does, it runs Backend Catalogue, the
- * backend's specs that read that file, instead of the whole Backend.
+ * pull request into templates/** only when it changes what those jobs check. When the only backend files it changes are
+ * what `pnpm templates:export` writes, as every block or template pull request does, it runs Backend Catalogue, the
+ * backend's typecheck and the specs that read those files, instead of the whole Backend.
  */
 import { readFileSync } from "node:fs"
 import { fileURLToPath } from "node:url"
@@ -52,9 +52,12 @@ export function verdict({ base, head, labels }) {
 // (scripts/check-evidence-manifest.mjs), so those paths run it too. A change to the workflows or to what the
 // root installs runs every job.
 const EVERY_JOB = [".github/", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml"]
-// pnpm templates:export writes it from the storefront's block registry, and the storefront's catalog-export test holds
-// it equal to the export (t-2026-10-12-33 ci-catalog-scope).
+// What pnpm templates:export writes into the backend from the storefront's block registry: the catalogue and the copy
+// of every block's props parser (#415). The storefront's catalog-export and parity tests hold both equal to the export
+// (t-2026-10-12-33 ci-catalog-scope).
 export const CATALOGUE = "apps/backend/src/api/tenants/home/template/catalog.generated.json"
+export const PROPS_GENERATED = "apps/backend/src/api/tenants/home/template/props.generated/"
+const EXPORTED = [CATALOGUE, PROPS_GENERATED]
 export const SCOPES = {
   backend: ["apps/backend/", ...EVERY_JOB],
   panel: [
@@ -72,16 +75,18 @@ export const SCOPES = {
 }
 
 /**
- * { backend, catalogue, panel, deploy }: which heavy job of pr-checks.yml the changed files still need. The catalogue
- * alone among the backend's files needs Backend Catalogue; beside any other backend file Backend runs, and its unit
- * suites hold the catalogue's specs. A change to the workflows or the root install runs both.
+ * { backend, catalogue, panel, deploy }: which heavy job of pr-checks.yml the changed files still need. The export's
+ * files alone among the backend's need Backend Catalogue; beside any other backend file Backend runs, and it checks
+ * them too. A change to the workflows or the root install runs both.
  */
 export function scopeOf(files) {
-  const touches = (among) => (prefix) => among.some((file) => (prefix.endsWith("/") ? file.startsWith(prefix) : file === prefix))
-  const backend = SCOPES.backend.some(touches(files.filter((file) => file !== CATALOGUE)))
+  const matches = (file) => (prefix) => (prefix.endsWith("/") ? file.startsWith(prefix) : file === prefix)
+  const touches = (among) => (prefix) => among.some((file) => matches(file)(prefix))
+  const exported = files.filter((file) => EXPORTED.some(matches(file)))
+  const backend = SCOPES.backend.some(touches(files.filter((file) => !exported.includes(file))))
   return {
     backend,
-    catalogue: EVERY_JOB.some(touches(files)) || (files.includes(CATALOGUE) && !backend),
+    catalogue: EVERY_JOB.some(touches(files)) || (exported.length > 0 && !backend),
     panel: SCOPES.panel.some(touches(files)),
     deploy: SCOPES.deploy.some(touches(files)),
   }
