@@ -1,291 +1,194 @@
-import { useEffect, useRef, useState } from "react"
-import { Badge, Button, Container, Heading, Input, Label, Text, Textarea, toast } from "@medusajs/ui"
+import { Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
-import { SingleColumnPage } from "../../../components/layout/pages"
 import {
-  type PutRequisitesBody,
-  type Requisites,
-  useRequisites,
-  useUpdateRequisites,
-} from "../../../hooks/api/requisites"
+  SettingsDetail,
+  type SettingsRow,
+  type SettingsSection,
+} from "../../../components/settings"
+import { useRequisites } from "../../../hooks/api/requisites"
+import { useDate } from "../../../hooks/use-date"
+import {
+  parseRequisiteDate,
+  REQUISITES_SECTIONS,
+  type RequisiteTextField,
+  TOKEN_FIELDS,
+  toDraft,
+} from "./requisites-model"
 
 // Реквизиты продавца (t12-legal-requisites): значения, которые на витрине
 // заполняют {{ТОКЕНЫ}}, оставленные в оферте, политике конфиденциальности и
 // контактах. Каждое поле необязательно — придумывать регистрационные данные
-// нельзя, поэтому незаполненное поле не блокирует сохранение, а просто
-// остаётся в списке «Не заполнено» ниже.
+// нельзя, поэтому пустое поле не блокирует сохранение, а только помечено
+// «не заполнено» и подписано страницами, которым оно нужно.
 //
-// Как на экране уведомлений (правило 19h): пока запись грузится, поля
-// настоящие, только выключенные, а не абзац вместо них, и ответ заполняет
-// форму только пока владелец её не трогал (touchedRef) — медленный ответ не
-// затирает набранное.
+// t-2026-10-14-01 (panel redesign, G1): the page only reads. Five sections in
+// the order of the prototype (who sells → contacts → personal data → document
+// dates → other), each edited in its own drawer on its own nested route.
 
-type Draft = { [K in keyof Requisites]: Requisites[K] extends boolean ? boolean : string }
-
-const EMPTY_DRAFT: Draft = {
-  legal_name: "",
-  inn: "",
-  ogrn: "",
-  legal_address: "",
-  return_address: "",
-  phone: "",
-  phone_confirmed: false,
-  email: "",
-  dpo_email: "",
-  delivery_methods: "",
-  effective_date: "",
-  revision_date: "",
-  document_date: "",
-  rkn_notice_date: "",
-  rkn_reg_number: "",
-  newsletter_management_url: "",
-  bank_details: "",
-}
-
-const toDraft = (requisites: Requisites | undefined): Draft =>
-  requisites
-    ? {
-        legal_name: requisites.legal_name ?? "",
-        inn: requisites.inn ?? "",
-        ogrn: requisites.ogrn ?? "",
-        legal_address: requisites.legal_address ?? "",
-        return_address: requisites.return_address ?? "",
-        phone: requisites.phone ?? "",
-        phone_confirmed: requisites.phone_confirmed,
-        email: requisites.email ?? "",
-        dpo_email: requisites.dpo_email ?? "",
-        delivery_methods: requisites.delivery_methods ?? "",
-        effective_date: requisites.effective_date ?? "",
-        revision_date: requisites.revision_date ?? "",
-        document_date: requisites.document_date ?? "",
-        rkn_notice_date: requisites.rkn_notice_date ?? "",
-        rkn_reg_number: requisites.rkn_reg_number ?? "",
-        newsletter_management_url: requisites.newsletter_management_url ?? "",
-        bank_details: requisites.bank_details ?? "",
-      }
-    : EMPTY_DRAFT
-
-type FieldDef = { key: keyof Omit<Draft, "phone_confirmed">; label: string; hint?: string }
-
-const FIELD_GROUPS: { title: string; fields: FieldDef[] }[] = [
-  {
-    title: "Регистрация",
-    fields: [
-      { key: "legal_name", label: "ФИО ИП или название организации" },
-      { key: "inn", label: "ИНН" },
-      { key: "ogrn", label: "ОГРНИП / ОГРН" },
-      { key: "legal_address", label: "Юридический адрес" },
-    ],
-  },
-  {
-    title: "Контакты и доставка",
-    fields: [
-      { key: "phone", label: "Телефон" },
-      { key: "email", label: "E-mail" },
-      { key: "return_address", label: "Адрес возврата" },
-      { key: "delivery_methods", label: "Способы доставки", hint: "Например: СДЭК, Почта России" },
-    ],
-  },
-  {
-    title: "Персональные данные",
-    fields: [
-      { key: "dpo_email", label: "E-mail ответственного за обработку персональных данных" },
-      { key: "rkn_reg_number", label: "Регистрационный номер в реестре Роскомнадзора" },
-      { key: "rkn_notice_date", label: "Дата уведомления Роскомнадзора" },
-    ],
-  },
-  {
-    title: "Даты документов",
-    fields: [
-      { key: "document_date", label: "Дата документа" },
-      { key: "effective_date", label: "Дата вступления документа в силу" },
-      { key: "revision_date", label: "Дата редакции документа" },
-    ],
-  },
-  {
-    title: "Прочее",
-    fields: [
-      { key: "newsletter_management_url", label: "Ссылка на управление рассылками" },
-      { key: "bank_details", label: "Банковские реквизиты", hint: "Публикуются, только если вы сами их здесь укажете." },
-    ],
-  },
+const MONO_FIELDS: readonly RequisiteTextField[] = [
+  "inn",
+  "ogrn",
+  "rkn_reg_number",
+  "newsletter_management_url",
+]
+const DATE_FIELDS: readonly RequisiteTextField[] = [
+  "document_date",
+  "effective_date",
+  "revision_date",
+  "rkn_notice_date",
 ]
 
 export const RequisitesSettings = () => {
   const { t } = useTranslation()
+  const { getFullDate } = useDate()
   const { requisites, domain, missing, hidden_blocks, isPending, isError, error } = useRequisites()
-
-  const [loaded, setLoaded] = useState<boolean | null>(null)
-  const [draft, setDraft] = useState<Draft>(EMPTY_DRAFT)
-  const touchedRef = useRef(false)
-
-  useEffect(() => {
-    if (isPending) return
-    setLoaded(true)
-    if (!touchedRef.current) {
-      setDraft(toDraft(requisites))
-    }
-  }, [isPending, requisites])
-
-  const { mutateAsync: save, isPending: isSaving } = useUpdateRequisites()
 
   if (isError) {
     throw error
   }
 
-  const busy = loaded === null || isSaving
+  const draft = toDraft(requisites)
 
-  const update = <K extends keyof Draft>(key: K, value: Draft[K]) => {
-    touchedRef.current = true
-    setDraft((previous) => ({ ...previous, [key]: value }))
+  // The pages that need each empty field, as the platform names them.
+  const pagesByField = new Map<RequisiteTextField, string[]>()
+  for (const item of missing ?? []) {
+    const field = TOKEN_FIELDS[item.token]
+    if (field) pagesByField.set(field, item.pages.map((page) => page.title))
   }
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    const payload: PutRequisitesBody = {
-      ...draft,
-      phone: draft.phone.trim(),
+  const formatDate = (text: string) => {
+    const date = parseRequisiteDate(text)
+    return date ? getFullDate({ date }) : text
+  }
+
+  const fieldRow = (field: RequisiteTextField): SettingsRow => {
+    const text = draft[field].trim()
+    const label = t(`requisitesSettings.fields.${field}.label`)
+    const pages = pagesByField.get(field) ?? []
+
+    if (!text) {
+      return {
+        id: field,
+        label,
+        status: { color: "orange", label: t("requisitesSettings.notFilled") },
+        hint:
+          field === "return_address"
+            ? t("requisitesSettings.returnAddressOptional")
+            : pages.length
+              ? t("requisitesSettings.neededOn", { count: pages.length, pages: pages.join(", ") })
+              : undefined,
+      }
     }
-    await save(payload, {
-      onSuccess: (response) => {
-        touchedRef.current = false
-        setDraft(toDraft(response.requisites))
-        toast.success("Реквизиты сохранены")
-      },
-      onError: (saveError) => toast.error(saveError.message),
-    })
+
+    return {
+      id: field,
+      label,
+      value: DATE_FIELDS.includes(field) ? formatDate(text) : text,
+      mono: MONO_FIELDS.includes(field),
+    }
   }
 
-  return (
-    <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
-      <Container className="divide-y p-0">
-        <div className="px-6 py-4">
-          <Heading>Реквизиты продавца</Heading>
-          <Text className="text-ui-fg-subtle" size="small">
-            Эти данные подставляются вместо {"{{ТОКЕНОВ}}"} в публичной оферте, политике
-            конфиденциальности и контактах магазина. Незаполненное поле покупателю не
-            показывается: блок, где оно стоит, скрывается со страницы целиком — поэтому
-            документ выглядит законченным, но часть его покупатель не видит, пока вы не
-            заполните реквизиты.
-          </Text>
-        </div>
+  const rowsOf = (section: keyof typeof REQUISITES_SECTIONS): SettingsRow[] =>
+    REQUISITES_SECTIONS[section].fields.map(fieldRow).map((row) => {
+      if (row.id === "phone" && draft.phone.trim() && !draft.phone_confirmed) {
+        return {
+          ...row,
+          status: { color: "orange", label: t("requisitesSettings.phoneNeedsConfirm") },
+          hint: t("requisitesSettings.phoneConfirmHint"),
+        }
+      }
+      if (row.id === "bank_details") {
+        return draft.bank_details.trim()
+          ? {
+              ...row,
+              value: (
+                <Text size="small" leading="compact" className="whitespace-pre-line">
+                  {draft.bank_details}
+                </Text>
+              ),
+            }
+          : { id: row.id, label: row.label, hint: t("requisitesSettings.fields.bank_details.hint") }
+      }
+      return row
+    })
 
-        <div className="flex flex-col gap-y-4 px-6 py-6">
-          <div className="flex items-center justify-between">
-            <Text weight="plus">Не заполнено</Text>
-            {loaded ? (
-              <Badge size="2xsmall" color={missing?.length ? "orange" : "green"} data-testid="missing-state">
-                {missing?.length ? `${missing.length}` : "всё заполнено"}
-              </Badge>
-            ) : null}
-          </div>
-          {loaded && missing?.length ? (
-            <ul className="flex flex-col gap-y-1" data-testid="missing-list">
-              {missing.map((item) => (
-                <li key={item.token} className="text-ui-fg-subtle txt-compact-small">
-                  <span className="text-ui-fg-base">{item.label}</span>
-                  {item.pages.length ? (
-                    <span> — нужен на странице: {item.pages.map((page) => page.title).join(", ")}</span>
-                  ) : null}
-                </li>
+  const missingCount = missing?.length ?? 0
+  const locales = new Set((hidden_blocks ?? []).map((page) => page.locale))
+
+  const hiddenRow: SettingsRow[] = hidden_blocks?.length
+    ? [
+        {
+          id: "hidden_blocks",
+          label: t("requisitesSettings.hidden.label"),
+          value: (
+            <div className="flex flex-col gap-y-1" data-testid="hidden-blocks">
+              {hidden_blocks.map((page) => (
+                <Text key={`${page.key}-${page.locale}`} size="small" leading="compact">
+                  {t("requisitesSettings.hidden.item", { title: page.title, count: page.hidden })}
+                  {locales.size > 1 ? ` (${page.locale})` : ""}
+                </Text>
               ))}
-            </ul>
-          ) : null}
-          {loaded && !missing?.length ? (
-            <Text size="small" className="text-ui-fg-subtle">
-              Все 16 значений заполнены, включая домен сайта.
-            </Text>
-          ) : null}
-          {loaded && hidden_blocks?.length ? (
-            <div
-              className="flex flex-col gap-y-1 rounded-md bg-ui-bg-subtle px-3 py-2"
-              data-testid="hidden-blocks"
-            >
-              <Text size="small" weight="plus">
-                Заполните реквизиты: покупатель не видит часть страниц
-              </Text>
-              <ul className="flex flex-col gap-y-1">
-                {hidden_blocks.map((page) => (
-                  <li
-                    key={`${page.key}-${page.locale}`}
-                    className="text-ui-fg-subtle txt-compact-small"
-                  >
-                    <span className="text-ui-fg-base">{page.title}</span> ({page.locale}) — скрыто
-                    блоков: {page.hidden}
-                  </li>
-                ))}
-              </ul>
             </div>
-          ) : null}
-          <Text size="xsmall" className="text-ui-fg-subtle" data-testid="resolved-domain">
-            Домен сайта ({"{{ДОМЕН_САЙТА}}"}) определяется автоматически: {domain || "—"}
-          </Text>
-        </div>
+          ),
+          hint: t("requisitesSettings.hidden.hint"),
+        },
+      ]
+    : []
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-8 px-6 py-6">
-          {FIELD_GROUPS.map((group) => (
-            <div key={group.title} className="flex flex-col gap-y-4">
-              <Text weight="plus" size="small">
-                {group.title}
-              </Text>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {group.fields.map((field) => (
-                  <div key={field.key} className="flex flex-col gap-y-2">
-                    <Label htmlFor={field.key}>{field.label}</Label>
-                    {field.key === "bank_details" ? (
-                      <Textarea
-                        id={field.key}
-                        name={field.key}
-                        rows={3}
-                        value={draft[field.key]}
-                        disabled={busy}
-                        onChange={(event) => update(field.key, event.target.value)}
-                      />
-                    ) : (
-                      <Input
-                        id={field.key}
-                        name={field.key}
-                        autoComplete="off"
-                        value={draft[field.key]}
-                        disabled={busy}
-                        onChange={(event) => update(field.key, event.target.value)}
-                      />
-                    )}
-                    {field.hint ? (
-                      <Text size="xsmall" className="text-ui-fg-subtle">
-                        {field.hint}
-                      </Text>
-                    ) : null}
-                    {field.key === "phone" && draft.phone && !draft.phone_confirmed ? (
-                      <div className="flex items-center gap-x-2">
-                        <Badge size="2xsmall" color="orange">
-                          требует подтверждения
-                        </Badge>
-                        <button
-                          type="button"
-                          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-xsmall-plus"
-                          onClick={() => update("phone_confirmed", true)}
-                          disabled={busy}
-                          data-testid="confirm-phone"
-                        >
-                          подтвердить
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+  const sections: SettingsSection[] = [
+    {
+      id: "seller",
+      title: t("requisitesSettings.title"),
+      description: t("requisitesSettings.subtitle"),
+      editTo: REQUISITES_SECTIONS.seller.editTo,
+      status: missingCount
+        ? { color: "orange", label: t("requisitesSettings.missingCount", { count: missingCount }) }
+        : { color: "green", label: t("requisitesSettings.allFilled") },
+      rows: [...hiddenRow, ...rowsOf("seller")],
+    },
+    {
+      id: "contacts",
+      title: t("requisitesSettings.sections.contacts.title"),
+      description: t("requisitesSettings.sections.contacts.description"),
+      editTo: REQUISITES_SECTIONS.contacts.editTo,
+      rows: rowsOf("contacts"),
+    },
+    {
+      id: "personal",
+      title: t("requisitesSettings.sections.personal.title"),
+      description: t("requisitesSettings.sections.personal.description"),
+      editTo: REQUISITES_SECTIONS.personal.editTo,
+      rows: rowsOf("personal"),
+    },
+    {
+      id: "dates",
+      title: t("requisitesSettings.sections.dates.title"),
+      description: t("requisitesSettings.sections.dates.description"),
+      editTo: REQUISITES_SECTIONS.dates.editTo,
+      rows: rowsOf("dates"),
+    },
+    {
+      id: "other",
+      title: t("requisitesSettings.sections.other.title"),
+      description: t("requisitesSettings.sections.other.description"),
+      editTo: REQUISITES_SECTIONS.other.editTo,
+      rows: [
+        ...rowsOf("other"),
+        {
+          id: "domain",
+          label: t("requisitesSettings.domain.label"),
+          value: domain || null,
+          // A shop without a primary address has no domain yet, and the
+          // platform counts it in «не заполнено: N»; the row says so too.
+          status: domain
+            ? undefined
+            : { color: "orange", label: t("requisitesSettings.notFilled") },
+          hint: t("requisitesSettings.domain.hint"),
+        },
+      ],
+    },
+  ]
 
-          <div>
-            <Button type="submit" size="small" isLoading={isSaving} disabled={busy}>
-              {t("actions.save", { defaultValue: "Сохранить" })}
-            </Button>
-          </div>
-        </form>
-      </Container>
-    </SingleColumnPage>
-  )
+  return <SettingsDetail isPending={isPending} sections={sections} />
 }

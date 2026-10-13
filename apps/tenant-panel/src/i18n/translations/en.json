@@ -4664,6 +4664,108 @@
     "loading": "loading…",
     "live": "on every page"
   },
+  "requisitesSettings": {
+    "title": "Seller details",
+    "subtitle": "Filled into the public offer, the privacy policy and the shop's contacts. A buyer does not see an empty field: the block it belongs to is hidden from the page.",
+    "saved": "Seller details saved",
+    "notFilled": "not filled in",
+    "missingCount": "not filled in: {{count}}",
+    "allFilled": "all filled in",
+    "neededOn_one": "needed on the page: {{pages}}",
+    "neededOn_other": "needed on the pages: {{pages}}",
+    "returnAddressOptional": "optional: without it the buyer will not see in the offer where to send goods back",
+    "phoneNeedsConfirm": "needs confirmation",
+    "phoneConfirmHint": "Confirm when you edit that the number answers — then it goes into the contacts.",
+    "phoneConfirmed": {
+      "label": "The number answers",
+      "hint": "Turn on once you have checked that this number is answered. Until it is confirmed, the shop's contacts do not show it."
+    },
+    "dateAsWritten": "Currently written as: “{{value}}”. Pick a date to replace it.",
+    "hidden": {
+      "label": "What the buyer cannot see now",
+      "item_one": "{{title}} — {{count}} block",
+      "item_other": "{{title}} — {{count}} blocks",
+      "hint": "They appear as soon as you fill in the fields marked “not filled in”."
+    },
+    "domain": {
+      "label": "Site domain",
+      "hint": "Resolved automatically from the shop's primary address; change it in “Shop address”"
+    },
+    "sections": {
+      "seller": {
+        "drawerHint": "These four fields are needed on the “Contacts”, “Public offer” and “Privacy policy” pages. While a field is empty, the block with it is hidden from the buyer."
+      },
+      "contacts": {
+        "title": "Contacts and delivery",
+        "description": "How to reach you and how you deliver — for the “Contacts” page and the offer"
+      },
+      "personal": {
+        "title": "Personal data",
+        "description": "Who is responsible for buyers' data and the Roskomnadzor registration — for the privacy policy"
+      },
+      "dates": {
+        "title": "Document dates",
+        "description": "From when the offer and the policy apply — printed in the documents themselves"
+      },
+      "other": {
+        "title": "Other",
+        "description": "Rarely changed: the newsletter unsubscribe link, bank details and the site domain"
+      }
+    },
+    "fields": {
+      "legal_name": {
+        "label": "Sole trader's full name or organisation name",
+        "hint": "As written in the state register extract (EGRIP or EGRUL)."
+      },
+      "inn": {
+        "label": "Tax ID (INN)"
+      },
+      "ogrn": {
+        "label": "Registration number (OGRNIP / OGRN)"
+      },
+      "legal_address": {
+        "label": "Legal address"
+      },
+      "phone": {
+        "label": "Phone"
+      },
+      "email": {
+        "label": "E-mail"
+      },
+      "return_address": {
+        "label": "Return address"
+      },
+      "delivery_methods": {
+        "label": "Delivery methods",
+        "hint": "For example: CDEK, Russian Post"
+      },
+      "dpo_email": {
+        "label": "E-mail of the person responsible for personal data"
+      },
+      "rkn_reg_number": {
+        "label": "Roskomnadzor register number"
+      },
+      "rkn_notice_date": {
+        "label": "Roskomnadzor notification date"
+      },
+      "document_date": {
+        "label": "Document date"
+      },
+      "effective_date": {
+        "label": "Effective date"
+      },
+      "revision_date": {
+        "label": "Revision date"
+      },
+      "newsletter_management_url": {
+        "label": "Newsletter management link"
+      },
+      "bank_details": {
+        "label": "Bank details",
+        "hint": "Published only if you enter them here yourself."
+      }
+    }
+  },
   "marketplaceSync": {
     "noWarnings": "Nothing needs attention: the keys are fine and every kind has run.",
     "warnings": {
