@@ -7,6 +7,7 @@ import { DisplayIdCell } from "../../../components/table/table-cells/order/displ
 import { FulfillmentStatusCell } from "../../../components/table/table-cells/order/fulfillment-status-cell"
 import { PaymentStatusCell } from "../../../components/table/table-cells/order/payment-status-cell"
 import { MoneyAmountCell } from "../../../components/table/table-cells/common/money-amount-cell"
+import { TableScroll } from "../../../components/table/table-scroll"
 import { useCustomer } from "../../../hooks/api/customers"
 import { useOrders } from "../../../hooks/api/orders"
 import { isOrderWithoutParcel } from "../../../lib/order-helpers"
@@ -139,43 +140,45 @@ export const CustomerDetail = () => {
             </Text>
           </div>
         ) : (
-          <Table>
-            <Table.Body>
-              {orders.map((order: any) => (
-                <Table.Row
-                  key={order.id}
-                  className="[&_td:last-child]:text-right"
-                >
-                  <Table.Cell>
-                    <Link to={`/orders/${order.id}`}>
-                      <DisplayIdCell displayId={order.display_id} />
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <PaymentStatusCell
-                      status={order.payment_status}
-                      metadata={order.metadata}
-                      paymentCollections={order.payment_collections}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <FulfillmentStatusCell
-                      status={order.fulfillment_status}
-                      orderCanceled={order.status === "canceled"}
-                      withoutParcel={isOrderWithoutParcel(order)}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <MoneyAmountCell
-                      currencyCode={order.currency_code}
-                      amount={order.total}
-                      align="right"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
+          <TableScroll>
+            <Table>
+              <Table.Body>
+                {orders.map((order: any) => (
+                  <Table.Row
+                    key={order.id}
+                    className="[&_td:last-child]:text-right"
+                  >
+                    <Table.Cell>
+                      <Link to={`/orders/${order.id}`}>
+                        <DisplayIdCell displayId={order.display_id} />
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <PaymentStatusCell
+                        status={order.payment_status}
+                        metadata={order.metadata}
+                        paymentCollections={order.payment_collections}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <FulfillmentStatusCell
+                        status={order.fulfillment_status}
+                        orderCanceled={order.status === "canceled"}
+                        withoutParcel={isOrderWithoutParcel(order)}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <MoneyAmountCell
+                        currencyCode={order.currency_code}
+                        amount={order.total}
+                        align="right"
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </TableScroll>
         )}
       </Container>
     </div>

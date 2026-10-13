@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
+import { TableScroll } from "../../../components/table/table-scroll"
 import { useDomains } from "../../../hooks/api/domains"
 import {
   useCreateTenantRedirect,
@@ -181,25 +182,27 @@ export const Redirects = () => {
         ) : null}
 
         {redirects.length ? (
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{t("redirects.columnFrom")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("redirects.columnTo")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("redirects.columnKind")}</Table.HeaderCell>
-                <Table.HeaderCell />
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {visible.map((redirect) => (
-                <RedirectRow
-                  key={redirect.id}
-                  redirect={redirect}
-                  primaryHost={shopOrigin}
-                />
-              ))}
-            </Table.Body>
-          </Table>
+          <TableScroll>
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>{t("redirects.columnFrom")}</Table.HeaderCell>
+                  <Table.HeaderCell>{t("redirects.columnTo")}</Table.HeaderCell>
+                  <Table.HeaderCell>{t("redirects.columnKind")}</Table.HeaderCell>
+                  <Table.HeaderCell />
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {visible.map((redirect) => (
+                  <RedirectRow
+                    key={redirect.id}
+                    redirect={redirect}
+                    primaryHost={shopOrigin}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          </TableScroll>
         ) : (
           <div className="px-6 py-6">
             <Text size="small" className="text-ui-fg-subtle">
