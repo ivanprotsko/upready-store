@@ -18,8 +18,9 @@ import type { StorefrontSettingsInput } from "@lib/theme/composition"
  * next fourteen are the build list of the Shopify catalogue (R1,
  * `artifacts/research/2026-10-13-templates-shopify/report.md`); `trust`, `delivery` and
  * `contacts` are for the Russian-market blocks: payment and marketplace badges, delivery and
- * pick-up, contacts with a map. Each has its file, `./<category>/index.ts`; the order is the
- * registry's and the playground's.
+ * pick-up, contacts with a map; `logos` for a band of the brands a shop carries, from R2's
+ * `logo-list`. Each has its file, `./<category>/index.ts`; the order is the registry's and the
+ * playground's.
  */
 export const BLOCK_CATEGORIES = [
   "header",
@@ -45,6 +46,7 @@ export const BLOCK_CATEGORIES = [
   "trust",
   "delivery",
   "contacts",
+  "logos",
 ] as const
 
 export type BlockCategory = (typeof BLOCK_CATEGORIES)[number]

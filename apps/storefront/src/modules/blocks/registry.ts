@@ -13,6 +13,7 @@ import * as footer from "./footer"
 import * as header from "./header"
 import * as hero from "./hero"
 import * as listing from "./listing"
+import * as logos from "./logos"
 import * as media from "./media"
 import * as newsletter from "./newsletter"
 import * as promo from "./promo"
@@ -59,6 +60,7 @@ const CATEGORY_FILES: Record<BlockCategory, object> = {
   trust,
   delivery,
   contacts,
+  logos,
 }
 
 /**

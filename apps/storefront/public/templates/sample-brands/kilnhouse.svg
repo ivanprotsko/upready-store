@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120">
+  <title>Kilnhouse — a made-up brand for the logos/brands sample</title>
+  <g fill="#C0582F">
+    <path d="M12 104V58a44 44 0 0 1 88 0v46H82V60a26 26 0 0 0-52 0v44z"/>
+    <rect x="46" y="78" width="20" height="26" rx="3"/>
+    <text x="122" y="80" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="46" font-weight="700" letter-spacing="3">KILNHOUSE</text>
+  </g>
+</svg>
