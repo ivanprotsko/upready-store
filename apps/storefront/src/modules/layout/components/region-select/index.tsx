@@ -23,22 +23,12 @@ import { useLocale, useTranslations } from "next-intl"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useMemo, useState, useTransition } from "react"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
-
-type CountryOption = {
-  country: string
-  region: string
-  label: string
-  currencyCode: string
-  currencySymbol: string
-  searchText: string
-}
-
-type LanguageOption = {
-  code: string
-  label: string
-  description: string
-  searchText: string
-}
+import {
+  countryOptionsOf,
+  countrySearchText,
+  languageOptionsOf,
+  languageSearchText,
+} from "./options"
 
 type RegionSelectProps = {
   regions: HttpTypes.StoreRegion[]
@@ -64,67 +54,6 @@ const ICON_CLASS =
 
 /** The node's «Currency / USD»: the sign alone, Rubik Medium 15. */
 const SIGN_CLASS = "font-[family-name:var(--font-olavka-sign)] text-[15px] font-medium leading-[1.1] tracking-[0.01em]"
-
-/**
- * The currency SYMBOL for a code, in the reader's own locale: "₽", "$", "€".
- * The header shows the symbol rather than the three-letter code — Ivan's wording
- * for the target state is "ru ₽" — and the flag beside it answers "which dollar".
- * The code itself stays in the dialog rows, where country and currency are named
- * in full.
- *
- * `narrowSymbol` is not in every runtime, and an unknown code throws; either way
- * the code is a correct answer, so it is the fallback rather than an error.
- */
-function getCurrencySymbol(currencyCode: string, locale: string): string {
-  if (!currencyCode) {
-    return ""
-  }
-
-  try {
-    const part = new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency: currencyCode,
-      currencyDisplay: "narrowSymbol",
-    })
-      .formatToParts(0)
-      .find((p) => p.type === "currency")
-
-    return part?.value || currencyCode
-  } catch {
-    return currencyCode
-  }
-}
-
-function getLocalizedCountryName(
-  isoCode: string,
-  locale: string,
-  fallback: string
-) {
-  try {
-    return (
-      new Intl.DisplayNames([locale], { type: "region" }).of(
-        isoCode.toUpperCase()
-      ) ?? fallback
-    )
-  } catch {
-    return fallback
-  }
-}
-
-function getLocalizedLanguageName(
-  code: string,
-  fallback: string,
-  displayLocale: string
-) {
-  try {
-    return (
-      new Intl.DisplayNames([displayLocale], { type: "language" }).of(code) ??
-      fallback
-    )
-  } catch {
-    return fallback
-  }
-}
 
 type RegionOptionRowProps = {
   id: string
@@ -184,53 +113,18 @@ const RegionSelect = ({
   const [pendingLocale, setPendingLocale] = useState(currentLocale)
   const [query, setQuery] = useState("")
 
-  const countryOptions = useMemo<CountryOption[]>(() => {
-    return regions
-      .flatMap((r) =>
-        (r.countries ?? []).map((c) => {
-          const iso = c.iso_2 ?? ""
-          const label = getLocalizedCountryName(iso, currentLocale, c.display_name ?? "")
-          const currencyCode = r.currency_code?.toUpperCase() ?? ""
-          const namesInAllLocales = locales.map((l) =>
-            getLocalizedCountryName(iso, l.code, c.display_name ?? "")
-          )
-          const searchText = [
-            ...namesInAllLocales,
-            c.display_name ?? "",
-            iso,
-            currencyCode,
-          ]
-            .join(" ")
-            .toLowerCase()
+  const countryOptions = useMemo(
+    () => countryOptionsOf(regions, currentLocale),
+    [regions, currentLocale]
+  )
 
-          return {
-            country: iso,
-            region: r.id,
-            label,
-            currencyCode,
-            currencySymbol: getCurrencySymbol(currencyCode, currentLocale),
-            searchText,
-          }
-        })
-      )
-      .filter((o) => o.country)
-      .sort((a, b) => a.label.localeCompare(b.label))
-  }, [regions, currentLocale, locales])
-
-  const languageOptions = useMemo<LanguageOption[]>(() => {
-    return locales.map((l) => {
-      const nativeLabel = tLang(`locales.${l.code}`, { fallback: l.name })
-      const description = getLocalizedLanguageName(l.code, nativeLabel, currentLocale)
-      const namesInAllLocales = locales.map((loc) =>
-        getLocalizedLanguageName(l.code, nativeLabel, loc.code)
-      )
-      const searchText = [nativeLabel, ...namesInAllLocales, l.code]
-        .join(" ")
-        .toLowerCase()
-
-      return { code: l.code, label: nativeLabel, description, searchText }
-    })
-  }, [locales, currentLocale, tLang])
+  const languageOptions = useMemo(
+    () =>
+      languageOptionsOf(locales, currentLocale, (l) =>
+        tLang(`locales.${l.code}`, { fallback: l.name })
+      ),
+    [locales, currentLocale, tLang]
+  )
 
   // N9 (t-2026-10-04-19): `regions` are the shop's own (`listShopRegions`), so
   // a shop that sells in one country has nothing to pick there. The dialog then
@@ -241,16 +135,38 @@ const RegionSelect = ({
   const interactive = canPickCountry || canPickLanguage
 
   const normalizedQuery = query.trim().toLowerCase()
+  const searching = normalizedQuery !== ""
+
+  // FX5 (t-2026-10-12-32): the search text names every row in every locale,
+  // 241 countries × 36 on globex, and only a typed query reads it. It is built
+  // with the first letter, not in each render of the header on every page.
+  const countrySearchTexts = useMemo(
+    () =>
+      searching ? countryOptions.map((o) => countrySearchText(o, locales)) : [],
+    [searching, countryOptions, locales]
+  )
+
+  const languageSearchTexts = useMemo(
+    () =>
+      searching
+        ? languageOptions.map((o) => languageSearchText(o, locales))
+        : [],
+    [searching, languageOptions, locales]
+  )
 
   const filteredCountryOptions = useMemo(() => {
-    if (!normalizedQuery) return countryOptions
-    return countryOptions.filter((opt) => opt.searchText.includes(normalizedQuery))
-  }, [countryOptions, normalizedQuery])
+    if (!searching) return countryOptions
+    return countryOptions.filter((_, i) =>
+      countrySearchTexts[i].includes(normalizedQuery)
+    )
+  }, [searching, countryOptions, countrySearchTexts, normalizedQuery])
 
   const filteredLanguageOptions = useMemo(() => {
-    if (!normalizedQuery) return languageOptions
-    return languageOptions.filter((opt) => opt.searchText.includes(normalizedQuery))
-  }, [languageOptions, normalizedQuery])
+    if (!searching) return languageOptions
+    return languageOptions.filter((_, i) =>
+      languageSearchTexts[i].includes(normalizedQuery)
+    )
+  }, [searching, languageOptions, languageSearchTexts, normalizedQuery])
 
   const selectedCountryOption =
     countryOptions.find((o) => o.country === currentCountryCode) ??
