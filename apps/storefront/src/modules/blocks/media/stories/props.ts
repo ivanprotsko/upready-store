@@ -1,0 +1,108 @@
+import type { PropsResult } from "../../types"
+import { parseImageRef, type ImageRef } from "../../shared/image-ref"
+import type { LocalizedText } from "../../shared/localized-text"
+import { parseHref, parseList, parseLocalizedText, parseObject, parseProps } from "../../shared/parse"
+import { parseSectionHeader, type SectionHeader } from "../../shared/section-header"
+
+export type StoryButton = {
+  /** A path inside the shop (`/store`, the locale is added) or an `https://` address. */
+  href: string
+  label: LocalizedText
+}
+
+/** One screen of a story: the shop's picture, and a line and a button under it. */
+export type StorySlide = {
+  /** The slide's picture. When the shop does not have it, the slide is dropped. */
+  image: ImageRef
+  text: LocalizedText
+  button: StoryButton | null
+}
+
+/** One circle of the row and the slides it opens. */
+export type Story = {
+  /** The words under the circle, also the dialog's title. Two lines at most under an 80 px circle. */
+  title: LocalizedText
+  /** The circle's picture; the first slide's when absent or when the shop does not have it. */
+  cover: ImageRef | null
+  /** One to five slides. A story whose slides all name pictures the shop lacks is dropped. */
+  slides: StorySlide[]
+}
+
+export type MediaStoriesProps = {
+  header: SectionHeader | null
+  /** One to twelve stories, in the row's order. */
+  stories: Story[]
+  /** The row's name for a screen reader. */
+  label: LocalizedText
+  /** Each slide's name in the dialog; `{index}` becomes its number and `{count}` the number of slides. */
+  slideLabel: LocalizedText
+  previousLabel: LocalizedText
+  nextLabel: LocalizedText
+  closeLabel: LocalizedText
+  /** The words of the one button that stops and restarts the slides. */
+  pauseLabel: LocalizedText
+  playLabel: LocalizedText
+}
+
+/** The block's own words while it is `lab` (BLOCK-CONTRACT.md §2): props, not the catalogs. */
+export const BUTTON_LABEL: LocalizedText = { ru: "Смотреть", en: "Shop now" }
+export const REGION_LABEL: LocalizedText = { ru: "Истории магазина", en: "Shop stories" }
+export const SLIDE_LABEL: LocalizedText = { ru: "Слайд {index} из {count}", en: "Slide {index} of {count}" }
+export const PREVIOUS_LABEL: LocalizedText = { ru: "Предыдущий слайд", en: "Previous slide" }
+export const NEXT_LABEL: LocalizedText = { ru: "Следующий слайд", en: "Next slide" }
+export const CLOSE_LABEL: LocalizedText = { ru: "Закрыть", en: "Close" }
+export const PAUSE_LABEL: LocalizedText = { ru: "Остановить показ", en: "Pause the story" }
+export const PLAY_LABEL: LocalizedText = { ru: "Продолжить показ", en: "Play the story" }
+
+/** Characters of a circle's title: two lines of 14 px under an 80 px circle, the words never cut. */
+export const TITLE_MAX = 20
+
+const chrome = (fallback: LocalizedText) => (value: unknown, path: string) =>
+  parseLocalizedText(value, path, { max: 40, fallback })
+
+const parseSlide = (value: unknown, path: string) =>
+  parseObject<StorySlide>(value, path, {
+    image: (image, imagePath) => parseImageRef(image, imagePath),
+    text: (text, textPath) => parseLocalizedText(text, textPath, { max: 140, fallback: {} }),
+    button: (button, buttonPath) =>
+      parseObject<StoryButton>(
+        button,
+        buttonPath,
+        {
+          href: (href, hrefPath) => parseHref(href, hrefPath, { required: true }),
+          label: (label, labelPath) => parseLocalizedText(label, labelPath, { max: 30, fallback: BUTTON_LABEL }),
+        },
+        { optional: true }
+      ),
+  })
+
+const parseStory = (value: unknown, path: string) =>
+  parseObject<Story>(value, path, {
+    title: (title, titlePath) => parseLocalizedText(title, titlePath, { max: TITLE_MAX }),
+    cover: (cover, coverPath) => parseImageRef(cover, coverPath, { optional: true }),
+    slides: (slides, slidesPath) => parseList(slides, slidesPath, parseSlide, { min: 1, max: 5 }),
+  })
+
+/** A slide's name must say which one it is, or every slide would read the same. */
+const parseSlideLabel = (value: unknown, path: string): PropsResult<LocalizedText> => {
+  const result = chrome(SLIDE_LABEL)(value, path)
+  if (!result.ok) return result
+  const missing = Object.entries(result.value)
+    .filter(([, line]) => !line.includes("{index}"))
+    .map(([code]) => `${path}.${code} must contain {index}`)
+  return missing.length ? { ok: false, errors: missing } : result
+}
+
+export function parseMediaStoriesProps(input: unknown): PropsResult<MediaStoriesProps> {
+  return parseProps<MediaStoriesProps>(input, "media/stories", {
+    header: (value, path) => parseSectionHeader(value, path),
+    stories: (value, path) => parseList(value, path, parseStory, { min: 1, max: 12 }),
+    label: chrome(REGION_LABEL),
+    slideLabel: parseSlideLabel,
+    previousLabel: chrome(PREVIOUS_LABEL),
+    nextLabel: chrome(NEXT_LABEL),
+    closeLabel: chrome(CLOSE_LABEL),
+    pauseLabel: chrome(PAUSE_LABEL),
+    playLabel: chrome(PLAY_LABEL),
+  })
+}

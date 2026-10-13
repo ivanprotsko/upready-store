@@ -402,6 +402,7 @@
     {"id":"listing/p5","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p5"},"props":false,"propsEditable":false},
     {"id":"listing/price-table","category":"listing","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"media/image-with-text","category":"media","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"media/stories","category":"media","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"newsletter/signup","category":"newsletter","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"promo/code-banner","category":"promo","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"promo/grid","category":"promo","placement":"home","status":"lab","props":true,"propsEditable":false},
