@@ -3,6 +3,7 @@ import { Alert, Badge, Button, Container, Heading, Input, Label, Text, toast, us
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../../components/layout/pages"
+import { useDomains } from "../../../../hooks/api/domains"
 import {
   useConnectTelegramBotWebhook,
   useDeleteTelegramBot,
@@ -16,27 +17,28 @@ import {
  * (t-2026-10-02-telegram-auth).
  *
  * WHAT THIS PAGE DOES NOT DO, said on the screen itself: it does not put the
- * bot's domain on the Login Widget's allow-list, and it does not touch the
- * bot's menu button. That is an @BotFather step only Ivan can do
- * (`/setdomain`) — the Bot API has no endpoint for it, so no amount of code
- * here can do it (rule 17a: a page that stayed silent about that would read
- * as "Telegram sign-in is live" before it actually can be).
+ * bot's domain on the Login Widget's allow-list. That is an @BotFather step
+ * only the bot's owner can do (`/setdomain`) — the Bot API has no endpoint for
+ * it, so no amount of code here can do it (rule 17a: a page that stayed silent
+ * about that would read as "Telegram sign-in is live" before it actually can
+ * be). The hint above the form walks the owner through it in four numbered
+ * steps, with the shop's real address (primary host) to send (t-2026-10-14-11).
  *
  * Saving VERIFIES the token (the backend calls Telegram's `getMe`) before the
  * row is written, so a typo is rejected on this screen, not at a buyer's
  * sign-in click.
  *
  * THE WEBHOOK BLOCK BELOW (t-cherk-23, shop bot phase 1) is this page's own
- * doing, unlike the menu button above: once a bot is saved, «Подключить
- * бота» registers the shop's webhook with Telegram and shows the manager
- * deep link; «Отключить» tears it down. Neither call touches the menu
- * button `setChatMenuButton` owns.
+ * doing: once a bot is saved, «Подключить бота» registers the shop's webhook
+ * with Telegram, sets the bot's «Открыть магазин» menu button and shows the
+ * manager deep link; «Отключить» tears the webhook down.
  */
 export const TelegramBotIntegration = () => {
   const { t } = useTranslation()
   const prompt = usePrompt()
 
   const { telegramBot, isPending, isError, error } = useTelegramBot()
+  const { primary_host: shopHost } = useDomains()
   const stored = telegramBot?.settings?.token.set ?? false
 
   const [username, setUsername] = useState("")
@@ -152,7 +154,19 @@ export const TelegramBotIntegration = () => {
 
         <div className="px-6 py-4">
           <Alert variant="info" data-testid="telegram-bot-botfather-hint">
-            {t("integrations.telegramBot.botFatherHint")}
+            <Text size="small" weight="plus">
+              {t("integrations.telegramBot.botFatherHint")}
+            </Text>
+            <ol className="mt-2 flex list-decimal flex-col gap-y-1 pl-5">
+              <li>{t("integrations.telegramBot.botFatherStep1")}</li>
+              <li>{t("integrations.telegramBot.botFatherStep2")}</li>
+              <li>{t("integrations.telegramBot.botFatherStep3")}</li>
+              <li>
+                {shopHost
+                  ? t("integrations.telegramBot.botFatherStep4", { host: shopHost })
+                  : t("integrations.telegramBot.botFatherStep4NoHost")}
+              </li>
+            </ol>
           </Alert>
         </div>
 

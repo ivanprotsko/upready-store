@@ -21,6 +21,9 @@ jest.mock("../../../tenant-scope", () => ({
 const setWebhook = jest.fn();
 const deleteWebhook = jest.fn();
 const setMyCommands = jest.fn();
+const setChatMenuButton = jest.fn();
+const warn = jest.fn();
+const graph = jest.fn();
 
 jest.mock("../../../../../telegram/bot-api", () => {
   const actual = jest.requireActual("../../../../../telegram/bot-api");
@@ -30,6 +33,7 @@ jest.mock("../../../../../telegram/bot-api", () => {
       setWebhook,
       deleteWebhook,
       setMyCommands,
+      setChatMenuButton,
     })),
   };
 });
@@ -109,6 +113,8 @@ const setup = (rows: Row[]) => {
   const services: Record<string, unknown> = {
     [ContainerRegistrationKeys.PG_CONNECTION]: fakePg(rows),
     [TENANT_MODULE]: store,
+    [ContainerRegistrationKeys.QUERY]: { graph },
+    [ContainerRegistrationKeys.LOGGER]: { warn },
   };
   const scope = {
     resolve: (key: string) => {
@@ -138,6 +144,17 @@ beforeEach(() => {
   setWebhook.mockReset().mockResolvedValue({ ok: true, result: true, ms: 1 });
   deleteWebhook.mockReset().mockResolvedValue({ ok: true, result: true, ms: 1 });
   setMyCommands.mockReset().mockResolvedValue({ ok: true, result: true, ms: 1 });
+  setChatMenuButton.mockReset().mockResolvedValue({ ok: true, result: true, ms: 1 });
+  warn.mockReset();
+  graph.mockReset().mockResolvedValue({
+    data: [
+      {
+        handle: "cherkashinao",
+        locale_settings: { default_locale: "ru" },
+        domains: [{ host: "cherkashino.example", is_primary: true }],
+      },
+    ],
+  });
   (createBotApi as jest.Mock).mockClear();
 });
 
@@ -172,6 +189,74 @@ describe("POST /tenants/telegram-bot/webhook", () => {
     expect(typeof written.webhook_secret).toBe("string");
 
     expect(call.body()).toMatchObject({ bot: { webhook_connected: true } });
+  });
+
+  it("sets the chat menu button to the shop's Mini App address, the one /start uses", async () => {
+    const rows = [telegramRow({ username: "cherkashinao_bot", token: "123:abc" })];
+    const call = setup(rows);
+
+    await postWebhook(call.req, call.res);
+
+    expect(setChatMenuButton).toHaveBeenCalledTimes(1);
+    expect(setChatMenuButton).toHaveBeenCalledWith({
+      type: "web_app",
+      text: "Открыть магазин",
+      web_app: { url: "https://cherkashino.example/ru" },
+    });
+  });
+
+  it("uses the English label and locale for an English shop", async () => {
+    graph.mockResolvedValue({
+      data: [{ handle: "cherkashinao", locale_settings: { default_locale: "en-US" }, domains: [] }],
+    });
+    const call = setup([telegramRow({ username: "cherkashinao_bot", token: "123:abc" })]);
+
+    await postWebhook(call.req, call.res);
+
+    const button = setChatMenuButton.mock.calls[0][0];
+    expect(button.text).toBe("Open shop");
+    expect(button.web_app.url).toMatch(/^https?:\/\/cherkashinao\..+\/en$/);
+  });
+
+  it("is idempotent: a second connect sets the same button again", async () => {
+    const rows = [telegramRow({ username: "cherkashinao_bot", token: "123:abc" })];
+    await postWebhook(setup(rows).req, setup(rows).res);
+    await postWebhook(setup(rows).req, setup(rows).res);
+
+    expect(setChatMenuButton).toHaveBeenCalledTimes(2);
+    expect(setChatMenuButton.mock.calls[1]).toEqual(setChatMenuButton.mock.calls[0]);
+  });
+
+  it("logs and still connects when Telegram refuses the menu button", async () => {
+    setChatMenuButton.mockRejectedValue(new TelegramBotApiError("setChatMenuButton", 400, "Bad Request", 1));
+    const rows = [telegramRow({ username: "cherkashinao_bot", token: "123:super-secret-token" })];
+    const call = setup(rows);
+
+    await postWebhook(call.req, call.res);
+
+    expect(call.body()).toMatchObject({ bot: { webhook_connected: true } });
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0][0]).toContain("Bad Request");
+    expect(warn.mock.calls[0][0]).not.toContain("super-secret-token");
+  });
+
+  it("logs and still connects when the shop lookup for the menu button fails", async () => {
+    graph.mockRejectedValue(new Error("db down"));
+    const call = setup([telegramRow({ username: "cherkashinao_bot", token: "123:abc" })]);
+
+    await postWebhook(call.req, call.res);
+
+    expect(setChatMenuButton).not.toHaveBeenCalled();
+    expect(call.body()).toMatchObject({ bot: { webhook_connected: true } });
+    expect(warn).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not touch the menu button when the webhook itself failed", async () => {
+    setWebhook.mockRejectedValue(new TelegramBotApiError("setWebhook", 401, "Unauthorized", 1));
+    const call = setup([telegramRow({ username: "cherkashinao_bot", token: "bad" })]);
+
+    await expect(postWebhook(call.req, call.res)).rejects.toBeDefined();
+    expect(setChatMenuButton).not.toHaveBeenCalled();
   });
 
   it("keeps the existing manager_chat_id across a re-provision", async () => {

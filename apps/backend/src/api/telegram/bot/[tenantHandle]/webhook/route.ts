@@ -12,8 +12,8 @@ import {
   webhookSecretMatches,
 } from "../../../../../shop-bot/webhook-secret";
 import { handleUpdate } from "../../../../../shop-bot/router";
-import type { ShopBotContext, ShopBotLocale, TgUpdate } from "../../../../../shop-bot/types";
-import { shopOrigin } from "../../../../../tenant-notifications/storefront-origin";
+import type { ShopBotContext, TgUpdate } from "../../../../../shop-bot/types";
+import { normalizeLocale, shopBotStorefrontUrl } from "../../../../../shop-bot/storefront-url";
 import { readUsableTelegramBot } from "../../../../../tenant-secrets/telegram";
 import { createBotApi } from "../../../../../telegram/bot-api";
 
@@ -41,9 +41,6 @@ type RawTenant = {
   locale_settings?: { default_locale?: string | null; default_country?: string | null } | null;
   domains?: Array<{ host?: string | null; is_primary?: boolean | null }> | null;
 };
-
-const normalizeLocale = (locale: string | null | undefined): ShopBotLocale =>
-  locale?.toLowerCase().startsWith("en") ? "en" : "ru";
 
 export const POST = async (req: MedusaRequest<TgUpdate>, res: MedusaResponse) => {
   const logger = req.scope.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
@@ -117,7 +114,7 @@ export const POST = async (req: MedusaRequest<TgUpdate>, res: MedusaResponse) =>
     locale,
     shopName: resolvedTenant.name || resolvedTenant.handle,
     botUsername: bot.credentials.username,
-    storefrontUrl: `${shopOrigin({ handle: resolvedTenant.handle, primaryDomain })}/${locale}`,
+    storefrontUrl: shopBotStorefrontUrl({ handle: resolvedTenant.handle, primaryDomain, locale }),
     managerChatId: bot.credentials.manager_chat_id ?? null,
     managerLinkCode: managerLinkCode(bot.credentials.webhook_secret),
     accessPasswordHash: accessPasswordHashFromEnv(),

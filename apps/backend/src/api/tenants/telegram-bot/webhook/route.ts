@@ -1,4 +1,5 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
+import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 
@@ -7,6 +8,8 @@ import type TenantModuleService from "../../../../modules/tenant/service";
 import { writeTenantSecretSlot } from "../../../../tenant-secrets/slot";
 import { readUsableTelegramBot } from "../../../../tenant-secrets/telegram";
 import { createBotApi, TelegramBotApiError } from "../../../../telegram/bot-api";
+import { t } from "../../../../shop-bot/i18n";
+import { normalizeLocale, shopBotStorefrontUrl } from "../../../../shop-bot/storefront-url";
 import { generateWebhookSecret } from "../../../../shop-bot/webhook-secret";
 import { SHOP_BOT_COMMANDS } from "../../../../shop-bot/router";
 import { getTenantScope } from "../../tenant-scope";
@@ -44,6 +47,53 @@ const publicBackendUrl = (): string => {
     );
   }
   return configured.replace(/\/+$/, "");
+};
+
+/**
+ * The chat menu button (t-2026-10-14-11): a `web_app` button that opens the
+ * shop's Mini App, the same address the `/start` greeting uses
+ * (`shopBotStorefrontUrl`). `setChatMenuButton` without a `chat_id` sets the
+ * default for every chat, and setting it again just overwrites it, so a
+ * re-connect is safe.
+ *
+ * A failure here is logged and swallowed: the webhook is already registered
+ * and the slot written, the greeting's own button still opens the shop, and
+ * the owner must not be told the bot failed to connect over a cosmetic button.
+ * The log line names the shop and Telegram's description, never the token.
+ */
+const setShopMenuButton = async (
+  req: AuthenticatedMedusaRequest,
+  botApi: ReturnType<typeof createBotApi>,
+  tenantHandle: string,
+): Promise<void> => {
+  try {
+    const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+    const {
+      data: [shop],
+    } = await query.graph({
+      entity: "tenant",
+      fields: ["handle", "locale_settings.default_locale", "domains.host", "domains.is_primary"],
+      filters: { handle: tenantHandle },
+    });
+    const raw = shop as
+      | {
+          locale_settings?: { default_locale?: string | null } | null;
+          domains?: Array<{ host?: string | null; is_primary?: boolean | null }> | null;
+        }
+      | undefined;
+    const locale = normalizeLocale(raw?.locale_settings?.default_locale);
+    const primaryDomain = raw?.domains?.find((domain) => domain.is_primary && domain.host)?.host ?? null;
+    await botApi.setChatMenuButton({
+      type: "web_app",
+      text: t(locale, "btn_open_shop"),
+      web_app: { url: shopBotStorefrontUrl({ handle: tenantHandle, primaryDomain, locale }) },
+    });
+  } catch (error) {
+    const description = error instanceof TelegramBotApiError ? error.description : (error as Error).message;
+    (req.scope.resolve(ContainerRegistrationKeys.LOGGER) as Logger).warn(
+      `telegram-bot connect: menu button not set for ${tenantHandle}: ${description}`,
+    );
+  }
 };
 
 const telegramFailure = (action: string, error: unknown): MedusaError => {
@@ -98,6 +148,8 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
     },
     isEnabled: true,
   });
+
+  await setShopMenuButton(req, botApi, tenant.handle);
 
   res.json(await view(req));
 };

@@ -27,7 +27,7 @@ import type { PutTenantTelegramBotBody } from "../validators";
  * every buyer's HMAC check is verified with `getMe` BEFORE the row is written,
  * so a wrong token fails loudly here, in the panel, rather than silently at a
  * buyer's sign-in click. `getMe` is a read: this route never calls
- * `setChatMenuButton` or registers a webhook.
+ * `setChatMenuButton` or registers a webhook (`webhook/route.ts` does both).
  */
 
 /**
