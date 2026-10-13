@@ -33,30 +33,30 @@ const ORDER = { newest: "-created_at", title: "title" } as const
  * Null when there is nothing to show: no region, no such category or collection, no product.
  */
 export async function readSelection(source: PriceTableSource, limit: number): Promise<Selection | null> {
-  const region = await getHomeRegion()
-  if (!region) return null
+  // The region and the source's own record are asked together, as `collection/featured` asks
+  // them: on a cold cache one round trip before the products instead of two (stand-render-time).
+  const [region, origin] = await Promise.all([getHomeRegion(), originOf(source)])
+  if (!region || !origin) return null
 
-  const read = async (queryParams: Parameters<typeof listProducts>[0]["queryParams"]) => {
-    const { response } = await listProducts({ regionId: region.id, queryParams: { limit, ...queryParams } })
-    return response.products
-  }
+  const { response } = await listProducts({ regionId: region.id, queryParams: { limit, ...origin.query } })
+  return response.products.length ? { title: origin.title, products: response.products } : null
+}
 
-  let selection: Selection
+/** The source as the shop names it, and what the products are read by. */
+type Origin = Pick<Selection, "title"> & { query: Parameters<typeof listProducts>[0]["queryParams"] }
+
+/** Null when the shop has no such category or collection. */
+async function originOf(source: PriceTableSource): Promise<Origin | null> {
   if ("category" in source) {
     const categories = await listCategories()
     const category = categories.find((each) => each.handle === source.category)
     if (!category) return null
-    selection = {
-      title: category.name ?? null,
-      products: await read({ category_id: categoryBranchIds(category.id, categories) }),
-    }
-  } else if ("collection" in source) {
+    return { title: category.name ?? null, query: { category_id: categoryBranchIds(category.id, categories) } }
+  }
+  if ("collection" in source) {
     const collection = await getCollectionByHandle(source.collection)
     if (!collection) return null
-    selection = { title: collection.title ?? null, products: await read({ collection_id: [collection.id] }) }
-  } else {
-    selection = { title: null, products: await read({ order: ORDER[source.sort] }) }
+    return { title: collection.title ?? null, query: { collection_id: [collection.id] } }
   }
-
-  return selection.products.length ? selection : null
+  return { title: null, query: { order: ORDER[source.sort] } }
 }

@@ -2,6 +2,7 @@
 
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
+import { cache } from "react"
 import { getCacheOptions, getTenantHandle } from "./cookies"
 import { siteWideRead } from "./site-wide"
 
@@ -78,6 +79,21 @@ const ownedByThisShop = async (
     return collections
   }
 
+  const owned = await Promise.all(
+    collections.map((collection) => sellsInCollection(collection.id, collection.handle ?? ""))
+  )
+
+  return collections.filter((_, index) => owned[index])
+}
+
+/**
+ * One collection's probe, made once per collection in a render. Every footer variant, hero M and
+ * the lead collection ask `listCollections()` on the same page, 13 times on the template lab, and
+ * each call probed every collection again: 351 reads for 27 collections there
+ * (stand-render-time, t-2026-10-12-33). The fetch itself was already one request; React's
+ * `cache` saves its parse and its redaction for every repeat, and the answer stays the same.
+ */
+const sellsInCollection = cache(async (collectionId: string, handle: string): Promise<boolean> => {
   const next = {
     ...(await getCacheOptions("products")),
     // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
@@ -85,27 +101,21 @@ const ownedByThisShop = async (
     revalidate: 3600,
   }
 
-  const owned = await Promise.all(
-    collections.map((collection) =>
-      sdk.client
-        .fetch<{ products: { id: string }[] }>("/store/products", {
-          query: { collection_id: collection.id, limit: 1, fields: "id" },
-          next,
-          cache: "force-cache",
-        })
-        .then(({ products }) => products.length > 0)
-        .catch((error) => {
-          console.error(
-            `listCollections: could not probe collection "${collection.handle}" for this shop; leaving it out`,
-            error
-          )
-          return false
-        })
-    )
-  )
-
-  return collections.filter((_, index) => owned[index])
-}
+  return sdk.client
+    .fetch<{ products: { id: string }[] }>("/store/products", {
+      query: { collection_id: collectionId, limit: 1, fields: "id" },
+      next,
+      cache: "force-cache",
+    })
+    .then(({ products }) => products.length > 0)
+    .catch((error) => {
+      console.error(
+        `listCollections: could not probe collection "${handle}" for this shop; leaving it out`,
+        error
+      )
+      return false
+    })
+})
 
 export const getCollectionByHandle = async (
   handle: string
