@@ -13,7 +13,9 @@ import {
   computeCourseProgress,
   getOwnedCourse,
   type ProgressRow,
+  sendLessonLocked,
 } from "../../../../store-course-helpers";
+import { accessStartOf, lessonLock } from "../../../../lesson-schedule";
 
 /**
  * `POST /store/tenant/courses/:id/lessons/:lessonId/viewed` — «Отметить
@@ -21,7 +23,8 @@ import {
  * again keeps its original `viewed_at` rather than bumping it, so «when did I
  * finish this» stays the first time, not the last time the button was
  * pressed. Access is checked the same way the player route checks it —
- * marking progress on a lesson never bought is refused too.
+ * marking progress on a lesson never bought is refused too, and so is one
+ * that opens on a later day (403 `lesson_locked`, t-2026-10-13-29 stage 2).
  */
 export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -32,7 +35,7 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   const course = await getOwnedCourse(req, tenant.id, req.params.id);
-  await assertCourseAccess(req, tenant.id, customerId, course);
+  const entitlement = await assertCourseAccess(req, tenant.id, customerId, course);
 
   const courseService: CourseModuleService = req.scope.resolve(COURSE_MODULE);
   const [lesson] = (await courseService.listLessons({
@@ -46,6 +49,12 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
       MedusaError.Types.NOT_FOUND,
       `Lesson with id: ${req.params.lessonId} was not found`,
     );
+  }
+
+  const lock = lessonLock(lesson, accessStartOf(entitlement, course));
+  if (lock.locked) {
+    sendLessonLocked(res, lock.opens_at);
+    return;
   }
 
   const [existing] = (await courseService.listCourseProgresses({

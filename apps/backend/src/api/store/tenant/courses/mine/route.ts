@@ -19,6 +19,7 @@ import {
   type ProgressRow,
   translateRows,
 } from "../store-course-helpers";
+import { accessStartOf, lessonLock } from "../lesson-schedule";
 
 type ProductCard = { id: string; title: string; handle: string; thumbnail: string | null };
 
@@ -43,6 +44,9 @@ type ProductCard = { id: string; title: string; handle: string; thumbnail: strin
  *
  * A course's title comes in the visitor's language (`translateRows`,
  * t-2026-10-04-19), the one its contents page shows.
+ *
+ * «Продолжить» skips a lesson that opens on a later day of the buyer's access
+ * (t-2026-10-13-29 stage 2, `lessonLock`), the way the contents page does.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -61,6 +65,8 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     status: "active",
   })) as EntitlementRow[];
   const entitledCourseIds = new Set(entitlements.map((row) => row.course_id));
+  const entitlementByCourse = new Map(entitlements.map((row) => [row.course_id, row]));
+  const now = new Date();
 
   const { data: orders } = await query.graph({
     entity: "order",
@@ -127,6 +133,8 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
         : [];
 
       const pendingOrder = pendingByProduct.get(course.product_id);
+      const start = accessStartOf(entitlementByCourse.get(course.id), course);
+      const openLessons = lessons.filter((lesson) => !lessonLock(lesson, start, now).locked);
 
       return {
         id: course.id,
@@ -137,7 +145,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
           : null,
         access,
         progress: access ? computeCourseProgress(lessons, progressRows) : null,
-        continue_lesson_id: access ? pickContinueLessonId(lessons, progressRows) : null,
+        continue_lesson_id: access ? pickContinueLessonId(openLessons, progressRows) : null,
         order: access || !pendingOrder ? null : { id: pendingOrder.id, display_id: pendingOrder.display_id },
       };
     }),

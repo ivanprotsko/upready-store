@@ -3,6 +3,8 @@ import type { MedusaContainer } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { updateProductsWorkflow } from "@medusajs/medusa/core-flows";
 import { COURSE_MODULE } from "../../../modules/course";
+import { parseLessonAttachments, parseLessonLinks, parseLessonVideos } from "../../../modules/course/content";
+import type { PutTenantCourseBody, PutTenantLessonBody } from "./validators";
 import type CourseModuleService from "../../../modules/course/service";
 import releaseCourseShippingWorkflow, {
   isDigitalProduct,
@@ -16,6 +18,10 @@ export type CourseRow = {
   slug: string;
   description: string | null;
   status: "draft" | "published";
+  telegram_channel_url?: string | null;
+  telegram_chat_url?: string | null;
+  start_date?: Date | string | null;
+  access_days?: number | null;
   created_at: Date | string;
   updated_at: Date | string;
 };
@@ -30,6 +36,16 @@ export type LessonRow = {
   video_url: string | null;
   /** `lesson.quiz` as stored, read through `parseLessonQuiz` before it leaves the API. */
   quiz?: unknown;
+  section?: string | null;
+  section_order?: number | null;
+  cover_url?: string | null;
+  summary?: string | null;
+  /** `lesson.videos`, `attachments` and `links` as stored, read through `modules/course/content.ts`. */
+  videos?: unknown;
+  attachments?: unknown;
+  links?: unknown;
+  available_from_day?: number | null;
+  metadata?: Record<string, unknown> | null;
 };
 
 export const toCourseDto = (row: CourseRow) => ({
@@ -39,10 +55,19 @@ export const toCourseDto = (row: CourseRow) => ({
   slug: row.slug,
   description: row.description,
   status: row.status,
+  telegram_channel_url: row.telegram_channel_url ?? null,
+  telegram_chat_url: row.telegram_chat_url ?? null,
+  start_date: row.start_date ?? null,
+  access_days: row.access_days ?? null,
   created_at: row.created_at,
   updated_at: row.updated_at,
 });
 
+/**
+ * The lesson as the owner's panel reads and writes it: videos and files as
+ * stored, `key` included, since the owner's own file addresses are no secret
+ * to the owner. The buyer's copy goes through `toStoreVideos` instead.
+ */
 export const toLessonDto = (row: LessonRow) => ({
   id: row.id,
   course_id: row.course_id,
@@ -50,7 +75,71 @@ export const toLessonDto = (row: LessonRow) => ({
   order: row.order,
   body: row.body,
   video_url: row.video_url,
+  section: row.section ?? null,
+  section_order: row.section_order ?? null,
+  cover_url: row.cover_url ?? null,
+  summary: row.summary ?? null,
+  videos: parseLessonVideos(row.videos),
+  attachments: parseLessonAttachments(row.attachments),
+  links: parseLessonLinks(row.links),
+  available_from_day: row.available_from_day ?? null,
 });
+
+const COURSE_STREAM_KEYS = ["telegram_channel_url", "telegram_chat_url", "start_date", "access_days"] as const;
+const LESSON_CONTENT_KEYS = [
+  "section",
+  "section_order",
+  "cover_url",
+  "summary",
+  "videos",
+  "attachments",
+  "links",
+  "available_from_day",
+] as const;
+
+const sentFields = <B extends object, K extends keyof B>(body: B, keys: readonly K[]): Partial<Pick<B, K>> =>
+  Object.fromEntries(keys.filter((key) => body[key] !== undefined).map((key) => [key, body[key]])) as Partial<
+    Pick<B, K>
+  >;
+
+/** The stream fields of a course write (t-2026-10-13-29 stage 2) the body sent, null included. */
+export const courseStreamForWrite = (body: PutTenantCourseBody) => sentFields(body, COURSE_STREAM_KEYS);
+
+/** `model.json()` types its column as an object; a list is stored as it is all the same. */
+type JsonColumn = Record<string, unknown>;
+
+/** The content fields of a lesson write (t-2026-10-13-29 stage 2) the body sent, null included. */
+export const lessonContentForWrite = (body: PutTenantLessonBody) => {
+  const { videos, attachments, links, ...rest } = sentFields(body, LESSON_CONTENT_KEYS);
+
+  return {
+    ...rest,
+    ...(videos !== undefined && { videos: videos as unknown as JsonColumn }),
+    ...(attachments !== undefined && { attachments: attachments as unknown as JsonColumn }),
+    ...(links !== undefined && { links: links as unknown as JsonColumn }),
+  };
+};
+
+/**
+ * `video_url` as the first video, for readers that know only it (the
+ * contract of t-2026-10-13-29 stage 2): a write that sends `videos` sets it
+ * from `videos[0]` unless it names `video_url` itself; one that sends neither
+ * leaves it alone.
+ */
+export const videoUrlForWrite = (body: {
+  videos?: Array<{ url: string }>;
+  video_url?: string | null;
+}): { video_url?: string | null } => {
+  if (body.video_url !== undefined) {
+    return { video_url: body.video_url };
+  }
+
+  if (body.videos !== undefined) {
+    return { video_url: body.videos[0]?.url ?? null };
+  }
+
+  return {};
+};
 
 /**
  * `order` is not unique (the o24-courses seed groups several lessons under one

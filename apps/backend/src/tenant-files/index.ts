@@ -109,6 +109,9 @@ const listLocalTenantFiles = async (
 ): Promise<TenantFile[]> =>
   walkLocal(localPrefixDir(container, tenantId), localUploadDir(container), localBackendUrl(container));
 
+const listLocalPrefix = async (container: MedusaContainer, prefix: string): Promise<TenantFile[]> =>
+  walkLocal(path.join(localUploadDir(container), prefix), localUploadDir(container), localBackendUrl(container));
+
 const deleteLocalTenantFiles = async (
   container: MedusaContainer,
   tenantId: string,
@@ -158,11 +161,12 @@ const s3FileUrl = (key: string): string => {
   return `${fileUrl}/${encodedKey}`;
 };
 
-const listS3TenantFiles = async (tenantId: string): Promise<TenantFile[]> => {
+const listS3TenantFiles = async (tenantId: string): Promise<TenantFile[]> => listS3Prefix(tenantFilePrefix(tenantId));
+
+const listS3Prefix = async (prefix: string): Promise<TenantFile[]> => {
   const { ListObjectsV2Command } = await import("@aws-sdk/client-s3");
   const client = await getS3Client();
   const { bucket } = s3Config();
-  const prefix = tenantFilePrefix(tenantId);
 
   const files: TenantFile[] = [];
   let continuationToken: string | undefined;
@@ -229,3 +233,12 @@ export const deleteTenantFiles = async (
   tenantId: string,
 ): Promise<{ deleted: number }> =>
   isS3Active() ? deleteS3TenantFiles(tenantId) : deleteLocalTenantFiles(container, tenantId);
+
+/**
+ * Every object under any `prefix` of the active provider, with its size: the
+ * course importer's check of what it already uploaded
+ * (`scripts/course-import-export.ts`, prefix `courses/<tenant_id>/<slug>/`).
+ * `prefix` ends with "/"; nothing there is an empty list.
+ */
+export const listFilesUnderPrefix = async (container: MedusaContainer, prefix: string): Promise<TenantFile[]> =>
+  isS3Active() ? listS3Prefix(prefix) : listLocalPrefix(container, prefix);

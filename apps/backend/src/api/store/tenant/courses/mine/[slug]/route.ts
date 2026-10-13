@@ -16,6 +16,7 @@ import {
   translateCourse,
   type ProgressRow,
 } from "../../store-course-helpers";
+import { accessStartOf, accessUntil, foldSections, lessonLock } from "../../lesson-schedule";
 
 /**
  * `GET /store/tenant/courses/mine/:slug` — one bought course's contents in the
@@ -36,6 +37,14 @@ import {
  * Titles and the description come in the visitor's language
  * (`translateCourse`, t-2026-10-04-19): this is the read behind the contents,
  * the lesson page and the test page alike, titles included.
+ *
+ * t-2026-10-13-29 stage 2: `sections` holds the same lessons grouped by their
+ * module (`foldSections`) next to the flat `lessons`, which stays for older
+ * readers. Each lesson carries its cover and the line under its title, and
+ * `locked`/`opens_at` for a lesson that opens on a later day of this buyer's
+ * access (`lessonLock`); «Продолжить» never points at a closed one. The
+ * course carries its Telegram channel and chat and `access_until`, the
+ * instant access runs out when the course has `access_days`.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -55,7 +64,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     throw new MedusaError(MedusaError.Types.NOT_FOUND, `Course with slug: ${req.params.slug} was not found`);
   }
 
-  await assertCourseAccess(req, tenant.id, customerId, course);
+  const entitlement = await assertCourseAccess(req, tenant.id, customerId, course);
+  const start = accessStartOf(entitlement, course);
+  const now = new Date();
 
   const lessons = (
     (await courseService.listLessons({
@@ -71,21 +82,38 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   const viewedAt = new Map(progressRows.map((row) => [row.lesson_id, row.viewed_at]));
   const translated = await translateCourse(req.scope, course, lessons, req.locale);
 
+  const items = translated.lessons.map((lesson) => ({
+    id: lesson.id,
+    title: lesson.title,
+    order: lesson.order,
+    viewed_at: viewedAt.get(lesson.id) ?? null,
+    has_quiz: parseLessonQuiz(lesson.quiz) !== null,
+    section: lesson.section ?? null,
+    section_order: lesson.section_order ?? null,
+    cover_url: lesson.cover_url ?? null,
+    summary: lesson.summary ?? null,
+    available_from_day: lesson.available_from_day ?? null,
+    ...lessonLock(lesson, start, now),
+  }));
+  const openLessonIds = new Set(items.filter((item) => !item.locked).map((item) => item.id));
+
   res.json({
     course: {
       id: course.id,
       title: translated.course.title,
       slug: course.slug,
       description: translated.course.description,
+      telegram_channel_url: course.telegram_channel_url ?? null,
+      telegram_chat_url: course.telegram_chat_url ?? null,
+      start_date: course.start_date ?? null,
+      access_until: accessUntil(start, course.access_days),
     },
-    lessons: translated.lessons.map((lesson) => ({
-      id: lesson.id,
-      title: lesson.title,
-      order: lesson.order,
-      viewed_at: viewedAt.get(lesson.id) ?? null,
-      has_quiz: parseLessonQuiz(lesson.quiz) !== null,
-    })),
+    lessons: items,
+    sections: foldSections(items),
     progress: computeCourseProgress(lessons, progressRows),
-    continue_lesson_id: pickContinueLessonId(lessons, progressRows),
+    continue_lesson_id: pickContinueLessonId(
+      lessons.filter((lesson) => openLessonIds.has(lesson.id)),
+      progressRows,
+    ),
   });
 };
