@@ -50,9 +50,9 @@ describe("apiship: the request core", () => {
         body: { code: "040000", message: "Ошибка валидации", errors: [{ field: "recipient.phone", message: "обязательное поле" }] },
       },
     ]);
-    const error = await apishipRequest(credentials, "/orders", { method: "POST", body: {} }, { fetchImpl, ...noRetry }).catch(
+    const error = (await apishipRequest(credentials, "/orders", { method: "POST", body: {} }, { fetchImpl, ...noRetry }).catch(
       (caught) => caught,
-    );
+    )) as ApishipError;
     expect(error).toBeInstanceOf(ApishipError);
     expect(error.status).toBe(400);
     expect(error.code).toBe("040000");
@@ -72,9 +72,9 @@ describe("apiship: the request core", () => {
     expect(calls).toHaveLength(3);
 
     const dead = fakeFetch([{ status: 503, text: "" }, { status: 503, text: "" }]);
-    const error = await apishipRequest(credentials, "/connections", {}, { fetchImpl: dead.fetchImpl, retryDelaysMs: [0] }).catch(
+    const error = (await apishipRequest(credentials, "/connections", {}, { fetchImpl: dead.fetchImpl, retryDelaysMs: [0] }).catch(
       (caught) => caught,
-    );
+    )) as ApishipError;
     expect(error.status).toBe(503);
     expect(dead.calls).toHaveLength(2);
   });
