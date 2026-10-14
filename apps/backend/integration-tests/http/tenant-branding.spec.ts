@@ -106,6 +106,7 @@ medusaIntegrationTestRunner({
           primary_color: null,
           shop_name_short: null,
           footer_credit: null,
+          app_icons: null,
           primary_foreground: null,
           low_contrast: false,
         });
@@ -114,7 +115,8 @@ medusaIntegrationTestRunner({
       it("rejects an upload smaller than the kind's floor", async () => {
         const response = await uploadBranding(owner, "favicon", "image/png", TINY_PNG);
         expect(response.status).toBe(400);
-        expect(response.data.message).toMatch(/at least 32x32px/);
+        // A raster favicon starts at 512px since the app icons render out of it (#231).
+        expect(response.data.message).toMatch(/at least 512x512px/);
       });
 
       it("rejects a mime type outside the SVG/PNG/WebP allow-list", async () => {
