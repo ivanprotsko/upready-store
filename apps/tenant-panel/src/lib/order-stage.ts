@@ -76,13 +76,27 @@ export const ORDER_STAGE_COLORS: Record<OrderStage, StageColor> = {
 /** The i18n key of a stage's word, the same word the buyer reads. */
 export const orderStageKey = (stage: OrderStage): string => `orders.stage.${stage}`
 
+/** Medusa's payment statuses that say only «the money has not come yet». */
+const NOT_PAID_YET = ["not_paid", "awaiting"]
+
 /**
- * t-2026-10-14-58 (release stand, 14.10): the card header drops the payment
- * badge when it reads the stage's own words, as a manual order waiting for
- * money did, «Ожидает оплаты» twice. Different words keep both badges.
+ * t-2026-10-14-58 (release stand 14.10, lead 15.10): the card header drops the
+ * payment badge when it means what the stage already says, «Ожидает оплаты»
+ * twice or «Ожидает оплаты» next to a gateway's «Ждёт оплаты». Compared by
+ * meaning, not by words. The manual transfer's badge is a stage of its own
+ * (`manualPaymentStatus().stage`); any other payment repeats only
+ * «Ожидает оплаты», and only while it is not paid yet. A badge that tells more
+ * stays: «Оплачен» next to «Собирается», «Нужно ваше действие», «Ждёт оплаты»
+ * next to «Отправлен».
  */
-export const paymentRepeatsStage = (stageLabel: string, paymentLabel: string | undefined): boolean =>
-  !!paymentLabel && stageLabel.trim().toLowerCase() === paymentLabel.trim().toLowerCase()
+export const paymentRepeatsStage = (
+  stage: OrderStage,
+  paymentStatus: string | null | undefined,
+  manualStage?: OrderStage | null
+): boolean =>
+  manualStage
+    ? manualStage === stage
+    : stage === "awaitingPayment" && NOT_PAID_YET.includes(paymentStatus ?? "")
 
 type ParcelStage = "awaitingShipment" | "shipped" | "inTransit" | "atPickupPoint" | "withCourier" | "received"
 type CarrierStage = ParcelStage | "returning" | "returned"

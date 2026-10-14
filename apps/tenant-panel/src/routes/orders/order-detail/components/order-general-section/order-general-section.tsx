@@ -30,11 +30,12 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
   const { getFullDate } = useDate()
   const handleCancel = useCancelOrderPrompt(order)
 
-  // t-2026-10-14-58 (release stand, 14.10): one badge when the payment would
-  // say the stage's own words; the «Оплата» block below keeps its badge.
+  // t-2026-10-14-58 (release stand 14.10, lead 15.10): one badge when the
+  // payment means what the stage says; the «Оплата» block below keeps its badge.
   const stage = orderStage(order as unknown as StageOrder)
-  const payment = manualPaymentStatus(t, order) ?? getOrderPaymentStatus(t, order.payment_status)
-  const showPayment = !paymentRepeatsStage(t(orderStageKey(stage)), payment.label)
+  const manual = manualPaymentStatus(t, order)
+  const payment = manual ?? getOrderPaymentStatus(t, order.payment_status)
+  const showPayment = !paymentRepeatsStage(stage, order.payment_status, manual?.stage)
 
   return (
     <Container className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4">

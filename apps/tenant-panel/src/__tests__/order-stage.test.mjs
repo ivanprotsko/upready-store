@@ -13,6 +13,7 @@ import {
   orderStageKey,
   paymentRepeatsStage,
 } from "../lib/order-stage.ts"
+import { manualPaymentStatus } from "../lib/order-helpers.ts"
 
 /**
  * t-2026-10-14-58, step C: the order's one stage, the word the buyer reads on
@@ -169,24 +170,38 @@ test("the card header: the stage and the payment, no separate «Отменён»
   assert.doesNotMatch(header, /FulfillmentBadge|OrderBadge/)
 })
 
-test("the card header shows one badge when the stage and the payment say the same words (release stand, 14.10)", () => {
+test("the card header shows one badge when the payment means what the stage says (release stand 14.10, lead 15.10)", () => {
   const header = read("routes/orders/order-detail/components/order-general-section/order-general-section.tsx")
-  assert.match(header, /const showPayment = !paymentRepeatsStage\(t\(orderStageKey\(stage\)\), payment\.label\)/)
+  assert.match(header, /const showPayment = !paymentRepeatsStage\(stage, order\.payment_status, manual\?\.stage\)/)
+  const t = (key) => key
+  const repeats = (order) => paymentRepeatsStage(orderStage(order), order.payment_status, manualPaymentStatus(t, order)?.stage)
 
-  // Same words → one badge: a manual order waiting for money, its receipt
-  // waiting for the owner, a rejected receipt; in ru and in en.
-  for (const lang of [ru, en]) {
-    const { stage, payment } = lang.orders
-    assert.equal(paymentRepeatsStage(stage.awaitingPayment, payment.status.manualAwaitingPayment), true)
-    assert.equal(paymentRepeatsStage(stage.awaitingConfirmation, payment.status.awaitingConfirmation), true)
-    assert.equal(paymentRepeatsStage(stage.receiptRejected, payment.status.receiptRejected), true)
+  // One badge: «Ожидает оплаты» next to a gateway's «Ждёт оплаты» (not_paid,
+  // awaiting), and the manual transfer's three badges next to their own stage.
+  for (const payment_status of ["not_paid", "awaiting"]) {
+    const gateway = { payment_status, payment_collections: [] }
+    assert.equal(orderStage(gateway), "awaitingPayment")
+    assert.equal(repeats(gateway), true, payment_status)
   }
-  assert.equal(paymentRepeatsStage(" Ожидает оплаты", "ожидает оплаты "), true)
+  const manual = (metadata) => ({
+    payment_status: "not_paid",
+    metadata,
+    payment_collections: [{ payments: [{ provider_id: "pp_system_default" }] }],
+  })
+  for (const receipt of [undefined, { status: "pending" }, { status: "rejected" }]) {
+    const order = manual(receipt ? { payment_receipt: receipt } : null)
+    assert.equal(manualPaymentStatus(t, order).stage, orderStage(order), "the manual badge names its stage")
+    assert.equal(repeats(order), true, receipt?.status ?? "no receipt")
+  }
 
-  // Different words → two badges: «Собирается» next to «Оплачен», and a
-  // gateway order whose Medusa status reads «Ждёт оплаты», not the stage's word.
-  assert.equal(paymentRepeatsStage(ru.orders.stage.packing, ru.orders.payment.status.captured), false)
-  assert.equal(paymentRepeatsStage(ru.orders.stage.awaitingPayment, ru.orders.payment.status.notPaid), false)
-  assert.equal(paymentRepeatsStage(en.orders.stage.shipped, en.orders.payment.status.captured), false)
-  assert.equal(paymentRepeatsStage(ru.orders.stage.awaitingPayment, undefined), false)
+  // Two badges: the payment tells more than the stage.
+  assert.equal(paymentRepeatsStage("packing", "captured"), false) // «Собирается» + «Оплачен»
+  assert.equal(paymentRepeatsStage("shipped", "captured"), false)
+  assert.equal(paymentRepeatsStage("shipped", "not_paid"), false) // sent before the money came
+  assert.equal(paymentRepeatsStage("shipped", "not_paid", "awaitingPayment"), false)
+  for (const payment_status of ["authorized", "partially_authorized", "requires_action", "canceled"]) {
+    const gateway = { payment_status, payment_collections: [] }
+    assert.equal(orderStage(gateway), "awaitingPayment")
+    assert.equal(repeats(gateway), false, payment_status)
+  }
 })

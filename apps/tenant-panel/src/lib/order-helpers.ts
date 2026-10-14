@@ -188,11 +188,18 @@ const isManualPaymentOrder = (order: OrderForManualStatus): boolean =>
  * generic «Ждёт подтверждения оплаты» for a fresh manual order with no
  * receipt yet instead of «Ожидает оплаты» — caught on the stand (lead
  * review, 02:46) and fixed here.
+ *
+ * `stage` names the order stage these words are (`lib/order-stage.ts`): the
+ * card header hides this badge next to the same stage (t-2026-10-14-58).
  */
 export const manualPaymentStatus = (
   t: TFunction<"translation">,
   order: OrderForManualStatus
-): { label: string; color: "red" | "orange" | "green" } | null => {
+): {
+  stage: "awaitingPayment" | "awaitingConfirmation" | "receiptRejected"
+  label: string
+  color: "red" | "orange" | "green"
+} | null => {
   if (!isManualPaymentOrder(order)) {
     return null
   }
@@ -202,12 +209,12 @@ export const manualPaymentStatus = (
 
   if (receipt && typeof receipt === "object" && !captured) {
     return receipt.status === "rejected"
-      ? { label: t("orders.payment.status.receiptRejected"), color: "red" }
-      : { label: t("orders.payment.status.awaitingConfirmation"), color: "orange" }
+      ? { stage: "receiptRejected", label: t("orders.payment.status.receiptRejected"), color: "red" }
+      : { stage: "awaitingConfirmation", label: t("orders.payment.status.awaitingConfirmation"), color: "orange" }
   }
 
   if (!receipt && !captured) {
-    return { label: t("orders.payment.status.manualAwaitingPayment"), color: "orange" }
+    return { stage: "awaitingPayment", label: t("orders.payment.status.manualAwaitingPayment"), color: "orange" }
   }
 
   // Captured, or a rejected-then-recaptured edge Medusa itself has no words
