@@ -3,9 +3,12 @@ import path from "node:path";
 import {
   accessFor,
   decideAccess,
+  hasEveryRoute,
   permissionsOf,
+  PLATFORM_ROLES,
   ROLE_PERMISSIONS,
   ROUTE_PERMISSIONS,
+  STAFF_ROLES,
   TENANT_ADMIN_ROLES,
   TENANT_PERMISSIONS,
   type RouteAccess,
@@ -75,8 +78,11 @@ const pathOf = (route: string) => route.replace(/\[[^\]]+\]/g, "id_123");
 const ALL = TENANT_ADMIN_ROLES;
 
 describe("role → permissions", () => {
-  it("has exactly the three roles of the contract and the nine permissions", () => {
-    expect([...TENANT_ADMIN_ROLES]).toEqual(["owner", "manager", "operator"]);
+  it("has the shop's three roles, the platform's developer and the nine permissions", () => {
+    expect([...STAFF_ROLES]).toEqual(["owner", "manager", "operator"]);
+    // t-2026-10-14-41: the platform's super admin inside a shop.
+    expect([...PLATFORM_ROLES]).toEqual(["developer"]);
+    expect([...TENANT_ADMIN_ROLES]).toEqual(["owner", "manager", "operator", "developer"]);
     expect([...TENANT_PERMISSIONS]).toEqual([
       "orders",
       "customers",
@@ -113,6 +119,11 @@ describe("role → permissions", () => {
       "marketplaces",
     ]);
     expect(permissionsOf("operator")).toEqual(["orders", "customers"]);
+    expect(permissionsOf("developer")).toEqual(permissionsOf("owner"));
+  });
+
+  it("lets the owner and the developer, and nobody else, through a route nobody decided about", () => {
+    expect(TENANT_ADMIN_ROLES.filter(hasEveryRoute)).toEqual(["owner", "developer"]);
   });
 
   it("hands out a copy, so a caller cannot widen a role by pushing into the answer", () => {
@@ -460,13 +471,13 @@ const WHO: Record<TenantPermission | "any", readonly TenantAdminRole[]> = {
   any: ALL,
   orders: ALL,
   customers: ALL,
-  reviews: ["owner", "manager"],
-  catalog: ["owner", "manager"],
-  storefront: ["owner", "manager"],
-  marketing: ["owner", "manager"],
-  marketplaces: ["owner", "manager"],
-  settings: ["owner"],
-  staff: ["owner"],
+  reviews: ["owner", "manager", "developer"],
+  catalog: ["owner", "manager", "developer"],
+  storefront: ["owner", "manager", "developer"],
+  marketing: ["owner", "manager", "developer"],
+  marketplaces: ["owner", "manager", "developer"],
+  settings: ["owner", "developer"],
+  staff: ["owner", "developer"],
 };
 
 const expectedLines = Object.entries(EXPECTED).flatMap(([access, lines]) =>
@@ -509,17 +520,18 @@ describe("route and method → permission: the table against the contract", () =
       expect(wrong).toEqual([]);
     });
 
-    it("has at least one route open and, unless it is the owner, one closed", () => {
+    it("has at least one route open and, unless it is the owner or the developer, one closed", () => {
       expect(cases.some((entry) => entry.allowed)).toBe(true);
-      expect(cases.some((entry) => !entry.allowed)).toBe(role !== "owner");
+      expect(cases.some((entry) => !entry.allowed)).toBe(role !== "owner" && role !== "developer");
     });
   });
 });
 
 describe("a route with no row", () => {
-  it("is open to the owner only, and names no permission in the refusal", () => {
+  it("is open to the owner and the developer only, and names no permission in the refusal", () => {
     expect(accessFor("GET", "/tenants/nobody-decided-yet")).toBeNull();
     expect(decideAccess("owner", "GET", "/tenants/nobody-decided-yet")).toEqual({ allowed: true });
+    expect(decideAccess("developer", "DELETE", "/tenants/nobody-decided-yet")).toEqual({ allowed: true });
     expect(decideAccess("manager", "GET", "/tenants/nobody-decided-yet")).toEqual({
       allowed: false,
       permission: null,

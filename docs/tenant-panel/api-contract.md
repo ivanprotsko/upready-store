@@ -586,9 +586,14 @@ by id, one shop's export never carries another's product, XLSX refused).
 
 # Roles and staff (t-2026-10-07-11)
 
-A login (`tenant_admin`) has a `role` in its shop: `owner`, `manager` or `operator`. The role is the
-row's, so one person can be an owner of one shop and an operator of another. Every login that existed
-before the migration is an `owner`.
+A login (`tenant_admin`) has a `role` in its shop: `owner`, `manager`, `operator` or `developer`. The
+role is the row's, so one person can be an owner of one shop and an operator of another. Every login
+that existed before the migration is an `owner`.
+
+`developer` (t-2026-10-14-41) is the platform's super admin inside a shop. Only the platform gives it:
+the platform's own row in every shop (`PLATFORM_ADMIN_EMAIL`), `POST /admin/tenants/:id/admins*`, and
+`apps/backend/src/scripts/assign-developer-role.ts`. A shop never offers it, never changes or removes
+a row that has it, and never counts it as one of its owners.
 
 ## Who decides
 
@@ -601,8 +606,9 @@ route with method → the one permission it needs. The panel holds neither: it r
 | `owner` | `orders`, `customers`, `reviews`, `catalog`, `storefront`, `marketing`, `marketplaces`, `settings`, `staff` |
 | `manager` | `orders`, `customers`, `reviews`, `catalog`, `storefront`, `marketing`, `marketplaces` |
 | `operator` | `orders`, `customers` |
+| `developer` | every permission the owner has, and every route with no row |
 
-- A route with no row in the table is open to the owner only. `__tests__/permissions.unit.spec.ts`
+- A route with no row in the table is open to the owner and the developer only. `__tests__/permissions.unit.spec.ts`
   walks the route files and fails on a route or a method without a row, so a new route cannot ship
   without that decision.
 - Reference reads (`any` in the table) are open to every role: the caller's own profile and shops,
@@ -632,10 +638,12 @@ force on the caller's next request.
   `tenant.metadata` is in the answer only for a caller with `settings`: it is where the shop's
   settings are kept, and the routes that answer them are closed for reading without that permission.
 - `GET /tenants/staff` → `{ staff: [{ id, email, first_name, last_name, role, created_at, updated_at,
-  is_self }], roles: [{ role, permissions }] }`. The platform's own row is not listed. `roles` is
-  every role with what it opens, in the order owner, manager, operator: the panel words «what this
-  role sees» from it and keeps no text of its own about a role.
+  is_self }], roles: [{ role, permissions }] }`. The platform's own row is not listed; a developer's
+  row is, with `role: "developer"`. `roles` is every role the shop may give with what it opens, in
+  the order owner, manager, operator, and never `developer`: the panel words «what this role sees»
+  from it and keeps no text of its own about a role.
 - `POST /tenants/staff` body `{ email, password, role, first_name?, last_name? }` → `201 { staff_member }`.
+  `role` is `owner`, `manager` or `operator`; `developer` is a `400`, here and on `POST /tenants/staff/:id`.
   `400` when the email already has a login in this shop, and `400` when the email already has ANY
   account on the platform (another shop's login, a platform user, a buyer, an identity registered in
   advance): the owner cannot set a password for an account that is not hers to set one for.
@@ -644,11 +652,12 @@ force on the caller's next request.
   password on a login that is also used outside this shop.
 - `DELETE /tenants/staff/:id` → `{ id, object: "tenant_admin", deleted: true }`. `400` for the
   caller's own login and for the last owner.
+- Both `:id` routes answer `400` (`developer_row`) for a developer's row, whatever the body.
 - On both `:id` routes the platform's row and another shop's login answer `404`, like a missing id.
 - `POST /tenants/me/switch` into a sister site the caller has no row in creates that row only for an
-  `owner`, as an owner's row. A manager or an operator gets the `403` of a foreign shop, and
+  `owner` or a `developer`, with the caller's own role. A manager or an operator gets the `403` of a foreign shop, and
   `GET /tenants/me/shops` does not offer her such a site.
-- The texts of the seven refusals of the staff routes are `STAFF_REFUSALS` in
+- The texts of the eight refusals of the staff routes are `STAFF_REFUSALS` in
   `tenants/staff/staff-refusals.ts`, a file with no imports: the panel recognises a refusal by its
   text and translates it.
 

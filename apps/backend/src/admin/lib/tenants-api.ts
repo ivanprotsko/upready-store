@@ -40,7 +40,7 @@ export type TenantAdmin = {
   email: string
   first_name: string | null
   last_name: string | null
-  /** t-2026-10-07-11: `owner`, `manager` or `operator`; absent from a backend without roles. */
+  /** t-2026-10-07-11: `owner`, `manager`, `operator` or `developer` (t-2026-10-14-41); absent from a backend without roles. */
   role?: string
   created_at: string
   updated_at: string

@@ -15,6 +15,8 @@ import {
 } from "../lib/command-menu.ts"
 import {
   PERMISSIONS,
+  PLATFORM_ROLES,
+  ROLE_NAMES,
   ROUTE_PERMISSIONS,
   STAFF_ROLES,
   can,
@@ -70,6 +72,9 @@ test("the nine permissions of the contract, and the three role names the forms o
     ["orders", "customers", "reviews", "catalog", "storefront", "marketing", "marketplaces", "settings", "staff"]
   )
   assert.deepEqual([...STAFF_ROLES], ["owner", "manager", "operator"])
+  // t-2026-10-14-41: the platform's role is named, never offered.
+  assert.deepEqual([...PLATFORM_ROLES], ["developer"])
+  assert.deepEqual([...ROLE_NAMES], ["owner", "manager", "operator", "developer"])
 })
 
 test("permissions come from «who am I» and from nowhere else", () => {
@@ -440,7 +445,7 @@ test("the profile shows the login's own role", () => {
     "routes/profile/profile-detail/components/profile-general-section/profile-general-section.tsx"
   )
   assert.match(profile, /t\("profile\.fields\.roleLabel"\)/)
-  assert.match(profile, /isStaffRole\(user\.role\) \? t\(`staff\.roles\.\$\{user\.role\}`\) : user\.role/)
+  assert.match(profile, /isRoleName\(user\.role\) \? t\(`staff\.roles\.\$\{user\.role\}`\) : user\.role/)
 })
 
 const catalogs = {
@@ -469,7 +474,7 @@ test("the new texts exist in both languages, key for key", () => {
     "noAccess.message",
     "noAccess.toOverview",
     "staff.roleSees",
-    ...STAFF_ROLES.map((role) => `staff.roles.${role}`),
+    ...ROLE_NAMES.map((role) => `staff.roles.${role}`),
     ...PERMISSIONS.map((permission) => `staff.permissions.${permission}`),
   ]
   for (const [language, catalog] of Object.entries(catalogs)) {

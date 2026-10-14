@@ -144,6 +144,26 @@ describe("guardTenantAdmin", () => {
     expect(asOwner.next).toHaveBeenCalledTimes(1);
   });
 
+  it("lets the platform's developer in wherever the owner goes, with every permission (t-2026-10-14-41)", async () => {
+    const unlisted = await run(loginRow({ role: "developer" }), { originalUrl: "/tenants/nobody-decided-yet" });
+    expect(unlisted.next).toHaveBeenCalledTimes(1);
+    expect(getTenantAdminAccess(unlisted.req).role).toBe("developer");
+
+    const staff = await run(loginRow({ role: "developer" }), { method: "POST", originalUrl: "/tenants/staff" });
+    expect(staff.next).toHaveBeenCalledTimes(1);
+    expect(getTenantAdminAccess(staff.req).permissions).toEqual([
+      "orders",
+      "customers",
+      "reviews",
+      "catalog",
+      "storefront",
+      "marketing",
+      "marketplaces",
+      "settings",
+      "staff",
+    ]);
+  });
+
   it("tells a read from a write by the request's method", async () => {
     const read = await run(loginRow({ role: "operator" }), { method: "GET", originalUrl: "/tenants/products" });
     expect(read.next).toHaveBeenCalledTimes(1);

@@ -133,6 +133,17 @@ npx medusa exec ./src/scripts/backfill-tenant-redirects.ts tenant=<handle> force
 Arguments carry no leading dashes: `medusa exec` parses its own argv first and rejects a `--flag`
 meant for the script.
 
+`assign-developer-role.ts` is not a boot step. You run it by hand, once per database, after the
+release that brings the `developer` role (t-2026-10-14-41). It moves three kinds of `owner` rows off
+the role: the platform's own row (`PLATFORM_ADMIN_EMAIL`) and every address in `DEVELOPER_EMAILS`
+become `developer`, every address in `SERVICE_EMAILS` becomes `operator`. Without `apply` it only
+prints what it would change. A second run changes nothing.
+
+```bash
+DEVELOPER_EMAILS=<a>,<b> SERVICE_EMAILS=<c> npx medusa exec ./src/scripts/assign-developer-role.ts
+DEVELOPER_EMAILS=<a>,<b> SERVICE_EMAILS=<c> npx medusa exec ./src/scripts/assign-developer-role.ts apply
+```
+
 A new convergence script belongs in this list, in `src/scripts/`, idempotent, with one log line
 saying what it changed — not in a runbook step someone has to remember.
 
@@ -181,7 +192,7 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `STORE_MEDIA_BASE_URL` | Where ONE profile's media is served from, for the single-store seed (`STORE_PROFILE`). `resolveMediaBaseUrl` takes its parent directory when `STORE_PROFILES_MEDIA_BASE_URL` is unset | — |
 | `S3_BUCKET`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` | S3-compatible file storage, used when `NODE_ENV=production` | — |
 | `MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY` | Storefront directory for Medusa's onboarding flow | `medusa-storefront` |
-| `PLATFORM_ADMIN_EMAIL` | The platform's own login, added as a `tenant_admin` row to every shop a tenant creates (`createTenantWorkflow`) and backfilled onto every existing shop by `scripts/fixtures/o25-platform-admin-all-shops.ts`. The auth identity is shared across shops; unset disables the feature entirely, and no shop gets the row | unset |
+| `PLATFORM_ADMIN_EMAIL` | The platform's own login, added as a `tenant_admin` row with the `developer` role to every shop a tenant creates (`createTenantWorkflow`) and backfilled onto every existing shop by `scripts/fixtures/o25-platform-admin-all-shops.ts`. The auth identity is shared across shops; unset disables the feature entirely, and no shop gets the row | unset |
 | `SCHOOL_SSO_RETURN_HOSTS` | The hosts a school may receive a buyer's single-use sign-in code on, comma separated, such as `school.cherkashina.ru`. `POST /store/tenant/sso/code` mints a code only for a `return_to` on one of them, and `POST /store/tenant/sso/exchange` trades it for the buyer's token (`src/api/store/tenant/sso/`). Empty mints no code. Give the storefront the same list. RU only: `deploy/instances/intl.json` forbids it | — |
 
 ## Project Structure

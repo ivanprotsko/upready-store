@@ -3,7 +3,7 @@ import { AdminGetProductOptionsParams } from "@medusajs/medusa/api/admin/product
 import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
 import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
-import { tenantAdminPassword, tenantAdminRole } from "../admin/tenants/validators";
+import { staffRole, tenantAdminPassword } from "../admin/tenants/validators";
 import { OWNER_PASSWORD_MIN_LENGTH } from "../auth/password-length-gate";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
@@ -156,7 +156,7 @@ export type PostTenantSwitchShopBody = z.infer<typeof PostTenantSwitchShopSchema
 export const PostTenantStaffCreateSchema = z.strictObject({
   email: z.string().email(),
   password: tenantAdminPassword(),
-  role: tenantAdminRole(),
+  role: staffRole(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
 });
@@ -169,7 +169,7 @@ export type PostTenantStaffCreateBody = z.infer<typeof PostTenantStaffCreateSche
  * (`POST /admin/tenants/:id/admins/:adminId`).
  */
 export const PostTenantStaffUpdateSchema = z.strictObject({
-  role: tenantAdminRole().optional(),
+  role: staffRole().optional(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
   password: tenantAdminPassword().optional(),

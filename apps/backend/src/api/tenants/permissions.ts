@@ -1,4 +1,10 @@
-import { TENANT_ADMIN_ROLES, type TenantAdminRole } from "../../modules/tenant/models/tenant-admin";
+import {
+  PLATFORM_ROLES,
+  STAFF_ROLES,
+  TENANT_ADMIN_ROLES,
+  type StaffRole,
+  type TenantAdminRole,
+} from "../../modules/tenant/models/tenant-admin";
 
 /**
  * Who may call what in the shop panel (t-2026-10-07-11).
@@ -16,8 +22,8 @@ import { TENANT_ADMIN_ROLES, type TenantAdminRole } from "../../modules/tenant/m
  * The check itself is `tenant-admin-gate.ts`, mounted once on `/tenants/*`.
  */
 
-export { TENANT_ADMIN_ROLES };
-export type { TenantAdminRole };
+export { PLATFORM_ROLES, STAFF_ROLES, TENANT_ADMIN_ROLES };
+export type { StaffRole, TenantAdminRole };
 
 export const TENANT_PERMISSIONS = [
   "orders",
@@ -37,7 +43,16 @@ export const ROLE_PERMISSIONS: Record<TenantAdminRole, readonly TenantPermission
   owner: TENANT_PERMISSIONS,
   manager: ["orders", "customers", "reviews", "catalog", "storefront", "marketing", "marketplaces"],
   operator: ["orders", "customers"],
+  // The platform's super admin inside the shop (t-2026-10-14-41): every
+  // permission, and every route no permission opens (`hasEveryRoute`).
+  developer: TENANT_PERMISSIONS,
 };
+
+/**
+ * The roles a route with no row in `ROUTE_PERMISSIONS` lets in: the shop's
+ * owner, and the platform's developer, who may do whatever the owner may.
+ */
+export const hasEveryRoute = (role: TenantAdminRole): boolean => role === "owner" || role === "developer";
 
 export const permissionsOf = (role: TenantAdminRole): TenantPermission[] => [...ROLE_PERMISSIONS[role]];
 
@@ -59,9 +74,9 @@ export type RouteRule = Partial<Record<RouteMethod, RouteAccess>>;
  * `__tests__/permissions.unit.spec.ts` walks that tree and fails on a route
  * file or a method with no row here, and on a row with no route behind it.
  *
- * A route that is NOT here is open to the owner only (`accessFor` answers
- * `null`): a route nobody decided about must not become visible to a role by
- * accident.
+ * A route that is NOT here is open to the owner and the developer only
+ * (`accessFor` answers `null`, `hasEveryRoute`): a route nobody decided about
+ * must not become visible to a role by accident.
  */
 export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   // Registration of a new shop. It sits outside `/tenants/*`, so the gate is
@@ -332,13 +347,14 @@ export type AccessDecision = { allowed: true } | { allowed: false; permission: T
 
 /**
  * `permission` of a refusal is what the caller lacks, or `null` for a route
- * with no row, which no permission opens: only the owner's role does.
+ * with no row, which no permission opens: only the owner's and the developer's
+ * roles do.
  */
 export const decideAccess = (role: TenantAdminRole, method: string, path: string): AccessDecision => {
   const access = accessFor(method, path);
 
   if (access === null) {
-    return role === "owner" ? { allowed: true } : { allowed: false, permission: null };
+    return hasEveryRoute(role) ? { allowed: true } : { allowed: false, permission: null };
   }
 
   // A role this table does not know has no permissions, rather than a crash.

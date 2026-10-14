@@ -1,6 +1,6 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
-import { listGroupTenants, mergeSwitchableShops, readCallerTenant } from "../group-sites";
+import { listGroupTenants, mergeSwitchableShops, opensSisterSites, readCallerTenant } from "../group-sites";
 
 /**
  * `GET /tenants/me/shops` (o25-platform-admin-all-shops, o25-hide-test-shops):
@@ -44,10 +44,10 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     filters: { email: [caller.email] },
   });
 
-  // A sister site the caller has no row in is offered to an owner only
-  // (t-2026-10-07-11, §11.1): the switch would refuse anybody else, and the
-  // panel must not offer a switch that ends in a refusal.
-  const siblings = caller.role === "owner" ? await listGroupTenants(req.scope, caller.group_id) : [];
+  // A sister site the caller has no row in is offered to an owner or a
+  // developer only (t-2026-10-07-11, §11.1): the switch would refuse anybody
+  // else, and the panel must not offer a switch that ends in a refusal.
+  const siblings = opensSisterSites(caller.role) ? await listGroupTenants(req.scope, caller.group_id) : [];
 
   const shops = mergeSwitchableShops(
     caller.tenant_id,

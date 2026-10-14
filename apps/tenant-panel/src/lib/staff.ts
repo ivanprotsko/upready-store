@@ -1,4 +1,11 @@
-import { PERMISSIONS, STAFF_ROLES, isStaffRole, type Permission, type StaffRole } from "./permissions.ts"
+import {
+  PERMISSIONS,
+  PLATFORM_ROLES,
+  STAFF_ROLES,
+  isRoleName,
+  type Permission,
+  type RoleName,
+} from "./permissions.ts"
 import { staffRefusalKey } from "./staff-refusals.ts"
 
 /**
@@ -60,12 +67,28 @@ export const staffName = (member: Pick<StaffMember, "first_name" | "last_name">)
   [member.first_name, member.last_name].filter(Boolean).join(" ")
 
 /** A role the panel has no name for is shown as the server spelled it. */
-export const staffRoleOf = (member: Pick<StaffMember, "role">): StaffRole | null =>
-  isStaffRole(member.role) ? member.role : null
+export const staffRoleOf = (member: Pick<StaffMember, "role">): RoleName | null =>
+  isRoleName(member.role) ? member.role : null
 
-/** The roles the form offers, in the server's order; the three names when it sent none. */
+const isPlatformRole = (role: string) => PLATFORM_ROLES.some((platform) => platform === role)
+
+/**
+ * The colour of a role's badge in the list (panel-ds E7: one function per
+ * entity). The platform's developer stands apart from the shop's own people,
+ * in a colour no state of the panel uses (t-2026-10-14-41).
+ */
+export const staffRoleColor = (role: string): "purple" | "grey" =>
+  isPlatformRole(role) ? "purple" : "grey"
+
+/**
+ * The roles the form offers, in the server's order; the three names when it
+ * sent none. The platform's roles are never among them, whatever the server
+ * lists: only the platform gives them.
+ */
 export const staffRoleOptions = (roles: StaffRoleGrant[] | undefined): string[] =>
-  roles?.length ? roles.map((grant) => grant.role) : [...STAFF_ROLES]
+  (roles?.length ? roles.map((grant) => grant.role) : [...STAFF_ROLES]).filter(
+    (role) => !isPlatformRole(role)
+  )
 
 /**
  * What a role opens, for the line under the role select: the permissions the
@@ -154,11 +177,19 @@ export const updateStaffBody = (
   return Object.keys(body).length ? { body } : { error: "nothingChanged" }
 }
 
-/** A login does not delete itself and does not change its own role. */
-export const staffRowActions = (member: Pick<StaffMember, "is_self">) => ({
-  canDelete: !member.is_self,
-  canChangeRole: !member.is_self,
-})
+/**
+ * A login does not delete itself and does not change its own role. A row with
+ * a platform role is the platform's: the shop opens no form on it and removes
+ * nothing (t-2026-10-14-41), and the server refuses both anyway.
+ */
+export const staffRowActions = (member: Pick<StaffMember, "is_self" | "role">) => {
+  const platform = isPlatformRole(member.role)
+  return {
+    canEdit: !platform,
+    canDelete: !member.is_self && !platform,
+    canChangeRole: !member.is_self && !platform,
+  }
+}
 
 /**
  * What the owner reads when the server refuses. A refusal the table knows

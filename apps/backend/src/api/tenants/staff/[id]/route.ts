@@ -8,7 +8,12 @@ import { getTenantAdminAccess } from "../../tenant-admin-gate";
 import type { PostTenantStaffUpdateBody } from "../../validators";
 import { toStaffMember } from "../staff-member";
 import { STAFF_REFUSALS } from "../staff-refusals";
-import { assertAnotherOwnerStays, assertPasswordIsThisShopsOnly, isPlatformRow } from "../staff-rules";
+import {
+  assertAnotherOwnerStays,
+  assertNotDeveloperRow,
+  assertPasswordIsThisShopsOnly,
+  isPlatformRow,
+} from "../staff-rules";
 
 const invalid = (message: string) => new MedusaError(MedusaError.Types.INVALID_DATA, message);
 
@@ -32,6 +37,8 @@ const retrieveStaffRow = async (tenantModuleService: TenantModuleService, tenant
  * `POST /tenants/staff/:id` (t-2026-10-07-11): name, role and password of one
  * login. Refused with `400`, before anything is written:
  *
+ *   - any change to the platform developer's row (t-2026-10-14-41,
+ *     `assertNotDeveloperRow`);
  *   - the caller changing her own role (she could lock herself out of this
  *     very screen, and a second owner can do it for her);
  *   - taking `owner` away from the last owner of the shop;
@@ -46,6 +53,8 @@ export const POST = async (
   const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
   const target = await retrieveStaffRow(tenantModuleService, access.tenant_id, req.params.id);
   const { role, password, first_name, last_name } = req.validatedBody;
+
+  assertNotDeveloperRow(target);
 
   if (role !== undefined && role !== target.role) {
     if (target.id === access.id) {
@@ -75,8 +84,8 @@ export const POST = async (
 };
 
 /**
- * `DELETE /tenants/staff/:id`. Refused with `400`: the caller's own login, and
- * the last owner of the shop. What happens to the identity behind the login
+ * `DELETE /tenants/staff/:id`. Refused with `400`: the platform developer's
+ * row, the caller's own login, and the last owner of the shop. What happens to the identity behind the login
  * is `removeTenantAdminWorkflow`'s rule: it is deleted only when nothing else
  * uses it.
  */
@@ -84,6 +93,8 @@ export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaRespons
   const access = getTenantAdminAccess(req);
   const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
   const target = await retrieveStaffRow(tenantModuleService, access.tenant_id, req.params.id);
+
+  assertNotDeveloperRow(target);
 
   if (target.id === access.id) {
     throw invalid(STAFF_REFUSALS.own_login);

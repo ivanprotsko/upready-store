@@ -8,7 +8,7 @@ import { useDocumentDirection } from "../../../../../hooks/use-document-directio
 // `HttpTypes.AdminUser` — same three fields this component reads.
 import { TenantAdmin, useUpdateUser } from "../../../../../hooks/api/users"
 import { languages } from "../../../../../i18n/languages"
-import { isStaffRole } from "../../../../../lib/permissions"
+import { isRoleName } from "../../../../../lib/permissions"
 
 type ProfileGeneralSectionProps = {
   user: TenantAdmin
@@ -96,7 +96,7 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
             {t("profile.fields.roleLabel")}
           </Text>
           <Text size="small" leading="compact">
-            {isStaffRole(user.role) ? t(`staff.roles.${user.role}`) : user.role}
+            {isRoleName(user.role) ? t(`staff.roles.${user.role}`) : user.role}
           </Text>
         </div>
       ) : null}

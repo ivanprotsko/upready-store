@@ -36,6 +36,14 @@ const isArchived = (metadata: unknown): boolean =>
   );
 
 /**
+ * Who may open a sister site she has no row in yet (t-2026-10-07-11, §11.1):
+ * the shop's owner, and the platform's developer, who may do whatever the
+ * owner may (t-2026-10-14-41). The row the first switch creates carries the
+ * caller's own role, so a developer stays a developer on the sister site.
+ */
+export const opensSisterSites = (role: TenantAdminRole): boolean => role === "owner" || role === "developer";
+
+/**
  * The caller's current tenant and its group id, read off the caller's own
  * `tenant_admin` row (`req.auth_context.actor_id`), never off the request.
  */

@@ -2,7 +2,7 @@
  * The refusals of the staff routes, by the words the server says them in
  * (t-2026-10-07-11, addendum 13). The request library keeps only the text and
  * the status of a failed answer, so the text is the one way to tell the
- * refusals apart. Each maps to its code, the same seven codes the backend
+ * refusals apart. Each maps to its code, the same eight codes the backend
  * lists in `apps/backend/src/api/tenants/staff/staff-refusals.ts`, and the
  * catalogs hold the owner's own words under `staff.refusals.<code>`.
  *
@@ -21,6 +21,8 @@ export const STAFF_REFUSAL_CODES: Record<string, string> = {
     "last_owner_demote",
   "This login is also used outside this shop, so its password cannot be changed here. The person can change it in their own profile or through the reset link on the login page.":
     "password_shared",
+  "This is the platform developer's login. Only the platform changes or removes it, not the shop.":
+    "developer_row",
 }
 
 /** The key of a refusal's translation, or null for a text the table does not know. */
