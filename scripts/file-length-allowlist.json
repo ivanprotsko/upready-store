@@ -23,8 +23,8 @@
     },
     {
       "path": "apps/storefront/src/lib/data/cart.ts",
-      "lines": 939,
-      "reason": "storefront file, split in a later part of t-2026-10-14-55"
+      "lines": 943,
+      "reason": "storefront file, split in a later part of t-2026-10-14-55; grew from 939 by 4 with #461, merged before this entry"
     },
     {
       "path": "apps/storefront/src/modules/checkout/components/checkout-payment-section/index.tsx",
@@ -43,8 +43,8 @@
     },
     {
       "path": "apps/tenant-panel/src/app.tsx",
-      "lines": 1295,
-      "reason": "panel file, split in a later part of t-2026-10-14-55; grew from 1192 on 14.10 by #447, #448 and #450, merged before this check ran in ci, and by 8 more with the telegram-bot screen route of #462 (t-2026-10-14-58), which merges before this entry"
+      "lines": 1480,
+      "reason": "panel file, split in a later part of t-2026-10-14-55; grew from 1192 on 14.10 by #447, #448 and #450, merged before this check ran in ci, then to 1480 by #462, #449, #452 and #454, merged before this entry"
     },
     {
       "path": "apps/tenant-panel/src/components/data-grid/components/data-grid-root.tsx",
