@@ -25,7 +25,11 @@ export type SettingsEditDrawerProps<TValues extends FieldValues> = {
   defaultValues: DefaultValues<TValues>
   /** Saves; a rejection is shown as `toast.error` with its message. */
   onSubmit: (values: TValues) => Promise<unknown>
-  successMessage: string
+  /**
+   * The success toast. A function reads the save's answer, for a save that
+   * reports what it cost (G2: «значений очищено: N»).
+   */
+  successMessage: string | ((result: unknown) => string)
   children: (form: UseFormReturn<TValues>) => ReactNode
 }
 
@@ -50,15 +54,16 @@ const SettingsEditForm = <TValues extends FieldValues>({
   })
 
   const handleSubmit = form.handleSubmit(async (values) => {
+    let result: unknown
     try {
-      await onSubmit(values)
+      result = await onSubmit(values)
     } catch (error) {
       // The platform owns every refusal; its own message is what the owner reads.
       toast.error(error instanceof Error ? error.message : t("general.error"))
       return
     }
 
-    toast.success(successMessage)
+    toast.success(typeof successMessage === "function" ? successMessage(result) : successMessage)
     handleSuccess()
   })
 

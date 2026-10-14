@@ -1,57 +1,175 @@
-import { useState } from "react"
-import { Plus } from "@medusajs/icons"
-import {
-  Button,
-  Container,
-  Heading,
-  Input,
-  StatusBadge,
-  Table,
-  Text,
-  toast,
-} from "@medusajs/ui"
-import { Link, useNavigate } from "react-router-dom"
+import { EllipsisHorizontal, PencilSquare, Trash } from "@medusajs/icons"
+import { Button, Container, Heading, IconButton, StatusBadge, Text, toast } from "@medusajs/ui"
+import { createColumnHelper } from "@tanstack/react-table"
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 
-import { SingleColumnPage } from "../../../components/layout/pages"
+import { ActionMenu } from "../../../components/common/action-menu"
+import { NoRecords } from "../../../components/common/empty-table-content"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
+import { SingleColumnPage } from "../../../components/layout/pages"
+import { _DataTable } from "../../../components/table/data-table"
 import { useProductCategories } from "../../../hooks/api/categories"
 import {
-  ProductAttributeType,
+  ProductAttribute,
   useApplyProductAttributePreset,
-  useCreateProductAttribute,
   useProductAttributePreset,
   useProductAttributes,
 } from "../../../hooks/api/product-attributes"
-import {
-  ATTRIBUTE_TYPES,
-  TYPE_HINTS,
-  TYPE_LABELS,
-  isValidAttributeKey,
-  suggestMachineValue,
-} from "../attribute-labels"
+import { useDataTable } from "../../../hooks/use-data-table"
+import { useQueryParams } from "../../../hooks/use-query-params"
+import { attributeListPage } from "../attribute-model"
+import { useAttributeDelete } from "../use-attribute-delete"
 
-// t15-product-attributes: the shop's own characteristics. The panel's own
-// screen, no Admin counterpart, built from the primitives the journal and the
-// pages screens use (SingleColumnPage, Container, Heading, Table, StatusBadge)
-// so it sits in the Admin's shell unchanged.
+// t15-product-attributes: the shop's own characteristics. The list is the
+// SCHEMA, not the data: one row per characteristic the owner declared, with
+// the two flags that decide where it shows up. Values live on each product.
 //
-// The list is the SCHEMA, not the data: one row per characteristic the owner
-// declared, with the two flags that decide where it shows up. Values live on
-// each product's own screen.
+// t-2026-10-14-01 (panel redesign, G2, prototype states `attributes*`): the
+// list after panel-ds E1, E8 and E10. The header has one phrase and two
+// buttons, «Добавить стандартные» and «Создать» (the way Import stands next to
+// Create in the native admin); the line about the starting set became the
+// button's state and its toast. The quick-add form under the table became the
+// modal `create`. The two flags got a column each, said in words. A row opens
+// the card; its «…» holds «Изменить» and, after the separator, «Удалить».
+
+const PAGE_SIZE = 20
+
+const columnHelper = createColumnHelper<ProductAttribute>()
+
+const AttributeRowActions = ({ attribute }: { attribute: ProductAttribute }) => {
+  const { t } = useTranslation()
+  const remove = useAttributeDelete(attribute)
+
+  return (
+    <ActionMenu
+      groups={[
+        {
+          actions: [
+            {
+              icon: <PencilSquare />,
+              label: t("actions.change"),
+              to: `/product-attributes/${attribute.id}/edit`,
+            },
+          ],
+        },
+        {
+          actions: [
+            {
+              icon: <Trash />,
+              label: t("actions.delete"),
+              onClick: () => void remove(),
+            },
+          ],
+        },
+      ]}
+    >
+      <IconButton size="small" variant="transparent" aria-label={t("fields.actions")}>
+        <EllipsisHorizontal />
+      </IconButton>
+    </ActionMenu>
+  )
+}
+
+const useColumns = (categoryName: (id: string | null) => string) => {
+  const { t } = useTranslation()
+
+  return useMemo(
+    () => [
+      columnHelper.accessor("name", {
+        header: t("productAttributes.columns.name"),
+        cell: ({ getValue }) => (
+          <Text size="small" leading="compact" weight="plus" className="truncate" title={getValue()}>
+            {getValue()}
+          </Text>
+        ),
+      }),
+      columnHelper.accessor("key", {
+        header: t("productAttributes.columns.key"),
+        cell: ({ getValue }) => (
+          <Text size="small" leading="compact" className="text-ui-fg-subtle font-mono truncate" title={getValue()}>
+            {getValue()}
+          </Text>
+        ),
+      }),
+      columnHelper.accessor("type", {
+        header: t("productAttributes.columns.type"),
+        cell: ({ row }) => (
+          <Text size="small" leading="compact" className="text-ui-fg-subtle whitespace-nowrap">
+            {row.original.unit
+              ? t("productAttributes.typeWithUnit", {
+                  type: t(`productAttributes.types.${row.original.type}`),
+                  unit: row.original.unit,
+                })
+              : t(`productAttributes.types.${row.original.type}`)}
+          </Text>
+        ),
+      }),
+      columnHelper.accessor("category_id", {
+        header: t("productAttributes.columns.category"),
+        cell: ({ getValue }) => (
+          <Text size="small" leading="compact" className="text-ui-fg-subtle truncate" title={categoryName(getValue())}>
+            {categoryName(getValue())}
+          </Text>
+        ),
+      }),
+      columnHelper.accessor("show_on_product", {
+        header: t("productAttributes.columns.showOnProduct"),
+        cell: ({ getValue }) => (
+          <StatusBadge color={getValue() ? "green" : "grey"} className="whitespace-nowrap">
+            {getValue() ? t("productAttributes.shown") : t("productAttributes.hidden")}
+          </StatusBadge>
+        ),
+      }),
+      columnHelper.accessor("use_as_filter", {
+        header: t("productAttributes.columns.filter"),
+        cell: ({ getValue }) => (
+          <StatusBadge color={getValue() ? "green" : "grey"} className="whitespace-nowrap">
+            {getValue() ? t("productAttributes.filterOn") : t("productAttributes.filterOff")}
+          </StatusBadge>
+        ),
+      }),
+      columnHelper.display({
+        id: "actions",
+        cell: ({ row }) => <AttributeRowActions attribute={row.original} />,
+      }),
+    ],
+    [t, categoryName]
+  )
+}
 
 export const AttributeList = () => {
-  const navigate = useNavigate()
+  const { t } = useTranslation()
+  const { q, offset } = useQueryParams(["q", "offset"])
   const { product_attributes: attributes, isPending, isError, error } = useProductAttributes()
   const { product_categories: categories } = useProductCategories({ limit: 200 })
-
-  const [name, setName] = useState("")
-  const [key, setKey] = useState("")
-  const [keyTouched, setKeyTouched] = useState(false)
-  const [type, setType] = useState<ProductAttributeType>("text")
-  const { mutateAsync: createAttribute, isPending: isCreating } = useCreateProductAttribute()
   const { preset, missing } = useProductAttributePreset()
   const { mutateAsync: applyPreset, isPending: isApplyingPreset } =
     useApplyProductAttributePreset()
+
+  const categoryName = useMemo(
+    () => (categoryId: string | null) =>
+      !categoryId
+        ? t("productAttributes.allCatalog")
+        : (categories?.find((category) => category.id === categoryId)?.name ??
+          t("productAttributes.categoryGone")),
+    [categories, t]
+  )
+  const columns = useColumns(categoryName)
+  const page = useMemo(
+    () =>
+      attributeListPage(attributes ?? [], { q, offset: Number(offset) || 0, limit: PAGE_SIZE }),
+    [attributes, q, offset]
+  )
+  const { table } = useDataTable({
+    data: page.rows,
+    columns,
+    count: page.count,
+    pageSize: PAGE_SIZE,
+    enablePagination: true,
+    getRowId: (row) => row.id,
+  })
 
   if (isError) {
     throw error
@@ -61,248 +179,71 @@ export const AttributeList = () => {
     return <SingleColumnPageSkeleton sections={1} />
   }
 
-  // b04-product-attributes: the starting set. A shop that has just been
-  // migrated opens this screen empty and has nothing to fill products with, so
-  // the seven characteristics of the default schema are one click away. The
-  // call only creates what is missing, so pressing it twice changes nothing and
-  // a characteristic the owner renamed keeps its name.
+  // b04-product-attributes: the starting set. The call only creates what is
+  // missing, so pressing it twice changes nothing and a characteristic the
+  // owner renamed keeps its name. The toast says how many it added.
   const handleApplyPreset = async () => {
     await applyPreset(undefined, {
-      onSuccess: (result) => {
+      onSuccess: (result) =>
         toast.success(
           result.created.length
-            ? `Добавлено характеристик: ${result.created.length}`
-            : "Стандартные характеристики уже есть"
-        )
-      },
+            ? t("productAttributes.preset.added", { count: result.created.length })
+            : t("productAttributes.preset.none")
+        ),
       onError: (presetError) => toast.error(presetError.message),
-    })
+    }).catch(() => undefined)
   }
 
-  const categoryName = (categoryId: string | null) => {
-    if (!categoryId) {
-      return "Весь каталог"
-    }
-    return categories?.find((category) => category.id === categoryId)?.name ?? "Категория удалена"
-  }
-
-  // The machine key follows the name until the owner edits it by hand: after
-  // that it is theirs, because it is what a filter URL and a CSV column carry.
-  const handleNameChange = (value: string) => {
-    setName(value)
-    if (!keyTouched) {
-      setKey(suggestMachineValue(value))
-    }
-  }
-
-  const handleCreate = async (event: React.FormEvent) => {
-    event.preventDefault()
-    const nameValue = name.trim()
-    const keyValue = key.trim().toLowerCase()
-
-    if (!nameValue) {
-      toast.error("Укажите название характеристики.")
-      return
-    }
-
-    if (!isValidAttributeKey(keyValue)) {
-      toast.error(
-        "Служебное имя: строчные латинские буквы, цифры и подчёркивания, от 2 до 40 символов."
-      )
-      return
-    }
-
-    await createAttribute(
-      {
-        key: keyValue,
-        name: nameValue,
-        type,
-        // A choice list cannot be empty, so a new one starts with a first
-        // choice the owner renames on the next screen.
-        ...(type === "select"
-          ? { options: [{ value: "znachenie_1", label: "Значение 1" }] }
-          : {}),
-      },
-      {
-        onSuccess: (created) => {
-          setName("")
-          setKey("")
-          setKeyTouched(false)
-          toast.success("Характеристика создана")
-          navigate(created.product_attribute.id)
-        },
-        onError: (createError) => toast.error(createError.message),
-      }
-    )
-  }
+  const hasAttributes = attributes.length > 0
 
   return (
-    <SingleColumnPage widgets={{ before: [], after: [] }} data={attributes}>
-      <Container className="divide-y p-0">
-        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 px-6 py-4">
-          <div className="flex flex-col gap-y-1">
-            <Heading level="h2">Характеристики товаров</Heading>
-            <Text size="small" className="text-ui-fg-subtle">
-              Свойства, которыми магазин описывает товары: состав, объём, страна.
-              Показанная характеристика выводится на карточке товара, фильтруемая
-              становится фильтром в каталоге — это два независимых переключателя.
-              Значения заполняются на самом товаре, в разделе «Характеристики».
+    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet>
+      <Container className="divide-y p-0" data-testid="product-attributes">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
+          <div className="flex min-w-0 flex-col gap-y-1">
+            <Heading level="h1">{t("productAttributes.title")}</Heading>
+            <Text size="small" className="text-ui-fg-subtle text-pretty">
+              {t("productAttributes.subtitle")}
             </Text>
-            {preset && missing !== undefined ? (
-              <Text size="small" className="text-ui-fg-muted">
-                {missing === 0
-                  ? `Стандартный набор на месте: ${preset.length} характеристик.`
-                  : `Из стандартного набора не хватает ${missing} из ${preset.length}: ` +
-                    preset
-                      .filter((entry) => !entry.exists)
-                      .map((entry) => entry.name)
-                      .join(", ")}
-              </Text>
+          </div>
+          <div className="flex shrink-0 items-center gap-x-2">
+            <Button
+              size="small"
+              variant="secondary"
+              onClick={handleApplyPreset}
+              isLoading={isApplyingPreset}
+              disabled={!preset || missing === 0}
+            >
+              {t("productAttributes.preset.apply")}
+            </Button>
+            {hasAttributes ? (
+              <Link to="/product-attributes/create">
+                <Button size="small" variant="secondary">
+                  {t("actions.create")}
+                </Button>
+              </Link>
             ) : null}
           </div>
-          <Button
-            size="small"
-            variant="secondary"
-            onClick={handleApplyPreset}
-            isLoading={isApplyingPreset}
-            disabled={missing === 0}
-          >
-            Добавить стандартные
-          </Button>
         </div>
-        {/* One line per cell at every width (t-2026-09-25-18, 0.1.1): on a phone the
-            table scrolls sideways instead of folding «Выбор из списка» into three lines
-            (t-2026-09-27-06, measured at 390). */}
-        <div className="overflow-x-auto">
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Характеристика</Table.HeaderCell>
-                <Table.HeaderCell>Служебное имя</Table.HeaderCell>
-                <Table.HeaderCell>Тип</Table.HeaderCell>
-                <Table.HeaderCell>Где применяется</Table.HeaderCell>
-                <Table.HeaderCell>Где видна</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {attributes.length === 0 ? (
-                <Table.Row>
-                  {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
-                      state fills the first cell and the rest stay blank. */}
-                  <Table.Cell>
-                    <Text size="small" className="text-ui-fg-subtle">
-                      Характеристик пока нет. Создайте первую — форма ниже.
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell />
-                  <Table.Cell />
-                  <Table.Cell />
-                  <Table.Cell />
-                </Table.Row>
-              ) : null}
-              {attributes.map((attribute) => (
-                <Table.Row key={attribute.id}>
-                  <Table.Cell>
-                    <Link
-                      to={attribute.id}
-                      className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
-                    >
-                      <Text size="small" weight="plus" className="truncate" title={attribute.name}>
-                        {attribute.name}
-                      </Text>
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text
-                      size="small"
-                      className="text-ui-fg-subtle font-mono truncate"
-                      title={attribute.key}
-                    >
-                      {attribute.key}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text size="small" className="text-ui-fg-subtle whitespace-nowrap">
-                      {TYPE_LABELS[attribute.type]}
-                      {attribute.unit ? `, ${attribute.unit}` : ""}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text
-                      size="small"
-                      className="text-ui-fg-subtle truncate"
-                      title={categoryName(attribute.category_id)}
-                    >
-                      {categoryName(attribute.category_id)}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center gap-1 whitespace-nowrap">
-                      <StatusBadge color={attribute.show_on_product ? "green" : "grey"}>
-                        На карточке
-                      </StatusBadge>
-                      <StatusBadge color={attribute.use_as_filter ? "green" : "grey"}>
-                        В фильтрах
-                      </StatusBadge>
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </div>
-        <form
-          onSubmit={handleCreate}
-          className="flex flex-wrap items-end gap-x-3 gap-y-2 px-6 py-4"
-        >
-          <div className="flex flex-col gap-y-1">
-            <Text size="small" className="text-ui-fg-subtle">
-              Название
-            </Text>
-            <Input
-              value={name}
-              onChange={(event) => handleNameChange(event.target.value)}
-              placeholder="Состав"
-              className="w-[280px]"
-            />
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <Text size="small" className="text-ui-fg-subtle">
-              Служебное имя
-            </Text>
-            <Input
-              value={key}
-              onChange={(event) => {
-                setKeyTouched(true)
-                setKey(event.target.value)
-              }}
-              placeholder="sostav"
-              className="font-mono w-[200px]"
-            />
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <Text size="small" className="text-ui-fg-subtle">
-              Тип
-            </Text>
-            <select
-              value={type}
-              onChange={(event) => setType(event.target.value as ProductAttributeType)}
-              className="bg-ui-bg-field border-ui-border-base h-8 rounded-md border px-2 text-ui-fg-base txt-compact-small"
-            >
-              {ATTRIBUTE_TYPES.map((option) => (
-                <option key={option} value={option}>
-                  {TYPE_LABELS[option]}
-                </option>
-              ))}
-            </select>
-          </div>
-          <Button size="small" type="submit" isLoading={isCreating}>
-            <Plus /> Новая характеристика
-          </Button>
-          <Text size="small" className="text-ui-fg-subtle basis-full">
-            {TYPE_HINTS[type]}
-          </Text>
-        </form>
+
+        {!hasAttributes ? (
+          <NoRecords
+            title={t("productAttributes.empty.title")}
+            message={t("productAttributes.empty.message")}
+            action={{ to: "/product-attributes/create", label: t("actions.create") }}
+          />
+        ) : (
+          <_DataTable
+            table={table}
+            columns={columns}
+            count={page.count}
+            pageSize={PAGE_SIZE}
+            pagination
+            search
+            queryObject={{ q }}
+            navigateTo={(row) => `/product-attributes/${row.original.id}`}
+          />
+        )}
       </Container>
     </SingleColumnPage>
   )

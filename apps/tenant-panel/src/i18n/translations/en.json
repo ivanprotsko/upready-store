@@ -6190,5 +6190,104 @@
     "defaultCountrySetHint": "The storefront opens in this country's currency and shows only the prices entered for it, with no exchange-rate conversion.",
     "needsOneLocale": "Turn on at least one language.",
     "saved": "Language and currency saved"
+  },
+  "productAttributes": {
+    "title": "Product characteristics",
+    "subtitle": "Properties the shop describes its products with: composition, volume, country. The values are filled in on each product.",
+    "columns": {
+      "name": "Characteristic",
+      "key": "Machine name",
+      "type": "Type",
+      "category": "Applies to",
+      "showOnProduct": "On the product page",
+      "filter": "Filter"
+    },
+    "types": {
+      "text": "Text",
+      "number": "Number",
+      "select": "Choice from a list",
+      "boolean": "Yes / no"
+    },
+    "typeHints": {
+      "text": "Free text: composition, article number, description of the raw material.",
+      "number": "A number with a unit: volume, weight, length. Only a number gets the «from – to» filter.",
+      "select": "A closed list of values: country, flavour, form.",
+      "boolean": "A flag: hypoallergenic, in stock, suitable for children."
+    },
+    "typeWithUnit": "{{type}}, {{unit}}",
+    "allCatalog": "The whole catalog",
+    "categoryGone": "Category deleted",
+    "shown": "Shown",
+    "hidden": "Hidden",
+    "filterOn": "Yes",
+    "filterOff": "No",
+    "filterBadge": "Filter",
+    "preset": {
+      "apply": "Add the standard set",
+      "added_one": "Added {{count}} characteristic",
+      "added_other": "Added {{count}} characteristics",
+      "none": "The standard characteristics are already there"
+    },
+    "empty": {
+      "title": "No characteristics yet",
+      "message": "Create the first one or add the standard set of seven: article number, composition, volume, weight, country, shelf life, purpose."
+    },
+    "create": {
+      "title": "New characteristic",
+      "description": "The buyer sees the name; the machine name goes into the filter address and the import column. You fill in the values on the products.",
+      "selectHint": "The first value appears at once; add the others on the card."
+    },
+    "created": "Characteristic created",
+    "edit": {
+      "title": "Edit characteristic"
+    },
+    "saved": "Saved",
+    "savedCleared_one": "Saved. {{count}} product value was cleared",
+    "savedCleared_other": "Saved. {{count}} product values were cleared",
+    "fields": {
+      "name": "Name",
+      "key": "Machine name",
+      "keyCreateHint": "Suggested from the name; lowercase Latin letters, digits and underscores. It does not change after the create.",
+      "keyLocked": "Does not change: filter addresses and import columns are built on it.",
+      "type": "Type",
+      "position": "Order",
+      "unit": "Unit",
+      "unitHint": "For example ml, g or cm.",
+      "category": "Applies to",
+      "categoryHint": "A characteristic tied to a category applies to its subcategories as well.",
+      "showOnProduct": "On the product page",
+      "showOnProductSwitch": "Show on the product page",
+      "showOnProductHint": "A line in the «Characteristics» block of the product page.",
+      "useAsFilter": "Catalog filter",
+      "useAsFilterSwitch": "Use as a filter",
+      "useAsFilterHint": "A filter in the catalog. For a number, a «from – to» range.",
+      "valueLabel": "Name"
+    },
+    "errors": {
+      "nameRequired": "Enter the name of the characteristic.",
+      "keyFormat": "Machine name: lowercase Latin letters, digits and underscores, 2 to 40 characters."
+    },
+    "translations": {
+      "title": "Name translations",
+      "description": "The name in the storefront's languages. Left empty, the buyer sees the name in the main language."
+    },
+    "values": {
+      "title": "Values",
+      "description": "A closed list: a product carries one of these values. The machine name goes into the filter address, the buyer sees the name.",
+      "drawerHint": "A removed value disappears from the products that carried it: after the save the toast says from how many.",
+      "add": "Add a value",
+      "remove": "Remove the value",
+      "starter": "Value 1",
+      "errors": {
+        "empty": "A choice list needs at least one value.",
+        "incomplete": "Every value needs a name and a machine name: lowercase Latin letters, digits, hyphens or underscores.",
+        "duplicate": "The machine names of the values must differ."
+      }
+    },
+    "delete": {
+      "title": "Delete this characteristic?",
+      "description": "«{{name}}» is deleted together with its values on every product and its catalog filter. This cannot be undone.",
+      "success": "Characteristic deleted"
+    }
   }
 }

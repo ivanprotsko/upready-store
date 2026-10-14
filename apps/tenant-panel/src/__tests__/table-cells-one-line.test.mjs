@@ -41,27 +41,25 @@ test("attribute list: the row shows only the characteristic's name, no options p
   )
   assert.match(
     source,
-    /<Text size="small" weight="plus" className="truncate" title=\{attribute\.name\}>/,
+    /<Text size="small" leading="compact" weight="plus" className="truncate" title=\{getValue\(\)\}>/,
     "the name must be single-line (truncate) with the full value in title"
   )
 })
 
-// t-2026-09-27-06, measured at 390: the name was one line, but «Выбор из списка» folded
-// into three and the two flag badges into two, because the table was squeezed into the
-// card. It now scrolls sideways and neither cell wraps.
-test("attribute list: type and flags stay on one line, the table scrolls on a phone", () => {
+// t-2026-09-27-06, measured at 390: «Выбор из списка» folded into three lines and the
+// two flag badges into two. t-2026-10-14-01 (G2): the list is `_DataTable`, which turns
+// a row into a card below md; on wider screens neither cell wraps.
+test("attribute list: type and flags stay on one line, the rows are _DataTable rows", () => {
   const source = read("routes/product-attributes/attribute-list/attribute-list.tsx")
-  assert.match(source, /<div className="overflow-x-auto">\s*<Table>/, "the table must scroll sideways")
+  assert.ok(source.includes("<_DataTable"), "the list is the native list table")
+  assert.ok(!source.includes("<Table>"), "no hand-made table is left")
   assert.match(
     source,
-    /<Text size="small" className="text-ui-fg-subtle whitespace-nowrap">\s*\{TYPE_LABELS\[attribute\.type\]\}/,
+    /<Text size="small" leading="compact" className="text-ui-fg-subtle whitespace-nowrap">\s*\{row\.original\.unit/,
     "the type cell must not wrap"
   )
-  assert.ok(
-    source.includes('<div className="flex items-center gap-1 whitespace-nowrap">'),
-    "the flag badges must not wrap onto a second line"
-  )
-  assert.ok(!source.includes('"flex flex-wrap items-center gap-1"'), "no wrapping flex row is left")
+  assert.equal((source.match(/<StatusBadge color=\{getValue\(\) \? "green" : "grey"\} className="whitespace-nowrap">/g) ?? []).length, 2,
+    "each flag is one badge in its own column and does not wrap")
 })
 
 test("page list: the reserved-section row shows only the title, no hint line", () => {
