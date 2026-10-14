@@ -870,6 +870,13 @@ medusaIntegrationTestRunner({
         });
 
         it("keeps the last owner: no demotion and no removal, the platform's own row not counted", async () => {
+          // A new shop's platform row is a developer (t-2026-10-14-41). Production
+          // still holds it as an owner until assign-developer-role runs, so the
+          // test puts it back that way: it must not count as the owner who stays.
+          const platformRow = (await platformAdminsOf(shopA)).find((admin) => admin.email === PLATFORM_EMAIL)!;
+          const tenantModuleService: TenantModuleService = getContainer().resolve(TENANT_MODULE);
+          await tenantModuleService.updateTenantAdmins({ id: platformRow.id, role: "owner" });
+
           const admins = await platformAdminsOf(shopA);
           const owner = admins.find((admin) => admin.email === OWNER_A)!;
           // Two rows of the shop are owners, and one of them is the platform's.
