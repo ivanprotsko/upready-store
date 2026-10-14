@@ -155,3 +155,6 @@ handoff/day-2026-09-16-oksana-store/logs/launchd-operator.log
 
 # local link sheet for Ivan (stand/live URLs, logins without passwords)
 .NAVIGATION.md
+
+# local keys file of the contour evidence scripts (public test accounts, never committed)
+apps/backend/scripts/fixtures/*.local.txt
