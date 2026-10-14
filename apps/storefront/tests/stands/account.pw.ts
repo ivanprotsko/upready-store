@@ -79,12 +79,13 @@ test.describe("account", () => {
     await expect(cards.first()).toBeVisible()
     await expect(cards.first().getByTestId("order-display-id")).toBeVisible()
 
-    const statusText = (await cards.first().getByTestId("order-fulfillment-status").textContent()) ?? ""
+    // t-2026-10-14-58, step C: one stage per card in place of the fulfillment dot.
+    const statusText = (await cards.first().getByTestId("order-stage").textContent()) ?? ""
     expect(statusText.trim().length).toBeGreaterThan(0)
     expect(statusText).not.toMatch(/_/) // a raw enum like "not_fulfilled" is never shown verbatim
   })
 
-  test("order detail page opens with data — timeline or status, and the pickup/shipping section", async ({
+  test("order detail page opens with data — the order's stage, and the pickup/shipping section", async ({
     page,
   }) => {
     await loginCustomer(page)
@@ -92,9 +93,7 @@ test.describe("account", () => {
     await page.getByTestId("order-details-link").first().click()
     await expect(page.getByTestId("order-details-container")).toBeVisible()
 
-    const timeline = page.getByTestId("order-timeline")
-    const statusDot = page.getByTestId("order-fulfillment-status")
-    await expect(timeline.or(statusDot).first()).toBeVisible()
+    await expect(page.getByTestId("order-stage").first()).toBeVisible()
   })
 
   test("addresses page opens with a heading and either saved addresses or an explained empty state", async ({

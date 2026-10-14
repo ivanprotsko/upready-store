@@ -50,10 +50,12 @@ export const retrieveOrder = async (id: string, token?: string) => {
           // shown under the account order-timeline. +fulfillments.data: the ApiShip
           // status the provider records (t-2026-10-14-58). +shipping_methods.data: the
           // Russian Post pickup point the provider recorded (46df-pochta).
+          // +fulfillments.canceled_at: the order's stage leaves a cancelled
+          // shipment out (t-2026-10-14-58, step C, `orderStage`).
           // +payment_collections.payment_sessions.{provider_id,status}: a Robokassa
           // order placed awaiting Robokassa's confirmation has no payment yet, only
           // its `pending_authorization` session (t-2026-10-12-13, robokassa-order.ts).
-          "*payment_collections.payments,+payment_collections.payment_sessions.provider_id,+payment_collections.payment_sessions.status,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,*fulfillments.labels,+fulfillments.metadata,+fulfillments.data,+shipping_methods.data",
+          "*payment_collections.payments,+payment_collections.payment_sessions.provider_id,+payment_collections.payment_sessions.status,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,+fulfillments.canceled_at,*fulfillments.labels,+fulfillments.metadata,+fulfillments.data,+shipping_methods.data",
       },
       headers,
       next,
@@ -100,7 +102,11 @@ export const listOrders = async (
         // *shipping_methods: the order card's pickup/courier line (W17) needs the
         // chosen method's name and amount; defaultStoreOrderFields already carries
         // metadata (the pickup point), so only this relation is new here.
-        fields: "*items,+items.metadata,*items.variant,*items.product,*shipping_methods",
+        // The fulfillments' dates, `data` and labels, and the methods' `data`:
+        // the card's one stage and its tracking line (t-2026-10-14-58, step C,
+        // `orderStage`, `trackingEntries`), the same fields `retrieveOrder` reads.
+        fields:
+          "*items,+items.metadata,*items.variant,*items.product,*shipping_methods,+shipping_methods.data,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,+fulfillments.canceled_at,+fulfillments.data,*fulfillments.labels,+fulfillments.metadata",
         ...filters,
       },
       headers,

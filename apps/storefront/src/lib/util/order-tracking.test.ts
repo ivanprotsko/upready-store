@@ -222,3 +222,33 @@ describe("timelineProgress", () => {
     ])
   })
 })
+
+describe("trackingEntries: direct СДЭК (t-2026-10-14-58, step C)", () => {
+  it("shows the number the СДЭК webhook wrote on the fulfillment, with СДЭК's tracking page", () => {
+    expect(
+      trackingEntries([{ data: { cdek_order_uuid: "u1", cdek_number: "1110019201" }, labels: [] }])
+    ).toEqual([
+      { line: "СДЭК 1110019201", url: "https://www.cdek.ru/ru/tracking?order_id=1110019201" },
+    ])
+  })
+
+  it("takes a numeric cdek_number too", () => {
+    expect(trackingEntries([{ data: { cdek_number: 1110019201 } }])[0]?.line).toBe("СДЭК 1110019201")
+  })
+
+  it("does not repeat a number the owner already typed on a label", () => {
+    expect(
+      trackingEntries([
+        {
+          metadata: { carrier: "СДЭК" },
+          labels: [{ tracking_number: "1110019201" }],
+          data: { cdek_number: "1110019201" },
+        },
+      ])
+    ).toEqual([{ line: "СДЭК 1110019201", url: null }])
+  })
+
+  it("adds nothing before СДЭК has given a number", () => {
+    expect(trackingEntries([{ data: { cdek_order_uuid: "u1", cdek_number: null } }])).toEqual([])
+  })
+})

@@ -2224,6 +2224,22 @@
         "hint": "There is no money for this order and the course is not open. If the order is no longer needed, cancel it."
       },
       "unpaid": "The payment is not confirmed yet. Check it in the «Payment» block below before you hand the parcel over."
+    },
+    "stage": {
+      "awaitingPayment": "Awaiting payment",
+      "awaitingConfirmation": "Awaiting payment confirmation",
+      "receiptRejected": "Receipt not accepted",
+      "packing": "Being packed",
+      "awaitingShipment": "Awaiting dispatch",
+      "shipped": "Shipped",
+      "inTransit": "In transit",
+      "atPickupPoint": "Waiting at the pickup point",
+      "withCourier": "With the courier",
+      "received": "Received",
+      "accessOpen": "Access open",
+      "canceled": "Cancelled",
+      "returning": "Not delivered — returning",
+      "returned": "Returned"
     }
   },
   "permissions": {

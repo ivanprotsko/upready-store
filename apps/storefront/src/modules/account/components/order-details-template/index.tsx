@@ -13,18 +13,16 @@ import { getTranslations } from "next-intl/server"
 
 import { getOrderPickupPoint } from "@lib/util/fulfillment"
 import { isNoDeliveryLine } from "@lib/util/shipping-address"
-import OrderTimeline from "@modules/account/components/order-timeline"
-import { OrderStatusDot } from "@modules/account/components/status-dot"
-import { BuyerStatusDot } from "@modules/order/components/buyer-status"
+import { OrderStageBlock } from "@modules/order/components/order-stage"
 import ManualPaymentHandover from "@modules/order/components/manual-payment-handover"
 
 /**
  * The account copy of an order's detail page (`account-mockup.md` §4). Same
  * sections as `modules/order/templates/order-details-template.tsx` (the
  * confirmation page's template — out of this package's scope, left
- * unchanged), plus two account-only additions: a `StatusDot` pair or the full
- * `OrderTimeline` in place of the old `StatusBadge` pair, and a "Pickup
- * point" section that REPLACES `ShippingDetails` for a pickup order (§4a: the
+ * unchanged), plus two account-only additions: the order's one stage
+ * (`OrderStageBlock`, t-2026-10-14-58 step C) in place of the old `StatusBadge`
+ * pair, and a "Pickup point" section that REPLACES `ShippingDetails` for a pickup order (§4a: the
  * drawn frame shows no separate shipping-details section once a pickup point
  * is set — Contact/Method stay off-screen there, matching the mockup rather
  * than merging them into one section).
@@ -68,22 +66,15 @@ const OrderDetailsTemplate = async ({ order }: OrderDetailsTemplateProps) => {
           {tc("orderNumber", { id: order.display_id ?? order.id })}
         </Heading>
         {/* The number is in the heading now, so the meta row below would only
-            repeat it three lines later. Status renders below, either the
-            timeline (a pickup order) or the dot pair (a courier order). */}
+            repeat it three lines later. */}
         <OrderDetails order={order} showStatus={false} showOrderNumber={false} />
 
-        {pickupPoint ? (
-          <div className="mt-2">
-            <OrderTimeline order={order} />
-          </div>
-        ) : (
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2">
-            <BuyerStatusDot order={order} />
-            {shipsSomething && order.status !== "canceled" && (
-              <OrderStatusDot kind="fulfillment" status={order.fulfillment_status} />
-            )}
-          </div>
-        )}
+        {/* t-2026-10-14-58, step C: the order's one stage, its steps and the
+            tracking number, the same block as the order page; it replaces the
+            pickup timeline and the «paid» + «shipped» dot pair. */}
+        <div className="mt-2">
+          <OrderStageBlock order={order} level="h2" />
+        </div>
       </div>
 
       {/* Batch 7 (Ivan: «уже появился в личном кабинете»): the requisites, the receipt

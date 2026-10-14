@@ -1,6 +1,5 @@
 import { formatAddressLines, joinFilled } from "@lib/util/address"
 import { convertToLocale } from "@lib/util/money"
-import { trackingEntries } from "@lib/util/order-tracking"
 import { apishipMethodOf, apishipStatusKeyOf } from "@lib/util/apiship"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import { pochtaPointOf } from "@lib/util/pochta"
@@ -29,18 +28,14 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
   // resolution 2.8: `ShippingDetails.pickupPoint` was dropped in its favor,
   // shared with the pickup-point sheet's own display copy).
   const tPickup = await getTranslations("PickupPoint")
-  // `OrderTimeline.trackingNumber` is the one key for the tracking label; the
-  // account timeline (pickup orders) and this section (shipped orders) share it.
+  // `OrderTimeline.deliveryStatus` labels the carrier's own status below.
   const tTimeline = await getTranslations("OrderTimeline")
   const locale = await getLocale()
 
-  // The tracking number(s) the shop owner typed on the shipment, carrier first
-  // («СДЭК 1234567890»), assembled the same way as in the account timeline
-  // (`@lib/util/order-tracking`).
-  // An ApiShip label carries the carrier's tracking page (`tracking_url`), shown
-  // as «Отследить» next to its number (t-2026-10-14-58).
-  const tracking = trackingEntries(order.fulfillments)
-  // The ApiShip status the provider recorded on the shipment, in words.
+  // The tracking number lives in the stage block at the top of the page now
+  // (`OrderStageBlock`, t-2026-10-14-58 step C), next to the stage it explains.
+  // The ApiShip status the provider recorded on the shipment stays here, in
+  // words, as the carrier's own detail under the order's one stage.
   const tStatus = await getTranslations("ApishipStatus")
   const statusKey = apishipStatusKeyOf(
     order.fulfillments as Array<{ data?: unknown }> | null | undefined
@@ -154,32 +149,6 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
       >
         <span>{shippingMethodLabel}</span>
       </OrderDetailColumn>
-
-      {tracking.length > 0 && (
-        <OrderDetailColumn
-          label={tTimeline("trackingNumber")}
-          data-testid="order-tracking"
-        >
-          {tracking.map(({ line, url }) => (
-            <span key={line} className="flex flex-col">
-              <span className="tabular-nums" data-testid="order-tracking-number">
-                {line}
-              </span>
-              {url && (
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm w-fit"
-                  data-testid="order-tracking-link"
-                >
-                  {tTimeline("trackLink")}
-                </a>
-              )}
-            </span>
-          ))}
-        </OrderDetailColumn>
-      )}
 
       {statusKey && (
         <OrderDetailColumn

@@ -693,7 +693,11 @@ async function completeCart(
     ])
     revalidateTag(orderCacheTag)
 
-    removeCartId()
+    // Awaited (t-2026-10-14-58, step C): the cookie is cleared before the
+    // redirect to the confirmation page is thrown, not in a promise nobody
+    // waits for. A completed cart left in the cookie is what the header's cart
+    // banners read on the very next page.
+    await removeCartId()
     /*
      * `order_token` rides along with the completion response
      * (`api/store/cart-scope.ts` attachOrderAccessToken). Since

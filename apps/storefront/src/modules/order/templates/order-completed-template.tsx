@@ -1,4 +1,4 @@
-import { Button, Heading, Text } from "@medusajs/ui"
+import { Button, Text } from "@medusajs/ui"
 import { cookies as nextCookies } from "next/headers"
 
 import { Link } from "@i18n/navigation"
@@ -10,6 +10,7 @@ import ManualPaymentHandover from "@modules/order/components/manual-payment-hand
 import OnboardingCta from "@modules/order/components/onboarding-cta"
 import OrderDetails from "@modules/order/components/order-details"
 import OrderSection from "@modules/order/components/order-section"
+import { OrderStageBlock } from "@modules/order/components/order-stage"
 import OrderSummary from "@modules/order/components/order-summary"
 import PaymentDetails from "@modules/order/components/payment-details"
 import RobokassaConfirming from "@modules/order/components/robokassa-confirming"
@@ -40,8 +41,8 @@ export default async function OrderCompletedTemplate({
   const hasPayment = Boolean(order.payment_collections?.[0]?.payments?.[0])
 
   // Batch 6: the page by status. Cancelled: no payment details, no «Я оплатил».
-  // Paid: «Оплата подтверждена», the course link for a course line, «готовим к
-  // отправке» only when something is posted. A course alone has no delivery block.
+  // Paid: the course link for a course line. A course alone has no delivery
+  // block. The heading and its sentence are the order's stage (`OrderStageBlock`).
   const isCanceled = order.status === "canceled"
   const isPaid = order.payment_status === "captured"
   // t-2026-10-12-13: a Robokassa order is paid for the buyer once Robokassa's
@@ -80,41 +81,24 @@ export default async function OrderCompletedTemplate({
         className="flex flex-col gap-y-8"
         data-testid="order-complete-container"
       >
+        {/* t-2026-10-14-58, step C: one stage in place of the heading that
+            said «Оплата подтверждена» over the badges «Оплачен» + «Отправлен».
+            The block names it, says what comes next, draws this order's steps
+            and shows the tracking number as soon as there is one. */}
         <div className="flex flex-col gap-y-3">
-          <Heading level="h1" className="text-2xl-semi text-ui-fg-base">
-            {isCanceled
-              ? t("orderCanceled")
-              : robokassa === "paid"
-                ? t("paymentSucceeded")
-                : isPaid
-                  ? t("paymentConfirmed")
-                  : confirming
-                    ? t("orderAccepted")
-                    : t("thankYou")}
-          </Heading>
-          {isCanceled ? (
-            <Text className="txt-medium text-ui-fg-subtle" data-testid="order-canceled">
-              {t("orderCanceledHint")}
-            </Text>
-          ) : confirming ? (
-            <RobokassaConfirming />
-          ) : paidForBuyer ? (
-            <div className="flex flex-col gap-y-3" data-testid="order-payment-confirmed">
-              {shipsSomething && (
-                <Text className="txt-medium text-ui-fg-subtle">{t("paidGoodsHint")}</Text>
-              )}
-              {isPaid && courseLine?.product_handle && (
-                <div>
-                  <Button asChild size="large" data-testid="order-go-to-course">
-                    <Link href={`/products/${courseLine.product_handle}`}>{t("goToCourse")}</Link>
-                  </Button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Text className="txt-medium text-ui-fg-subtle">{t("orderSuccess")}</Text>
-          )}
-          <OrderDetails order={order} locale={locale} showStatus showFulfillment={shipsSomething} />
+          <OrderStageBlock
+            order={order}
+            hint={confirming ? <RobokassaConfirming /> : undefined}
+          >
+            {isPaid && courseLine?.product_handle && (
+              <div data-testid="order-payment-confirmed">
+                <Button asChild size="large" data-testid="order-go-to-course">
+                  <Link href={`/products/${courseLine.product_handle}`}>{t("goToCourse")}</Link>
+                </Button>
+              </div>
+            )}
+          </OrderStageBlock>
+          <OrderDetails order={order} locale={locale} />
           {!isCanceled && !paidForBuyer && (
             <Text className="txt-medium text-ui-fg-subtle" data-testid="order-keep-number">
               {t("keepOrderNumber")}

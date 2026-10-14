@@ -5,7 +5,7 @@ import { convertToLocale } from "@lib/util/money"
 import { joinFilled } from "@lib/util/address"
 import { customerContactLabel, isSyntheticTelegramEmail } from "@lib/util/telegram-contact"
 import OrderCard from "@modules/account/components/order-card"
-import { OrderStatusDot } from "@modules/account/components/status-dot"
+import { OrderStageDot } from "@modules/order/components/order-stage"
 import type { HttpTypes } from "@medusajs/types"
 
 type OverviewProps = {
@@ -75,10 +75,7 @@ const Overview = async ({ customer, orders }: OverviewProps) => {
               {t("latestOrder")}
             </span>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 txt-medium">
-              <OrderStatusDot
-                kind="fulfillment"
-                status={latestOrder.fulfillment_status}
-              />
+              <OrderStageDot order={latestOrder} />
               <span
                 className="text-ui-fg-base"
                 data-testid="latest-order-summary"

@@ -2,18 +2,13 @@ import type { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
 import { formatDate } from "@lib/util/date"
 import { orderContactLabel } from "@lib/data/order-contact"
-import { BuyerStatusBadge } from "@modules/order/components/buyer-status"
-import OrderStatusBadge from "@modules/order/components/order-status"
+import { OrderStageBadge } from "@modules/order/components/order-stage"
 import { getLocale, getTranslations } from "next-intl/server"
 
 type OrderDetailsProps = {
   order: HttpTypes.StoreOrder
+  /** The order's one stage as a badge (t-2026-10-14-58, step C); off where `OrderStageBlock` already says it. */
   showStatus?: boolean
-  /**
-   * Batch 7: the fulfillment badge («Готовим к отправке», «Отправлен») only when
-   * something is actually posted — an order of an online course has nothing to pack.
-   */
-  showFulfillment?: boolean
   /** Off where the page heading already carries the number. */
   showOrderNumber?: boolean
   locale?: string
@@ -22,7 +17,6 @@ type OrderDetailsProps = {
 const OrderDetails = async ({
   order,
   showStatus,
-  showFulfillment = true,
   showOrderNumber = true,
   locale: localeProp,
 }: OrderDetailsProps) => {
@@ -59,15 +53,9 @@ const OrderDetails = async ({
         )}
       </div>
 
-      {/* Batch 7: the buyer's one payment status («Ожидает оплаты», «Ожидает
-          подтверждения оплаты», «Чек не принят», «Оплачен», «Отменён») in place of
-          Medusa's «Авторизован»; the fulfillment badge stays for what is posted. */}
       {showStatus && (
         <div className="flex flex-wrap items-center gap-2 mt-2">
-          <BuyerStatusBadge order={order} />
-          {showFulfillment && order.status !== "canceled" && (
-            <OrderStatusBadge kind="fulfillment" status={order.fulfillment_status} />
-          )}
+          <OrderStageBadge order={order} />
         </div>
       )}
     </div>
