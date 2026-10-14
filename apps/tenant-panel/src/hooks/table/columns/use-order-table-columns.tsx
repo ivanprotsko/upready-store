@@ -10,7 +10,6 @@ import {
   DateHeader,
 } from "../../../components/table/table-cells/common/date-cell"
 import { countries } from "../../../lib/data/countries"
-import { isOrderWithoutParcel } from "../../../lib/order-helpers"
 import { CountryCell } from "../../../components/table/table-cells/order/country-cell"
 import {
   CustomerCell,
@@ -21,9 +20,9 @@ import {
   DisplayIdHeader,
 } from "../../../components/table/table-cells/order/display-id-cell"
 import {
-  FulfillmentStatusCell,
-  FulfillmentStatusHeader,
-} from "../../../components/table/table-cells/order/fulfillment-status-cell"
+  OrderStageCell,
+  OrderStageHeader,
+} from "../../../components/table/table-cells/order/order-stage-cell"
 import {
   PaymentStatusCell,
   PaymentStatusHeader,
@@ -97,19 +96,12 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
           )
         },
       }),
+      // t-2026-10-14-58, step C: «Статус», the order's one stage, in place of
+      // «Сборка». The accessor keeps its id, so a saved column layout still
+      // finds the column.
       columnHelper.accessor("fulfillment_status", {
-        header: () => <FulfillmentStatusHeader />,
-        cell: ({ getValue, row }) => {
-          const status = getValue()
-
-          return (
-            <FulfillmentStatusCell
-              status={status}
-              orderCanceled={row.original.status === "canceled"}
-              withoutParcel={isOrderWithoutParcel(row.original)}
-            />
-          )
-        },
+        header: () => <OrderStageHeader />,
+        cell: ({ row }) => <OrderStageCell order={row.original} />,
       }),
       columnHelper.accessor("total", {
         meta: { phoneTop: "end" },

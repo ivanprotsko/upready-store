@@ -16,6 +16,8 @@ import type { HttpTypes } from "@medusajs/types"
 export type TrackedFulfillment = {
   labels?: { tracking_number?: string | null; tracking_url?: string | null }[] | null
   metadata?: Record<string, unknown> | null
+  /** Direct СДЭК keeps its number here (`cdek_number`, written by the webhook), not on a label. */
+  data?: unknown
 }
 
 /** One tracking line and the carrier's tracking page for it, when the label has one. */
@@ -26,6 +28,13 @@ const webUrl = (raw: string | null | undefined): string | null => {
   const url = raw?.trim() ?? ""
   return /^https?:\/\//i.test(url) ? url : null
 }
+
+/** The carrier's own name, a brand: the same in every language of the shop. */
+const CDEK_NAME = "СДЭК"
+
+/** СДЭК's public tracking page, the same address `apps/backend/src/cdek/statuses.ts` gives. */
+export const cdekTrackingUrl = (cdekNumber: string): string =>
+  `https://www.cdek.ru/ru/tracking?order_id=${encodeURIComponent(cdekNumber)}`
 
 /**
  * «СДЭК 1005248796431» — the carrier the owner typed (`metadata.carrier`) in
@@ -43,11 +52,23 @@ export const trackingEntries = (
     const raw = fulfillment.metadata?.carrier
     const carrier = typeof raw === "string" && raw.trim() ? raw.trim() : null
 
-    return (fulfillment.labels ?? []).flatMap((label) => {
+    const labelled = (fulfillment.labels ?? []).flatMap((label) => {
       const number = label.tracking_number?.trim()
       if (!number) return []
-      return [{ line: carrier ? `${carrier} ${number}` : number, url: webUrl(label.tracking_url) }]
+      return [{ number, entry: { line: carrier ? `${carrier} ${number}` : number, url: webUrl(label.tracking_url) } }]
     })
+
+    // Direct СДЭК (t-2026-10-14-58, step C): the webhook writes the carrier's
+    // number on the fulfillment's `data` and no label, so the buyer never saw
+    // it. It joins the list unless the owner already typed the same number.
+    const rawCdek = (fulfillment.data as { cdek_number?: unknown } | null | undefined)?.cdek_number
+    const cdekNumber = typeof rawCdek === "string" || typeof rawCdek === "number" ? String(rawCdek).trim() : ""
+    const cdek =
+      cdekNumber && !labelled.some(({ number }) => number === cdekNumber)
+        ? [{ line: `${CDEK_NAME} ${cdekNumber}`, url: cdekTrackingUrl(cdekNumber) }]
+        : []
+
+    return [...labelled.map(({ entry }) => entry), ...cdek]
   })
 
 export const trackingLines = (

@@ -10,13 +10,13 @@ import {
 import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { useDate } from "../../../../../hooks/use-date"
+import { getOrderPaymentStatus, manualPaymentStatus } from "../../../../../lib/order-helpers"
 import {
-  getCanceledOrderStatus,
-  getOrderFulfillmentStatus,
-  getOrderPaymentStatus,
-  isOrderWithoutParcel,
-  manualPaymentStatus,
-} from "../../../../../lib/order-helpers"
+  ORDER_STAGE_COLORS,
+  orderStage,
+  orderStageKey,
+  type StageOrder,
+} from "../../../../../lib/order-stage"
 import { ExtendedOrder } from "../../constants"
 import { useCancelOrderPrompt } from "../../hooks/use-cancel-order-prompt"
 
@@ -45,9 +45,8 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
       </div>
       <div className="flex min-w-0 items-center gap-x-4 max-md:w-full max-md:justify-between">
         <div className="flex flex-wrap items-center gap-1.5">
-          <OrderBadge order={order} />
+          <StageBadge order={order} />
           <PaymentBadge order={order} />
-          <FulfillmentBadge order={order} />
         </div>
         <ActionMenu
           groups={[
@@ -68,37 +67,24 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
   )
 }
 
-const FulfillmentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
+/**
+ * t-2026-10-14-58, step C: the order's one stage, the word the buyer reads on
+ * the storefront. It replaces two badges: «Отменён» (a stage of its own now)
+ * and the fulfillment one, whose «Ждёт сборки» next to «Отменён» or «Оплата
+ * отменена» asked her to pack an order nobody pays for (Gemini critique 2, 3.2).
+ */
+const StageBadge = ({ order }: { order: ExtendedOrder }) => {
   const { t } = useTranslation()
-
-  // «Отменен» next to «Ждёт сборки» asks her to pack a cancelled order.
-  // The same with a cancelled payment: «Оплата отменена» and «Ждёт сборки»
-  // side by side say «no money» and «pack it» at once (Gemini critique 2, 3.2).
-  if (
-    (order.status === "canceled" || order.payment_status === "canceled") &&
-    order.fulfillment_status === "not_fulfilled"
-  ) {
-    return null
-  }
-
-  // t-cherk-com-hotfix batch 5: an order of online courses only has nothing
-  // to pack, so «Ждёт сборки» would ask her to pack air.
-  if (isOrderWithoutParcel(order)) {
-    return (
-      <StatusBadge color="grey" className="text-nowrap">
-        {t("orders.fulfillment.notNeeded")}
-      </StatusBadge>
-    )
-  }
-
-  const { label, color } = getOrderFulfillmentStatus(
-    t,
-    order.fulfillment_status
-  )
+  const stage = orderStage(order as unknown as StageOrder)
 
   return (
-    <StatusBadge color={color} className="text-nowrap">
-      {label}
+    <StatusBadge
+      color={ORDER_STAGE_COLORS[stage]}
+      className="text-nowrap"
+      data-testid="order-stage"
+      data-value={stage}
+    >
+      {t(orderStageKey(stage))}
     </StatusBadge>
   )
 }
@@ -111,21 +97,6 @@ const PaymentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
   return (
     <StatusBadge color={color} className="text-nowrap">
       {label}
-    </StatusBadge>
-  )
-}
-
-const OrderBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
-  const { t } = useTranslation()
-  const orderStatus = getCanceledOrderStatus(t, order.status)
-
-  if (!orderStatus) {
-    return null
-  }
-
-  return (
-    <StatusBadge color={orderStatus.color} className="text-nowrap">
-      {orderStatus.label}
     </StatusBadge>
   )
 }

@@ -8,8 +8,7 @@ import { convertToLocale } from "@lib/util/money"
 import { getOrderPickupPoint } from "@lib/util/fulfillment"
 import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import Thumbnail from "@modules/products/components/thumbnail"
-import { OrderStatusDot } from "@modules/account/components/status-dot"
-import { BuyerStatusDot } from "@modules/order/components/buyer-status"
+import { OrderStageDot, OrderStageTracking } from "@modules/order/components/order-stage"
 
 type OrderCardProps = {
   order: HttpTypes.StoreOrder
@@ -19,7 +18,7 @@ type OrderCardProps = {
 const PREVIEW_LIMIT = 4
 
 /**
- * Server component: the async `OrderStatusDot`/label lookups both need
+ * Server component: the async `OrderStageDot`/label lookups both need
  * `next-intl/server`, unavailable from a client tree. Nothing this card
  * renders needs `"use client"` — the line-count reduce and the shipping-line
  * pick are synchronous, so a server component does the same work for free.
@@ -41,7 +40,7 @@ const OrderCard = async ({ order }: OrderCardProps) => {
   // "Standard shipping" placeholder.
   const pickupPoint = getOrderPickupPoint(order)
   // Batch 7: an order of an online course alone has nothing to post — no shipping
-  // line and no fulfillment dot, only the buyer's payment status.
+  // line; its stage says «Доступ открыт» once paid.
   const shipsSomething = (order.items ?? []).some((item) => !isNoDeliveryLine(item))
   const shippingMethod = order.shipping_methods?.[0] as
     | { name?: string; total?: number }
@@ -71,10 +70,9 @@ const OrderCard = async ({ order }: OrderCardProps) => {
         >
           {tc("orderNumber", { id: order.display_id ?? order.id })}
         </span>
-        <BuyerStatusDot order={order} />
-        {shipsSomething && order.status !== "canceled" && (
-          <OrderStatusDot kind="fulfillment" status={order.fulfillment_status} />
-        )}
+        {/* t-2026-10-14-58, step C: one dot, the order's stage, in place of the
+            «paid» + «shipped» pair. */}
+        <OrderStageDot order={order} />
       </div>
 
       <div className="flex items-center divide-x rtl:divide-x-reverse divide-ui-border-base txt-small text-ui-fg-subtle">
@@ -100,6 +98,8 @@ const OrderCard = async ({ order }: OrderCardProps) => {
           {shippingLine}
         </span>
       )}
+
+      <OrderStageTracking order={order} />
 
       {/* The thumbnails used to be full-width cards in a four-column grid, so a
           two-item order filled most of the screen. They are a preview, not the

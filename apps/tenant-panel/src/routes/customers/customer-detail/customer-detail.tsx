@@ -4,13 +4,12 @@ import { Link, useParams } from "react-router-dom"
 
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { DisplayIdCell } from "../../../components/table/table-cells/order/display-id-cell"
-import { FulfillmentStatusCell } from "../../../components/table/table-cells/order/fulfillment-status-cell"
+import { OrderStageCell } from "../../../components/table/table-cells/order/order-stage-cell"
 import { PaymentStatusCell } from "../../../components/table/table-cells/order/payment-status-cell"
 import { MoneyAmountCell } from "../../../components/table/table-cells/common/money-amount-cell"
 import { TableScroll } from "../../../components/table/table-scroll"
 import { useCustomer } from "../../../hooks/api/customers"
 import { useOrders } from "../../../hooks/api/orders"
-import { isOrderWithoutParcel } from "../../../lib/order-helpers"
 
 // tenant-panel: t13-customers-screen. Own screen, no Admin counterpart at
 // this path (the Admin's customer detail is store-wide and out of scope
@@ -35,6 +34,15 @@ const ORDER_FIELDS = [
   "items.requires_shipping",
   "metadata",
   "payment_collections.payments.provider_id",
+  // t-2026-10-14-58, step C: the order's stage (`OrderStageCell`), as in the list.
+  "payment_collections.payments.canceled_at",
+  "payment_collections.payment_sessions.provider_id",
+  "payment_collections.payment_sessions.status",
+  "fulfillments.packed_at",
+  "fulfillments.shipped_at",
+  "fulfillments.delivered_at",
+  "fulfillments.canceled_at",
+  "fulfillments.data",
 ].join(",")
 
 export const CustomerDetail = () => {
@@ -161,11 +169,7 @@ export const CustomerDetail = () => {
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <FulfillmentStatusCell
-                        status={order.fulfillment_status}
-                        orderCanceled={order.status === "canceled"}
-                        withoutParcel={isOrderWithoutParcel(order)}
-                      />
+                      <OrderStageCell order={order} />
                     </Table.Cell>
                     <Table.Cell>
                       <MoneyAmountCell
