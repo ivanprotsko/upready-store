@@ -364,6 +364,9 @@ const request = async <T>(
   }
 };
 
+/** The same request for the print forms (`cdek/print.ts`), which live in a file of their own. */
+export const cdekRequest = request;
+
 /**
  * CDEK reports a rejected call with HTTP 200 as readily as with 4xx: the errors
  * sit inside `requests[].errors`. Both shapes are read here so a caller never has

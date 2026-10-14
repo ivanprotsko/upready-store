@@ -217,6 +217,7 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
   orders: [
     "GET /tenants/orders",
     "POST /tenants/orders/export",
+    "POST /tenants/orders/cdek/labels",
     "GET /tenants/orders/[id]",
     "POST /tenants/orders/[id]/cancel",
     "GET /tenants/orders/[id]/changes",
@@ -225,6 +226,8 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "POST /tenants/orders/[id]/payment-receipt/reject",
     "POST /tenants/orders/[id]/fulfillments",
     "POST /tenants/orders/[id]/fulfillments/[fulfillment_id]/cancel",
+    "GET /tenants/orders/[id]/fulfillments/[fulfillment_id]/cdek/label",
+    "GET /tenants/orders/[id]/fulfillments/[fulfillment_id]/cdek/waybill",
     "POST /tenants/orders/[id]/fulfillments/[fulfillment_id]/mark-as-delivered",
     "POST /tenants/orders/[id]/fulfillments/[fulfillment_id]/shipments",
     "GET /tenants/order-edits",

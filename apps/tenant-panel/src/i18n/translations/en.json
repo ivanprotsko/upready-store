@@ -1965,7 +1965,17 @@
       "unfulfilledItems": "Unfulfilled Items",
       "notNeeded": "No packing needed",
       "withoutShipping": "No shipping",
-      "withoutShippingHint": "An online course is not packed or shipped: access opens for the customer automatically once you confirm the payment."
+      "withoutShippingHint": "An online course is not packed or shipped: access opens for the customer automatically once you confirm the payment.",
+      "cdek": {
+        "label": "CDEK label",
+        "waybill": "CDEK receipt",
+        "preparing": "Preparing the CDEK file…",
+        "errors": {
+          "notRegistered": "The shipment is not registered with CDEK yet",
+          "timeout": "CDEK did not prepare the file in time. Try again in a minute",
+          "failed": "CDEK did not return the file: {{message}}"
+        }
+      }
     },
     "giftCardsStoreCreditLines": "Gift cards & credit lines",
     "list": {

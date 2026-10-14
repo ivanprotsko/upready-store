@@ -8,6 +8,7 @@ import {
   useQuery,
 } from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
+import { CdekPrintKind, cdekPrintPath } from "../../lib/cdek-print"
 import { CsvExport, readCsvExport } from "../../lib/csv-download"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory, TQueryKey } from "../../lib/query-key-factory"
@@ -359,6 +360,30 @@ export const useExportOrders = (
     },
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+/**
+ * t-2026-10-14-58, part A: the CDEK label or receipt of one fulfillment, as
+ * the PDF itself (`lib/cdek-print.ts`). `accept: application/pdf` makes the SDK
+ * hand back the raw `Response`; a refusal still throws its `FetchError`, with
+ * the status the toast is chosen by.
+ */
+export const useCdekPdf = (
+  orderId: string,
+  fulfillmentId: string,
+  options?: UseMutationOptions<Blob, FetchError, CdekPrintKind>
+) => {
+  return useMutation({
+    mutationFn: async (kind: CdekPrintKind) => {
+      const response = (await sdk.client.fetch(
+        cdekPrintPath(orderId, fulfillmentId, kind),
+        { method: "GET", headers: { accept: "application/pdf" } }
+      )) as unknown as Response
+
+      return response.blob()
     },
     ...options,
   })
