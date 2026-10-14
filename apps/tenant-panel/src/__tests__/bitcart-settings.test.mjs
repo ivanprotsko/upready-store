@@ -113,15 +113,26 @@ test("every Bitcart string exists in both panel languages, translated", () => {
  * The same instance switch as BTCPay's: where the backend answers
  * `available: false` (RU) the panel shows Bitcart nowhere. Checked in the
  * source, as the BTCPay suite does, because this package has no JSX runtime.
+ * t-2026-10-14-01 (G3): the card is its own address and leads back to the
+ * list there; the notice before payment is its section.
  */
-test("the card, the summary and the pre-payment notice all hide Bitcart unless the backend says available", () => {
+test("the card, the list and the pre-payment notice all hide Bitcart unless the backend says available", () => {
   const card = read("../routes/settings/payments/components/bitcart-card.tsx")
-  assert.match(card, /if \(bitcart\?\.available !== true\) \{\s*return null\s*\}/)
+  assert.match(
+    card,
+    /if \(bitcart && bitcart\.available !== true\) \{\s*return <Navigate to="\/settings\/payments" replace \/>\s*\}/
+  )
+  assert.ok(card.indexOf("bitcart.available !== true") < card.indexOf("<SettingsDetail"))
+  assert.match(card, /usePreNoticeSection\("bitcart"\)/)
 
-  const page = read("../routes/settings/payments/payments.tsx")
-  assert.match(page, /<BitcartCard \/>/)
-  assert.match(page, /visibleMethodKeys\(\{ cryptoAvailable \}\)\.map/)
+  const ways = read("../routes/settings/payments/payment-ways.ts")
+  assert.match(ways, /const CRYPTO_WAYS: PaymentWay\[\] = \["btcpay", "bitcart", "x402"\]/)
+})
 
-  const preNotice = read("../routes/settings/payments/components/payment-pre-notice-card.tsx")
-  assert.match(preNotice, /key !== "bitcart" \|\| bitcart\?\.available === true/)
+test("the refund and notification texts stay, as read sections at the bottom of the card", () => {
+  const card = read("../routes/settings/payments/components/bitcart-card.tsx")
+  assert.match(card, /title: t\("bitcart\.refundTitle"\)/)
+  assert.match(card, /description: t\("bitcart\.refundHint"\)/)
+  assert.match(card, /bitcart\?\.notification_url \? t\("bitcart\.notificationHint"\) : t\("bitcart\.notificationOff"\)/)
+  assert.match(card, /sections=\{\[stateSection, requisitesSection, preNotice\.section, refundSection, notificationSection\]\}/)
 })

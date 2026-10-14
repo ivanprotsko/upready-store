@@ -324,7 +324,7 @@
           "campaigns": "Кампании",
           "deliveryMethods": "Способы доставки",
           "deliveryCdek": "СДЭК",
-          "paymentsMode": "Приём оплат",
+          "paymentsMode": "Способы оплаты",
           "paymentsAccount": "Счёт Robokassa",
           "searchVerification": "Поисковики",
           "searchCounters": "Счётчики",
@@ -4676,6 +4676,197 @@
     },
     "save": "Сохранить",
     "saved": "Сохранено"
+  },
+  "paymentMethods": {
+    "list": {
+      "title": "Способы оплаты",
+      "description": "Как покупатель может заплатить на кассе.",
+      "buyerSees": "Покупателю сейчас доступны: {{methods}}.",
+      "buyerSeesDemoOnly": "Покупателю сейчас доступна только тестовая оплата — деньги не списываются.",
+      "buyerSeesNothing": "Сейчас покупатель не может оплатить заказ ни одним способом.",
+      "atCheckout": "{{count}} на кассе",
+      "noneAtCheckout": "ни одного на кассе"
+    },
+    "ways": {
+      "robokassa": {
+        "title": "Robokassa",
+        "description": "Банковские карты и СБП в рублях, прямо на сайте"
+      },
+      "manual": {
+        "title": "Перевод по реквизитам",
+        "description": "Покупатель переводит деньги на карту, счёт или кошелёк и присылает чек; вы подтверждаете оплату в заказе"
+      },
+      "tribute": {
+        "title": "Tribute",
+        "description": "Оплата в Telegram, деньги приходят в ваш магазин в Tribute"
+      },
+      "btcpay": {
+        "title": "Криптовалюта (BTCPay Server)",
+        "description": "Покупатель платит криптовалютой на ваш кошелёк через ваш BTCPay Server"
+      },
+      "bitcart": {
+        "title": "Криптовалюта (Bitcart)",
+        "description": "Покупатель платит криптовалютой на ваши кошельки через ваш сервер Bitcart"
+      },
+      "x402": {
+        "title": "x402 (USDC)",
+        "description": "Покупатели и ИИ-агенты платят USDC из своего кошелька сразу на ваш адрес"
+      }
+    },
+    "state": {
+      "connected": "подключено",
+      "test": "тестовый режим",
+      "testnet": "тестовая сеть",
+      "off": "выключено",
+      "none": "не настроено",
+      "unreadable": "ключ не читается"
+    },
+    "yes": "да",
+    "no": "нет",
+    "requisites": "Реквизиты",
+    "accessKey": "Ключ доступа",
+    "masked": "•••• {{last4}}",
+    "notSet": "не задан",
+    "keepKey": "оставьте пустым, чтобы не менять •••• {{last4}}",
+    "enabledHint": "Покупатель видит этот способ на кассе",
+    "fillRequisites": "Чтобы включить, заполните реквизиты ниже.",
+    "unreadableHint": "Реквизиты не читаются: введите их заново через «Изменить».",
+    "robokassa": {
+      "account": "Счёт",
+      "accountConnected": "подключён, пароль •••• {{last4}}",
+      "accountConnectedNoPassword": "подключён",
+      "accountMissing": "не подключён",
+      "accountUnreadable": "реквизиты не читаются — введите их заново",
+      "accountHint": "Логин и пароли — в разделе",
+      "accountLink": "Подключение → Robokassa",
+      "openAccount": "Логин и пароли",
+      "connect": "Подключить счёт",
+      "checkout": "На кассе",
+      "checkoutOffered": "предлагается покупателю",
+      "checkoutNotOffered": "не предлагается",
+      "testHint": "Покупатель платит тестовой картой, деньги не списываются. Боевой режим включайте после модерации магазина в Robokassa.",
+      "enabledHint": "Покупатель видит Robokassa на кассе",
+      "behaviour": {
+        "title": "Поведение",
+        "description": "Что покупатель видит и как Robokassa подписывает платежи",
+        "drawerTitle": "Robokassa — поведение"
+      },
+      "mode": "Режим",
+      "modeTest": "тестовый",
+      "modeLive": "боевой",
+      "methods": "Способы в Robokassa",
+      "methodOff": "{{name}} — выключен",
+      "methodsHint": "Выключенный способ покупатель не увидит ни на кассе, ни в окне Robokassa.",
+      "fiscal": "Чек 54-ФЗ («Робочеки»)",
+      "fiscalOn": "включён",
+      "fiscalOff": "выключен",
+      "fiscalHint": "Для ИП обязателен; «Робочеки» включите и в кабинете Robokassa.",
+      "noAccountHint": "Сначала подключите счёт в разделе «Подключение → Robokassa».",
+      "hashHint": "Тот же, что выбран в кабинете Robokassa. Меняется редко.",
+      "resultUrl": {
+        "title": "Адрес для кабинета Robokassa",
+        "description": "Вставьте его в кабинете Robokassa: Технические настройки → Result URL, метод POST. По нему Robokassa сообщает нам об оплате; без него заказ не станет оплаченным.",
+        "label": "Result URL"
+      }
+    },
+    "tribute": {
+      "needsKey": "Чтобы включить, вставьте ключ доступа в «Реквизитах».",
+      "webhook": "Адрес для уведомлений Tribute",
+      "drawerTitle": "Tribute — реквизиты",
+      "keyHint": "Кабинет Tribute: Settings → API Keys.",
+      "enabledHint": "Покупатель видит Tribute на кассе"
+    },
+    "btcpay": {
+      "requisitesDescription": "Магазин на вашем или арендованном BTCPay Server: адрес сервера, магазин, ключ и секрет вебхука",
+      "storeId": "Магазин в BTCPay",
+      "webhook": "Адрес вебхука для BTCPay",
+      "drawerTitle": "BTCPay Server — реквизиты",
+      "serverUrlPlaceholder": "https://pay.example.com",
+      "storeIdPlaceholder": "7Hq2…"
+    },
+    "bitcart": {
+      "requisitesDescription": "Магазин на вашем или арендованном сервере Bitcart: адрес API, адрес админки, магазин и ключ",
+      "storeId": "Магазин в Bitcart",
+      "notificationUrl": "Адрес для уведомлений",
+      "drawerTitle": "Bitcart — реквизиты",
+      "serverUrlPlaceholder": "https://pay.example.com/api",
+      "adminUrlPlaceholder": "https://pay.example.com/admin",
+      "storeIdPlaceholder": "01J…"
+    },
+    "x402": {
+      "onTestnet": "да, только в тестовой сети",
+      "testnetHint": "USDC в тестовой сети ничего не стоит. Сначала проверьте приём там.",
+      "requisitesDescription": "Адрес вашего кошелька и сети, в которых вы принимаете оплату",
+      "payToHint": "Ошибка в адресе отправит деньги на адрес, которым никто не владеет.",
+      "testnetName": "{{name}} (тестовая сеть)",
+      "networkOff": "{{name}} — выключена",
+      "drawerTitle": "x402 — реквизиты",
+      "payToPlaceholder": "0x…"
+    },
+    "manual": {
+      "intro": "Покупатель оформляет заказ без оплаты на сайте, переводит деньги по реквизитам и прикладывает чек; вы подтверждаете оплату в заказе",
+      "enabled": "Принимать переводы",
+      "enabledHint": "Заказ остаётся «ждёт оплаты», пока вы не подтвердите оплату на карточке заказа.",
+      "offHint": "Добавьте хотя бы один реквизит или контакт менеджера, прежде чем включать переводы.",
+      "saved": "Настройки перевода сохранены",
+      "network": "сеть {{network}}",
+      "recipient": "получатель {{holder}}",
+      "position": "Место в списке: {{n}}",
+      "emptyTitle": "Реквизитов пока нет",
+      "emptyMessage": "Добавьте банк или криптокошелёк — покупатель увидит их на странице заказа.",
+      "removeTitle": "Удалить реквизит?",
+      "removeDescription": "«{{name}}» пропадёт со страницы заказа. Вернуть его можно, только добавив заново.",
+      "removed": "Реквизит удалён",
+      "requisiteSaved": "Реквизит сохранён",
+      "contactsSaved": "Контакты сохранены",
+      "keepOneRequisite": "Переводы включены, а контактов менеджера нет: оставьте хотя бы один реквизит или сначала выключите переводы",
+      "keepOneContact": "Переводы включены, а реквизитов нет: оставьте хотя бы один контакт или сначала выключите переводы",
+      "bankHint": "Нет в списке — «Другой банк» и название ниже",
+      "bankPlaceholder": "выберите банк",
+      "nameHint": "Так банк называется на странице заказа",
+      "holderHint": "Имя, как его покажет банк",
+      "errors": {
+        "whatsapp": "Номер с кодом страны, только цифры: например, +79991234567",
+        "telegram": "Имя пользователя Telegram: от 4 до 32 латинских букв, цифр и знаков _",
+        "email": "Это не похоже на адрес почты"
+      }
+    },
+    "preNotice": {
+      "title": "Уведомление перед оплатой",
+      "description": "Покупатель читает это над кнопкой «Оплатить»: кому платит, в какой валюте, куда его переведут и как вернуть деньги",
+      "buyerSees": "Покупатель увидит",
+      "notSet": "не задано",
+      "notForRub": "при корзине в рублях — ничего",
+      "onlyIntro": "только общую фразу: у кого покупатель покупает и на каких условиях",
+      "shown": "Показывается",
+      "shownAlways": "всегда, над кнопкой «Оплатить»",
+      "shownCurrency": "когда валюта корзины не {{currency}}",
+      "shownCurrencyHint": "При корзине в {{currency}} покупатель уведомления не увидит.",
+      "drawerTitle": "{{method}} — уведомление перед оплатой",
+      "saved": "Уведомление перед оплатой сохранено",
+      "foreignCardHint": "Покупатель увидит уведомление при любой валюте корзины",
+      "chargeCurrencyHint": "Если отличается от валюты корзины",
+      "redirectValue": {
+        "domain": {
+          "label": "Адрес сайта",
+          "placeholder": "например, pay.example.com"
+        },
+        "telegram_bot": {
+          "label": "Имя бота",
+          "placeholder": "например, @shop_pay_bot"
+        },
+        "crypto_network": {
+          "label": "Сеть",
+          "placeholder": "например, TRC20"
+        },
+        "bank": {
+          "label": "Банк",
+          "placeholder": "например, Т-Банк"
+        }
+      },
+      "previewLabel": "Покупатель увидит над кнопкой «Оплатить» (корзина в рублях)",
+      "previewHidden": "При корзине в рублях уведомление не показывается"
+    }
   },
   "auth": {
     "login": {

@@ -107,16 +107,30 @@ test("every BTCPay string exists in both panel languages, translated", () => {
  * answers `available: false`, and the panel shows BTCPay nowhere. This package
  * has no JSX test runtime, so the wiring is checked in the source, the way
  * `telegram-bot-webhook.test.mjs` checks its page.
+ *
+ * t-2026-10-14-01 (panel redesign, G3): the card is its own address now; on
+ * such an instance it leads back to the list, the list has no BTCPay row, and
+ * the notice before payment is a section of the card, so it goes with it.
  */
-test("the card, the summary and the pre-payment notice all hide BTCPay unless the backend says available", () => {
+test("the card, the list and the pre-payment notice all hide BTCPay unless the backend says available", () => {
   const card = read("../routes/settings/payments/components/btcpay-card.tsx")
-  assert.match(card, /if \(btcpay\?\.available !== true\) \{\s*return null\s*\}/)
+  assert.match(
+    card,
+    /if \(btcpay && btcpay\.available !== true\) \{\s*return <Navigate to="\/settings\/payments" replace \/>\s*\}/
+  )
+  assert.ok(card.indexOf("btcpay.available !== true") < card.indexOf("<SettingsDetail"))
+  assert.match(card, /usePreNoticeSection\("btcpay"\)/)
 
   const page = read("../routes/settings/payments/payments.tsx")
-  assert.match(page, /const cryptoAvailable = btcpay\?\.available === true/)
-  assert.match(page, /visibleMethodKeys\(\{ cryptoAvailable \}\)\.map/)
+  assert.match(page, /cryptoAvailable: btcpay\?\.available === true/)
+  assert.match(page, /const ways = visibleWays\(/)
+})
 
-  const preNotice = read("../routes/settings/payments/components/payment-pre-notice-card.tsx")
-  assert.match(preNotice, /key !== "btcpay" \|\| btcpay\?\.available === true/)
-  assert.match(preNotice, /methodKeys\.map/)
+test("the drawer keeps the old card's checks and body, and the secrets write only", () => {
+  const edit = read("../routes/settings/payments/components/btcpay-edit.tsx")
+  assert.match(edit, /btcpayDraftErrors\(draft, settings\)/)
+  assert.match(edit, /defaultValues=\{btcpayDraftFrom\(settings\)\}/)
+  assert.match(edit, /mutateAsync\(btcpayPayload\(draft\)\)/)
+  assert.match(edit, /name="api_key"[\s\S]*?secret/)
+  assert.match(edit, /name="webhook_secret"[\s\S]*?secret/)
 })

@@ -12,7 +12,7 @@ import {
   usePaymentSettings,
   useUpdatePaymentSettings,
 } from "../../../hooks/api/payment-settings"
-import { modeNeedsPasswordsKey } from "./mode-needs-passwords-key"
+import { modeNeedsPasswordsText, robokassaSaveErrorText } from "./mode-needs-passwords-key"
 
 /**
  * ONE Robokassa form, rendered on TWO screens
@@ -97,8 +97,6 @@ export const missingPasswordsFor = (
     (field) => !draft[field].trim() && !record?.[field]?.set
   )
 
-const SERVER_MODE_ERROR = /^(Test|Live) mode needs (.+) before it can be enabled\.$/
-
 export const HASH_ALGORITHMS: RobokassaHashAlgorithm[] = ["sha256", "md5", "sha384", "sha512"]
 
 /**
@@ -173,22 +171,11 @@ export const useRobokassaForm = ({ credentialsOnPage = false }: { credentialsOnP
   const prompt = usePrompt()
 
   const modeError = (isTest: boolean, fields: SecretField[]) =>
-    t(modeNeedsPasswordsKey(isTest, credentialsOnPage), {
-      fields: fields.map((field) => t(`paymentSettings.fields.${field}`)).join(", "),
-    })
+    modeNeedsPasswordsText(t, isTest, fields, credentialsOnPage)
 
   // The API answers in English; the one refusal an owner meets in normal use
   // is said in the panel's language, anything else is passed through as is.
-  const saveErrorText = (message: string) => {
-    const match = SERVER_MODE_ERROR.exec(message)
-    if (!match) {
-      return message
-    }
-    const fields = match[2]
-      .split(" and ")
-      .filter((field): field is SecretField => (SECRET_FIELDS as string[]).includes(field))
-    return modeError(match[1] === "Test", fields)
-  }
+  const saveErrorText = (message: string) => robokassaSaveErrorText(t, message, credentialsOnPage)
 
   const submit = async (isTest: boolean) => {
     if (!draft.merchant_login.trim()) {

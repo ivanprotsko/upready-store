@@ -157,6 +157,27 @@ export const OWNER_ROUTES = [
   { path: "/settings/locale" },
   { path: "/settings/locale/edit", kind: "overlay" },
   { path: "/settings/payments", core: true },
+  { path: "/settings/payments/robokassa" },
+  { path: "/settings/payments/robokassa/edit", kind: "overlay" },
+  { path: "/settings/payments/robokassa/pre-notice/edit", kind: "overlay" },
+  { path: "/settings/payments/manual" },
+  { path: "/settings/payments/manual/edit", kind: "overlay" },
+  { path: "/settings/payments/manual/bank/create", kind: "overlay" },
+  { path: "/settings/payments/manual/crypto/create", kind: "overlay" },
+  { path: "/settings/payments/manual/requisites/:requisite_id/edit", kind: "overlay" },
+  { path: "/settings/payments/manual/contacts/edit", kind: "overlay" },
+  { path: "/settings/payments/manual/pre-notice/edit", kind: "overlay" },
+  { path: "/settings/payments/tribute", note: "only where the instance offers Tribute; elsewhere redirects to /settings/payments" },
+  { path: "/settings/payments/tribute/edit", kind: "overlay" },
+  { path: "/settings/payments/tribute/pre-notice/edit", kind: "overlay" },
+  { path: "/settings/payments/btcpay", note: "only where the instance takes cryptocurrency; elsewhere redirects to /settings/payments" },
+  { path: "/settings/payments/btcpay/edit", kind: "overlay" },
+  { path: "/settings/payments/btcpay/pre-notice/edit", kind: "overlay" },
+  { path: "/settings/payments/bitcart", note: "only where the instance takes cryptocurrency; elsewhere redirects to /settings/payments" },
+  { path: "/settings/payments/bitcart/edit", kind: "overlay" },
+  { path: "/settings/payments/bitcart/pre-notice/edit", kind: "overlay" },
+  { path: "/settings/payments/x402", note: "only where the instance takes cryptocurrency; elsewhere redirects to /settings/payments" },
+  { path: "/settings/payments/x402/edit", kind: "overlay" },
   { path: "/settings/delivery", core: true },
   { path: "/settings/requisites", core: true },
   { path: "/settings/requisites/edit", kind: "overlay" },
@@ -374,6 +395,12 @@ export const PARAM_RESOLVERS = {
   shipping_option_id: async (api) => {
     const body = await api("/tenants/shipping-methods")
     return first(body.methods, "delivery methods").id
+  },
+  // «Перевод по реквизитам» (t-2026-10-14-01, line us-8): the first item of
+  // the shop's transfer requisites, the one the list shows on top.
+  requisite_id: async (api) => {
+    const body = await api("/tenants/payment-settings/manual")
+    return first(body.manual_payment?.requisites, "transfer requisites").id
   },
 }
 

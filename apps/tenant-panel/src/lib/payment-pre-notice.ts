@@ -1,3 +1,5 @@
+import type { TFunction } from "i18next"
+
 /**
  * Предупреждение перед оплатой (rule 5zd, t-2026-10-03-32): показывается,
  * когда валюта списания отличается от валюты корзины, способ — иностранная
@@ -51,3 +53,57 @@ export const shouldShowPrePaymentNotice = (
 
   return currencyDiffers || entry.is_foreign_card || entry.redirect_kind !== null
 }
+
+/**
+ * The cart the panel's preview assumes (t-2026-10-14-01, G3): the shop sells
+ * in roubles, so the card and the drawer say what a buyer with a rouble cart
+ * reads, and say so («корзина в рублях»), instead of asking for a currency.
+ */
+export const PREVIEW_CART_CURRENCY = "rub"
+
+type Translate = TFunction<"translation">
+
+/**
+ * The sentences the buyer reads under the shop's own first line, in the
+ * storefront's order (`checkout/components/payment-pre-notice`): where paying
+ * leads, what currency is charged at what rate, how to get the money back.
+ * `null` when a rouble cart sees no notice at all; `""` when the notice shows
+ * but carries none of the three (a foreign card and nothing else).
+ */
+export const prePaymentNoticeText = (entry: PaymentPreNoticeEntry, t: Translate): string | null => {
+  if (!shouldShowPrePaymentNotice(entry, PREVIEW_CART_CURRENCY)) {
+    return null
+  }
+  const value = entry.redirect_value?.trim()
+  const currency = entry.charge_currency_code?.trim()
+  const rateSource = entry.rate_source?.trim()
+  const refund = entry.refund_terms?.trim()
+
+  return [
+    entry.redirect_kind
+      ? t(`paymentPreNotice.preview.redirect.${entry.redirect_kind}`, {
+          value: value || t("paymentPreNotice.previewValuePlaceholder"),
+        })
+      : null,
+    currency
+      ? rateSource
+        ? t("paymentPreNotice.preview.chargeWithSource", { currency: currency.toUpperCase(), rateSource })
+        : t("paymentPreNotice.preview.chargeNoSource", { currency: currency.toUpperCase() })
+      : null,
+    refund ? t("paymentPreNotice.preview.refund", { terms: refund }) : null,
+  ]
+    .filter(Boolean)
+    .join(" ")
+}
+
+/**
+ * When the buyer meets the notice: `always` for a redirect or a foreign card,
+ * `currency` only for a cart not in the charge currency, `never` when nothing
+ * is set.
+ */
+export const prePaymentNoticeShownWhen = (entry: PaymentPreNoticeEntry): "always" | "currency" | "never" =>
+  entry.redirect_kind !== null || entry.is_foreign_card
+    ? "always"
+    : entry.charge_currency_code?.trim()
+      ? "currency"
+      : "never"

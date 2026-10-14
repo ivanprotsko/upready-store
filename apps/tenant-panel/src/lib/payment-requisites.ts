@@ -66,3 +66,154 @@ export const moveItem = <T>(items: T[], index: number, delta: -1 | 1): T[] => {
   next.splice(target, 0, item)
   return next
 }
+
+// ── t-2026-10-14-01 (panel redesign, G3, line us-8) ─────────────────────────
+// The transfer card reads; each requisite, the switch and the contacts are
+// edited in their own drawer, and each drawer sends only what it names (the
+// backend keeps the rest, `PUT` with optional keys). The drafts, the checks
+// and the bodies live here so the node tests run them as they are. A check
+// answers with ru.json keys; the drawer says them under the field.
+
+type BankItem = {
+  id?: string
+  kind: "bank"
+  icon: string | null
+  bank: string
+  number: string
+  holder: string | null
+}
+
+type CryptoItem = {
+  id?: string
+  kind: "crypto"
+  currency: string
+  network: string
+  address: string
+}
+
+type Item = BankItem | CryptoItem
+
+type Contacts = {
+  whatsapp: string | null
+  telegram: string | null
+  email: string | null
+  note: string | null
+}
+
+/** The «Выберите банк» value of a bank without a preset: the name is typed by hand. */
+export const OTHER_BANK = "other"
+
+export type BankDraft = { icon: string; bank: string; number: string; holder: string }
+export type CryptoDraft = { currency: string; network: string; address: string }
+export type ContactsDraft = { whatsapp: string; telegram: string; email: string; note: string }
+
+export type DraftErrors<T> = Partial<Record<keyof T, string>>
+
+/** A new bank starts with nothing picked; a stored one with its preset, or «Другой банк». */
+export const bankDraftFrom = (item?: BankItem): BankDraft => ({
+  icon: item ? (item.icon ?? OTHER_BANK) : "",
+  bank: item?.bank ?? "",
+  number: item?.number ?? "",
+  holder: item?.holder ?? "",
+})
+
+export const cryptoDraftFrom = (item?: CryptoItem): CryptoDraft => ({
+  currency: item?.currency ?? CRYPTO_CURRENCIES[0],
+  network: item?.network ?? "TRC20",
+  address: item?.address ?? "",
+})
+
+export const bankDraftErrors = (draft: BankDraft): DraftErrors<BankDraft> => {
+  const errors: DraftErrors<BankDraft> = {}
+  if (!draft.icon) {
+    errors.icon = "manualPayment.errors.pickBank"
+  }
+  if (!draft.bank.trim()) {
+    errors.bank = "manualPayment.errors.bankName"
+  }
+  if (!isValidBankNumber(draft.number)) {
+    errors.number = "manualPayment.errors.bankNumber"
+  }
+  return errors
+}
+
+export const cryptoDraftErrors = (draft: CryptoDraft): DraftErrors<CryptoDraft> => {
+  if (!isKnownNetwork(draft.network)) {
+    return { network: "manualPayment.errors.network" }
+  }
+  return isValidCryptoAddress(draft.network, draft.address)
+    ? {}
+    : { address: "manualPayment.errors.address" }
+}
+
+export const bankRequisite = (draft: BankDraft, id?: string): BankItem => ({
+  id,
+  kind: "bank",
+  icon: draft.icon === OTHER_BANK ? null : draft.icon,
+  bank: draft.bank.trim(),
+  number: draft.number.trim(),
+  holder: draft.holder.trim() || null,
+})
+
+export const cryptoRequisite = (draft: CryptoDraft, id?: string): CryptoItem => ({
+  id,
+  kind: "crypto",
+  currency: draft.currency,
+  network: draft.network,
+  address: draft.address.trim(),
+})
+
+/** The list with the item in place of the one with its id, or the item last when it is new. */
+export const putRequisite = <T extends Item>(items: T[], item: T): T[] =>
+  item.id && items.some((existing) => existing.id === item.id)
+    ? items.map((existing) => (existing.id === item.id ? item : existing))
+    : [...items, item]
+
+export const contactsDraftFrom = (contacts?: Contacts): ContactsDraft => ({
+  whatsapp: contacts?.whatsapp ?? "",
+  telegram: contacts?.telegram ?? "",
+  email: contacts?.email ?? "",
+  note: contacts?.note ?? "",
+})
+
+/** «+7 999 123-45-67» → «+79991234567»: the number `wa.me` takes, as the backend wants it. */
+export const compactPhone = (value: string): string => value.trim().replace(/[\s()-]/g, "")
+
+/** «@shop», «https://t.me/shop» → «shop». */
+export const telegramUsername = (value: string): string =>
+  value.trim().replace(/^https?:\/\/t\.me\//i, "").replace(/^@/, "")
+
+/** The backend's own patterns (`PutTenantManualPaymentSchema`), checked before the request. */
+export const contactsDraftErrors = (draft: ContactsDraft): DraftErrors<ContactsDraft> => {
+  const errors: DraftErrors<ContactsDraft> = {}
+  const whatsapp = compactPhone(draft.whatsapp)
+  const telegram = telegramUsername(draft.telegram)
+  const email = draft.email.trim()
+  if (whatsapp && !/^\+?\d{7,15}$/.test(whatsapp)) {
+    errors.whatsapp = "paymentMethods.manual.errors.whatsapp"
+  }
+  if (telegram && !/^[A-Za-z0-9_]{4,32}$/.test(telegram)) {
+    errors.telegram = "paymentMethods.manual.errors.telegram"
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = "paymentMethods.manual.errors.email"
+  }
+  return errors
+}
+
+export const contactsPayload = (draft: ContactsDraft): Contacts => ({
+  whatsapp: compactPhone(draft.whatsapp) || null,
+  telegram: telegramUsername(draft.telegram) || null,
+  email: draft.email.trim() || null,
+  note: draft.note.trim() || null,
+})
+
+export const hasContact = (contacts: Contacts): boolean =>
+  Boolean(contacts.whatsapp || contacts.telegram || contacts.email)
+
+/**
+ * The backend refuses transfers switched on with nothing to offer: no
+ * requisite and no manager contact. The panel asks the same before a request.
+ */
+export const offersNothing = (state: { enabled: boolean; requisites: unknown[]; contacts: Contacts }) =>
+  state.enabled && state.requisites.length === 0 && !hasContact(state.contacts)

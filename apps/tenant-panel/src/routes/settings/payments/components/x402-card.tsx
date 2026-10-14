@@ -1,236 +1,121 @@
-import { useEffect, useRef, useState } from "react"
-import { Badge, Button, Checkbox, Container, Heading, Input, Label, Switch, Text, toast } from "@medusajs/ui"
+import { Badge } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
+import { Navigate } from "react-router-dom"
 
-import { useSaveTenantX402, useTenantX402 } from "../../../../hooks/api/x402"
-import {
-  EMPTY_X402_DRAFT,
-  x402DraftErrors,
-  x402DraftFrom,
-  x402Payload,
-  type X402Draft,
-  type X402Field,
-} from "../../../../lib/x402-settings"
-import { UnreadableSecretAlert } from "../../integrations/components/unreadable-secret-alert"
+import { SettingsDetail, type SettingsSection } from "../../../../components/settings"
+import { useTenantX402 } from "../../../../hooks/api/x402"
+import { WAY_STATE_COLOR, wayStateKey, x402State } from "../payment-ways"
+import { AddressValue } from "./address-value"
 
 /**
- * «x402 (USDC)» (t-2026-10-03-33): the shop's own receiving address for USDC,
- * next to BTCPay on «Приём оплат». Buyers and AI agents pay from their own
- * wallet and the money goes straight to the address typed here. Nothing in
- * this card is secret, so nothing is masked.
+ * «x402 (USDC)» (t-2026-10-03-33): the shop's own receiving address for USDC.
+ * Buyers and AI agents pay from their own wallet and the money goes straight
+ * to this address. Nothing here is secret, so nothing is masked.
  *
- * Rule 19h shapes the load like the other cards here: `loaded === null` is
- * «not answered yet» with the controls rendered disabled, and a late answer
- * refills the draft only while the owner has not typed into it.
+ * t-2026-10-14-01 (panel redesign, G3, prototype state `payments-x402`): the
+ * card reads state (an address that only takes test networks says
+ * «тестовая сеть», orange) → requisites, with the address for AI agents to
+ * copy. Edited in the drawer `edit`. No «Уведомление перед оплатой»: the
+ * platform keeps no notice for x402 and the checkout shows none, so the
+ * section would store a text no buyer ever reads (decide.mjs, G3 us-7).
  *
- * The card exists only where the backend answers `available: true`, so the
- * owner never sees it on an instance that takes no cryptocurrency, not even
- * while the first answer is on its way.
+ * The card exists only where the backend answers `available: true`; on an
+ * instance that takes no cryptocurrency its address leads back to the list.
  */
-
 export const X402Card = () => {
   const { t } = useTranslation()
   const { x402, isPending, isError, error } = useTenantX402()
-  const { mutateAsync: save, isPending: isSaving } = useSaveTenantX402()
-
-  const [loaded, setLoaded] = useState<boolean | null>(null)
-  const [draft, setDraft] = useState<X402Draft>(EMPTY_X402_DRAFT)
-  const [errors, setErrors] = useState<Partial<Record<X402Field, string>>>({})
-  const touchedRef = useRef(false)
-
-  useEffect(() => {
-    if (isPending) {
-      return
-    }
-    setLoaded(true)
-    if (!touchedRef.current) {
-      setDraft(x402DraftFrom(x402?.settings, x402?.default_facilitator_url ?? ""))
-    }
-  }, [isPending, x402])
 
   if (isError) {
     throw error
   }
 
-  if (x402?.available !== true) {
-    return null
+  if (x402 && x402.available !== true) {
+    return <Navigate to="/settings/payments" replace />
   }
 
   const settings = x402?.settings ?? null
-  const busy = loaded === null || isSaving
-  const defaultFacilitatorUrl = x402?.default_facilitator_url ?? ""
+  const state = x402State(settings, x402?.unreadable)
+  const chosen = new Set(settings?.networks ?? [])
 
-  const update = <K extends keyof X402Draft>(key: K, value: X402Draft[K]) => {
-    touchedRef.current = true
-    setDraft((previous) => ({ ...previous, [key]: value }))
+  const stateSection: SettingsSection = {
+    id: "x402",
+    title: t("paymentMethods.ways.x402.title"),
+    description: t("paymentMethods.ways.x402.description"),
+    status: { color: WAY_STATE_COLOR[state], label: t(wayStateKey(state)) },
+    editTo: "edit",
+    rows: [
+      {
+        id: "is_enabled",
+        label: t("x402.fields.is_enabled"),
+        value: settings?.is_enabled
+          ? settings.is_test
+            ? t("paymentMethods.x402.onTestnet")
+            : t("paymentMethods.yes")
+          : t("paymentMethods.no"),
+        hint: x402?.unreadable
+          ? t("paymentMethods.unreadableHint")
+          : !settings
+            ? t("paymentMethods.fillRequisites")
+            : settings.is_test
+              ? t("paymentMethods.x402.testnetHint")
+              : undefined,
+      },
+    ],
   }
 
-  const toggleNetwork = (id: string, checked: boolean) =>
-    update("networks", checked ? [...draft.networks.filter((n) => n !== id), id] : draft.networks.filter((n) => n !== id))
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    const found = x402DraftErrors(draft)
-    setErrors(found)
-    if (Object.keys(found).length) {
-      toast.error(t("x402.errors.fixFields"))
-      return
-    }
-    try {
-      const saved = await save(x402Payload(draft))
-      touchedRef.current = false
-      setDraft(x402DraftFrom(saved.settings, saved.default_facilitator_url))
-      toast.success(t("x402.saved"))
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : String(err))
-    }
+  const requisitesSection: SettingsSection = {
+    id: "requisites",
+    title: t("paymentMethods.requisites"),
+    description: t("paymentMethods.x402.requisitesDescription"),
+    editTo: "edit",
+    rows: [
+      {
+        id: "pay_to",
+        label: t("x402.fields.pay_to"),
+        value: settings?.pay_to,
+        mono: true,
+        hint: t("paymentMethods.x402.payToHint"),
+      },
+      {
+        id: "networks",
+        label: t("x402.fields.networks"),
+        value: x402?.networks_offered.length ? (
+          <div className="flex flex-wrap gap-1.5" data-testid="x402-networks">
+            {x402.networks_offered.map((network) => {
+              const name = network.testnet
+                ? t("paymentMethods.x402.testnetName", { name: network.label })
+                : network.label
+              return chosen.has(network.id) ? (
+                <Badge key={network.id} size="2xsmall" color="green">
+                  {name}
+                </Badge>
+              ) : (
+                <Badge key={network.id} size="2xsmall" color="grey">
+                  {t("paymentMethods.x402.networkOff", { name })}
+                </Badge>
+              )
+            })}
+          </div>
+        ) : null,
+      },
+      {
+        id: "facilitator_url",
+        label: t("x402.fields.facilitator_url"),
+        value: settings?.facilitator_url,
+        mono: true,
+        hint: t("x402.facilitatorHint"),
+      },
+      {
+        id: "agent_purchase_url",
+        label: t("x402.agentTitle"),
+        value: x402?.agent_purchase_url ? (
+          <AddressValue value={x402.agent_purchase_url} testId="x402-agent-purchase-url" />
+        ) : null,
+        hint: t("x402.agentHint"),
+      },
+    ],
   }
 
-  return (
-    <Container className="divide-y p-0" data-testid="x402-card">
-      <div className="flex items-center justify-between px-6 py-4">
-        <div>
-          <Heading>{t("x402.title")}</Heading>
-          <Text className="text-ui-fg-subtle" size="small">
-            {t("x402.subtitle")}
-          </Text>
-        </div>
-        <div className="flex items-center gap-x-2">
-          {settings?.is_test ? (
-            <Badge size="2xsmall" color="orange" data-testid="x402-test-badge">
-              {t("x402.testBadge")}
-            </Badge>
-          ) : null}
-          {x402?.unreadable ? (
-            <Badge size="2xsmall" color="red" data-testid="x402-state">
-              {t("integrations.state.unreadable")}
-            </Badge>
-          ) : settings ? (
-            <Badge size="2xsmall" color={settings.is_enabled ? "green" : "grey"} data-testid="x402-state">
-              {settings.is_enabled ? t("x402.stateOn") : t("x402.stateOff")}
-            </Badge>
-          ) : loaded ? (
-            <Badge size="2xsmall" color="grey" data-testid="x402-state">
-              {t("x402.stateNone")}
-            </Badge>
-          ) : null}
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-y-6 px-6 py-6">
-        {x402?.unreadable ? <UnreadableSecretAlert testId="x402-unreadable" /> : null}
-
-        <Text size="small" className="text-ui-fg-subtle">
-          {t("x402.intro")}
-        </Text>
-
-        <div className="flex items-center gap-x-3">
-          <Switch
-            id="x402_enabled"
-            checked={draft.enabled}
-            disabled={busy}
-            onCheckedChange={(checked) => update("enabled", checked)}
-            data-testid="x402-enabled"
-          />
-          <Label htmlFor="x402_enabled">{t("x402.fields.is_enabled")}</Label>
-        </div>
-
-        <div className="flex flex-col gap-y-2">
-          <Label htmlFor="x402_pay_to">{t("x402.fields.pay_to")}</Label>
-          <Input
-            id="x402_pay_to"
-            name="pay_to"
-            autoComplete="off"
-            data-testid="x402-pay_to"
-            value={draft.pay_to}
-            disabled={busy}
-            aria-invalid={Boolean(errors.pay_to)}
-            onChange={(event) => update("pay_to", event.target.value)}
-            placeholder={loaded === null ? t("paymentSettings.loading") : "0x…"}
-          />
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("x402.payToHint")}
-          </Text>
-          {errors.pay_to ? (
-            <Text size="small" className="text-ui-fg-error">
-              {t(errors.pay_to)}
-            </Text>
-          ) : null}
-        </div>
-
-        <div className="flex flex-col gap-y-3">
-          <Label>{t("x402.fields.networks")}</Label>
-          {(x402?.networks_offered ?? []).map((network) => (
-            <div key={network.id} className="flex items-center gap-x-3">
-              <Checkbox
-                id={`x402_network_${network.id}`}
-                checked={draft.networks.includes(network.id)}
-                disabled={busy}
-                onCheckedChange={(checked) => toggleNetwork(network.id, checked === true)}
-                data-testid={`x402-network-${network.id}`}
-              />
-              <Label htmlFor={`x402_network_${network.id}`}>
-                {network.label}
-                {network.testnet ? (
-                  <span className="text-ui-fg-subtle"> ({t("x402.testBadge")})</span>
-                ) : null}
-              </Label>
-            </div>
-          ))}
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("x402.networksHint")}
-          </Text>
-          {errors.networks ? (
-            <Text size="small" className="text-ui-fg-error">
-              {t(errors.networks)}
-            </Text>
-          ) : null}
-        </div>
-
-        <div className="flex flex-col gap-y-2">
-          <Label htmlFor="x402_facilitator_url">{t("x402.fields.facilitator_url")}</Label>
-          <Input
-            id="x402_facilitator_url"
-            name="facilitator_url"
-            autoComplete="off"
-            data-testid="x402-facilitator_url"
-            value={draft.facilitator_url}
-            disabled={busy}
-            aria-invalid={Boolean(errors.facilitator_url)}
-            onChange={(event) => update("facilitator_url", event.target.value)}
-            placeholder={loaded === null ? t("paymentSettings.loading") : defaultFacilitatorUrl}
-          />
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("x402.facilitatorHint")}
-          </Text>
-          {errors.facilitator_url ? (
-            <Text size="small" className="text-ui-fg-error">
-              {t(errors.facilitator_url)}
-            </Text>
-          ) : null}
-        </div>
-
-        <div className="flex items-center gap-x-2">
-          <Button type="submit" size="small" isLoading={isSaving} disabled={busy} data-testid="x402-save">
-            {t("x402.save")}
-          </Button>
-        </div>
-      </form>
-
-      <div className="flex flex-col gap-y-2 px-6 py-4">
-        <Text size="small" weight="plus">
-          {t("x402.agentTitle")}
-        </Text>
-        <Text size="small" className="text-ui-fg-subtle">
-          {t("x402.agentHint")}
-        </Text>
-        <code
-          className="txt-compact-small break-all rounded-md border bg-ui-bg-subtle px-2 py-1"
-          data-testid="x402-agent-purchase-url"
-        >
-          {x402?.agent_purchase_url ?? t("paymentSettings.loading")}
-        </code>
-      </div>
-    </Container>
-  )
+  return <SettingsDetail isPending={isPending} sections={[stateSection, requisitesSection]} />
 }

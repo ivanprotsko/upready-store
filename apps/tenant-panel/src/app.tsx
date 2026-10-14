@@ -995,10 +995,125 @@ const routes: RouteObject[] = [
             // payment account, stored encrypted per tenant. No Admin
             // counterpart — the Admin configures providers in medusa-config
             // for the one store it serves.
+            //
+            // t-2026-10-14-01 (panel redesign, G3): the screen is the list of
+            // payment methods; each method reads on its own card and is edited
+            // in that card's drawers, the way /shipping/:id hangs its `edit`.
+            // «Уведомление перед оплатой» is one shared drawer under every card
+            // that carries it.
             path: "/settings/payments",
-            handle: { breadcrumb: () => t("paymentSettings.title") },
+            handle: { breadcrumb: () => t("app.nav.owner.payments") },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/settings/payments"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/settings/payments"),
+              },
+              {
+                path: "robokassa",
+                handle: { breadcrumb: () => t("paymentMethods.ways.robokassa.title") },
+                lazy: () => import("./routes/settings/payments/robokassa"),
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/payments/robokassa/edit"),
+                  },
+                  {
+                    path: "pre-notice/edit",
+                    lazy: () => import("./routes/settings/payments/robokassa/pre-notice-edit"),
+                  },
+                ],
+              },
+              {
+                // Line us-8: the switch, each requisite and the contacts get
+                // their own drawer; the list's order and removal are in «…».
+                path: "manual",
+                handle: { breadcrumb: () => t("paymentMethods.ways.manual.title") },
+                lazy: () => import("./routes/settings/payments/manual"),
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/payments/manual/edit"),
+                  },
+                  {
+                    path: "bank/create",
+                    lazy: () => import("./routes/settings/payments/manual/bank-create"),
+                  },
+                  {
+                    path: "crypto/create",
+                    lazy: () => import("./routes/settings/payments/manual/crypto-create"),
+                  },
+                  {
+                    path: "requisites/:requisiteId/edit",
+                    lazy: () => import("./routes/settings/payments/manual/requisite-edit"),
+                  },
+                  {
+                    path: "contacts/edit",
+                    lazy: () => import("./routes/settings/payments/manual/contacts-edit"),
+                  },
+                  {
+                    path: "pre-notice/edit",
+                    lazy: () => import("./routes/settings/payments/manual/pre-notice-edit"),
+                  },
+                ],
+              },
+              {
+                path: "tribute",
+                handle: { breadcrumb: () => t("paymentMethods.ways.tribute.title") },
+                lazy: () => import("./routes/settings/payments/tribute"),
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/payments/tribute/edit"),
+                  },
+                  {
+                    path: "pre-notice/edit",
+                    lazy: () => import("./routes/settings/payments/tribute/pre-notice-edit"),
+                  },
+                ],
+              },
+              {
+                path: "btcpay",
+                handle: { breadcrumb: () => t("paymentMethods.ways.btcpay.title") },
+                lazy: () => import("./routes/settings/payments/btcpay"),
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/payments/btcpay/edit"),
+                  },
+                  {
+                    path: "pre-notice/edit",
+                    lazy: () => import("./routes/settings/payments/btcpay/pre-notice-edit"),
+                  },
+                ],
+              },
+              {
+                path: "bitcart",
+                handle: { breadcrumb: () => t("paymentMethods.ways.bitcart.title") },
+                lazy: () => import("./routes/settings/payments/bitcart"),
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/payments/bitcart/edit"),
+                  },
+                  {
+                    path: "pre-notice/edit",
+                    lazy: () => import("./routes/settings/payments/bitcart/pre-notice-edit"),
+                  },
+                ],
+              },
+              {
+                path: "x402",
+                handle: { breadcrumb: () => t("paymentMethods.ways.x402.title") },
+                lazy: () => import("./routes/settings/payments/x402"),
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/payments/x402/edit"),
+                  },
+                ],
+              },
+            ],
           },
           {
             // «Доставка СДЭК» (i02-apiship-cdek-shipping): the shop's own CDEK

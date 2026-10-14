@@ -85,6 +85,8 @@ export type TenantPaymentMethods = {
   bitcart?: boolean
   /** The shop's own x402 (USDC) address, switched on (t-2026-10-03-33). */
   x402?: boolean
+  /** The shop's Tribute key, switched on, where the instance offers Tribute (t-cherk-22). */
+  tribute?: boolean
   manualCrypto: boolean
   manualManager: boolean
   demo: boolean
