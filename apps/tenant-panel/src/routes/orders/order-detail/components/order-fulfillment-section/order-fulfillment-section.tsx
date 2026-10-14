@@ -1,4 +1,5 @@
-import { Buildings, XCircle } from "@medusajs/icons"
+import { FetchError } from "@medusajs/js-sdk"
+import { Buildings, Receipt, Tag, XCircle } from "@medusajs/icons"
 import { AdminOrder, AdminOrderLineItem } from "@medusajs/types"
 import {
   Button,
@@ -22,10 +23,21 @@ import { Skeleton } from "../../../../../components/common/skeleton"
 import { Thumbnail } from "../../../../../components/common/thumbnail"
 import {
   useCancelOrderFulfillment,
+  useCdekPdf,
   useMarkOrderFulfillmentAsDelivered,
 } from "../../../../../hooks/api/orders"
 import { useStockLocation } from "../../../../../hooks/api/stock-locations"
 import { useDate } from "../../../../../hooks/use-date"
+import {
+  CdekPrintKind,
+  cdekNumberToShow,
+  cdekPdfFilename,
+  cdekPrintErrorText,
+  cdekTrackingUrl,
+  isCdekPrintable,
+  openPdfTab,
+  showPdf,
+} from "../../../../../lib/cdek-print"
 import {
   getFulfillmentProviderLabel,
   isParcelLine,
@@ -308,6 +320,29 @@ const Fulfillment = ({
   const showDeliveryButton =
     !fulfillment.canceled_at && !fulfillment.delivered_at
 
+  // t-2026-10-14-58, part A: the CDEK label and receipt, and CDEK's own
+  // number once its status webhook has written it (`lib/cdek-print.ts`).
+  const cdekPrintable = isCdekPrintable(fulfillment)
+  const cdekNumber = cdekNumberToShow(fulfillment)
+  const { mutateAsync: fetchCdekPdf, isPending: isCdekPending } = useCdekPdf(
+    order.id,
+    fulfillment.id
+  )
+
+  const handleCdekPrint = async (kind: CdekPrintKind) => {
+    // Opened in the click: CDEK takes up to 20 s, and a later open is blocked.
+    const tab = openPdfTab(t("orders.fulfillment.cdek.preparing"))
+
+    try {
+      const blob = await fetchCdekPdf(kind)
+      showPdf(blob, cdekPdfFilename(kind, order.display_id ?? order.id), tab)
+    } catch (e) {
+      tab?.close()
+      const text = cdekPrintErrorText(e as FetchError)
+      toast.error("key" in text ? t(text.key, text.values) : text.message)
+    }
+  }
+
   const [sendNotification, setSendNotification] = useState(
     !order.no_notification
   )
@@ -402,6 +437,24 @@ const Fulfillment = ({
           <ActionMenu
             groups={[
               {
+                actions: cdekPrintable
+                  ? [
+                      {
+                        label: t("orders.fulfillment.cdek.label"),
+                        icon: <Tag />,
+                        onClick: () => handleCdekPrint("label"),
+                        disabled: isCdekPending,
+                      },
+                      {
+                        label: t("orders.fulfillment.cdek.waybill"),
+                        icon: <Receipt />,
+                        onClick: () => handleCdekPrint("waybill"),
+                        disabled: isCdekPending,
+                      },
+                    ]
+                  : [],
+              },
+              {
                 actions: [
                   {
                     label: t("actions.cancel"),
@@ -473,6 +526,18 @@ const Fulfillment = ({
                 {fulfillment.metadata.carrier}
               </Text>
             )}
+          {cdekNumber && (
+            <a
+              href={cdekTrackingUrl(cdekNumber)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover transition-fg"
+            >
+              <Text size="small" leading="compact" as="span">
+                {cdekNumber}
+              </Text>
+            </a>
+          )}
           {fulfillment.labels && fulfillment.labels.length > 0 ? (
             <ul>
               {fulfillment.labels.map((tlink) => {
@@ -521,9 +586,11 @@ const Fulfillment = ({
               })}
             </ul>
           ) : (
-            <Text size="small" leading="compact">
-              -
-            </Text>
+            !cdekNumber && (
+              <Text size="small" leading="compact">
+                -
+              </Text>
+            )
           )}
         </div>
       </div>
