@@ -69,9 +69,12 @@ test("every Tribute string exists in both panel languages, translated", () => {
   assert.deepEqual(same, ["title"])
 })
 
-test("every key the card asks for is in the catalog", () => {
-  const card = read("../routes/settings/payments/components/tribute-card.tsx")
-  const asked = [...card.matchAll(/t\("(tribute\.[\w.]+)"\)/g)].map((match) => match[1])
+// t-2026-10-14-01 (panel redesign, G3): the card reads and the drawer edits.
+const card = read("../routes/settings/payments/components/tribute-card.tsx")
+const edit = read("../routes/settings/payments/components/tribute-edit.tsx")
+
+test("every key the card and its drawer ask for is in the catalog", () => {
+  const asked = [...`${card}\n${edit}`.matchAll(/t\("((?:tribute|paymentMethods)\.[\w.]+)"/g)].map((match) => match[1])
   assert.ok(asked.length > 10)
   for (const key of asked) {
     assert.equal(typeof valueAt(catalogs.en, key), "string", `en is missing ${key}`)
@@ -83,25 +86,37 @@ test("every key the card asks for is in the catalog", () => {
  * This package has no JSX test runtime, so the wiring is checked in the
  * source, the way `btcpay-settings.test.mjs` checks the BTCPay card.
  */
-test("the card is hidden unless the backend says available, and is on the payments page", () => {
-  const card = read("../routes/settings/payments/components/tribute-card.tsx")
-  assert.match(card, /if \(tribute\?\.available !== true\) \{\s*return null\s*\}/)
-  // The return comes before the card's markup, so nothing renders while the first answer is on its way.
-  assert.ok(card.indexOf("tribute?.available !== true") < card.indexOf('data-testid="tribute-card"'))
+test("the card leads back to the list unless the backend says available, and the list hides its row", () => {
+  assert.match(
+    card,
+    /if \(tribute && tribute\.available !== true\) \{\s*return <Navigate to="\/settings\/payments" replace \/>\s*\}/
+  )
+  // The redirect comes before the card's markup, so nothing renders on an instance without Tribute.
+  assert.ok(card.indexOf("tribute.available !== true") < card.indexOf("<SettingsDetail"))
 
   const page = read("../routes/settings/payments/payments.tsx")
-  assert.match(page, /import \{ TributeCard \} from "\.\/components\/tribute-card"/)
-  assert.match(page, /<TributeCard \/>/)
+  assert.match(page, /tributeAvailable: tribute\?\.available === true/)
 })
 
-test("the key field is write only: a password input fed by the draft, never by the stored row", () => {
-  const card = read("../routes/settings/payments/components/tribute-card.tsx")
-  assert.match(card, /id="tribute_api_key"[\s\S]*?type="password"[\s\S]*?value=\{draft\.api_key\}/)
-  assert.doesNotMatch(card, /settings\??\.api_key\??\.(?!set\b)\w+/)
-  assert.match(card, /<SecretStatus masked=\{settings\?\.api_key\} \/>/)
-  assert.match(card, /<Copy content=\{tribute\.callback_url\}/)
+test("the key field is write only: a password input that starts empty, never fed by the stored row", () => {
+  assert.match(edit, /name="api_key"[\s\S]*?type="password"/)
+  assert.match(edit, /defaultValues=\{tributeDraftFrom\(settings\)\}/)
+  assert.match(edit, /mutateAsync\(tributePayload\(draft\)\)/)
+  for (const source of [card, edit]) {
+    assert.doesNotMatch(source, /api_key\??\.(?!set\b|last4\b)\w+/)
+  }
+  // The card reads the key as its last four signs (design-system rule 13).
+  assert.match(card, /t\("paymentMethods\.masked", \{ last4: settings\.api_key\.last4 \?\? "" \}\)/)
+  assert.match(card, /<AddressValue value=\{tribute\.callback_url\}/)
 
   const hook = read("../hooks/api/tribute.tsx")
   assert.match(hook, /"\/tenants\/tribute", \{ method: "PUT", body: payload \}/)
   assert.match(hook, /"\/tenants\/tribute", \{ method: "DELETE" \}/)
+})
+
+test("«Удалить ключ» is the last group of the first «…», after «Изменить», and asks first (rule 8)", () => {
+  assert.ok(card.indexOf('to: "edit"') < card.indexOf("onClick: handleRemove"))
+  assert.match(card, /const confirmed = await prompt\(\{\s*title: t\("tribute\.removeTitle"\)/)
+  assert.ok(card.indexOf("if (!confirmed)") < card.indexOf("await remove()"))
+  assert.doesNotMatch(card, /variant="danger"/)
 })

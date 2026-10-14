@@ -159,10 +159,20 @@ test("every x402 string exists in both panel languages, translated", () => {
   assert.notEqual(catalogs.ru.orders.payment.x402Transaction, catalogs.en.orders.payment.x402Transaction)
 })
 
-test("the card hides unless the backend says available, and the page lists it next to BTCPay", () => {
+test("the card leads back to the list unless the backend says available, and the list puts it after BTCPay", () => {
   const card = read("../routes/settings/payments/components/x402-card.tsx")
-  assert.match(card, /if \(x402\?\.available !== true\) \{\s*return null\s*\}/)
+  assert.match(
+    card,
+    /if \(x402 && x402\.available !== true\) \{\s*return <Navigate to="\/settings\/payments" replace \/>\s*\}/
+  )
 
-  const page = read("../routes/settings/payments/payments.tsx")
-  assert.match(page, /<BtcpayCard \/>\s*[\s\S]*?<X402Card \/>/)
+  // t-2026-10-14-01 (G3): the list's order is the prototype's, x402 last.
+  const ways = read("../routes/settings/payments/payment-ways.ts")
+  assert.match(ways, /\["robokassa", "manual", "tribute", "btcpay", "bitcart", "x402"\]/)
+})
+
+test("an address that only takes test networks reads «тестовая сеть», orange (design-system rule 17)", () => {
+  const ways = read("../routes/settings/payments/payment-ways.ts")
+  assert.match(ways, /testnet: "orange"/)
+  assert.equal(catalogs.ru.paymentMethods.state.testnet, "тестовая сеть")
 })

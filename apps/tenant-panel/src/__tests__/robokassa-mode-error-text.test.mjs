@@ -2,7 +2,10 @@ import { test } from "node:test"
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 
-import { modeNeedsPasswordsKey } from "../routes/settings/payments/mode-needs-passwords-key.ts"
+import {
+  modeNeedsPasswordsKey,
+  robokassaSaveErrorText,
+} from "../routes/settings/payments/mode-needs-passwords-key.ts"
 
 /**
  * 46df: the «не хватает паролей» toast on the Robokassa page used to say
@@ -46,5 +49,25 @@ test("the Robokassa page is the one screen that says its fields are on the page"
     read("../routes/settings/integrations/robokassa/robokassa.tsx"),
     /useRobokassaForm\(\{ credentialsOnPage: true \}\)/
   )
-  assert.match(read("../routes/settings/payments/payments.tsx"), /useRobokassaForm\(\)/)
+  // t-2026-10-14-01 (G3): «Приём оплат» became a list; the behaviour drawer
+  // of the Robokassa card has no password fields either.
+  const drawer = read("../routes/settings/payments/components/robokassa-edit.tsx")
+  assert.match(drawer, /modeNeedsPasswordsText\(t, values\.is_test, missing, false\)/)
+  assert.match(drawer, /robokassaSaveErrorText\(t, \(saveError as Error\)\.message, false\)/)
+})
+
+// A stand-in `t` that names the key and its options, so the parse runs for real.
+const t = (key, options) => (options ? `${key}|${options.fields ?? ""}` : key)
+
+test("the API's English refusal is said in the panel's language, with the missing fields named", () => {
+  assert.equal(
+    robokassaSaveErrorText(t, "Test mode needs test_password1 and test_password2 before it can be enabled.", false),
+    "paymentSettings.modeNeedsPasswords.test|paymentSettings.fields.test_password1, paymentSettings.fields.test_password2"
+  )
+  assert.equal(
+    robokassaSaveErrorText(t, "Live mode needs password2 before it can be enabled.", true),
+    "paymentSettings.modeNeedsPasswords.liveHere|paymentSettings.fields.password2"
+  )
+  // Anything else is the platform's own message, passed through as is.
+  assert.equal(robokassaSaveErrorText(t, "merchant_login is required", false), "merchant_login is required")
 })

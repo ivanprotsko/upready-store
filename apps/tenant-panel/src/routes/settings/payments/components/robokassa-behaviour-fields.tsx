@@ -1,140 +1,161 @@
-import { Label, Select, Switch, Text } from "@medusajs/ui"
+import { Select } from "@medusajs/ui"
+import { UseFormReturn, useWatch } from "react-hook-form"
 import { useTranslation } from "react-i18next"
+import * as zod from "zod"
 
-import { HASH_ALGORITHMS, type RobokassaForm } from "../use-robokassa-form"
-import { RobokassaMethodSwitches } from "./robokassa-method-switches"
+import { Form } from "../../../../components/common/form"
+import { SwitchBox } from "../../../../components/common/switch-box"
 import {
   ROBOKASSA_SNO_VALUES,
   ROBOKASSA_TAX_VALUES,
-  type RobokassaHashAlgorithm,
-  type RobokassaSno,
-  type RobokassaTax,
+  type RobokassaPanelMethod,
 } from "../../../../hooks/api/payment-settings"
+import { RobokassaMethodSwitches } from "./robokassa-method-switches"
 
 /**
- * How the shop BEHAVES on Robokassa: test or live payments, which hash the
- * signature uses, whether the method is offered at all
- * (p01-settings-integrations-restructure).
+ * How the shop BEHAVES on Robokassa (p01-settings-integrations-restructure):
+ * whether the method is offered, test or live payments, which of Robokassa's
+ * own methods the buyer sees, the 54-FZ receipt, which hash the signature
+ * uses. The MerchantLogin and the passwords live on
+ * `/settings/integrations/robokassa`.
  *
- * This is the whole form part of «Приём оплат» now. The MerchantLogin and the
- * passwords moved to `/settings/integrations/robokassa`, and the page links
- * there instead of holding a second copy of them (rule 20).
+ * t-2026-10-14-01 (panel redesign, G3, prototype state
+ * `payments-robokassa-edit`): the fields of the behaviour drawer, in the
+ * prototype's order — «Принимать оплату» first, «Алгоритм подписи» last
+ * (audit A4).
  */
-export const RobokassaBehaviourFields = ({ form }: { form: RobokassaForm }) => {
+
+export const ROBOKASSA_HASH_ALGORITHMS = ["sha256", "md5", "sha384", "sha512"] as const
+
+export const RobokassaBehaviourSchema = zod.object({
+  is_enabled: zod.boolean(),
+  is_test: zod.boolean(),
+  disabled_methods: zod.array(zod.string()),
+  fiscalization_enabled: zod.boolean(),
+  sno: zod.enum(ROBOKASSA_SNO_VALUES),
+  default_tax: zod.enum(ROBOKASSA_TAX_VALUES),
+  hash_algorithm: zod.enum(ROBOKASSA_HASH_ALGORITHMS),
+})
+
+export type RobokassaBehaviourValues = zod.infer<typeof RobokassaBehaviourSchema>
+
+export const RobokassaBehaviourFields = ({
+  form,
+  methods,
+}: {
+  form: UseFormReturn<RobokassaBehaviourValues>
+  methods: RobokassaPanelMethod[]
+}) => {
   const { t } = useTranslation()
-  const { draft, update, busy } = form
+  const fiscal = useWatch({ control: form.control, name: "fiscalization_enabled" })
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="flex flex-col gap-y-2">
-          <Label htmlFor="hash_algorithm">{t("paymentSettings.fields.hash_algorithm")}</Label>
-          <Select
-            value={draft.hash_algorithm}
-            disabled={busy}
-            onValueChange={(value) => update("hash_algorithm", value as RobokassaHashAlgorithm)}
-          >
-            <Select.Trigger id="hash_algorithm">
-              <Select.Value />
-            </Select.Trigger>
-            <Select.Content>
-              {HASH_ALGORITHMS.map((algorithm) => (
-                <Select.Item key={algorithm} value={algorithm}>
-                  {algorithm.toUpperCase()}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select>
-        </div>
-        <div className="flex items-center gap-x-3 md:pt-7">
-          <Switch
-            id="is_test"
-            checked={draft.is_test}
-            disabled={busy}
-            onCheckedChange={(checked) => update("is_test", checked)}
-          />
-          <Label htmlFor="is_test">{t("paymentSettings.fields.is_test")}</Label>
-        </div>
-        <div className="flex items-center gap-x-3 md:pt-7">
-          <Switch
-            id="is_enabled"
-            checked={draft.is_enabled}
-            disabled={busy}
-            onCheckedChange={(checked) => update("is_enabled", checked)}
-          />
-          <Label htmlFor="is_enabled">{t("paymentSettings.fields.is_enabled")}</Label>
-        </div>
-      </div>
-
-      <Text size="small" className="text-ui-fg-subtle">
-        {t("paymentSettings.testHint")}
-      </Text>
+      <SwitchBox
+        control={form.control}
+        name="is_enabled"
+        label={t("paymentSettings.fields.is_enabled")}
+        description={t("paymentMethods.robokassa.enabledHint")}
+      />
+      <SwitchBox
+        control={form.control}
+        name="is_test"
+        label={t("paymentSettings.fields.is_test")}
+        description={t("paymentMethods.robokassa.testHint")}
+      />
 
       {/* t-2026-10-12-13 (Ivan 12.10, 4.1: «нужно выключить оплату СБП»). */}
-      <RobokassaMethodSwitches form={form} />
+      <RobokassaMethodSwitches form={form} methods={methods} />
 
       {/* t-cherk-30: the 54-FZ receipt (`Receipt`). Robokassa only prints one
           when the shop sends the item list, and it is mandatory in practice
-          for an ИП, so this is next to the rest of the account's behaviour
-          rather than buried on the credentials screen. */}
-      <div className="flex flex-col gap-y-4 border-t pt-4">
-        <div className="flex items-center gap-x-3">
-          <Switch
-            id="fiscalization_enabled"
-            checked={draft.fiscalization_enabled}
-            disabled={busy}
-            onCheckedChange={(checked) => update("fiscalization_enabled", checked)}
-          />
-          <Label htmlFor="fiscalization_enabled">{t("paymentSettings.fields.fiscalization_enabled")}</Label>
-        </div>
-
-        {draft.fiscalization_enabled && (
+          for an ИП. */}
+      <div className="flex flex-col gap-y-4">
+        <SwitchBox
+          control={form.control}
+          name="fiscalization_enabled"
+          label={t("paymentMethods.robokassa.fiscal")}
+          description={t("paymentMethods.robokassa.fiscalHint")}
+        />
+        {fiscal ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex flex-col gap-y-2">
-              <Label htmlFor="sno">{t("paymentSettings.fields.sno")}</Label>
-              <Select
-                value={draft.sno}
-                disabled={busy}
-                onValueChange={(value) => update("sno", value as RobokassaSno)}
-              >
-                <Select.Trigger id="sno">
-                  <Select.Value />
-                </Select.Trigger>
-                <Select.Content>
-                  {ROBOKASSA_SNO_VALUES.map((value) => (
-                    <Select.Item key={value} value={value}>
-                      {t(`paymentSettings.sno.${value}`)}
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <Label htmlFor="default_tax">{t("paymentSettings.fields.default_tax")}</Label>
-              <Select
-                value={draft.default_tax}
-                disabled={busy}
-                onValueChange={(value) => update("default_tax", value as RobokassaTax)}
-              >
-                <Select.Trigger id="default_tax">
-                  <Select.Value />
-                </Select.Trigger>
-                <Select.Content>
-                  {ROBOKASSA_TAX_VALUES.map((value) => (
-                    <Select.Item key={value} value={value}>
-                      {t(`paymentSettings.tax.${value}`)}
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select>
-            </div>
+            <Form.Field
+              control={form.control}
+              name="sno"
+              render={({ field: { value, onChange, ref, ...field } }) => (
+                <Form.Item>
+                  <Form.Label>{t("paymentSettings.fields.sno")}</Form.Label>
+                  <Form.Control>
+                    <Select {...field} value={value} onValueChange={onChange}>
+                      <Select.Trigger ref={ref} data-testid="robokassa-sno">
+                        <Select.Value />
+                      </Select.Trigger>
+                      <Select.Content>
+                        {ROBOKASSA_SNO_VALUES.map((option) => (
+                          <Select.Item key={option} value={option}>
+                            {t(`paymentSettings.sno.${option}`)}
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select>
+                  </Form.Control>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )}
+            />
+            <Form.Field
+              control={form.control}
+              name="default_tax"
+              render={({ field: { value, onChange, ref, ...field } }) => (
+                <Form.Item>
+                  <Form.Label>{t("paymentSettings.fields.default_tax")}</Form.Label>
+                  <Form.Control>
+                    <Select {...field} value={value} onValueChange={onChange}>
+                      <Select.Trigger ref={ref} data-testid="robokassa-default-tax">
+                        <Select.Value />
+                      </Select.Trigger>
+                      <Select.Content>
+                        {ROBOKASSA_TAX_VALUES.map((option) => (
+                          <Select.Item key={option} value={option}>
+                            {t(`paymentSettings.tax.${option}`)}
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select>
+                  </Form.Control>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )}
+            />
           </div>
-        )}
-
-        <Text size="small" className="text-ui-fg-subtle">
-          {t("paymentSettings.fiscalizationHint")}
-        </Text>
+        ) : null}
       </div>
+
+      <Form.Field
+        control={form.control}
+        name="hash_algorithm"
+        render={({ field: { value, onChange, ref, ...field } }) => (
+          <Form.Item>
+            <Form.Label>{t("paymentSettings.fields.hash_algorithm")}</Form.Label>
+            <Form.Control>
+              <Select {...field} value={value} onValueChange={onChange}>
+                <Select.Trigger ref={ref} data-testid="robokassa-hash-algorithm">
+                  <Select.Value />
+                </Select.Trigger>
+                <Select.Content>
+                  {ROBOKASSA_HASH_ALGORITHMS.map((algorithm) => (
+                    <Select.Item key={algorithm} value={algorithm}>
+                      {algorithm.toUpperCase()}
+                    </Select.Item>
+                  ))}
+                </Select.Content>
+              </Select>
+            </Form.Control>
+            <Form.Hint>{t("paymentMethods.robokassa.hashHint")}</Form.Hint>
+            <Form.ErrorMessage />
+          </Form.Item>
+        )}
+      />
     </>
   )
 }

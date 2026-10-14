@@ -318,7 +318,7 @@
           "campaigns": "Campaigns",
           "deliveryMethods": "Delivery methods",
           "deliveryCdek": "CDEK",
-          "paymentsMode": "Taking payments",
+          "paymentsMode": "Payment methods",
           "paymentsAccount": "Robokassa account",
           "searchVerification": "Search engines",
           "searchCounters": "Counters",
@@ -4677,6 +4677,169 @@
     },
     "save": "Save",
     "saved": "Saved"
+  },
+  "paymentMethods": {
+    "list": {
+      "title": "Payment methods",
+      "description": "How a buyer can pay at checkout.",
+      "buyerSees": "Buyers can pay now with: {{methods}}.",
+      "buyerSeesDemoOnly": "Buyers can only make a test payment now — no money is charged.",
+      "buyerSeesNothing": "Right now a buyer cannot pay for an order by any method.",
+      "atCheckout": "{{count}} at checkout",
+      "noneAtCheckout": "none at checkout"
+    },
+    "ways": {
+      "robokassa": {
+        "title": "Robokassa",
+        "description": "Bank cards and SBP in roubles, right on the site"
+      },
+      "manual": {
+        "title": "Transfer to requisites",
+        "description": "The buyer transfers money to a card, account or wallet and sends the receipt; you confirm the payment on the order"
+      },
+      "tribute": {
+        "title": "Tribute",
+        "description": "Payment in Telegram, the money goes to your shop on Tribute"
+      },
+      "btcpay": {
+        "title": "Cryptocurrency (BTCPay Server)",
+        "description": "The buyer pays in cryptocurrency to your wallet through your BTCPay Server"
+      },
+      "bitcart": {
+        "title": "Cryptocurrency (Bitcart)",
+        "description": "The buyer pays in cryptocurrency to your wallets through your Bitcart server"
+      },
+      "x402": {
+        "title": "x402 (USDC)",
+        "description": "Buyers and AI agents pay USDC from their own wallet straight to your address"
+      }
+    },
+    "state": {
+      "connected": "connected",
+      "test": "test mode",
+      "testnet": "test network",
+      "off": "off",
+      "none": "not set up",
+      "unreadable": "key unreadable"
+    },
+    "yes": "yes",
+    "no": "no",
+    "requisites": "Requisites",
+    "accessKey": "Access key",
+    "masked": "•••• {{last4}}",
+    "notSet": "not set",
+    "keepKey": "leave empty to keep •••• {{last4}}",
+    "enabledHint": "Buyers see this method at checkout",
+    "fillRequisites": "To switch it on, fill in the requisites below.",
+    "unreadableHint": "The requisites cannot be read: enter them again under «Change».",
+    "robokassa": {
+      "account": "Account",
+      "accountConnected": "connected, password •••• {{last4}}",
+      "accountConnectedNoPassword": "connected",
+      "accountMissing": "not connected",
+      "accountUnreadable": "the requisites cannot be read — enter them again",
+      "accountHint": "The login and passwords are under",
+      "accountLink": "Integrations → Robokassa",
+      "openAccount": "Login and passwords",
+      "connect": "Connect the account",
+      "checkout": "At checkout",
+      "checkoutOffered": "offered to buyers",
+      "checkoutNotOffered": "not offered",
+      "testHint": "The buyer pays with a test card and no money is charged. Switch to live mode after Robokassa approves your shop.",
+      "enabledHint": "Buyers see Robokassa at checkout",
+      "behaviour": {
+        "title": "Behaviour",
+        "description": "What the buyer sees and how Robokassa signs payments",
+        "drawerTitle": "Robokassa — behaviour"
+      },
+      "mode": "Mode",
+      "modeTest": "test",
+      "modeLive": "live",
+      "methods": "Methods in Robokassa",
+      "methodOff": "{{name}} — off",
+      "methodsHint": "A method switched off is shown to the buyer neither at checkout nor in the Robokassa window.",
+      "fiscal": "54-FZ receipt («Robocheki»)",
+      "fiscalOn": "on",
+      "fiscalOff": "off",
+      "fiscalHint": "Mandatory for a sole trader; switch on «Robocheki» in the Robokassa dashboard as well.",
+      "noAccountHint": "First connect the account under «Integrations → Robokassa».",
+      "hashHint": "The same one chosen in the Robokassa dashboard. Rarely changes.",
+      "resultUrl": {
+        "title": "Address for the Robokassa dashboard",
+        "description": "Paste it in the Robokassa dashboard: Technical settings → Result URL, method POST. Robokassa reports payments to this address; without it an order never becomes paid.",
+        "label": "Result URL"
+      }
+    },
+    "tribute": {
+      "needsKey": "To switch it on, paste the access key under «Requisites».",
+      "webhook": "Address for Tribute notifications",
+      "drawerTitle": "Tribute — requisites",
+      "keyHint": "Tribute dashboard: Settings → API Keys.",
+      "enabledHint": "Buyers see Tribute at checkout"
+    },
+    "btcpay": {
+      "requisitesDescription": "A store on your own or a rented BTCPay Server: the server address, the store, the key and the webhook secret",
+      "storeId": "Store in BTCPay",
+      "webhook": "Webhook address for BTCPay",
+      "drawerTitle": "BTCPay Server — requisites",
+      "serverUrlPlaceholder": "https://pay.example.com",
+      "storeIdPlaceholder": "7Hq2…"
+    },
+    "bitcart": {
+      "requisitesDescription": "A store on your own or a rented Bitcart server: the API address, the admin address, the store and the key",
+      "storeId": "Store in Bitcart",
+      "notificationUrl": "Notification address",
+      "drawerTitle": "Bitcart — requisites",
+      "serverUrlPlaceholder": "https://pay.example.com/api",
+      "adminUrlPlaceholder": "https://pay.example.com/admin",
+      "storeIdPlaceholder": "01J…"
+    },
+    "x402": {
+      "onTestnet": "yes, on a test network only",
+      "testnetHint": "USDC on a test network is worth nothing. Check that payments arrive there first.",
+      "requisitesDescription": "Your wallet address and the networks you take payments on",
+      "payToHint": "A mistake in the address sends the money to an address nobody owns.",
+      "testnetName": "{{name}} (test network)",
+      "networkOff": "{{name}} — off",
+      "drawerTitle": "x402 — requisites",
+      "payToPlaceholder": "0x…"
+    },
+    "preNotice": {
+      "title": "Pre-payment notice",
+      "description": "The buyer reads this above the «Pay» button: whom they pay, in what currency, where they are sent and how to get the money back",
+      "buyerSees": "The buyer sees",
+      "notSet": "not set",
+      "notForRub": "nothing for a cart in roubles",
+      "onlyIntro": "only the opening line: whom the buyer buys from and on what terms",
+      "shown": "Shown",
+      "shownAlways": "always, above the «Pay» button",
+      "shownCurrency": "when the cart is not in {{currency}}",
+      "shownCurrencyHint": "For a cart in {{currency}} the buyer sees no notice.",
+      "drawerTitle": "{{method}} — pre-payment notice",
+      "saved": "Pre-payment notice saved",
+      "foreignCardHint": "The buyer sees the notice whatever the cart's currency",
+      "chargeCurrencyHint": "If it differs from the cart's currency",
+      "redirectValue": {
+        "domain": {
+          "label": "Site address",
+          "placeholder": "for example, pay.example.com"
+        },
+        "telegram_bot": {
+          "label": "Bot name",
+          "placeholder": "for example, @shop_pay_bot"
+        },
+        "crypto_network": {
+          "label": "Network",
+          "placeholder": "for example, TRC20"
+        },
+        "bank": {
+          "label": "Bank",
+          "placeholder": "for example, T-Bank"
+        }
+      },
+      "previewLabel": "The buyer sees above the «Pay» button (cart in roubles)",
+      "previewHidden": "For a cart in roubles no notice is shown"
+    }
   },
   "redirects": {
     "title": "Old addresses",
