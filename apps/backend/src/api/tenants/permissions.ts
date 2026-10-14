@@ -112,6 +112,8 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   // ---- orders
   "/tenants/orders": { GET: "orders" },
   "/tenants/orders/export": { POST: "orders" },
+  // The CDEK labels and receipts of the order card (t-2026-10-14-58, part A).
+  "/tenants/orders/cdek/labels": { POST: "orders" },
   "/tenants/orders/[id]": { GET: "orders" },
   "/tenants/orders/[id]/cancel": { POST: "orders" },
   "/tenants/orders/[id]/changes": { GET: "orders" },
@@ -120,6 +122,8 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   "/tenants/orders/[id]/payment-receipt/reject": { POST: "orders" },
   "/tenants/orders/[id]/fulfillments": { POST: "orders" },
   "/tenants/orders/[id]/fulfillments/[fulfillment_id]/cancel": { POST: "orders" },
+  "/tenants/orders/[id]/fulfillments/[fulfillment_id]/cdek/label": { GET: "orders" },
+  "/tenants/orders/[id]/fulfillments/[fulfillment_id]/cdek/waybill": { GET: "orders" },
   "/tenants/orders/[id]/fulfillments/[fulfillment_id]/mark-as-delivered": { POST: "orders" },
   "/tenants/orders/[id]/fulfillments/[fulfillment_id]/shipments": { POST: "orders" },
   "/tenants/order-edits": { GET: "orders" },
