@@ -3,7 +3,7 @@ import { Container, Heading, IconButton, StatusBadge, Text, clx } from "@medusaj
 import { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 
-import { ActionMenu } from "../../common/action-menu"
+import { ActionMenu, type ActionGroup } from "../../common/action-menu"
 import { SectionRow } from "../../common/section"
 import { SingleColumnPageSkeleton } from "../../common/skeleton"
 import { SingleColumnPage } from "../../layout/pages"
@@ -39,6 +39,14 @@ export type SettingsSection = {
   status?: SettingsStatus
   /** The section's nested edit route, relative to the page. */
   editTo?: string
+  /**
+   * The «…» menu when the section does more than edit (rule 21): groups in
+   * order of use, the dangerous one last after a separator. `[]` draws no
+   * «…». Without it the menu is the one «Изменить» → `editTo`.
+   */
+  actions?: ActionGroup[]
+  /** The one header button, when the section's only action is the owner's next step. */
+  action?: ReactNode
   rows: SettingsRow[]
 }
 
@@ -99,6 +107,18 @@ export const SettingsDetailSection = ({
 }) => {
   const { t } = useTranslation()
 
+  const groups: ActionGroup[] = section.actions ?? [
+    {
+      actions: [
+        {
+          label: t("actions.change"),
+          to: section.editTo ?? "edit",
+          icon: <PencilSquare />,
+        },
+      ],
+    },
+  ]
+
   return (
     <Container className="divide-y p-0" data-testid={`settings-section-${section.id}`}>
       <div className="flex items-center justify-between gap-x-4 px-6 py-4">
@@ -114,23 +134,14 @@ export const SettingsDetailSection = ({
           {section.status ? (
             <StatusBadge color={section.status.color}>{section.status.label}</StatusBadge>
           ) : null}
-          <ActionMenu
-            groups={[
-              {
-                actions: [
-                  {
-                    label: t("actions.change"),
-                    to: section.editTo ?? "edit",
-                    icon: <PencilSquare />,
-                  },
-                ],
-              },
-            ]}
-          >
-            <IconButton size="small" variant="transparent" aria-label={t("fields.actions")}>
-              <EllipsisHorizontal />
-            </IconButton>
-          </ActionMenu>
+          {section.action}
+          {groups.length ? (
+            <ActionMenu groups={groups}>
+              <IconButton size="small" variant="transparent" aria-label={t("fields.actions")}>
+                <EllipsisHorizontal />
+              </IconButton>
+            </ActionMenu>
+          ) : null}
         </div>
       </div>
       {section.rows.map((row) => (

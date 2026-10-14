@@ -832,6 +832,19 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("notificationSettings.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/notifications"),
+            // t-2026-10-14-01 (panel redesign, G1): the screen only reads. The
+            // letter's two fields are edited in `edit`; `telegram-connect` is
+            // the drawer without a form that issues the one-time link.
+            children: [
+              {
+                path: "edit",
+                lazy: () => import("./routes/settings/notifications/edit"),
+              },
+              {
+                path: "telegram-connect",
+                lazy: () => import("./routes/settings/notifications/telegram-connect"),
+              },
+            ],
           },
           {
             // «Вход покупателей» (o25-login-methods, t-2026-09-24-n8): email
