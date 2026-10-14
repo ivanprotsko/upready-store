@@ -13,11 +13,15 @@
  *     documents for a shipment registered through ApiShip;
  *   lifecycle.json — create, status + track, cancel: one record each.
  *
- *   APISHIP_LOGIN=test APISHIP_PASSWORD=test \
+ *   CONTOUR_KEYS_FILE=scripts/fixtures/contour-keys.local.txt \
  *     npx ts-node --transpile-only scripts/fixtures/apiship-test-contour-evidence.ts
  *
- * `APISHIP_TOKEN` may replace the login pair; `APISHIP_BASE_URL` defaults to the
- * test contour. The shipments it registers are cancelled and deleted at the end.
+ * The account (`APISHIP_LOGIN` and `APISHIP_PASSWORD`, or `APISHIP_TOKEN`) comes
+ * from the environment or from the keys file the command names: `NAME=value`
+ * lines, untracked, never committed. A credential value never stands in a
+ * command text (run-queue refuses such a ticket since 14.10). `APISHIP_BASE_URL`
+ * defaults to the test contour. The shipments it registers are cancelled and
+ * deleted at the end.
  */
 import fs from "node:fs";
 import path from "node:path";

@@ -9,9 +9,13 @@
  * Writes into `out/t58-contour/` (gitignored; run-queue brings it back from boat):
  *   cdek-edu-label.pdf, cdek-edu-receipt.pdf, cdek-edu.json.
  *
- *   CDEK_ACCOUNT=<test account> CDEK_PASSWORD=<test password> \
+ *   CONTOUR_KEYS_FILE=scripts/fixtures/contour-keys.local.txt \
  *     npx ts-node --transpile-only scripts/fixtures/cdek-edu-contour-evidence.ts
  *
+ * The account (`CDEK_ACCOUNT` and `CDEK_PASSWORD`, the public test pair of CDEK's
+ * docs) comes from the environment or from the keys file the command names:
+ * `NAME=value` lines, untracked, never committed. A credential value never
+ * stands in a command text (run-queue refuses such a ticket since 14.10).
  * `CDEK_BASE_URL` defaults to the EDU contour. The order is deleted at the end.
  */
 import fs from "node:fs";
