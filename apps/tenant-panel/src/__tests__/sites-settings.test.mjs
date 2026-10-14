@@ -15,6 +15,8 @@ const SRC = join(here, "..")
 const read = (relativePath) => readFileSync(join(SRC, relativePath), "utf8")
 
 const screen = read("routes/settings/sites/sites.tsx")
+// t-2026-10-14-01 (panel redesign, G2): «Создать сайт» moved into its modal.
+const create = read("routes/settings/sites/site-create/site-create.tsx")
 const hook = read("hooks/api/sites.tsx")
 const nav = read("components/layout/owner-nav/nav-model.ts")
 const app = read("app.tsx")
@@ -42,8 +44,11 @@ test("another site opens through the existing switcher, not a second one", () =>
 })
 
 test("the form sends name, handle and the two copy flags, and nothing naming a source", () => {
-  assert.match(screen, /copy_pages: copyPages/)
-  assert.match(screen, /copy_shipping: copyShipping/)
+  assert.match(create, /copy_pages: zod\.boolean\(\)/)
+  assert.match(create, /copy_shipping: zod\.boolean\(\)/)
+  assert.match(create, /defaultValues: \{ name: "", handle: "", copy_pages: true, copy_shipping: true \}/)
+  assert.match(create, /await createSite\(values\)/)
+  assert.doesNotMatch(create, /source_tenant_id/)
   assert.doesNotMatch(screen, /source_tenant_id/)
 })
 

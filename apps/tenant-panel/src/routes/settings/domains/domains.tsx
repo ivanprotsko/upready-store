@@ -1,27 +1,36 @@
-import { useState } from "react"
-import { Trash } from "@medusajs/icons"
+import { EllipsisHorizontal, PencilSquare, StarSolid, Trash } from "@medusajs/icons"
 import {
   Badge,
   Button,
   Container,
   Heading,
   IconButton,
-  Input,
+  StatusBadge,
   Text,
   toast,
+  usePrompt,
 } from "@medusajs/ui"
+import { createColumnHelper } from "@tanstack/react-table"
+import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 
+import { ActionMenu, type ActionGroup } from "../../../components/common/action-menu"
+import { NoRecords } from "../../../components/common/empty-table-content"
+import { Skeleton, SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { SingleColumnPage } from "../../../components/layout/pages"
-import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
+import { SettingsDetailSection, type SettingsRow } from "../../../components/settings"
+import { _DataTable } from "../../../components/table/data-table"
 import {
-  useChangeHandle,
-  useCreateDomain,
+  TenantDomain,
   useDeleteDomain,
   useDomains,
   useSetPrimaryDomain,
 } from "../../../hooks/api/domains"
+import { SiteCertificate, useSites } from "../../../hooks/api/sites"
+import { useDataTable } from "../../../hooks/use-data-table"
 import { domainToUnicode, isAceHostname } from "../../../lib/idn"
+import { useCertificateStatus } from "../sites/certificate-status"
 
 // The shop's address (t-2026-09-12-tenant-address-canonical). It replaces the
 // "Domains" screen of tenant-panel wave 2, piece 9, which could only add a custom
@@ -37,37 +46,197 @@ import { domainToUnicode, isAceHostname } from "../../../lib/idn"
 //     reserved for this shop for good;
 //   - the TECHNICAL id address: never changes, never indexed, always redirects.
 //
-// Strings go through the panel's own i18n (`src/i18n/translations/{en,ru}.json`,
-// key `tenantAddress`), the way `routes/home` does: the shop owners this panel is
-// built for read Russian, and a screen about SEO consequences is the last place to
-// make them read English literals.
+// t-2026-10-14-01 (panel redesign, G2): one card of two sections, after
+// design-system E2 and E13. «Адрес магазина» reads the three addresses and
+// changes the main one in the drawer on `change` (its «…»). «Свои домены» is a
+// table of the custom hosts with each one's certificate; adding one is the
+// drawer on `add`, with the registrar steps inside it, and «Сделать основным»
+// and «Удалить» (after a confirmation naming the host) are the row's «…».
 
-/** The one DNS instruction a shop owner needs; the proxy side is hosting-spec B4. */
-const CNAME_TARGET = __CNAME_TARGET__ || "stores.upready.dev"
+type DomainRow = TenantDomain & { certificate?: SiteCertificate }
+
+const DomainState = ({ domain, checking }: { domain: DomainRow; checking: boolean }) => {
+  const { t } = useTranslation()
+  const certificateStatus = useCertificateStatus()
+
+  if (domain.is_primary) {
+    return <StatusBadge color="green">{t("tenantAddress.inSearch")}</StatusBadge>
+  }
+
+  if (domain.certificate) {
+    const status = certificateStatus(domain.certificate)
+    return <StatusBadge color={status.color}>{status.label}</StatusBadge>
+  }
+
+  // The certificate is a live probe of each host (`GET /tenants/sites`) and
+  // lands after the list itself.
+  return checking ? <Skeleton className="h-5 w-32" /> : null
+}
+
+const DomainRowActions = ({ domain }: { domain: DomainRow }) => {
+  const { t } = useTranslation()
+  const prompt = usePrompt()
+  const { mutate: setPrimary } = useSetPrimaryDomain()
+  const { mutate: deleteDomain } = useDeleteDomain()
+  const host = domainToUnicode(domain.host)
+
+  const makePrimary = () =>
+    setPrimary(domain.id, {
+      onSuccess: () => toast.success(t("tenantAddress.madePrimary", { host })),
+      // The backend first checks that the host answers as this shop.
+      onError: (error) => toast.error(error.message),
+    })
+
+  const remove = async () => {
+    const confirmed = await prompt({
+      title: t("general.areYouSure"),
+      description: t("tenantAddress.removeWarning", { host }),
+      confirmText: t("actions.delete"),
+      cancelText: t("actions.cancel"),
+    })
+
+    if (!confirmed) {
+      return
+    }
+
+    deleteDomain(domain.id, {
+      onSuccess: () => toast.success(t("tenantAddress.domainRemoved", { host })),
+      onError: (error) => toast.error(error.message),
+    })
+  }
+
+  const groups: ActionGroup[] = [
+    {
+      actions: domain.is_primary
+        ? []
+        : [{ icon: <StarSolid />, label: t("tenantAddress.makePrimary"), onClick: makePrimary }],
+    },
+    { actions: [{ icon: <Trash />, label: t("actions.delete"), onClick: remove }] },
+  ]
+
+  return (
+    <ActionMenu groups={groups.filter((group) => group.actions.length)}>
+      <IconButton size="small" variant="transparent" aria-label={t("fields.actions")}>
+        <EllipsisHorizontal />
+      </IconButton>
+    </ActionMenu>
+  )
+}
+
+const columnHelper = createColumnHelper<DomainRow>()
+
+const useColumns = (checking: boolean) => {
+  const { t } = useTranslation()
+
+  return useMemo(
+    () => [
+      columnHelper.accessor("host", {
+        header: t("tenantAddress.columns.domain"),
+        cell: ({ row }) => (
+          <div className="flex min-w-0 flex-col py-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-2">
+              <Text size="small" leading="compact" family="mono" className="break-all">
+                {domainToUnicode(row.original.host)}
+              </Text>
+              {row.original.is_primary ? (
+                <Badge size="2xsmall">{t("tenantAddress.primaryBadge")}</Badge>
+              ) : null}
+            </div>
+            {isAceHostname(row.original.host) ? (
+              <Text size="xsmall" leading="compact" family="mono" className="text-ui-fg-subtle break-all">
+                {row.original.host}
+              </Text>
+            ) : null}
+          </div>
+        ),
+      }),
+      columnHelper.display({
+        id: "state",
+        header: t("tenantAddress.columns.state"),
+        cell: ({ row }) => <DomainState domain={row.original} checking={checking} />,
+      }),
+      columnHelper.display({
+        id: "actions",
+        cell: ({ row }) => <DomainRowActions domain={row.original} />,
+      }),
+    ],
+    [t, checking]
+  )
+}
+
+const CustomDomainsSection = ({ domains }: { domains: TenantDomain[] }) => {
+  const { t } = useTranslation()
+  // The certificates come with the current site of `GET /tenants/sites`
+  // (the fork of this build: no second probe in `/tenants/domains`).
+  const { sites, isPending: checking } = useSites()
+  const certificates = new Map(
+    (sites?.find((site) => site.is_current)?.domains ?? []).map((domain) => [
+      domain.host,
+      domain.certificate,
+    ])
+  )
+  const rows: DomainRow[] = domains.map((domain) => ({
+    ...domain,
+    certificate: certificates.get(domain.host),
+  }))
+
+  const columns = useColumns(checking)
+  const { table } = useDataTable({
+    data: rows,
+    columns,
+    count: rows.length,
+    enablePagination: false,
+    getRowId: (row) => row.id,
+  })
+
+  return (
+    <Container className="divide-y p-0" data-testid="settings-section-custom-domains">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4">
+        <div className="min-w-0">
+          <Heading level="h2">{t("tenantAddress.customTitle")}</Heading>
+          <Text size="small" className="text-ui-fg-subtle text-pretty">
+            {t("tenantAddress.customDescription")}
+          </Text>
+        </div>
+        {rows.length ? (
+          <Link to="add">
+            <Button size="small" variant="secondary">
+              {t("tenantAddress.addDomainTitle")}
+            </Button>
+          </Link>
+        ) : null}
+      </div>
+
+      {rows.length ? (
+        <_DataTable
+          table={table}
+          columns={columns}
+          count={rows.length}
+          pageSize={rows.length}
+          pagination={false}
+        />
+      ) : (
+        <NoRecords
+          title={t("tenantAddress.noCustomDomainsTitle")}
+          message={t("tenantAddress.noCustomDomains")}
+          action={{ to: "add", label: t("tenantAddress.addDomainTitle") }}
+        />
+      )}
+    </Container>
+  )
+}
 
 export const Domains = () => {
   const { t } = useTranslation()
   const {
     domains,
-    technical,
     primary_host: primaryHost,
     previous_hosts: previousHosts,
     technical_id_host: technicalIdHost,
-    base_domain: baseDomain,
     isPending,
     isError,
     error,
   } = useDomains()
-
-  const [host, setHost] = useState("")
-  const [handle, setHandle] = useState("")
-  const [changing, setChanging] = useState(false)
-
-  const { mutateAsync: createDomain, isPending: isCreating } = useCreateDomain()
-  const { mutateAsync: deleteDomain, isPending: isDeleting } = useDeleteDomain()
-  const { mutateAsync: changeHandle, isPending: isChangingHandle } =
-    useChangeHandle()
-  const { mutateAsync: setPrimary, isPending: isPromoting } = useSetPrimaryDomain()
 
   if (isError) {
     throw error
@@ -77,266 +246,74 @@ export const Domains = () => {
     return <SingleColumnPageSkeleton sections={2} />
   }
 
-  // The handle of the main address, when the main address is still the platform
-  // subdomain. A shop on its own domain edits its handle just the same; the field
-  // simply is not the address search sees any more.
-  const currentHandle = (technical?.[0] ?? "").split(".")[0]
+  const previous = previousHosts ?? []
+  const redirects = { color: "grey" as const, label: t("tenantAddress.redirectsBadge") }
 
-  const handleAdd = async (event: React.FormEvent) => {
-    event.preventDefault()
-
-    const value = host.trim()
-
-    if (!value) {
-      return
-    }
-
-    await createDomain(
-      { host: value },
-      {
-        // The backend owns every refusal — a host another shop already holds, a
-        // reserved shape, a name that is not a host at all — and its message is
-        // what the owner reads.
-        onSuccess: () => {
-          setHost("")
-          toast.success(t("tenantAddress.domainAdded", { host: value }))
-        },
-        onError: (addError) => toast.error(addError.message),
-      }
-    )
-  }
-
-  const handleChangeAddress = async (event: React.FormEvent) => {
-    event.preventDefault()
-
-    const value = handle.trim().toLowerCase()
-
-    if (!value || value === currentHandle) {
-      return
-    }
-
-    await changeHandle(
-      { handle: value },
-      {
-        onSuccess: (result) => {
-          setChanging(false)
-          setHandle("")
-          toast.success(
-            t("tenantAddress.changed", { host: result.primary_host })
-          )
-        },
-        onError: (changeError) => toast.error(changeError.message),
-      }
-    )
-  }
-
-  const busy = isCreating || isDeleting || isChangingHandle || isPromoting
+  const rows: SettingsRow[] = [
+    {
+      id: "primary",
+      label: t("tenantAddress.primaryLabel"),
+      value: primaryHost,
+      mono: true,
+      status: { color: "green", label: t("tenantAddress.inSearch") },
+    },
+    // A shop that never changed its address has no previous one, and no row.
+    ...(previous.length
+      ? [
+          {
+            id: "previous",
+            label: t("tenantAddress.previousLabel", { count: previous.length }),
+            value:
+              previous.length === 1 ? (
+                previous[0]
+              ) : (
+                <div className="flex flex-col gap-y-1">
+                  {previous.map((host) => (
+                    <Text key={host} size="small" leading="compact" family="mono" className="break-all">
+                      {host}
+                    </Text>
+                  ))}
+                </div>
+              ),
+            mono: true,
+            status: redirects,
+            hint: t("tenantAddress.previousHint"),
+          },
+        ]
+      : []),
+    {
+      id: "technical",
+      label: t("tenantAddress.technicalLabel"),
+      value: technicalIdHost,
+      mono: true,
+      status: redirects,
+      hint: t("tenantAddress.technicalHint"),
+    },
+  ]
 
   return (
-    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet={false}>
-      <Container className="divide-y p-0">
-        <div className="flex items-center justify-between px-6 py-4">
-          <Heading level="h2">{t("tenantAddress.title")}</Heading>
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("tenantAddress.subtitle")}
-          </Text>
-        </div>
-
-        <div className="flex flex-col gap-y-3 px-6 py-4">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <Text size="small" weight="plus" className="font-mono">
-              {primaryHost}
-            </Text>
-            <Badge size="2xsmall">{t("tenantAddress.primaryBadge")}</Badge>
-            <Text size="small" className="text-ui-fg-subtle">
-              {t("tenantAddress.primaryHint")}
-            </Text>
-            {!changing && (
-              <Button
-                size="small"
-                variant="secondary"
-                className="ml-auto"
-                onClick={() => {
-                  setHandle(currentHandle)
-                  setChanging(true)
-                }}
-              >
-                {t("tenantAddress.changeAction")}
-              </Button>
-            )}
-          </div>
-
-          {previousHosts?.map((previous) => (
-            <div key={previous} className="flex flex-wrap items-center gap-x-3 gap-y-2">
-              <Text size="small" className="font-mono text-ui-fg-subtle">
-                {previous}
-              </Text>
-              <Badge size="2xsmall">{t("tenantAddress.previousBadge")}</Badge>
-              <Text size="small" className="text-ui-fg-subtle">
-                {t("tenantAddress.previousHint")}
-              </Text>
-            </div>
-          ))}
-
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <Text size="small" className="font-mono text-ui-fg-subtle">
-              {technicalIdHost}
-            </Text>
-            <Badge size="2xsmall">{t("tenantAddress.technicalBadge")}</Badge>
-            <Text size="small" className="text-ui-fg-subtle">
-              {t("tenantAddress.technicalHint")}
-            </Text>
-          </div>
-        </div>
-
-        {changing && (
-          <form onSubmit={handleChangeAddress} className="flex flex-col gap-y-4 px-6 py-4">
-            <div className="flex items-center gap-x-2">
-              <Input
-                value={handle}
-                onChange={(event) => setHandle(event.target.value)}
-                placeholder={currentHandle}
-                autoFocus
-                className="font-mono"
-              />
-              <Text size="small" className="font-mono text-ui-fg-subtle">
-                .{baseDomain}
-              </Text>
-            </div>
-
-            {/* The consequences, before the click and not in a help centre. The
-                weeks of re-indexing are the real cost of this operation and the
-                one thing an owner cannot discover on their own. */}
-            <div className="flex flex-col gap-y-2 rounded-md border border-ui-border-strong bg-ui-bg-subtle p-4">
-              <Text size="small" weight="plus">
-                {t("tenantAddress.warningTitle")}
-              </Text>
-              <ul className="flex list-disc flex-col gap-y-1 pl-5">
-                <li>
-                  <Text size="small">{t("tenantAddress.warningNewWorks")}</Text>
-                </li>
-                <li>
-                  <Text size="small">{t("tenantAddress.warningOldRedirects")}</Text>
-                </li>
-                <li>
-                  <Text size="small">{t("tenantAddress.warningReindex")}</Text>
-                </li>
-                <li>
-                  <Text size="small">{t("tenantAddress.warningReserved")}</Text>
-                </li>
-                <li>
-                  <Text size="small">{t("tenantAddress.warningRepeat")}</Text>
-                </li>
-              </ul>
-            </div>
-
-            <div className="flex items-center gap-x-2">
-              <Button
-                size="small"
-                type="submit"
-                isLoading={isChangingHandle}
-                disabled={busy || !handle.trim() || handle.trim() === currentHandle}
-              >
-                {t("tenantAddress.changeAction")}
-              </Button>
-              <Button
-                size="small"
-                variant="secondary"
-                type="button"
-                onClick={() => setChanging(false)}
-              >
-                {t("tenantAddress.cancel")}
-              </Button>
-            </div>
-          </form>
-        )}
-      </Container>
-
-      <Container className="divide-y p-0">
-        <div className="flex items-center justify-between px-6 py-4">
-          <Heading level="h2">{t("tenantAddress.customTitle")}</Heading>
-          <Text size="small" className="text-ui-fg-subtle font-mono">
-            {t("tenantAddress.cname", { target: CNAME_TARGET })}
-          </Text>
-        </div>
-
-        <div className="flex flex-col gap-y-3 px-6 py-4">
-          {domains?.length ? (
-            domains.map((domain) => (
-              <div key={domain.id} className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <div className="flex flex-col">
-                  <Text size="small" className="font-mono">
-                    {domainToUnicode(domain.host)}
-                  </Text>
-                  {isAceHostname(domain.host) ? (
-                    <Text size="xsmall" className="text-ui-fg-subtle font-mono">
-                      {domain.host}
-                    </Text>
-                  ) : null}
-                </div>
-                {domain.is_primary ? (
-                  <Badge size="2xsmall">{t("tenantAddress.primaryBadge")}</Badge>
-                ) : (
-                  <Button
-                    size="small"
-                    variant="transparent"
-                    disabled={busy}
-                    isLoading={isPromoting}
-                    onClick={() =>
-                      setPrimary(domain.id, {
-                        onSuccess: () =>
-                          toast.success(
-                            t("tenantAddress.madePrimary", { host: domain.host })
-                          ),
-                        onError: (promoteError) => toast.error(promoteError.message),
-                      })
-                    }
-                  >
-                    {t("tenantAddress.makePrimary")}
-                  </Button>
-                )}
-                <IconButton
-                  size="small"
-                  variant="transparent"
-                  className="ml-auto"
-                  disabled={busy}
-                  onClick={() =>
-                    deleteDomain(domain.id, {
-                      onSuccess: () =>
-                        toast.success(
-                          t("tenantAddress.domainRemoved", { host: domain.host })
-                        ),
-                      onError: (removeError) => toast.error(removeError.message),
-                    })
-                  }
-                >
-                  <Trash />
-                </IconButton>
-              </div>
-            ))
-          ) : (
-            <Text size="small" className="text-ui-fg-subtle">
-              {t("tenantAddress.noCustomDomains")}
-            </Text>
-          )}
-
-          <form onSubmit={handleAdd} className="flex items-center gap-x-2">
-            <Input
-              value={host}
-              onChange={(event) => setHost(event.target.value)}
-              placeholder="shop.example.com"
-              className="font-mono"
-            />
-            <Button size="small" type="submit" isLoading={isCreating} disabled={busy}>
-              {t("tenantAddress.addDomain")}
-            </Button>
-          </form>
-
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("tenantAddress.customHint")}
-          </Text>
-        </div>
-      </Container>
+    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet>
+      <SettingsDetailSection
+        level="h1"
+        section={{
+          id: "address",
+          title: t("tenantAddress.title"),
+          description: t("tenantAddress.subtitle"),
+          actions: [
+            {
+              actions: [
+                {
+                  icon: <PencilSquare />,
+                  label: t("tenantAddress.changeAction"),
+                  to: "change",
+                },
+              ],
+            },
+          ],
+          rows,
+        }}
+      />
+      <CustomDomainsSection domains={domains ?? []} />
     </SingleColumnPage>
   )
 }
