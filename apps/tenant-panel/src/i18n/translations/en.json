@@ -1526,13 +1526,14 @@
   },
   "notificationSettings": {
     "title": "Notifications",
-    "subtitle": "who hears about a new order: the customer by e-mail, you in Telegram",
-    "loading": "loading…",
-    "save": "Save",
     "saved": "Notification settings saved",
-    "lastNever": "Nothing has been sent yet.",
-    "lastOk": "Last attempt: {{when}}, order {{order}} — delivered.",
-    "lastFailed": "Last attempt: {{when}}, order {{order}} — NOT delivered",
+    "last": {
+      "label": "Last sent",
+      "never": "Nothing has been sent yet.",
+      "whenOrder": "{{when}} · order {{order}}",
+      "ok": "delivered",
+      "failed": "not delivered"
+    },
     "email": {
       "title": "E-mail to the customer",
       "on": "on",
@@ -1540,25 +1541,46 @@
       "hint": "The customer gets an order e-mail, and its links point at your shop: {{url}}",
       "offHint": "This platform has no mail server configured, so customer letters are not sent. Orders still complete, and every undelivered letter is logged with its order number.",
       "fromName": "Sender name",
-      "fromNameHint": "How the letter is signed in the customer's inbox. Currently: {{name}}",
+      "fromNameHint": "How the letter is signed in the customer's inbox. Left empty, the shop's name is used.",
+      "fromNameRowHint": "How the letter is signed in the customer's inbox.",
+      "fromNameEmpty": "Not set: the letter is signed with the shop's name, “{{name}}”.",
       "replyTo": "Reply-to address",
-      "replyToHint": "Where a customer's reply goes. The sender address stays the platform's: mail services reject a domain we cannot sign for."
+      "replyToHint": "Where a customer's reply goes. The sender address stays the platform's: mail services reject a domain we cannot sign for.",
+      "replyToEmpty": "Not set: a customer's reply goes to the platform's address.",
+      "replyToPlaceholder": "shop@example.com",
+      "replyToInvalid": "Check the address: it needs an @ and a domain, like shop@example.com"
     },
     "telegram": {
       "title": "Telegram to you",
       "connected": "connected",
       "notConnected": "not connected",
-      "chat": "Orders arrive in: {{chat}}",
+      "description": "A message about every new order arrives in your chat",
+      "hint": "Press “Connect Telegram”, open the link in Telegram and press Start. Orders will arrive in the chat you opened it from.",
+      "offHint": "Telegram notifications are not enabled on the platform yet. Write to support to turn them on.",
+      "chat": "Chat",
       "chatUnnamed": "unnamed chat",
-      "hint": "Press Connect, open the link in Telegram and press Start. Orders will arrive in the chat you opened it from.",
-      "offHint": "The platform bot is not configured on this deployment, so linking will not work.",
-      "linkReady": "Open this link in Telegram. It lives 15 minutes and works once:",
+      "linkedAt": "Connected",
       "connect": "Connect Telegram",
       "reconnect": "Connect another chat",
       "test": "Send a test",
       "testSent": "Test message sent",
       "unlink": "Disconnect",
-      "unlinked": "Telegram disconnected — orders no longer arrive there"
+      "unlinked": "Telegram disconnected — orders no longer arrive there",
+      "unlinkPrompt": {
+        "title": "Disconnect Telegram?",
+        "description": "Order messages will stop arriving in the chat “{{chat}}”. You can connect it again at any time."
+      },
+      "connectDrawer": {
+        "step1": "Open the link on your phone or in Telegram on your computer.",
+        "step2": "Press Start in the chat with the shop's bot.",
+        "step3": "Come back here: the Chat row fills in by itself.",
+        "link": "Connection link",
+        "copy": "Copy",
+        "linkHint_one": "Works for {{count}} minute and only once. Orders will arrive in the chat you opened it from.",
+        "linkHint_other": "Works for {{count}} minutes and only once. Orders will arrive in the chat you opened it from.",
+        "retry": "Get the link again",
+        "done": "Telegram connected: orders arrive in “{{chat}}”"
+      }
     },
     "noProviderError": "The store has no mail server configured."
   },

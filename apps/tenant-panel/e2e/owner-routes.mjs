@@ -135,6 +135,8 @@ export const OWNER_ROUTES = [
   { path: "/settings/domains" },
   { path: "/settings/sites" },
   { path: "/settings/notifications" },
+  { path: "/settings/notifications/edit", kind: "overlay" },
+  { path: "/settings/notifications/telegram-connect", kind: "overlay" },
   { path: "/settings/customer-login" },
   { path: "/settings/customer-login/edit", kind: "overlay" },
   { path: "/settings/locale" },

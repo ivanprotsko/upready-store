@@ -1,115 +1,51 @@
-import { useEffect, useRef, useState } from "react"
-import { Badge, Button, Container, Heading, Input, Label, Text, toast } from "@medusajs/ui"
+import { ChatBubbleLeftRight, Link as LinkIcon, Trash } from "@medusajs/icons"
+import { Button, toast, usePrompt } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 
-import { SingleColumnPage } from "../../../components/layout/pages"
+import {
+  SettingsDetail,
+  type SettingsRow,
+  type SettingsSection,
+} from "../../../components/settings"
 import {
   type DeliveryStatus,
-  useCreateTelegramLink,
   useNotificationSettings,
   useTestTelegram,
   useUnlinkTelegram,
-  useUpdateNotificationSettings,
 } from "../../../hooks/api/notification-settings"
+import { useDate } from "../../../hooks/use-date"
 
 // «Уведомления» (t08-order-notifications): кто узнаёт о новом заказе.
 // Покупатель получает письмо, владелец — сообщение в Telegram.
 //
-// Две вещи здесь сделаны по правилу 19h, как и на экране оплаты. Пока запись
-// грузится, рисуются НАСТОЯЩИЕ контролы, только выключенные, а не абзац вместо
-// них: клик, попавший в это окно, браузер придержит на disabled-инпуте, а не
-// съест вместе с подменённым элементом. И ответ приходит, когда решит сеть,
-// поэтому он заполняет форму, только если владелец её ещё не трогал
-// (`touchedRef`) — медленный ответ не затирает набранное.
-//
 // Последняя доставка каждого канала показана здесь же: молчание — не
 // результат (правило 20a), и владелец должен видеть неудачу, не заглядывая в лог.
+//
+// t-2026-10-14-01 (panel redesign, G1): the page only reads. Two sections of
+// equal rank, the setting's name in the breadcrumb (E11). The letter is edited
+// in the `edit` drawer; Telegram connects in the `telegram-connect` drawer, and
+// «Проверить» and «Отключить» (with a prompt naming the chat) sit in the
+// section's «…» (rule 21).
 
-type Draft = { email_from_name: string; email_reply_to: string }
-
-const EMPTY_DRAFT: Draft = { email_from_name: "", email_reply_to: "" }
+const TELEGRAM_CONNECT = "telegram-connect"
 
 // The backend surfaces a raw provider exception as `last.error`
 // ("Could not find a notification provider for channel: email for
 // notification id noti_…"). A shop owner has no use for that sentence, and
 // the one failure this platform actually produces today — no mail server
-// configured — already has a friendly explanation in `email.offHint`. Map
-// that one recognized cause to it; anything else stays a generic failure
-// notice rather than leaking a stack-shaped string onto the screen.
-const getFriendlyDeliveryError = (
-  t: (key: string) => string,
-  rawError: string | null | undefined
-): string | undefined => {
-  if (!rawError) {
-    return undefined
-  }
-
-  if (/notification provider/i.test(rawError)) {
-    return t("notificationSettings.noProviderError")
-  }
-
-  return undefined
-}
-
-const LastDelivery = ({ last }: { last: DeliveryStatus | undefined }) => {
-  const { t, i18n } = useTranslation()
-
-  if (!last || !last.status) {
-    return (
-      <Text size="small" className="text-ui-fg-subtle">
-        {t("notificationSettings.lastNever")}
-      </Text>
-    )
-  }
-
-  // The panel's own language, not the browser's: a Russian screen showing
-  // «9/15/2026, 5:35 AM» reads as somebody else's date.
-  const when = last.at ? new Date(last.at).toLocaleString(i18n.language) : ""
-
-  if (last.status === "ok") {
-    return (
-      <Text size="small" className="text-ui-fg-subtle">
-        {t("notificationSettings.lastOk", { when, order: last.order ?? "" })}
-      </Text>
-    )
-  }
-
-  const friendlyError = getFriendlyDeliveryError(t, last.error)
-
-  return (
-    <Text size="small" className="text-ui-fg-error">
-      {t("notificationSettings.lastFailed", { when, order: last.order ?? "" })}
-      {friendlyError ? ` — ${friendlyError}` : ""}
-    </Text>
-  )
-}
+// configured — has a friendly explanation. Map that one recognized cause to
+// it; anything else stays the «не доставлено» badge alone rather than leaking
+// a stack-shaped string onto the screen.
+const isNoProvider = (rawError: string | null | undefined) =>
+  !!rawError && /notification provider/i.test(rawError)
 
 export const NotificationSettings = () => {
   const { t } = useTranslation()
+  const { getFullDate } = useDate()
+  const prompt = usePrompt()
   const { settings, shop, isPending, isError, error } = useNotificationSettings()
 
-  // `null` = ответа ещё не было; булево — уже есть. Третье состояние отдельно,
-  // иначе «не знаем» читается как «выключено».
-  const [loaded, setLoaded] = useState<boolean | null>(null)
-  const [draft, setDraft] = useState<Draft>(EMPTY_DRAFT)
-  const [deepLink, setDeepLink] = useState<string | null>(null)
-  const touchedRef = useRef(false)
-
-  useEffect(() => {
-    if (isPending) {
-      return
-    }
-    setLoaded(true)
-    if (!touchedRef.current) {
-      setDraft({
-        email_from_name: settings?.email.from_name ?? "",
-        email_reply_to: settings?.email.reply_to ?? "",
-      })
-    }
-  }, [isPending, settings])
-
-  const { mutateAsync: save, isPending: isSaving } = useUpdateNotificationSettings()
-  const { mutateAsync: createLink, isPending: isLinking } = useCreateTelegramLink()
   const { mutateAsync: sendTest, isPending: isTesting } = useTestTelegram()
   const { mutateAsync: unlink, isPending: isUnlinking } = useUnlinkTelegram()
 
@@ -117,41 +53,38 @@ export const NotificationSettings = () => {
     throw error
   }
 
-  const busy = loaded === null || isSaving
-  const telegram = settings?.telegram
   const email = settings?.email
+  const telegram = settings?.telegram
+  const chat = telegram?.chat_title || t("notificationSettings.telegram.chatUnnamed")
 
-  const update = <K extends keyof Draft>(key: K, value: Draft[K]) => {
-    touchedRef.current = true
-    setDraft((previous) => ({ ...previous, [key]: value }))
-  }
+  const deliveryRow = (id: string, last: DeliveryStatus | undefined): SettingsRow => {
+    const label = t("notificationSettings.last.label")
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    await save(
-      {
-        email_from_name: draft.email_from_name.trim(),
-        email_reply_to: draft.email_reply_to.trim(),
-      },
-      {
-        onSuccess: (response) => {
-          touchedRef.current = false
-          setDraft({
-            email_from_name: response.settings.email.from_name ?? "",
-            email_reply_to: response.settings.email.reply_to ?? "",
-          })
-          toast.success(t("notificationSettings.saved"))
-        },
-        onError: (saveError) => toast.error(saveError.message),
+    if (!last?.status) {
+      return { id, label, hint: t("notificationSettings.last.never") }
+    }
+
+    const when = last.at ? getFullDate({ date: last.at, includeTime: true }) : ""
+    const value = last.order
+      ? t("notificationSettings.last.whenOrder", { when, order: last.order })
+      : when
+
+    if (last.status === "ok") {
+      return {
+        id,
+        label,
+        value,
+        status: { color: "green", label: t("notificationSettings.last.ok") },
       }
-    )
-  }
+    }
 
-  const handleConnect = async () => {
-    await createLink(undefined, {
-      onSuccess: (response) => setDeepLink(response.deep_link),
-      onError: (linkError) => toast.error(linkError.message),
-    })
+    return {
+      id,
+      label,
+      value,
+      status: { color: "red", label: t("notificationSettings.last.failed") },
+      hint: isNoProvider(last.error) ? t("notificationSettings.noProviderError") : undefined,
+    }
   }
 
   const handleTest = async () => {
@@ -162,192 +95,130 @@ export const NotificationSettings = () => {
   }
 
   const handleUnlink = async () => {
+    const confirmed = await prompt({
+      title: t("notificationSettings.telegram.unlinkPrompt.title"),
+      description: t("notificationSettings.telegram.unlinkPrompt.description", { chat }),
+      confirmText: t("notificationSettings.telegram.unlink"),
+      cancelText: t("actions.cancel"),
+    })
+
+    if (!confirmed) {
+      return
+    }
+
     await unlink(undefined, {
-      onSuccess: () => {
-        setDeepLink(null)
-        toast.success(t("notificationSettings.telegram.unlinked"))
-      },
+      onSuccess: () => toast.success(t("notificationSettings.telegram.unlinked")),
       onError: (unlinkError) => toast.error(unlinkError.message),
     })
   }
 
-  return (
-    <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
-      <Container className="divide-y p-0">
-        <div className="px-6 py-4">
-          <Heading>{t("notificationSettings.title")}</Heading>
-          <Text className="text-ui-fg-subtle" size="small">
-            {t("notificationSettings.subtitle")}
-          </Text>
-        </div>
+  const emailSection: SettingsSection = {
+    id: "email",
+    title: t("notificationSettings.email.title"),
+    description: email?.configured
+      ? t("notificationSettings.email.hint", { url: shop?.storefront_url ?? "" })
+      : t("notificationSettings.email.offHint"),
+    status: email?.configured
+      ? { color: "green", label: t("notificationSettings.email.on") }
+      : { color: "orange", label: t("notificationSettings.email.off") },
+    editTo: "edit",
+    rows: [
+      {
+        id: "from_name",
+        label: t("notificationSettings.email.fromName"),
+        value: email?.from_name || null,
+        hint: email?.from_name
+          ? t("notificationSettings.email.fromNameRowHint")
+          : t("notificationSettings.email.fromNameEmpty", {
+              name: email?.effective_from_name || shop?.name || "",
+            }),
+      },
+      {
+        id: "reply_to",
+        label: t("notificationSettings.email.replyTo"),
+        value: email?.reply_to || null,
+        hint: email?.reply_to ? undefined : t("notificationSettings.email.replyToEmpty"),
+      },
+      deliveryRow("email_last", email?.last),
+    ],
+  }
 
-        {/* Письмо покупателю */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-5 px-6 py-6">
-          <div className="flex items-center justify-between">
-            <Text weight="plus">{t("notificationSettings.email.title")}</Text>
-            {loaded ? (
-              <Badge
-                size="2xsmall"
-                color={email?.configured ? "green" : "orange"}
-                data-testid="email-state"
-              >
-                {email?.configured
-                  ? t("notificationSettings.email.on")
-                  : t("notificationSettings.email.off")}
-              </Badge>
-            ) : null}
-          </div>
+  const telegramActions = (): Pick<SettingsSection, "description" | "actions" | "action"> => {
+    if (telegram?.connected) {
+      return {
+        description: t("notificationSettings.telegram.description"),
+        actions: [
+          {
+            actions: [
+              {
+                label: t("notificationSettings.telegram.test"),
+                icon: <ChatBubbleLeftRight />,
+                disabled: isTesting,
+                onClick: handleTest,
+              },
+              {
+                label: t("notificationSettings.telegram.reconnect"),
+                icon: <LinkIcon />,
+                to: TELEGRAM_CONNECT,
+              },
+            ],
+          },
+          {
+            actions: [
+              {
+                label: t("notificationSettings.telegram.unlink"),
+                icon: <Trash />,
+                disabled: isUnlinking,
+                onClick: handleUnlink,
+              },
+            ],
+          },
+        ],
+      }
+    }
 
-          <Text size="small" className="text-ui-fg-subtle">
-            {email?.configured
-              ? t("notificationSettings.email.hint", {
-                  url: shop?.storefront_url ?? "",
-                })
-              : t("notificationSettings.email.offHint")}
-          </Text>
+    // Telegram is not enabled on the platform: nothing the owner can press
+    // would work, so the subtitle sends them to support and there is no button.
+    if (telegram?.configured === false) {
+      return { description: t("notificationSettings.telegram.offHint"), actions: [] }
+    }
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex flex-col gap-y-2">
-              <Label htmlFor="email_from_name">
-                {t("notificationSettings.email.fromName")}
-              </Label>
-              <Input
-                id="email_from_name"
-                name="email_from_name"
-                autoComplete="off"
-                value={draft.email_from_name}
-                disabled={busy}
-                onChange={(event) => update("email_from_name", event.target.value)}
-                placeholder={
-                  loaded === null ? t("notificationSettings.loading") : (shop?.name ?? "")
-                }
-              />
-              <Text size="xsmall" className="text-ui-fg-subtle">
-                {t("notificationSettings.email.fromNameHint", {
-                  name: email?.effective_from_name ?? shop?.name ?? "",
-                })}
-              </Text>
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <Label htmlFor="email_reply_to">
-                {t("notificationSettings.email.replyTo")}
-              </Label>
-              <Input
-                id="email_reply_to"
-                name="email_reply_to"
-                type="email"
-                autoComplete="off"
-                value={draft.email_reply_to}
-                disabled={busy}
-                onChange={(event) => update("email_reply_to", event.target.value)}
-                placeholder={
-                  loaded === null ? t("notificationSettings.loading") : "shop@example.com"
-                }
-              />
-              <Text size="xsmall" className="text-ui-fg-subtle">
-                {t("notificationSettings.email.replyToHint")}
-              </Text>
-            </div>
-          </div>
+    return {
+      description: t("notificationSettings.telegram.hint"),
+      actions: [],
+      action: (
+        <Button size="small" variant="secondary" asChild>
+          <Link to={TELEGRAM_CONNECT} data-testid="telegram-connect">
+            {t("notificationSettings.telegram.connect")}
+          </Link>
+        </Button>
+      ),
+    }
+  }
 
-          <LastDelivery last={email?.last} />
+  const telegramSection: SettingsSection = {
+    id: "telegram",
+    title: t("notificationSettings.telegram.title"),
+    status: telegram?.connected
+      ? { color: "green", label: t("notificationSettings.telegram.connected") }
+      : { color: "grey", label: t("notificationSettings.telegram.notConnected") },
+    ...telegramActions(),
+    rows: [
+      ...(telegram?.connected
+        ? [
+            { id: "chat", label: t("notificationSettings.telegram.chat"), value: chat },
+            {
+              id: "linked_at",
+              label: t("notificationSettings.telegram.linkedAt"),
+              value: telegram.linked_at
+                ? getFullDate({ date: telegram.linked_at, includeTime: true })
+                : null,
+            },
+          ]
+        : []),
+      deliveryRow("telegram_last", telegram?.last),
+    ],
+  }
 
-          <div>
-            <Button type="submit" size="small" isLoading={isSaving} disabled={busy}>
-              {t("notificationSettings.save")}
-            </Button>
-          </div>
-        </form>
-
-        {/* Telegram владельцу */}
-        <div className="flex flex-col gap-y-5 px-6 py-6">
-          <div className="flex items-center justify-between">
-            <Text weight="plus">{t("notificationSettings.telegram.title")}</Text>
-            {loaded ? (
-              <Badge
-                size="2xsmall"
-                color={telegram?.connected ? "green" : "grey"}
-                data-testid="telegram-state"
-              >
-                {telegram?.connected
-                  ? t("notificationSettings.telegram.connected")
-                  : t("notificationSettings.telegram.notConnected")}
-              </Badge>
-            ) : null}
-          </div>
-
-          {telegram?.connected ? (
-            <Text size="small" className="text-ui-fg-subtle" data-testid="telegram-chat">
-              {t("notificationSettings.telegram.chat", {
-                chat: telegram.chat_title || t("notificationSettings.telegram.chatUnnamed"),
-              })}
-            </Text>
-          ) : (
-            <Text size="small" className="text-ui-fg-subtle">
-              {telegram?.configured === false
-                ? t("notificationSettings.telegram.offHint")
-                : t("notificationSettings.telegram.hint")}
-            </Text>
-          )}
-
-          {deepLink ? (
-            <div className="flex flex-col gap-y-2">
-              <Text size="small">{t("notificationSettings.telegram.linkReady")}</Text>
-              <a
-                href={deepLink}
-                target="_blank"
-                rel="noreferrer"
-                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-                data-testid="telegram-deep-link"
-              >
-                {deepLink}
-              </a>
-            </div>
-          ) : null}
-
-          <LastDelivery last={telegram?.last} />
-
-          <div className="flex items-center gap-x-2">
-            <Button
-              type="button"
-              size="small"
-              variant={telegram?.connected ? "secondary" : "primary"}
-              isLoading={isLinking}
-              disabled={loaded === null || isLinking}
-              onClick={handleConnect}
-              data-testid="telegram-connect"
-            >
-              {telegram?.connected
-                ? t("notificationSettings.telegram.reconnect")
-                : t("notificationSettings.telegram.connect")}
-            </Button>
-            <Button
-              type="button"
-              size="small"
-              variant="secondary"
-              isLoading={isTesting}
-              disabled={loaded === null || !telegram?.connected || isTesting}
-              onClick={handleTest}
-              data-testid="telegram-test"
-            >
-              {t("notificationSettings.telegram.test")}
-            </Button>
-            {telegram?.connected ? (
-              <Button
-                type="button"
-                size="small"
-                variant="danger"
-                isLoading={isUnlinking}
-                disabled={isUnlinking}
-                onClick={handleUnlink}
-                data-testid="telegram-unlink"
-              >
-                {t("notificationSettings.telegram.unlink")}
-              </Button>
-            ) : null}
-          </div>
-        </div>
-      </Container>
-    </SingleColumnPage>
-  )
+  return <SettingsDetail isPending={isPending} sections={[emailSection, telegramSection]} />
 }
