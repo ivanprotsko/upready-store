@@ -494,9 +494,11 @@ medusaIntegrationTestRunner({
         const canceled = await api.post(`/tenants/orders/${order.id}/fulfillments/${fulfillment.id}/cancel`, {}, bearer(a.token));
         expect(canceled.status).toBe(200);
         expect(mock.orders.get(apishipOrderId)!.canceled).toBe(true);
+        // The fulfillment's own `canceled_at` is the record of the cancel: the
+        // fulfillment module ignores what a provider returns from
+        // `cancelFulfillment` and writes only that column.
         const read = await readOrder(a, order.id);
         expect(read.fulfillments[0].canceled_at).toBeTruthy();
-        expect(read.fulfillments[0].data.apiship_cancelled_at).toBeTruthy();
       });
 
       it("refuses the owner's click, not the buyer's, when the shop's sender is incomplete", async () => {
