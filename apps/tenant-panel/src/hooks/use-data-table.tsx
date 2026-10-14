@@ -107,7 +107,11 @@ export const useDataTable = <TData,>({
     columns,
     state: {
       rowSelection: rowSelection, // We always pass a selection state to the table even if it's not enabled
-      pagination: enablePagination ? pagination : undefined,
+      // t-2026-10-14-58: without pagination the key is left out, not set to
+      // undefined. The table merges `{ ...internal, ...state }`, so an
+      // undefined key wipes its own pagination and `DataTableRoot` crashes
+      // reading `getState().pagination.pageIndex` («Сайты», «Домены»).
+      ...(enablePagination ? { pagination } : {}),
     },
     pageCount: Math.ceil((count ?? 0) / pageSize),
     enableRowSelection,

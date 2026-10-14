@@ -134,6 +134,7 @@ export const PANEL_ROUTES = [
   { name: "settings-integration-apiship", path: "/settings/integrations/apiship" },
   { name: "settings-integration-pochta", path: "/settings/integrations/pochta" },
   { name: "settings-integration-cdek", path: "/settings/integrations/cdek" },
+  { name: "settings-integration-telegram-bot", path: "/settings/integrations/telegram-bot" },
   { name: "settings-staff", path: "/settings/staff" },
   { name: "settings-branding", path: "/settings/branding" },
   { name: "no-match", path: "/this-page-does-not-exist", public: true },

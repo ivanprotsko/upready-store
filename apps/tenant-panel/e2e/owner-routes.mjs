@@ -199,6 +199,7 @@ export const OWNER_ROUTES = [
   { path: "/settings/integrations/apiship/edit/:apiship_section", kind: "overlay" },
   { path: "/settings/integrations/cdek" },
   { path: "/settings/integrations/pochta" },
+  { path: "/settings/integrations/telegram-bot" },
 
   // Без входа и «не найдено»
   { path: "/this-screen-does-not-exist", note: "404 inside the shell" },
