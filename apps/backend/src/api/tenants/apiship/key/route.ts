@@ -5,24 +5,26 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
 import { deleteTenantSecretSlot, writeTenantSecretSlot } from "../../../../tenant-secrets/slot";
-import { maskApishipSettings, readApishipSecret } from "../../../../tenant-secrets/apiship";
+import {
+  emptyApishipCredentials,
+  maskApishipSettings,
+  readApishipSecret,
+} from "../../../../tenant-secrets/apiship";
 import { getTenantScope } from "../../tenant-scope";
 import type { PutTenantApishipKeyBody } from "../../validators";
 
 /**
- * `GET|PUT|DELETE /tenants/apiship/key` — the shop's ApiShip token, entered by
- * its owner (p01-settings-integrations-restructure).
+ * `GET|PUT|DELETE /tenants/apiship/key` — the shop's ApiShip token alone,
+ * entered by its owner (p01-settings-integrations-restructure).
  *
- * The same shape the marketplace key routes have and the same ONE writer
- * (`tenant-secrets/slot.ts`): the encryption, the revival of a soft-deleted row
- * and the enabled default are decided once for every slot (rule 20). ApiShip is
- * not a marketplace adapter, so it cannot ride the registry-driven
- * `/tenants/marketplaces/:marketplace/key` family; it gets the same contract by
- * calling the same writer, not by a second copy of it.
+ * Kept for the panel screen that exists today. Since t-2026-10-14-58 the same
+ * row also holds the sender and the parcel defaults (`/tenants/apiship`), so
+ * a token written here is MERGED into the stored payload: replacing the token
+ * must not wipe the sender the owner typed in the other drawer.
  *
- * WHAT NEVER LEAVES THIS FILE: the token. Every response is the read-back state
- * (`{ set, last4 }`), errors name the FIELD and never its content, and nothing
- * here writes the value into a log line.
+ * WHAT NEVER LEAVES THIS FILE: the token. Every response is the read-back
+ * state (`{ set, last4 }`), errors name the FIELD and never its content, and
+ * nothing here writes the value into a log line.
  *
  * Whether the token WORKS is a different question with its own route
  * (`GET /tenants/apiship/probe`), because answering it means a call to ApiShip
@@ -53,10 +55,13 @@ export const PUT = async (
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
 
+  const existing = await readApishipSecret(pg, tenant.id, { includeDisabled: true });
+  const credentials = { ...(existing?.credentials ?? emptyApishipCredentials()), token: body.token };
+
   await writeTenantSecretSlot(pg, tenantModule, {
     tenantId: tenant.id,
     provider: "apiship",
-    credentials: { token: body.token },
+    credentials: credentials as unknown as Record<string, unknown>,
     isEnabled: body.is_enabled,
   });
 

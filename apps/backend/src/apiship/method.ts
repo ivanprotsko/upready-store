@@ -38,6 +38,8 @@ export type ApishipMethodData = {
   kind: ApishipDeliveryKind;
   /** A pinned ApiShip tariff id, or `null` to take the cheapest the calculator returns. */
   tariff_id: number | null;
+  /** The cabinet's connection to this carrier (`/connections` id), when it has several; `null` lets ApiShip choose. */
+  connection_id: string | null;
   /** Grams for a unit whose variant and product carry no weight. */
   default_weight_g: number;
   /** Added to every quote, in the cart currency. The shop's packing fee. */
@@ -66,6 +68,7 @@ export type ApishipShippingMethodData = {
   tenant_id: string;
   provider_key: string;
   kind: ApishipDeliveryKind;
+  apiship_connection_id: string | null;
   apiship_point_id: number | null;
   apiship_point_code: string | null;
   apiship_point_name: string | null;
