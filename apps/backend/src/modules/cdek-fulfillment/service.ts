@@ -35,6 +35,7 @@ import {
   type QuoteItem,
 } from "../../cdek/method";
 import { packageItems } from "../../cdek/package-items";
+import { withProductWeights } from "../../cdek/product-weights";
 import { cdekApiCredentials, readCdekSecret, type ResolvedCdekSecret } from "../../tenant-secrets/cdek";
 
 type InjectedDependencies = {
@@ -301,7 +302,9 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
 
     // CDEK refuses an online-shop parcel without its goods, and checks the
     // parcel weight against them (t-2026-10-09-57, `cdek/package-items.ts`).
-    const parcel = packageItems(items, order, methodData.default_weight_g);
+    // A variant without a weight is weighed by its product, as the price was
+    // (t-2026-10-14-58, `cdek/product-weights.ts`).
+    const parcel = packageItems(items, await withProductWeights(this.pg_, order), methodData.default_weight_g);
 
     const toLocation: CdekLocation | undefined = methodData.cdek_point_code
       ? undefined

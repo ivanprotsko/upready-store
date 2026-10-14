@@ -8,12 +8,15 @@
  * `line_item_id`, `quantity`, `sku` and the variant's title, with no price and
  * no weight; the `order` carries every line with `unit_price`, the variant's
  * `weight`, and the variant's inventory items. Each parcel line is read off
- * the order's line by `line_item_id`.
+ * the order's line by `line_item_id`. A unit weighs what the price weighed it
+ * at: the variant, then its product (added by the provider,
+ * `cdek/product-weights.ts`), then the shop's default (`unitWeightGrams`).
  *
  * Units, as ApiShip wants them: weight in grams, sides in centimetres, money
  * in roubles. Amounts in Medusa 2 are already in the currency's main unit.
  */
 
+import { unitWeightGrams } from "../cdek/method";
 import { amountOf } from "../cdek/package-items";
 import type { ApishipCredentials } from "../tenant-secrets/apiship";
 import { deliveryTypeFor, pickupTypeFor, type ApishipShippingMethodData } from "./method";
@@ -37,6 +40,8 @@ type Line = {
   variant?: {
     sku?: string | null;
     weight?: number | null;
+    /** Not in Medusa's order: `withProductWeights` puts it here for a variant without a weight. */
+    product?: { weight?: number | null } | null;
     length?: number | null;
     width?: number | null;
     height?: number | null;
@@ -101,8 +106,9 @@ export type ApishipParcel = {
 
 /**
  * One item per order line in the fulfillment. `defaultWeightG` is the shop's
- * default for a unit without a weight (the method's `default_weight_g`, the
- * number the price was quoted with); without it {@link FALLBACK_UNIT_WEIGHT_G}.
+ * default for a unit with no weight on its variant or product (the method's
+ * `default_weight_g`, the number the price was quoted with); without it
+ * {@link FALLBACK_UNIT_WEIGHT_G}.
  * Nothing is collected on delivery: the order was paid on the site, so every
  * `cost` is 0 and the unit price goes into `assessedCost` (the declared value).
  */
@@ -132,8 +138,12 @@ export const apishipParcel = (
       line?.variant?.inventory_items?.find((each) => each?.inventory?.id && each.inventory.id === raw.inventory_item_id)
         ?.required_quantity ?? 1;
     const quantity = Math.max(1, Math.round(amountOf(raw.quantity) / (Number(required) > 0 ? Number(required) : 1)));
-    const own = line?.variant?.weight;
-    const weight = typeof own === "number" && own > 0 ? Math.max(1, Math.round(own)) : unitDefault;
+    const weight = Math.max(
+      1,
+      Math.round(
+        unitWeightGrams({ weight: line?.variant?.weight, product_weight: line?.variant?.product?.weight }, unitDefault),
+      ),
+    );
     const articul = clean(line?.variant_sku) || clean(line?.variant?.sku) || clean(raw.sku) || clean(line?.variant_id) || key;
     const unitPrice = Math.max(0, Math.round(amountOf(line?.unit_price) * 100) / 100);
     const dims = line?.variant;

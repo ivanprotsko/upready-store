@@ -87,6 +87,26 @@ export type QuoteItem = {
   product_weight?: number | null;
 };
 
+const isPositiveWeight = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value) && value > 0;
+
+/**
+ * Grams of one unit: the variant's weight, then its product's, then the shop's
+ * default. The price ({@link cartWeightGrams}) and both carrier orders
+ * (`packageItems` for CDEK, `apishipParcel` for ApiShip) weigh a unit with this
+ * one function, so the parcel the carrier is told about weighs what the buyer
+ * paid for. On 14.10 ten products of the live shop had a weight on the product
+ * only: the price used it, the orders sent the default (t-2026-10-14-58).
+ */
+export const unitWeightGrams = (
+  item: { weight?: number | null; product_weight?: number | null },
+  defaultWeightG: number,
+): number => {
+  if (isPositiveWeight(item.weight)) return item.weight;
+  if (isPositiveWeight(item.product_weight)) return item.product_weight;
+  return defaultWeightG;
+};
+
 /**
  * Total cart weight in grams. A variant without a weight falls back to its
  * product's, then to the shop's default: a zero would quote the minimum tariff
@@ -94,11 +114,10 @@ export type QuoteItem = {
  * the carrier's invoice.
  */
 export const cartWeightGrams = (items: QuoteItem[], defaultWeightG: number): number => {
-  const total = items.reduce((sum, item) => {
-    const own = item.weight ?? item.product_weight ?? null;
-    const weight = typeof own === "number" && own > 0 ? own : defaultWeightG;
-    return sum + weight * Math.max(1, Number(item.quantity) || 1);
-  }, 0);
+  const total = items.reduce(
+    (sum, item) => sum + unitWeightGrams(item, defaultWeightG) * Math.max(1, Number(item.quantity) || 1),
+    0,
+  );
   return Math.max(1, Math.round(total));
 };
 
