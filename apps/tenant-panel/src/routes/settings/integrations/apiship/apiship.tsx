@@ -1,217 +1,280 @@
+import { PencilSquare, Trash } from "@medusajs/icons"
+import { Button, StatusBadge, toast, usePrompt } from "@medusajs/ui"
 import { useState } from "react"
-import { Alert, Badge, Button, Container, Heading, Input, Label, Text, toast, usePrompt } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
+import { SecretValue, hideQuery } from "../../../../components/common/secret-value"
+import { SingleColumnPageSkeleton } from "../../../../components/common/skeleton"
 import { SingleColumnPage } from "../../../../components/layout/pages"
 import {
-  useApishipKey,
+  SettingsDetailSection,
+  type SettingsRow,
+  type SettingsSection,
+  type SettingsStatus,
+} from "../../../../components/settings"
+import {
+  useApiship,
   useApishipProbe,
-  useDeleteApishipKey,
-  useSaveApishipKey,
+  useDeleteApiship,
 } from "../../../../hooks/api/apiship"
-import { CrossLink } from "../components/cross-link"
+import { UnreadableSecretAlert } from "../components/unreadable-secret-alert"
+import { ApishipDuplicates } from "./apiship-duplicates"
+import { CabinetHint, methodsRows } from "./apiship-methods-rows"
+import { connectionStatus, formatRub, probeVerdict, SENDER_FIELDS } from "./apiship-model"
 
 /**
- * «Подключение → ApiShip» — the shop's ApiShip token
- * (p01-settings-integrations-restructure).
+ * «Подключения → ApiShip» (t-2026-10-14-58, part B): the shop's ApiShip
+ * connection, sender, parcel defaults, checkout methods, markup and the
+ * service address, after the settings pattern of t-2026-10-14-01 — the page
+ * only reads, each section is edited in its own drawer on `edit/<section>`.
  *
- * Ivan's order of 2026-09-16 20:22 WITA lists ApiShip among the services whose
- * requisites the owner must be able to enter herself. Until this page ApiShip
- * was a row reading «скоро» on the marketplaces hub, with no slot in the
- * database behind it.
- *
- * WHAT THIS PAGE DOES NOT DO, said in plain words on the screen itself: it does
- * not put ApiShip into the checkout. i02 measured the ApiShip calculator
- * answering ZERO tariffs for this account in all four location combinations, so
- * the checkout quotes СДЭК directly, and storing a token changes nothing about
- * what the buyer sees (`artifacts/docs/i02-apiship-cdek-shipping/decision.md`).
- * A page that stayed silent about that would be read as «delivery is connected»
- * — a claim the product would then fail (rule 17a).
- *
- * THREE STATES, never two (rule 19h / 20a): no token stored, a token ApiShip
- * has not answered about yet, and ApiShip's own verdict. The verdict comes from
- * its own query, so a slow or dead ApiShip never holds the form.
+ * THREE STATES of the token, never two (rule 19h / 20a): not entered, ApiShip
+ * has not answered yet, and ApiShip's own verdict. The verdict and the tariff
+ * check are their own queries, so a slow or dead ApiShip never holds the page.
+ * The token and the webhook address (it carries a token) are never on screen
+ * in full: the last four characters, and `SecretValue`.
  */
 export const ApishipIntegration = () => {
   const { t } = useTranslation()
   const prompt = usePrompt()
 
-  const { apiship, isPending, isError, error } = useApishipKey()
-  const stored = apiship?.settings?.token.set ?? false
+  const { apiship, isPending, isError, error } = useApiship()
+  const settings = apiship?.settings ?? null
+  const stored = settings?.token.set ?? false
 
-  // The probe only makes sense once something is stored, and it costs a call to
-  // ApiShip; asking about a token that does not exist would be a request whose
-  // answer we already know.
-  const { result: probeResult, isPending: isProbing } = useApishipProbe({ enabled: stored })
+  const { result: probe, isFetching: isProbing } = useApishipProbe({}, { enabled: stored })
+  // The quote takes seconds and costs ApiShip calls: only on the owner's click.
+  const [wantsTariffs, setWantsTariffs] = useState(false)
+  const {
+    result: quote,
+    isFetching: isQuoting,
+    refetch: requote,
+  } = useApishipProbe({ calculator: true }, { enabled: stored && wantsTariffs })
 
-  const [token, setToken] = useState("")
-  const { mutateAsync: save, isPending: isSaving } = useSaveApishipKey()
-  const { mutateAsync: remove, isPending: isRemoving } = useDeleteApishipKey()
+  const { mutateAsync: remove } = useDeleteApiship()
 
   if (isError) {
     throw error
   }
 
-  const busy = isPending || isSaving || isRemoving
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    if (!token.trim()) {
-      toast.error(t("integrations.apiship.tokenRequired"))
-      return
-    }
-    try {
-      const saved = await save({ token: token.trim() })
-      setToken("")
-      toast.success(
-        t("integrations.apiship.saved", { last4: saved.settings?.token.last4 ?? "" })
-      )
-    } catch (saveError) {
-      toast.error(saveError instanceof Error ? saveError.message : String(saveError))
-    }
+  if (isPending || !apiship) {
+    return <SingleColumnPageSkeleton sections={6} />
   }
+
+  const missing = new Set(apiship.missing)
+  const needed: SettingsStatus = { color: "orange", label: t("integrations.apiship.neededToShip") }
 
   const handleRemove = async () => {
     const confirmed = await prompt({
       title: t("integrations.apiship.removeTitle"),
       description: t("integrations.apiship.removeDescription"),
+      verificationText: "ApiShip",
+      verificationInstruction: t("general.typeToConfirm"),
       confirmText: t("integrations.apiship.remove"),
-      cancelText: t("integrations.apiship.cancel"),
+      cancelText: t("actions.cancel"),
     })
-    if (!confirmed) {
-      return
-    }
+    if (!confirmed) return
     try {
       await remove()
-      setToken("")
       toast.success(t("integrations.apiship.removed"))
     } catch (removeError) {
       toast.error(removeError instanceof Error ? removeError.message : String(removeError))
     }
   }
 
-  const verdict = (() => {
-    if (!stored) {
-      return null
-    }
-    if (isProbing || !probeResult?.probe) {
-      return { tone: "grey" as const, text: t("integrations.apiship.probeAsking") }
-    }
-    if (probeResult.probe.ok) {
+  const verdict = probeVerdict(t, { stored, isProbing, probe })
+  const connections = probe?.connections ?? []
+
+  const connection: SettingsSection = {
+    id: "connection",
+    title: t("integrations.apiship.title"),
+    description: t("integrations.apiship.subtitle"),
+    status: connectionStatus(t, apiship),
+    actions: [
+      {
+        actions: [
+          { label: t("actions.change"), to: "edit/connection", icon: <PencilSquare /> },
+        ],
+      },
+      ...(settings || apiship.unreadable
+        ? [{ actions: [{ label: t("integrations.apiship.remove"), icon: <Trash />, onClick: handleRemove }] }]
+        : []),
+    ],
+    rows: [
+      {
+        id: "token",
+        label: t("integrations.apiship.tokenLabel"),
+        value: stored ? `••••${settings?.token.last4 ?? ""}` : undefined,
+        mono: true,
+        status: stored ? undefined : { color: "orange", label: t("integrations.apiship.tokenMissing") },
+        hint: t("integrations.apiship.tokenHint"),
+      },
+      ...(verdict ? [{ id: "probe", label: t("integrations.apiship.probeLabel"), status: verdict }] : []),
+      ...(probe?.probe?.ok
+        ? [
+            {
+              id: "connections",
+              label: t("integrations.apiship.connectionsLabel"),
+              value: connections.length ? (
+                <div className="flex flex-wrap gap-2" data-testid="apiship-connections">
+                  {connections.map((entry) => (
+                    <StatusBadge key={entry.id} color="green">
+                      {entry.test ? t("integrations.apiship.connectionTest", { label: entry.label }) : entry.label}
+                    </StatusBadge>
+                  ))}
+                </div>
+              ) : undefined,
+              status: connections.length
+                ? undefined
+                : { color: "orange" as const, label: t("integrations.apiship.noConnections") },
+              hint: <CabinetHint />,
+            },
+          ]
+        : []),
+      ...(apiship.test_contour
+        ? [
+            {
+              id: "contour",
+              label: t("integrations.apiship.contourLabel"),
+              status: { color: "blue" as const, label: t("integrations.apiship.testContour") },
+              hint: t("integrations.apiship.testContourHint"),
+            },
+          ]
+        : []),
+    ],
+  }
+
+  const senderRow = (field: (typeof SENDER_FIELDS)[number]): SettingsRow => {
+    const value = settings?.[field]
+    if (field === "sender_mode") {
       return {
-        tone: "green" as const,
-        text:
-          probeResult.probe.connections === null
-            ? t("integrations.apiship.probeOk")
-            : t("integrations.apiship.probeOkWithCount", {
-                count: probeResult.probe.connections,
-              }),
+        id: field,
+        label: t(`integrations.apiship.sender.${field}`),
+        value: t(`integrations.apiship.senderMode.${settings?.sender_mode ?? "courier"}`),
       }
     }
     return {
-      tone: "red" as const,
-      text: probeResult.probe.error ?? t("integrations.apiship.probeFailed"),
+      id: field,
+      label: t(`integrations.apiship.sender.${field}`),
+      value: value === null || value === undefined ? undefined : String(value),
+      mono: field === "sender_index" || field === "sender_point_id",
+      status: missing.has(field) ? needed : undefined,
     }
-  })()
+  }
+
+  const senderMissing = SENDER_FIELDS.filter((field) => missing.has(field))
+  const sender: SettingsSection = {
+    id: "sender",
+    title: t("integrations.apiship.sections.sender"),
+    description: t("integrations.apiship.sections.senderHint"),
+    editTo: "edit/sender",
+    status: !settings
+      ? undefined
+      : senderMissing.length
+        ? {
+            color: "orange",
+            label: t("integrations.apiship.senderMissing", {
+              fields: senderMissing.map((field) => t(`integrations.apiship.sender.${field}`)).join(", "),
+            }),
+          }
+        : { color: "green", label: t("integrations.apiship.senderReady") },
+    rows: SENDER_FIELDS.filter(
+      (field) => field !== "sender_point_id" || settings?.sender_mode === "point"
+    ).map(senderRow),
+  }
+
+  const parcel: SettingsSection = {
+    id: "parcel",
+    title: t("integrations.apiship.sections.parcel"),
+    description: t("integrations.apiship.sections.parcelHint"),
+    editTo: "edit/parcel",
+    rows: [
+      {
+        id: "weight",
+        label: t("integrations.apiship.parcel.weight"),
+        value: settings ? t("integrations.apiship.parcel.grams", { value: settings.default_weight_g }) : undefined,
+      },
+      {
+        id: "size",
+        label: t("integrations.apiship.parcel.size"),
+        value: settings
+          ? t("integrations.apiship.parcel.cm", {
+              length: settings.default_length_cm,
+              width: settings.default_width_cm,
+              height: settings.default_height_cm,
+            })
+          : undefined,
+      },
+    ],
+  }
+
+  const methods: SettingsSection = {
+    id: "methods",
+    title: t("integrations.apiship.sections.methods"),
+    description: t("integrations.apiship.sections.methodsHint"),
+    editTo: "edit/methods",
+    action: stored ? (
+      <Button
+        size="small"
+        variant="secondary"
+        isLoading={isQuoting}
+        onClick={() => (wantsTariffs ? requote() : setWantsTariffs(true))}
+        data-testid="apiship-check-tariffs"
+      >
+        {t("integrations.apiship.checkTariffs")}
+      </Button>
+    ) : undefined,
+    rows: methodsRows({ t, apiship, probe, quote: wantsTariffs ? quote : undefined }),
+  }
+
+  const { pricing } = apiship
+  const markup: SettingsSection = {
+    id: "markup",
+    title: t("integrations.apiship.sections.markup"),
+    description: t("integrations.apiship.sections.markupHint"),
+    editTo: "edit/markup",
+    rows: [
+      { id: "markup_amount", label: t("integrations.apiship.markup.amount"), value: formatRub(pricing.markup_amount) },
+      { id: "markup_percent", label: t("integrations.apiship.markup.percent"), value: `${pricing.markup_percent} %` },
+      {
+        id: "free_above_total",
+        label: t("integrations.apiship.markup.freeAbove"),
+        value: pricing.free_above_total ? formatRub(pricing.free_above_total) : undefined,
+        hint: pricing.free_above_total ? undefined : t("integrations.apiship.markup.freeAboveNone"),
+      },
+    ],
+  }
+
+  const service: SettingsSection = {
+    id: "service",
+    title: t("integrations.apiship.sections.service"),
+    description: t("integrations.apiship.sections.serviceHint"),
+    actions: [],
+    rows: [
+      {
+        id: "webhook",
+        label: t("integrations.apiship.webhookLabel"),
+        value: apiship.webhook_url ? (
+          <SecretValue value={apiship.webhook_url} hidden={hideQuery(apiship.webhook_url)} testId="apiship-webhook" />
+        ) : undefined,
+        status: !settings
+          ? undefined
+          : settings.webhook_registered
+            ? { color: "green", label: t("integrations.apiship.webhookRegistered") }
+            : { color: "orange", label: t("integrations.apiship.webhookNotRegistered") },
+        hint: settings && !settings.webhook_registered ? t("integrations.apiship.webhookPollHint") : undefined,
+      },
+    ],
+  }
 
   return (
-    <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
-      <Container className="divide-y p-0">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div>
-            <Heading>{t("integrations.apiship.title")}</Heading>
-            <Text className="text-ui-fg-subtle" size="small">
-              {t("integrations.apiship.subtitle")}
-            </Text>
-          </div>
-          {isPending ? null : (
-            <Badge
-              size="2xsmall"
-              color={stored ? "green" : "orange"}
-              data-testid="apiship-state"
-            >
-              {stored
-                ? t("integrations.state.connected", {
-                    last4: apiship?.settings?.token.last4 ?? "",
-                  })
-                : t("integrations.state.missing")}
-            </Badge>
-          )}
-        </div>
-
-        <div className="px-6 py-4">
-          {/* The honest limit, on the screen and not only in a report. */}
-          <Alert variant="warning" data-testid="apiship-not-in-checkout">
-            {t("integrations.apiship.notInCheckout")}
-          </Alert>
-        </div>
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 px-6 py-6">
-          <div className="flex flex-col gap-y-2">
-            <Label htmlFor="apiship-token">{t("integrations.apiship.tokenLabel")}</Label>
-            <Input
-              id="apiship-token"
-              name="token"
-              type="password"
-              autoComplete="new-password"
-              data-testid="apiship-token"
-              value={token}
-              disabled={busy}
-              onChange={(event) => setToken(event.target.value)}
-              placeholder={
-                stored
-                  ? t("integrations.apiship.keepPlaceholder")
-                  : t("integrations.apiship.emptyPlaceholder")
-              }
-            />
-            <Text className="text-ui-fg-subtle" size="small">
-              {t("integrations.apiship.tokenHint")}
-            </Text>
-          </div>
-
-          {verdict ? (
-            <div className="flex items-center gap-x-2">
-              <Badge size="2xsmall" color={verdict.tone} data-testid="apiship-probe">
-                {verdict.text}
-              </Badge>
-            </div>
-          ) : null}
-
-          <div className="flex items-center gap-x-2">
-            <Button
-              type="submit"
-              size="small"
-              isLoading={isSaving}
-              disabled={busy}
-              data-testid="apiship-save"
-            >
-              {t("integrations.apiship.save")}
-            </Button>
-            {stored ? (
-              <Button
-                type="button"
-                size="small"
-                variant="danger"
-                isLoading={isRemoving}
-                disabled={busy}
-                onClick={handleRemove}
-                data-testid="apiship-remove"
-              >
-                {t("integrations.apiship.remove")}
-              </Button>
-            ) : null}
-          </div>
-        </form>
-
-        <div className="px-6 py-4">
-          <CrossLink
-            to="/settings/delivery"
-            hint={t("integrations.apiship.deliveryHint")}
-            label={t("deliverySettings.title")}
-            testId="apiship-delivery-link"
-          />
-        </div>
-      </Container>
+    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet>
+      {apiship.unreadable ? <UnreadableSecretAlert testId="apiship-unreadable" /> : null}
+      <SettingsDetailSection section={connection} level="h1" />
+      <ApishipDuplicates duplicates={apiship.duplicates} />
+      {[sender, parcel, methods, markup, service].map((section) => (
+        <SettingsDetailSection key={section.id} section={section} />
+      ))}
     </SingleColumnPage>
   )
 }
