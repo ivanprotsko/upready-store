@@ -46,6 +46,7 @@ import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
 import { useOwnerSku } from "../../../../../hooks/use-owner-sku"
 import { ExtendedOrderFulfillment, ExtendedOrder } from "../../constants"
+import { ApishipShipmentRows, useApishipCancelAction, useApishipShipmentActions } from "./apiship-shipment"
 
 type OrderFulfillmentSectionProps = {
   order: ExtendedOrder
@@ -304,6 +305,8 @@ const Fulfillment = ({
     statusTimestamp = fulfillment.shipped_at
   }
 
+  const apishipActions = useApishipShipmentActions(order, fulfillment)
+  const apishipCancel = useApishipCancelAction(fulfillment)
   const { mutateAsync } = useCancelOrderFulfillment(order.id, fulfillment.id)
   const { mutateAsync: markAsDelivered } = useMarkOrderFulfillmentAsDelivered(
     order.id,
@@ -436,6 +439,7 @@ const Fulfillment = ({
           </Tooltip>
           <ActionMenu
             groups={[
+              ...apishipActions,
               {
                 actions: cdekPrintable
                   ? [
@@ -458,6 +462,7 @@ const Fulfillment = ({
                 actions: [
                   {
                     label: t("actions.cancel"),
+                    ...apishipCancel,
                     icon: <XCircle />,
                     onClick: handleCancel,
                     disabled:
@@ -513,6 +518,7 @@ const Fulfillment = ({
           {getFulfillmentProviderLabel(t, fulfillment.provider_id)}
         </Text>
       </div>
+      <ApishipShipmentRows fulfillment={fulfillment} />
       <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
         <Text size="small" leading="compact" weight="plus">
           {t("orders.fulfillment.trackingLabel")}

@@ -196,6 +196,7 @@ export const OWNER_ROUTES = [
   { path: "/settings/integrations/ozon" },
   { path: "/settings/integrations/robokassa" },
   { path: "/settings/integrations/apiship" },
+  { path: "/settings/integrations/apiship/edit/:apiship_section", kind: "overlay" },
   { path: "/settings/integrations/cdek" },
   { path: "/settings/integrations/pochta" },
 
@@ -318,6 +319,9 @@ export const PARAM_RESOLVERS = {
   // The router takes the rule group as a param; "rules" is the first of the
   // three the promotion screens link to (rules, target-rules, buy-rules).
   rule_type: async () => "rules",
+  // The ApiShip page edits each section in a drawer on `edit/<section>`
+  // (connection, sender, parcel, methods, markup); «sender» has the most fields.
+  apiship_section: async () => "sender",
   customer_id: async (api) => {
     const { customers } = await api("/tenants/customers?limit=1")
     return first(customers, "customers").id

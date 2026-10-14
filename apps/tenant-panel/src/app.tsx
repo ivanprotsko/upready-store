@@ -1137,14 +1137,14 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/integrations/robokassa"),
           },
           {
-            // Токен ApiShip. Единственная НОВАЯ интеграция задачи: слот
-            // `apiship` в tenant_integration_secret плюс проба токена. В
-            // чекаут не заведена — i02 замерил ноль тарифов у калькулятора
-            // ApiShip, и страница говорит это словами.
+            // ApiShip (t-2026-10-14-58): страница читает, drawer секции правит.
             path: "/settings/integrations/apiship",
             handle: { breadcrumb: () => t("integrations.apiship.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/integrations/apiship"),
+            children: [{
+              path: "edit/:section", lazy: () => import("./routes/settings/integrations/apiship/edit"),
+            }],
           },
           {
             // «Почта России» (46df-pochta): токен и ключ пользователя «Отправки»,

@@ -14,6 +14,11 @@ export type Action = {
    * Optional tooltip to display when a disabled action is hovered.
    */
   disabledTooltip?: string | ReactNode
+  /**
+   * The action cannot be taken back (cancel, delete): its words and icon read
+   * in the error colour. It still stands last, after a separator (E6).
+   */
+  destructive?: boolean
 } & (
   | {
       to: string
@@ -85,6 +90,8 @@ export const ActionMenu = ({
                           "[&_svg]:text-ui-fg-subtle flex items-center gap-x-2",
                           {
                             "[&_svg]:text-ui-fg-disabled": action.disabled,
+                            "text-ui-fg-error [&_svg]:text-ui-fg-error":
+                              action.destructive && !action.disabled,
                           }
                         )}
                       >
