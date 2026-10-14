@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Sledovacie číslo"
+    "trackingNumber": "Sledovacie číslo",
+    "trackLink": "Sledovať zásielku",
+    "deliveryStatus": "Stav doručenia"
   },
   "OrdersPage": {
     "description": "Zobrazte si svoje predchádzajúce objednávky a ich stav.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Doprava Ruskou poštou zatiaľ v tomto obchode nie je nastavená.",
     "quoteFailed": "Dopravu na toto miesto sa nepodarilo vypočítať. Vyberte iné.",
     "postcode": "PSČ {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Výdajné miesta tohto prepravcu zatiaľ v tomto obchode nie sú k dispozícii.",
+    "addressRejected": "Prepravca nenašiel adresu. Skontrolujte PSČ a mesto"
+  },
+  "ApishipStatus": {
+    "uploading": "Odovzdáva sa prepravcovi",
+    "uploaded": "Prevzatá prepravcom",
+    "uploadingError": "Prepravca objednávku neprijal",
+    "onPointIn": "V sklade odosielateľa",
+    "onWay": "Na ceste",
+    "onPointOut": "Dorazila do mesta príjemcu",
+    "readyForRecipient": "Pripravená na vyzdvihnutie",
+    "delivering": "Doručuje sa",
+    "delivered": "Doručená",
+    "partialReturn": "Čiastočne vrátená",
+    "returnReady": "Vrátenie pripravené",
+    "returning": "Vracia sa odosielateľovi",
+    "returned": "Vrátená odosielateľovi",
+    "returnedFromDelivery": "Vrátená z doručovania",
+    "deliveryCanceled": "Doručenie zrušené",
+    "problem": "Vyskytol sa problém",
+    "lost": "Stratená"
   },
   "OlavkaHome": {
     "slider": {

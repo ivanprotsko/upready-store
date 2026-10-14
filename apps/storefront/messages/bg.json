@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Номер за проследяване"
+    "trackingNumber": "Номер за проследяване",
+    "trackLink": "Проследи пратката",
+    "deliveryStatus": "Статус на доставката"
   },
   "OrdersPage": {
     "description": "Преглеждайте предишните си поръчки и техния статус.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Доставката с Руска поща все още не е настроена в този магазин.",
     "quoteFailed": "Не успяхме да изчислим доставката до този пункт. Изберете друг.",
     "postcode": "Пощенски код {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Пунктовете за получаване на този превозвач все още не са налични в магазина.",
+    "addressRejected": "Превозвачът не намери адреса. Проверете пощенския код и града"
+  },
+  "ApishipStatus": {
+    "uploading": "Предава се на превозвача",
+    "uploaded": "Приета от превозвача",
+    "uploadingError": "Превозвачът не прие поръчката",
+    "onPointIn": "В склада на изпращане",
+    "onWay": "В движение",
+    "onPointOut": "Пристигна в града на получателя",
+    "readyForRecipient": "Готова за получаване",
+    "delivering": "Предадена на куриер за доставка",
+    "delivered": "Доставена",
+    "partialReturn": "Частично връщане",
+    "returnReady": "Подготвено връщане",
+    "returning": "Връща се към подателя",
+    "returned": "Върната на подателя",
+    "returnedFromDelivery": "Върната от доставка",
+    "deliveryCanceled": "Доставката е отменена",
+    "problem": "Възникна проблем",
+    "lost": "Изгубена"
   },
   "OlavkaHome": {
     "slider": {

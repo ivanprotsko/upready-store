@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "מספר מעקב"
+    "trackingNumber": "מספר מעקב",
+    "trackLink": "מעקב אחר החבילה",
+    "deliveryStatus": "סטטוס משלוח"
   },
   "OrdersPage": {
     "description": "צפו בהזמנות הקודמות שלכם ובסטטוס שלהן.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "משלוח בדואר הרוסי עדיין לא הוגדר בחנות הזו.",
     "quoteFailed": "לא הצלחנו לחשב משלוח לנקודה הזו. בחרו נקודה אחרת.",
     "postcode": "מיקוד {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "נקודות האיסוף של חברת השילוח הזו עדיין לא זמינות בחנות.",
+    "addressRejected": "חברת השילוח לא מצאה את הכתובת. בדקו את המיקוד ואת העיר"
+  },
+  "ApishipStatus": {
+    "uploading": "מועבר לחברת השילוח",
+    "uploaded": "התקבל בחברת השילוח",
+    "uploadingError": "חברת השילוח לא קיבלה את ההזמנה",
+    "onPointIn": "במחסן השילוח",
+    "onWay": "בדרך",
+    "onPointOut": "הגיע לעיר הנמען",
+    "readyForRecipient": "מוכן לאיסוף",
+    "delivering": "יצא למסירה",
+    "delivered": "נמסר",
+    "partialReturn": "החזרה חלקית",
+    "returnReady": "ההחזרה הוכנה",
+    "returning": "בדרך חזרה לשולח",
+    "returned": "הוחזר לשולח",
+    "returnedFromDelivery": "חזר מהמסירה",
+    "deliveryCanceled": "המשלוח בוטל",
+    "problem": "אירעה בעיה",
+    "lost": "אבד"
   },
   "OlavkaHome": {
     "slider": {

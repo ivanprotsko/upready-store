@@ -1,5 +1,6 @@
 import type { HttpTypes } from "@medusajs/types"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
+import { apishipMethodOf, apishipNeedsPoint } from "@lib/util/apiship"
 import { cdekNeedsPoint, chosenCdekPoint } from "@lib/util/cdek"
 import { contactsFieldErrors } from "@lib/util/checkout-contacts"
 import { isPickupShippingOption } from "@lib/util/fulfillment"
@@ -78,6 +79,7 @@ export const isShippingStepDone = (
   if (isPickupShippingOption(option)) return !!metaString(cart, PICKUP_METADATA_KEYS.name)
   if (cdekNeedsPoint(option)) return !!chosenCdekPoint(cart)
   if (isPochtaOption(option)) return !!chosenPochtaPoint(cart)
+  if (apishipNeedsPoint(option)) return apishipMethodOf(cart)?.pointId != null
   return true
 }
 

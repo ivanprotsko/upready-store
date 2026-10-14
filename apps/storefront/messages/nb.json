@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Sporingsnummer"
+    "trackingNumber": "Sporingsnummer",
+    "trackLink": "Spor pakken",
+    "deliveryStatus": "Leveringsstatus"
   },
   "OrdersPage": {
     "description": "Se dine tidligere bestillinger og deres status.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Levering med Russisk post er ikke satt opp i denne butikken ennå.",
     "quoteFailed": "Frakten til dette hentestedet kunne ikke beregnes. Velg et annet.",
     "postcode": "Postnummer {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Denne transportørens hentesteder er ikke tilgjengelige i butikken ennå.",
+    "addressRejected": "Transportøren fant ikke adressen. Sjekk postnummer og sted"
+  },
+  "ApishipStatus": {
+    "uploading": "Overleveres til transportøren",
+    "uploaded": "Mottatt av transportøren",
+    "uploadingError": "Transportøren tok ikke imot bestillingen",
+    "onPointIn": "På avsenderlageret",
+    "onWay": "Underveis",
+    "onPointOut": "Ankommet mottakerens by",
+    "readyForRecipient": "Klar til henting",
+    "delivering": "Ute for levering",
+    "delivered": "Levert",
+    "partialReturn": "Delvis returnert",
+    "returnReady": "Retur klargjort",
+    "returning": "På vei tilbake til avsender",
+    "returned": "Returnert til avsender",
+    "returnedFromDelivery": "Kommet tilbake fra levering",
+    "deliveryCanceled": "Levering kansellert",
+    "problem": "Det har oppstått et problem",
+    "lost": "Forsvunnet"
   },
   "OlavkaHome": {
     "slider": {

@@ -34,8 +34,8 @@ export type { PickupRow, PickupRowLine } from "./point-row"
 export type PickupPointPickerProps<P> = {
   open: boolean
   onClose: () => void
-  /** The prefix of every test id, kept from the two sheets this picker replaced. */
-  testIdPrefix: "pochta-point" | "cdek-point"
+  /** The prefix of every test id, kept from the two sheets this picker replaced, plus ApiShip's. */
+  testIdPrefix: "pochta-point" | "cdek-point" | "apiship-point"
   /** The carrier's own city suggest: each carrier keeps its own directory. */
   cityField: ReactNode
   /** A line in place of the list while there is nothing to list: no city, loading, not configured. */

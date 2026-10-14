@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Mã vận đơn"
+    "trackingNumber": "Mã vận đơn",
+    "trackLink": "Theo dõi bưu kiện",
+    "deliveryStatus": "Trạng thái giao hàng"
   },
   "OrdersPage": {
     "description": "Xem các đơn hàng trước đây và trạng thái của chúng.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Cửa hàng này chưa thiết lập giao hàng qua Bưu điện Nga.",
     "quoteFailed": "Không tính được phí giao hàng đến điểm này. Hãy chọn điểm khác.",
     "postcode": "Mã bưu chính {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Các điểm nhận hàng của đơn vị vận chuyển này chưa có trong cửa hàng.",
+    "addressRejected": "Đơn vị vận chuyển không tìm thấy địa chỉ. Hãy kiểm tra mã bưu chính và thành phố"
+  },
+  "ApishipStatus": {
+    "uploading": "Đang bàn giao cho đơn vị vận chuyển",
+    "uploaded": "Đơn vị vận chuyển đã nhận",
+    "uploadingError": "Đơn vị vận chuyển không nhận đơn hàng",
+    "onPointIn": "Tại kho gửi",
+    "onWay": "Đang vận chuyển",
+    "onPointOut": "Đã đến thành phố của người nhận",
+    "readyForRecipient": "Sẵn sàng để nhận",
+    "delivering": "Đang giao hàng",
+    "delivered": "Đã giao",
+    "partialReturn": "Hoàn trả một phần",
+    "returnReady": "Đã chuẩn bị hoàn trả",
+    "returning": "Đang hoàn về người gửi",
+    "returned": "Đã hoàn về người gửi",
+    "returnedFromDelivery": "Đã quay lại sau khi giao",
+    "deliveryCanceled": "Đã hủy giao hàng",
+    "problem": "Đã xảy ra sự cố",
+    "lost": "Thất lạc"
   },
   "OlavkaHome": {
     "slider": {

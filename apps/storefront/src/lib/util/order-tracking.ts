@@ -14,8 +14,17 @@ import type { HttpTypes } from "@medusajs/types"
 
 /** A fulfillment as far as tracking is concerned; the Store API types the relation loosely. */
 export type TrackedFulfillment = {
-  labels?: { tracking_number?: string | null }[] | null
+  labels?: { tracking_number?: string | null; tracking_url?: string | null }[] | null
   metadata?: Record<string, unknown> | null
+}
+
+/** One tracking line and the carrier's tracking page for it, when the label has one. */
+export type TrackingEntry = { line: string; url: string | null }
+
+/** Only a web address is a link: anything else in `tracking_url` is not one to follow. */
+const webUrl = (raw: string | null | undefined): string | null => {
+  const url = raw?.trim() ?? ""
+  return /^https?:\/\//i.test(url) ? url : null
 }
 
 /**
@@ -23,19 +32,27 @@ export type TrackedFulfillment = {
  * front of each tracking number, one line per label. A label with no number is
  * not a line, and a fulfillment with no carrier gives the bare number rather
  * than a leading space.
+ *
+ * `url` is the label's `tracking_url`. ApiShip's status sync writes it with the
+ * carrier's number (t-2026-10-14-58); a number the owner typed by hand has none.
  */
-export const trackingLines = (
+export const trackingEntries = (
   fulfillments: TrackedFulfillment[] | null | undefined
-): string[] =>
+): TrackingEntry[] =>
   (fulfillments ?? []).flatMap((fulfillment) => {
     const raw = fulfillment.metadata?.carrier
     const carrier = typeof raw === "string" && raw.trim() ? raw.trim() : null
 
-    return (fulfillment.labels ?? [])
-      .map((label) => label.tracking_number?.trim())
-      .filter((number): number is string => Boolean(number))
-      .map((number) => (carrier ? `${carrier} ${number}` : number))
+    return (fulfillment.labels ?? []).flatMap((label) => {
+      const number = label.tracking_number?.trim()
+      if (!number) return []
+      return [{ line: carrier ? `${carrier} ${number}` : number, url: webUrl(label.tracking_url) }]
+    })
   })
+
+export const trackingLines = (
+  fulfillments: TrackedFulfillment[] | null | undefined
+): string[] => trackingEntries(fulfillments).map((entry) => entry.line)
 
 export type TimelineStepKey =
   | "placed"

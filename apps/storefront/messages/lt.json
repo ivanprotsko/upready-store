@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Siuntos sekimo numeris"
+    "trackingNumber": "Siuntos sekimo numeris",
+    "trackLink": "Sekti siuntą",
+    "deliveryStatus": "Pristatymo būsena"
   },
   "OrdersPage": {
     "description": "Peržiūrėkite savo ankstesnius užsakymus ir jų būseną.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Pristatymas Rusijos paštu šioje parduotuvėje dar nenustatytas.",
     "quoteFailed": "Nepavyko apskaičiuoti pristatymo į šį punktą. Pasirinkite kitą.",
     "postcode": "Pašto kodas {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Šio vežėjo atsiėmimo punktai šioje parduotuvėje dar nepasiekiami.",
+    "addressRejected": "Vežėjas nerado adreso. Patikrinkite pašto kodą ir miestą"
+  },
+  "ApishipStatus": {
+    "uploading": "Perduodama vežėjui",
+    "uploaded": "Priimta vežėjo",
+    "uploadingError": "Vežėjas nepriėmė užsakymo",
+    "onPointIn": "Išsiuntimo sandėlyje",
+    "onWay": "Kelyje",
+    "onPointOut": "Atvyko į gavėjo miestą",
+    "readyForRecipient": "Paruošta atsiimti",
+    "delivering": "Pristatoma",
+    "delivered": "Įteikta",
+    "partialReturn": "Dalinis grąžinimas",
+    "returnReady": "Grąžinimas paruoštas",
+    "returning": "Grąžinama siuntėjui",
+    "returned": "Grąžinta siuntėjui",
+    "returnedFromDelivery": "Grąžinta iš pristatymo",
+    "deliveryCanceled": "Pristatymas atšauktas",
+    "problem": "Iškilo problema",
+    "lost": "Pamesta"
   },
   "OlavkaHome": {
     "slider": {

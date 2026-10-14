@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Takip numarası"
+    "trackingNumber": "Takip numarası",
+    "trackLink": "Kargoyu takip et",
+    "deliveryStatus": "Teslimat durumu"
   },
   "OrdersPage": {
     "description": "Önceki siparişlerinizi ve durumlarını görüntüleyin.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Rus Postası ile gönderim bu mağazada henüz ayarlanmadı.",
     "quoteFailed": "Bu noktaya gönderim ücreti hesaplanamadı. Başka bir nokta seçin.",
     "postcode": "Posta kodu {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Bu kargo firmasının teslim noktaları bu mağazada henüz kullanılamıyor.",
+    "addressRejected": "Kargo firması adresi bulamadı. Posta kodunu ve şehri kontrol edin"
+  },
+  "ApishipStatus": {
+    "uploading": "Kargo firmasına teslim ediliyor",
+    "uploaded": "Kargo firması teslim aldı",
+    "uploadingError": "Kargo firması siparişi kabul etmedi",
+    "onPointIn": "Çıkış deposunda",
+    "onWay": "Yolda",
+    "onPointOut": "Alıcının şehrine ulaştı",
+    "readyForRecipient": "Teslim almaya hazır",
+    "delivering": "Dağıtımda",
+    "delivered": "Teslim edildi",
+    "partialReturn": "Kısmi iade",
+    "returnReady": "İade hazırlandı",
+    "returning": "Göndericiye geri dönüyor",
+    "returned": "Göndericiye iade edildi",
+    "returnedFromDelivery": "Dağıtımdan geri döndü",
+    "deliveryCanceled": "Teslimat iptal edildi",
+    "problem": "Bir sorun oluştu",
+    "lost": "Kayboldu"
   },
   "OlavkaHome": {
     "slider": {

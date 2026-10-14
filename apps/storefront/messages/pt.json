@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Número de rastreio"
+    "trackingNumber": "Número de rastreio",
+    "trackLink": "Rastrear encomenda",
+    "deliveryStatus": "Status da entrega"
   },
   "OrdersPage": {
     "description": "Veja as suas encomendas anteriores e o respetivo estado.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "O envio pelos Correios da Rússia ainda não está configurado nesta loja.",
     "quoteFailed": "Não foi possível calcular o envio para este ponto. Escolha outro.",
     "postcode": "Código postal {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Os pontos de retirada desta transportadora ainda não estão disponíveis nesta loja.",
+    "addressRejected": "A transportadora não encontrou o endereço. Verifique o código postal e a cidade"
+  },
+  "ApishipStatus": {
+    "uploading": "Sendo entregue à transportadora",
+    "uploaded": "Aceito pela transportadora",
+    "uploadingError": "A transportadora não aceitou o pedido",
+    "onPointIn": "No armazém de origem",
+    "onWay": "Em trânsito",
+    "onPointOut": "Chegou à cidade do destinatário",
+    "readyForRecipient": "Pronto para retirada",
+    "delivering": "Saiu para entrega",
+    "delivered": "Entregue",
+    "partialReturn": "Devolução parcial",
+    "returnReady": "Devolução preparada",
+    "returning": "Retornando ao remetente",
+    "returned": "Devolvido ao remetente",
+    "returnedFromDelivery": "Devolvido da entrega",
+    "deliveryCanceled": "Entrega cancelada",
+    "problem": "Ocorreu um problema",
+    "lost": "Extraviado"
   },
   "OlavkaHome": {
     "slider": {

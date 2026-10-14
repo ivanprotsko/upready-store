@@ -47,12 +47,13 @@ export const retrieveOrder = async (id: string, token?: string) => {
         fields:
           // +fulfillments.labels / +fulfillments.metadata: the tracking number and
           // the carrier the shop owner typed on the shipment (t04-shipping-tariffs),
-          // shown under the account order-timeline. +shipping_methods.data: the
+          // shown under the account order-timeline. +fulfillments.data: the ApiShip
+          // status the provider records (t-2026-10-14-58). +shipping_methods.data: the
           // Russian Post pickup point the provider recorded (46df-pochta).
           // +payment_collections.payment_sessions.{provider_id,status}: a Robokassa
           // order placed awaiting Robokassa's confirmation has no payment yet, only
           // its `pending_authorization` session (t-2026-10-12-13, robokassa-order.ts).
-          "*payment_collections.payments,+payment_collections.payment_sessions.provider_id,+payment_collections.payment_sessions.status,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,*fulfillments.labels,+fulfillments.metadata,+shipping_methods.data",
+          "*payment_collections.payments,+payment_collections.payment_sessions.provider_id,+payment_collections.payment_sessions.status,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,*fulfillments.labels,+fulfillments.metadata,+fulfillments.data,+shipping_methods.data",
       },
       headers,
       next,

@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Nombor penjejakan"
+    "trackingNumber": "Nombor penjejakan",
+    "trackLink": "Jejak bungkusan",
+    "deliveryStatus": "Status penghantaran"
   },
   "OrdersPage": {
     "description": "Lihat pesanan lepas anda dan statusnya.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Penghantaran dengan Pos Rusia belum disediakan di kedai ini.",
     "quoteFailed": "Kos penghantaran ke titik ini tidak dapat dikira. Pilih titik lain.",
     "postcode": "Poskod {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Titik pengambilan kurier ini belum tersedia di kedai ini.",
+    "addressRejected": "Kurier tidak menemui alamat. Semak poskod dan bandar"
+  },
+  "ApishipStatus": {
+    "uploading": "Sedang diserahkan kepada kurier",
+    "uploaded": "Diterima oleh kurier",
+    "uploadingError": "Kurier tidak menerima pesanan",
+    "onPointIn": "Di gudang penghantar",
+    "onWay": "Dalam perjalanan",
+    "onPointOut": "Tiba di bandar penerima",
+    "readyForRecipient": "Sedia untuk diambil",
+    "delivering": "Sedang dihantar",
+    "delivered": "Telah dihantar",
+    "partialReturn": "Pemulangan separa",
+    "returnReady": "Pemulangan disediakan",
+    "returning": "Dalam perjalanan pulang kepada pengirim",
+    "returned": "Dipulangkan kepada pengirim",
+    "returnedFromDelivery": "Kembali daripada penghantaran",
+    "deliveryCanceled": "Penghantaran dibatalkan",
+    "problem": "Berlaku masalah",
+    "lost": "Hilang"
   },
   "OlavkaHome": {
     "slider": {

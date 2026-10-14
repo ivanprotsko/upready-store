@@ -6,7 +6,7 @@ import { formatDate } from "@lib/util/date"
 import {
   TIMELINE_STEP_KEYS,
   timelineProgress,
-  trackingLines,
+  trackingEntries,
   type TimelineStepKey,
 } from "@lib/util/order-tracking"
 import StatusDot from "@modules/account/components/status-dot"
@@ -66,7 +66,7 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
   // The tracking number(s) the shop owner typed on the shipment, with the
   // carrier in front («СДЭК 1234567890») — one assembly shared with the
   // shipping-details section (`@lib/util/order-tracking`).
-  const tracking = trackingLines(order.fulfillments)
+  const tracking = trackingEntries(order.fulfillments)
 
   const steps: Step[] = TIMELINE_STEP_KEYS.map((key) => {
     const state: StepState = done[key]
@@ -141,13 +141,26 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
         <span className="txt-compact-small-plus text-ui-fg-base">
           {t("trackingNumber")}
         </span>
-        {tracking.map((line) => (
-          <span
-            key={line}
-            className="txt-compact-small text-ui-fg-subtle tabular-nums"
-            data-testid="order-tracking-number"
-          >
-            {line}
+        {tracking.map(({ line, url }) => (
+          <span key={line} className="flex flex-wrap items-baseline gap-x-2">
+            <span
+              className="txt-compact-small text-ui-fg-subtle tabular-nums"
+              data-testid="order-tracking-number"
+            >
+              {line}
+            </span>
+            {/* t-2026-10-14-58: the carrier's tracking page, when the label has one. */}
+            {url && (
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm w-fit"
+                data-testid="order-tracking-link"
+              >
+                {t("trackLink")}
+              </a>
+            )}
           </span>
         ))}
       </div>

@@ -40,6 +40,8 @@ import { useErrorMessage } from "@lib/util/use-error-message"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import { isShippingStepDone } from "@lib/util/checkout-steps"
+import { useApishipShipping } from "./apiship"
+import { getLocalizedCountryName, sortOrderOf, zoneLabel } from "./option-helpers"
 
 type CountryOption = {
   country: string
@@ -73,42 +75,6 @@ interface CheckoutShippingSectionProps {
    * done yet, so this one shows its heading alone (`checkoutStepLocksOf`).
    */
   locked?: boolean
-}
-
-function getLocalizedCountryName(
-  isoCode: string,
-  locale: string,
-  fallback: string
-) {
-  try {
-    return (
-      new Intl.DisplayNames([locale], { type: "region" }).of(
-        isoCode.toUpperCase()
-      ) ?? fallback
-    )
-  } catch {
-    return fallback
-  }
-}
-
-/** `data.sort_order` of a tenant method; anything else sorts last, in API order. */
-const sortOrderOf = (option: HttpTypes.StoreCartShippingOption): number => {
-  const value = (option.data as { sort_order?: unknown } | null)?.sort_order
-  return typeof value === "number" ? value : Number.MAX_SAFE_INTEGER
-}
-
-/**
- * The name of the zone that priced this method («Урал», «Россия, вся страна»),
- * written into `data.zone.label` by the backend on every save
- * (`apps/backend/src/shipping-tariffs/ru-zone-presets.ts`). A method saved
- * before zones had names carries none, and the card simply shows no zone line.
- */
-const zoneLabel = (
-  option: HttpTypes.StoreCartShippingOption
-): string | null => {
-  const zone = (option.data as { zone?: { label?: unknown } | null } | null)?.zone
-  const label = zone?.label
-  return typeof label === "string" && label.trim() ? label.trim() : null
 }
 
 export default function CheckoutShippingSection({
@@ -165,6 +131,16 @@ export default function CheckoutShippingSection({
    */
   const [pochtaSheetOptionId, setPochtaSheetOptionId] = useState<string | null>(null)
   const pochtaChosen = chosenPochtaPoint(cart)
+
+  // t-2026-10-14-58: everything ApiShip's options do differently lives in `./apiship`.
+  const apiship = useApishipShipping({
+    cart,
+    options: availableShippingOptions,
+    listPrice: (option) => calculatedPricesMap[option.id] ?? null,
+    shippingMethodId,
+    setShippingMethodId,
+    setShippingError,
+  })
 
   const [now, setNow] = useState<Date | null>(null)
   useEffect(() => {
@@ -281,7 +257,7 @@ export default function CheckoutShippingSection({
         }
         const priced = await calculatePriceForShippingOption(sm.id, cart.id)
         if (priced && "error" in priced) {
-          return priced.error === "cdek_address_rejected"
+          return priced.error !== "other"
             ? { id: sm.id, addressRejected: true }
             : null
         }
@@ -404,6 +380,7 @@ export default function CheckoutShippingSection({
 
   const handleValueChange = (value: string) => {
     const option = (availableShippingOptions ?? []).find((sm) => sm.id === value)
+    if (apiship.opensSheet(option)) return
     if (isPochtaOption(option)) {
       setPochtaSheetOptionId(value)
       return
@@ -501,7 +478,7 @@ export default function CheckoutShippingSection({
         ? !!cdekChosen
         : isPochtaOption(selectedOption)
           ? !!pochtaChosen
-          : true)
+          : apiship.isComplete(selectedOption))
 
   const priceOf = (option: ShippingOption, isPickupCard: boolean) => {
     // A Russian Post price depends on the point, so once the method
@@ -512,7 +489,7 @@ export default function CheckoutShippingSection({
         ? (cart.shipping_methods ?? []).find(
             (sm) => sm.shipping_option_id === option.id
           )?.amount
-        : undefined
+        : apiship.methodAmount(option)
     const priceAmount =
       typeof pochtaMethodAmount === "number"
         ? pochtaMethodAmount
@@ -542,18 +519,18 @@ export default function CheckoutShippingSection({
     const price = isFreeShipping
       ? t("freeShipping")
       : priceAmount !== null
-        ? convertToLocale({
+        ? apiship.priceText(option, convertToLocale({
           amount: priceAmount,
           currency_code: cart.currency_code,
           locale,
-        })
+        }))
         : awaitingAddress
           ? ""
           : isLoadingPrices
             ? null
             : unpriced
               ? addressRejectedIds.has(option.id)
-                ? t("shippingPriceAddressRejected")
+                ? apiship.addressRejectedText(option) ?? t("shippingPriceAddressRejected")
                 : t("shippingPriceUnavailable")
               : "—"
     return { priceAmount, isFreeShipping, awaitingAddress, unpriced, price }
@@ -764,6 +741,7 @@ export default function CheckoutShippingSection({
               {tCdek("change")}
             </button>
           )}
+          {apiship.rowLines(option, isSelected)}
         </div>
       </div>
     )
@@ -787,12 +765,12 @@ export default function CheckoutShippingSection({
         ? [pochtaChosen.pochta_point_address, pochtaChosen.pochta_point_city]
             .filter(Boolean)
             .join(", ")
-        : null
+        : apiship.summaryPoint(selectedOption)
   const summaryTerm = isCdekOption(selectedOption)
     ? cdekTerm
     : isPochtaOption(selectedOption)
       ? pochtaChosen?.term_label ?? null
-      : null
+      : apiship.summaryTerm(selectedOption)
 
   // Ivan's item 10: a choice that completes the step folds the section, the
   // point picked in a sheet included. The key changes with the method and the
@@ -810,10 +788,10 @@ export default function CheckoutShippingSection({
             ? cdekChosen?.code ?? ""
             : isPochtaOption(selectedOption)
               ? pochtaChosen?.pochta_point_index ?? ""
-              : "",
+              : apiship.completionPart(selectedOption),
       ].join("|")
     : null
-  const sheetOpen = !!cdekSheetOptionId || !!pochtaSheetOptionId
+  const sheetOpen = !!cdekSheetOptionId || !!pochtaSheetOptionId || apiship.sheetOpen
   const settledKey = useRef(completionKey)
   useEffect(() => {
     if (sheetOpen) return
@@ -1019,6 +997,8 @@ export default function CheckoutShippingSection({
           currencyCode={cart.currency_code}
         />
       )}
+
+      {apiship.sheet}
     </div>
   )
 }

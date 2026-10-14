@@ -19,6 +19,7 @@ const contactsRow = read("../checkout-contacts-row/index.tsx")
 const modal = read("../checkout-modal/index.tsx")
 const cdekSheet = read("../checkout-cdek-point-sheet/index.tsx")
 const pochtaSheet = read("../checkout-pochta-point-sheet/index.tsx")
+const apishipSheet = read("../checkout-apiship-point-sheet/index.tsx")
 const picker = read("../pickup-point-picker/index.tsx")
 const consent = read("../checkout-consent/index.tsx")
 
@@ -100,7 +101,10 @@ describe("item 9, returned: the postcode and CDEK's refusal", () => {
   })
 
   it("says at the card that CDEK could not find the address", () => {
-    expect(shipping).toMatch(/addressRejectedIds\.has\(option\.id\)\s*\?\s*t\("shippingPriceAddressRejected"\)/)
+    // t-2026-10-14-58: an ApiShip option may word it without naming CDEK.
+    expect(shipping).toMatch(
+      /addressRejectedIds\.has\(option\.id\)\s*\?\s*(apiship\.addressRejectedText\(option\) \?\? )?t\("shippingPriceAddressRejected"\)/
+    )
   })
 })
 
@@ -110,7 +114,7 @@ describe("the point sheets and the documents (items 9б, 12)", () => {
     // margins; the list a third and the map two thirds stayed (`pickup-point-picker`).
     expect(modal).toMatch(/small:h-\[calc\(100dvh-4rem\)\]/)
     expect(picker).toMatch(/small:grid-cols-\[minmax\(0,1fr\)_minmax\(0,2fr\)\]/)
-    for (const sheet of [cdekSheet, pochtaSheet]) {
+    for (const sheet of [cdekSheet, pochtaSheet, apishipSheet]) {
       expect(sheet).toMatch(/<PickupPointPicker</)
     }
   })
