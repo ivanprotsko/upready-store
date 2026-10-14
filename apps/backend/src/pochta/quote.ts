@@ -114,6 +114,13 @@ export const findPochtaPoint = async (
   return raw ? fromDeliveryPoint(raw) : null;
 };
 
+/** The buyer points of the directory, in the storefront's shape. Cached by the client for six hours. */
+export const directoryBuyerPoints = async (
+  credentials: PochtaCredentials,
+  options: PochtaClientOptions = {},
+): Promise<PochtaStorePoint[]> =>
+  (await listDeliveryPoints(credentials, options)).filter(isBuyerPoint).map(fromDeliveryPoint);
+
 export const quoteToPoint = async (
   input: {
     credentials: PochtaCredentials;

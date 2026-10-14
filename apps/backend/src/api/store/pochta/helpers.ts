@@ -3,8 +3,9 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { Logger } from "@medusajs/framework/types";
 
-import { listDeliveryPoints, type PochtaCredentials } from "../../../pochta/client";
-import { fromDeliveryPoint, isBuyerPoint, type PochtaStorePoint } from "../../../pochta/method";
+import type { PochtaCredentials } from "../../../pochta/client";
+import type { PochtaStorePoint } from "../../../pochta/method";
+import { directoryBuyerPoints } from "../../../pochta/quote";
 import { pochtaApiCredentials, readPochtaSecretPublic, type ResolvedPochtaSecret } from "../../../tenant-secrets/pochta";
 import { resolveTenantFromPublishableKey, type StoreTenant } from "../tenant/resolve-tenant";
 
@@ -24,8 +25,8 @@ export const pochtaContext = async (
 };
 
 /** The buyer points of the directory, in the storefront's shape. Cached by the client for six hours. */
-export const buyerPoints = async (credentials: PochtaCredentials): Promise<PochtaStorePoint[]> =>
-  (await listDeliveryPoints(credentials)).filter(isBuyerPoint).map(fromDeliveryPoint);
+export const buyerPoints = (credentials: PochtaCredentials): Promise<PochtaStorePoint[]> =>
+  directoryBuyerPoints(credentials);
 
 /**
  * Logs why a buyer-facing Russian Post read failed and returns the flag the

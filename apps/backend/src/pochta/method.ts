@@ -227,6 +227,15 @@ export const withoutFarOutliers = (points: PochtaStorePoint[], maxKm = 100): Poc
   return points.filter((point) => distanceKm(centre, point) <= maxKm);
 };
 
+/**
+ * The points the checkout's sheet offers for a city, in the order it lists them.
+ * `GET /store/pochta/points?city=` answers this list, and the method card is priced
+ * to its first point (t-2026-10-14-58), so the card never shows a price that no
+ * offered point has.
+ */
+export const cityPoints = (points: PochtaStorePoint[], city: string, region?: string | null): PochtaStorePoint[] =>
+  withoutFarOutliers(pointsInCity(points, city, region));
+
 /** Points within `radiusKm` of a map centre, nearest first, at most `limit`. */
 export const pointsNear = (
   points: PochtaStorePoint[],
