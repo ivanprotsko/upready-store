@@ -1376,81 +1376,73 @@ try {
     const hctx = await browser.newContext({ viewport: { width: 1440, height: 1400 } })
     const hpage = await hctx.newPage()
     await login(hpage, "admin@acme.test")
-    await hpage.goto(`${PANEL}/home-settings`, { waitUntil: "networkidle" })
 
-    // The Save button is disabled until GET /tenants/home answers: waiting for it
-    // enabled is waiting for the screen's own "loaded" state, not for a timeout.
-    const saveEnabled = await hpage
-      .locator('[data-testid="home-settings-save"]:not([disabled])')
-      .waitFor({ timeout: 20_000 })
-      .then(() => true)
-      .catch(() => false)
-    check("Acme: the home settings screen finishes loading and enables Save", saveEnabled)
-
-    // This screen is one long form, not the Admin's focus modal, so a control can
-    // sit below the fold: `clickReal` clicks viewport coordinates and would miss it.
-    // Scroll first, then click the element itself.
+    // t-2026-10-14-01 (G4): the page only reads; every section saves from its own
+    // drawer at its own address and the drawer closes on save. A control can sit
+    // below the drawer's fold: scroll to it first, then click the element itself.
     const clickHome = async (locator) => {
       await locator.waitFor({ state: "visible", timeout: 15_000 })
       await locator.scrollIntoViewIfNeeded()
       await locator.click()
     }
 
-    /** @medusajs/ui Select: click the trigger, then the option by its plain-language label. */
-    const pickSelect = async (testid, label) => {
+    /** @medusajs/ui Select or Combobox: open it, then pick the option by its plain-language label. */
+    const pickOption = async (testid, label) => {
       await clickHome(hpage.locator(`[data-testid="${testid}"]`))
-      await hpage.waitForTimeout(400)
+      await hpage.waitForTimeout(600)
       await clickHome(hpage.locator(`[role="option"]:has-text("${label}")`).first())
-      await hpage.waitForTimeout(400)
-    }
-
-    await pickSelect("theme-preset", "Kerbstone")
-    await pickSelect("slot-defaultMode", "Dark")
-    await hpage.locator('[data-testid="hero-title"]').fill(heroTitle)
-    await hpage.locator('[data-testid="hero-subtitle"]').fill("Composed from the tenant panel")
-    await hpage.locator('[data-testid="hero-cta-label"]').fill("Shop the night wave")
-    await hpage.locator('[data-testid="hero-cta-href"]').fill("/store")
-
-    if (category?.id) {
-      await pickSelect("products-source", "Products of a category")
-      await clickHome(hpage.locator('[data-testid="products-category"]'))
-      await hpage.waitForTimeout(700)
-      await clickHome(hpage.locator(`[role="option"]:has-text("${category.name}")`).first())
       await hpage.waitForTimeout(300)
-      await hpage.locator('[data-testid="products-title"]').fill("From the category")
-      await hpage.keyboard.press("Escape")
-      await hpage.waitForTimeout(200)
+    }
+    const radio = (value) => hpage.locator(`[role="dialog"] button[role="radio"][value="${value}"]`)
+    const inDrawer = async (route, fill) => {
+      await hpage.goto(`${PANEL}/home-settings/${route}`, { waitUntil: "networkidle" })
+      await hpage.locator('[role="dialog"] button[type="submit"]').waitFor({ timeout: 20_000 })
+      await fill()
+      await clickHome(hpage.locator('[role="dialog"] button[type="submit"]'))
+      const closed = await hpage.locator('[role="dialog"]').waitFor({ state: "detached", timeout: 15_000 })
+        .then(() => true).catch(() => false)
+      check(`Acme: the home drawer ${route} saves and closes`, closed)
     }
 
-    // Block order → products, categories, hero. Driven from what the screen shows
-    // rather than by a fixed number of clicks: the tenant may already have a saved
-    // order from an earlier run, and the first row's "up" button is disabled, so a
-    // counted click would hang on a button that is correctly unclickable.
-    const targetOrder = ["products", "categories", "hero"]
-    const readOrder = () =>
-      hpage.$$eval('[data-testid="block-order"] li', (rows) =>
-        rows.map((row) => (row.getAttribute("data-testid") || "").replace("block-order-", ""))
-      )
-    for (let slot = 0; slot < targetOrder.length; slot++) {
-      let order = await readOrder()
-      let at = order.indexOf(targetOrder[slot])
-      while (at > slot) {
-        await clickHome(hpage.locator(`[data-testid="block-up-${targetOrder[slot]}"]`))
-        await hpage.waitForTimeout(200)
-        order = await readOrder()
-        at = order.indexOf(targetOrder[slot])
+    await inDrawer("theme/edit", async () => {
+      await pickOption("home-theme-preset", "Kerbstone")
+      await clickHome(radio("dark"))
+    })
+    await inDrawer("hero/edit", async () => {
+      await hpage.locator('[data-testid="home-hero-title"]').fill(heroTitle)
+      await hpage.locator('[data-testid="home-hero-subtitle"]').fill("Composed from the tenant panel")
+      await hpage.locator('[data-testid="home-hero-cta-label"]').fill("Shop the night wave")
+      await hpage.locator('[data-testid="home-hero-cta-href"]').fill("/store")
+    })
+    if (category?.id) {
+      await inDrawer("products/edit", async () => {
+        await clickHome(radio("category"))
+        await pickOption("home-products-category", category.name)
+        await hpage.locator('[data-testid="home-products-title"]').fill("From the category")
+      })
+    }
+
+    // Block order → products, categories, hero, from whatever an earlier run saved:
+    // switch every block but «Products» off, then back on in order — a block switched
+    // on goes last. The switch keeps its id whether the block is shown or hidden.
+    await inDrawer("order/edit", async () => {
+      const shown = async (block) => (await hpage.locator(`#home-order-${block}`).getAttribute("data-state")) === "checked"
+      if (!(await shown("products"))) await clickHome(hpage.locator("#home-order-products"))
+      for (const block of ["hero", "categories"]) {
+        if (await shown(block)) await clickHome(hpage.locator(`#home-order-${block}`))
       }
-    }
+      for (const block of ["categories", "hero"]) await clickHome(hpage.locator(`#home-order-${block}`))
+    })
 
-    const orderOnScreen = await hpage.locator('[data-testid="block-order"] li').allInnerTexts()
-    check(
-      "Acme: the screen shows the new block order",
-      orderOnScreen.join(" ").includes("1. Products") && orderOnScreen.join(" ").includes("3. Hero"),
-      orderOnScreen.join(" | ").replace(/\n/g, " ")
+    await hpage.waitForTimeout(1500) // the page re-reads the document after the drawer closes
+    const orderOnScreen = await hpage.$$eval('[data-testid="home-order"] > [data-testid^="home-order-"]', (rows) =>
+      rows.map((row) => (row.getAttribute("data-testid") || "").replace("home-order-", ""))
     )
-
-    await clickHome(hpage.locator('[data-testid="home-settings-save"]'))
-    await hpage.waitForTimeout(2000)
+    check(
+      "Acme: the page shows the new block order",
+      JSON.stringify(orderOnScreen) === JSON.stringify(["products", "categories", "hero"]),
+      orderOnScreen.join(" | ")
+    )
 
     const saved = await acme("/tenants/home")
     check("Acme: the API returns the saved document", !!saved.home, JSON.stringify(saved).slice(0, 120))
@@ -1472,14 +1464,13 @@ try {
     check("Acme: the saved default mode is the one picked", saved.home?.settings?.defaultMode === "dark", saved.home?.settings?.defaultMode)
     check("Acme: the server stamped updatedAt", !!saved.home?.updatedAt, saved.home?.updatedAt)
 
-    // Reload the screen: what was saved is what comes back, not the defaults. The
-    // headline lives in an input, whose value is not part of the body's text.
-    await hpage.reload({ waitUntil: "networkidle" })
-    await hpage.waitForTimeout(1500)
-    const reloadedTitle = await hpage.locator('[data-testid="hero-title"]').inputValue()
+    // Reload the page: what was saved is what comes back, not the defaults.
+    await hpage.goto(`${PANEL}/home-settings`, { waitUntil: "networkidle" })
+    await hpage.locator('[data-testid="settings-section-hero"]').waitFor({ timeout: 20_000 })
     const reloaded = await hpage.locator("body").innerText()
-    check("Acme: the screen reloads with the saved hero title", reloadedTitle === heroTitle, reloadedTitle)
-    check("Acme: the screen reloads with the saved preset", reloaded.includes("Kerbstone"))
+    check("Acme: the page reloads with the saved hero title", reloaded.includes(heroTitle), reloaded.slice(0, 120).replace(/\n/g, " "))
+    check("Acme: the page reloads with the saved preset", reloaded.includes("Kerbstone"))
+    check("Acme: the page carries no field and no Save button", (await hpage.locator('[data-testid^="settings-section-"] :is(input, textarea, button[type=submit])').count()) === 0)
     await hctx.close()
 
     // Globex: its own document is still null, and its key reads null from the store route.

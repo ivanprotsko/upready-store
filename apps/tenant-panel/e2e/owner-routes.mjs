@@ -120,6 +120,13 @@ export const OWNER_ROUTES = [
 
   // Витрина
   { path: "/home-settings", core: true },
+  { path: "/home-settings/theme/edit", kind: "overlay" },
+  { path: "/home-settings/blocks/edit", kind: "overlay" },
+  { path: "/home-settings/hero/edit", kind: "overlay" },
+  { path: "/home-settings/banners/create", kind: "overlay" },
+  { path: "/home-settings/banners/:banner_id/edit", kind: "overlay" },
+  { path: "/home-settings/products/edit", kind: "overlay" },
+  { path: "/home-settings/order/edit", kind: "overlay" },
   { path: "/pages", core: true },
   { path: "/pages/:page_key", core: true },
   { path: "/journal" },
@@ -401,6 +408,11 @@ export const PARAM_RESOLVERS = {
   requisite_id: async (api) => {
     const body = await api("/tenants/payment-settings/manual")
     return first(body.manual_payment?.requisites, "transfer requisites").id
+  },
+  // «Главная страница» (t-2026-10-14-01, G4): the first banner, the one the list shows on top.
+  banner_id: async (api) => {
+    const body = await api("/tenants/home")
+    return first(body.home?.content?.banners, "home banners").id
   },
 }
 
