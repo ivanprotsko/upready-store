@@ -15,7 +15,7 @@ import {
   getEmailTranslator,
 } from "./i18n";
 import { useEmailShop } from "./lib/shop";
-import { type FulfillmentLabel, trackingLine } from "./lib/tracking";
+import { type FulfillmentLabel, trackingLine, trackingUrl } from "./lib/tracking";
 
 /**
  * Tracking lives on the label and nowhere else: `create-fulfillment` never
@@ -61,6 +61,9 @@ export function OrderShipmentCreatedEmail({
   const city = order.shipping_address?.city;
   const tracked = labels.filter((label) => label.tracking_number);
   const trackingText = (label: FulfillmentLabel) => trackingLine(label, carrier);
+  // The number is the link when the label carries the carrier's page
+  // (`tracking_url`, written by ApiShip and direct СДЭК); plain text otherwise.
+  const trackingHref = (label: FulfillmentLabel) => trackingUrl(label);
 
   return (
     <EmailLayout preview={t("Shipment.preview", { id })} locale={locale}>
@@ -86,20 +89,23 @@ export function OrderShipmentCreatedEmail({
         <Text style={s.cardTitle}>{t("Shipment.trackingTitle")}</Text>
 
         {tracked.length > 0 ? (
-          tracked.map((label, i) => (
-            <Row key={i} style={s.trackRow}>
-              <Column>
-                <Text style={s.trackLabel}>{t("Shipment.trackLabel")}</Text>
-                {label.tracking_url ? (
-                  <a href={label.tracking_url} style={s.trackLink}>
-                    {trackingText(label)}
-                  </a>
-                ) : (
-                  <Text style={s.trackValue}>{trackingText(label)}</Text>
-                )}
-              </Column>
-            </Row>
-          ))
+          tracked.map((label, i) => {
+            const href = trackingHref(label);
+            return (
+              <Row key={i} style={s.trackRow}>
+                <Column>
+                  <Text style={s.trackLabel}>{t("Shipment.trackLabel")}</Text>
+                  {href ? (
+                    <a href={href} style={s.trackLink}>
+                      {trackingText(label)}
+                    </a>
+                  ) : (
+                    <Text style={s.trackValue}>{trackingText(label)}</Text>
+                  )}
+                </Column>
+              </Row>
+            );
+          })
         ) : (
           <Text style={{ ...s.paragraph, margin: 0 }}>
             {t("Shipment.noTracking")}

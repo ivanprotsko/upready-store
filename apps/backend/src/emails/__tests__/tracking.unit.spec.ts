@@ -1,4 +1,4 @@
-import { trackingLine, trackingLines } from "../lib/tracking";
+import { trackingLine, trackingLines, trackingUrl, trackingUrls } from "../lib/tracking";
 
 /**
  * The shipment letter's tracking line. The regression these guard is not
@@ -60,5 +60,69 @@ describe("trackingLines", () => {
     expect(trackingLines([], "СДЭК")).toEqual([]);
     expect(trackingLines(null)).toEqual([]);
     expect(trackingLines(undefined)).toEqual([]);
+  });
+});
+
+/**
+ * The link under the number (t-2026-10-14-58, the lead's review): ApiShip and
+ * direct СДЭК write `tracking_url` on the label, and the letter printed only
+ * the number. The plain-text letter gets the URL on its own line; the HTML
+ * letter takes the same URL as the number's href.
+ */
+describe("trackingUrl", () => {
+  it("gives the carrier's page when the label carries one", () => {
+    expect(trackingUrl({ tracking_number: "1110019183", tracking_url: "https://www.cdek.ru/ru/tracking/?order_id=1110019183" })).toBe(
+      "https://www.cdek.ru/ru/tracking/?order_id=1110019183",
+    );
+    expect(trackingUrl({ tracking_url: "  http://track.example/42  " })).toBe("http://track.example/42");
+  });
+
+  it("is null for a label without a URL", () => {
+    expect(trackingUrl({ tracking_number: "1110019183" })).toBeNull();
+    expect(trackingUrl({ tracking_url: null })).toBeNull();
+    expect(trackingUrl({ tracking_url: "   " })).toBeNull();
+  });
+
+  it("refuses anything that is not an http(s) URL, so a typed word never becomes a link", () => {
+    expect(trackingUrl({ tracking_url: "cdek.ru/track/1110019183" })).toBeNull();
+    expect(trackingUrl({ tracking_url: "javascript:alert(1)" })).toBeNull();
+    expect(trackingUrl({ tracking_url: "https://www.cdek.ru/ru tracking" })).toBeNull();
+  });
+});
+
+describe("trackingUrls", () => {
+  it("lists the pages of the numbered labels in order", () => {
+    expect(
+      trackingUrls([
+        { tracking_number: "1", tracking_url: "https://track.example/1" },
+        { tracking_number: "2", tracking_url: "https://track.example/2" },
+      ]),
+    ).toEqual(["https://track.example/1", "https://track.example/2"]);
+  });
+
+  it("skips a label without a number, without a URL, or with one that is not a URL", () => {
+    expect(
+      trackingUrls([
+        { tracking_url: "https://track.example/no-number" },
+        { tracking_number: "1" },
+        { tracking_number: "2", tracking_url: "track.example/2" },
+        { tracking_number: "3", tracking_url: "https://track.example/3" },
+      ]),
+    ).toEqual(["https://track.example/3"]);
+  });
+
+  it("names a page once when two labels share it", () => {
+    expect(
+      trackingUrls([
+        { tracking_number: "1", tracking_url: "https://track.example/same" },
+        { tracking_number: "2", tracking_url: "https://track.example/same" },
+      ]),
+    ).toEqual(["https://track.example/same"]);
+  });
+
+  it("is empty for a fulfillment shipped without labels", () => {
+    expect(trackingUrls([])).toEqual([]);
+    expect(trackingUrls(null)).toEqual([]);
+    expect(trackingUrls(undefined)).toEqual([]);
   });
 });
