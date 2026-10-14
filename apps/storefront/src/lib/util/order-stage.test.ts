@@ -128,7 +128,7 @@ describe("orderStage: the chain, both carriers, the course and the side exits", 
       "utf8"
     )
     const labels = backend.slice(backend.indexOf("APISHIP_STATUS_LABELS"))
-    const keys = [...labels.matchAll(/^\s+(\w+): "/gm)].map((m) => m[1])
+    const keys = Array.from(labels.matchAll(/^\s+(\w+): "/gm), (m) => m[1])
     expect(keys.length).toBeGreaterThan(15)
     expect(keys.filter((k) => !(k in APISHIP_STAGES)).sort()).toEqual(
       ["lost", "notApplicable", "problem", "unknown"]
@@ -141,7 +141,7 @@ describe("orderStage: the chain, both carriers, the course and the side exits", 
       "utf8"
     )
     const labels = backend.slice(backend.indexOf("CDEK_STATUS_LABELS"))
-    const codes = [...labels.matchAll(/^\s+([A-Z_]+): "/gm)].map((m) => m[1])
+    const codes = Array.from(labels.matchAll(/^\s+([A-Z_]+): "/gm), (m) => m[1])
     expect(codes.length).toBeGreaterThan(10)
     expect(codes.filter((c) => !(c in CDEK_STAGES))).toEqual([])
   })
