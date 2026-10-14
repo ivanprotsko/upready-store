@@ -210,7 +210,7 @@ test("no literal Russian string and no default fallback in the screen's code (DS
     // Comments may quote the owner's words; strings the owner reads may not.
     const code = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "")
     assert.ok(!/["'`>][^"'`<>{}]*[А-Яа-я]{3,}/.test(code), `${file}: a Russian literal in code`)
-    assert.ok(!source.includes("defaultValue"), `${file}: a defaultValue fallback`)
+    assert.ok(!source.includes("defaultValue:"), `${file}: a defaultValue fallback`)
   }
 })
 

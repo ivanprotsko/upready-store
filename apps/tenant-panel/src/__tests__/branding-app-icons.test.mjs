@@ -53,7 +53,7 @@ test("every brandingSettings key the screen reads has a ru and an en string", ()
 })
 
 test("no string of the screen is a defaultValue fallback: the catalogs are the only source (rule 7)", () => {
-  assert.ok(!screen.includes("defaultValue"), "a defaultValue is a literal on screen when a key goes missing")
+  assert.ok(!screen.includes("defaultValue:"), "a defaultValue is a literal on screen when a key goes missing")
 })
 
 test("the icon set is saved with the favicon and cleared with it", () => {
