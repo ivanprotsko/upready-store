@@ -218,6 +218,10 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "GET /tenants/orders",
     "POST /tenants/orders/export",
     "POST /tenants/orders/cdek/labels",
+    // Labels, acts and status pulls of the shop's ApiShip shipments (t-2026-10-14-58).
+    "POST /tenants/apiship/documents",
+    "GET /tenants/apiship/documents/file",
+    "POST /tenants/apiship/status-sync",
     "GET /tenants/orders/[id]",
     "POST /tenants/orders/[id]/cancel",
     "GET /tenants/orders/[id]/changes",
@@ -418,6 +422,11 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "PUT /tenants/apiship/key",
     "DELETE /tenants/apiship/key",
     "GET /tenants/apiship/probe",
+    // The ApiShip connection, sender, carriers and tariff catalogue (t-2026-10-14-58).
+    "GET /tenants/apiship",
+    "PUT /tenants/apiship",
+    "DELETE /tenants/apiship",
+    "GET /tenants/apiship/tariffs",
     "GET /tenants/pochta",
     "PUT /tenants/pochta",
     "DELETE /tenants/pochta",
