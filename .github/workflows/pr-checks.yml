@@ -176,6 +176,11 @@ jobs:
       - name: Shared markdown
         if: ${{ !cancelled() }}
         run: pnpm check:shared-markdown
+      # No source file under apps/ grows past 800 lines, outside the files
+      # scripts/file-length-allowlist.json lists (t-2026-10-14-55).
+      - name: File length
+        if: ${{ !cancelled() }}
+        run: pnpm check:file-length
       # Lists the owner guide frames the change made stale (docs/owner-guide).
       # Refreshing them needs a stand, so the step reports and never fails.
       - name: Owner guide

@@ -27,6 +27,7 @@
     "check:backend-build": "cd apps/backend && npx medusa build --lint false",
     "check:backend-fixtures": "cd apps/backend && npx tsc -p scripts/fixtures/tsconfig.json",
     "check:shared-markdown": "node scripts/check-shared-markdown.mjs",
+    "check:file-length": "node scripts/check-file-length.mjs",
     "check:owner-guide": "node docs/owner-guide/check.mjs",
     "check:evidence": "node scripts/check-evidence-manifest.mjs",
     "backend:dev": "turbo dev --filter=@dtc/gorgo-medusa-backend",
