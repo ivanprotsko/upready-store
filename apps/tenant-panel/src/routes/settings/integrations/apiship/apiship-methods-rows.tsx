@@ -123,7 +123,7 @@ export const methodsRows = ({
         <CabinetHint />
       ) : pending ? (
         <span data-testid={`apiship-pending-${carrier.provider_key}`}>
-          {pendingReason(t, apiship)} {tariff}
+          {pendingReason(t, apiship)} {t("integrations.apiship.tariffLabel")}: {tariff}
         </span>
       ) : (
         tariff
