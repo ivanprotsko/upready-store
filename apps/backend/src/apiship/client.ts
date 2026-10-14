@@ -339,10 +339,12 @@ export const listTariffs = async (
     name: String(row.name ?? ""),
     aliasName: typeof row.aliasName === "string" && row.aliasName ? row.aliasName : null,
     description: typeof row.description === "string" && row.description ? row.description : null,
-    weightMin: typeof row.weightMin === "number" ? row.weightMin : null,
-    weightMax: typeof row.weightMax === "number" ? row.weightMax : null,
-    pickupType: typeof row.pickupType === "number" ? row.pickupType : null,
-    deliveryType: typeof row.deliveryType === "number" ? row.deliveryType : null,
+    // Measured on the test contour on 14.10.2026: the types come back as
+    // STRINGS ("1"), the OpenAPI spec says integer. `num` takes both.
+    weightMin: num(row.weightMin),
+    weightMax: num(row.weightMax),
+    pickupType: num(row.pickupType),
+    deliveryType: num(row.deliveryType),
   }));
 };
 

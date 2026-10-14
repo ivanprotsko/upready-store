@@ -42,7 +42,7 @@ const base = (process.env.APISHIP_BASE_URL ?? "http://api.dev.apiship.ru/v1").re
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const log = (line: string) => console.log(line);
 const shape = (value: unknown): string =>
-  JSON.stringify(value, (key, inner) => (key.toLowerCase().includes("token") ? "<hidden>" : inner)).slice(0, 700);
+  (JSON.stringify(value ?? null, (key, inner) => (key.toLowerCase().includes("token") ? "<hidden>" : inner)) ?? "null").slice(0, 700);
 
 const main = async () => {
   let token = process.env.APISHIP_TOKEN ?? "";
@@ -89,9 +89,13 @@ const main = async () => {
     });
     log(`calculator: door ${calc.deliveryToDoor.map((g) => `${g.providerKey}:${g.tariffs.length}`).join(",") || "-"}; point ${calc.deliveryToPoint.map((g) => `${g.providerKey}:${g.tariffs.length}`).join(",") || "-"}`);
 
+    // The calculator's tariff when it answers; else the carrier's everyday
+    // parcel tariff of the right types, the way the provider's fallback picks it.
+    const fitting = tariffs.filter((t) => (t.pickupType ?? 1) === 1 && (t.deliveryType ?? 1) === 1);
     const doorTariff =
       calc.deliveryToDoor.find((g) => g.providerKey === providerKey)?.tariffs[0]?.tariffId ??
-      tariffs.find((t) => (t.pickupType ?? 1) === 1 && (t.deliveryType ?? 1) === 1)?.id;
+      (fitting.find((t) => /посылка/i.test(`${t.aliasName ?? ""} ${t.name}`)) ?? fitting[0])?.id;
+    log(`tariff chosen: ${doorTariff} (${tariffs.find((t) => t.id === doorTariff)?.name ?? "?"})`);
     if (!doorTariff) {
       log("no door-to-door tariff: skipped");
       results[providerKey] = { connected: true, tariff: null };
