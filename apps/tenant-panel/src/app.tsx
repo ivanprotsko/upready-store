@@ -1128,16 +1128,30 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/staff"),
           },
           {
-            // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
+            // «Оформление» (t16-owner-branding): логотип, фавикон,
             // картинка для соцсетей, основной цвет, подпись в подвале. No
             // Admin counterpart — a native install has one build-time theme
             // profile for the whole platform.
             path: "/settings/branding",
-            handle: {
-              breadcrumb: () => t("brandingSettings.title", { defaultValue: "Бренд" }),
-            },
+            handle: { breadcrumb: () => t("brandingSettings.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/branding"),
+            // t-2026-10-14-01 (panel redesign, G1 part 4): the screen only
+            // reads; each of its three sections is edited in its own drawer.
+            children: [
+              {
+                path: "logo/edit",
+                lazy: () => import("./routes/settings/branding/logo-edit"),
+              },
+              {
+                path: "icons/edit",
+                lazy: () => import("./routes/settings/branding/icons-edit"),
+              },
+              {
+                path: "color/edit",
+                lazy: () => import("./routes/settings/branding/color-edit"),
+              },
+            ],
           },
         ],
       },
