@@ -59,6 +59,8 @@ type InjectedDependencies = {
 };
 
 const CART_CACHE_TTL_MS = 60_000;
+/** Calculator answers the quote cache holds at most; past it the oldest leaves first. */
+export const QUOTE_CACHE_MAX = 500;
 /** How long the calculator may take per carrier before ApiShip drops it from the answer. */
 const CALCULATOR_TIMEOUT_MS = 15_000;
 
@@ -101,7 +103,10 @@ class ApishipFulfillmentService extends AbstractFulfillmentProviderService {
    * `calculatePrice` is called once per option per cart read, so a checkout
    * with two ApiShip methods asks the calculator twice within milliseconds. The
    * cache is keyed by everything that changes a price, lives for a minute, and
-   * never crosses a tenant, because the tenant id is part of the key.
+   * never crosses a tenant, because the tenant id is part of the key. It is
+   * bounded: `rememberQuote` drops what has expired and keeps at most
+   * `QUOTE_CACHE_MAX` answers, so a process that quotes for months does not
+   * hold every (shop, route, weight) it ever priced.
    */
   protected readonly quoteCache_ = new Map<string, { at: number; answer: ApishipCalculatorAnswer }>();
 
@@ -109,6 +114,32 @@ class ApishipFulfillmentService extends AbstractFulfillmentProviderService {
     super();
     this.logger_ = container.logger;
     this.pg_ = container[ContainerRegistrationKeys.PG_CONNECTION];
+  }
+
+  /** The cached calculator answer for a key while it is younger than a minute; `null` otherwise. */
+  protected cachedQuote(key: string, now = Date.now()): ApishipCalculatorAnswer | null {
+    const cached = this.quoteCache_.get(key);
+    return cached && now - cached.at < CART_CACHE_TTL_MS ? cached.answer : null;
+  }
+
+  /**
+   * Remembers a calculator answer under its key. Every insert first drops the
+   * entries that have expired, then writes this one at the back of the line,
+   * then evicts from the front until at most `QUOTE_CACHE_MAX` remain. The
+   * `Map` keeps insertion order, and a key written again is deleted first so
+   * it moves to the back rather than keeping its old place.
+   */
+  protected rememberQuote(key: string, answer: ApishipCalculatorAnswer, now = Date.now()): void {
+    for (const [cachedKey, entry] of this.quoteCache_) {
+      if (now - entry.at >= CART_CACHE_TTL_MS) this.quoteCache_.delete(cachedKey);
+    }
+    this.quoteCache_.delete(key);
+    this.quoteCache_.set(key, { at: now, answer });
+    while (this.quoteCache_.size > QUOTE_CACHE_MAX) {
+      const oldest = this.quoteCache_.keys().next().value;
+      if (oldest === undefined) break;
+      this.quoteCache_.delete(oldest);
+    }
   }
 
   async getFulfillmentOptions(): Promise<FulfillmentOption[]> {
@@ -507,11 +538,10 @@ class ApishipFulfillmentService extends AbstractFulfillmentProviderService {
     };
 
     const cacheKey = JSON.stringify([optionData.tenant_id, request]);
-    const cached = this.quoteCache_.get(cacheKey);
-    let answer = cached && Date.now() - cached.at < CART_CACHE_TTL_MS ? cached.answer : null;
+    let answer = this.cachedQuote(cacheKey);
     if (!answer) {
       answer = await calculate(credentials, request);
-      this.quoteCache_.set(cacheKey, { at: Date.now(), answer });
+      this.rememberQuote(cacheKey, answer);
     }
 
     const selected = selectApishipTariff(
