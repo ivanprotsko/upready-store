@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "追跡番号"
+    "trackingNumber": "追跡番号",
+    "trackLink": "荷物を追跡",
+    "deliveryStatus": "配送状況"
   },
   "OrdersPage": {
     "description": "過去の注文とその状況を確認できます。",
@@ -1208,6 +1210,29 @@
     "notConfigured": "このショップではロシア郵便での配送がまだ設定されていません。",
     "quoteFailed": "この拠点への配送料金を計算できませんでした。別の拠点を選んでください。",
     "postcode": "郵便番号 {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "この配送業者の受取場所は、このショップではまだ利用できません。",
+    "addressRejected": "配送業者が住所を見つけられませんでした。郵便番号と市区町村を確認してください"
+  },
+  "ApishipStatus": {
+    "uploading": "配送業者に引き渡し中",
+    "uploaded": "配送業者が受領",
+    "uploadingError": "配送業者が注文を受け付けませんでした",
+    "onPointIn": "発送倉庫にあります",
+    "onWay": "輸送中",
+    "onPointOut": "受取人の都市に到着",
+    "readyForRecipient": "受け取り可能",
+    "delivering": "配達中",
+    "delivered": "配達済み",
+    "partialReturn": "一部返品",
+    "returnReady": "返品準備済み",
+    "returning": "差出人へ返送中",
+    "returned": "差出人へ返送済み",
+    "returnedFromDelivery": "配達から戻りました",
+    "deliveryCanceled": "配送がキャンセルされました",
+    "problem": "問題が発生しました",
+    "lost": "紛失"
   },
   "OlavkaHome": {
     "slider": {

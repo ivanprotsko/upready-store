@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "ট্র্যাকিং নম্বর"
+    "trackingNumber": "ট্র্যাকিং নম্বর",
+    "trackLink": "পার্সেল ট্র্যাক করুন",
+    "deliveryStatus": "ডেলিভারির অবস্থা"
   },
   "OrdersPage": {
     "description": "আপনার আগের অর্ডার এবং তাদের অবস্থা দেখুন।",
@@ -1208,6 +1210,29 @@
     "notConfigured": "এই দোকানে রাশিয়ান পোস্টে ডেলিভারি এখনও চালু করা হয়নি।",
     "quoteFailed": "এই পয়েন্টে ডেলিভারির খরচ হিসাব করা যায়নি। অন্য একটি বেছে নিন।",
     "postcode": "পোস্টকোড {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "এই কুরিয়ারের পিকআপ পয়েন্ট এখনও এই দোকানে উপলব্ধ নয়।",
+    "addressRejected": "কুরিয়ার ঠিকানাটি খুঁজে পায়নি। পোস্ট কোড ও শহর যাচাই করুন"
+  },
+  "ApishipStatus": {
+    "uploading": "কুরিয়ারের কাছে হস্তান্তর হচ্ছে",
+    "uploaded": "কুরিয়ার গ্রহণ করেছে",
+    "uploadingError": "কুরিয়ার অর্ডারটি গ্রহণ করেনি",
+    "onPointIn": "প্রেরণ গুদামে",
+    "onWay": "পথে",
+    "onPointOut": "প্রাপকের শহরে পৌঁছেছে",
+    "readyForRecipient": "সংগ্রহের জন্য প্রস্তুত",
+    "delivering": "ডেলিভারির জন্য বেরিয়েছে",
+    "delivered": "ডেলিভারি হয়েছে",
+    "partialReturn": "আংশিক ফেরত",
+    "returnReady": "ফেরত প্রস্তুত",
+    "returning": "প্রেরকের কাছে ফিরছে",
+    "returned": "প্রেরকের কাছে ফেরত গেছে",
+    "returnedFromDelivery": "ডেলিভারি থেকে ফিরে এসেছে",
+    "deliveryCanceled": "ডেলিভারি বাতিল",
+    "problem": "একটি সমস্যা হয়েছে",
+    "lost": "হারিয়ে গেছে"
   },
   "OlavkaHome": {
     "slider": {

@@ -36,3 +36,28 @@ export const trackingLines = (
   carrier?: string | null,
 ): string[] =>
   (labels ?? []).map((label) => trackingLine(label, carrier)).filter(Boolean);
+
+/**
+ * The carrier's tracking page of a label, when it carries one: ApiShip and
+ * direct СДЭК write `tracking_url` next to the number. Only an http(s) URL is
+ * returned, so a value typed by hand («cdek.ru/track», a stray word) never
+ * becomes a link in the letter; `null` otherwise.
+ */
+export const trackingUrl = (label: FulfillmentLabel): string | null => {
+  const url = label.tracking_url?.trim() ?? "";
+  return /^https?:\/\/\S+$/i.test(url) ? url : null;
+};
+
+/**
+ * The tracking pages of the numbered labels, one per label, in order, each
+ * once. The plain-text letter prints them under the numbers, because a URL is
+ * the only thing plain text can make clickable.
+ */
+export const trackingUrls = (labels: FulfillmentLabel[] | null | undefined): string[] => {
+  const urls: string[] = [];
+  for (const label of labels ?? []) {
+    const url = trackingLine(label) ? trackingUrl(label) : null;
+    if (url && !urls.includes(url)) urls.push(url);
+  }
+  return urls;
+};

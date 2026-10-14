@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "رقم التتبع"
+    "trackingNumber": "رقم التتبع",
+    "trackLink": "تتبع الطرد",
+    "deliveryStatus": "حالة التوصيل"
   },
   "OrdersPage": {
     "description": "اطّلع على طلباتك السابقة وحالتها.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "لم يتم إعداد التوصيل عبر البريد الروسي في هذا المتجر بعد.",
     "quoteFailed": "تعذّر حساب تكلفة التوصيل إلى هذه النقطة. اختر نقطة أخرى.",
     "postcode": "الرمز البريدي {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "نقاط الاستلام لدى شركة الشحن هذه غير متاحة في هذا المتجر بعد.",
+    "addressRejected": "لم تعثر شركة الشحن على العنوان. تحقق من الرمز البريدي والمدينة"
+  },
+  "ApishipStatus": {
+    "uploading": "قيد التسليم إلى شركة الشحن",
+    "uploaded": "استلمته شركة الشحن",
+    "uploadingError": "لم تقبل شركة الشحن الطلب",
+    "onPointIn": "في مستودع الإرسال",
+    "onWay": "في الطريق",
+    "onPointOut": "وصل إلى مدينة المستلم",
+    "readyForRecipient": "جاهز للاستلام",
+    "delivering": "خرج للتوصيل",
+    "delivered": "تم التسليم",
+    "partialReturn": "إرجاع جزئي",
+    "returnReady": "تم تجهيز الإرجاع",
+    "returning": "في طريق العودة إلى المرسل",
+    "returned": "أُعيد إلى المرسل",
+    "returnedFromDelivery": "عاد من التوصيل",
+    "deliveryCanceled": "أُلغي التوصيل",
+    "problem": "حدثت مشكلة",
+    "lost": "مفقود"
   },
   "OlavkaHome": {
     "slider": {

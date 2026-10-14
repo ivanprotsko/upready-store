@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Sendungsnummer"
+    "trackingNumber": "Sendungsnummer",
+    "trackLink": "Sendung verfolgen",
+    "deliveryStatus": "Lieferstatus"
   },
   "OrdersPage": {
     "description": "Sehen Sie sich Ihre bisherigen Bestellungen und deren Status an.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Der Versand mit der Russischen Post ist in diesem Shop noch nicht eingerichtet.",
     "quoteFailed": "Der Versand zu dieser Abholstelle konnte nicht berechnet werden. Wählen Sie eine andere.",
     "postcode": "PLZ {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Die Abholstellen dieses Versanddienstes sind in diesem Shop noch nicht verfügbar.",
+    "addressRejected": "Der Versanddienst hat die Adresse nicht gefunden. Prüfe Postleitzahl und Ort"
+  },
+  "ApishipStatus": {
+    "uploading": "Wird an den Versanddienst übergeben",
+    "uploaded": "Vom Versanddienst angenommen",
+    "uploadingError": "Der Versanddienst hat die Bestellung nicht angenommen",
+    "onPointIn": "Im Versandlager",
+    "onWay": "Unterwegs",
+    "onPointOut": "In der Stadt des Empfängers angekommen",
+    "readyForRecipient": "Zur Abholung bereit",
+    "delivering": "In Zustellung",
+    "delivered": "Zugestellt",
+    "partialReturn": "Teilweise zurückgesendet",
+    "returnReady": "Rücksendung vorbereitet",
+    "returning": "Wird an den Absender zurückgesendet",
+    "returned": "An den Absender zurückgesendet",
+    "returnedFromDelivery": "Aus der Zustellung zurückgekommen",
+    "deliveryCanceled": "Zustellung storniert",
+    "problem": "Es gibt ein Problem",
+    "lost": "Verloren"
   },
   "OlavkaHome": {
     "slider": {

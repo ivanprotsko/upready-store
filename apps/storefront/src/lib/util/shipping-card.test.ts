@@ -65,6 +65,18 @@ describe("deliveryWayOf (D10)", () => {
     expect(deliveryWayOf(tariff("t", "post_ru"))).toEqual({ way: "pickup", carrier: "pochta" })
   })
 
+  it("reads an ApiShip option's way off its kind and its carrier off provider_key (t-2026-10-14-58)", () => {
+    const apiship = (provider_key: string, kind: string) => ({
+      provider_id: "apiship_apiship",
+      data: { provider_key, kind },
+    })
+    expect(deliveryWayOf(apiship("cdek", "courier"))).toEqual({ way: "courier", carrier: "cdek" })
+    expect(deliveryWayOf(apiship("cdek", "pickup"))).toEqual({ way: "pickup", carrier: "cdek" })
+    expect(deliveryWayOf(apiship("rupost", "pickup"))).toEqual({ way: "pickup", carrier: "pochta" })
+    expect(deliveryWayOf(apiship("boxberry", "pickup"))).toBeNull()
+    expect(groupDeliveryWays([apiship("rupost", "pickup")])?.cards[0].carriers).toEqual(["pochta"])
+  })
+
   it("leaves the shop's own courier, pickup, DHL and an unnamed tariff out of the cards", () => {
     for (const carrier of ["courier", "pickup", "dhl", "cdek", null]) {
       expect(deliveryWayOf(tariff("t", carrier))).toBeNull()
@@ -143,6 +155,7 @@ describe("isWayCardMethod (D10)", () => {
     expect(isWayCardMethod({ data: { provider: "cdek", kind: "pickup" } })).toBe(true)
     expect(isWayCardMethod({ data: { provider: "pochta", pochta_point_index: "101000" } })).toBe(true)
     expect(isWayCardMethod({ data: { carrier: "post_ru", tariff_kind: "per_kg" } })).toBe(true)
+    expect(isWayCardMethod({ data: { provider: "apiship", provider_key: "cdek" } })).toBe(true)
   })
 
   it("leaves DHL, the shop's own courier and a method without data alone", () => {

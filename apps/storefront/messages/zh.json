@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "物流单号"
+    "trackingNumber": "物流单号",
+    "trackLink": "跟踪包裹",
+    "deliveryStatus": "配送状态"
   },
   "OrdersPage": {
     "description": "查看您以往的订单及其状态。",
@@ -1208,6 +1210,29 @@
     "notConfigured": "本店尚未设置俄罗斯邮政配送。",
     "quoteFailed": "无法计算寄往该自提点的运费，请选择其他自提点。",
     "postcode": "邮编 {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "该承运商的自提点暂未在本店开放。",
+    "addressRejected": "承运商未找到该地址。请检查邮编和城市"
+  },
+  "ApishipStatus": {
+    "uploading": "正在交给承运商",
+    "uploaded": "承运商已揽收",
+    "uploadingError": "承运商未接受订单",
+    "onPointIn": "在发货仓库",
+    "onWay": "运输中",
+    "onPointOut": "已到达收件人所在城市",
+    "readyForRecipient": "可以取件",
+    "delivering": "派送中",
+    "delivered": "已签收",
+    "partialReturn": "部分退回",
+    "returnReady": "退回已准备",
+    "returning": "正在退回寄件人",
+    "returned": "已退回寄件人",
+    "returnedFromDelivery": "派送后退回",
+    "deliveryCanceled": "配送已取消",
+    "problem": "出现问题",
+    "lost": "已丢失"
   },
   "OlavkaHome": {
     "slider": {

@@ -48,6 +48,8 @@ export type SettingsSection = {
   /** The one header button, when the section's only action is the owner's next step. */
   action?: ReactNode
   rows: SettingsRow[]
+  /** Drawn instead of the rows: the empty state of a setting not made yet (E8, `NoRecords`). */
+  body?: ReactNode
 }
 
 export type SettingsDetailProps = {
@@ -144,9 +146,10 @@ export const SettingsDetailSection = ({
           ) : null}
         </div>
       </div>
-      {section.rows.map((row) => (
-        <SectionRow key={row.id} title={row.label} value={<SettingsRowValue row={row} />} />
-      ))}
+      {section.body ??
+        section.rows.map((row) => (
+          <SectionRow key={row.id} title={row.label} value={<SettingsRowValue row={row} />} />
+        ))}
     </Container>
   )
 }

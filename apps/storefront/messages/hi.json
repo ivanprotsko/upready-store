@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "ट्रैकिंग नंबर"
+    "trackingNumber": "ट्रैकिंग नंबर",
+    "trackLink": "पार्सल ट्रैक करें",
+    "deliveryStatus": "डिलीवरी की स्थिति"
   },
   "OrdersPage": {
     "description": "अपने पिछले ऑर्डर और उनकी स्थिति देखें।",
@@ -1208,6 +1210,29 @@
     "notConfigured": "इस दुकान में रूसी डाक से डिलीवरी अभी सेट नहीं है।",
     "quoteFailed": "इस पॉइंट तक डिलीवरी की गणना नहीं हो सकी। कोई दूसरा चुनें।",
     "postcode": "पिन कोड {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "इस कूरियर के पिकअप पॉइंट अभी इस स्टोर में उपलब्ध नहीं हैं।",
+    "addressRejected": "कूरियर को पता नहीं मिला। पिन कोड और शहर जाँचें"
+  },
+  "ApishipStatus": {
+    "uploading": "कूरियर को सौंपा जा रहा है",
+    "uploaded": "कूरियर ने स्वीकार किया",
+    "uploadingError": "कूरियर ने ऑर्डर स्वीकार नहीं किया",
+    "onPointIn": "भेजने वाले गोदाम में",
+    "onWay": "रास्ते में",
+    "onPointOut": "प्राप्तकर्ता के शहर में पहुँचा",
+    "readyForRecipient": "पिकअप के लिए तैयार",
+    "delivering": "डिलीवरी के लिए निकला",
+    "delivered": "डिलीवर हो गया",
+    "partialReturn": "आंशिक वापसी",
+    "returnReady": "वापसी तैयार",
+    "returning": "भेजने वाले को लौट रहा है",
+    "returned": "भेजने वाले को लौटा दिया गया",
+    "returnedFromDelivery": "डिलीवरी से लौट आया",
+    "deliveryCanceled": "डिलीवरी रद्द",
+    "problem": "एक समस्या आई है",
+    "lost": "खो गया"
   },
   "OlavkaHome": {
     "slider": {

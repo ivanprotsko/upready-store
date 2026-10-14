@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Seurantanumero"
+    "trackingNumber": "Seurantanumero",
+    "trackLink": "Seuraa pakettia",
+    "deliveryStatus": "Toimituksen tila"
   },
   "OrdersPage": {
     "description": "Tarkastele aiempia tilauksiasi ja niiden tilaa.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Venäjän postin toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
     "quoteFailed": "Toimitusta tähän noutopisteeseen ei voitu laskea. Valitse toinen.",
     "postcode": "Postinumero {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Tämän kuljetusyhtiön noutopisteet eivät ole vielä käytettävissä tässä kaupassa.",
+    "addressRejected": "Kuljetusyhtiö ei löytänyt osoitetta. Tarkista postinumero ja kaupunki"
+  },
+  "ApishipStatus": {
+    "uploading": "Luovutetaan kuljetusyhtiölle",
+    "uploaded": "Kuljetusyhtiö vastaanotti",
+    "uploadingError": "Kuljetusyhtiö ei hyväksynyt tilausta",
+    "onPointIn": "Lähtövarastossa",
+    "onWay": "Matkalla",
+    "onPointOut": "Saapui vastaanottajan kaupunkiin",
+    "readyForRecipient": "Noudettavissa",
+    "delivering": "Jakelussa",
+    "delivered": "Toimitettu",
+    "partialReturn": "Osittain palautettu",
+    "returnReady": "Palautus valmisteltu",
+    "returning": "Palaa lähettäjälle",
+    "returned": "Palautettu lähettäjälle",
+    "returnedFromDelivery": "Palautunut jakelusta",
+    "deliveryCanceled": "Toimitus peruttu",
+    "problem": "Ilmeni ongelma",
+    "lost": "Kadonnut"
   },
   "OlavkaHome": {
     "slider": {

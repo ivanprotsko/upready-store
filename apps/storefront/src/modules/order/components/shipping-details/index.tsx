@@ -1,6 +1,7 @@
 import { formatAddressLines, joinFilled } from "@lib/util/address"
 import { convertToLocale } from "@lib/util/money"
-import { trackingLines } from "@lib/util/order-tracking"
+import { trackingEntries } from "@lib/util/order-tracking"
+import { apishipMethodOf, apishipStatusKeyOf } from "@lib/util/apiship"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import { pochtaPointOf } from "@lib/util/pochta"
 import { orderContactLabel } from "@lib/data/order-contact"
@@ -36,7 +37,14 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
   // The tracking number(s) the shop owner typed on the shipment, carrier first
   // («СДЭК 1234567890»), assembled the same way as in the account timeline
   // (`@lib/util/order-tracking`).
-  const tracking = trackingLines(order.fulfillments)
+  // An ApiShip label carries the carrier's tracking page (`tracking_url`), shown
+  // as «Отследить» next to its number (t-2026-10-14-58).
+  const tracking = trackingEntries(order.fulfillments)
+  // The ApiShip status the provider recorded on the shipment, in words.
+  const tStatus = await getTranslations("ApishipStatus")
+  const statusKey = apishipStatusKeyOf(
+    order.fulfillments as Array<{ data?: unknown }> | null | undefined
+  )
 
   // `cart.metadata` is copied onto `order.metadata` verbatim by
   // `completeCartWorkflow` (composition.ts's own PICKUP_METADATA_KEYS doc
@@ -60,8 +68,18 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
   // by the provider from the carrier's directory (46df-pochta).
   const tPochta = await getTranslations("PochtaPoint")
   const pochtaPoint = pochtaPointOf(order)
+  // An ApiShip pickup point, the same way: the carrier's address and name of it.
+  const apishipPoint = apishipMethodOf(order)
+  const apishipPointLines =
+    apishipPoint?.pointId != null
+      ? [apishipPoint.pointAddress, apishipPoint.pointName].filter(
+          (line): line is string => Boolean(line)
+        )
+      : []
 
-  const addressLines = pochtaPoint
+  const addressLines = apishipPointLines.length
+    ? apishipPointLines
+    : pochtaPoint
     ? [
         pochtaPoint.pochta_point_address,
         joinFilled([pochtaPoint.pochta_point_city, pochtaPoint.pochta_point_region], ", "),
@@ -98,14 +116,18 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
     <div className="grid grid-cols-1 small:grid-cols-3 gap-6">
       <OrderDetailColumn
         label={
-          pochtaPoint
+          apishipPointLines.length
+            ? tPickup("label")
+            : pochtaPoint
             ? tPochta("heading")
             : isPickupOrder
             ? tPickup("label")
             : t("shippingAddress")
         }
         data-testid={
-          pochtaPoint
+          apishipPointLines.length
+            ? "apiship-point-summary"
+            : pochtaPoint
             ? "pochta-point-summary"
             : isPickupOrder
             ? "pickup-point-summary"
@@ -138,11 +160,33 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
           label={tTimeline("trackingNumber")}
           data-testid="order-tracking"
         >
-          {tracking.map((line) => (
-            <span key={line} className="tabular-nums" data-testid="order-tracking-number">
-              {line}
+          {tracking.map(({ line, url }) => (
+            <span key={line} className="flex flex-col">
+              <span className="tabular-nums" data-testid="order-tracking-number">
+                {line}
+              </span>
+              {url && (
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm w-fit"
+                  data-testid="order-tracking-link"
+                >
+                  {tTimeline("trackLink")}
+                </a>
+              )}
             </span>
           ))}
+        </OrderDetailColumn>
+      )}
+
+      {statusKey && (
+        <OrderDetailColumn
+          label={tTimeline("deliveryStatus")}
+          data-testid="order-delivery-status"
+        >
+          <span data-value={statusKey}>{tStatus(statusKey)}</span>
         </OrderDetailColumn>
       )}
     </div>

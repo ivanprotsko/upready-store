@@ -2,7 +2,7 @@ import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { OrderShipmentCreatedEmail } from "../emails/order-shipment-created";
-import { type FulfillmentLabel, trackingLines } from "../emails/lib/tracking";
+import { type FulfillmentLabel, trackingLines, trackingUrls } from "../emails/lib/tracking";
 import {
   findOrderForEmail,
   sendOrderEmail,
@@ -73,9 +73,12 @@ export default async function orderShipmentCreatedEmailHandler({
     text: (t, id, shop) => {
       const numbers = trackingLines(labels, carrier).join(", ");
 
+      // The carriers' tracking pages, one per line under the numbers: in
+      // plain text only a bare URL is clickable, and a URL needs no translation.
       return [
         t("Shipment.textFallback", { id }),
         numbers ? t("Shipment.textTracking", { numbers }) : "",
+        ...trackingUrls(labels),
         "",
         t("Shipment.textDelivery"),
         "",

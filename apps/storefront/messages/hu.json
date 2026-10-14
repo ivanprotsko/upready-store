@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Nyomkövetési szám"
+    "trackingNumber": "Nyomkövetési szám",
+    "trackLink": "Csomag követése",
+    "deliveryStatus": "Szállítási állapot"
   },
   "OrdersPage": {
     "description": "Tekintse meg korábbi rendeléseit és azok állapotát.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Az Orosz Postával történő szállítás még nincs beállítva ebben a boltban.",
     "quoteFailed": "Nem sikerült kiszámítani a szállítást erre a pontra. Válasszon másikat.",
     "postcode": "Irányítószám: {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Ennek a futárszolgálatnak az átvevőpontjai még nem érhetők el ebben a boltban.",
+    "addressRejected": "A futárszolgálat nem találta a címet. Ellenőrizze az irányítószámot és a várost"
+  },
+  "ApishipStatus": {
+    "uploading": "Átadás a futárszolgálatnak",
+    "uploaded": "A futárszolgálat átvette",
+    "uploadingError": "A futárszolgálat nem fogadta el a rendelést",
+    "onPointIn": "A feladási raktárban",
+    "onWay": "Úton",
+    "onPointOut": "Megérkezett a címzett városába",
+    "readyForRecipient": "Átvehető",
+    "delivering": "Kiszállítás alatt",
+    "delivered": "Kézbesítve",
+    "partialReturn": "Részleges visszaküldés",
+    "returnReady": "Visszaküldés előkészítve",
+    "returning": "Visszaúton a feladóhoz",
+    "returned": "Visszaküldve a feladónak",
+    "returnedFromDelivery": "Visszajött a kiszállításból",
+    "deliveryCanceled": "Szállítás törölve",
+    "problem": "Probléma merült fel",
+    "lost": "Elveszett"
   },
   "OlavkaHome": {
     "slider": {

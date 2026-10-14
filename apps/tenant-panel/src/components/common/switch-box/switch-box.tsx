@@ -48,9 +48,11 @@ export const SwitchBox = <
         return (
           <Form.Item>
             <div className="bg-ui-bg-component shadow-elevation-card-rest flex items-start gap-x-3 rounded-lg p-3">
+              {/* shrink-0: a description that wraps (a phone) squeezed the
+                  switch under its label (t-2026-10-14-58). */}
               <Form.Control>
                 <Switch
-                  className="rtl:rotate-180"
+                  className="shrink-0 rtl:rotate-180"
                   dir="ltr"
                   {...field}
                   checked={value}

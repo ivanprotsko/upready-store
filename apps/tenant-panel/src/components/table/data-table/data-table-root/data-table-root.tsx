@@ -34,6 +34,18 @@ const isPhoneTop = (meta: unknown): boolean | "end" =>
 const isPhoneWide = (meta: unknown): boolean =>
   (meta as { phoneWide?: boolean } | undefined)?.phoneWide ?? false
 
+/**
+ * Below 640 px Medusa's command bar, a pill of «N выбрано» and every command
+ * in one line, is wider than the screen: the third ApiShip batch action could
+ * not be seen or pressed (t-2026-10-14-58, rule 15). There it becomes a sheet
+ * the width of the screen, one command per line, without the keyboard hints.
+ */
+const PHONE_BAR =
+  "max-sm:w-[calc(100vw-2rem)] max-sm:flex-col max-sm:items-stretch max-sm:rounded-2xl max-sm:py-1 max-sm:after:rounded-2xl"
+const PHONE_SEPARATOR = "max-sm:h-px max-sm:w-full"
+const PHONE_COMMAND =
+  "max-sm:min-h-11 max-sm:last-of-type:mr-0 max-sm:last-of-type:pr-3 max-sm:[&_kbd]:hidden"
+
 type BulkCommand = {
   label: string
   shortcut: string
@@ -391,13 +403,13 @@ export const DataTableRoot = <TData,>({
       )}
       {hasCommandBar && (
         <CommandBar open={!!Object.keys(rowSelection).length}>
-          <CommandBar.Bar>
+          <CommandBar.Bar className={PHONE_BAR}>
             <CommandBar.Value>
               {t("general.countSelected", {
                 count: Object.keys(rowSelection).length,
               })}
             </CommandBar.Value>
-            <CommandBar.Seperator />
+            <CommandBar.Seperator className={PHONE_SEPARATOR} />
             {commands?.map((command, index) => {
               return (
                 <Fragment key={index}>
@@ -405,8 +417,11 @@ export const DataTableRoot = <TData,>({
                     label={command.label}
                     shortcut={command.shortcut}
                     action={() => handleAction(command.action)}
+                    className={PHONE_COMMAND}
                   />
-                  {index < commands.length - 1 && <CommandBar.Seperator />}
+                  {index < commands.length - 1 && (
+                    <CommandBar.Seperator className={PHONE_SEPARATOR} />
+                  )}
                 </Fragment>
               )
             })}

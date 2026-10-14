@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Tracking number"
+    "trackingNumber": "Tracking number",
+    "trackLink": "Track parcel",
+    "deliveryStatus": "Delivery status"
   },
   "OrdersPage": {
     "description": "View your previous orders and their status.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Russian Post delivery is not set up in this shop yet.",
     "quoteFailed": "Delivery to this point could not be priced. Choose another one.",
     "postcode": "Postcode {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "This carrier's pickup points are not available in this shop yet.",
+    "addressRejected": "The carrier could not find the address. Check the postal code and the city"
+  },
+  "ApishipStatus": {
+    "uploading": "Being handed to the carrier",
+    "uploaded": "Accepted by the carrier",
+    "uploadingError": "The carrier did not accept the order",
+    "onPointIn": "At the dispatch warehouse",
+    "onWay": "In transit",
+    "onPointOut": "Arrived in the recipient's city",
+    "readyForRecipient": "Ready for pickup",
+    "delivering": "Out for delivery",
+    "delivered": "Delivered",
+    "partialReturn": "Partially returned",
+    "returnReady": "Return prepared",
+    "returning": "Returning to the sender",
+    "returned": "Returned to the sender",
+    "returnedFromDelivery": "Returned from delivery",
+    "deliveryCanceled": "Delivery canceled",
+    "problem": "There is a problem",
+    "lost": "Lost"
   },
   "OlavkaHome": {
     "slider": {

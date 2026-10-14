@@ -1,5 +1,6 @@
 import { Button, Container, Heading } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
+import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, Outlet, useLocation } from "react-router-dom"
 
@@ -11,6 +12,7 @@ import { useDataTable } from "../../../../../hooks/use-data-table"
 
 import { DEFAULT_FIELDS } from "../../const"
 import { useOrderTableFilters } from "../../../../../hooks/table/filters"
+import { useApishipBatchCommands, useSelectColumn } from "./apiship-batch"
 
 const PAGE_SIZE = 20
 
@@ -35,12 +37,18 @@ export const OrderListTable = () => {
   const filters = useOrderTableFilters()
   // o21-owner-panel-ux (P3): one shop has one sales channel and sells in one
   // country, so these two columns told the owner nothing on every row.
-  const columns = useOrderTableColumns({ exclude: ["sales_channel", "country"] })
+  const baseColumns = useOrderTableColumns({ exclude: ["sales_channel", "country"] })
+  // t-2026-10-14-58, part B: ticked rows get ApiShip's labels, acts and statuses in one go.
+  const selectColumn = useSelectColumn()
+  const columns = useMemo(() => [selectColumn, ...baseColumns], [selectColumn, baseColumns])
+  const commands = useApishipBatchCommands(orders)
 
   const { table } = useDataTable({
     data: orders ?? [],
     columns,
     enablePagination: true,
+    enableRowSelection: true,
+    getRowId: (row) => row.id,
     count,
     pageSize: PAGE_SIZE,
   })
@@ -62,6 +70,7 @@ export const OrderListTable = () => {
         table={table}
         pagination
         navigateTo={(row) => `/orders/${row.original.id}`}
+        commands={commands}
         filters={filters}
         count={count}
         search
