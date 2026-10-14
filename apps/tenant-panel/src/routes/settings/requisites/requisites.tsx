@@ -12,7 +12,6 @@ import {
   parseRequisiteDate,
   REQUISITES_SECTIONS,
   type RequisiteTextField,
-  TOKEN_FIELDS,
   toDraft,
 } from "./requisites-model"
 
@@ -20,7 +19,7 @@ import {
 // заполняют {{ТОКЕНЫ}}, оставленные в оферте, политике конфиденциальности и
 // контактах. Каждое поле необязательно — придумывать регистрационные данные
 // нельзя, поэтому пустое поле не блокирует сохранение, а только помечено
-// «не заполнено» и подписано страницами, которым оно нужно.
+// «не заполнено» (адрес возврата — «необязательно»).
 //
 // t-2026-10-14-01 (panel redesign, G1): the page only reads. Five sections in
 // the order of the prototype (who sells → contacts → personal data → document
@@ -50,13 +49,6 @@ export const RequisitesSettings = () => {
 
   const draft = toDraft(requisites)
 
-  // The pages that need each empty field, as the platform names them.
-  const pagesByField = new Map<RequisiteTextField, string[]>()
-  for (const item of missing ?? []) {
-    const field = TOKEN_FIELDS[item.token]
-    if (field) pagesByField.set(field, item.pages.map((page) => page.title))
-  }
-
   const formatDate = (text: string) => {
     const date = parseRequisiteDate(text)
     return date ? getFullDate({ date }) : text
@@ -65,19 +57,18 @@ export const RequisitesSettings = () => {
   const fieldRow = (field: RequisiteTextField): SettingsRow => {
     const text = draft[field].trim()
     const label = t(`requisitesSettings.fields.${field}.label`)
-    const pages = pagesByField.get(field) ?? []
 
+    // t-2026-10-14-01 (Ivan, 14.10): an empty row is its label and one badge,
+    // no caption with the pages; the first section's subtitle already says
+    // where requisites go. The return address is optional, so its badge is grey.
     if (!text) {
       return {
         id: field,
         label,
-        status: { color: "orange", label: t("requisitesSettings.notFilled") },
-        hint:
+        status:
           field === "return_address"
-            ? t("requisitesSettings.returnAddressOptional")
-            : pages.length
-              ? t("requisitesSettings.neededOn", { count: pages.length, pages: pages.join(", ") })
-              : undefined,
+            ? { color: "grey", label: t("requisitesSettings.optional") }
+            : { color: "orange", label: t("requisitesSettings.notFilled") },
       }
     }
 

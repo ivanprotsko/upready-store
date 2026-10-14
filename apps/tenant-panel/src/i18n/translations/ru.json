@@ -5310,11 +5310,7 @@
     "notFilled": "не заполнено",
     "missingCount": "не заполнено: {{count}}",
     "allFilled": "всё заполнено",
-    "neededOn_one": "нужен на странице: {{pages}}",
-    "neededOn_few": "нужен на страницах: {{pages}}",
-    "neededOn_many": "нужен на страницах: {{pages}}",
-    "neededOn_other": "нужен на страницах: {{pages}}",
-    "returnAddressOptional": "необязательно: без него покупатель в оферте не увидит, куда вернуть товар",
+    "optional": "необязательно",
     "phoneNeedsConfirm": "требует подтверждения",
     "phoneConfirmHint": "Подтвердите в правке, что номер отвечает — тогда он попадёт в контакты.",
     "phoneConfirmed": {

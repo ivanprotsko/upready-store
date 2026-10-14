@@ -101,11 +101,32 @@ test("one mutation hook; every drawer sends the whole record with its own fields
   }
 })
 
-test("the «не заполнено: N» counter is an orange badge in the first section; empty rows carry the badge and the pages", () => {
+// The branch of `fieldRow` that builds an empty row.
+const emptyRow = page.slice(page.indexOf("if (!text) {"), page.indexOf("value: DATE_FIELDS.includes(field)"))
+
+test("the «не заполнено: N» counter is an orange badge in the first section", () => {
   const first = page.slice(page.indexOf('id: "seller"'), page.indexOf('id: "contacts"'))
   assert.ok(first.includes('color: "orange"') && first.includes('t("requisitesSettings.missingCount"'))
-  assert.ok(page.includes('t("requisitesSettings.notFilled")'))
-  assert.ok(page.includes('t("requisitesSettings.neededOn", { count: pages.length'))
+})
+
+test("an empty row carries the orange «не заполнено» badge and no caption with the pages (Ivan, 14.10)", () => {
+  assert.ok(emptyRow.length > 0, "fieldRow has an empty-row branch")
+  assert.ok(emptyRow.includes('{ color: "orange", label: t("requisitesSettings.notFilled") }'))
+  assert.ok(!emptyRow.includes("hint"), "an empty row has no second line")
+  assert.ok(!page.includes("neededOn") && !page.includes("pagesByField"), "the page never names the pages under a row")
+  for (const [name, catalog] of [["ru", ru], ["en", en]]) {
+    const keys = Object.keys(catalog.requisitesSettings)
+    assert.ok(!keys.some((key) => key.startsWith("neededOn")), `${name}.json keeps no neededOn keys`)
+    assert.ok(!/нужен на страниц|needed on the page/.test(JSON.stringify(catalog.requisitesSettings)), `${name}.json has no pages caption`)
+  }
+})
+
+test("the empty return address is optional: a grey «необязательно» badge, no caption", () => {
+  assert.ok(emptyRow.includes('field === "return_address"'))
+  assert.ok(emptyRow.includes('{ color: "grey", label: t("requisitesSettings.optional") }'))
+  assert.equal(ru.requisitesSettings.optional, "необязательно")
+  assert.equal(en.requisitesSettings.optional, "optional")
+  assert.equal(ru.requisitesSettings.returnAddressOptional, undefined, "the long caption key is gone")
 })
 
 test("dates use the panel's DatePicker, never the native date input", () => {
@@ -183,19 +204,12 @@ test("every i18n key the screen reads exists in ru.json and en.json", () => {
   }
 })
 
-test("counted phrases have Russian plural forms (one, few, many, other) and English one, other", () => {
-  for (const key of ["neededOn", "hidden.item"]) {
-    const base = lookup(ru.requisitesSettings, key.replace(/\.item$/, "")) // hidden object
-    const node = key === "hidden.item" ? ru.requisitesSettings.hidden : ru.requisitesSettings
-    const prefix = key === "hidden.item" ? "item" : key
-    for (const form of ["one", "few", "many", "other"]) {
-      assert.equal(typeof node[`${prefix}_${form}`], "string", `ru ${key}_${form}`)
-    }
-    const enNode = key === "hidden.item" ? en.requisitesSettings.hidden : en.requisitesSettings
-    for (const form of ["one", "other"]) {
-      assert.equal(typeof enNode[`${prefix}_${form}`], "string", `en ${key}_${form}`)
-    }
-    void base
+test("the counted phrase has Russian plural forms (one, few, many, other) and English one, other", () => {
+  for (const form of ["one", "few", "many", "other"]) {
+    assert.equal(typeof ru.requisitesSettings.hidden[`item_${form}`], "string", `ru hidden.item_${form}`)
+  }
+  for (const form of ["one", "other"]) {
+    assert.equal(typeof en.requisitesSettings.hidden[`item_${form}`], "string", `en hidden.item_${form}`)
   }
   assert.ok(page.includes('t("requisitesSettings.hidden.item", { title: page.title, count: page.hidden })'))
 })
