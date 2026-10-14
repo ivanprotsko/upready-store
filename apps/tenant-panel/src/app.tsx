@@ -919,11 +919,32 @@ const routes: RouteObject[] = [
                 ],
               },
               {
-                // Line us-8 rebuilds this card; until then it is today's.
+                // Line us-8: the switch, each requisite and the contacts get
+                // their own drawer; the list's order and removal are in «…».
                 path: "manual",
                 handle: { breadcrumb: () => t("paymentMethods.ways.manual.title") },
                 lazy: () => import("./routes/settings/payments/manual"),
                 children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/payments/manual/edit"),
+                  },
+                  {
+                    path: "bank/create",
+                    lazy: () => import("./routes/settings/payments/manual/bank-create"),
+                  },
+                  {
+                    path: "crypto/create",
+                    lazy: () => import("./routes/settings/payments/manual/crypto-create"),
+                  },
+                  {
+                    path: "requisites/:requisiteId/edit",
+                    lazy: () => import("./routes/settings/payments/manual/requisite-edit"),
+                  },
+                  {
+                    path: "contacts/edit",
+                    lazy: () => import("./routes/settings/payments/manual/contacts-edit"),
+                  },
                   {
                     path: "pre-notice/edit",
                     lazy: () => import("./routes/settings/payments/manual/pre-notice-edit"),

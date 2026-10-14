@@ -71,7 +71,12 @@ const FILES = [
   `${C}/x402-card.tsx`,
   `${C}/x402-edit.tsx`,
   `${C}/manual-payment-page.tsx`,
+  `${C}/manual-payment-card.tsx`,
+  `${C}/manual-payment-edit.tsx`,
+  `${C}/manual-requisite-edit.tsx`,
+  `${C}/manual-contacts-edit.tsx`,
   "lib/payment-pre-notice.ts",
+  "lib/payment-requisites.ts",
 ]
 const CARDS = ["robokassa", "tribute", "btcpay", "bitcart", "x402"]
 const PRE_NOTICE_WAYS = ["robokassa", "manual", "tribute", "btcpay", "bitcart"]
@@ -392,10 +397,10 @@ test("Robokassa carries the section only while its stored notice says something"
   assert.match(card("robokassa"), /usePreNoticeSection\("robokassa"\)/)
 })
 
-test("«Перевод по реквизитам» keeps today's card on its own address, plus its notice", () => {
+test("«Перевод по реквизитам» carries its notice on its own card (line us-8 rebuilt the rest)", () => {
   const page = read(`${C}/manual-payment-page.tsx`)
-  assert.match(page, /<ManualPaymentCard \/>/)
   assert.match(page, /usePreNoticeSection\("manual"\)/)
+  assert.match(page, /<SettingsDetailSection section=\{preNotice\.section\} \/>/)
   assert.match(page, /hasOutlet/)
 })
 

@@ -4804,6 +4804,34 @@
       "drawerTitle": "x402 — requisites",
       "payToPlaceholder": "0x…"
     },
+    "manual": {
+      "intro": "The buyer places the order without paying on the site, transfers the money by your requisites and attaches the receipt; you confirm the payment in the order",
+      "enabled": "Accept transfers",
+      "enabledHint": "The order stays «awaiting payment» until you confirm the payment on the order page.",
+      "offHint": "Add at least one requisite or a manager contact before switching transfers on.",
+      "saved": "Transfer settings saved",
+      "network": "{{network}} network",
+      "recipient": "recipient {{holder}}",
+      "position": "Place in the list: {{n}}",
+      "emptyTitle": "No requisites yet",
+      "emptyMessage": "Add a bank or a crypto wallet — the buyer will see it on the order page.",
+      "removeTitle": "Delete the requisite?",
+      "removeDescription": "«{{name}}» leaves the order page. It comes back only if you add it again.",
+      "removed": "Requisite deleted",
+      "requisiteSaved": "Requisite saved",
+      "contactsSaved": "Contacts saved",
+      "keepOneRequisite": "Transfers are on and there is no manager contact: keep at least one requisite or switch transfers off first",
+      "keepOneContact": "Transfers are on and there are no requisites: keep at least one contact or switch transfers off first",
+      "bankHint": "Not in the list — «Other bank» and the name below",
+      "bankPlaceholder": "pick a bank",
+      "nameHint": "How the bank reads on the order page",
+      "holderHint": "The name as the bank shows it",
+      "errors": {
+        "whatsapp": "A number with the country code, digits only: for example, +79991234567",
+        "telegram": "A Telegram username: 4 to 32 Latin letters, digits and _",
+        "email": "This does not look like an email address"
+      }
+    },
     "preNotice": {
       "title": "Pre-payment notice",
       "description": "The buyer reads this above the «Pay» button: whom they pay, in what currency, where they are sent and how to get the money back",
