@@ -107,10 +107,13 @@ test("course page: the storefront address ends in an ellipsis and the buttons wr
   assert.ok(!/className="(font-mono )?w-\[\d+px\]"/.test(source), "no field has a fixed px width")
 })
 
-test("old addresses: the search field fits a phone and the counter wraps under it", () => {
+test("old addresses: the search is the list toolbar and the rows are _DataTable rows (phone cards built in)", () => {
+  // t-2026-10-14-01 (G2): the hand-made 320 px field and its counter gave way
+  // to the toolbar of the native list, which takes the full width below md.
   const source = read("routes/settings/redirects/redirects.tsx")
-  assert.ok(source.includes('"flex flex-wrap items-center gap-x-3 gap-y-2 px-6 py-3"'))
-  assert.ok(source.includes('<div className="w-full max-w-[320px]">'))
+  assert.ok(source.includes("<DataTableQuery<TenantRedirect>"))
+  assert.ok(source.includes("<_DataTable"))
+  assert.ok(!source.includes("<Table>") && !source.includes("max-w-[320px]"))
 })
 
 test("pages: below md the rows are cards, from md up the table scrolls in its box", () => {

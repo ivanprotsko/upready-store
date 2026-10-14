@@ -1,69 +1,101 @@
-import { useMemo, useState } from "react"
-import { Plus } from "@medusajs/icons"
-import {
-  Button,
-  Container,
-  Heading,
-  Input,
-  Label,
-  Select,
-  Table,
-  Text,
-  toast,
-} from "@medusajs/ui"
+import { Button, Container, Heading, Text } from "@medusajs/ui"
+import { createColumnHelper } from "@tanstack/react-table"
+import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import { Link, useLocation } from "react-router-dom"
 
-import { SingleColumnPage } from "../../../components/layout/pages"
+import { NoRecords, NoResults } from "../../../components/common/empty-table-content"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
-import { TableScroll } from "../../../components/table/table-scroll"
+import { SingleColumnPage } from "../../../components/layout/pages"
+import { _DataTable } from "../../../components/table/data-table"
+import { DataTableQuery } from "../../../components/table/data-table/data-table-query"
 import { useDomains } from "../../../hooks/api/domains"
-import {
-  useCreateTenantRedirect,
-  useTenantRedirects,
-} from "../../../hooks/api/redirects"
-import { RedirectRow } from "./redirect-row"
-import { REDIRECT_STATUS_CODES } from "./status-codes"
+import { TenantRedirect, useTenantRedirects } from "../../../hooks/api/redirects"
+import { useDataTable } from "../../../hooks/use-data-table"
+import { useQueryParams } from "../../../hooks/use-query-params"
+import { redirectListPage } from "./redirect-list"
+import { RedirectFromCell, RedirectRowActions } from "./redirect-row"
 
 // b10-panel-gaps: «Старые адреса» — the shop's own redirect table. The routes
 // (`/tenants/redirects*`) shipped with t11-seo-redirects and had no screen, so
 // the 47 rules the migration of Oksana's shop imported were invisible to her.
 //
-// One screen, no children: a rule is three fields, edited in its own row, so
-// there is nothing to open a drawer for. The shape follows ../domains next
-// door — Container, the list, then the add form under it.
+// t-2026-10-14-01 (panel redesign, G2, prototype states `redirects*`): the
+// list after panel-ds E1, E8 and E10. `Container` with the heading and its one
+// button «Добавить правило», the search and the order over the table, the
+// table on `_DataTable` with 20 rules a page. The search, the order and the
+// page live in the URL and are applied in the browser (`redirect-list.ts`):
+// the backend answers every rule at once. A row opens its edit drawer; the
+// add form and the edit in a row became the drawers `create` and `:id/edit`.
+// Empty: «Правил пока нет» with the one button; a search that found nothing
+// says so with the query, keeps the search field and has no button.
 
-const PATH_PATTERN = /^\/[^\s?#]*$/
+const PAGE_SIZE = 20
+
+const columnHelper = createColumnHelper<TenantRedirect>()
+
+const useColumns = (primaryHost: string | undefined) => {
+  const { t } = useTranslation()
+
+  return useMemo(
+    () => [
+      columnHelper.accessor("from_path", {
+        header: t("redirects.columnFrom"),
+        cell: ({ row }) => <RedirectFromCell redirect={row.original} primaryHost={primaryHost} />,
+      }),
+      columnHelper.accessor("to_path", {
+        header: t("redirects.columnTo"),
+        cell: ({ getValue }) => (
+          <Text size="small" leading="compact" className="font-mono truncate">
+            {getValue()}
+          </Text>
+        ),
+      }),
+      columnHelper.accessor("status_code", {
+        header: t("redirects.columnKind"),
+        cell: ({ getValue }) => (
+          <Text size="small" leading="compact" className="text-ui-fg-subtle whitespace-nowrap">
+            {t(`redirects.status.${getValue()}`)}
+          </Text>
+        ),
+      }),
+      columnHelper.display({
+        id: "actions",
+        cell: ({ row }) => <RedirectRowActions redirect={row.original} />,
+      }),
+    ],
+    [t, primaryHost]
+  )
+}
 
 export const Redirects = () => {
   const { t } = useTranslation()
+  const { search } = useLocation()
+  const { q, order, offset } = useQueryParams(["q", "order", "offset"])
   const { redirects, isPending, isError, error } = useTenantRedirects()
   const { primary_host: primaryHost } = useDomains()
 
-  const [fromPath, setFromPath] = useState("")
-  const [toPath, setToPath] = useState("")
-  const [statusCode, setStatusCode] = useState(String(REDIRECT_STATUS_CODES[0]))
-  const [search, setSearch] = useState("")
-
-  const { mutateAsync: create, isPending: isCreating } = useCreateTenantRedirect()
-
   const shopOrigin = primaryHost ? `https://${primaryHost}` : undefined
+  const columns = useColumns(shopOrigin)
+  const page = useMemo(
+    () =>
+      redirectListPage(redirects ?? [], {
+        q,
+        order,
+        offset: Number(offset) || 0,
+        limit: PAGE_SIZE,
+      }),
+    [redirects, q, order, offset]
+  )
 
-  // 47 rows after a migration is a list an owner scrolls, so the screen filters
-  // it in the browser: every row is already here, no second request to make.
-  const visible = useMemo(() => {
-    const needle = search.trim().toLowerCase()
-    const rows = redirects ?? []
-
-    if (!needle) {
-      return rows
-    }
-
-    return rows.filter(
-      (row) =>
-        row.from_path.toLowerCase().includes(needle) ||
-        row.to_path.toLowerCase().includes(needle)
-    )
-  }, [redirects, search])
+  const { table } = useDataTable({
+    data: page.rows,
+    columns,
+    count: page.count,
+    pageSize: PAGE_SIZE,
+    enablePagination: true,
+    getRowId: (row) => row.id,
+  })
 
   if (isError) {
     throw error
@@ -73,146 +105,58 @@ export const Redirects = () => {
     return <SingleColumnPageSkeleton sections={1} />
   }
 
-  const handleCreate = async (event: React.FormEvent) => {
-    event.preventDefault()
-
-    const from = fromPath.trim()
-    const to = toPath.trim()
-
-    if (!PATH_PATTERN.test(from) || !PATH_PATTERN.test(to)) {
-      toast.error(t("redirects.pathError"))
-      return
-    }
-
-    if (from === to) {
-      toast.error(t("redirects.loopError"))
-      return
-    }
-
-    await create(
-      { from_path: from, to_path: to, status_code: Number(statusCode) },
-      {
-        onSuccess: () => {
-          setFromPath("")
-          setToPath("")
-          toast.success(t("redirects.created"))
-        },
-        // The backend owns every refusal (a duplicate source path, a path that
-        // is not a path) and its message is what the owner reads.
-        onError: (createError) => toast.error(createError.message),
-      }
-    )
-  }
+  const hasRules = redirects.length > 0
 
   return (
-    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet={false}>
-      <Container className="divide-y p-0">
-        <div className="flex flex-col gap-y-1 px-6 py-4">
-          <Heading level="h2">{t("redirects.title")}</Heading>
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("redirects.subtitle")}
-          </Text>
+    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet>
+      <Container className="divide-y p-0" data-testid="redirects">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
+          <div className="flex min-w-0 flex-col gap-y-1">
+            <Heading level="h1">{t("redirects.title")}</Heading>
+            <Text size="small" className="text-ui-fg-subtle text-pretty">
+              {t("redirects.subtitle")}
+            </Text>
+          </div>
+          {hasRules ? (
+            <Link to="/settings/redirects/create">
+              <Button size="small" variant="secondary">
+                {t("redirects.addAction")}
+              </Button>
+            </Link>
+          ) : null}
         </div>
 
-        <form
-          onSubmit={handleCreate}
-          className="flex flex-wrap items-end gap-x-3 gap-y-3 px-6 py-4"
-        >
-          <div className="flex flex-col gap-y-1">
-            <Label htmlFor="from_path" size="xsmall">
-              {t("redirects.columnFrom")}
-            </Label>
-            <Input
-              id="from_path"
-              value={fromPath}
-              onChange={(event) => setFromPath(event.target.value)}
-              placeholder="/catalog/old-page"
-              className="font-mono w-[280px]"
-            />
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <Label htmlFor="to_path" size="xsmall">
-              {t("redirects.columnTo")}
-            </Label>
-            <Input
-              id="to_path"
-              value={toPath}
-              onChange={(event) => setToPath(event.target.value)}
-              placeholder="/ru/products/new-page"
-              className="font-mono w-[280px]"
-            />
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <Label size="xsmall">{t("redirects.columnKind")}</Label>
-            <Select value={statusCode} onValueChange={setStatusCode}>
-              <Select.Trigger className="w-[220px]">
-                <Select.Value />
-              </Select.Trigger>
-              <Select.Content>
-                {REDIRECT_STATUS_CODES.map((code) => (
-                  <Select.Item key={code} value={String(code)}>
-                    {t(`redirects.status.${code}`, { defaultValue: String(code) })}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select>
-          </div>
-          <Button size="small" type="submit" isLoading={isCreating}>
-            <Plus /> {t("redirects.addAction")}
-          </Button>
-          <Text size="small" className="text-ui-fg-subtle basis-full">
-            {t("redirects.hint")}
-          </Text>
-        </form>
-        {redirects.length > 10 ? (
-          // t-2026-10-13-30: a 320 px field and the counter beside it were
-          // wider than a phone; the counter now wraps under the field.
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-6 py-3">
-            <div className="w-full max-w-[320px]">
-              <Input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder={t("redirects.searchPlaceholder")}
-                className="w-full"
-              />
-            </div>
-            <Text size="small" className="text-ui-fg-subtle whitespace-nowrap">
-              {t("redirects.counter", {
-                shown: visible.length,
-                total: redirects.length,
-              })}
-            </Text>
-          </div>
-        ) : null}
-
-        {redirects.length ? (
-          <TableScroll>
-            <Table>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>{t("redirects.columnFrom")}</Table.HeaderCell>
-                  <Table.HeaderCell>{t("redirects.columnTo")}</Table.HeaderCell>
-                  <Table.HeaderCell>{t("redirects.columnKind")}</Table.HeaderCell>
-                  <Table.HeaderCell />
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {visible.map((redirect) => (
-                  <RedirectRow
-                    key={redirect.id}
-                    redirect={redirect}
-                    primaryHost={shopOrigin}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          </TableScroll>
+        {!hasRules ? (
+          <NoRecords
+            title={t("redirects.emptyTitle")}
+            message={t("redirects.emptyMessage")}
+            action={{ to: "/settings/redirects/create", label: t("redirects.addAction") }}
+          />
         ) : (
-          <div className="px-6 py-6">
-            <Text size="small" className="text-ui-fg-subtle">
-              {t("redirects.empty")}
-            </Text>
-          </div>
+          <>
+            <DataTableQuery<TenantRedirect>
+              search
+              orderBy={[
+                { key: "from_path", label: t("redirects.columnFrom") },
+                { key: "to_path", label: t("redirects.columnTo") },
+              ]}
+            />
+            {page.count === 0 ? (
+              <NoResults
+                title={t("redirects.noResultsTitle")}
+                message={t("redirects.noResultsMessage", { query: q?.trim() ?? "" })}
+              />
+            ) : (
+              <_DataTable
+                table={table}
+                columns={columns}
+                count={page.count}
+                pageSize={PAGE_SIZE}
+                pagination
+                navigateTo={(row) => `/settings/redirects/${row.original.id}/edit${search}`}
+              />
+            )}
+          </>
         )}
       </Container>
     </SingleColumnPage>

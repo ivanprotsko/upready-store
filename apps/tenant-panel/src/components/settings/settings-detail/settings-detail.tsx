@@ -16,7 +16,8 @@ import { SingleColumnPage } from "../../layout/pages"
 // the section's nested route, drawn by `SettingsEditDrawer` into the outlet.
 
 export type SettingsStatus = {
-  color: "green" | "grey" | "orange" | "red" | "blue"
+  /** `purple` is the platform developer's role (`staffRoleColor`, t-2026-10-14-41). */
+  color: "green" | "grey" | "orange" | "red" | "blue" | "purple"
   label: string
 }
 

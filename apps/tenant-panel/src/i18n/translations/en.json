@@ -4711,7 +4711,7 @@
   },
   "redirects": {
     "title": "Old addresses",
-    "subtitle": "where to send a visitor who arrives from a link on your old site, or at a page that no longer exists",
+    "subtitle": "Where to send a visitor who arrives from a link on your old site, or at a page that no longer exists.",
     "columnFrom": "Old address",
     "columnTo": "Goes to",
     "columnKind": "Kind of redirect",
@@ -4722,20 +4722,30 @@
       "308": "Permanent, request kept (308)"
     },
     "addAction": "Add a rule",
-    "editAction": "Edit",
-    "deleteAction": "Delete",
-    "deleteConfirm": "Delete",
-    "saveAction": "Save",
-    "cancel": "Cancel",
     "created": "Rule added",
     "saved": "Rule changed",
     "removed": "Rule deleted",
-    "empty": "No rules yet. Add the first one, for example from an old product address to its new one.",
-    "searchPlaceholder": "Search by address",
-    "counter": "showing {{shown}} of {{total}}",
     "pathError": "An address starts with a slash and carries no site name and no question mark, for example /catalog/cube-1",
     "loopError": "The old and the new address are the same, so the redirect would loop",
-    "hint": "Choose permanent when the page has moved for good: search engines carry its standing over to the new address. Choose temporary when you plan to bring the old address back."
+    "hint": "Choose permanent when the page has moved for good: search engines carry its standing over to the new address. Choose temporary when you plan to bring the old address back.",
+    "create": {
+      "title": "New rule",
+      "submit": "Add"
+    },
+    "edit": {
+      "title": "Edit rule"
+    },
+    "fromHint": "An address starts with a slash, with no site name and no question mark, for example /catalog/cube-1.",
+    "fromLocked": "The old address does not change: it is the key of the rule. For another one, add a new rule.",
+    "toHint": "An address starts with a slash, with no site name and no question mark.",
+    "delete": {
+      "title": "Delete this rule?",
+      "description": "The old address {{from}} will stop leading to {{to}}."
+    },
+    "emptyTitle": "No rules yet",
+    "emptyMessage": "Add the first one, for example from an old product address to its new one.",
+    "noResultsTitle": "Nothing found",
+    "noResultsMessage": "No rules match “{{query}}”. Change the query or clear the search."
   },
   "seoVerification": {
     "title": "Search engine ownership",
@@ -6198,9 +6208,12 @@
       "lastName": "Last name",
       "role": "Role",
       "password": "Password",
-      "passwordHint": "At least 8 characters.",
+      "passwordHint": "At least 8 characters. Pass it on to the staff member yourself.",
       "newPassword": "New password",
-      "newPasswordHint": "Leave empty to keep the password."
+      "newPasswordHint": "Leave empty to keep the password. At least 8 characters.",
+      "emailHint": "The login for the shop panel.",
+      "emailLocked": "The email is the login and does not change. For another one, add a new staff member.",
+      "emailPlaceholder": "name@example.com"
     },
     "create": {
       "title": "New staff member",
@@ -6214,8 +6227,9 @@
     },
     "delete": {
       "title": "Delete this staff member?",
-      "description": "“{{email}}” will lose access to the shop panel.",
-      "success": "Staff member deleted"
+      "description": "{{name}} ({{email}}) will lose access to the shop panel. Orders and records made under this login stay.",
+      "success": "Staff member deleted",
+      "descriptionNoName": "{{email}} will lose access to the shop panel. Orders and records made under this login stay."
     },
     "errors": {
       "emailRequired": "Enter an email.",
@@ -6232,6 +6246,9 @@
       "last_owner_demote": "This is the last owner of the shop, so you cannot change its role. Make another login an owner first.",
       "password_shared": "This login is also used outside this shop, so you cannot change its password here. Ask the person to change it in their profile or through the reset link on the login page.",
       "developer_row": "This is the platform developer's login. Only the platform can change or remove it, not the shop."
+    },
+    "detail": {
+      "sees": "Sees"
     }
   },
   "coursePage": {

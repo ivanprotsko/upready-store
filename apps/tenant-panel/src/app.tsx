@@ -1025,11 +1025,22 @@ const routes: RouteObject[] = [
             // b10-panel-gaps: «Старые адреса» — the shop's own redirect table.
             // The routes shipped with t11-seo-redirects and stayed API-only, so
             // the 47 rules imported with the shop were invisible to its owner.
-            // Same shape as /settings/domains above: one screen, no children.
             path: "/settings/redirects",
             handle: { breadcrumb: () => t("redirects.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/redirects"),
+            // t-2026-10-14-01 (panel redesign, G2): the list only reads; a rule
+            // is added and changed in a drawer over it.
+            children: [
+              {
+                path: "create",
+                lazy: () => import("./routes/settings/redirects/redirect-create"),
+              },
+              {
+                path: ":id/edit",
+                lazy: () => import("./routes/settings/redirects/redirect-edit"),
+              },
+            ],
           },
           {
             // b10-panel-gaps: the Yandex/Google ownership codes. `PUT
@@ -1199,14 +1210,48 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/ozon"),
           },
           {
-            // t-2026-10-07-11: «Сотрудники» — the owner creates the logins of
-            // her staff herself and gives each a role. Needs the `staff`
-            // permission (`lib/permissions.ts`). One screen, no children: the
-            // forms are drawers of the list.
+            // t-2026-10-07-11: «Сотрудники» — the owner creates the staff's
+            // logins and gives each a role. Needs the `staff` permission
+            // (`lib/permissions.ts`) on every address below.
+            // t-2026-10-14-01 (panel redesign, G2): the list, the card of one
+            // login and two drawers, `create` over the list and `edit` over
+            // the card, the shape of Medusa's /settings/users.
             path: "/settings/staff",
             handle: { breadcrumb: () => t("staff.title") },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/settings/staff"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/settings/staff"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("./routes/settings/staff/staff-create"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component, Breadcrumb } = await import(
+                    "./routes/settings/staff/staff-detail"
+                  )
+
+                  return {
+                    Component,
+                    handle: {
+                      breadcrumb: (match: UIMatch) => <Breadcrumb {...match} />,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/settings/staff/staff-edit"),
+                  },
+                ],
+              },
+            ],
           },
           {
             // «Оформление» (t16-owner-branding): логотип, фавикон,
