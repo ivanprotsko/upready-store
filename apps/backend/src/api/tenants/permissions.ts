@@ -256,6 +256,13 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   "/tenants/delivery-settings": { GET: "settings", PUT: "settings", DELETE: "settings" },
   "/tenants/apiship/key": { GET: "settings", PUT: "settings", DELETE: "settings" },
   "/tenants/apiship/probe": { GET: "settings" },
+  // ApiShip connection, sender, carriers (t-2026-10-14-58): settings; the
+  // labels, acts and status pulls act on the shop's orders, so they are orders.
+  "/tenants/apiship": { GET: "settings", PUT: "settings", DELETE: "settings" },
+  "/tenants/apiship/tariffs": { GET: "settings" },
+  "/tenants/apiship/documents": { POST: "orders" },
+  "/tenants/apiship/documents/file": { GET: "orders" },
+  "/tenants/apiship/status-sync": { POST: "orders" },
   "/tenants/pochta": { GET: "settings", PUT: "settings", DELETE: "settings" },
   "/tenants/pochta/probe": { GET: "settings" },
   "/tenants/shipping-methods": { GET: "settings", POST: "settings" },
