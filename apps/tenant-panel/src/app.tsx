@@ -1163,6 +1163,14 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/integrations/cdek"),
           },
           {
+            // Собственный бот магазина (t-2026-10-14-58): строка «Telegram» в
+            // «Подключении» вела сюда, а маршрута не было — 404. Шторок нет.
+            path: "/settings/integrations/telegram-bot",
+            handle: { breadcrumb: () => t("integrations.telegramBot.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/telegram-bot"),
+          },
+          {
             // Экран площадки: состояние ключа, права, что связано и что
             // загружено. Полей ключа здесь нет — они на странице подключения.
             path: "/settings/marketplaces/wildberries",
