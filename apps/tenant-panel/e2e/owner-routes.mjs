@@ -121,6 +121,9 @@ export const OWNER_ROUTES = [
   { path: "/journal/new" },
   { path: "/journal/:article_slug" },
   { path: "/settings/branding" },
+  { path: "/settings/branding/logo/edit", kind: "overlay" },
+  { path: "/settings/branding/icons/edit", kind: "overlay" },
+  { path: "/settings/branding/color/edit", kind: "overlay" },
 
   // Доставка
   { path: "/shipping", core: true },
