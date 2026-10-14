@@ -127,7 +127,10 @@ export const PUT = async (req: AuthenticatedMedusaRequest<PutTenantApishipBody>,
   }
   const connected = new Set(connections.map((connection) => connection.providerKey));
 
-  // The carriers: what the body says, else what the shop already has, else the two named ones.
+  // The carriers: what the body says, else what the owner chose before, else
+  // the two named ones. The choice is read from the options' `data.offered`,
+  // not from their store rule: a token saved before the sender leaves the
+  // rule off, and the sender's own save must not take that for «none chosen».
   const options = await listWarehouseOptions(req, warehouse.service_zone_ids);
   const current = carriersOf(options);
   const requested: ApishipCarrierSetting[] = body.carriers
@@ -247,7 +250,9 @@ export const PUT = async (req: AuthenticatedMedusaRequest<PutTenantApishipBody>,
 /**
  * `DELETE /tenants/apiship` — forget the token and switch the ApiShip methods
  * off. The options stay, switched off: a cart that already chose one keeps
- * working. An unreadable row is removed by id like any other (46df D1).
+ * working. The owner's carrier choice stays with them too (`data.offered`),
+ * so a new token brings the same cards back without the owner ticking them
+ * again. An unreadable row is removed by id like any other (46df D1).
  */
 export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await getTenantScope(req);
@@ -263,7 +268,12 @@ export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaRespons
     await provisionTenantApishipMethodsWorkflow(req.scope).run({
       input: {
         tenant_id: tenant.id,
-        carriers: [],
+        carriers: carriersOf(options).map((carrier) => ({
+          provider_key: carrier.provider_key,
+          kinds: carrier.kinds,
+          tariff_id: carrier.tariff_id,
+          connection_id: carrier.connection_id,
+        })),
         enabled: false,
         shipping_profile_id: await resolveShippingProfileId(req),
         base_service_zone_id: warehouse.base_service_zone_id,

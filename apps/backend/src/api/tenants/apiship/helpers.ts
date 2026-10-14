@@ -34,7 +34,10 @@ export type ApishipMethodSummary = {
 export type ApishipCarrierSummary = {
   provider_key: string;
   label: string;
-  /** The kinds switched on at the checkout. */
+  /**
+   * The kinds the owner switched on (`data.offered` of the options). A card
+   * shows at the checkout once the shop can also quote: `methods[].enabled`.
+   */
   kinds: ApishipDeliveryKind[];
   tariff_id: number | null;
   connection_id: string | null;
@@ -110,7 +113,13 @@ export const listWarehouseOptions = async (
   return rows as unknown as OptionRow[];
 };
 
-/** The ApiShip options grouped by carrier, as the settings screen shows them. */
+/**
+ * The ApiShip options grouped by carrier, as the settings screen shows them.
+ * `kinds` is the owner's choice (`data.offered`), `methods[].enabled` the store
+ * rule: the two differ while the shop has a token but no sender yet. A row
+ * written before the choice was kept in `data` carries only the rule, which
+ * then stands for both.
+ */
 export const carriersOf = (options: OptionRow[]): ApishipCarrierSummary[] => {
   const byKey = new Map<string, ApishipCarrierSummary>();
   for (const option of options) {
@@ -120,6 +129,7 @@ export const carriersOf = (options: OptionRow[]): ApishipCarrierSummary[] => {
     if (!providerKey) continue;
     const kind = (data.kind ?? "courier") as ApishipDeliveryKind;
     const enabled = (option.rules ?? []).find((rule) => rule.attribute === "enabled_in_store")?.value === "true";
+    const offered = typeof data.offered === "boolean" ? data.offered : enabled;
     const entry = byKey.get(providerKey) ?? {
       provider_key: providerKey,
       label: carrierLabel(providerKey),
@@ -128,7 +138,7 @@ export const carriersOf = (options: OptionRow[]): ApishipCarrierSummary[] => {
       connection_id: data.connection_id ?? null,
       methods: [],
     };
-    if (enabled && !entry.kinds.includes(kind)) entry.kinds.push(kind);
+    if (offered && !entry.kinds.includes(kind)) entry.kinds.push(kind);
     entry.methods.push({ id: option.id, name: option.name, provider_key: providerKey, kind, enabled });
     byKey.set(providerKey, entry);
   }

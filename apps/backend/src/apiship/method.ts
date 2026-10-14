@@ -48,6 +48,14 @@ export type ApishipMethodData = {
   markup_percent: number;
   /** Free above this cart total, `null` for never. */
   free_above_total: number | null;
+  /**
+   * The owner's switch for this (carrier, kind), kept apart from the store
+   * rule. The rule is «ApiShip is on AND the shop can quote AND offered», so a
+   * token saved before the sender (the panel has them in two drawers) does
+   * not lose the choice. Absent on a row written before the choice lived
+   * here; `carriersOf` then reads the rule.
+   */
+  offered?: boolean;
 };
 
 export const isApishipMethodData = (data: unknown): data is ApishipMethodData =>

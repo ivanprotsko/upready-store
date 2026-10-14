@@ -275,6 +275,35 @@ medusaIntegrationTestRunner({
         expect(after.data.settings.sender_address).toBe("г Москва, ул Машкова, д 21");
       });
 
+      it("keeps the owner's carriers when the token is saved first and the sender second", async () => {
+        // The panel has the token and the sender in two drawers, so this is the owner's main path.
+        const tokenOnly = await api.put("/tenants/apiship", { token: TOKEN }, bearer(a.token));
+        expect(tokenOnly.status).toBe(200);
+        expect(tokenOnly.data.missing).toEqual(["sender_name", "sender_phone", "sender_address"]);
+        expect(tokenOnly.data.carriers).toHaveLength(2);
+        for (const carrier of tokenOnly.data.carriers) {
+          // The choice is recorded; the cards wait for a sender the calculator can price from.
+          expect([...carrier.kinds].sort()).toEqual(["courier", "pickup"]);
+          expect(carrier.methods.map((method: { enabled: boolean }) => method.enabled)).toEqual([false, false]);
+        }
+
+        const senderOnly = await api.put("/tenants/apiship", { ...SENDER }, bearer(a.token));
+        expect(senderOnly.status).toBe(200);
+        expect(senderOnly.data.missing).toEqual([]);
+        const on = senderOnly.data.carriers
+          .flatMap((carrier: { methods: Array<{ enabled: boolean }> }) => carrier.methods)
+          .filter((method: { enabled: boolean }) => method.enabled);
+        expect(on).toHaveLength(4);
+
+        const variantId = await createVariant(a, "Плед", 700, 2500);
+        const cart = await cartWith(a, ruRegionId, variantId, spb);
+        const names = (await optionsFor(a, cart))
+          .map((option) => option.name)
+          .filter((name) => name.startsWith("СДЭК") || name.startsWith("Почта России"))
+          .sort();
+        expect(names).toEqual(["Почта России — до отделения", "Почта России — курьером до двери", "СДЭК — курьером до двери", "СДЭК — пункт выдачи"]);
+      });
+
       it("refuses a carrier the cabinet has not connected, naming what to do", async () => {
         const refused = await failed(
           connect(a, { carriers: [{ provider_key: "boxberry", kinds: ["pickup"] }] }),
@@ -554,12 +583,25 @@ medusaIntegrationTestRunner({
         expect(removed.status).toBe(200);
         expect(removed.data.deleted).toBe(true);
         expect(removed.data.settings).toBeNull();
-        expect(removed.data.carriers.every((carrier: { kinds: string[] }) => carrier.kinds.length === 0)).toBe(true);
+        // The owner's choice stays with the options; only the store rule is off.
+        expect(removed.data.carriers).toHaveLength(2);
+        for (const carrier of removed.data.carriers) {
+          expect([...carrier.kinds].sort()).toEqual(["courier", "pickup"]);
+          expect(carrier.methods.every((method: { enabled: boolean }) => !method.enabled)).toBe(true);
+        }
 
         const variantId = await createVariant(a, "Плед", 700, 2500);
         const cart = await cartWith(a, ruRegionId, variantId, spb);
         const names = (await optionsFor(a, cart)).map((option) => option.name);
         expect(names.some((name) => name.startsWith("СДЭК") || name.startsWith("Почта России"))).toBe(false);
+
+        // A new token brings the same four cards back without the owner ticking them again.
+        const again = await connect(a);
+        expect(again.status).toBe(200);
+        const on = again.data.carriers
+          .flatMap((carrier: { methods: Array<{ enabled: boolean }> }) => carrier.methods)
+          .filter((method: { enabled: boolean }) => method.enabled);
+        expect(on).toHaveLength(4);
       });
     });
   },

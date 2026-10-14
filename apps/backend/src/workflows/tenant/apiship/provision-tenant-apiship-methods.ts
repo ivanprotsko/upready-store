@@ -20,7 +20,13 @@ export type ApishipCarrierSetting = {
 
 export type ProvisionApishipMethodsInput = {
   tenant_id: string;
+  /** The owner's choice: every (carrier, kind) named here is written as `data.offered` and kept across saves. */
   carriers: ApishipCarrierSetting[];
+  /**
+   * The other half of the store rule: false while ApiShip is off or the shop
+   * cannot quote yet (no sender). An option is on at the checkout when this
+   * is true AND the owner offers it; the choice itself survives a false here.
+   */
   enabled: boolean;
   shipping_profile_id: string;
   base_service_zone_id: string;
@@ -66,8 +72,10 @@ const readExistingApishipOptionsStep = createStep(
  * tariff, the on/off switch per carrier and kind) lives in the option's
  * `data` and its rule, so a settings save has to reach every option rather
  * than only the ones it creates. An option of a (carrier, kind) the owner
- * switched off keeps its data and gets the store rule set to false, so a cart
- * that already chose it does not break.
+ * switched off keeps its data, records `offered: false` and gets the store
+ * rule set to false, so a cart that already chose it does not break. One the
+ * owner offers while the shop cannot quote yet records `offered: true` under
+ * a false rule, and the next save with a sender switches it on.
  */
 const updateExistingApishipOptionsStep = createStep(
   "update-existing-apiship-options",
@@ -107,6 +115,7 @@ const methodDataFor = (
   input: ProvisionApishipMethodsInput,
   carrier: ApishipCarrierSetting,
   kind: ApishipDeliveryKind,
+  offered: boolean,
 ): ApishipMethodData => ({
   schema: APISHIP_METHOD_SCHEMA,
   tenant_id: input.tenant_id,
@@ -118,6 +127,7 @@ const methodDataFor = (
   markup_amount: input.markup_amount,
   markup_percent: input.markup_percent,
   free_above_total: input.free_above_total,
+  offered,
 });
 
 /**
@@ -170,7 +180,7 @@ const provisionTenantApishipMethodsWorkflow = createWorkflow(
         };
         rows.push({
           id: option.id,
-          data: methodDataFor(input, carrier, kind),
+          data: methodDataFor(input, carrier, kind, Boolean(want)),
           enabled: input.enabled && Boolean(want),
         });
       }
@@ -200,7 +210,7 @@ const provisionTenantApishipMethodsWorkflow = createWorkflow(
               description: copy.description,
               code: `apiship-${carrier.provider_key}-${kind}`,
             },
-            data: methodDataFor(input, carrier, kind) as unknown as Record<string, unknown>,
+            data: methodDataFor(input, carrier, kind, true) as unknown as Record<string, unknown>,
             rules: [
               { attribute: "enabled_in_store", value: input.enabled ? "true" : "false", operator: "eq" as const },
               { attribute: "is_return", value: "false", operator: "eq" as const },
