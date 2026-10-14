@@ -1,166 +1,86 @@
-import { useState } from "react"
-import { Check, PencilSquare, Trash, XMark } from "@medusajs/icons"
-import { Button, IconButton, Input, Select, Table, Text, toast } from "@medusajs/ui"
+import { EllipsisHorizontal, PencilSquare, Trash } from "@medusajs/icons"
+import { IconButton, Text, toast, usePrompt } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
+import { useLocation } from "react-router-dom"
 
-import {
-  TenantRedirect,
-  useDeleteTenantRedirect,
-  useUpdateTenantRedirect,
-} from "../../../hooks/api/redirects"
-import { REDIRECT_STATUS_CODES } from "./status-codes"
+import { ActionMenu } from "../../../components/common/action-menu"
+import { TenantRedirect, useDeleteTenantRedirect } from "../../../hooks/api/redirects"
 
-// b10-panel-gaps: one rule of the redirect table. Its own component because the
-// edit draft, the delete confirmation and two busy flags are state this row
-// alone needs (the same split `routes/pages/page-list/custom-page-row.tsx` made).
+// b10-panel-gaps: one rule of the redirect table.
+//
+// t-2026-10-14-01 (panel redesign, G2, prototype states `redirects-menu` and
+// `redirects-edit`): the row no longer edits in its cells. It shows the two
+// addresses and the kind; its «…» holds «Изменить» → the drawer
+// `/settings/redirects/:id/edit` and, after the separator, «Удалить» behind a
+// prompt that names the rule (panel-ds E1, E6, rule 8).
 
-type RedirectRowProps = {
+/** The old address on one line; the full address with the shop's host in `title`. */
+export const RedirectFromCell = ({
+  redirect,
+  primaryHost,
+}: {
   redirect: TenantRedirect
   /** The shop's main address, so the row shows the full old URL, not a path. */
   primaryHost?: string
-}
+}) => (
+  <span
+    className="block min-w-0 truncate"
+    title={primaryHost ? `${primaryHost}${redirect.from_path}` : undefined}
+  >
+    <Text size="small" leading="compact" className="font-mono truncate">
+      {redirect.from_path}
+    </Text>
+  </span>
+)
 
-export const RedirectRow = ({ redirect, primaryHost }: RedirectRowProps) => {
+export const RedirectRowActions = ({ redirect }: { redirect: TenantRedirect }) => {
   const { t } = useTranslation()
-  const [editing, setEditing] = useState(false)
-  const [confirming, setConfirming] = useState(false)
-  const [toPath, setToPath] = useState(redirect.to_path)
-  const [statusCode, setStatusCode] = useState(String(redirect.status_code))
+  const prompt = usePrompt()
+  // The drawer closes back onto the same search and page of the list.
+  const { search } = useLocation()
+  const { mutateAsync: remove } = useDeleteTenantRedirect(redirect.id)
 
-  const { mutateAsync: update, isPending: isSaving } = useUpdateTenantRedirect(redirect.id)
-  const { mutateAsync: remove, isPending: isDeleting } = useDeleteTenantRedirect(redirect.id)
-
-  const statusLabel = (code: number) =>
-    t(`redirects.status.${code}`, { defaultValue: String(code) })
-
-  const startEditing = () => {
-    setToPath(redirect.to_path)
-    setStatusCode(String(redirect.status_code))
-    setEditing(true)
-  }
-
-  const handleSave = async () => {
-    const value = toPath.trim()
-
-    if (!value.startsWith("/")) {
-      toast.error(t("redirects.pathError"))
+  const handleDelete = async () => {
+    const confirmed = await prompt({
+      title: t("redirects.delete.title"),
+      description: t("redirects.delete.description", {
+        from: redirect.from_path,
+        to: redirect.to_path,
+      }),
+      confirmText: t("actions.delete"),
+      cancelText: t("actions.cancel"),
+      variant: "danger",
+    })
+    if (!confirmed) {
       return
     }
-
-    await update(
-      { to_path: value, status_code: Number(statusCode) },
-      {
-        onSuccess: () => {
-          setEditing(false)
-          toast.success(t("redirects.saved"))
-        },
-        onError: (saveError) => toast.error(saveError.message),
-      }
-    )
+    await remove(undefined, {
+      onSuccess: () => toast.success(t("redirects.removed")),
+      // The backend owns the refusal; its message is what the owner reads.
+      onError: (removeError) => toast.error(removeError.message),
+    }).catch(() => undefined)
   }
 
   return (
-    <Table.Row>
-      <Table.Cell title={primaryHost ? `${primaryHost}${redirect.from_path}` : undefined}>
-        <Text size="small" className="font-mono truncate">
-          {redirect.from_path}
-        </Text>
-      </Table.Cell>
-      <Table.Cell>
-        {editing ? (
-          <Input
-            value={toPath}
-            onChange={(event) => setToPath(event.target.value)}
-            className="font-mono w-[280px]"
-            autoFocus
-          />
-        ) : (
-          <Text size="small" className="font-mono">
-            {redirect.to_path}
-          </Text>
-        )}
-      </Table.Cell>
-      <Table.Cell>
-        {editing ? (
-          <Select value={statusCode} onValueChange={setStatusCode}>
-            <Select.Trigger className="w-[220px]">
-              <Select.Value />
-            </Select.Trigger>
-            <Select.Content>
-              {REDIRECT_STATUS_CODES.map((code) => (
-                <Select.Item key={code} value={String(code)}>
-                  {statusLabel(code)}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select>
-        ) : (
-          <Text size="small" className="text-ui-fg-subtle">
-            {statusLabel(redirect.status_code)}
-          </Text>
-        )}
-      </Table.Cell>
-      <Table.Cell>
-        {editing ? (
-          <div className="flex items-center gap-x-1">
-            <IconButton
-              size="small"
-              variant="transparent"
-              isLoading={isSaving}
-              onClick={handleSave}
-              aria-label={t("redirects.saveAction")}
-            >
-              <Check />
-            </IconButton>
-            <IconButton
-              size="small"
-              variant="transparent"
-              onClick={() => setEditing(false)}
-              aria-label={t("redirects.cancel")}
-            >
-              <XMark />
-            </IconButton>
-          </div>
-        ) : confirming ? (
-          <div className="flex items-center gap-x-1">
-            <Button
-              size="small"
-              variant="danger"
-              isLoading={isDeleting}
-              onClick={() =>
-                remove(undefined, {
-                  onSuccess: () => toast.success(t("redirects.removed")),
-                  onError: (removeError) => toast.error(removeError.message),
-                })
-              }
-            >
-              {t("redirects.deleteConfirm")}
-            </Button>
-            <Button size="small" variant="secondary" onClick={() => setConfirming(false)}>
-              {t("redirects.cancel")}
-            </Button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-x-1">
-            <IconButton
-              size="small"
-              variant="transparent"
-              onClick={startEditing}
-              aria-label={t("redirects.editAction")}
-            >
-              <PencilSquare />
-            </IconButton>
-            <IconButton
-              size="small"
-              variant="transparent"
-              onClick={() => setConfirming(true)}
-              aria-label={t("redirects.deleteAction")}
-            >
-              <Trash />
-            </IconButton>
-          </div>
-        )}
-      </Table.Cell>
-    </Table.Row>
+    <ActionMenu
+      groups={[
+        {
+          actions: [
+            {
+              icon: <PencilSquare />,
+              label: t("actions.change"),
+              to: `/settings/redirects/${redirect.id}/edit${search}`,
+            },
+          ],
+        },
+        {
+          actions: [{ icon: <Trash />, label: t("actions.delete"), onClick: handleDelete }],
+        },
+      ]}
+    >
+      <IconButton size="small" variant="transparent" aria-label={t("fields.actions")}>
+        <EllipsisHorizontal />
+      </IconButton>
+    </ActionMenu>
   )
 }

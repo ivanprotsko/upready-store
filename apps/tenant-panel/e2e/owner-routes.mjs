@@ -163,11 +163,17 @@ export const OWNER_ROUTES = [
   { path: "/settings/requisites/edit-dates", kind: "overlay" },
   { path: "/settings/requisites/edit-other", kind: "overlay" },
   { path: "/settings/redirects" },
+  { path: "/settings/redirects?q=zzzz-nothing-matches", note: "empty search result" },
+  { path: "/settings/redirects/create", kind: "overlay" },
+  { path: "/settings/redirects/:redirect_id/edit", kind: "overlay" },
   { path: "/settings/seo" },
   { path: "/settings/seo/edit", kind: "overlay" },
   { path: "/settings/analytics" },
   { path: "/settings/analytics/edit", kind: "overlay" },
   { path: "/settings/staff", note: "needs the staff permission (t-2026-10-07-11)" },
+  { path: "/settings/staff/create", kind: "overlay" },
+  { path: "/settings/staff/:staff_id" },
+  { path: "/settings/staff/:staff_id/edit", kind: "overlay" },
 
   // Торговые площадки и подключения (mp-section-design: the screens of one
   // marketplace are the children of its sidebar entry; the old addresses redirect)
@@ -351,6 +357,17 @@ export const PARAM_RESOLVERS = {
   site_id: async (api) => {
     const { sites } = await api("/tenants/sites")
     return first(sites, "sites").id
+  },
+  // A login the owner may open a form on: another person's, not the
+  // platform developer's (t-2026-10-14-41), the caller's own when it is alone.
+  staff_id: async (api) => {
+    const { staff } = await api("/tenants/staff")
+    const other = (staff ?? []).find((m) => !m.is_self && m.role !== "developer")
+    return (other ?? first(staff, "staff logins")).id
+  },
+  redirect_id: async (api) => {
+    const { redirects } = await api("/tenants/redirects")
+    return first(redirects, "redirect rules").id
   },
   shipping_option_id: async (api) => {
     const body = await api("/tenants/shipping-methods")

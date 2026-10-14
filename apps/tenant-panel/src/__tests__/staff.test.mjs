@@ -206,7 +206,10 @@ test("the role is a badge, and the developer's stands apart in its own colour", 
     screen,
     /<StatusBadge color=\{staffRoleColor\(member\.role\)\} data-testid="staff-role-badge">\s*\{role \? t\(`staff\.roles\.\$\{role\}`\) : member\.role\}/
   )
-  assert.match(screen, /actions\.canEdit \? \(\s*<IconButton/, "the developer's row offers «edit»")
+  // The developer's row has no «…» at all; every other row offers «Изменить».
+  const menu = read("routes/settings/staff/staff-actions.tsx")
+  assert.match(menu, /if \(!actions\.canEdit\) \{\s*return \[\]/, "the developer's row offers «edit»")
+  assert.match(menu, /if \(!groups\.length\) \{\s*return null/, "an empty menu still draws «…»")
 })
 
 test("a refusal of the server is shown in the server's words", () => {
@@ -233,8 +236,13 @@ test("«Сотрудники» is a screen of the settings group and needs the s
   assert.equal(permissionOfPath("/settings/staff"), "staff")
 
   const app = read("app.tsx")
-  assert.match(app, /path: "\/settings\/staff",[\s\S]{0,200}lazy: \(\) => import\("\.\/routes\/settings\/staff"\)/)
+  assert.match(app, /path: "\/settings\/staff",[\s\S]{0,400}lazy: \(\) => import\("\.\/routes\/settings\/staff"\)/)
   assert.match(read("routes/settings/staff/index.ts"), /export \{ Staff as Component \}/)
+  // t-2026-10-14-01 (G2): the card and the two drawers hang under the same
+  // entry, so every address of the screen needs the same permission.
+  for (const path of ["/settings/staff/create", "/settings/staff/ta_2", "/settings/staff/ta_2/edit"]) {
+    assert.equal(permissionOfPath(path), "staff", path)
+  }
 })
 
 test("the hooks call the four routes of the contract", () => {
@@ -247,46 +255,82 @@ test("the hooks call the four routes of the contract", () => {
   assert.equal(hooks.match(/invalidateQueries\(\{ queryKey: staffQueryKeys\.lists\(\) \}\)/g)?.length, 3)
 })
 
-test("the table has the four columns, marks the caller's row and asks before deleting", () => {
+test("the list is a _DataTable of four columns; it marks the caller's row and asks before deleting", () => {
   const screen = read("routes/settings/staff/staff.tsx")
-  const columns = [...screen.matchAll(/<Table\.HeaderCell>\{t\("staff\.columns\.(\w+)"\)\}/g)].map((m) => m[1])
+  const columns = [...screen.matchAll(/header: t\("staff\.columns\.(\w+)"\)/g)].map((m) => m[1])
   assert.deepEqual(columns, ["name", "email", "role", "created"])
-  assert.match(screen, /member\.is_self \? \(\s*<Badge size="2xsmall">\{t\("staff\.you"\)\}<\/Badge>/)
-  assert.match(screen, /await prompt\(\{[\s\S]*?variant: "danger"/)
-  assert.match(screen, /description: t\("staff\.delete\.description", \{ email: member\.email \}\)/)
-  assert.match(screen, /actions\.canDelete \? \(/, "the caller's own row offers «delete»")
-  assert.match(screen, /toast\.error\(staffErrorText\(deleteError, /, "a refused delete shows a general text")
+  assert.match(screen, /row\.original\.is_self \? <Badge size="2xsmall">\{t\("staff\.you"\)\}<\/Badge>/)
+  // A row opens the card; the add form is the nested route `create`.
+  assert.ok(screen.includes("navigateTo={(row) => `/settings/staff/${row.original.id}`}"))
+  assert.ok(screen.includes('<Link to="/settings/staff/create">'))
+  assert.ok(screen.includes("hasOutlet"), "the create drawer opens in the list's outlet")
+  assert.doesNotMatch(screen, /useState|<Drawer|<IconButton|<Table\b/, "no state-flag drawer, no icon buttons in the row")
+  // «Удалить» asks first, names the person and the address and is the last group of «…».
+  const remove = read("routes/settings/staff/use-staff-delete.ts")
+  assert.match(remove, /await prompt\(\{[\s\S]*?variant: "danger"/)
+  assert.match(remove, /t\("staff\.delete\.description", \{ name, email: member\.email \}\)/)
+  assert.match(remove, /t\("staff\.delete\.descriptionNoName", \{ email: member\.email \}\)/)
+  const menu = read("routes/settings/staff/staff-actions.tsx")
+  assert.match(menu, /if \(actions\.canDelete\) \{\s*groups\.push/, "the caller's own row offers «delete»")
+  assert.ok(menu.indexOf('t("actions.change")') < menu.indexOf('t("actions.delete")'))
+  assert.ok(menu.includes('aria-label={t("fields.actions")}'))
   // The neighbours' parts, no styles of its own.
-  for (const part of ["SingleColumnPage", "Container", "Table", "Heading"]) {
+  for (const part of ["SingleColumnPage", "Container", "_DataTable", "Heading"]) {
     assert.ok(screen.includes(`<${part}`), `the screen does not use ${part}`)
   }
   assert.doesNotMatch(screen, /style=\{|\.css"/)
 })
 
-test("the form asks for email, names, role and password, and says under the role what it sees", () => {
+test("the card reads one login: name in the header, role badge, «Видит», created with the time", () => {
+  const card = read("routes/settings/staff/staff-detail/staff-detail.tsx")
+  assert.ok(card.includes("<SettingsDetail"))
+  for (const forbidden of ["<form", "<Input", "<Select", "mutateAsync", "actions.save"]) {
+    assert.ok(!card.includes(forbidden), `the card must not carry ${forbidden}`)
+  }
+  assert.ok(card.includes("title: staffName(member) || member.email"))
+  assert.ok(card.includes("status: { color: staffRoleColor(member.role), label: roleName }"))
+  const rows = [...card.matchAll(/\{ id: "([\w-]+)", label: t\(/g)].map((m) => m[1])
+  assert.deepEqual(rows, ["first-name", "last-name", "email", "role", "sees"])
+  assert.ok(card.includes('id: "created"') && card.includes("getFullDate({ date: member.created_at, includeTime: true })"))
+  assert.ok(card.includes('navigate("/settings/staff", { replace: true })'), "after «Удалить» the owner is back on the list")
+  assert.ok(card.includes('t("staff.refusals.developer_row")'), "the developer's card says why it has no «…»")
+  // The card reads the list: the backend has no GET by id.
+  const member = read("routes/settings/staff/use-staff-member.ts")
+  assert.ok(member.includes("useStaff()") && member.includes('new FetchError("Staff member not found", "Not Found", 404)'))
+})
+
+test("the form is a route drawer that asks for email, names, role and password, and says under the role what it sees", () => {
   const drawer = read("routes/settings/staff/staff-drawer.tsx")
+  assert.ok(drawer.includes("<SettingsEditDrawer<StaffDraft>"))
   for (const field of ["email", "firstName", "lastName", "role"]) {
     assert.ok(drawer.includes(`t("staff.fields.${field}")`), `the form has no ${field} field`)
+    assert.ok(drawer.includes(`name="${field}"`), `the form has no ${field} control`)
   }
   assert.match(drawer, /member \? t\("staff\.fields\.newPassword"\) : t\("staff\.fields\.password"\)/)
-  assert.match(drawer, /type="password"\s+autoComplete="new-password"/)
-  assert.match(drawer, /staffRoleOptions\(roles\)\.map\(\(role\) => \(\s*<Select\.Item key=\{role\} value=\{role\}>/)
+  assert.match(drawer, /type="password" autoComplete="new-password"/)
+  assert.match(drawer, /staffRoleOptions\(roles\)\.map\(\(option\) => \(\s*<Select\.Item key=\{option\} value=\{option\}>/)
   // One line under the select: what the chosen role sees, from the server's list.
   const select = drawer.indexOf("</Select>")
   const hint = drawer.indexOf('data-testid="staff-role-hint"')
   assert.ok(select > 0 && hint > select, "the hint is not under the role select")
-  assert.match(drawer, /const sees = roleSees\(roles, draft\.role\)/)
-  assert.match(drawer, /sees\.map\(\(permission\) => t\(`staff\.permissions\.\$\{permission\}`\)\)\.join\(", "\)/)
-  // The screen hands the server's list to the form.
-  const screen = read("routes/settings/staff/staff.tsx")
-  assert.match(screen, /const \{ staff, roles, isPending, isError, error \} = useStaff\(\)/)
-  assert.equal(screen.match(/roles=\{roles\}/g)?.length, 2, "a form opens without the server's roles")
-  // An existing login keeps its email; its own role is locked.
+  assert.match(drawer, /roleSees\(roles, role\)\s*\.map\(\(permission\) => t\(`staff\.permissions\.\$\{permission\}`\)\)\s*\.join\(", "\)/)
+  // An existing login keeps its email and says why; its own role is locked.
   assert.match(drawer, /disabled=\{!!member\}/)
   assert.match(drawer, /disabled=\{!canChangeRole\}/)
-  // A refusal of the server is shown under the fields in its own words.
-  assert.match(drawer, /setError\(staffErrorText\(submitError, t\("staff\.errors\.general"\), /)
+  assert.ok(drawer.includes('t("staff.fields.emailLocked")'))
+  // The form refuses a short password and an empty email at the field.
+  assert.ok(drawer.includes("zod.string().min(STAFF_PASSWORD_MIN, { message: tooShort })"))
+  assert.ok(drawer.includes('min(1, { message: t("staff.errors.emailRequired") })'))
+  // «Добавить» on a new login, «Сохранить» on an edit.
+  assert.ok(drawer.includes('submitText={editing ? undefined : t("staff.create.submit")}'))
   assert.doesNotMatch(drawer, /console\.|localStorage|searchParams/, "a password may reach a log or an address")
+  // Both drawers wait for the list, which brings the roles.
+  for (const file of ["staff-create.tsx", "staff-edit.tsx"]) {
+    const route = read(`routes/settings/staff/${file}`)
+    assert.ok(route.includes("<StaffDrawer") && route.includes("roles={roles}"), file)
+    assert.ok(route.includes("export { "), `${file} exports Component`)
+  }
+  assert.ok(read("routes/settings/staff/staff-edit.tsx").includes('<Navigate to=".." replace />'), "no form on the developer's login")
 })
 
 test("the catalogs name roles and permissions and keep no text about what a role sees", () => {
@@ -311,7 +355,13 @@ test("every text of the screen exists in Russian and in English", () => {
   const lookup = (catalog, key) =>
     key.split(".").reduce((node, part) => (node && typeof node === "object" ? node[part] : undefined), catalog)
   const used = new Set()
-  for (const file of ["routes/settings/staff/staff.tsx", "routes/settings/staff/staff-drawer.tsx"]) {
+  for (const file of [
+    "routes/settings/staff/staff.tsx",
+    "routes/settings/staff/staff-drawer.tsx",
+    "routes/settings/staff/staff-actions.tsx",
+    "routes/settings/staff/use-staff-delete.ts",
+    "routes/settings/staff/staff-detail/staff-detail.tsx",
+  ]) {
     for (const match of read(file).matchAll(/\bt\("([\w.]+)"/g)) {
       used.add(match[1])
     }

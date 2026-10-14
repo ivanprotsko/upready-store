@@ -30,6 +30,8 @@ export type SettingsEditDrawerProps<TValues extends FieldValues> = {
    * reports what it cost (G2: «значений очищено: N»).
    */
   successMessage: string | ((result: unknown) => string)
+  /** The submit's word; «Сохранить» unless the drawer creates (G2: «Добавить»). */
+  submitText?: string
   children: (form: UseFormReturn<TValues>) => ReactNode
 }
 
@@ -43,6 +45,7 @@ const SettingsEditForm = <TValues extends FieldValues>({
   defaultValues,
   onSubmit,
   successMessage,
+  submitText,
   children,
 }: SettingsEditFormProps<TValues>) => {
   const { t } = useTranslation()
@@ -81,7 +84,7 @@ const SettingsEditForm = <TValues extends FieldValues>({
               </Button>
             </RouteDrawer.Close>
             <Button size="small" type="submit" isLoading={form.formState.isSubmitting}>
-              {t("actions.save")}
+              {submitText ?? t("actions.save")}
             </Button>
           </div>
         </RouteDrawer.Footer>

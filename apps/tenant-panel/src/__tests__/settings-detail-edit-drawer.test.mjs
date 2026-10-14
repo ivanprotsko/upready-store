@@ -112,6 +112,15 @@ test("the success toast may read the save's answer (G2: values a save cleared)",
   assert.ok(drawer.includes('typeof successMessage === "function" ? successMessage(result) : successMessage'))
 })
 
+test("the submit says «Сохранить» unless a create drawer names its own word (G2: «Добавить»)", () => {
+  assert.ok(drawer.includes("submitText?: string"))
+  assert.ok(drawer.includes('{submitText ?? t("actions.save")}'))
+})
+
+test("a status badge takes the platform developer's purple as well (G2, the staff card)", () => {
+  assert.ok(detail.includes('color: "green" | "grey" | "orange" | "red" | "blue" | "purple"'))
+})
+
 test("the form mounts only once the saved record is read, never with blanks", () => {
   assert.ok(drawer.includes("{isPending ? null : <SettingsEditForm {...form} />}"))
 })

@@ -131,8 +131,10 @@ test("a refusal the table does not know is shown in the server's own words", () 
 })
 
 test("both places that show a staff refusal pass the translation in", () => {
+  // t-2026-10-14-01 (G2): the form is a route drawer that shows a refusal as
+  // `toast.error`, and «Удалить» lives in one hook for the list and the card.
   const drawer = read("routes/settings/staff/staff-drawer.tsx")
-  assert.match(drawer, /setError\(staffErrorText\(submitError, t\("staff\.errors\.general"\), \(key\) => t\(key\)\)\)/)
-  const screen = read("routes/settings/staff/staff.tsx")
-  assert.match(screen, /staffErrorText\(deleteError, t\("staff\.errors\.general"\), \(key\) => t\(key\)\)/)
+  assert.match(drawer, /throw new Error\(staffErrorText\(submitError, t\("staff\.errors\.general"\), \(key\) => t\(key\)\)\)/)
+  const remove = read("routes/settings/staff/use-staff-delete.ts")
+  assert.match(remove, /toast\.error\(staffErrorText\(deleteError, t\("staff\.errors\.general"\), \(key\) => t\(key\)\)\)/)
 })
