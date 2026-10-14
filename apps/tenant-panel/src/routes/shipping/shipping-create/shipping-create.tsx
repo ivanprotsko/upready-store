@@ -1,4 +1,5 @@
 import { Heading, Text } from "@medusajs/ui"
+import { useTranslation } from "react-i18next"
 
 import { RouteFocusModal } from "../../../components/modals"
 import {
@@ -8,6 +9,7 @@ import {
 import { ShippingMethodForm } from "../components/shipping-method-form/shipping-method-form"
 
 export const ShippingCreate = () => {
+  const { t } = useTranslation()
   const { settings } = useShippingMethods()
   const { mutateAsync, isPending } = useCreateShippingMethod()
 
@@ -16,11 +18,11 @@ export const ShippingCreate = () => {
       <RouteFocusModal.Header>
         <div className="flex flex-1 flex-col items-start">
           <RouteFocusModal.Title asChild>
-            <Heading>Новый способ доставки</Heading>
+            <Heading>{t("shippingMethods.form.createTitle")}</Heading>
           </RouteFocusModal.Title>
           <RouteFocusModal.Description asChild>
             <Text size="small" className="text-ui-fg-subtle">
-              Название, зона и правило цены. Цену покупателю считает магазин, по весу товаров в заказе.
+              {t("shippingMethods.form.createDescription")}
             </Text>
           </RouteFocusModal.Description>
         </div>

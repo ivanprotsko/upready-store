@@ -3647,6 +3647,203 @@
       "type": "Enter shipping profile type, for example: Heavy, Oversized, Freight-only, etc."
     }
   },
+  "shippingMethods": {
+    "title": "Shipping",
+    "subtitle": "The methods a customer chooses from at checkout, in this order. The customer sees the name word for word.",
+    "zonesButton": "Zones of Russia",
+    "addMethod": "Add method",
+    "columns": {
+      "name": "Name",
+      "zone": "Ships to",
+      "price": "Price",
+      "deliveryTime": "Delivery time",
+      "state": "Status"
+    },
+    "state": {
+      "shown": "Shown",
+      "hidden": "Hidden"
+    },
+    "empty": {
+      "title": "No shipping methods yet",
+      "message": "Until there is one, a customer cannot place an order. The quickest start is «Zones of Russia» in the header: one method per zone with a price per kilogram."
+    },
+    "carrierTitle": "Carrier: {{carrier}}",
+    "provisionedDefault": "Default price — set your own",
+    "actions": {
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "hide": "Hide from customers",
+      "show": "Show to customers"
+    },
+    "hidePrompt": {
+      "title": "Hide the shipping method?",
+      "description": "«{{name}}» disappears from checkout. You can bring it back at any time with «Show to customers» in the «…» menu.",
+      "confirm": "Hide"
+    },
+    "deletePrompt": {
+      "title": "Delete the shipping method?",
+      "description": "«{{name}}» disappears from checkout. Orders already placed keep its name.",
+      "confirm": "Delete"
+    },
+    "toast": {
+      "moved": "Order saved",
+      "hidden": "«{{name}}» is hidden from customers",
+      "shown": "«{{name}}» is shown to customers again",
+      "deleted": "Shipping method deleted",
+      "created": "Shipping method created",
+      "saved": "Shipping method saved"
+    },
+    "weight": {
+      "title": "Default product weight",
+      "description": "For weight-based rates, when a product has no weight on its page.",
+      "label": "Grams per unit",
+      "value": "{{grams}} g",
+      "hint": "A whole number from 1 to 100,000. When a product has no weight on its page, each unit counts as this weight. Set product weights to keep shipping prices exact.",
+      "invalid": "A whole number from 1 to 100,000",
+      "saved": "Default weight saved"
+    },
+    "card": {
+      "name": "Name",
+      "description": "Description",
+      "deliveryTime": "Delivery time",
+      "carrier": "Carrier",
+      "place": "Place in the list",
+      "placeValue": "{{place}} of {{total}}",
+      "notFound": "There is no such shipping method: it was deleted or the address has a typo.",
+      "zone": {
+        "title": "Where it ships",
+        "description": "A customer sees the method only when their address falls inside this zone.",
+        "label": "Zone"
+      },
+      "price": {
+        "title": "Price",
+        "description": "The shop always calculates the price by this rate.",
+        "kind": "How it is calculated",
+        "amount": "Price",
+        "baseAmount": "Base rate",
+        "perKg": "Per kilogram",
+        "minWeight": "Minimum weight",
+        "minWeightValue": "{{grams}} g",
+        "noMinWeight": "No minimum: an order counts at its own weight.",
+        "freeAbove": "Free from"
+      }
+    },
+    "tariff": {
+      "kinds": {
+        "flat": "Flat price",
+        "per_kg": "By weight (per kg)",
+        "free_above": "Free above an order total"
+      },
+      "hints": {
+        "flat": "One price for the whole order, whatever its weight and total.",
+        "per_kg": "Price = base rate + rate per kilogram × order weight. The weight comes from product pages; a product without a weight counts at the default weight (the setting under the list).",
+        "free_above": "A flat price that drops to zero once the order's products reach the threshold."
+      },
+      "free": "Free",
+      "perKg": "{{amount}}/kg",
+      "withMinimum": "{{summary}}, minimum {{grams}} g",
+      "freeAbove": "{{amount}}, free from {{total}}"
+    },
+    "zone": {
+      "everywhere": "Every country of the shop",
+      "wholeCountry": "{{country}}, the whole country",
+      "regions_one": "{{country}}, {{count}} region",
+      "regions_other": "{{country}}, {{count}} regions"
+    },
+    "countries": {
+      "ru": "Russia",
+      "by": "Belarus",
+      "kz": "Kazakhstan",
+      "am": "Armenia",
+      "kg": "Kyrgyzstan",
+      "uz": "Uzbekistan",
+      "ge": "Georgia",
+      "us": "USA",
+      "de": "Germany",
+      "fr": "France",
+      "gb": "United Kingdom",
+      "it": "Italy",
+      "es": "Spain",
+      "tr": "Turkey",
+      "ae": "UAE",
+      "cn": "China"
+    },
+    "carriers": {
+      "cdek": "CDEK",
+      "post_ru": "Russian Post",
+      "courier": "Own courier",
+      "pickup": "Pickup"
+    },
+    "form": {
+      "createTitle": "New shipping method",
+      "createDescription": "Name, zone and price rule. The shop calculates the customer's price from the weight of the order's products.",
+      "editTitle": "Shipping method",
+      "editDescription": "Customers see the changes as soon as you save.",
+      "carrier": "Carrier",
+      "carrierHint": "The shop always calculates the price by your rate — the carrier is there so you remember how you ship and see the tracking-number hint in the order.",
+      "carrierNone": "Not set",
+      "name": "Name",
+      "nameHint": "This is what the customer sees at checkout, word for word. For example: «Russian Post, 1–2 kg» or «Courier in Moscow».",
+      "namePlaceholder": "Russian Post",
+      "nameRequired": "Name is required",
+      "description": "Description",
+      "descriptionHint": "One or two lines under the name: what is included, how to collect.",
+      "deliveryTime": "Delivery time",
+      "deliveryTimeHint": "As plain text: «3–7 days», «next day».",
+      "deliveryTimePlaceholder": "3–7 days",
+      "zoneMode": "Where this method ships",
+      "zoneModes": {
+        "all": "Every country of the shop",
+        "country": "One whole country",
+        "regions": "Chosen regions of a country"
+      },
+      "country": "Country",
+      "regions": "Regions",
+      "regionsHint": "A customer sees the method only when the region of their address is checked here. Checked: {{count}}.",
+      "presets": "Ready-made zones:",
+      "noRegions": "There is no region list for this country yet. Choose «One whole country».",
+      "regionSearch": "Find a region",
+      "regionsRequired": "Check at least one region",
+      "kind": "How the price is calculated",
+      "amount": "Shipping price, {{currency}}",
+      "baseAmount": "Base rate, {{currency}}",
+      "perKgAmount": "Per kilogram, {{currency}}",
+      "minWeight": "Minimum weight, g",
+      "minWeightHint": "An order lighter than this counts at this weight. 0 — no minimum.",
+      "freeAboveTotal": "Free when the products total at least, {{currency}}",
+      "enabled": "Show to customers",
+      "enabledHint": "A hidden method stays in the list but is not offered at checkout.",
+      "numberFields": {
+        "amount": "Price",
+        "base_amount": "Base rate",
+        "per_kg_amount": "Rate per kg",
+        "min_weight_g": "Minimum weight",
+        "free_above_total": "Total threshold"
+      },
+      "notNumber": "{{field}}: enter a number",
+      "negative": "{{field}}: zero or more"
+    },
+    "zones": {
+      "title": "Shipping zones of Russia",
+      "description": "Check the zones and set a price for each. Every zone becomes its own shipping method: a customer sees only the one whose zone holds their address.",
+      "carrier": "Carrier",
+      "carrierExample": "The customer sees «{{name}} — Урал», «{{name}} — Юг» and so on.",
+      "minWeight": "Minimum order weight, g",
+      "minWeightHint": "An order lighter than this counts at this weight. 0 — no minimum.",
+      "manual": "What you do by hand",
+      "loading": "Loading zones…",
+      "zone": "Zone",
+      "baseAmount": "Base rate, {{currency}}",
+      "perKgAmount": "Per kilogram, {{currency}}",
+      "exists": "This method already exists",
+      "regionCount_one": "{{count}} region",
+      "regionCount_other": "{{count}} regions",
+      "formula": "Shipping price = base rate + price per kilogram × order weight. The weight comes from product pages; a product without a weight counts at the default weight from the «Shipping» page.",
+      "submit": "Create methods ({{count}})",
+      "created": "Shipping methods created: {{count}}",
+      "createdSkipped": "Shipping methods created: {{count}}, skipped (already there): {{skipped}}"
+    }
+  },
   "statuses": {
     "active": "Active",
     "disabled": "Disabled",

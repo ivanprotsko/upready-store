@@ -11,6 +11,7 @@ import {
   toast,
 } from "@medusajs/ui"
 import { InformationCircleSolid } from "@medusajs/icons"
+import { useTranslation } from "react-i18next"
 
 import { RouteFocusModal, useRouteModal } from "../../../components/modals"
 import { TableScroll } from "../../../components/table/table-scroll"
@@ -29,6 +30,9 @@ import {
 // Built from `@medusajs/ui` like every other screen of this panel (it is a copy
 // of Medusa Admin 2.19); the workspace Geist canon governs our own surfaces,
 // not this vendored admin.
+//
+// t-2026-10-14-01 (panel redesign, G2): the layout stays as the audit left it
+// («оставить»); every string is a `shippingMethods.zones` key (panel-ds rule 7).
 
 /** Starting prices, so the table is never empty: the further the zone, the dearer the kilogram. */
 const SUGGESTED: Record<string, { base: number; perKg: number }> = {
@@ -54,14 +58,6 @@ const isMoney = (value: string): boolean =>
 
 const money = (value: string): number => Math.round(Number(value) * 100) / 100
 
-const regionWord = (count: number): string => {
-  const mod10 = count % 10
-  const mod100 = count % 100
-  if (mod10 === 1 && mod100 !== 11) return "регион"
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return "региона"
-  return "регионов"
-}
-
 export const ShippingZones = () => (
   // `useRouteModal` reads a context <RouteFocusModal> itself provides, so the
   // screen lives one component deeper — the same split `shipping-create` makes
@@ -72,6 +68,7 @@ export const ShippingZones = () => (
 )
 
 const ZonesScreen = () => {
+  const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const {
     presets,
@@ -143,8 +140,12 @@ const ZonesScreen = () => {
       })
       const skipped = result.skipped.length
       toast.success(
-        `Создано способов доставки: ${result.created.length}` +
-          (skipped ? `, пропущено (уже были): ${skipped}` : "")
+        skipped
+          ? t("shippingMethods.zones.createdSkipped", {
+              count: result.created.length,
+              skipped,
+            })
+          : t("shippingMethods.zones.created", { count: result.created.length })
       )
       handleSuccess()
     } catch (err) {
@@ -157,12 +158,11 @@ const ZonesScreen = () => {
       <RouteFocusModal.Header>
         <div className="flex flex-1 flex-col items-start">
           <RouteFocusModal.Title asChild>
-            <Heading>Зоны доставки по России</Heading>
+            <Heading>{t("shippingMethods.zones.title")}</Heading>
           </RouteFocusModal.Title>
           <RouteFocusModal.Description asChild>
             <Text size="small" className="text-ui-fg-subtle">
-              Отметьте зоны и укажите цену для каждой. На каждую зону создаётся отдельный способ доставки:
-              покупатель увидит только тот, в чью зону попадает его адрес.
+              {t("shippingMethods.zones.description")}
             </Text>
           </RouteFocusModal.Description>
         </div>
@@ -172,7 +172,7 @@ const ZonesScreen = () => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex flex-col gap-y-1">
               <Text size="small" weight="plus">
-                Служба доставки
+                {t("shippingMethods.zones.carrier")}
               </Text>
               <Select value={carrierKey} onValueChange={setCarrierKey}>
                 <Select.Trigger data-testid="zone-carrier-select">
@@ -188,13 +188,13 @@ const ZonesScreen = () => {
               </Select>
               {carrier && (
                 <Text size="xsmall" className="text-ui-fg-subtle">
-                  Покупатель увидит «{carrier.method_name} — Урал», «{carrier.method_name} — Юг» и так далее.
+                  {t("shippingMethods.zones.carrierExample", { name: carrier.method_name })}
                 </Text>
               )}
             </div>
             <div className="flex flex-col gap-y-1">
               <Text size="small" weight="plus">
-                Минимальный вес заказа, г
+                {t("shippingMethods.zones.minWeight")}
               </Text>
               <Input
                 type="number"
@@ -205,7 +205,7 @@ const ZonesScreen = () => {
                 className="w-40"
               />
               <Text size="xsmall" className="text-ui-fg-subtle">
-                Заказ легче этого веса считается по нему. 0 — без минимума.
+                {t("shippingMethods.zones.minWeightHint")}
               </Text>
             </div>
           </div>
@@ -215,7 +215,7 @@ const ZonesScreen = () => {
               <div className="flex items-center gap-x-2">
                 <InformationCircleSolid className="text-ui-fg-subtle" />
                 <Text size="small" weight="plus">
-                  Что делаете вручную
+                  {t("shippingMethods.zones.manual")}
                 </Text>
               </div>
               <Text size="small" className="mt-1 text-ui-fg-subtle">
@@ -226,7 +226,7 @@ const ZonesScreen = () => {
 
           {isPending || !presets ? (
             <Text size="small" className="text-ui-fg-subtle">
-              Загружаем зоны…
+              {t("shippingMethods.zones.loading")}
             </Text>
           ) : (
             <TableScroll>
@@ -234,12 +234,12 @@ const ZonesScreen = () => {
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell className="w-10" />
-                    <Table.HeaderCell>Зона</Table.HeaderCell>
+                    <Table.HeaderCell>{t("shippingMethods.zones.zone")}</Table.HeaderCell>
                     <Table.HeaderCell className="w-40">
-                      Базовая ставка, {currency}
+                      {t("shippingMethods.zones.baseAmount", { currency })}
                     </Table.HeaderCell>
                     <Table.HeaderCell className="w-40">
-                      За килограмм, {currency}
+                      {t("shippingMethods.zones.perKgAmount", { currency })}
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -263,7 +263,7 @@ const ZonesScreen = () => {
                           />
                         </Table.Cell>
                         <Table.Cell
-                          title={exists ? "Такой способ уже создан" : preset.description}
+                          title={exists ? t("shippingMethods.zones.exists") : preset.description}
                         >
                           <div className="flex items-center gap-x-2">
                             <Text size="small" weight="plus" className="truncate">
@@ -275,8 +275,9 @@ const ZonesScreen = () => {
                                 .join(", ")}
                             >
                               <Text size="xsmall" className="text-ui-fg-muted text-nowrap">
-                                {preset.regions.length}{" "}
-                                {regionWord(preset.regions.length)}
+                                {t("shippingMethods.zones.regionCount", {
+                                  count: preset.regions.length,
+                                })}
                               </Text>
                             </Tooltip>
                           </div>
@@ -316,8 +317,7 @@ const ZonesScreen = () => {
           )}
 
           <Text size="small" className="text-ui-fg-subtle">
-            Цена доставки = базовая ставка + цена за килограмм × вес заказа. Вес берётся из карточек
-            товаров; у товара без веса подставляется вес по умолчанию со страницы «Доставка».
+            {t("shippingMethods.zones.formula")}
           </Text>
         </div>
       </RouteFocusModal.Body>
@@ -325,7 +325,7 @@ const ZonesScreen = () => {
         <div className="flex items-center gap-x-2">
           <RouteFocusModal.Close asChild>
             <Button size="small" variant="secondary">
-              Отмена
+              {t("actions.cancel")}
             </Button>
           </RouteFocusModal.Close>
           <Button
@@ -335,7 +335,7 @@ const ZonesScreen = () => {
             isLoading={isSaving}
             data-testid="zone-create-submit"
           >
-            Создать способы ({chosen.length})
+            {t("shippingMethods.zones.submit", { count: chosen.length })}
           </Button>
         </div>
       </RouteFocusModal.Footer>
