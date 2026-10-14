@@ -164,6 +164,9 @@ import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
   PutTenantApishipKeySchema,
+  PutTenantApishipSchema,
+  PostTenantApishipDocumentsSchema,
+  PostTenantApishipStatusSyncSchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPochtaSchema,
   PutTenantTributeSchema,
@@ -429,6 +432,25 @@ export default defineMiddlewares({
       matcher: "/tenants/apiship/key",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantApishipKeySchema)],
+    },
+    {
+      // The shop's ApiShip connection, sender, parcel defaults and carriers
+      // (t-2026-10-14-58).
+      matcher: "/tenants/apiship",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantApishipSchema)],
+    },
+    {
+      // Labels and hand-over acts of the shop's ApiShip shipments (t-2026-10-14-58).
+      matcher: "/tenants/apiship/documents",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantApishipDocumentsSchema)],
+    },
+    {
+      // «Обновить статус» of the shop's ApiShip shipments (t-2026-10-14-58).
+      matcher: "/tenants/apiship/status-sync",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantApishipStatusSyncSchema)],
     },
     {
       // The shop's Russian Post «Отправка» access (46df-pochta).

@@ -224,6 +224,13 @@ module.exports = defineConfig({
           // read per tenant like CDEK's. Directory and tariff calls only, it
           // never creates a shipment (46df-pochta).
           { resolve: "./src/modules/pochta-fulfillment", id: "pochta" },
+          // ApiShip (`apiship_apiship`, src/modules/apiship-fulfillment): СДЭК,
+          // Почта России and any other carrier the shop connected in its
+          // ApiShip cabinet, priced and shipped through the aggregator with the
+          // shop's OWN token from `tenant_integration_secret`. Registered
+          // unconditionally for the same reason as CDEK: it costs nothing until
+          // a shop switches it on in its panel (t-2026-10-14-58).
+          { resolve: "./src/modules/apiship-fulfillment", id: "apiship" },
         ],
       },
     },

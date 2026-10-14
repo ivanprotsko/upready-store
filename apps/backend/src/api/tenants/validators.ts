@@ -1025,3 +1025,64 @@ export const PutTenantTelegramBotSchema = z.strictObject({
     .max(200),
 });
 export type PutTenantTelegramBotBody = z.infer<typeof PutTenantTelegramBotSchema>;
+
+/**
+ * `PUT /tenants/apiship` (t-2026-10-14-58) — the shop's ApiShip connection,
+ * sender, parcel defaults and the carriers it ships through.
+ *
+ * A field absent from the body keeps the stored one, so the panel saves the
+ * token in one drawer and the sender in another. `token` is never an empty
+ * string for the reason `PutTenantApishipKeySchema` gives. `carriers` replaces
+ * the whole list when present; a carrier with no kinds is switched off at the
+ * checkout and its options kept for the carts that chose them.
+ */
+export const PutTenantApishipSchema = z.strictObject({
+  token: z.string().max(500).optional().transform((value) => (value && value.trim() ? value.trim() : undefined)),
+  is_enabled: z.boolean().optional(),
+  sender_name: optionalText(255),
+  sender_company: optionalText(100),
+  sender_phone: optionalText(30),
+  sender_email: optionalText(50),
+  sender_country_code: z.string().trim().length(2).toUpperCase().optional(),
+  sender_region: optionalText(100),
+  sender_city: optionalText(100),
+  sender_address: optionalText(255),
+  sender_index: optionalText(10),
+  sender_mode: z.enum(["courier", "point"]).optional(),
+  sender_point_id: z.number().int().positive().nullable().optional(),
+  default_weight_g: z.number().int().min(1).max(100_000).optional(),
+  default_length_cm: z.number().int().min(1).max(300).optional(),
+  default_width_cm: z.number().int().min(1).max(300).optional(),
+  default_height_cm: z.number().int().min(1).max(300).optional(),
+  carriers: z
+    .array(
+      z.strictObject({
+        provider_key: z.string().trim().min(1).max(50),
+        kinds: z.array(z.enum(["courier", "pickup"])).max(2),
+        tariff_id: z.number().int().positive().nullable().optional(),
+        connection_id: z.string().trim().max(50).nullable().optional(),
+      }),
+    )
+    .max(20)
+    .optional(),
+  markup_amount: z.number().min(0).max(1_000_000).optional(),
+  markup_percent: z.number().min(0).max(100).optional(),
+  free_above_total: z.number().min(0).max(100_000_000).nullable().optional(),
+});
+export type PutTenantApishipBody = z.infer<typeof PutTenantApishipSchema>;
+
+/** `POST /tenants/apiship/documents` (t-2026-10-14-58) — labels or acts for the orders named. */
+export const PostTenantApishipDocumentsSchema = z.strictObject({
+  kind: z.enum(["labels", "waybills"]),
+  order_ids: z.array(z.string().trim().min(1)).min(1).max(100),
+  fulfillment_ids: z.array(z.string().trim().min(1)).max(100).optional(),
+  format: z.enum(["pdf", "xlsx"]).optional(),
+});
+export type PostTenantApishipDocumentsBody = z.infer<typeof PostTenantApishipDocumentsSchema>;
+
+/** `POST /tenants/apiship/status-sync` (t-2026-10-14-58) — pull statuses now, for some orders or all. */
+export const PostTenantApishipStatusSyncSchema = z.strictObject({
+  order_ids: z.array(z.string().trim().min(1)).max(200).optional(),
+  fulfillment_ids: z.array(z.string().trim().min(1)).max(200).optional(),
+});
+export type PostTenantApishipStatusSyncBody = z.infer<typeof PostTenantApishipStatusSyncSchema>;
