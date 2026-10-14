@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Trackingnummer"
+    "trackingNumber": "Trackingnummer",
+    "trackLink": "Pakket volgen",
+    "deliveryStatus": "Bezorgstatus"
   },
   "OrdersPage": {
     "description": "Bekijk uw eerdere bestellingen en hun status.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Verzending met de Russische Post is in deze winkel nog niet ingesteld.",
     "quoteFailed": "De verzending naar dit punt kon niet worden berekend. Kies een ander punt.",
     "postcode": "Postcode {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "De afhaalpunten van deze vervoerder zijn nog niet beschikbaar in deze winkel.",
+    "addressRejected": "De vervoerder kon het adres niet vinden. Controleer de postcode en de plaats"
+  },
+  "ApishipStatus": {
+    "uploading": "Wordt overgedragen aan de vervoerder",
+    "uploaded": "Aangenomen door de vervoerder",
+    "uploadingError": "De vervoerder heeft de bestelling niet aangenomen",
+    "onPointIn": "In het verzendmagazijn",
+    "onWay": "Onderweg",
+    "onPointOut": "Aangekomen in de plaats van de ontvanger",
+    "readyForRecipient": "Klaar om af te halen",
+    "delivering": "Wordt bezorgd",
+    "delivered": "Bezorgd",
+    "partialReturn": "Gedeeltelijk geretourneerd",
+    "returnReady": "Retour voorbereid",
+    "returning": "Onderweg terug naar de afzender",
+    "returned": "Teruggestuurd naar de afzender",
+    "returnedFromDelivery": "Teruggekomen van bezorging",
+    "deliveryCanceled": "Bezorging geannuleerd",
+    "problem": "Er is een probleem",
+    "lost": "Verloren"
   },
   "OlavkaHome": {
     "slider": {

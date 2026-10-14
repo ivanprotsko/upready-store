@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Număr de urmărire"
+    "trackingNumber": "Număr de urmărire",
+    "trackLink": "Urmărește coletul",
+    "deliveryStatus": "Starea livrării"
   },
   "OrdersPage": {
     "description": "Vizualizați comenzile anterioare și statusul acestora.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Livrarea prin Poșta Rusă nu este încă configurată în acest magazin.",
     "quoteFailed": "Livrarea către acest punct nu a putut fi calculată. Alegeți altul.",
     "postcode": "Cod poștal {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Punctele de ridicare ale acestui curier nu sunt încă disponibile în acest magazin.",
+    "addressRejected": "Curierul nu a găsit adresa. Verificați codul poștal și orașul"
+  },
+  "ApishipStatus": {
+    "uploading": "Se predă curierului",
+    "uploaded": "Preluat de curier",
+    "uploadingError": "Curierul nu a acceptat comanda",
+    "onPointIn": "În depozitul de expediere",
+    "onWay": "În tranzit",
+    "onPointOut": "A ajuns în orașul destinatarului",
+    "readyForRecipient": "Gata de ridicare",
+    "delivering": "În curs de livrare",
+    "delivered": "Livrat",
+    "partialReturn": "Returnare parțială",
+    "returnReady": "Returnare pregătită",
+    "returning": "Se întoarce la expeditor",
+    "returned": "Returnat expeditorului",
+    "returnedFromDelivery": "Returnat din livrare",
+    "deliveryCanceled": "Livrare anulată",
+    "problem": "A apărut o problemă",
+    "lost": "Pierdut"
   },
   "OlavkaHome": {
     "slider": {

@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "თვალთვალის ნომერი"
+    "trackingNumber": "თვალთვალის ნომერი",
+    "trackLink": "ამანათის თვალყურის დევნება",
+    "deliveryStatus": "მიწოდების სტატუსი"
   },
   "OrdersPage": {
     "description": "იხილეთ თქვენი წინა შეკვეთები და მათი სტატუსი.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "რუსეთის ფოსტით მიწოდება ამ მაღაზიაში ჯერ არ არის დაყენებული.",
     "quoteFailed": "ამ პუნქტამდე მიწოდების ღირებულება ვერ გამოითვალა. აირჩიეთ სხვა.",
     "postcode": "საფოსტო ინდექსი {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "ამ კურიერის გაცემის პუნქტები ამ მაღაზიაში ჯერ ხელმისაწვდომი არ არის.",
+    "addressRejected": "კურიერმა მისამართი ვერ იპოვა. შეამოწმეთ საფოსტო ინდექსი და ქალაქი"
+  },
+  "ApishipStatus": {
+    "uploading": "გადაეცემა კურიერს",
+    "uploaded": "კურიერმა მიიღო",
+    "uploadingError": "კურიერმა შეკვეთა არ მიიღო",
+    "onPointIn": "გაგზავნის საწყობშია",
+    "onWay": "გზაშია",
+    "onPointOut": "მიმღების ქალაქში ჩავიდა",
+    "readyForRecipient": "მზადაა გასაცემად",
+    "delivering": "კურიერი მიიტანს",
+    "delivered": "ჩაბარდა",
+    "partialReturn": "ნაწილობრივი დაბრუნება",
+    "returnReady": "დაბრუნება მომზადდა",
+    "returning": "უბრუნდება გამგზავნს",
+    "returned": "დაუბრუნდა გამგზავნს",
+    "returnedFromDelivery": "მიწოდებიდან დაბრუნდა",
+    "deliveryCanceled": "მიწოდება გაუქმდა",
+    "problem": "წარმოიშვა პრობლემა",
+    "lost": "დაიკარგა"
   },
   "OlavkaHome": {
     "slider": {

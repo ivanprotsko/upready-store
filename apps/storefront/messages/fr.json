@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Numéro de suivi"
+    "trackingNumber": "Numéro de suivi",
+    "trackLink": "Suivre le colis",
+    "deliveryStatus": "Statut de livraison"
   },
   "OrdersPage": {
     "description": "Consultez vos commandes précédentes et leur statut.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "La livraison par la Poste russe n’est pas encore configurée dans cette boutique.",
     "quoteFailed": "Impossible de calculer la livraison vers ce point. Choisissez-en un autre.",
     "postcode": "Code postal {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Les points relais de ce transporteur ne sont pas encore disponibles dans cette boutique.",
+    "addressRejected": "Le transporteur n'a pas trouvé l'adresse. Vérifiez le code postal et la ville"
+  },
+  "ApishipStatus": {
+    "uploading": "En cours de remise au transporteur",
+    "uploaded": "Pris en charge par le transporteur",
+    "uploadingError": "Le transporteur n'a pas accepté la commande",
+    "onPointIn": "À l'entrepôt d'expédition",
+    "onWay": "En transit",
+    "onPointOut": "Arrivé dans la ville du destinataire",
+    "readyForRecipient": "Prêt à être retiré",
+    "delivering": "En cours de livraison",
+    "delivered": "Livré",
+    "partialReturn": "Retour partiel",
+    "returnReady": "Retour préparé",
+    "returning": "En retour vers l'expéditeur",
+    "returned": "Retourné à l'expéditeur",
+    "returnedFromDelivery": "Revenu de la livraison",
+    "deliveryCanceled": "Livraison annulée",
+    "problem": "Un problème est survenu",
+    "lost": "Perdu"
   },
   "OlavkaHome": {
     "slider": {

@@ -1,3 +1,4 @@
+import { apishipKindOf, apishipProviderKeyOf, isApishipOption } from "@lib/util/apiship"
 import { cdekKindOf, isCdekOption } from "@lib/util/cdek"
 import { TARIFF_PROVIDER_ID } from "@lib/util/fulfillment"
 import { isPochtaOption } from "@lib/util/pochta"
@@ -45,7 +46,10 @@ type WayOption = { provider_id?: string | null; data?: unknown }
  * - a Russian Post option always goes to a point;
  * - the shop's own tariff named after Russian Post (`data.carrier`
  *   `post_ru`, «Почта России — до отделения») goes to a point as well, since
- *   the parcel waits at the post office.
+ *   the parcel waits at the post office;
+ * - an ApiShip option (t-2026-10-14-58) by its `data.kind`, courier or a point,
+ *   and its carrier by `data.provider_key`: `cdek` is CDEK, `rupost` Russian
+ *   Post. A carrier ApiShip connects that the cards do not name stays a row.
  *
  * Every other option (a tariff of the shop's own courier or pickup, DHL, a
  * CDEK tariff of the shop's that names no way) stays a row of its own.
@@ -59,6 +63,12 @@ export const deliveryWayOf = (
   }
   if (isPochtaOption(option)) {
     return { way: "pickup", carrier: "pochta" }
+  }
+  if (isApishipOption(option)) {
+    const key = apishipProviderKeyOf(option)
+    const carrier = key === "cdek" ? "cdek" : key === "rupost" ? "pochta" : null
+    if (!carrier) return null
+    return { way: apishipKindOf(option) === "courier" ? "courier" : "pickup", carrier }
   }
   if (option.provider_id === TARIFF_PROVIDER_ID) {
     const carrier = (option.data as { carrier?: unknown } | null)?.carrier
@@ -79,7 +89,7 @@ export type DeliveryWayCard<T> = {
  * when at least one option of its way came back, so a carrier that has no
  * courier tariff for this address adds nothing to the courier card.
  *
- * Returns `null` when no carrier integration (CDEK, Russian Post) answered:
+ * Returns `null` when no carrier integration (CDEK, Russian Post, ApiShip) answered:
  * a shop of the shop's own tariffs alone, and the international shop with its
  * one DHL method, keep the plain list they had. `rest` holds the options that
  * belong to no card, in the order they came, to be shown as rows after the
@@ -88,7 +98,11 @@ export type DeliveryWayCard<T> = {
 export const groupDeliveryWays = <T extends WayOption>(
   options: T[]
 ): { cards: DeliveryWayCard<T>[]; rest: T[] } | null => {
-  if (!options.some((option) => isCdekOption(option) || isPochtaOption(option))) {
+  if (
+    !options.some(
+      (option) => isCdekOption(option) || isPochtaOption(option) || isApishipOption(option)
+    )
+  ) {
     return null
   }
   const byWay = new Map<DeliveryWay, DeliveryWayCard<T>>()
@@ -123,12 +137,17 @@ export const lowestDeliveryPrice = (amounts: Array<number | null>): number | nul
 
 /**
  * Whether the cart's (or the order's) shipping method is one of the tariffs the
- * way cards offer, read off the `data` its provider wrote: `provider` for CDEK
- * and Russian Post, `carrier` for the shop's own Russian Post tariff. The order
+ * way cards offer, read off the `data` its provider wrote: `provider` for CDEK,
+ * Russian Post and ApiShip, `carrier` for the shop's own Russian Post tariff. The order
  * summary names such a tariff and its point; a DHL or own-courier method keeps
  * the summary it had.
  */
 export const isWayCardMethod = (method?: { data?: unknown } | null): boolean => {
   const data = method?.data as { provider?: unknown; carrier?: unknown } | null | undefined
-  return data?.provider === "cdek" || data?.provider === "pochta" || data?.carrier === "post_ru"
+  return (
+    data?.provider === "cdek" ||
+    data?.provider === "pochta" ||
+    data?.provider === "apiship" ||
+    data?.carrier === "post_ru"
+  )
 }

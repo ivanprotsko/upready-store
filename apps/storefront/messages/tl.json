@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Tracking number"
+    "trackingNumber": "Tracking number",
+    "trackLink": "I-track ang parsela",
+    "deliveryStatus": "Status ng delivery"
   },
   "OrdersPage": {
     "description": "Tingnan ang iyong mga nakaraang order at ang kanilang status.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Hindi pa naka-set up ang delivery sa Russian Post sa tindahang ito.",
     "quoteFailed": "Hindi makalkula ang delivery papunta sa puntong ito. Pumili ng iba.",
     "postcode": "Postal code {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Hindi pa available sa tindahang ito ang mga pickup point ng courier na ito.",
+    "addressRejected": "Hindi nahanap ng courier ang address. Tingnan ang postal code at lungsod"
+  },
+  "ApishipStatus": {
+    "uploading": "Ibinibigay sa courier",
+    "uploaded": "Tinanggap ng courier",
+    "uploadingError": "Hindi tinanggap ng courier ang order",
+    "onPointIn": "Nasa bodega ng pinagmulan",
+    "onWay": "Nasa biyahe",
+    "onPointOut": "Nakarating na sa lungsod ng tatanggap",
+    "readyForRecipient": "Handa nang kunin",
+    "delivering": "Inihahatid na",
+    "delivered": "Naihatid na",
+    "partialReturn": "Bahagyang naibalik",
+    "returnReady": "Handa na ang pagbabalik",
+    "returning": "Pabalik sa nagpadala",
+    "returned": "Naibalik sa nagpadala",
+    "returnedFromDelivery": "Bumalik mula sa paghahatid",
+    "deliveryCanceled": "Kinansela ang delivery",
+    "problem": "May problema",
+    "lost": "Nawala"
   },
   "OlavkaHome": {
     "slider": {

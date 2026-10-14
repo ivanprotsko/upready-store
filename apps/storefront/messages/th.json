@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "หมายเลขติดตามพัสดุ"
+    "trackingNumber": "หมายเลขติดตามพัสดุ",
+    "trackLink": "ติดตามพัสดุ",
+    "deliveryStatus": "สถานะการจัดส่ง"
   },
   "OrdersPage": {
     "description": "ดูคำสั่งซื้อก่อนหน้าและสถานะของคำสั่งซื้อ",
@@ -1208,6 +1210,29 @@
     "notConfigured": "ร้านนี้ยังไม่ได้ตั้งค่าการจัดส่งทางไปรษณีย์รัสเซีย",
     "quoteFailed": "ไม่สามารถคำนวณค่าจัดส่งไปยังจุดนี้ได้ โปรดเลือกจุดอื่น",
     "postcode": "รหัสไปรษณีย์ {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "จุดรับพัสดุของบริษัทขนส่งนี้ยังไม่เปิดให้ใช้ในร้านนี้",
+    "addressRejected": "บริษัทขนส่งไม่พบที่อยู่ โปรดตรวจสอบรหัสไปรษณีย์และเมือง"
+  },
+  "ApishipStatus": {
+    "uploading": "กำลังส่งมอบให้บริษัทขนส่ง",
+    "uploaded": "บริษัทขนส่งรับแล้ว",
+    "uploadingError": "บริษัทขนส่งไม่รับคำสั่งซื้อ",
+    "onPointIn": "อยู่ที่คลังต้นทาง",
+    "onWay": "อยู่ระหว่างขนส่ง",
+    "onPointOut": "ถึงเมืองของผู้รับแล้ว",
+    "readyForRecipient": "พร้อมให้รับ",
+    "delivering": "กำลังนำจ่าย",
+    "delivered": "จัดส่งสำเร็จ",
+    "partialReturn": "ตีกลับบางส่วน",
+    "returnReady": "เตรียมการตีกลับแล้ว",
+    "returning": "กำลังตีกลับไปยังผู้ส่ง",
+    "returned": "ตีกลับถึงผู้ส่งแล้ว",
+    "returnedFromDelivery": "ตีกลับจากการนำจ่าย",
+    "deliveryCanceled": "ยกเลิกการจัดส่งแล้ว",
+    "problem": "เกิดปัญหา",
+    "lost": "สูญหาย"
   },
   "OlavkaHome": {
     "slider": {

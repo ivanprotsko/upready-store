@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "운송장 번호"
+    "trackingNumber": "운송장 번호",
+    "trackLink": "택배 조회",
+    "deliveryStatus": "배송 상태"
   },
   "OrdersPage": {
     "description": "이전 주문 내역과 상태를 확인할 수 있습니다.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "이 상점에는 아직 러시아 우체국 배송이 설정되지 않았습니다.",
     "quoteFailed": "이 지점으로의 배송비를 계산할 수 없습니다. 다른 지점을 선택하세요.",
     "postcode": "우편번호 {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "이 택배사의 픽업 지점은 아직 이 쇼핑몰에서 이용할 수 없습니다.",
+    "addressRejected": "택배사가 주소를 찾지 못했습니다. 우편번호와 도시를 확인하세요"
+  },
+  "ApishipStatus": {
+    "uploading": "택배사에 인계 중",
+    "uploaded": "택배사 접수 완료",
+    "uploadingError": "택배사가 주문을 접수하지 않았습니다",
+    "onPointIn": "발송 창고에 있음",
+    "onWay": "배송 중",
+    "onPointOut": "수령인 도시에 도착",
+    "readyForRecipient": "수령 가능",
+    "delivering": "배달 출발",
+    "delivered": "배달 완료",
+    "partialReturn": "부분 반송",
+    "returnReady": "반송 준비 완료",
+    "returning": "발송인에게 반송 중",
+    "returned": "발송인에게 반송됨",
+    "returnedFromDelivery": "배달 후 반송됨",
+    "deliveryCanceled": "배송 취소됨",
+    "problem": "문제가 발생했습니다",
+    "lost": "분실"
   },
   "OlavkaHome": {
     "slider": {

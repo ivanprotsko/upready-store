@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   TIMELINE_STEP_KEYS,
   timelineProgress,
+  trackingEntries,
   trackingLines,
 } from "./order-tracking"
 
@@ -15,6 +16,44 @@ const order = (over: Partial<Parameters<typeof timelineProgress>[0]> = {}) =>
     payment_collections: [],
     ...over,
   }) as Parameters<typeof timelineProgress>[0]
+
+describe("trackingEntries (t-2026-10-14-58)", () => {
+  it("gives each line the carrier's tracking page the label carries", () => {
+    expect(
+      trackingEntries([
+        {
+          metadata: { carrier: "СДЭК" },
+          labels: [
+            {
+              tracking_number: "1005248796431",
+              tracking_url: "https://www.cdek.ru/ru/tracking?order_id=1005248796431",
+            },
+          ],
+        },
+      ])
+    ).toEqual([
+      {
+        line: "СДЭК 1005248796431",
+        url: "https://www.cdek.ru/ru/tracking?order_id=1005248796431",
+      },
+    ])
+  })
+
+  it("gives no link for an empty or a non-web tracking_url", () => {
+    expect(
+      trackingEntries([
+        {
+          metadata: null,
+          labels: [
+            { tracking_number: "1", tracking_url: "" },
+            { tracking_number: "2", tracking_url: "javascript:alert(1)" },
+            { tracking_number: "3" },
+          ],
+        },
+      ]).map((entry) => entry.url)
+    ).toEqual([null, null, null])
+  })
+})
 
 describe("trackingLines", () => {
   it("puts the carrier the owner typed in front of the number", () => {

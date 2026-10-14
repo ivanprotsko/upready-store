@@ -107,9 +107,13 @@ export const listPickupPoints = async () => {
  */
 // Not exported: a "use server" module may export async functions only.
 const CDEK_ADDRESS_REJECTED_CODE = "cdek_address_rejected"
+/** ApiShip's calculator refusing the address (`APISHIP_ADDRESS_REJECTED`, t-2026-10-14-58). */
+const APISHIP_ADDRESS_REJECTED_CODE = "apiship_address_rejected"
 
 /** What a failed `/calculate` said, for the card: the backend's code, else `other`. */
-export type ShippingPriceFailure = { error: "cdek_address_rejected" | "other" }
+export type ShippingPriceFailure = {
+  error: "cdek_address_rejected" | "apiship_address_rejected" | "other"
+}
 
 export const calculatePriceForShippingOption = cache(async (
   optionId: string,
@@ -156,7 +160,11 @@ export const calculatePriceForShippingOption = cache(async (
       )
       const message = e instanceof Error ? e.message : String(e)
       return {
-        error: message.includes(CDEK_ADDRESS_REJECTED_CODE) ? "cdek_address_rejected" : "other",
+        error: message.includes(CDEK_ADDRESS_REJECTED_CODE)
+          ? "cdek_address_rejected"
+          : message.includes(APISHIP_ADDRESS_REJECTED_CODE)
+            ? "apiship_address_rejected"
+            : "other",
       }
     })
 })

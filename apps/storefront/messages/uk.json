@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Трек-номер"
+    "trackingNumber": "Трек-номер",
+    "trackLink": "Відстежити посилку",
+    "deliveryStatus": "Статус доставки"
   },
   "OrdersPage": {
     "description": "Переглядайте свої попередні замовлення та їхній статус.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Доставку Поштою Росії в цьому магазині ще не налаштовано.",
     "quoteFailed": "Не вдалося розрахувати доставку до цього пункту. Оберіть інший.",
     "postcode": "Індекс {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Пункти видачі цього перевізника поки недоступні в магазині.",
+    "addressRejected": "Перевізник не знайшов адресу — перевірте індекс і місто"
+  },
+  "ApishipStatus": {
+    "uploading": "Передається перевізнику",
+    "uploaded": "Прийнято перевізником",
+    "uploadingError": "Перевізник не прийняв замовлення",
+    "onPointIn": "Прийнято на склад відправлення",
+    "onWay": "У дорозі",
+    "onPointOut": "Прибуло до міста отримувача",
+    "readyForRecipient": "Готове до видачі",
+    "delivering": "Передано кур'єру на доставку",
+    "delivered": "Вручено отримувачу",
+    "partialReturn": "Часткове повернення",
+    "returnReady": "Підготовлено повернення",
+    "returning": "Повертається відправнику",
+    "returned": "Повернуто відправнику",
+    "returnedFromDelivery": "Повернуто з доставки",
+    "deliveryCanceled": "Доставку скасовано",
+    "problem": "Виникла проблема",
+    "lost": "Втрачено"
   },
   "OlavkaHome": {
     "slider": {

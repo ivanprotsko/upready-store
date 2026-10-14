@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Nomor pelacakan"
+    "trackingNumber": "Nomor pelacakan",
+    "trackLink": "Lacak paket",
+    "deliveryStatus": "Status pengiriman"
   },
   "OrdersPage": {
     "description": "Lihat pesanan sebelumnya beserta statusnya.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Pengiriman dengan Pos Rusia belum diatur di toko ini.",
     "quoteFailed": "Ongkos kirim ke titik ini tidak dapat dihitung. Pilih titik lain.",
     "postcode": "Kode pos {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Titik pengambilan kurir ini belum tersedia di toko ini.",
+    "addressRejected": "Kurir tidak menemukan alamatnya. Periksa kode pos dan kota"
+  },
+  "ApishipStatus": {
+    "uploading": "Sedang diserahkan ke kurir",
+    "uploaded": "Diterima kurir",
+    "uploadingError": "Kurir tidak menerima pesanan",
+    "onPointIn": "Di gudang pengirim",
+    "onWay": "Dalam perjalanan",
+    "onPointOut": "Tiba di kota penerima",
+    "readyForRecipient": "Siap diambil",
+    "delivering": "Sedang diantar",
+    "delivered": "Terkirim",
+    "partialReturn": "Retur sebagian",
+    "returnReady": "Retur disiapkan",
+    "returning": "Dalam perjalanan kembali ke pengirim",
+    "returned": "Dikembalikan ke pengirim",
+    "returnedFromDelivery": "Kembali dari pengantaran",
+    "deliveryCanceled": "Pengiriman dibatalkan",
+    "problem": "Terjadi masalah",
+    "lost": "Hilang"
   },
   "OlavkaHome": {
     "slider": {

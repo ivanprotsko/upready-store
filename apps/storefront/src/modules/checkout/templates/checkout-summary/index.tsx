@@ -3,6 +3,7 @@ import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
 import { Divider, Text } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
+import { apishipMethodOf, apishipPointLine } from "@lib/util/apiship"
 import { chosenCdekPoint, cdekTermOf } from "@lib/util/cdek"
 import { pochtaPointOf } from "@lib/util/pochta"
 import { cartNeedsShipping, isNoDeliveryLine } from "@lib/util/shipping-address"
@@ -37,14 +38,21 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
     !pickupPointName && shippingMethod && isWayCardMethod(shippingMethod) ? shippingMethod : null
   const cdekPoint = chosenCdekPoint(cart)
   const pochtaPoint = pochtaPointOf(cart)
-  const carrierPoint = cdekPoint
+  // t-2026-10-14-58: an ApiShip method names its point, term and tariff the same way.
+  const apishipMethod = apishipMethodOf(cart)
+  const carrierPoint = apishipMethod
+    ? apishipPointLine(apishipMethod)
+    : cdekPoint
     ? cdekPoint.name ?? cdekPoint.code
     : pochtaPoint
       ? `${[pochtaPoint.pochta_point_address, pochtaPoint.pochta_point_city]
           .filter(Boolean)
           .join(", ")} · ${tPochta("postcode", { index: pochtaPoint.pochta_point_index })}`
       : null
-  const carrierTerm = cdekTermOf(cart) ?? pochtaPoint?.term_label ?? null
+  const carrierTerm = cdekTermOf(cart) ?? pochtaPoint?.term_label ?? apishipMethod?.termLabel ?? null
+  const carrierDetails = [carrierTerm, apishipMethod?.tariffName].filter(
+    (line): line is string => Boolean(line)
+  )
 
   return (
     <div className="flex flex-col gap-y-6" data-testid="checkout-summary">
@@ -73,7 +81,7 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
           label={tCheckout("shippingCost")}
           name={carrierMethod.name}
           address={carrierPoint ?? ""}
-          details={carrierTerm ? [carrierTerm] : []}
+          details={carrierDetails}
           testId="checkout-summary-shipping-method"
         />
       )}

@@ -178,6 +178,31 @@ describe("the step tests read off the cart", () => {
     ).toBe(true)
   })
 
+  it("counts an ApiShip pickup method done only with its point, a courier one at once (t-2026-10-14-58)", () => {
+    const point = {
+      id: "so_apiship_point",
+      provider_id: "apiship_apiship",
+      data: { provider_key: "cdek", kind: "pickup" },
+    } as unknown as Option
+    const door = {
+      id: "so_apiship_door",
+      provider_id: "apiship_apiship",
+      data: { provider_key: "cdek", kind: "courier" },
+    } as unknown as Option
+    const method = (id: string, data: Record<string, unknown>) =>
+      cart({ shipping_address: address, shipping_methods: [{ shipping_option_id: id, data }] })
+
+    expect(
+      isShippingStepDone(method("so_apiship_point", { provider: "apiship", apiship_point_id: null }), [point])
+    ).toBe(false)
+    expect(
+      isShippingStepDone(method("so_apiship_point", { provider: "apiship", apiship_point_id: 491 }), [point])
+    ).toBe(true)
+    expect(
+      isShippingStepDone(method("so_apiship_door", { provider: "apiship", apiship_point_id: null }), [door])
+    ).toBe(true)
+  })
+
   it("counts the contacts done on a name, a surname and a real e-mail", () => {
     expect(isContactsStepDone(cart({ metadata: contacts, email: "anna@" }))).toBe(false)
     expect(isContactsStepDone(cart({ metadata: contacts, email: "anna@example.ru" }))).toBe(true)

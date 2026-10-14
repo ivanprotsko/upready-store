@@ -894,7 +894,9 @@
     "confirmed": "Confirmed",
     "placed": "Placed",
     "received": "Received",
-    "trackingNumber": "Spårningsnummer"
+    "trackingNumber": "Spårningsnummer",
+    "trackLink": "Spåra paketet",
+    "deliveryStatus": "Leveransstatus"
   },
   "OrdersPage": {
     "description": "Visa dina tidigare ordrar och deras status.",
@@ -1208,6 +1210,29 @@
     "notConfigured": "Leverans med Ryska posten är inte inställd i den här butiken än.",
     "quoteFailed": "Frakten till det här stället kunde inte beräknas. Välj ett annat.",
     "postcode": "Postnummer {index}"
+  },
+  "ApishipPoint": {
+    "notConfigured": "Den här transportörens utlämningsställen är inte tillgängliga i butiken än.",
+    "addressRejected": "Transportören hittade inte adressen. Kontrollera postnummer och ort"
+  },
+  "ApishipStatus": {
+    "uploading": "Lämnas över till transportören",
+    "uploaded": "Mottaget av transportören",
+    "uploadingError": "Transportören tog inte emot beställningen",
+    "onPointIn": "På avsändarlagret",
+    "onWay": "På väg",
+    "onPointOut": "Har kommit fram till mottagarens ort",
+    "readyForRecipient": "Redo att hämtas",
+    "delivering": "Ute för leverans",
+    "delivered": "Levererat",
+    "partialReturn": "Delvis returnerat",
+    "returnReady": "Retur förberedd",
+    "returning": "På väg tillbaka till avsändaren",
+    "returned": "Returnerat till avsändaren",
+    "returnedFromDelivery": "Returnerat från utkörning",
+    "deliveryCanceled": "Leveransen avbruten",
+    "problem": "Ett problem har uppstått",
+    "lost": "Försvunnet"
   },
   "OlavkaHome": {
     "slider": {
