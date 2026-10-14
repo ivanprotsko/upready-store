@@ -6389,7 +6389,7 @@
     "values": {
       "title": "Values",
       "description": "A closed list: a product carries one of these values. The machine name goes into the filter address, the buyer sees the name.",
-      "drawerHint": "A removed value disappears from the products that carried it: after the save the toast says from how many.",
+      "drawerHint": "A removed value disappears from the products that carried it; after the save a message says from how many.",
       "add": "Add a value",
       "remove": "Remove the value",
       "starter": "Value 1",
