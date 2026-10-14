@@ -89,6 +89,8 @@ export type ApishipShippingMethodData = {
   apiship_status?: string | null;
   apiship_status_at?: string | null;
   apiship_status_name?: string | null;
+  /** The carrier's own explanation of the status, when it gave one («выбранный тариф недоступен»). */
+  apiship_status_detail?: string | null;
   apiship_statuses?: Array<Record<string, unknown>>;
   apiship_cancelled_at?: string | null;
   apiship_client_number?: string | null;

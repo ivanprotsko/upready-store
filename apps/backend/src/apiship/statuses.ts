@@ -16,6 +16,8 @@ export type ApishipStatusEntry = {
   name?: string | null;
   provider_code?: string | null;
   provider_name?: string | null;
+  /** The carrier's own words, the ones that say WHY («выбранный тариф недоступен»). */
+  provider_description?: string | null;
   error_code?: string | null;
 };
 

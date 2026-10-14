@@ -174,6 +174,7 @@ const entryOf = (update: ApishipStatusUpdate): ApishipStatusEntry | null =>
         name: update.status.name ?? null,
         provider_code: update.status.providerCode || null,
         provider_name: update.status.providerName || null,
+        provider_description: update.status.providerDescription || null,
         error_code: update.status.errorCode || null,
       }
     : null;
@@ -219,6 +220,7 @@ export const applyApishipStatus = async (
           apiship_status: entry.key,
           apiship_status_at: entry.at,
           apiship_status_name: entry.name ?? null,
+          apiship_status_detail: entry.provider_description ?? null,
           apiship_statuses: [...history, entry].slice(-50) as Array<Record<string, unknown>>,
         }
       : {}),

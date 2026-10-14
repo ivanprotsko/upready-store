@@ -77,6 +77,7 @@ export const statusEntryOf = (answer: ApishipStatusAnswer): ApishipStatusEntry =
   name: answer.status?.name ?? null,
   provider_code: answer.status?.providerCode || null,
   provider_name: answer.status?.providerName || null,
+  provider_description: answer.status?.providerDescription || null,
   error_code: answer.status?.errorCode || null,
 });
 
@@ -327,6 +328,7 @@ class ApishipFulfillmentService extends AbstractFulfillmentProviderService {
         apiship_status: entry?.key ?? null,
         apiship_status_at: entry?.at ?? null,
         apiship_status_name: entry?.name ?? null,
+        apiship_status_detail: entry?.provider_description ?? null,
         apiship_statuses: entry ? [entry] : [],
       },
       labels: providerNumber
@@ -538,11 +540,16 @@ class ApishipFulfillmentService extends AbstractFulfillmentProviderService {
     const pickup = pickupTypeFor(secret.credentials.sender_mode);
     const delivery = deliveryTypeFor(methodData.kind);
     const tariffs = await listTariffs(credentials, { providerKey: methodData.provider_key });
-    const fit = tariffs.find(
+    const fitting = tariffs.filter(
       (tariff) =>
         (tariff.pickupType === null || tariff.pickupType === pickup) &&
         (tariff.deliveryType === null || tariff.deliveryType === delivery),
     );
+    // The carriers' everyday parcel tariff is the one named «Посылка» («Посылка
+    // дверь-дверь» at СДЭК, «Посылка онлайн» at Почта); an express tariff that
+    // happens to come first in the catalogue is refused on most routes
+    // (measured: СДЭК answered «выбранный тариф недоступен» to «Супер-экспресс»).
+    const fit = fitting.find((tariff) => /посылка/i.test(`${tariff.aliasName ?? ""} ${tariff.name}`)) ?? fitting[0];
     if (!fit) {
       throw new MedusaError(
         MedusaError.Types.NOT_ALLOWED,
