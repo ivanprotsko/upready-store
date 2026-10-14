@@ -12,16 +12,6 @@
       "reason": "one-off migration, not run again"
     },
     {
-      "path": "apps/backend/src/modules/marketplace/analytics.ts",
-      "lines": 815,
-      "reason": "its read-only proof (src/modules/marketplace/__tests__/analytics-read-only.unit.spec.ts) scans this file by path; splitting it needs that test widened to the new files, which part 1 of t-2026-10-14-55 may not edit"
-    },
-    {
-      "path": "apps/backend/src/modules/marketplace/price-stock.ts",
-      "lines": 937,
-      "reason": "its read-only proof (src/modules/marketplace/__tests__/price-stock-read-only.unit.spec.ts) scans this file by path; splitting it needs that test widened to the new files, which part 1 of t-2026-10-14-55 may not edit"
-    },
-    {
       "path": "apps/homepage/support.js",
       "lines": 1911,
       "reason": "homepage file, split in a later part of t-2026-10-14-55"
