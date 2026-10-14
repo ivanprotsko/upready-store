@@ -364,7 +364,10 @@ class ApishipFulfillmentService extends AbstractFulfillmentProviderService {
       }
     }
     this.logger_?.info(`[apiship] order ${orderId} cancelled`);
-    return { ...methodData, apiship_cancelled_at: new Date().toISOString() };
+    // The fulfillment module keeps only its own `canceled_at` of this call and
+    // drops what is returned here (measured in the seam spec), so nothing is
+    // added to the data: the column is the record of the cancel.
+    return { ...methodData };
   }
 
   async createReturnFulfillment(): Promise<CreateFulfillmentResult> {
