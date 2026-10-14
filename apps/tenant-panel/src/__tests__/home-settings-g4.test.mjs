@@ -235,7 +235,8 @@ test("no literal Russian string and no default fallback in the screen's code (DS
     const source = home(file)
     const code = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "")
     assert.ok(!/["'`>][^"'`<>{}]*[А-Яа-яЁё]{3,}/.test(code), `${file}: a Russian literal in code`)
-    assert.ok(!source.includes("defaultValue:"), `${file}: a defaultValue fallback`)
+    // `useComboboxData({ defaultValue })` is a picked id, not a fallback text; a `t()` fallback is.
+    assert.ok(!/\bt\([^)]*defaultValue/.test(source), `${file}: a defaultValue fallback`)
   }
 })
 
@@ -288,7 +289,8 @@ test("the owner reads «первый экран», never «хиро»", () => {
 // ── the vocabulary ──────────────────────────────────────────────────────────
 
 test("a forbidden pair is blocked from both sides", () => {
-  const base = DEFAULT_DOCUMENT.settings
+  // The defaults pair the «Анонс» first screen with a plain header; «Витрина» is free of any pair.
+  const base = { ...DEFAULT_DOCUMENT.settings, hero: "g" }
   assert.equal(blockedReason({ ...base, hero: "k" }, "header", "h4"), "headerAccentHeroAnnounce")
   assert.equal(blockedReason({ ...base, header: "h4" }, "hero", "k"), "headerAccentHeroAnnounce")
   assert.equal(blockedReason({ ...base, defaultMode: "dark" }, "footer", "f6"), "footerInvertedDark")
