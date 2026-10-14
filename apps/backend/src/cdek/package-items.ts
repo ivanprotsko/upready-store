@@ -1,4 +1,5 @@
 import type { CdekCreateOrderInput } from "./client";
+import { unitWeightGrams } from "./method";
 
 /**
  * The goods of a CDEK parcel (t-2026-10-09-57). CDEK refuses an online-shop
@@ -15,6 +16,10 @@ import type { CdekCreateOrderInput } from "./client";
  * `variant_sku`, `unit_price`) with `items.variant.weight` and the variant's
  * inventory items. So each parcel line is read off the order's line by
  * `line_item_id`, and the fulfillment item only says how many of it go.
+ *
+ * A unit weighs what the price weighed it at: the variant, then its product,
+ * then the shop's default (`unitWeightGrams`). The product weight is not in the
+ * order Medusa hands over; the provider adds it first (`product-weights.ts`).
  *
  * Amounts in Medusa 2 are in the currency's main unit, so `unit_price` is
  * already in roubles. The parcel weight is the sum of these lines, because CDEK
@@ -46,6 +51,8 @@ type Line = {
   variant?: {
     sku?: string | null;
     weight?: number | null;
+    /** Not in Medusa's order: `withProductWeights` puts it here for a variant without a weight. */
+    product?: { weight?: number | null } | null;
     inventory_items?: Array<{
       required_quantity?: number | null;
       inventory?: { id?: string | null } | null;
@@ -86,8 +93,9 @@ const nameOf = (line: Line | undefined, item: FulfilledItem): string => {
 
 /**
  * One parcel line per order line. `defaultWeightG` is the shop's default for a
- * unit without a weight (the method's `default_weight_g`, the same number the
- * price was quoted with); without it {@link FALLBACK_UNIT_WEIGHT_G}.
+ * unit with no weight on its variant or product (the method's
+ * `default_weight_g`, the same number the price was quoted with); without it
+ * {@link FALLBACK_UNIT_WEIGHT_G}.
  */
 export function packageItems(
   fulfilled: ReadonlyArray<Record<string, unknown>>,
@@ -115,8 +123,12 @@ export function packageItems(
       line?.variant?.inventory_items?.find((each) => each?.inventory?.id && each.inventory.id === raw.inventory_item_id)
         ?.required_quantity ?? 1;
     const amount = Math.max(1, Math.round(amountOf(raw.quantity) / (Number(required) > 0 ? Number(required) : 1)));
-    const own = line?.variant?.weight;
-    const weight = typeof own === "number" && own > 0 ? Math.max(1, Math.round(own)) : unitDefault;
+    const weight = Math.max(
+      1,
+      Math.round(
+        unitWeightGrams({ weight: line?.variant?.weight, product_weight: line?.variant?.product?.weight }, unitDefault),
+      ),
+    );
     const wareKey =
       clean(line?.variant_sku) || clean(line?.variant?.sku) || clean(raw.sku) || clean(line?.variant_id) || key;
     items.push({

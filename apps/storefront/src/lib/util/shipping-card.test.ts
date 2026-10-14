@@ -3,9 +3,11 @@ import { describe, expect, it } from "vitest"
 import {
   deliveryWayOf,
   groupDeliveryWays,
+  hasPricedCdekCourier,
   isShippingCardUnpriced,
   isWayCardMethod,
   lowestDeliveryPrice,
+  shippingCardReason,
 } from "./shipping-card"
 
 describe("isShippingCardUnpriced (U-12, 46df)", () => {
@@ -163,5 +165,47 @@ describe("isWayCardMethod (D10)", () => {
     expect(isWayCardMethod({ data: { carrier: null } })).toBe(false)
     expect(isWayCardMethod({ data: null })).toBe(false)
     expect(isWayCardMethod(null)).toBe(false)
+  })
+})
+
+describe("shippingCardReason (t-2026-10-14-58)", () => {
+  const base = { addressRejected: false, noPoints: false, carrier: "cdek" as const, courierPriced: false }
+
+  it("says a place has no CDEK point, and names the courier when it has a price", () => {
+    expect(shippingCardReason({ ...base, noPoints: true })).toBe("shippingNoCdekPoints")
+    expect(shippingCardReason({ ...base, noPoints: true, courierPriced: true })).toBe(
+      "shippingNoCdekPointsCourier"
+    )
+  })
+
+  it("says a place has no Russian Post point", () => {
+    expect(shippingCardReason({ ...base, noPoints: true, carrier: "pochta" })).toBe(
+      "shippingNoPochtaPoints"
+    )
+  })
+
+  it("keeps «could not calculate» for a calculation that failed", () => {
+    expect(shippingCardReason(base)).toBe("shippingPriceUnavailable")
+    expect(shippingCardReason({ ...base, carrier: "pochta", courierPriced: true })).toBe(
+      "shippingPriceUnavailable"
+    )
+  })
+
+  it("puts a rejected address first", () => {
+    expect(shippingCardReason({ ...base, addressRejected: true, noPoints: true })).toBe(
+      "shippingPriceAddressRejected"
+    )
+  })
+})
+
+describe("hasPricedCdekCourier (t-2026-10-14-58)", () => {
+  const courier = { id: "so_door", provider_id: "cdek_cdek", data: { kind: "courier" } }
+  const pickup = { id: "so_pvz", provider_id: "cdek_cdek", data: { kind: "pickup" } }
+
+  it("is true only when CDEK's courier card has a price", () => {
+    expect(hasPricedCdekCourier([pickup, courier], { so_door: 955 })).toBe(true)
+    expect(hasPricedCdekCourier([pickup, courier], {})).toBe(false)
+    expect(hasPricedCdekCourier([pickup], { so_pvz: 410 })).toBe(false)
+    expect(hasPricedCdekCourier(null, { so_door: 955 })).toBe(false)
   })
 })

@@ -45,6 +45,7 @@ import {
   type SelectedApishipTariff,
 } from "../../apiship/method";
 import { buildApishipOrderRequest } from "../../apiship/order-request";
+import { withProductWeights } from "../../cdek/product-weights";
 import { apishipTrackingUrl, type ApishipStatusEntry } from "../../apiship/statuses";
 import { carrierLabel } from "../../apiship/carriers";
 import {
@@ -307,7 +308,9 @@ class ApishipFulfillmentService extends AbstractFulfillmentProviderService {
       credentials: secret.credentials,
       tariffId,
       clientNumber,
-      order,
+      // A variant without a weight is weighed by its product, as the price was
+      // (t-2026-10-14-58, `cdek/product-weights.ts`).
+      order: await withProductWeights(this.pg_, order),
       items,
       point: point
         ? { address: point.address, city: point.city, region: point.region, postIndex: point.postIndex }

@@ -9,7 +9,7 @@ import {
 import { TARIFF_PROVIDER_ID } from "@lib/util/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
-import { isShippingCardUnpriced } from "@lib/util/shipping-card"
+import { hasPricedCdekCourier, isShippingCardUnpriced, shippingCardReason } from "@lib/util/shipping-card"
 import { shippingOptionText } from "@lib/util/shipping-option-text"
 import {
   cdekKindOf,
@@ -101,6 +101,8 @@ export default function CheckoutShippingSection({
   >({})
   // t-2026-10-09-56, item 9: the options whose price CDEK refused for the address.
   const [addressRejectedIds, setAddressRejectedIds] = useState<Set<string>>(new Set())
+  // t-2026-10-14-58: the options whose carrier has no pickup point in the buyer's place.
+  const [noPointsIds, setNoPointsIds] = useState<Set<string>>(new Set())
   const [shippingError, setShippingError] = useState<string | null>(null)
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
@@ -239,6 +241,7 @@ export default function CheckoutShippingSection({
     if (!calculatedMethods.length || !quoteAddressKey) {
       setCalculatedPricesMap({})
       setAddressRejectedIds(new Set())
+      setNoPointsIds(new Set())
       setIsLoadingPrices(false)
       return
     }
@@ -257,6 +260,7 @@ export default function CheckoutShippingSection({
         }
         const priced = await calculatePriceForShippingOption(sm.id, cart.id)
         if (priced && "error" in priced) {
+          if (priced.error === "no_points") return { id: sm.id, noPoints: true }
           return priced.error !== "other"
             ? { id: sm.id, addressRejected: true }
             : null
@@ -268,13 +272,16 @@ export default function CheckoutShippingSection({
     ).then((results) => {
       const pricesMap: Record<string, number> = {}
       const rejected = new Set<string>()
+      const noPoints = new Set<string>()
       results.forEach((r) => {
         if (r.status !== "fulfilled" || !r.value?.id) return
         if ("addressRejected" in r.value) rejected.add(r.value.id)
+        else if ("noPoints" in r.value) noPoints.add(r.value.id)
         else if (typeof r.value.amount === "number") pricesMap[r.value.id] = r.value.amount
       })
       setCalculatedPricesMap(pricesMap)
       setAddressRejectedIds(rejected)
+      setNoPointsIds(noPoints)
       setIsLoadingPrices(false)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -516,6 +523,15 @@ export default function CheckoutShippingSection({
     // `null` draws the spinner; an empty string leaves the place empty, which is
     // what a price waiting for the address shows (Ivan 09.10: «не надо писать
     // этот текст» about «Укажите адрес — покажем цену и срок»).
+    // t-2026-10-14-58: a place with no point of the carrier says so. A Russian
+    // Post card stays choosable even then: its sheet finds points in another city.
+    const noPoints = priceAmount === null && noPointsIds.has(option.id)
+    const reasonKey = shippingCardReason({
+      addressRejected: addressRejectedIds.has(option.id),
+      noPoints,
+      carrier: isPochtaOption(option) ? "pochta" : "cdek",
+      courierPriced: hasPricedCdekCourier(availableShippingOptions, calculatedPricesMap),
+    })
     const price = isFreeShipping
       ? t("freeShipping")
       : priceAmount !== null
@@ -531,9 +547,13 @@ export default function CheckoutShippingSection({
             : unpriced
               ? addressRejectedIds.has(option.id)
                 ? apiship.addressRejectedText(option) ?? t("shippingPriceAddressRejected")
-                : t("shippingPriceUnavailable")
-              : "—"
-    return { priceAmount, isFreeShipping, awaitingAddress, unpriced, price }
+                : t(reasonKey)
+              : noPoints
+                ? t(reasonKey)
+                : "—"
+    // A sentence in place of the price wraps like the locked card's reason.
+    const isReason = unpriced || (noPoints && !isLoadingPrices)
+    return { priceAmount, isFreeShipping, awaitingAddress, unpriced, isReason, price }
   }
 
   const renderRow = (card: ShippingRow, isSelected: boolean) => {
@@ -565,7 +585,7 @@ export default function CheckoutShippingSection({
                 })
                 : null
 
-    const { isFreeShipping, unpriced, price } = priceOf(option, isPickupCard)
+    const { isFreeShipping, unpriced, isReason, price } = priceOf(option, isPickupCard)
 
     return (
       <div
@@ -638,13 +658,13 @@ export default function CheckoutShippingSection({
                 "flex min-h-[20px] items-center",
                 // The reason in place of a price is a sentence: it wraps, at
                 // most half the row, rather than pushing a 390px page sideways.
-                unpriced
+                isReason
                   ? "max-w-[50%] text-end txt-compact-small text-ui-fg-muted"
                   : isFreeShipping
                     ? "shrink-0 txt-compact-medium-plus text-status-success"
                     : "shrink-0 txt-compact-medium-plus text-ui-fg-base"
               )}
-              data-testid={unpriced ? "delivery-option-unavailable" : "delivery-option-price"}
+              data-testid={unpriced ? "delivery-option-unavailable" : isReason ? "delivery-option-reason" : "delivery-option-price"}
             >
               {price === null ? (
                 <Loader className="h-3 w-3 animate-spin" />

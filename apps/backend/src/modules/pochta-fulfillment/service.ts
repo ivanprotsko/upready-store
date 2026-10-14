@@ -15,13 +15,15 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 
 import {
   cartWeightGrams,
+  cityPoints,
   isPochtaMethodData,
   requestedPoint,
   type PochtaMethodData,
   type PochtaShippingMethodData,
+  type PochtaStorePoint,
   type QuoteItem,
 } from "../../pochta/method";
-import { findPochtaPoint, quoteToAddress, quoteToPoint, type PochtaQuote } from "../../pochta/quote";
+import { directoryBuyerPoints, findPochtaPoint, quoteToPoint, type PochtaQuote } from "../../pochta/quote";
 import { pochtaApiCredentials, readPochtaSecret } from "../../tenant-secrets/pochta";
 
 type InjectedDependencies = {
@@ -29,8 +31,16 @@ type InjectedDependencies = {
   [ContainerRegistrationKeys.PG_CONNECTION]: Knex;
 };
 
+/**
+ * The store API's answer when the buyer's city has no Russian Post pickup point
+ * (t-2026-10-14-58). The leading code is the contract with the storefront
+ * (`lib/data/fulfillment.ts`), which shows its own translated sentence for it.
+ */
+export const POCHTA_NO_POINTS =
+  "pochta_no_points: В этом населённом пункте нет пунктов выдачи Почты России";
+
 type CartContext = {
-  shipping_address?: { postal_code?: string | null; province?: string | null } | null;
+  shipping_address?: { city?: string | null; postal_code?: string | null; province?: string | null } | null;
   items?: Array<{
     quantity: number;
     unit_price: number;
@@ -130,9 +140,11 @@ class PochtaFulfillmentService extends AbstractFulfillmentProviderService {
 
   /**
    * Priced to the chosen point when the method data names one, otherwise to
-   * the buyer's address (the card in the method list). A throw drops the
-   * option from the list, which is right: better no Russian Post card than one
-   * priced at zero.
+   * the first point the sheet offers for the buyer's city (the card in the
+   * method list). Before t-2026-10-14-58 the card was priced to the buyer's own
+   * postcode, a price no offered point had: on the live shop on 14.10, for
+   * с. Константиново (391103) the card said 487 ₽, the village has no point,
+   * and a point in Рязань cost 426 ₽. A throw leaves the card without a price.
    */
   async calculatePrice(
     optionData: Record<string, unknown>,
@@ -147,7 +159,7 @@ class PochtaFulfillmentService extends AbstractFulfillmentProviderService {
     if (requested) {
       quote = (await this.resolve(optionData, requested, context)).quote;
     } else {
-      quote = await this.quoteForAddress(optionData, context);
+      quote = await this.quoteForFirstPoint(optionData, context);
     }
     if (!quote) {
       throw new MedusaError(MedusaError.Types.NOT_ALLOWED, "Почта России не рассчитала доставку по этому адресу");
@@ -219,24 +231,42 @@ class PochtaFulfillmentService extends AbstractFulfillmentProviderService {
     }
   }
 
-  protected async quoteForAddress(optionData: PochtaMethodData, context: unknown): Promise<PochtaQuote | null> {
+  /**
+   * The card's price before a point is chosen: one quote, to the first point of
+   * `cityPoints` — the list the sheet opens with, read from the directory the
+   * client caches for six hours. So the card costs the carrier no more requests
+   * than the quote to the address it replaces. A city with no point is
+   * {@link POCHTA_NO_POINTS}, a reason the buyer can act on: the sheet still
+   * finds points in another city. Anything else that fails is «no price».
+   */
+  protected async quoteForFirstPoint(optionData: PochtaMethodData, context: unknown): Promise<PochtaQuote | null> {
     const secret = await readPochtaSecret(this.pg_, optionData.tenant_id);
     const credentials = pochtaApiCredentials(secret);
     if (!secret || !credentials) return null;
-    const address = (context as CartContext)?.shipping_address;
+    const city = (context as CartContext)?.shipping_address?.city?.trim();
+    if (!city) return null;
+    let first: PochtaStorePoint | undefined;
     try {
-      return await quoteToAddress(
+      first = cityPoints(await directoryBuyerPoints(credentials), city)[0];
+    } catch (error) {
+      this.logger_?.warn(`[pochta] no directory for the card: ${(error as Error).message}`);
+      return null;
+    }
+    if (!first) {
+      throw new MedusaError(MedusaError.Types.NOT_ALLOWED, POCHTA_NO_POINTS);
+    }
+    try {
+      return await quoteToPoint(
         {
           credentials,
           sender_index: secret.credentials.sender_index,
-          postal_code: address?.postal_code,
-          province: address?.province,
+          point: first,
           weight_g: this.weight(optionData, context, secret.credentials.default_weight_g),
         },
         { logger: this.logger_ },
       );
     } catch (error) {
-      this.logger_?.warn(`[pochta] no quote for the address: ${(error as Error).message}`);
+      this.logger_?.warn(`[pochta] no quote for the card: ${(error as Error).message}`);
       return null;
     }
   }

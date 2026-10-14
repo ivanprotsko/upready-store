@@ -35,6 +35,7 @@ import {
   type QuoteItem,
 } from "../../cdek/method";
 import { packageItems } from "../../cdek/package-items";
+import { withProductWeights } from "../../cdek/product-weights";
 import { cdekApiCredentials, readCdekSecret, type ResolvedCdekSecret } from "../../tenant-secrets/cdek";
 
 type InjectedDependencies = {
@@ -81,6 +82,16 @@ const CART_CACHE_TTL_MS = 60_000;
  */
 export const CDEK_ADDRESS_REJECTED =
   "cdek_address_rejected: СДЭК не нашёл адрес — проверьте индекс и город";
+
+/**
+ * The store API's answer when CDEK prices the route but has no tariff that ends at
+ * a point, which means the place has no CDEK office or locker (t-2026-10-14-58: on
+ * the live shop on 14.10, с. Константиново, 391103, had CDEK's courier at 955 ₽ and
+ * no point). The storefront reads the code and says so, where it used to say the
+ * price could not be calculated.
+ */
+export const CDEK_NO_POINTS =
+  "cdek_no_points: В этом населённом пункте нет пунктов выдачи СДЭК";
 
 /**
  * Fulfillment provider for CDEK with per-tenant credentials
@@ -204,8 +215,8 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
     }
     if (!quoted) {
       // Medusa has no «this option does not serve this address» answer: a throw
-      // here drops the option out of the list the storefront renders, which is
-      // exactly right — better no CDEK card than a card priced at zero.
+      // leaves the card without a price, and the storefront locks it with its
+      // reason (U-12) — better than a card priced at zero.
       throw new MedusaError(
         MedusaError.Types.NOT_ALLOWED,
         "СДЭК не возит по этому адресу выбранным способом",
@@ -291,7 +302,9 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
 
     // CDEK refuses an online-shop parcel without its goods, and checks the
     // parcel weight against them (t-2026-10-09-57, `cdek/package-items.ts`).
-    const parcel = packageItems(items, order, methodData.default_weight_g);
+    // A variant without a weight is weighed by its product, as the price was
+    // (t-2026-10-14-58, `cdek/product-weights.ts`).
+    const parcel = packageItems(items, await withProductWeights(this.pg_, order), methodData.default_weight_g);
 
     const toLocation: CdekLocation | undefined = methodData.cdek_point_code
       ? undefined
@@ -379,6 +392,8 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
    * `null` when the shop is not configured, the address has no city, or CDEK has
    * no tariff of the needed mode for the route — every one of those means «no
    * price», and the caller turns that into a missing option rather than a zero.
+   * The one exception is a point method with no tariff to a point: that throws
+   * {@link CDEK_NO_POINTS}, because the buyer can act on it (choose the courier).
    */
   protected async quote(
     optionData: CdekMethodData,
@@ -452,6 +467,9 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
       free_above_total: optionData.free_above_total,
       subtotal,
     });
+    if (!selected && isPointKind(optionData.kind)) {
+      throw new MedusaError(MedusaError.Types.NOT_ALLOWED, CDEK_NO_POINTS);
+    }
     return selected ? { selected } : null;
   }
 

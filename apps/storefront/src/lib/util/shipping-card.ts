@@ -23,6 +23,48 @@ export const isShippingCardUnpriced = ({
   pricedPerPoint: boolean
 }): boolean => priceAmount === null && !isLoadingPrices && !pricedPerPoint
 
+/** True when a CDEK courier option of the list has a price: the no-points card points to it. */
+export const hasPricedCdekCourier = (
+  options: Array<WayOption & { id: string }> | null | undefined,
+  prices: Record<string, number>
+): boolean =>
+  (options ?? []).some(
+    (option) => isCdekOption(option) && cdekKindOf(option) === "courier" && typeof prices[option.id] === "number"
+  )
+
+/** A `CheckoutPage` message: the sentence a card shows where its price would be. */
+export type ShippingCardReason =
+  | "shippingPriceAddressRejected"
+  | "shippingNoCdekPoints"
+  | "shippingNoCdekPointsCourier"
+  | "shippingNoPochtaPoints"
+  | "shippingPriceUnavailable"
+
+/**
+ * Why a card has no price, in the buyer's terms (t-2026-10-14-58). On the live
+ * shop on 14.10, с. Константиново (391103) has no CDEK point, and the card said
+ * «Недоступно: не удалось рассчитать стоимость», as if the site were broken. A
+ * place with no point of the carrier now says so, and points to CDEK's courier
+ * when that card has a price; a calculation that really failed keeps the old
+ * sentence.
+ */
+export const shippingCardReason = ({
+  addressRejected,
+  noPoints,
+  carrier,
+  courierPriced,
+}: {
+  addressRejected: boolean
+  noPoints: boolean
+  carrier: DeliveryCarrier
+  courierPriced: boolean
+}): ShippingCardReason => {
+  if (addressRejected) return "shippingPriceAddressRejected"
+  if (!noPoints) return "shippingPriceUnavailable"
+  if (carrier === "pochta") return "shippingNoPochtaPoints"
+  return courierPriced ? "shippingNoCdekPointsCourier" : "shippingNoCdekPoints"
+}
+
 /**
  * D10 (t-2026-10-04-19): the way a parcel reaches the buyer, the two cards the
  * checkout shows instead of one row per carrier option. Each card lists the

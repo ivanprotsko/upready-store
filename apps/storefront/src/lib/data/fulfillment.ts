@@ -109,10 +109,16 @@ export const listPickupPoints = async () => {
 const CDEK_ADDRESS_REJECTED_CODE = "cdek_address_rejected"
 /** ApiShip's calculator refusing the address (`APISHIP_ADDRESS_REJECTED`, t-2026-10-14-58). */
 const APISHIP_ADDRESS_REJECTED_CODE = "apiship_address_rejected"
+/**
+ * The buyer's place has no pickup point of the carrier (`CDEK_NO_POINTS`,
+ * `POCHTA_NO_POINTS`, t-2026-10-14-58): the card names that reason instead of
+ * «не удалось рассчитать стоимость».
+ */
+const NO_POINTS_CODES = ["cdek_no_points", "pochta_no_points"]
 
 /** What a failed `/calculate` said, for the card: the backend's code, else `other`. */
 export type ShippingPriceFailure = {
-  error: "cdek_address_rejected" | "apiship_address_rejected" | "other"
+  error: "cdek_address_rejected" | "apiship_address_rejected" | "no_points" | "other"
 }
 
 export const calculatePriceForShippingOption = cache(async (
@@ -164,7 +170,9 @@ export const calculatePriceForShippingOption = cache(async (
           ? "cdek_address_rejected"
           : message.includes(APISHIP_ADDRESS_REJECTED_CODE)
             ? "apiship_address_rejected"
-            : "other",
+            : NO_POINTS_CODES.some((code) => message.includes(code))
+              ? "no_points"
+              : "other",
       }
     })
 })

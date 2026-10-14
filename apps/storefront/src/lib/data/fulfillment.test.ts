@@ -77,6 +77,31 @@ describe("calculatePriceForShippingOption: a refusal reaches the card (t-2026-10
     log.mockRestore()
   })
 
+  it("tells a place with no pickup point from a failed calculation (t-2026-10-14-58)", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => undefined)
+    const { calculatePriceForShippingOption } = await import("./fulfillment")
+
+    clientFetch.mockRejectedValueOnce(
+      new Error("cdek_no_points: В этом населённом пункте нет пунктов выдачи СДЭК")
+    )
+    expect(await calculatePriceForShippingOption("so_cdek_pvz", "cart_village")).toEqual({
+      error: "no_points",
+    })
+
+    clientFetch.mockRejectedValueOnce(
+      new Error("pochta_no_points: В этом населённом пункте нет пунктов выдачи Почты России")
+    )
+    expect(await calculatePriceForShippingOption("so_pochta", "cart_village")).toEqual({
+      error: "no_points",
+    })
+
+    clientFetch.mockRejectedValueOnce(new Error("СДЭК не возит по этому адресу выбранным способом"))
+    expect(await calculatePriceForShippingOption("so_cdek_courier", "cart_village")).toEqual({
+      error: "other",
+    })
+    log.mockRestore()
+  })
+
   // `next build` refuses a "use server" module that exports anything but async functions;
   // tsc and vitest do not, so an exported string constant here broke only the build.
   it("exports functions only, as a \"use server\" module must", async () => {
