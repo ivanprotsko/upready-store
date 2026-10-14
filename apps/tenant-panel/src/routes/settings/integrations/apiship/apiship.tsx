@@ -1,8 +1,9 @@
-import { PencilSquare, Trash } from "@medusajs/icons"
+import { PencilSquare, Trash, TruckFast } from "@medusajs/icons"
 import { Button, StatusBadge, toast, usePrompt } from "@medusajs/ui"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
+import { NoRecords } from "../../../../components/common/empty-table-content"
 import { SecretValue, hideQuery } from "../../../../components/common/secret-value"
 import { SingleColumnPageSkeleton } from "../../../../components/common/skeleton"
 import { SingleColumnPage } from "../../../../components/layout/pages"
@@ -59,6 +60,36 @@ export const ApishipIntegration = () => {
 
   if (isPending || !apiship) {
     return <SingleColumnPageSkeleton sections={6} />
+  }
+
+  // A new shop (E8): one card that says what appears after connecting and one
+  // button to the connection drawer. No «—» rows: the sections come once a
+  // token is saved.
+  if (!settings && !apiship.unreadable) {
+    return (
+      <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet>
+        <SettingsDetailSection
+          level="h1"
+          section={{
+            id: "connection",
+            title: t("integrations.apiship.title"),
+            description: t("integrations.apiship.subtitle"),
+            status: connectionStatus(t, apiship),
+            actions: [],
+            rows: [],
+            body: (
+              <NoRecords
+                icon={<TruckFast className="text-ui-fg-subtle" />}
+                title={t("integrations.apiship.emptyTitle")}
+                message={t("integrations.apiship.emptyMessage")}
+                action={{ to: "edit/connection", label: t("integrations.apiship.connect") }}
+                className="h-auto px-6 py-10 text-center"
+              />
+            ),
+          }}
+        />
+      </SingleColumnPage>
+    )
   }
 
   const missing = new Set(apiship.missing)

@@ -43,6 +43,10 @@ type ApishipData = {
 const dataOf = (fulfillment: ExtendedOrderFulfillment): ApishipData =>
   ((fulfillment as { data?: Record<string, unknown> | null }).data ?? {}) as ApishipData
 
+// A carrier's status is long («Перевозчик не принял заказ»): in the half-width
+// column of a phone it wraps inside the badge instead of running off the card.
+const BADGE_WRAPS = "max-w-full items-start py-px leading-4"
+
 const Row = ({ label, children }: { label: string; children: ReactNode }) => (
   <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
     <Text size="small" leading="compact" weight="plus">
@@ -86,12 +90,12 @@ export const ApishipShipmentRows = ({ fulfillment }: { fulfillment: ExtendedOrde
                 : t("apishipShipment.statusLabel")
             }
           >
-            <StatusBadge color={color} className="text-nowrap" data-testid="apiship-status">
+            <StatusBadge color={color} className={BADGE_WRAPS} data-testid="apiship-status">
               {t(apishipStatusKey(data.apiship_status))}
             </StatusBadge>
           </Tooltip>
         ) : (
-          <StatusBadge color="blue" className="text-nowrap" data-testid="apiship-status">
+          <StatusBadge color="blue" className={BADGE_WRAPS} data-testid="apiship-status">
             {t("apishipShipment.status.uploading")}
           </StatusBadge>
         )}
@@ -129,6 +133,19 @@ export const ApishipShipmentRows = ({ fulfillment }: { fulfillment: ExtendedOrde
       ) : null}
     </>
   )
+}
+
+/**
+ * The cancel of an ApiShip shipment says what it cancels and reads as
+ * dangerous; any other fulfillment keeps the section's own words.
+ */
+export const useApishipCancelAction = (
+  fulfillment: ExtendedOrderFulfillment
+): { label?: string; destructive?: boolean } => {
+  const { t } = useTranslation()
+  return isApishipFulfillment(fulfillment)
+    ? { label: t("apishipShipment.actions.cancel"), destructive: true }
+    : {}
 }
 
 /** The «…» group of an ApiShip shipment; no group for any other fulfillment. */

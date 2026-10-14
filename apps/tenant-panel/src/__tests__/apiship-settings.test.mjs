@@ -230,3 +230,54 @@ test("every file of the screen stays under 800 lines", () => {
     assert.ok(source.split("\n").length < 800, `${name} is ${source.split("\n").length} lines`)
   }
 })
+
+// ── fixes after the blind mockup (t-2026-10-14-58, step b-panel-fixes) ─────
+
+test("no transport words on the owner's screen: no header, no Bearer, no server host (rule 6)", () => {
+  for (const [name, catalog] of [["ru", ru], ["en", en]]) {
+    const words = JSON.stringify(catalog.integrations.apiship)
+    for (const banned of [/Authorization/, /Bearer/, /api\.dev\./, /api\.apiship\.ru/]) {
+      assert.ok(!banned.test(words), `${name}.json integrations.apiship says ${banned}`)
+    }
+  }
+  assert.equal(ru.integrations.apiship.tokenHint, "Токен — в личном кабинете ApiShip, раздел «API».")
+  assert.equal(ru.integrations.apiship.testContour, "тестовый контур")
+  assert.equal(ru.integrations.apiship.testContourHint, "Заказы и наклейки не настоящие: перевозчик их не увидит.")
+})
+
+test("a new shop sees one card, one sentence and one «Подключить ApiShip» (E8), no «—» rows", () => {
+  const empty = page.slice(page.indexOf("if (!settings && !apiship.unreadable)"), page.indexOf("const missing = new Set"))
+  assert.ok(empty.length > 0, "the empty branch must come before the sections are built")
+  assert.ok(empty.includes("<NoRecords"))
+  assert.ok(empty.includes('action={{ to: "edit/connection", label: t("integrations.apiship.connect") }}'))
+  assert.ok(empty.includes("rows: []") && empty.includes("actions: []"), "no rows and no «…» in the empty card")
+  assert.ok(!empty.includes("ApishipDuplicates") && !empty.includes("[sender, parcel"), "no other section")
+  assert.equal(ru.integrations.apiship.connect, "Подключить ApiShip")
+  const detail = read("components/settings/settings-detail/settings-detail.tsx")
+  assert.ok(detail.includes("{section.body ??"), "the shared section draws the body instead of the rows")
+})
+
+test("a pinned tariff reads by its name from the tariff list, the number only without it", () => {
+  assert.ok(!rows.includes("tariffPinned"), "the read page no longer says «тариф № 47»")
+  const pinned = rows.slice(rows.indexOf("const PinnedTariff"), rows.indexOf("const cheapestText"))
+  assert.ok(pinned.includes("useApishipTariffs(providerKey, { enabled })"), "the drawer's own query")
+  assert.ok(pinned.includes("tariffs?.find((tariff) => tariff.id === id)?.name"))
+  assert.ok(pinned.includes('t("integrations.apiship.tariffOption", { name, id })'), "as the drawer names it")
+  assert.ok(pinned.includes('t("integrations.apiship.tariffNumber", { id })'), "the number while there is no name")
+  assert.ok(rows.includes("enabled={Boolean(apiship.settings)}"), "ApiShip is asked only with a token")
+  assert.equal(ru.integrations.apiship.tariffOption, "{{name}} (№ {{id}})")
+})
+
+test("the sender drawer marks an empty required field with the read page's reason", () => {
+  const sender = drawers[1]
+  assert.ok(sender.includes('missing.has(field) ? t("integrations.apiship.neededToShip") : undefined'))
+  for (const field of ["sender_name", "sender_phone", "sender_city", "sender_address"]) {
+    assert.ok(sender.includes(`needed={needed("${field}")}`), `${field} is not marked`)
+  }
+  assert.ok(fields.includes('needed && !String(field.value ?? "").trim()'), "the mark goes once the field is filled")
+  assert.ok(fields.includes('<StatusBadge color="orange"'), "the same orange badge as the read page")
+})
+
+test("the connection switch keeps its width when its description wraps on a phone", () => {
+  assert.ok(read("components/common/switch-box/switch-box.tsx").includes('className="shrink-0 rtl:rotate-180"'))
+})

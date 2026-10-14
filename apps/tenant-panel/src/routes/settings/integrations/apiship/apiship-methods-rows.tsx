@@ -3,11 +3,12 @@ import type { TFunction } from "i18next"
 import { useTranslation } from "react-i18next"
 
 import type { SettingsRow } from "../../../../components/settings"
-import type {
-  ApishipCalculator,
-  ApishipKind,
-  ApishipProbeResponse,
-  ApishipResponse,
+import {
+  type ApishipCalculator,
+  type ApishipKind,
+  type ApishipProbeResponse,
+  type ApishipResponse,
+  useApishipTariffs,
 } from "../../../../hooks/api/apiship"
 import { formatRub, kindState, pendingReason } from "./apiship-model"
 
@@ -33,6 +34,23 @@ export const CabinetHint = () => {
         a.apiship.ru
       </a>
     </Text>
+  )
+}
+
+/**
+ * A pinned tariff by its name, as the methods drawer lists it («Посылка онлайн
+ * (№ 47)»). `GET /tenants/apiship` keeps only the number: the name comes from
+ * the carrier's tariff list the drawer loads (the same query, so one request
+ * for both). Until it lands, or when the list has no such tariff, the number.
+ */
+const PinnedTariff = ({ providerKey, id, enabled }: { providerKey: string; id: number; enabled: boolean }) => {
+  const { t } = useTranslation()
+  const { tariffs } = useApishipTariffs(providerKey, { enabled })
+  const name = tariffs?.find((tariff) => tariff.id === id)?.name
+  return (
+    <span data-testid={`apiship-tariff-${providerKey}`}>
+      {name ? t("integrations.apiship.tariffOption", { name, id }) : t("integrations.apiship.tariffNumber", { id })}
+    </span>
   )
 }
 
@@ -92,9 +110,11 @@ export const methodsRows = ({
     const notConnected = connected !== null && !connected.has(carrier.provider_key)
     // Chosen but not at the checkout yet: ticked, with the reason, never «на сайте».
     const pending = kinds.some((kind) => kindState(carrier, kind).chosen && !kindState(carrier, kind).live)
-    const tariff = carrier.tariff_id
-      ? t("integrations.apiship.tariffPinned", { id: carrier.tariff_id })
-      : t("integrations.apiship.tariffCheapest")
+    const tariff = carrier.tariff_id ? (
+      <PinnedTariff providerKey={carrier.provider_key} id={carrier.tariff_id} enabled={Boolean(apiship.settings)} />
+    ) : (
+      t("integrations.apiship.tariffCheapest")
+    )
 
     return {
       id: `carrier-${carrier.provider_key}`,
@@ -126,7 +146,9 @@ export const methodsRows = ({
           {pendingReason(t, apiship)} {t("integrations.apiship.tariffLabel")}: {tariff}
         </span>
       ) : (
-        tariff
+        <>
+          {t("integrations.apiship.tariffLabel")}: {tariff}
+        </>
       ),
     }
   })

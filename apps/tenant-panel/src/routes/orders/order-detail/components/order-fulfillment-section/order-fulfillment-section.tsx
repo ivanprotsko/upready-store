@@ -34,7 +34,7 @@ import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
 import { useOwnerSku } from "../../../../../hooks/use-owner-sku"
 import { ExtendedOrderFulfillment, ExtendedOrder } from "../../constants"
-import { ApishipShipmentRows, useApishipShipmentActions } from "./apiship-shipment"
+import { ApishipShipmentRows, useApishipCancelAction, useApishipShipmentActions } from "./apiship-shipment"
 
 type OrderFulfillmentSectionProps = {
   order: ExtendedOrder
@@ -294,6 +294,7 @@ const Fulfillment = ({
   }
 
   const apishipActions = useApishipShipmentActions(order, fulfillment)
+  const apishipCancel = useApishipCancelAction(fulfillment)
   const { mutateAsync } = useCancelOrderFulfillment(order.id, fulfillment.id)
   const { mutateAsync: markAsDelivered } = useMarkOrderFulfillmentAsDelivered(
     order.id,
@@ -408,6 +409,7 @@ const Fulfillment = ({
                 actions: [
                   {
                     label: t("actions.cancel"),
+                    ...apishipCancel,
                     icon: <XCircle />,
                     onClick: handleCancel,
                     disabled:

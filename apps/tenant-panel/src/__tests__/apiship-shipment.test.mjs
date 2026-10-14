@@ -125,7 +125,11 @@ test("a cancelled shipment or one without an ApiShip order offers no document", 
 })
 
 test("the section file only mounts the ApiShip part, before the dangerous «Отменить»", () => {
-  assert.ok(section.includes('import { ApishipShipmentRows, useApishipShipmentActions } from "./apiship-shipment"'))
+  assert.ok(
+    section.includes(
+      'import { ApishipShipmentRows, useApishipCancelAction, useApishipShipmentActions } from "./apiship-shipment"'
+    )
+  )
   assert.ok(section.includes("<ApishipShipmentRows fulfillment={fulfillment} />"))
   const groups = section.slice(section.indexOf("groups={["), section.indexOf('label: t("actions.cancel")'))
   assert.ok(groups.includes("...apishipActions,"), "the ApiShip group stands before the cancel group")
@@ -175,4 +179,38 @@ test("every i18n key the card and the batch read literally exists in ru.json and
   for (const form of ["one", "few", "many", "other"]) {
     assert.equal(typeof ru.apishipShipment.batch[`labelsReady_${form}`], "string", `ru plural ${form}`)
   }
+})
+
+// ── fixes after the blind mockup (t-2026-10-14-58, step b-panel-fixes) ─────
+
+test("a long carrier status wraps inside its badge on a phone, never cut by the card", () => {
+  assert.ok(!card.includes("text-nowrap"), "the ApiShip status badge must be allowed to wrap")
+  assert.ok(card.includes('const BADGE_WRAPS = "max-w-full items-start py-px leading-4"'))
+  assert.equal((card.match(/className=\{BADGE_WRAPS\}/g) ?? []).length, 2, "both status badges wrap")
+})
+
+test("the cancel of an ApiShip shipment says «Отменить отправку» in the error colour, after the divider", () => {
+  assert.equal(ru.apishipShipment.actions.cancel, "Отменить отправку")
+  assert.equal(en.apishipShipment.actions.cancel, "Cancel shipment")
+  const hookCancel = card.slice(card.indexOf("export const useApishipCancelAction"), card.indexOf("export const useApishipShipmentActions"))
+  assert.ok(hookCancel.includes("isApishipFulfillment(fulfillment)"), "only an ApiShip shipment is renamed")
+  assert.ok(hookCancel.includes('{ label: t("apishipShipment.actions.cancel"), destructive: true }'))
+  const cancel = section.slice(section.indexOf('label: t("actions.cancel")'), section.indexOf("onClick: handleCancel"))
+  assert.ok(cancel.includes("...apishipCancel,"), "the ApiShip words override the section's «Отмена»")
+  const menu = read("components/common/action-menu/action-menu.tsx")
+  assert.ok(menu.includes("destructive?: boolean"))
+  assert.ok(menu.includes('"text-ui-fg-error [&_svg]:text-ui-fg-error":\n                              action.destructive && !action.disabled'))
+})
+
+test("on a phone the batch bar is a sheet: every command visible, one per line", () => {
+  const root = read("components/table/data-table/data-table-root/data-table-root.tsx")
+  const bar = root.match(/const PHONE_BAR =\s*"([^"]+)"/)?.[1] ?? ""
+  for (const cls of ["max-sm:w-[calc(100vw-2rem)]", "max-sm:flex-col", "max-sm:items-stretch"]) {
+    assert.ok(bar.includes(cls), `PHONE_BAR lacks ${cls}`)
+  }
+  assert.ok(root.includes('const PHONE_SEPARATOR = "max-sm:h-px max-sm:w-full"'))
+  assert.ok(root.includes("max-sm:[&_kbd]:hidden"), "no keyboard hints on a phone")
+  assert.ok(root.includes("<CommandBar.Bar className={PHONE_BAR}>"))
+  assert.ok(root.includes("className={PHONE_COMMAND}"))
+  assert.equal((root.match(/<CommandBar\.Seperator className=\{PHONE_SEPARATOR\} \/>/g) ?? []).length, 2)
 })

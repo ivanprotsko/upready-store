@@ -5549,8 +5549,11 @@
       "rowSubtitle": "carrier aggregator",
       "rowNote": "CDEK and Russian Post: checkout rates, labels, acts and statuses",
       "tokenLabel": "ApiShip token",
-      "tokenHint": "ApiShip cabinet, API section. The token goes into the Authorization header as it is, without the word Bearer.",
+      "tokenHint": "The token is in your ApiShip cabinet, API section.",
       "tokenMissing": "no token",
+      "emptyTitle": "ApiShip is not connected",
+      "emptyMessage": "Paste the token from your ApiShip cabinet, and the sender, the methods on the site and the markup appear here.",
+      "connect": "Connect ApiShip",
       "keepPlaceholder": "keep the stored ••••{{last4}}",
       "emptyPlaceholder": "paste the token from the ApiShip cabinet",
       "enabledLabel": "ApiShip is on",
@@ -5575,7 +5578,7 @@
       "cabinetHint": "Carriers are connected in the ApiShip cabinet → «Службы доставки»:",
       "contourLabel": "ApiShip contour",
       "testContour": "test contour",
-      "testContourHint": "This stand talks to api.dev.apiship.ru: orders and labels are test ones, no carrier sees them.",
+      "testContourHint": "Orders and labels are not real: no carrier sees them.",
       "neededToShip": "needed to ship",
       "senderMissing": "missing: {{fields}}",
       "senderReady": "ready to ship",
@@ -5594,6 +5597,7 @@
       "tariffLabel": "Tariff",
       "tariffCheapest": "the cheapest at the time of the order",
       "tariffPinned": "tariff no. {{id}}",
+      "tariffNumber": "no. {{id}}",
       "tariffOption": "{{name}} (no. {{id}})",
       "tariffsUnavailable": "ApiShip's tariff list is unavailable right now: you can save with the cheapest tariff.",
       "carriersSkipped": "Not switched on because they are not connected in the ApiShip cabinet: {{carriers}}.",
@@ -6381,7 +6385,8 @@
     "actions": {
       "label": "Download label",
       "waybill": "Download act",
-      "sync": "Refresh status"
+      "sync": "Refresh status",
+      "cancel": "Cancel shipment"
     },
     "toast": {
       "labelsReady": "Label downloaded",

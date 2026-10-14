@@ -1,4 +1,4 @@
-import { Input, Select, toast } from "@medusajs/ui"
+import { Input, Select, StatusBadge, toast } from "@medusajs/ui"
 import type { TFunction } from "i18next"
 import { Control, FieldValues, Path } from "react-hook-form"
 
@@ -24,6 +24,11 @@ type TextFieldProps<T extends FieldValues> = {
   type?: "text" | "password" | "tel" | "email"
   inputMode?: "numeric" | "decimal"
   mono?: boolean
+  /**
+   * Why the field must be filled, in the read page's words («нужно для
+   * отправки»): shown by the label while the field is empty.
+   */
+  needed?: string
 }
 
 export const ApishipTextField = <T extends FieldValues>({
@@ -36,13 +41,21 @@ export const ApishipTextField = <T extends FieldValues>({
   type = "text",
   inputMode,
   mono,
+  needed,
 }: TextFieldProps<T>) => (
   <Form.Field
     control={control}
     name={name}
     render={({ field }) => (
       <Form.Item>
-        <Form.Label optional={optional}>{label}</Form.Label>
+        <div className="flex flex-wrap items-center gap-2">
+          <Form.Label optional={optional}>{label}</Form.Label>
+          {needed && !String(field.value ?? "").trim() ? (
+            <StatusBadge color="orange" data-testid={`apiship-needed-${name}`}>
+              {needed}
+            </StatusBadge>
+          ) : null}
+        </div>
         <Form.Control>
           <Input
             {...field}

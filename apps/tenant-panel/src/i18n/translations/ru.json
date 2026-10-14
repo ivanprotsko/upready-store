@@ -5680,8 +5680,11 @@
       "rowSubtitle": "агрегатор перевозчиков",
       "rowNote": "СДЭК и Почта России: тарифы на кассе, наклейки, акты и статусы",
       "tokenLabel": "Токен ApiShip",
-      "tokenHint": "Личный кабинет ApiShip → API. Токен передаётся в заголовке Authorization как есть, без слова Bearer.",
+      "tokenHint": "Токен — в личном кабинете ApiShip, раздел «API».",
       "tokenMissing": "токен не введён",
+      "emptyTitle": "ApiShip не подключён",
+      "emptyMessage": "Вставьте токен из кабинета ApiShip, и здесь появятся отправитель, способы на сайте и наценка.",
+      "connect": "Подключить ApiShip",
       "keepPlaceholder": "оставить сохранённый ••••{{last4}}",
       "emptyPlaceholder": "вставьте токен из кабинета ApiShip",
       "enabledLabel": "ApiShip включён",
@@ -5706,7 +5709,7 @@
       "cabinetHint": "Перевозчиков подключают в кабинете ApiShip → «Службы доставки»:",
       "contourLabel": "Контур ApiShip",
       "testContour": "тестовый контур",
-      "testContourHint": "Этот стенд смотрит в api.dev.apiship.ru: заказы и наклейки тестовые, перевозчик их не увидит.",
+      "testContourHint": "Заказы и наклейки не настоящие: перевозчик их не увидит.",
       "neededToShip": "нужно для отправки",
       "senderMissing": "не хватает: {{fields}}",
       "senderReady": "готов к отправке",
@@ -5725,6 +5728,7 @@
       "tariffLabel": "Тариф",
       "tariffCheapest": "самый дешёвый на момент заказа",
       "tariffPinned": "тариф № {{id}}",
+      "tariffNumber": "№ {{id}}",
       "tariffOption": "{{name}} (№ {{id}})",
       "tariffsUnavailable": "Список тарифов ApiShip сейчас недоступен: сохранить можно с самым дешёвым тарифом.",
       "carriersSkipped": "Не включены, потому что не подключены в кабинете ApiShip: {{carriers}}.",
@@ -6520,7 +6524,8 @@
     "actions": {
       "label": "Скачать наклейку",
       "waybill": "Скачать акт",
-      "sync": "Обновить статус"
+      "sync": "Обновить статус",
+      "cancel": "Отменить отправку"
     },
     "toast": {
       "labelsReady": "Наклейка скачана",
