@@ -43,8 +43,8 @@
     },
     {
       "path": "apps/tenant-panel/src/app.tsx",
-      "lines": 1192,
-      "reason": "panel file, split in a later part of t-2026-10-14-55"
+      "lines": 1287,
+      "reason": "panel file, split in a later part of t-2026-10-14-55; grew from 1192 on 14.10 by #447, #448 and #450, merged before this check ran in ci"
     },
     {
       "path": "apps/tenant-panel/src/components/data-grid/components/data-grid-root.tsx",
