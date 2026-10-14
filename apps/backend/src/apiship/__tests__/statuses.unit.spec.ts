@@ -39,7 +39,7 @@ describe("apiship: statuses", () => {
   });
 
   it("stops polling only at the end of the road", () => {
-    expect([...APISHIP_FINAL_STATUSES].sort()).toEqual(["deliveryCanceled", "delivered", "lost", "returned", "returnedFromDelivery"]);
+    expect([...APISHIP_FINAL_STATUSES].sort()).toEqual(["delivered", "deliveryCanceled", "lost", "returned", "returnedFromDelivery"]);
     expect(APISHIP_FINAL_STATUSES.has("uploadingError")).toBe(false);
   });
 
