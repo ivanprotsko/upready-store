@@ -53,7 +53,12 @@ export const OWNER_ROUTES = [
 
   // Характеристики
   { path: "/product-attributes" },
+  { path: "/product-attributes?q=zzzz-nothing-matches", note: "empty search result" },
+  { path: "/product-attributes/create", kind: "overlay" },
   { path: "/product-attributes/:attribute_id" },
+  { path: "/product-attributes/:attribute_id/edit", kind: "overlay" },
+  { path: "/product-attributes/:attribute_id/translations/edit", kind: "overlay" },
+  { path: "/product-attributes/:attribute_id/values/edit", kind: "overlay" },
 
   // Курсы
   { path: "/courses", core: true },
@@ -243,9 +248,12 @@ export const PARAM_RESOLVERS = {
     const body = await api("/tenants/products/import")
     return first(body.product_imports, "product imports").id
   },
+  // A choice list when the stand has one, so the card shows its values section
+  // and `values/edit` opens with values (t-2026-10-14-01, G2).
   attribute_id: async (api) => {
-    const body = await api("/tenants/product-attributes?limit=1")
-    return first(body.product_attributes, "product attributes").id
+    const body = await api("/tenants/product-attributes")
+    const list = body.product_attributes ?? []
+    return (list.find((a) => a.type === "select") ?? first(list, "product attributes")).id
   },
   category_id: async (api) => {
     const { product_categories } = await api(

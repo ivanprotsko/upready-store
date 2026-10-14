@@ -99,11 +99,17 @@ test("a save toasts success, then returns to the read page; a refusal toasts the
   const submit = drawer.slice(drawer.indexOf("form.handleSubmit"), drawer.indexOf("return (", drawer.indexOf("form.handleSubmit")))
   const errorAt = submit.indexOf("toast.error(error instanceof Error ? error.message")
   const returnAt = submit.indexOf("return", errorAt)
-  const successAt = submit.indexOf("toast.success(successMessage)")
+  const successAt = submit.indexOf("toast.success(typeof successMessage")
   const closeAt = submit.indexOf("handleSuccess()")
   assert.ok(errorAt !== -1, "a refusal must reach the owner as toast.error with the platform's text")
   assert.ok(returnAt !== -1 && returnAt < successAt, "a refusal must not fall through to the success toast")
   assert.ok(successAt !== -1 && closeAt > successAt, "success: toast first, then back to the read page")
+})
+
+test("the success toast may read the save's answer (G2: values a save cleared)", () => {
+  assert.ok(drawer.includes("successMessage: string | ((result: unknown) => string)"))
+  assert.ok(drawer.includes("result = await onSubmit(values)"))
+  assert.ok(drawer.includes('typeof successMessage === "function" ? successMessage(result) : successMessage'))
 })
 
 test("the form mounts only once the saved record is read, never with blanks", () => {

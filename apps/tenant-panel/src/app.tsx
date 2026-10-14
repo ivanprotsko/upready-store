@@ -482,18 +482,53 @@ const routes: RouteObject[] = [
             // t15-product-attributes: the shop's own product characteristics,
             // declared once and filled in on each product. Hangs under Products
             // in the nav, the way Campaigns hangs under Promotions.
+            // t-2026-10-14-01 (panel redesign, G2): the list with the create
+            // modal over it, the card of one characteristic and its three
+            // drawers, one per section.
             path: "/product-attributes",
-            handle: { breadcrumb: () => "Характеристики товаров" },
+            handle: { breadcrumb: () => t("productAttributes.title") },
+            errorElement: <ErrorBoundary />,
             children: [
               {
                 path: "",
                 lazy: () =>
                   import("./routes/product-attributes/attribute-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("./routes/product-attributes/attribute-create"),
+                  },
+                ],
               },
               {
                 path: ":id",
-                lazy: () =>
-                  import("./routes/product-attributes/attribute-edit"),
+                lazy: async () => {
+                  const { Component, Breadcrumb } = await import(
+                    "./routes/product-attributes/attribute-detail"
+                  )
+
+                  return {
+                    Component,
+                    handle: {
+                      breadcrumb: (match: UIMatch) => <Breadcrumb {...match} />,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/product-attributes/attribute-edit"),
+                  },
+                  {
+                    path: "translations/edit",
+                    lazy: () =>
+                      import("./routes/product-attributes/attribute-translations-edit"),
+                  },
+                  {
+                    path: "values/edit",
+                    lazy: () => import("./routes/product-attributes/attribute-values-edit"),
+                  },
+                ],
               },
             ],
           },
