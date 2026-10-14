@@ -120,6 +120,20 @@ export const listOpenApishipFulfillments = async (
   return rows.map(toRow).filter((row): row is ApishipFulfillmentRow => row !== null);
 };
 
+/** The lines of the fulfillment, as the shipment workflow wants them named. */
+const listShipmentItems = async (pg: Knex, fulfillmentId: string): Promise<Array<{ id: string; quantity: number }>> => {
+  const rows = (await pg("fulfillment_item")
+    .select("line_item_id", "quantity")
+    .where({ fulfillment_id: fulfillmentId })
+    .whereNull("deleted_at")) as Array<{ line_item_id: string | null; quantity: unknown }>;
+  const byLine = new Map<string, number>();
+  for (const row of rows) {
+    if (!row.line_item_id) continue;
+    byLine.set(row.line_item_id, Math.max(byLine.get(row.line_item_id) ?? 0, Number(row.quantity) || 1));
+  }
+  return [...byLine].map(([id, quantity]) => ({ id, quantity }));
+};
+
 const listLabels = async (pg: Knex, fulfillmentId: string): Promise<FulfillmentLabelRow[]> =>
   (await pg("fulfillment_label")
     .select("id", "tracking_number", "tracking_url", "label_url")
@@ -265,6 +279,7 @@ export const applyApishipStatus = async (
           input: {
             order_id: orderId,
             fulfillment_id: row.id,
+            items: await listShipmentItems(pg, row.id),
             labels: desiredLabels ?? [],
             no_notification: false,
             created_by: "apiship",
