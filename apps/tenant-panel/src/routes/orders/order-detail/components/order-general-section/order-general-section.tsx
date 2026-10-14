@@ -1,5 +1,4 @@
 import { XCircle } from "@medusajs/icons"
-import { HttpTypes } from "@medusajs/types"
 import {
   Container,
   Copy,
@@ -15,6 +14,8 @@ import {
   ORDER_STAGE_COLORS,
   orderStage,
   orderStageKey,
+  type OrderStage,
+  paymentRepeatsStage,
   type StageOrder,
 } from "../../../../../lib/order-stage"
 import { ExtendedOrder } from "../../constants"
@@ -28,6 +29,12 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
   const { t } = useTranslation()
   const { getFullDate } = useDate()
   const handleCancel = useCancelOrderPrompt(order)
+
+  // t-2026-10-14-58 (release stand, 14.10): one badge when the payment would
+  // say the stage's own words; the «Оплата» block below keeps its badge.
+  const stage = orderStage(order as unknown as StageOrder)
+  const payment = manualPaymentStatus(t, order) ?? getOrderPaymentStatus(t, order.payment_status)
+  const showPayment = !paymentRepeatsStage(t(orderStageKey(stage)), payment.label)
 
   return (
     <Container className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4">
@@ -45,8 +52,8 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
       </div>
       <div className="flex min-w-0 items-center gap-x-4 max-md:w-full max-md:justify-between">
         <div className="flex flex-wrap items-center gap-1.5">
-          <StageBadge order={order} />
-          <PaymentBadge order={order} />
+          <StageBadge stage={stage} />
+          {showPayment && <PaymentBadge payment={payment} />}
         </div>
         <ActionMenu
           groups={[
@@ -73,9 +80,8 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
  * and the fulfillment one, whose «Ждёт сборки» next to «Отменён» or «Оплата
  * отменена» asked her to pack an order nobody pays for (Gemini critique 2, 3.2).
  */
-const StageBadge = ({ order }: { order: ExtendedOrder }) => {
+const StageBadge = ({ stage }: { stage: OrderStage }) => {
   const { t } = useTranslation()
-  const stage = orderStage(order as unknown as StageOrder)
 
   return (
     <StatusBadge
@@ -89,14 +95,8 @@ const StageBadge = ({ order }: { order: ExtendedOrder }) => {
   )
 }
 
-const PaymentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
-  const { t } = useTranslation()
-
-  const { label, color } = manualPaymentStatus(t, order) ?? getOrderPaymentStatus(t, order.payment_status)
-
-  return (
-    <StatusBadge color={color} className="text-nowrap">
-      {label}
-    </StatusBadge>
-  )
-}
+const PaymentBadge = ({ payment }: { payment: ReturnType<typeof getOrderPaymentStatus> }) => (
+  <StatusBadge color={payment.color} className="text-nowrap">
+    {payment.label}
+  </StatusBadge>
+)

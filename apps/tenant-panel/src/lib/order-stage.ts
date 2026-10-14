@@ -76,6 +76,14 @@ export const ORDER_STAGE_COLORS: Record<OrderStage, StageColor> = {
 /** The i18n key of a stage's word, the same word the buyer reads. */
 export const orderStageKey = (stage: OrderStage): string => `orders.stage.${stage}`
 
+/**
+ * t-2026-10-14-58 (release stand, 14.10): the card header drops the payment
+ * badge when it reads the stage's own words, as a manual order waiting for
+ * money did, «Ожидает оплаты» twice. Different words keep both badges.
+ */
+export const paymentRepeatsStage = (stageLabel: string, paymentLabel: string | undefined): boolean =>
+  !!paymentLabel && stageLabel.trim().toLowerCase() === paymentLabel.trim().toLowerCase()
+
 type ParcelStage = "awaitingShipment" | "shipped" | "inTransit" | "atPickupPoint" | "withCourier" | "received"
 type CarrierStage = ParcelStage | "returning" | "returned"
 

@@ -11,6 +11,7 @@ import {
   ORDER_STAGE_COLORS,
   orderStage,
   orderStageKey,
+  paymentRepeatsStage,
 } from "../lib/order-stage.ts"
 
 /**
@@ -164,6 +165,28 @@ test("the customer page shows the same stage", () => {
 
 test("the card header: the stage and the payment, no separate «Отменён» or fulfillment badge", () => {
   const header = read("routes/orders/order-detail/components/order-general-section/order-general-section.tsx")
-  assert.match(header, /<StageBadge order=\{order\} \/>\s*<PaymentBadge order=\{order\} \/>/)
+  assert.match(header, /<StageBadge stage=\{stage\} \/>\s*\{showPayment && <PaymentBadge payment=\{payment\} \/>\}/)
   assert.doesNotMatch(header, /FulfillmentBadge|OrderBadge/)
+})
+
+test("the card header shows one badge when the stage and the payment say the same words (release stand, 14.10)", () => {
+  const header = read("routes/orders/order-detail/components/order-general-section/order-general-section.tsx")
+  assert.match(header, /const showPayment = !paymentRepeatsStage\(t\(orderStageKey\(stage\)\), payment\.label\)/)
+
+  // Same words → one badge: a manual order waiting for money, its receipt
+  // waiting for the owner, a rejected receipt; in ru and in en.
+  for (const lang of [ru, en]) {
+    const { stage, payment } = lang.orders
+    assert.equal(paymentRepeatsStage(stage.awaitingPayment, payment.status.manualAwaitingPayment), true)
+    assert.equal(paymentRepeatsStage(stage.awaitingConfirmation, payment.status.awaitingConfirmation), true)
+    assert.equal(paymentRepeatsStage(stage.receiptRejected, payment.status.receiptRejected), true)
+  }
+  assert.equal(paymentRepeatsStage(" Ожидает оплаты", "ожидает оплаты "), true)
+
+  // Different words → two badges: «Собирается» next to «Оплачен», and a
+  // gateway order whose Medusa status reads «Ждёт оплаты», not the stage's word.
+  assert.equal(paymentRepeatsStage(ru.orders.stage.packing, ru.orders.payment.status.captured), false)
+  assert.equal(paymentRepeatsStage(ru.orders.stage.awaitingPayment, ru.orders.payment.status.notPaid), false)
+  assert.equal(paymentRepeatsStage(en.orders.stage.shipped, en.orders.payment.status.captured), false)
+  assert.equal(paymentRepeatsStage(ru.orders.stage.awaitingPayment, undefined), false)
 })
