@@ -329,7 +329,10 @@ export const downloadDocument = async (
   options: ApishipClientOptions = {},
 ): Promise<{ bytes: Buffer; contentType: string }> => {
   const parsed = new URL(url);
-  if (!/(^|\.)apiship\.ru$/.test(parsed.hostname)) {
+  const apiHost = credentials.base ? new URL(credentials.base).hostname : null;
+  // ApiShip's own hosts, or the host the API itself lives on (a stand-in server
+  // in the seam test serves its storage on the same origin as its API).
+  if (!/(^|\.)apiship\.ru$/.test(parsed.hostname) && parsed.hostname !== apiHost) {
     throw new Error(`refusing to download a document from ${parsed.hostname}`);
   }
   const fetchImpl = options.fetchImpl ?? fetch;
