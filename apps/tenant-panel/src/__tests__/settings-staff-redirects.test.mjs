@@ -158,8 +158,11 @@ test("one route drawer adds and changes a rule; the old address is locked in an 
 test("the form refuses a path that is not a path and a rule that loops, at the field", () => {
   assert.ok(form.includes('.regex(REDIRECT_PATH_PATTERN, { message: t("redirects.pathError") })'))
   assert.ok(form.includes('message: t("redirects.loopError"),\n        path: ["to_path"],'))
-  // The pattern is the backend's (`validators.ts`, `redirectPath`).
-  const backend = readFileSync(join(SRC, "..", "..", "backend", "src", "api", "tenants", "validators.ts"), "utf8")
+  // The pattern is the backend's (`validators/storefront.ts`, `redirectPath`).
+  const backend = readFileSync(
+    join(SRC, "..", "..", "backend", "src", "api", "tenants", "validators", "storefront.ts"),
+    "utf8"
+  )
   assert.ok(backend.includes(`.regex(/${REDIRECT_PATH_PATTERN.source}/,`), "the panel and the backend check the same pattern")
   for (const ok of ["/", "/catalog/kub-1", "/ru/ru/products/myod-lipovyj"]) {
     assert.ok(REDIRECT_PATH_PATTERN.test(ok), ok)
