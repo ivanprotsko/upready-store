@@ -59,7 +59,8 @@ const routerPaths = () => {
         : [{ line, offset }]
     })
   for (const { line, offset } of lines(appSource, 0)) {
-    const match = line.match(/^(\s*)path:\s*"([^"]*)"/)
+    // A child route may be one line, `{ path: ":id", lazy: … }` (G5 reviews).
+    const match = line.match(/^(\s*)(?:\{\s*)?path:\s*"([^"]*)"/)
     if (!match) {
       continue
     }

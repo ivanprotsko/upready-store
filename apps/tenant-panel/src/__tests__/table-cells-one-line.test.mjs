@@ -21,11 +21,10 @@ import { fileURLToPath } from "node:url"
  * (title + description) are Ivan's own exception (0.1.2), and that screen
  * is not a table.
  *
- * The `reviews/review-list` "Отзыв" cell is not covered either: it is the
- * review's own content (rating, title, body up to 5000 characters, reply
- * box), not a name+caption pair, and forcing it to one line would make a
- * review unreadable. Its "Товар" and "Статус" cells ARE covered, since
- * those two are exactly the name+caption shape this task fixes.
+ * The `reviews` list (G5, t-2026-10-14-01) reads like Wildberries →
+ * «Отзывы»: every cell one line, the review's text truncated, the full text
+ * in the review's drawer. Its "Товар", "Покупатель" and "Статус" cells are
+ * covered, since those are exactly the name+caption shape this task fixes.
  */
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -103,26 +102,26 @@ test("article list: the row shows only the article title, no public URL line", (
   )
 })
 
-test("review list: the product cell shows only the product title, no source/language line", () => {
-  const source = read("routes/reviews/review-list/review-list.tsx")
+test("review list: the product and buyer cells show one line; where the review came from is a title", () => {
+  const source = read("routes/reviews/review-list/use-review-table.tsx")
   assert.ok(
-    !/<Text size="small" className="text-ui-fg-subtle">\s*\{REVIEW_SOURCE_LABEL\[review\.source\]\}, \{languageLabel\(review\.language\)\}\s*<\/Text>/.test(
-      source
-    ),
-    "source/language must not render as its own <Text> under the product title"
+    !/<Text[^>]*text-ui-fg-subtle[^>]*>\s*\{reviewOrigin\(/.test(source),
+    "source/language must not render as its own <Text> under the buyer's name"
+  )
+  assert.ok(
+    source.includes("title={reviewOrigin(t, row.original.source, row.original.language)}"),
+    "the source and language must still be reachable, via title on the name"
   )
 })
 
 test("review list: the status cell shows only the badge, no hint line", () => {
-  const source = read("routes/reviews/review-list/review-list.tsx")
+  const source = read("routes/reviews/review-list/use-review-table.tsx")
   assert.ok(
-    !/<Text size="small" className="text-ui-fg-subtle">\s*\{REVIEW_STATUS_HINT\[review\.status\]\}\s*<\/Text>/.test(
-      source
-    ),
-    "REVIEW_STATUS_HINT must not render as its own <Text> under the status badge"
+    !/<Text[^>]*>\s*\{reviewStatusHint\(/.test(source),
+    "the status hint must not render as its own <Text> under the status badge"
   )
   assert.ok(
-    source.includes("title={REVIEW_STATUS_HINT[review.status]}"),
+    source.includes("title={reviewStatusHint(t, getValue())}"),
     "the hint must still be reachable, via title on the badge"
   )
 })

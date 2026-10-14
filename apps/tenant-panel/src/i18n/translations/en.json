@@ -6894,6 +6894,111 @@
     "message": "Your role does not open this section. The shop owner grants access.",
     "toOverview": "To the overview"
   },
+  "reviews": {
+    "title": "Reviews",
+    "subtitle": "A review from the storefront arrives here as «pending» and is not shown on the product page until you publish it. Reviews from Wildberries and the old shop are already published.",
+    "pending_one": "{{count}} review awaits moderation",
+    "pending_other": "{{count}} reviews await moderation",
+    "columns": {
+      "rating": "Rating",
+      "review": "Review",
+      "product": "Product",
+      "author": "Customer",
+      "date": "Date",
+      "reply": "Reply",
+      "status": "Status"
+    },
+    "filters": {
+      "answered": "Replied",
+      "unanswered": "Not replied",
+      "source": "Source",
+      "sources": {
+        "shop": "Storefront",
+        "imported": "Old shop",
+        "wb": "Wildberries"
+      }
+    },
+    "stars_one": "{{count}} star",
+    "stars_other": "{{count}} stars",
+    "ratingOf": "{{rating}} of 5",
+    "status": {
+      "pending": "Pending",
+      "published": "Published",
+      "hidden": "Hidden"
+    },
+    "statusHint": {
+      "pending": "A customer left this review on the storefront. It is not shown on the product page yet.",
+      "published": "Everyone sees this review on the product page, and it counts towards the average rating.",
+      "hidden": "Removed from the product page but kept — you can bring it back."
+    },
+    "source": {
+      "shop": "from the storefront",
+      "imported": "from the old shop",
+      "wb": "from Wildberries"
+    },
+    "language": {
+      "ru": "Russian",
+      "en": "English",
+      "de": "German",
+      "fr": "French",
+      "es": "Spanish",
+      "it": "Italian",
+      "uk": "Ukrainian"
+    },
+    "origin": "{{source}} · {{language}}",
+    "replyState": {
+      "yes": "yes",
+      "no": "no"
+    },
+    "productGone": "Product deleted",
+    "dateUnknown": "date unknown",
+    "empty": {
+      "title": "No reviews yet",
+      "message": "The first one appears here as soon as a customer leaves it on a product page."
+    },
+    "actions": {
+      "open": "Open",
+      "reply": "Reply",
+      "editReply": "Edit reply",
+      "published": "Publish",
+      "hidden": "Hide from the product page",
+      "pending": "Send back to moderation",
+      "deleteReply": "Delete reply"
+    },
+    "toasts": {
+      "published": "Review published",
+      "hidden": "Review hidden from the product page",
+      "pending": "Review sent back to moderation",
+      "replySent": "Reply sent",
+      "replySaved": "Reply saved",
+      "replyDeleted": "Reply deleted",
+      "deleted": "Review deleted"
+    },
+    "delete": {
+      "title": "Delete review?",
+      "description": "The review by «{{author}}» disappears from the panel and from the product page. To only take it off the storefront, hide it instead."
+    },
+    "deleteReply": {
+      "title": "Delete reply?",
+      "description": "The reply disappears from under the review on the product page. The review itself stays."
+    },
+    "detail": {
+      "title": "Review",
+      "description": "The customer's review, its rating, status and your reply.",
+      "text": "Review text",
+      "reply": "Your reply",
+      "noReply": "No reply yet"
+    },
+    "replyForm": {
+      "title": "Reply to the customer",
+      "description": "Customers see it under the review on the product page.",
+      "label": "Shop's reply",
+      "counter": "{{count}} of {{max}}",
+      "send": "Send",
+      "required": "Write a reply",
+      "tooLong": "The reply is longer than {{max}} characters"
+    }
+  },
   "staff": {
     "title": "Staff",
     "subtitle": "Logins for the shop panel. The role decides which sections a staff member sees.",

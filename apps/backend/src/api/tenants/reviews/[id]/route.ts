@@ -5,6 +5,7 @@ import type ProductReviewModuleService from "../../../../modules/product-review/
 import { notifyStorefrontRevalidate } from "../../../../storefront-revalidate";
 import { getTenantScope } from "../../tenant-scope";
 import { toReviewDto, type ReviewRow } from "../review-helpers";
+import { loadReviewProducts, toTenantReviewDto } from "../review-products";
 import type { PostTenantReviewBody } from "../validators";
 
 /**
@@ -25,6 +26,18 @@ const loadOwnedReview = async (
   }
 
   return { row: row as ReviewRow, handle: scope.handle };
+};
+
+/**
+ * `GET /tenants/reviews/:id` — one review with its product, in the list's
+ * shape (t-2026-10-14-01, G5): the panel opens a review in a drawer on its own
+ * address, `/reviews/:id`, which a link or a reload reaches without the list
+ * page that holds the row.
+ */
+export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
+  const { row } = await loadOwnedReview(req, req.params.id);
+  const products = await loadReviewProducts(req, [row]);
+  res.json({ review: toTenantReviewDto(row, products) });
 };
 
 /**
