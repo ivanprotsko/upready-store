@@ -1,10 +1,9 @@
-import type { MedusaContainer } from "@medusajs/framework/types";
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import type { IFulfillmentModuleService, MedusaContainer } from "@medusajs/framework/types";
+import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import {
   createOrderShipmentWorkflow,
   markOrderFulfillmentAsDeliveredWorkflow,
-  updateFulfillmentWorkflow,
 } from "@medusajs/medusa/core-flows";
 
 import { carrierLabel } from "./carriers";
@@ -253,21 +252,24 @@ export const applyApishipStatus = async (
 
   try {
     if (dataChanged || carrierMissing || (labelMissing && !willShip)) {
-      await updateFulfillmentWorkflow(container).run({
-        input: {
-          id: row.id,
-          data: nextData as unknown as Record<string, unknown>,
-          ...(carrierMissing ? { metadata: { ...metadata, carrier } } : {}),
-          ...(labelMissing && !willShip && desiredLabels
-            ? {
-                labels: [
-                  ...existingLabels.map((label) => ({ id: label.id })),
-                  { tracking_number: providerNumber as string, tracking_url: trackingUrl ?? "", label_url: "" },
-                ],
-              }
-            : {}),
-        },
-      });
+      // The module service, the way the direct СДЭК webhook writes its data:
+      // the labels list REPLACES the fulfillment's labels, so the ones already
+      // there are passed back by id and the carrier's number is added once.
+      const update: Record<string, unknown> = { data: nextData };
+      if (carrierMissing) update.metadata = { ...metadata, carrier };
+      if (labelMissing && !willShip && desiredLabels) {
+        update.labels = [
+          ...existingLabels.map((label) => ({
+            id: label.id,
+            tracking_number: label.tracking_number,
+            tracking_url: label.tracking_url,
+            label_url: label.label_url,
+          })),
+          { tracking_number: providerNumber as string, tracking_url: trackingUrl ?? "", label_url: "" },
+        ];
+      }
+      const fulfillmentModule = container.resolve<IFulfillmentModuleService>(Modules.FULFILLMENT);
+      await fulfillmentModule.updateFulfillment(row.id, update);
       result.changed = true;
     }
 
