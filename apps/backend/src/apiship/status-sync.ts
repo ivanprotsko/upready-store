@@ -141,10 +141,14 @@ const listLabels = async (pg: Knex, fulfillmentId: string): Promise<FulfillmentL
 
 const orderIdOf = async (container: MedusaContainer, fulfillmentId: string): Promise<string | null> => {
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
+  // The link filter is not in the generated query types `medusa build`
+  // compiles against (it is in the runtime), so it goes in untyped, the way
+  // `emails/lib/notify.ts` passes the same filter.
+  const filters: Record<string, unknown> = { fulfillments: { id: fulfillmentId } };
   const { data: orders } = await query.graph({
     entity: "order",
     fields: ["id"],
-    filters: { fulfillments: { id: fulfillmentId } },
+    filters,
   });
   return (orders[0] as { id?: string } | undefined)?.id ?? null;
 };
