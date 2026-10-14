@@ -136,7 +136,12 @@ export const OWNER_ROUTES = [
   { path: "/settings/profile/edit", kind: "overlay" },
   { path: "/settings/profile/password", kind: "overlay" },
   { path: "/settings/domains" },
+  { path: "/settings/domains/change", kind: "overlay" },
+  { path: "/settings/domains/add", kind: "overlay" },
   { path: "/settings/sites" },
+  { path: "/settings/sites/create", kind: "overlay" },
+  { path: "/settings/sites/:site_id" },
+  { path: "/settings/sites/:site_id/sisters/edit", kind: "overlay" },
   { path: "/settings/notifications" },
   { path: "/settings/notifications/edit", kind: "overlay" },
   { path: "/settings/notifications/telegram-connect", kind: "overlay" },
@@ -327,6 +332,12 @@ export const PARAM_RESOLVERS = {
     const body = await api("/tenants/articles?limit=1")
     const list = body.articles ?? []
     return first(list, "journal articles").slug
+  },
+  // The current site comes first in `GET /tenants/sites`: its card is the one
+  // with the sister sites and the link to «Адрес магазина».
+  site_id: async (api) => {
+    const { sites } = await api("/tenants/sites")
+    return first(sites, "sites").id
   },
   shipping_option_id: async (api) => {
     const body = await api("/tenants/shipping-methods")

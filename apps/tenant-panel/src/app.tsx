@@ -815,14 +815,60 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("tenantAddress.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/domains"),
+            // t-2026-10-14-01 (panel redesign, G2): the screen only reads;
+            // changing the main address and adding a domain are its drawers.
+            children: [
+              {
+                path: "change",
+                lazy: () => import("./routes/settings/domains/domain-change"),
+              },
+              {
+                path: "add",
+                lazy: () => import("./routes/settings/domains/domain-add"),
+              },
+            ],
           },
           {
             // «Сайты» (t-2026-09-24-n12): the owner's sites of one client and
-            // «Создать сайт». No Admin counterpart. One screen, no children.
+            // «Создать сайт». No Admin counterpart.
+            // t-2026-10-14-01 (panel redesign, G2): a list with the create
+            // modal over it, and a card per site, the way regions are nested.
             path: "/settings/sites",
             handle: { breadcrumb: () => t("sites.title") },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/settings/sites"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/settings/sites"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("./routes/settings/sites/site-create"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component, Breadcrumb } = await import(
+                    "./routes/settings/sites/site-detail"
+                  )
+
+                  return {
+                    Component,
+                    handle: {
+                      breadcrumb: (match: UIMatch) => <Breadcrumb {...match} />,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "sisters/edit",
+                    lazy: () => import("./routes/settings/sites/site-sisters-edit"),
+                  },
+                ],
+              },
+            ],
           },
           {
             // «Уведомления» (t08-order-notifications): who hears about a new
