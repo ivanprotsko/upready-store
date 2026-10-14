@@ -153,7 +153,9 @@ test("one nested route `edit/:section` draws the five drawers; app.tsx does not 
     assert.ok(page.includes(`edit/${section}`), `the page does not open edit/${section}`)
   }
   assert.ok(app.includes('path: "edit/:section", lazy: () => import("./routes/settings/integrations/apiship/edit"),'))
-  assert.ok(app.split("\n").length <= 1207, "app.tsx must not grow past its 1206 lines")
+  // 1287 is dev's own size after the product-attributes routes (#450); the
+  // apiship work added no line to the router, and must keep adding none.
+  assert.ok(app.split("\n").length <= 1288, "app.tsx must not grow past its 1287 lines")
 })
 
 test("every drawer is a SettingsEditDrawer that sends only its own fields", () => {
