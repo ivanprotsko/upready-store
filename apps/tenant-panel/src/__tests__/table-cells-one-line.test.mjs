@@ -163,6 +163,8 @@ test("redirect row: the source path shows on one line, the full host+path only i
   )
 })
 
+// t-2026-10-14-01 (G2): the list is `_DataTable`; the carrier and the default-price
+// note are still only in `title`, now as i18n keys.
 test("shipping methods list: the name and price cells no longer stack a caption under the value", () => {
   const source = read("routes/shipping/shipping-list/shipping-list.tsx")
   assert.ok(
@@ -172,6 +174,16 @@ test("shipping methods list: the name and price cells no longer stack a caption 
   assert.ok(
     !source.includes("Стоимость по умолчанию — укажите свою\n                        </Text>"),
     "the default-price hint must not render as its own <Text> under the price"
+  )
+  assert.ok(
+    source.includes('t("shippingMethods.carrierTitle", { carrier })') &&
+      source.includes('<Text size="small" leading="compact" weight="plus" className="truncate" title={title}>'),
+    "the carrier is reachable via the name cell's title, on one line"
+  )
+  assert.ok(
+    source.includes('t("shippingMethods.provisionedDefault")') &&
+      source.includes('<Text size="small" leading="compact" className="whitespace-nowrap" title={title}>'),
+    "the default-price note is reachable via the price cell's title, on one line"
   )
 })
 
@@ -184,7 +196,7 @@ test("shipping zones: the zone row shows the name on one line, the description o
     "the zone description must not render as its own <Text> under the name"
   )
   assert.ok(
-    source.includes('title={exists ? "Такой способ уже создан" : preset.description}'),
+    source.includes('title={exists ? t("shippingMethods.zones.exists") : preset.description}'),
     "the description must still be reachable, via title on the cell"
   )
 })

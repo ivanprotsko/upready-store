@@ -757,8 +757,12 @@ const routes: RouteObject[] = [
             // t04-shipping-tariffs: the shop's delivery methods. Same nesting as
             // /pages: the list renders the Outlet, create/edit open as focus
             // modals over it and return to the refreshed list on save.
+            // t-2026-10-14-01 (panel redesign, G2): a row opens the method's
+            // card `:id`, which reads; its one edit `:id/edit` (same address as
+            // before) now opens over the card. The default weight is a read
+            // section of the list with its own drawer `settings/weight/edit`.
             path: "/shipping",
-            handle: { breadcrumb: () => t("app.nav.main.shipping", { defaultValue: "Доставка" }) },
+            handle: { breadcrumb: () => t("shippingMethods.title") },
             errorElement: <ErrorBoundary />,
             children: [
               {
@@ -776,7 +780,28 @@ const routes: RouteObject[] = [
                     lazy: () => import("./routes/shipping/shipping-zones"),
                   },
                   {
-                    path: ":id/edit",
+                    path: "settings/weight/edit",
+                    lazy: () => import("./routes/shipping/shipping-weight-edit"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component, Breadcrumb } = await import(
+                    "./routes/shipping/shipping-detail"
+                  )
+
+                  return {
+                    Component,
+                    handle: {
+                      breadcrumb: (match: UIMatch) => <Breadcrumb {...match} />,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
                     lazy: () => import("./routes/shipping/shipping-edit"),
                   },
                 ],

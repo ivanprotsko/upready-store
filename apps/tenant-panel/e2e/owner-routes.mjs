@@ -129,6 +129,8 @@ export const OWNER_ROUTES = [
   { path: "/shipping", core: true },
   { path: "/shipping/create", kind: "overlay" },
   { path: "/shipping/zones", kind: "overlay" },
+  { path: "/shipping/settings/weight/edit", kind: "overlay" },
+  { path: "/shipping/:shipping_option_id" },
   { path: "/shipping/:shipping_option_id/edit", kind: "overlay" },
 
   // Настройки

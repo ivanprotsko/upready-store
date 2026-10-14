@@ -10,8 +10,10 @@ import {
   Textarea,
   toast,
 } from "@medusajs/ui"
+import type { TFunction } from "i18next"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
 import * as zod from "zod"
 
 import { Form } from "../../../../components/common/form"
@@ -26,42 +28,60 @@ import {
   type ShippingMethodBody,
   type TenantShippingMethod,
 } from "../../../../hooks/api/shipping-methods"
-import { COUNTRY_LABEL, TARIFF_KIND_HINT, TARIFF_KIND_LABEL } from "../../labels"
+import {
+  SHIPPING_COUNTRIES,
+  TARIFF_KINDS,
+  countryName,
+  tariffKindHint,
+  tariffKindLabel,
+} from "../../labels"
 
 // t04-shipping-tariffs: one form for create and edit. Built from the panel's
 // own copied primitives (`Form`, `KeyboundForm`, `RouteFocusModal`) the way
 // `pages/page-edit` is; no Admin counterpart (the Admin edits an option inside
 // the location's fulfillment set, three drawers deep).
+//
+// t-2026-10-14-01 (panel redesign, G2): the layout stays as the audit left it
+// («оставить»); every string is a `shippingMethods.form` key (panel-ds rule 7),
+// so the schema is built with `t`.
 
 // Number fields are strings in the form (an <input type="number"> yields a
 // string, and zod.coerce would split the form's input and output types) and
 // are parsed once in `toBody`.
-const number = (label: string) =>
-  zod
+type T = TFunction<"translation">
+
+const number = (t: T, name: string) => {
+  const field = t(`shippingMethods.form.numberFields.${name}`)
+  return zod
     .string()
-    .refine((value) => value.trim() !== "" && Number.isFinite(Number(value)), `${label}: введите число`)
-    .refine((value) => Number(value) >= 0, `${label}: не меньше нуля`)
+    .refine(
+      (value) => value.trim() !== "" && Number.isFinite(Number(value)),
+      t("shippingMethods.form.notNumber", { field })
+    )
+    .refine((value) => Number(value) >= 0, t("shippingMethods.form.negative", { field }))
+}
 
 const num = (value: string): number => Math.round(Number(value) * 100) / 100
 
-const ShippingMethodSchema = zod.object({
-  name: zod.string().trim().min(1, "Название обязательно").max(120),
-  description: zod.string().max(500),
-  delivery_hint: zod.string().max(120),
-  enabled: zod.boolean(),
-  carrier: zod.string(),
-  zone_mode: zod.enum(["all", "country", "regions"]),
-  country_code: zod.string(),
-  provinces: zod.array(zod.string()),
-  kind: zod.enum(["flat", "per_kg", "free_above"]),
-  amount: number("Цена"),
-  base_amount: number("Базовая ставка"),
-  per_kg_amount: number("Ставка за кг"),
-  min_weight_g: number("Минимальный вес"),
-  free_above_total: number("Порог суммы"),
-})
+const shippingMethodSchema = (t: T) =>
+  zod.object({
+    name: zod.string().trim().min(1, t("shippingMethods.form.nameRequired")).max(120),
+    description: zod.string().max(500),
+    delivery_hint: zod.string().max(120),
+    enabled: zod.boolean(),
+    carrier: zod.string(),
+    zone_mode: zod.enum(["all", "country", "regions"]),
+    country_code: zod.string(),
+    provinces: zod.array(zod.string()),
+    kind: zod.enum(["flat", "per_kg", "free_above"]),
+    amount: number(t, "amount"),
+    base_amount: number(t, "base_amount"),
+    per_kg_amount: number(t, "per_kg_amount"),
+    min_weight_g: number(t, "min_weight_g"),
+    free_above_total: number(t, "free_above_total"),
+  })
 
-type FormValues = zod.infer<typeof ShippingMethodSchema>
+type FormValues = zod.infer<ReturnType<typeof shippingMethodSchema>>
 
 const toBody = (values: FormValues): ShippingMethodBody => {
   const tariff: ShippingMethodBody["tariff"] =
@@ -136,10 +156,12 @@ export const ShippingMethodForm = ({
   isPending,
   onSubmit,
 }: ShippingMethodFormProps) => {
+  const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
+  const schema = useMemo(() => shippingMethodSchema(t), [t])
   const form = useForm<FormValues>({
     defaultValues: fromMethod(method),
-    resolver: zodResolver(ShippingMethodSchema),
+    resolver: zodResolver(schema),
   })
 
   const kind = form.watch("kind")
@@ -164,12 +186,12 @@ export const ShippingMethodForm = ({
 
   const handleSubmit = form.handleSubmit(async (values) => {
     if (values.zone_mode === "regions" && values.provinces.length === 0) {
-      form.setError("provinces", { message: "Отметьте хотя бы один регион" })
+      form.setError("provinces", { message: t("shippingMethods.form.regionsRequired") })
       return
     }
     try {
       await onSubmit(toBody(values))
-      toast.success(method ? "Способ доставки сохранён" : "Способ доставки создан")
+      toast.success(method ? t("shippingMethods.toast.saved") : t("shippingMethods.toast.created"))
       handleSuccess()
     } catch (error) {
       toast.error((error as Error).message)
@@ -194,11 +216,8 @@ export const ShippingMethodForm = ({
               name="carrier"
               render={({ field }) => (
                 <Form.Item>
-                  <Form.Label optional>Служба доставки</Form.Label>
-                  <Form.Hint>
-                    Цену всегда считает магазин по вашему тарифу — служба нужна, чтобы вы помнили, чем
-                    отправляете, и видели подсказку про трек-номер в заказе.
-                  </Form.Hint>
+                  <Form.Label optional>{t("shippingMethods.form.carrier")}</Form.Label>
+                  <Form.Hint>{t("shippingMethods.form.carrierHint")}</Form.Hint>
                   <Form.Control>
                     <Select
                       value={field.value || "none"}
@@ -221,7 +240,7 @@ export const ShippingMethodForm = ({
                         <Select.Value />
                       </Select.Trigger>
                       <Select.Content>
-                        <Select.Item value="none">Не указана</Select.Item>
+                        <Select.Item value="none">{t("shippingMethods.form.carrierNone")}</Select.Item>
                         {(carriers ?? []).map((item) => (
                           <Select.Item key={item.key} value={item.key}>
                             {item.label}
@@ -244,13 +263,10 @@ export const ShippingMethodForm = ({
               name="name"
               render={({ field }) => (
                 <Form.Item>
-                  <Form.Label>Название</Form.Label>
-                  <Form.Hint>
-                    Так способ доставки называется у покупателя в оформлении заказа, слово в слово.
-                    Например: «Почтой России, 1–2 кг» или «Курьером по Москве».
-                  </Form.Hint>
+                  <Form.Label>{t("shippingMethods.form.name")}</Form.Label>
+                  <Form.Hint>{t("shippingMethods.form.nameHint")}</Form.Hint>
                   <Form.Control>
-                    <Input {...field} placeholder="Почтой России" />
+                    <Input {...field} placeholder={t("shippingMethods.form.namePlaceholder")} />
                   </Form.Control>
                   <Form.ErrorMessage />
                 </Form.Item>
@@ -261,8 +277,8 @@ export const ShippingMethodForm = ({
               name="description"
               render={({ field }) => (
                 <Form.Item>
-                  <Form.Label optional>Описание</Form.Label>
-                  <Form.Hint>Одна-две строки под названием: что входит, как забрать.</Form.Hint>
+                  <Form.Label optional>{t("shippingMethods.form.description")}</Form.Label>
+                  <Form.Hint>{t("shippingMethods.form.descriptionHint")}</Form.Hint>
                   <Form.Control>
                     <Textarea {...field} rows={2} />
                   </Form.Control>
@@ -275,10 +291,10 @@ export const ShippingMethodForm = ({
               name="delivery_hint"
               render={({ field }) => (
                 <Form.Item>
-                  <Form.Label optional>Срок доставки</Form.Label>
-                  <Form.Hint>Как есть, текстом: «3–7 дней», «на следующий день».</Form.Hint>
+                  <Form.Label optional>{t("shippingMethods.form.deliveryTime")}</Form.Label>
+                  <Form.Hint>{t("shippingMethods.form.deliveryTimeHint")}</Form.Hint>
                   <Form.Control>
-                    <Input {...field} placeholder="3–7 дней" />
+                    <Input {...field} placeholder={t("shippingMethods.form.deliveryTimePlaceholder")} />
                   </Form.Control>
                   <Form.ErrorMessage />
                 </Form.Item>
@@ -291,16 +307,16 @@ export const ShippingMethodForm = ({
                 name="zone_mode"
                 render={({ field }) => (
                   <Form.Item>
-                    <Form.Label>Куда доставляете этим способом</Form.Label>
+                    <Form.Label>{t("shippingMethods.form.zoneMode")}</Form.Label>
                     <Form.Control>
                       <Select value={field.value} onValueChange={field.onChange}>
                         <Select.Trigger ref={field.ref}>
                           <Select.Value />
                         </Select.Trigger>
                         <Select.Content>
-                          <Select.Item value="all">Во все страны магазина</Select.Item>
-                          <Select.Item value="country">В одну страну целиком</Select.Item>
-                          <Select.Item value="regions">В выбранные регионы страны</Select.Item>
+                          <Select.Item value="all">{t("shippingMethods.form.zoneModes.all")}</Select.Item>
+                          <Select.Item value="country">{t("shippingMethods.form.zoneModes.country")}</Select.Item>
+                          <Select.Item value="regions">{t("shippingMethods.form.zoneModes.regions")}</Select.Item>
                         </Select.Content>
                       </Select>
                     </Form.Control>
@@ -314,7 +330,7 @@ export const ShippingMethodForm = ({
                   name="country_code"
                   render={({ field }) => (
                     <Form.Item>
-                      <Form.Label>Страна</Form.Label>
+                      <Form.Label>{t("shippingMethods.form.country")}</Form.Label>
                       <Form.Control>
                         <Select
                           value={field.value}
@@ -327,9 +343,9 @@ export const ShippingMethodForm = ({
                             <Select.Value />
                           </Select.Trigger>
                           <Select.Content>
-                            {Object.entries(COUNTRY_LABEL).map(([code, label]) => (
+                            {SHIPPING_COUNTRIES.map((code) => (
                               <Select.Item key={code} value={code}>
-                                {label}
+                                {countryName(t, code)}
                               </Select.Item>
                             ))}
                           </Select.Content>
@@ -346,15 +362,14 @@ export const ShippingMethodForm = ({
                   name="provinces"
                   render={() => (
                     <Form.Item>
-                      <Form.Label>Регионы</Form.Label>
+                      <Form.Label>{t("shippingMethods.form.regions")}</Form.Label>
                       <Form.Hint>
-                        Покупатель увидит способ, только если регион его адреса отмечен здесь.
-                        Отмечено: {provinces.length}.
+                        {t("shippingMethods.form.regionsHint", { count: provinces.length })}
                       </Form.Hint>
                       {presets && presets.length > 0 && countryCode === "ru" && (
                         <div className="flex flex-wrap items-center gap-2 pb-2">
                           <Text size="xsmall" className="text-ui-fg-subtle">
-                            Готовые зоны:
+                            {t("shippingMethods.form.presets")}
                           </Text>
                           {presets.map((preset) => (
                             <Button
@@ -376,12 +391,12 @@ export const ShippingMethodForm = ({
                       )}
                       {regions.length === 0 ? (
                         <Text size="small" className="text-ui-fg-subtle">
-                          Для этой страны списка регионов пока нет. Выберите «В одну страну целиком».
+                          {t("shippingMethods.form.noRegions")}
                         </Text>
                       ) : (
                         <div className="flex flex-col gap-y-2">
                           <Input
-                            placeholder="Найти регион"
+                            placeholder={t("shippingMethods.form.regionSearch")}
                             value={regionFilter}
                             onChange={(event) => setRegionFilter(event.target.value)}
                           />
@@ -418,22 +433,22 @@ export const ShippingMethodForm = ({
                 name="kind"
                 render={({ field }) => (
                   <Form.Item>
-                    <Form.Label>Как считается цена</Form.Label>
+                    <Form.Label>{t("shippingMethods.form.kind")}</Form.Label>
                     <Form.Control>
                       <Select value={field.value} onValueChange={field.onChange}>
                         <Select.Trigger ref={field.ref}>
                           <Select.Value />
                         </Select.Trigger>
                         <Select.Content>
-                          {(Object.keys(TARIFF_KIND_LABEL) as Array<keyof typeof TARIFF_KIND_LABEL>).map((value) => (
+                          {TARIFF_KINDS.map((value) => (
                             <Select.Item key={value} value={value}>
-                              {TARIFF_KIND_LABEL[value]}
+                              {tariffKindLabel(t, value)}
                             </Select.Item>
                           ))}
                         </Select.Content>
                       </Select>
                     </Form.Control>
-                    <Form.Hint>{TARIFF_KIND_HINT[kind]}</Form.Hint>
+                    <Form.Hint>{tariffKindHint(t, kind)}</Form.Hint>
                     <Form.ErrorMessage />
                   </Form.Item>
                 )}
@@ -444,7 +459,7 @@ export const ShippingMethodForm = ({
                   name="amount"
                   render={({ field }) => (
                     <Form.Item>
-                      <Form.Label>Цена доставки, {currency}</Form.Label>
+                      <Form.Label>{t("shippingMethods.form.amount", { currency })}</Form.Label>
                       <Form.Control>
                         <Input {...field} type="number" step="0.01" min={0} />
                       </Form.Control>
@@ -460,7 +475,7 @@ export const ShippingMethodForm = ({
                     name="base_amount"
                     render={({ field }) => (
                       <Form.Item>
-                        <Form.Label>Базовая ставка, {currency}</Form.Label>
+                        <Form.Label>{t("shippingMethods.form.baseAmount", { currency })}</Form.Label>
                         <Form.Control>
                           <Input {...field} type="number" step="0.01" min={0} />
                         </Form.Control>
@@ -473,7 +488,7 @@ export const ShippingMethodForm = ({
                     name="per_kg_amount"
                     render={({ field }) => (
                       <Form.Item>
-                        <Form.Label>За килограмм, {currency}</Form.Label>
+                        <Form.Label>{t("shippingMethods.form.perKgAmount", { currency })}</Form.Label>
                         <Form.Control>
                           <Input {...field} type="number" step="0.01" min={0} />
                         </Form.Control>
@@ -486,11 +501,11 @@ export const ShippingMethodForm = ({
                     name="min_weight_g"
                     render={({ field }) => (
                       <Form.Item>
-                        <Form.Label optional>Минимальный вес, г</Form.Label>
+                        <Form.Label optional>{t("shippingMethods.form.minWeight")}</Form.Label>
                         <Form.Control>
                           <Input {...field} type="number" step="1" min={0} />
                         </Form.Control>
-                        <Form.Hint>Заказ легче этого веса считается по нему. 0 — без минимума.</Form.Hint>
+                        <Form.Hint>{t("shippingMethods.form.minWeightHint")}</Form.Hint>
                         <Form.ErrorMessage />
                       </Form.Item>
                     )}
@@ -503,7 +518,7 @@ export const ShippingMethodForm = ({
                   name="free_above_total"
                   render={({ field }) => (
                     <Form.Item>
-                      <Form.Label>Бесплатно при сумме товаров от, {currency}</Form.Label>
+                      <Form.Label>{t("shippingMethods.form.freeAboveTotal", { currency })}</Form.Label>
                       <Form.Control>
                         <Input {...field} type="number" step="0.01" min={0} />
                       </Form.Control>
@@ -520,12 +535,12 @@ export const ShippingMethodForm = ({
               render={({ field: { value, onChange, ...rest } }) => (
                 <Form.Item>
                   <div className="flex items-center justify-between">
-                    <Form.Label>Показывать покупателям</Form.Label>
+                    <Form.Label>{t("shippingMethods.form.enabled")}</Form.Label>
                     <Form.Control>
                       <Switch {...rest} checked={value} onCheckedChange={onChange} />
                     </Form.Control>
                   </div>
-                  <Form.Hint>Выключенный способ остаётся в списке, но в оформлении заказа не предлагается.</Form.Hint>
+                  <Form.Hint>{t("shippingMethods.form.enabledHint")}</Form.Hint>
                   <Form.ErrorMessage />
                 </Form.Item>
               )}
@@ -536,11 +551,11 @@ export const ShippingMethodForm = ({
           <div className="flex items-center gap-x-2">
             <RouteFocusModal.Close asChild>
               <Button size="small" variant="secondary">
-                Отмена
+                {t("actions.cancel")}
               </Button>
             </RouteFocusModal.Close>
             <Button size="small" type="submit" isLoading={isPending}>
-              Сохранить
+              {t("actions.save")}
             </Button>
           </div>
         </RouteFocusModal.Footer>
