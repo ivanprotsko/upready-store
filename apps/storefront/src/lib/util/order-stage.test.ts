@@ -45,6 +45,13 @@ const ROWS: [string, StageOrder, OrderStage][] = [
   ["manual transfer, receipt sent", order({ payment_status: "not_paid", metadata: { payment_receipt: { file_url: "/r.jpg", sent_at: "2026-10-14" } } }), "awaitingConfirmation"],
   ["manual transfer, receipt rejected", order({ payment_status: "not_paid", metadata: { payment_receipt: { file_url: "/r.jpg", status: "rejected" } } }), "receiptRejected"],
   ["authorized, nothing captured", order({ payment_status: "authorized" }), "awaitingPayment"],
+  // BTCPay, Bitcart and Tribute place an order only once their session reads
+  // `captured`, and Medusa captures the payment right there: paid, the same in
+  // the panel (`order-stage.test.mjs`).
+  ["BTCPay: settled, captured at checkout", order({ payment_collections: [{ id: "pc1", payments: [{ provider_id: "pp_btcpay_btcpay" }] }] }), "packing"],
+  ["Bitcart: complete, captured at checkout", order({ payment_collections: [{ id: "pc1", payments: [{ provider_id: "pp_bitcart_bitcart" }] }] }), "packing"],
+  ["Tribute: paid, captured at checkout", order({ payment_collections: [{ id: "pc1", payments: [{ provider_id: "pp_tribute_tribute" }] }] }), "packing"],
+  ["a BTCPay payment authorized, not captured", order({ payment_status: "authorized", payment_collections: [{ id: "pc1", payments: [{ provider_id: "pp_btcpay_btcpay" }] }] }), "awaitingPayment"],
   // the shop's hands
   ["paid, nothing fulfilled", order(), "packing"],
   ["paid, the only fulfillment cancelled", order({ fulfillments: [{ canceled_at: "2026-10-14" }] }), "packing"],

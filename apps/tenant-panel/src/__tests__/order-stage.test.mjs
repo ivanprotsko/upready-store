@@ -47,6 +47,13 @@ const ROWS = [
   ["manual transfer, receipt sent", order({ payment_status: "not_paid", metadata: receipt() }), "awaitingConfirmation"],
   ["manual transfer, receipt rejected", order({ payment_status: "not_paid", metadata: receipt({ status: "rejected" }) }), "receiptRejected"],
   ["authorized, nothing captured", order({ payment_status: "authorized" }), "awaitingPayment"],
+  // BTCPay, Bitcart and Tribute place an order only once their session reads
+  // `captured`, and Medusa captures the payment right there: paid, the same as
+  // the storefront's `buyerOrderStatus` (`order-stage.test.ts`).
+  ["BTCPay: settled, captured at checkout", order({ payment_collections: [{ payments: [{ provider_id: "pp_btcpay_btcpay" }] }] }), "packing"],
+  ["Bitcart: complete, captured at checkout", order({ payment_collections: [{ payments: [{ provider_id: "pp_bitcart_bitcart" }] }] }), "packing"],
+  ["Tribute: paid, captured at checkout", order({ payment_collections: [{ payments: [{ provider_id: "pp_tribute_tribute" }] }] }), "packing"],
+  ["a BTCPay payment authorized, not captured", order({ payment_status: "authorized", payment_collections: [{ payments: [{ provider_id: "pp_btcpay_btcpay" }] }] }), "awaitingPayment"],
   ["Robokassa payment exists, capture on its way", order({ payment_status: "authorized", payment_collections: [{ payments: [{ provider_id: "pp_robokassa_robokassa" }] }] }), "packing"],
   ["Robokassa confirmation on its way", order({ payment_status: "not_paid", payment_collections: [{ payments: [], payment_sessions: [{ provider_id: "pp_robokassa_robokassa", status: "pending_authorization" }] }] }), "awaitingConfirmation"],
   ["paid, nothing fulfilled", order(), "packing"],
