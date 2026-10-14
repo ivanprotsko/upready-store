@@ -6,10 +6,11 @@ import * as zod from "zod"
 import { SwitchBox } from "../../../../../components/common/switch-box"
 import { SettingsEditDrawer } from "../../../../../components/settings"
 import { type ApishipCarrier, type ApishipKind, useApishipTariffs } from "../../../../../hooks/api/apiship"
+import { hasPendingMethods, pendingReason } from "../apiship-model"
 import { ApishipSelectField, useApishipEdit, warnAfterSave } from "./apiship-fields"
 
 // Drawer «Способы на сайте»: per carrier, the two checkout methods (courier,
-// pickup point) on or off, and the tariff — ApiShip's cheapest by default, or
+// pickup point) chosen or not, and the tariff — ApiShip's cheapest by default, or
 // one the owner pins from the carrier's list. A carrier switched on but not
 // connected in the ApiShip cabinet is refused by the route with the sentence
 // that names it; the drawer shows that sentence and stays open. Route
@@ -84,17 +85,25 @@ export const ApishipMethodsDrawer = () => {
       }}
       successMessage={t("integrations.apiship.saved")}
     >
-      {(form) =>
-        carriers.map((carrier, index) => (
-          <CarrierFields
-            key={carrier.provider_key}
-            form={form}
-            index={index}
-            carrier={carrier}
-            enabled={Boolean(apiship?.settings?.token.set)}
-          />
-        ))
-      }
+      {(form) => (
+        <>
+          {/* The switches are the owner's choice; the checkout follows once ApiShip can quote. */}
+          {apiship && hasPendingMethods(apiship.carriers) ? (
+            <Text size="small" className="text-ui-fg-subtle" data-testid="apiship-methods-pending">
+              {pendingReason(t, apiship)}
+            </Text>
+          ) : null}
+          {carriers.map((carrier, index) => (
+            <CarrierFields
+              key={carrier.provider_key}
+              form={form}
+              index={index}
+              carrier={carrier}
+              enabled={Boolean(apiship?.settings?.token.set)}
+            />
+          ))}
+        </>
+      )}
     </SettingsEditDrawer>
   )
 }

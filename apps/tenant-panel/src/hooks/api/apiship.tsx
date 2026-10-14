@@ -61,10 +61,15 @@ export type ApishipFullSettings = ApishipSettings & {
 export type ApishipCarrier = {
   provider_key: string
   label: string
-  /** The kinds switched on at the checkout. */
+  /**
+   * The kinds the OWNER CHOSE (`data.offered`, contract update of 14.10). Kept
+   * by a PUT without `carriers` and by DELETE; not the same as what the
+   * checkout shows while ApiShip cannot quote (no token, off, no sender).
+   */
   kinds: ApishipKind[]
   tariff_id: number | null
   connection_id: string | null
+  /** `enabled`: the method is at the checkout right now. */
   methods: Array<{ id: string; name: string; provider_key: string; kind: ApishipKind; enabled: boolean }>
 }
 

@@ -9,7 +9,7 @@ import type {
   ApishipProbeResponse,
   ApishipResponse,
 } from "../../../../hooks/api/apiship"
-import { formatRub } from "./apiship-model"
+import { formatRub, kindState, pendingReason } from "./apiship-model"
 
 // t-2026-10-14-58, part B: the rows of «Способы на сайте» — one per carrier,
 // its checkout methods on or off, its tariff, and whether the carrier is
@@ -90,20 +90,30 @@ export const methodsRows = ({
       (kind) => carrier.kinds.includes(kind) || carrier.methods.some((method) => method.kind === kind)
     )
     const notConnected = connected !== null && !connected.has(carrier.provider_key)
+    // Chosen but not at the checkout yet: ticked, with the reason, never «на сайте».
+    const pending = kinds.some((kind) => kindState(carrier, kind).chosen && !kindState(carrier, kind).live)
+    const tariff = carrier.tariff_id
+      ? t("integrations.apiship.tariffPinned", { id: carrier.tariff_id })
+      : t("integrations.apiship.tariffCheapest")
 
     return {
       id: `carrier-${carrier.provider_key}`,
       label: carrier.label,
       value: (
         <div className="flex flex-wrap gap-2" data-testid={`apiship-carrier-${carrier.provider_key}`}>
-          {kinds.map((kind) => (
-            <StatusBadge key={kind} color={carrier.kinds.includes(kind) ? "green" : "grey"}>
-              {t(`integrations.apiship.kind.${kind}`)}:{" "}
-              {carrier.kinds.includes(kind)
-                ? t("integrations.apiship.methodOn")
-                : t("integrations.apiship.methodOff")}
-            </StatusBadge>
-          ))}
+          {kinds.map((kind) => {
+            const { chosen, live } = kindState(carrier, kind)
+            return (
+              <StatusBadge key={kind} color={live ? "green" : chosen ? "blue" : "grey"}>
+                {t(`integrations.apiship.kind.${kind}`)}:{" "}
+                {live
+                  ? t("integrations.apiship.methodOn")
+                  : chosen
+                    ? t("integrations.apiship.methodChosen")
+                    : t("integrations.apiship.methodOff")}
+              </StatusBadge>
+            )
+          })}
         </div>
       ),
       status: notConnected
@@ -111,10 +121,12 @@ export const methodsRows = ({
         : undefined,
       hint: notConnected ? (
         <CabinetHint />
-      ) : carrier.tariff_id ? (
-        t("integrations.apiship.tariffPinned", { id: carrier.tariff_id })
+      ) : pending ? (
+        <span data-testid={`apiship-pending-${carrier.provider_key}`}>
+          {pendingReason(t, apiship)} {tariff}
+        </span>
       ) : (
-        t("integrations.apiship.tariffCheapest")
+        tariff
       ),
     }
   })

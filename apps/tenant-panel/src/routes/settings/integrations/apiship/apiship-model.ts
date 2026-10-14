@@ -1,7 +1,12 @@
 import type { TFunction } from "i18next"
 
 import type { SettingsStatus } from "../../../../components/settings"
-import type { ApishipProbeResponse, ApishipResponse } from "../../../../hooks/api/apiship"
+import type {
+  ApishipCarrier,
+  ApishipKind,
+  ApishipProbeResponse,
+  ApishipResponse,
+} from "../../../../hooks/api/apiship"
 import { getLocaleAmount } from "../../../../lib/money-amount-helpers"
 
 // t-2026-10-14-58, part B: what the ApiShip read page and its drawers share —
@@ -91,6 +96,33 @@ export const probeVerdict = (
   }
   return { color: "red", label: error ?? t("integrations.apiship.probeFailed") }
 }
+
+/**
+ * A kind of a carrier has two answers (contract update of 14.10, Fable
+ * 4853f805): `carriers[].kinds` is what the owner CHOSE, `methods[].enabled`
+ * is what the checkout SHOWS. They part ways while ApiShip cannot quote yet.
+ */
+export const kindState = (carrier: ApishipCarrier, kind: ApishipKind) => ({
+  chosen: carrier.kinds.includes(kind),
+  live: carrier.methods.some((method) => method.kind === kind && method.enabled),
+})
+
+/** True when a chosen method is not at the checkout yet. */
+export const hasPendingMethods = (carriers: ApishipCarrier[]) =>
+  carriers.some((carrier) =>
+    (["courier", "pickup"] as const).some((kind) => {
+      const state = kindState(carrier, kind)
+      return state.chosen && !state.live
+    })
+  )
+
+/** Why the chosen methods wait: no token, ApiShip switched off, or no sender to quote from. */
+export const pendingReason = (t: TFunction, apiship: ApishipResponse) =>
+  !apiship.settings
+    ? t("integrations.apiship.pendingNoToken")
+    : !apiship.settings.is_enabled
+      ? t("integrations.apiship.pendingOff")
+      : t("integrations.apiship.pendingSender")
 
 /** A whole number from a form field; empty or not a number reads `null`. */
 export const toNumber = (text: string): number | null => {

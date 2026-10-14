@@ -122,6 +122,29 @@ test("a carrier the ApiShip cabinet has not connected says so, with the cabinet'
   assert.ok(rows.includes('href="https://a.apiship.ru"'))
 })
 
+test("«на сайте» comes from methods[].enabled, the tick from kinds (the owner's choice)", () => {
+  const state = model.slice(model.indexOf("export const kindState"), model.indexOf("export const hasPendingMethods"))
+  assert.ok(state.includes("chosen: carrier.kinds.includes(kind)"))
+  assert.ok(state.includes("live: carrier.methods.some((method) => method.kind === kind && method.enabled)"))
+  assert.ok(rows.includes('color={live ? "green" : chosen ? "blue" : "grey"}'), "chosen-not-live is never green")
+  assert.ok(rows.includes('t("integrations.apiship.methodChosen")'))
+})
+
+test("chosen methods not at the checkout yet say why: no token, ApiShip off, no sender", () => {
+  const reason = model.slice(model.indexOf("export const pendingReason"), model.indexOf("export const toNumber"))
+  assert.ok(reason.includes("!apiship.settings") && reason.includes("pendingNoToken"))
+  assert.ok(reason.includes("!apiship.settings.is_enabled") && reason.includes("pendingOff"))
+  assert.ok(reason.includes("pendingSender"))
+  assert.equal(ru.integrations.apiship.pendingSender, "Выбранные способы появятся на кассе после заполнения отправителя.")
+  assert.ok(rows.includes("pendingReason(t, apiship)"), "the read page shows the reason under the carrier")
+  assert.ok(drawers[3].includes("hasPendingMethods(apiship.carriers)") && drawers[3].includes("pendingReason(t, apiship)"))
+})
+
+test("the methods drawer ticks what the owner chose (kinds), not what is live", () => {
+  assert.ok(drawers[3].includes('courier: carrier.kinds.includes("courier")'))
+  assert.ok(drawers[3].includes('pickup: carrier.kinds.includes("pickup")'))
+})
+
 // ── the drawers ─────────────────────────────────────────────────────────────
 
 test("one nested route `edit/:section` draws the five drawers; app.tsx does not grow", () => {
