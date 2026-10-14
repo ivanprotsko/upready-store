@@ -179,7 +179,9 @@ medusaIntegrationTestRunner({
       it("says «not asked» with no token, and tells a dead ApiShip from a bad token", async () => {
         const nothing = await api.get("/tenants/apiship/probe", bearer(a.token));
         expect(nothing.status).toBe(200);
-        expect(nothing.data).toEqual({ token_set: false, probe: null });
+        // t-2026-10-14-58 added the cabinet's carriers and the calculator to
+        // the same answer; the two original fields keep their meaning.
+        expect(nothing.data).toMatchObject({ token_set: false, probe: null });
 
         expect(
           (await api.put("/tenants/apiship/key", { token: A_TOKEN }, bearer(a.token))).status,

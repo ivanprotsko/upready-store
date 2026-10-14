@@ -133,6 +133,17 @@ medusaIntegrationTestRunner({
         return res.data.shipping_options as Array<{ id: string; name: string; provider_id: string; amount?: number; data?: Record<string, unknown> }>;
       };
 
+      /**
+       * The cart's methods WITH their `data`: the store cart answer selects
+       * neither `data` nor `name` of a shipping method unless asked, the way
+       * the storefront asks (`lib/data/cart.ts`, `+shipping_methods.data`).
+       */
+      const cartMethods = async (owner: Registered, cartId: string) => {
+        const res = await api.get(`/store/carts/${cartId}?fields=%2Bshipping_methods.data,%2Bshipping_methods.name`, storeKey(owner));
+        expect(res.status).toBe(200);
+        return res.data.cart.shipping_methods as Array<{ id: string; shipping_option_id: string; name: string; amount: number; data: Record<string, unknown> }>;
+      };
+
       const connect = (owner: Registered, extra: Record<string, unknown> = {}) =>
         api.put("/tenants/apiship", { token: TOKEN, ...SENDER, ...extra }, bearer(owner.token));
 
@@ -148,7 +159,8 @@ medusaIntegrationTestRunner({
           storeKey(owner),
         );
         expect(withMethod.status).toBe(200);
-        const method = withMethod.data.cart.shipping_methods[0];
+        const method = (await cartMethods(owner, cartId))[0];
+        expect(method.data).toMatchObject({ provider: "apiship", apiship_point_id: 491 });
 
         const container = getContainer();
         const { result: order } = await createOrdersWorkflow(container).run({
@@ -300,9 +312,15 @@ medusaIntegrationTestRunner({
         );
         expect(pochta.data.shipping_option.amount).toBe(380);
 
+        // The option sits on the warehouse's base zone, so it is LISTED for a
+        // German address; the price is what says no, the way the direct СДЭК
+        // option behaves, and the storefront drops a card it cannot price.
         const de = await cartWith(a, deRegionId, variantId, { city: "Berlin", postal_code: "10115", country_code: "de" });
-        const names = (await optionsFor(a, de)).map((option) => option.name);
-        expect(names.some((name) => name.startsWith("СДЭК") || name.startsWith("Почта России"))).toBe(false);
+        const deCourier = (await optionsFor(a, de)).find((option) => option.name === "СДЭК — курьером до двери");
+        expect(deCourier).toBeTruthy();
+        const refused = await failed(api.post(`/store/shipping-options/${deCourier!.id}/calculate`, { cart_id: de }, storeKey(a)));
+        expect(refused.status).toBe(400);
+        expect(refused.data.message).toContain("не возит по этому адресу");
       });
 
       it("lists a carrier's points of a city and records the chosen point on the cart's method", async () => {
@@ -339,7 +357,8 @@ medusaIntegrationTestRunner({
           storeKey(a),
         );
         expect(chosen.status).toBe(200);
-        expect(chosen.data.cart.shipping_methods[0].data).toMatchObject({
+        const methods = await cartMethods(a, cart);
+        expect(methods[0].data).toMatchObject({
           provider: "apiship",
           provider_key: "cdek",
           kind: "pickup",
@@ -351,7 +370,7 @@ medusaIntegrationTestRunner({
           carrier_amount: 250,
           term_label: "2-4 дня",
         });
-        expect(chosen.data.cart.shipping_methods[0].amount).toBe(250);
+        expect(methods[0].amount).toBe(250);
       });
 
       it("creates the ApiShip order from the order card; the number, the label, the act, the statuses and the letter's data follow", async () => {
@@ -481,6 +500,7 @@ medusaIntegrationTestRunner({
       });
 
       it("refuses the owner's click, not the buyer's, when the shop's sender is incomplete", async () => {
+        // An empty string clears the field (the validator trims, the reader turns "" into null).
         expect((await connect(a, { sender_phone: "" })).status).toBe(200);
         const read = await api.get("/tenants/apiship", bearer(a.token));
         expect(read.data.missing).toEqual(["sender_phone"]);
