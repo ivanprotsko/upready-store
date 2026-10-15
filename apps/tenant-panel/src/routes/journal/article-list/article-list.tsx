@@ -88,7 +88,8 @@ const useColumns = (host: string | undefined) => {
         header: t("journal.columns.locales"),
         cell: ({ row }) => (
           <div className="flex items-center gap-1">
-            {row.original.locales.map((text) => (
+            {/* The row's own language first: RU, then EN. */}
+            {[row.original.primary, ...row.original.locales.filter((text) => text !== row.original.primary)].map((text) => (
               <Badge
                 key={text.locale}
                 size="2xsmall"

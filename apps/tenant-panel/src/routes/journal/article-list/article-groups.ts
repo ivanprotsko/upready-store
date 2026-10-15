@@ -1,5 +1,5 @@
 import type { TenantArticle } from "../../../hooks/api/articles"
-import { DEFAULT_ARTICLE_LOCALE, shownStatus } from "../article-locales"
+import { DEFAULT_ARTICLE_LOCALE, shownStatus } from "../article-locales.ts"
 
 // t10-blog: one ROW per article, not per row of the table `GET
 // /tenants/articles` returns: that endpoint answers one row per language, and

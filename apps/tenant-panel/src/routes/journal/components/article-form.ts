@@ -1,7 +1,7 @@
 import * as zod from "zod"
 
 import type { TenantArticle } from "../../../hooks/api/articles"
-import { fromDateTimeInput, toDateTimeInput } from "../article-locales"
+import { fromDateTimeInput, toDateTimeInput } from "../article-locales.ts"
 
 /**
  * The article form shared by «Новая статья» and the edit screen (b18-blog-full,
