@@ -11,7 +11,9 @@ import {
   ORDER_STAGE_COLORS,
   orderStage,
   orderStageKey,
+  paymentRepeatsStage,
 } from "../lib/order-stage.ts"
+import { manualPaymentStatus } from "../lib/order-helpers.ts"
 
 /**
  * t-2026-10-14-58, step C: the order's one stage, the word the buyer reads on
@@ -164,6 +166,42 @@ test("the customer page shows the same stage", () => {
 
 test("the card header: the stage and the payment, no separate «Отменён» or fulfillment badge", () => {
   const header = read("routes/orders/order-detail/components/order-general-section/order-general-section.tsx")
-  assert.match(header, /<StageBadge order=\{order\} \/>\s*<PaymentBadge order=\{order\} \/>/)
+  assert.match(header, /<StageBadge stage=\{stage\} \/>\s*\{showPayment && <PaymentBadge payment=\{payment\} \/>\}/)
   assert.doesNotMatch(header, /FulfillmentBadge|OrderBadge/)
+})
+
+test("the card header shows one badge when the payment means what the stage says (release stand 14.10, lead 15.10)", () => {
+  const header = read("routes/orders/order-detail/components/order-general-section/order-general-section.tsx")
+  assert.match(header, /const showPayment = !paymentRepeatsStage\(stage, order\.payment_status, manual\?\.stage\)/)
+  const t = (key) => key
+  const repeats = (order) => paymentRepeatsStage(orderStage(order), order.payment_status, manualPaymentStatus(t, order)?.stage)
+
+  // One badge: «Ожидает оплаты» next to a gateway's «Ждёт оплаты» (not_paid,
+  // awaiting), and the manual transfer's three badges next to their own stage.
+  for (const payment_status of ["not_paid", "awaiting"]) {
+    const gateway = { payment_status, payment_collections: [] }
+    assert.equal(orderStage(gateway), "awaitingPayment")
+    assert.equal(repeats(gateway), true, payment_status)
+  }
+  const manual = (metadata) => ({
+    payment_status: "not_paid",
+    metadata,
+    payment_collections: [{ payments: [{ provider_id: "pp_system_default" }] }],
+  })
+  for (const receipt of [undefined, { status: "pending" }, { status: "rejected" }]) {
+    const order = manual(receipt ? { payment_receipt: receipt } : null)
+    assert.equal(manualPaymentStatus(t, order).stage, orderStage(order), "the manual badge names its stage")
+    assert.equal(repeats(order), true, receipt?.status ?? "no receipt")
+  }
+
+  // Two badges: the payment tells more than the stage.
+  assert.equal(paymentRepeatsStage("packing", "captured"), false) // «Собирается» + «Оплачен»
+  assert.equal(paymentRepeatsStage("shipped", "captured"), false)
+  assert.equal(paymentRepeatsStage("shipped", "not_paid"), false) // sent before the money came
+  assert.equal(paymentRepeatsStage("shipped", "not_paid", "awaitingPayment"), false)
+  for (const payment_status of ["authorized", "partially_authorized", "requires_action", "canceled"]) {
+    const gateway = { payment_status, payment_collections: [] }
+    assert.equal(orderStage(gateway), "awaitingPayment")
+    assert.equal(repeats(gateway), false, payment_status)
+  }
 })
