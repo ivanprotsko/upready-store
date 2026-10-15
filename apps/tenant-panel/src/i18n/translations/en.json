@@ -617,6 +617,7 @@
       "expired": "Expired",
       "scheduled": "Scheduled"
     },
+    "subtitle": "A campaign groups promotions under one period and one budget. Create a campaign, then add promotions to it on the campaign page or on the promotion page.",
     "totalSpend": "<0>{{amount}}</0> <1>{{currency}}</1>"
   },
   "categories": {
@@ -3228,6 +3229,11 @@
       "edit": {
         "header": "Edit Campaign",
         "successToast": "Successfully updated the campaign of the promotion."
+      },
+      "empty": {
+        "action": "Add to campaign",
+        "message": "Add this promotion to one of the shop's campaigns.",
+        "title": "Not part of a campaign"
       },
       "header": "Campaign"
     },

@@ -1,5 +1,5 @@
 import { AdminCampaign } from "@medusajs/types"
-import { Button, Container, Heading } from "@medusajs/ui"
+import { Button, Container, Heading, Text } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useMemo } from "react"
@@ -43,11 +43,25 @@ export const CampaignListTable = () => {
     throw error
   }
 
+  // t-2026-10-14-01 (Ivan 14.10 on this list: «как этим пользоваться?»): one
+  // sentence says what a campaign is and how to fill it. It stands once on the
+  // screen: under the heading when there are campaigns, in the empty state
+  // with «Создать» when there are none (`_DataTable`'s own no-records test).
+  const noCampaigns =
+    count === 0 && Object.values(raw).filter((v) => Boolean(v)).length === 0
+
   return (
     <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
-        <Heading level="h1">{t("campaigns.domain")}</Heading>
-        <Link to="/campaigns/create">
+      <div className="flex items-center justify-between gap-x-4 px-6 py-4">
+        <div className="min-w-0">
+          <Heading level="h1">{t("campaigns.domain")}</Heading>
+          {isLoading || noCampaigns ? null : (
+            <Text size="small" className="text-ui-fg-subtle text-pretty">
+              {t("campaigns.subtitle")}
+            </Text>
+          )}
+        </div>
+        <Link to="/campaigns/create" className="shrink-0">
           <Button size="small" variant="secondary">
             {t("actions.create")}
           </Button>
@@ -69,6 +83,11 @@ export const CampaignListTable = () => {
           { key: "created_at", label: t("fields.createdAt") },
           { key: "updated_at", label: t("fields.updatedAt") },
         ]}
+        noRecords={{
+          title: t("campaigns.list.empty.heading"),
+          message: t("campaigns.subtitle"),
+          action: { to: "/campaigns/create", label: t("actions.create") },
+        }}
       />
     </Container>
   )
