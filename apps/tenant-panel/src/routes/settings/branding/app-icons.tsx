@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next"
 import { Text } from "@medusajs/ui"
 
 import type { TenantAppIcons } from "../../../hooks/api/branding"
+import { BrandingImage, ImagePlaceholder } from "./branding-file"
 
 // «Иконка приложения → Как выглядит» (t-2026-10-03-61): the icon set the
 // backend built from the favicon, shown the way each platform paints it (a
@@ -12,6 +13,10 @@ import type { TenantAppIcons } from "../../../hooks/api/branding"
 // t-2026-10-14-01 (panel redesign, G1 part 4): the preview only. The page shows
 // it as the row «Как выглядит», the icon drawer shows it live under the
 // favicon; the two optional masters moved into that drawer.
+//
+// t-2026-10-14-01 (release stand 14.10): an icon that is missing or does not
+// load is the same grey placeholder as the page's image tiles, never a broken
+// picture.
 
 const TAB_CHROME = [
   { key: "light", bar: "#dee1e6", tab: "#ffffff", text: "#1f1f1f" },
@@ -25,11 +30,13 @@ const IOS_RADIUS = "22.5%"
 
 const HomeScreenIcon = ({ src, name, radius }: { src: string | null; name: string; radius: string }) => (
   <div className="flex w-16 flex-col items-center gap-y-1">
-    {src ? (
-      <img src={src} alt="" className="h-14 w-14 object-cover" style={{ borderRadius: radius }} />
-    ) : (
-      <div className="h-14 w-14 bg-ui-bg-component" style={{ borderRadius: radius }} />
-    )}
+    <div className="h-14 w-14 overflow-hidden" style={{ borderRadius: radius }}>
+      <BrandingImage
+        src={src}
+        className="h-full w-full object-cover"
+        fallback={<ImagePlaceholder className="h-full w-full" />}
+      />
+    </div>
     <span className="w-16 truncate text-center text-[11px] leading-tight text-white">{name}</span>
   </div>
 )
@@ -61,11 +68,11 @@ export const AppIconsPreview = ({
               className="flex h-8 max-w-[12rem] items-center gap-x-2 rounded-t-lg px-3"
               style={{ backgroundColor: chrome.tab, color: chrome.text }}
             >
-              {tabIcon ? (
-                <img src={tabIcon} alt="" className="h-4 w-4 shrink-0 object-contain" />
-              ) : (
-                <span className="h-4 w-4 shrink-0 rounded-full bg-ui-bg-component" />
-              )}
+              <BrandingImage
+                src={tabIcon}
+                className="h-4 w-4 shrink-0 object-contain"
+                fallback={<ImagePlaceholder className="h-4 w-4 shrink-0 overflow-hidden rounded-sm" />}
+              />
               <span className="truncate text-xs">{shopName}</span>
             </div>
           </div>

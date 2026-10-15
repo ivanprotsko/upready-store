@@ -49,6 +49,9 @@ export type SettingsSection = {
   /** The one header button, when the section's only action is the owner's next step. */
   action?: ReactNode
   rows: SettingsRow[]
+  /** Drawn between the header and the rows: pictures a row cannot hold, such as
+   * the branding images' 2×2 grid (t-2026-10-14-01). */
+  lead?: ReactNode
   /** Drawn instead of the rows: the empty state of a setting not made yet (E8, `NoRecords`). */
   body?: ReactNode
 }
@@ -147,6 +150,7 @@ export const SettingsDetailSection = ({
           ) : null}
         </div>
       </div>
+      {section.lead ? <div className="px-4 py-4">{section.lead}</div> : null}
       {section.body ??
         section.rows.map((row) => (
           <SectionRow key={row.id} title={row.label} value={<SettingsRowValue row={row} />} />

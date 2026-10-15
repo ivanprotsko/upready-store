@@ -2,13 +2,12 @@ import { useTranslation } from "react-i18next"
 
 import {
   SettingsDetail,
-  type SettingsRow,
   type SettingsSection,
 } from "../../../components/settings"
 import { useTenantBranding } from "../../../hooks/api/branding"
 import { useStore } from "../../../hooks/api/store"
 import { AppIconsPreview } from "./app-icons"
-import { BrandingFileValue, BrandingThumb } from "./branding-file"
+import { BrandingImageTile, BrandingThumb } from "./branding-file"
 import { HeaderPreview } from "./header-preview"
 
 // «Оформление» (t16-owner-branding): логотип (светлый/тёмный), фавикон,
@@ -21,6 +20,13 @@ import { HeaderPreview } from "./header-preview"
 // drawer on its own nested route (`logo/edit`, `icons/edit`, `color/edit`).
 // The previews of the icons and of the header stay on the page: they are
 // looked at more often than changed.
+//
+// t-2026-10-14-01 (release stand 14.10, Ivan: «сеткой 2х2 вместо строк и
+// сразу поставить плейсхолдеры изображений»): the four pictures, both logos,
+// the social image and the favicon, are one 2×2 grid of tiles at the top,
+// each opening the drawer it is edited in. The favicon's tile replaces its row
+// in «Иконка приложения», whose header now says whether the set was built
+// (decide: one grid, the favicon row would repeat the same picture).
 
 export const BrandingSettings = () => {
   const { t } = useTranslation()
@@ -37,38 +43,46 @@ export const BrandingSettings = () => {
   const color = branding?.primary_color ?? null
   const credit = branding?.footer_credit ?? null
 
-  const fileRow = (
-    id: string,
-    label: string,
-    url: string | null | undefined,
-    shape: "logo" | "icon" | "cover",
-    hint: { filled?: string; empty: string },
-    dark?: boolean
-  ): SettingsRow => ({
-    id,
-    label,
-    value: url ? <BrandingFileValue url={url} shape={shape} dark={dark} /> : null,
-    hint: url ? hint.filled : hint.empty,
-  })
-
   const sections: SettingsSection[] = [
     {
       id: "logo",
       title: t("brandingSettings.title"),
       description: t("brandingSettings.subtitle"),
       editTo: "logo/edit",
+      lead: (
+        <div className="grid grid-cols-2 gap-2" data-testid="branding-image-grid">
+          <BrandingImageTile
+            id="logo_light"
+            to="logo/edit"
+            label={t("brandingSettings.fields.logoLight")}
+            url={branding?.logo_light_url}
+            shape="logo"
+          />
+          <BrandingImageTile
+            id="logo_dark"
+            to="logo/edit"
+            label={t("brandingSettings.fields.logoDark")}
+            url={branding?.logo_dark_url}
+            shape="logo"
+            dark
+          />
+          <BrandingImageTile
+            id="og_image"
+            to="logo/edit"
+            label={t("brandingSettings.fields.ogImage")}
+            url={branding?.og_image_url}
+            shape="cover"
+          />
+          <BrandingImageTile
+            id="favicon"
+            to="icons/edit"
+            label={t("brandingSettings.fields.favicon")}
+            url={favicon}
+            shape="icon"
+          />
+        </div>
+      ),
       rows: [
-        fileRow("logo_light", t("brandingSettings.fields.logoLight"), branding?.logo_light_url, "logo", {
-          empty: t("brandingSettings.fields.logoLightEmpty"),
-        }),
-        fileRow(
-          "logo_dark",
-          t("brandingSettings.fields.logoDark"),
-          branding?.logo_dark_url,
-          "logo",
-          { empty: t("brandingSettings.fields.logoDarkHint") },
-          true
-        ),
         {
           id: "shop_name_short",
           label: t("brandingSettings.fields.shopNameShort"),
@@ -77,10 +91,6 @@ export const BrandingSettings = () => {
             ? t("brandingSettings.fields.shopNameShortHint")
             : t("brandingSettings.fields.shopNameShortEmpty"),
         },
-        fileRow("og_image", t("brandingSettings.fields.ogImage"), branding?.og_image_url, "cover", {
-          filled: t("brandingSettings.fields.ogImageRead"),
-          empty: t("brandingSettings.fields.ogImageRead"),
-        }),
       ],
     },
     {
@@ -88,22 +98,21 @@ export const BrandingSettings = () => {
       title: t("brandingSettings.appIcons.title"),
       description: t("brandingSettings.appIcons.subtitle"),
       editTo: "icons/edit",
+      status: favicon
+        ? icons
+          ? { color: "green", label: t("brandingSettings.appIcons.built") }
+          : { color: "orange", label: t("brandingSettings.appIcons.notBuilt") }
+        : undefined,
       rows: [
-        {
-          ...fileRow("favicon", t("brandingSettings.fields.favicon"), favicon, "icon", {
-            filled: icons ? undefined : t("brandingSettings.appIcons.notBuiltHint"),
-            empty: t("brandingSettings.appIcons.empty"),
-          }),
-          status: favicon
-            ? icons
-              ? { color: "green", label: t("brandingSettings.appIcons.built") }
-              : { color: "orange", label: t("brandingSettings.appIcons.notBuilt") }
-            : undefined,
-        },
         {
           id: "icons_preview",
           label: t("brandingSettings.appIcons.preview"),
           value: <AppIconsPreview icons={icons} faviconUrl={favicon} shopName={shopName} />,
+          hint: favicon
+            ? icons
+              ? undefined
+              : t("brandingSettings.appIcons.notBuiltHint")
+            : t("brandingSettings.appIcons.empty"),
         },
         {
           id: "icon_maskable",

@@ -1,12 +1,14 @@
 import { useTranslation } from "react-i18next"
 
+import { BrandingImage } from "./branding-file"
 import { bestForeground } from "./contrast"
 
 const HEX = /^#[0-9a-fA-F]{6}$/
 
 /** «Предпросмотр шапки»: the shop's header in miniature, the logo (or the short name in its
  * place) and a button in the primary colour. The colour is the owner's own value, so it is an
- * inline style; without one the button keeps the storefront theme's colour. */
+ * inline style; without one the button keeps the storefront theme's colour.
+ * t-2026-10-14-01: a logo file that does not load reads as the short name, not an empty gap. */
 export const HeaderPreview = ({
   logoUrl,
   name,
@@ -24,7 +26,7 @@ export const HeaderPreview = ({
       data-testid="branding-header-preview"
     >
       <span className="flex min-w-0 items-center gap-x-2 truncate txt-compact-medium-plus uppercase text-ui-fg-base">
-        {logoUrl ? <img src={logoUrl} alt="" className="h-6 w-auto max-w-[8rem] object-contain" /> : name}
+        <BrandingImage src={logoUrl} className="h-6 w-auto max-w-[8rem] object-contain" fallback={name} />
       </span>
       <span
         className="shrink-0 rounded-md px-3 py-1.5 txt-compact-small-plus"

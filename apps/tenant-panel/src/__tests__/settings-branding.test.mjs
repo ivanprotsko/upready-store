@@ -75,24 +75,22 @@ test("the screen and its first section are «Оформление», as the menu
   assert.ok(!app.includes('defaultValue: "Бренд"'), "the old «Бренд» fallback is gone from the breadcrumb")
 })
 
-test("every row of the prototype is on the page", () => {
+test("every value of the prototype is on the page: four picture tiles, then the rows", () => {
+  // t-2026-10-14-01 (release stand 14.10): the four pictures became the 2×2
+  // grid of `branding-image-grid.test.mjs`; the rest stay rows.
+  for (const id of ["logo_light", "logo_dark", "og_image", "favicon"]) {
+    assert.ok(page.includes(`id="${id}"`), `tile ${id}`)
+  }
   const rows = [
-    "logo_light", "logo_dark", "shop_name_short", "og_image",
-    "favicon", "icons_preview", "icon_maskable", "icon_mono",
+    "shop_name_short", "icons_preview", "icon_maskable", "icon_mono",
     "primary_color", "header_preview", "footer_credit",
   ]
   for (const id of rows) {
-    assert.ok(page.includes(`"${id}"`), `row ${id}`)
+    assert.ok(page.includes(`id: "${id}"`), `row ${id}`)
   }
 })
 
-test("a filled file row is its picture and format, an empty one «—» with a hint", () => {
-  assert.ok(page.includes("value: url ? <BrandingFileValue url={url} shape={shape} dark={dark} /> : null"))
-  assert.ok(page.includes("hint: url ? hint.filled : hint.empty"))
-  assert.ok(page.includes('"logo",\n          { empty: t("brandingSettings.fields.logoDarkHint") },\n          true'), "the dark logo sits on the dark tile")
-})
-
-test("the favicon row says whether the set was built; the colour row says how it reads (E7)", () => {
+test("the icon section's header says whether the set was built; the colour row says how it reads (E7)", () => {
   assert.ok(page.includes('{ color: "green", label: t("brandingSettings.appIcons.built") }'))
   assert.ok(page.includes('{ color: "orange", label: t("brandingSettings.appIcons.notBuilt") }'))
   assert.ok(page.includes("branding?.low_contrast"), "the platform's own contrast answer drives the badge")
