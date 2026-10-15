@@ -7147,7 +7147,7 @@
     "productGone": "Product deleted",
     "empty": {
       "title": "No courses yet",
-      "message": "A course is tied to a product: the buyer gets the lessons once they pay"
+      "message": "Create your first course, then add its lessons."
     },
     "createModal": {
       "title": "New course",

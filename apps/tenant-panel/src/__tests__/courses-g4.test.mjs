@@ -153,6 +153,10 @@ test("no course yet is NoRecords with the one «Создать курс», and n
   assert.match(list, /<NoRecords\s+title=\{t\("courses\.empty\.title"\)\}/)
   assert.match(list, /action=\{\{ to: "\/courses\/create", label: t\("courses\.create"\) \}\}/)
   assert.match(list, /\{hasCourses \? \(\s*<Button size="small" variant="secondary" asChild>/)
+  // Lead 15.10: the message says what to do next instead of the subtitle again,
+  // centred with room at the sides when it wraps at 390.
+  assert.notEqual(t("courses.empty.message"), t("courses.subtitle"))
+  assert.match(list, /<NoRecords[^>]*className="[^"]*\bpx-6\b[^"]*\btext-center\b/)
 })
 
 test("«Создать курс» is a modal of two fields: the name and a Combobox of the products without a course", () => {

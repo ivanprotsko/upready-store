@@ -162,10 +162,14 @@ export const CourseList = () => {
         </div>
 
         {!hasCourses ? (
+          // The shared NoRecords has no side padding and leaves the message
+          // left-aligned once it wraps (390 wide): this list gives it both,
+          // and grows past the fixed 150 px instead of cropping (lead, 15.10).
           <NoRecords
             title={t("courses.empty.title")}
             message={t("courses.empty.message")}
             action={{ to: "/courses/create", label: t("courses.create") }}
+            className="h-auto px-6 py-10 text-center"
           />
         ) : (
           <_DataTable
