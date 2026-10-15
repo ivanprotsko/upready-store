@@ -46,9 +46,15 @@ const HANDLER_DIR = path.join(
   "analytics",
 );
 
+/**
+ * Every file of `analytics/` must be on this list, the way
+ * `analytics/calendar.ts` is since t-2026-10-14-55; the second test below says
+ * so, or a fold moved into a new file would leave the proof.
+ */
 const CORE_MODULES = [
   path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics.ts"),
   path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics-sources.ts"),
+  path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics", "calendar.ts"),
 ];
 
 const PANEL_DIR = path.join(
@@ -120,6 +126,13 @@ describe("бэкенд дашборда", () => {
     for (const file of CORE_MODULES) {
       expect(existsSync(file)).toBe(true);
     }
+  });
+
+  it("каждый файл analytics/ в CORE_MODULES — иначе новый файл выпал бы из проверки", () => {
+    const dir = path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics");
+    expect(walk(dir).sort()).toEqual(
+      CORE_MODULES.filter((file) => file.startsWith(`${dir}${path.sep}`)).sort(),
+    );
   });
 
   it.each(walk(HANDLER_DIR).filter((file) => file.endsWith("route.ts")))(

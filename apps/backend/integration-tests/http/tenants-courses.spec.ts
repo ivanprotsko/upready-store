@@ -238,9 +238,10 @@ medusaIntegrationTestRunner({
         expect(locked.status).toBe(200);
         expect(locked.data.has_access).toBe(false);
         expect(locked.data.progress).toBeNull();
+        // `section` and `opens_at` came with the sections and the drip lessons (#436).
         expect(locked.data.lessons).toEqual([
-          { id: l1.data.lesson.id, title: "Введение", order: 0, locked: true },
-          { id: l2.data.lesson.id, title: "Практика", order: 1, locked: true },
+          { id: l1.data.lesson.id, title: "Введение", order: 0, section: null, locked: true, opens_at: null },
+          { id: l2.data.lesson.id, title: "Практика", order: 1, section: null, locked: true, opens_at: null },
         ]);
 
         // Nobody, logged in or not, reads lesson content without an entitlement.
@@ -274,9 +275,12 @@ medusaIntegrationTestRunner({
 
         const contents = await api.get(`/store/tenant/courses/mine/${slug}`, storeKey(a, customerA.token));
         expect(contents.status).toBe(200);
+        // The section, the cover, the line under the title and the drip lock came with #436.
+        const contentsLesson = { section: null, section_order: null, cover_url: null, summary: null };
+        const opensNow = { available_from_day: null, locked: false, opens_at: null };
         expect(contents.data.lessons).toEqual([
-          { id: l1.data.lesson.id, title: "Введение", order: 0, viewed_at: null, has_quiz: false },
-          { id: l2.data.lesson.id, title: "Практика", order: 1, viewed_at: null, has_quiz: false },
+          { id: l1.data.lesson.id, title: "Введение", order: 0, viewed_at: null, has_quiz: false, ...contentsLesson, ...opensNow },
+          { id: l2.data.lesson.id, title: "Практика", order: 1, viewed_at: null, has_quiz: false, ...contentsLesson, ...opensNow },
         ]);
         expect(contents.data.continue_lesson_id).toBeNull();
         const mineBefore = await api.get("/store/tenant/courses/mine", storeKey(a, customerA.token));

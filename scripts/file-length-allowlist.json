@@ -1,0 +1,85 @@
+{
+  "$comment": "Files under apps/ longer than 800 lines today, read by scripts/check-file-length.mjs (t-2026-10-14-55). An entry fails when its file grows past \"lines\", and once its file is gone or back within 800 lines. Delete the entry in the change that shrinks the file.",
+  "files": [
+    {
+      "path": "apps/backend/integration-tests/http/tenants-staff-roles.spec.ts",
+      "lines": 1265,
+      "reason": "integration spec; part 1 of t-2026-10-14-55 leaves the existing tests as they are"
+    },
+    {
+      "path": "apps/backend/scripts/cherkashina-migration/import.mjs",
+      "lines": 809,
+      "reason": "one-off migration, not run again"
+    },
+    {
+      "path": "apps/homepage/support.js",
+      "lines": 1911,
+      "reason": "homepage file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/storefront/scripts/theme-coverage-gate.mjs",
+      "lines": 1030,
+      "reason": "storefront file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/storefront/src/lib/data/cart.ts",
+      "lines": 943,
+      "reason": "storefront file, split in a later part of t-2026-10-14-55; grew from 939 by 4 with #461, merged before this entry"
+    },
+    {
+      "path": "apps/storefront/src/modules/checkout/components/checkout-payment-section/index.tsx",
+      "lines": 889,
+      "reason": "storefront file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/storefront/src/modules/checkout/components/checkout-shipping-section/index.tsx",
+      "lines": 1024,
+      "reason": "storefront file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/tenant-panel/e2e/tenant-panel.e2e.mjs",
+      "lines": 1679,
+      "reason": "panel file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/tenant-panel/src/app.tsx",
+      "lines": 1480,
+      "reason": "panel file, split in a later part of t-2026-10-14-55; grew from 1192 on 14.10 by #447, #448 and #450, merged before this check ran in ci, then to 1480 by #462, #449, #452 and #454, merged before this entry"
+    },
+    {
+      "path": "apps/tenant-panel/src/components/data-grid/components/data-grid-root.tsx",
+      "lines": 1178,
+      "reason": "panel file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/tenant-panel/src/hooks/api/marketplace-section.fixtures.ts",
+      "lines": 835,
+      "reason": "panel file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/tenant-panel/src/lib/data/countries.ts",
+      "lines": 1767,
+      "reason": "data dictionary, exempt from the limit"
+    },
+    {
+      "path": "apps/tenant-panel/src/lib/data/country-states.ts",
+      "lines": 1311,
+      "reason": "data dictionary, exempt from the limit"
+    },
+    {
+      "path": "apps/tenant-panel/src/routes/orders/order-detail/components/order-activity-section/order-timeline.tsx",
+      "lines": 1352,
+      "reason": "panel file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/tenant-panel/src/routes/orders/order-detail/components/order-summary-section/order-summary-section.tsx",
+      "lines": 1298,
+      "reason": "panel file, split in a later part of t-2026-10-14-55"
+    },
+    {
+      "path": "apps/tenant-panel/src/routes/promotions/promotion-create/components/create-promotion-form/create-promotion-form.tsx",
+      "lines": 1071,
+      "reason": "panel file, split in a later part of t-2026-10-14-55"
+    }
+  ]
+}

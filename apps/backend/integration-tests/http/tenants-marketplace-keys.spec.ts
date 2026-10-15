@@ -120,7 +120,7 @@ medusaIntegrationTestRunner({
         const saved = await api.put("/tenants/wb/key", { api_key: A_KEY }, bearer(a.token));
         expect(saved.status).toBe(200);
         expect(saved.data.marketplace).toBe("wb");
-        expect(saved.data.connection.key).toEqual({ set: true, last4: A_KEY.slice(-4) });
+        expect(saved.data.connection.key).toEqual({ set: true, last4: A_KEY.slice(-4), unreadable: false });
         expect(saved.data.connection.is_enabled).toBe(true);
         // What the key SAYS about itself, asked on the spot: the panel shows
         // the rights and the expiry without a second request and without a
@@ -229,7 +229,7 @@ medusaIntegrationTestRunner({
         expect(blank.status).toBe(400);
 
         const read = await api.get("/tenants/wb/key", bearer(a.token));
-        expect(read.data.connection.key).toEqual({ set: true, last4: A_KEY.slice(-4) });
+        expect(read.data.connection.key).toEqual({ set: true, last4: A_KEY.slice(-4), unreadable: false });
       });
 
       it("refuses an unknown field instead of storing it silently", async () => {
@@ -259,12 +259,12 @@ medusaIntegrationTestRunner({
 
         const bRead = await api.get("/tenants/wb/key", bearer(b.token));
         expect(bRead.status).toBe(200);
-        expect(bRead.data.connection.key).toEqual({ set: false, last4: null });
+        expect(bRead.data.connection.key).toEqual({ set: false, last4: null, unreadable: false });
 
         await api.put("/tenants/wb/key", { api_key: B_KEY }, bearer(b.token));
 
         const aRead = await api.get("/tenants/wb/key", bearer(a.token));
-        expect(aRead.data.connection.key).toEqual({ set: true, last4: A_KEY.slice(-4) });
+        expect(aRead.data.connection.key).toEqual({ set: true, last4: A_KEY.slice(-4), unreadable: false });
 
         const rows = await secretRows();
         const wb = rows.filter((row) => row.provider === "wildberries" && !row.deleted_at);
@@ -279,7 +279,7 @@ medusaIntegrationTestRunner({
 
         const removed = await api.delete("/tenants/wb/key", bearer(a.token));
         expect(removed.status).toBe(200);
-        expect(removed.data.connection.key).toEqual({ set: false, last4: null });
+        expect(removed.data.connection.key).toEqual({ set: false, last4: null, unreadable: false });
         expect(removed.data.credentials).toBeNull();
 
         // The card's own `key` carries `how_to_store` beside the mask, so the
@@ -294,7 +294,7 @@ medusaIntegrationTestRunner({
         // readers take the first row with `deleted_at is null`, so two live
         // rows would make "which key is in force" depend on row order.
         const again = await api.put("/tenants/wb/key", { api_key: B_KEY }, bearer(a.token));
-        expect(again.data.connection.key).toEqual({ set: true, last4: B_KEY.slice(-4) });
+        expect(again.data.connection.key).toEqual({ set: true, last4: B_KEY.slice(-4), unreadable: false });
 
         const rows = await secretRows();
         const live = rows.filter(

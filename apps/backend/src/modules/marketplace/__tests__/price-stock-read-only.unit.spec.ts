@@ -43,15 +43,22 @@ const HANDLER_DIR = path.join(
   "price-stock",
 );
 
-const DECISION_MODULE = path.join(
-  REPO_ROOT,
-  "apps",
-  "backend",
-  "src",
-  "modules",
-  "marketplace",
-  "price-stock.ts",
-);
+const MODULE_DIR = path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace");
+
+/**
+ * The decisions: `price-stock.ts` and the files it re-exports, one per section
+ * since t-2026-10-14-55. Every file of `price-stock/` must be on this list —
+ * the second test below says so — or a decision moved into a new file would
+ * leave the proof.
+ */
+const DECISION_MODULES = [
+  path.join(MODULE_DIR, "price-stock.ts"),
+  path.join(MODULE_DIR, "price-stock", "freshness.ts"),
+  path.join(MODULE_DIR, "price-stock", "rows.ts"),
+  path.join(MODULE_DIR, "price-stock", "query.ts"),
+  path.join(MODULE_DIR, "price-stock", "filter-sort.ts"),
+  path.join(MODULE_DIR, "price-stock", "csv.ts"),
+];
 
 const PANEL_DIR = path.join(
   REPO_ROOT,
@@ -112,7 +119,7 @@ const read = (file: string) => readFileSync(file, "utf8");
 const withoutComments = (source: string): string =>
   source.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/(^|[^:])\/\/[^\n]*/g, "$1 ");
 
-const BACKEND_FILES = [...walk(HANDLER_DIR), DECISION_MODULE];
+const BACKEND_FILES = [...walk(HANDLER_DIR), ...DECISION_MODULES];
 const PANEL_FILES = walk(PANEL_DIR);
 
 /** Every panel source of the screen: its files, and its block of the shared hooks file. */
@@ -124,7 +131,15 @@ const PANEL_SOURCES: [string, string][] = [
 describe("бэкенд-обработчики таблицы цен и остатков", () => {
   it("файлы на месте — иначе тест зелен ни о чём (правило 20a: ноль — не пусто)", () => {
     expect(walk(HANDLER_DIR).filter((file) => file.endsWith("route.ts"))).toHaveLength(3);
-    expect(existsSync(DECISION_MODULE)).toBe(true);
+    for (const file of DECISION_MODULES) {
+      expect(existsSync(file)).toBe(true);
+    }
+  });
+
+  it("каждый файл price-stock/ в списке решений — иначе новый файл выпал бы из проверки", () => {
+    expect(walk(path.join(MODULE_DIR, "price-stock")).sort()).toEqual(
+      DECISION_MODULES.filter((file) => file.includes(`${path.sep}price-stock${path.sep}`)).sort(),
+    );
   });
 
   it.each(walk(HANDLER_DIR).filter((file) => file.endsWith("route.ts")))(

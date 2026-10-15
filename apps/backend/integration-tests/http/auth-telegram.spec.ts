@@ -197,7 +197,8 @@ medusaIntegrationTestRunner({
         expect(JSON.stringify(rows)).not.toContain(BOT_TOKEN);
 
         const publicView = await api.get("/store/telegram-bot", store(shop));
-        expect(publicView.data).toEqual({ bot: { username: BOT_USERNAME } });
+        /* `id` is the public half of the token, before «:»: Telegram's sign-in popup takes it as `bot_id`. */
+        expect(publicView.data).toEqual({ bot: { username: BOT_USERNAME, id: 777000111 } });
         expect(JSON.stringify(publicView.data)).not.toContain(BOT_TOKEN);
       });
 
