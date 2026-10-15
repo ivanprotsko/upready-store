@@ -40,8 +40,11 @@ export const useCustomerTableColumns = () => {
         header: () => t("fields.phone"),
         cell: ({ getValue }) => <TextCell text={getValue() ?? undefined} />,
       }),
+      // t-2026-10-14-01 (Ivan 14.10: «гость и пользователь»): the column is
+      // «Аккаунт» and its badges «Гость» / «Пользователь», the same two words
+      // as the customer page's header, never «Зарегистрирован» twice.
       columnHelper.accessor("has_account", {
-        header: () => t("customers.fields.registered"),
+        header: () => t("customers.fields.account"),
         cell: ({ getValue }) =>
           getValue() ? (
             <Badge size="2xsmall" color="green">

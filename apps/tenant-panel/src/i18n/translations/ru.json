@@ -842,7 +842,7 @@
     "fields": {
       "groups": "Группы",
       "guest": "Гость",
-      "registered": "Зарегистрирован",
+      "account": "Аккаунт",
       "totalSpent": "Сумма покупок",
       "canceledOrders": "+{{count}} отменённых"
     },
@@ -880,7 +880,7 @@
       },
       "noRecordsMessage": "Ваши клиенты появятся здесь."
     },
-    "registered": "Зарегистрирован"
+    "registered": "Пользователь"
   },
   "dataGrid": {
     "columns": {
