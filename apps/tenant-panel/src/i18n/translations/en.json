@@ -828,7 +828,7 @@
     "fields": {
       "groups": "Groups",
       "guest": "Guest",
-      "registered": "Registered",
+      "account": "Account",
       "totalSpent": "Total spent",
       "canceledOrders": "+{{count}} cancelled"
     },
@@ -866,7 +866,7 @@
       },
       "noRecordsMessage": "Your customers will show up here."
     },
-    "registered": "Registered"
+    "registered": "Registered user"
   },
   "dataGrid": {
     "columns": {
