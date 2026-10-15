@@ -23,6 +23,7 @@ const branding = (file) => read(`routes/settings/branding/${file}`)
 const page = branding("branding.tsx")
 const file = branding("branding-file.tsx")
 const preview = branding("app-icons.tsx")
+const header = branding("header-preview.tsx")
 const detail = read("components/settings/settings-detail/settings-detail.tsx")
 const ru = JSON.parse(read("i18n/translations/ru.json"))
 const en = JSON.parse(read("i18n/translations/en.json"))
@@ -111,12 +112,14 @@ test("an empty or broken picture is the grey placeholder with an image icon and 
 })
 
 test("no bare <img> on the screen: every picture goes through BrandingImage", () => {
-  for (const [name, source] of [["branding-file.tsx", file], ["app-icons.tsx", preview], ["branding.tsx", page]]) {
+  for (const [name, source] of [["branding-file.tsx", file], ["app-icons.tsx", preview], ["branding.tsx", page], ["header-preview.tsx", header]]) {
     const imgs = source.match(/<img\b/g) ?? []
     const allowed = name === "branding-file.tsx" ? 1 : 0
     assert.equal(imgs.length, allowed, `${name}: ${imgs.length} <img>, only BrandingImage draws one`)
   }
   assert.ok(componentOf(file, "BrandingThumb").includes("<BrandingImage"), "the drawer and row thumbnails fall back too")
+  // Found on the shots of 15.10: a 404 logo left an empty gap in the header preview.
+  assert.ok(header.includes("<BrandingImage src={logoUrl}") && header.includes("fallback={name}"), "a logo that does not load reads as the short name")
 })
 
 test("the icon set's preview uses the same placeholder for the tab, iOS and Android", () => {
