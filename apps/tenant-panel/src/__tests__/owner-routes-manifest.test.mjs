@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -28,15 +28,42 @@ import { OWNER_ROUTES, PUBLIC_ROUTES } from "../../e2e/owner-routes.mjs"
 const here = dirname(fileURLToPath(import.meta.url))
 const appSource = readFileSync(join(here, "..", "app.tsx"), "utf8")
 
+/**
+ * A route may keep its children in a module of its own (`children:
+ * homeSettingsChildren`, imported from `./routes/home-settings/routes`), so
+ * that app.tsx stays within its recorded length (t-2026-10-14-55). Such a
+ * module is read in place of the `children:` line, its routes nested under
+ * the route that names it.
+ */
+const childModules = new Map(
+  [...appSource.matchAll(/^import \{ (\w+) \} from "(\.\/routes\/[^"]+)"$/gm)].map(([, name, from]) => [name, from])
+)
+const moduleSource = (from) => {
+  for (const ext of [".ts", ".tsx"]) {
+    const file = join(here, "..", `${from}${ext}`)
+    if (existsSync(file)) {
+      return readFileSync(file, "utf8")
+    }
+  }
+  throw new Error(`app.tsx imports route children from ${from}, which is not there`)
+}
+
 const routerPaths = () => {
   const stack = []
   const full = []
-  for (const line of appSource.split("\n")) {
+  const lines = (source, offset) =>
+    source.split("\n").flatMap((line) => {
+      const children = line.match(/^(\s*)children:\s*(\w+),?\s*$/)
+      return children && childModules.has(children[2])
+        ? lines(moduleSource(childModules.get(children[2])), offset + children[1].length)
+        : [{ line, offset }]
+    })
+  for (const { line, offset } of lines(appSource, 0)) {
     const match = line.match(/^(\s*)path:\s*"([^"]*)"/)
     if (!match) {
       continue
     }
-    const indent = match[1].length
+    const indent = offset + match[1].length
     const segment = match[2]
     while (stack.length && stack[stack.length - 1].indent >= indent) {
       stack.pop()

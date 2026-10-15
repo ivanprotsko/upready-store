@@ -24,6 +24,7 @@ import {
   ReviewsRedirect,
   SyncRedirect,
 } from "./routes/marketplaces/common/redirects"
+import { homeSettingsChildren } from "./routes/home-settings/routes"
 
 import "./index.css"
 
@@ -854,14 +855,13 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/reviews/review-list"),
           },
           {
-            // tenant-panel wave 2, piece 8 (home page settings): the panel's own
-            // routes/home-settings screen (no Admin counterpart). One screen, no
-            // children: the document is edited in place and saved with one
-            // request, so there is no drawer or modal to nest under it.
+            // tenant-panel wave 2, piece 8: the panel's own home page settings (no Admin
+            // counterpart). t-2026-10-14-01 (G4): the page reads, each section's drawer is a child.
             path: "/home-settings",
             handle: { breadcrumb: () => t("app.nav.main.homeSettings", { defaultValue: "Главная страница" }) },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/home-settings"),
+            children: homeSettingsChildren,
           },
           {
             // The shop's address (t-2026-09-12-tenant-address-canonical, grown

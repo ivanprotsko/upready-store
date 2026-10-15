@@ -5,22 +5,35 @@
 // `lib/theme/composition.ts`: pnpm-workspace.yaml lists only `apps/**`, so there
 // is no shared package the three could import one copy from.
 //
-// Sources of each half:
+// Sources:
 //  - the six composition enums and the FORBIDDEN pairs: the storefront's
 //    `src/lib/theme/composition.ts`;
-//  - the plain-language English label and the one-line "why" under each option:
-//    the storefront's own catalog `apps/storefront/messages/en.json`, namespace
-//    `Composition` (the English column of the C1 string set the composition
-//    mockup §C1 specifies). Raw enum values never reach the screen (rule 18e);
-//  - the theme preset labels: `THEME_LABELS` in the storefront's generated
+//  - the theme preset ids: `THEME_IDS` of the storefront's generated
 //    `src/lib/theme/presets.generated.ts`.
+//
+// t-2026-10-14-01 (panel redesign, G4): this file holds values only. What the
+// owner reads for each value — its name and the one line under it — is a key
+// of `homeSettings.options.<slot>.<value>` and `homeSettings.why.<slot>.<value>`
+// in ru.json/en.json (design-system rule 7); the English column is the
+// storefront's own catalog, namespace `Composition`. Raw enum values never
+// reach the screen (rule 18e).
 
-export type Mode = "light" | "dark"
-export type HeaderKey = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
-export type HeroKey = "none" | "g" | "h" | "j" | "k" | "l" | "m" | "ga" | "gb"
-export type TilesKey = "on" | "off"
-export type ListingKey = "none" | "p1" | "p2" | "p3" | "p4" | "p5"
-export type FooterKey = "none" | "f1" | "f2" | "f3" | "f4" | "f5" | "f6" | "f7"
+/** Every value of every slot, in the order the drawer lists them. */
+export const SLOT_VALUES = {
+  defaultMode: ["light", "dark"],
+  header: ["h1", "h2", "h3", "h4", "h5", "h6"],
+  hero: ["none", "g", "h", "j", "k", "l", "m", "ga", "gb"],
+  tiles: ["on", "off"],
+  listing: ["none", "p1", "p2", "p3", "p4", "p5"],
+  footer: ["none", "f1", "f2", "f3", "f4", "f5", "f6", "f7"],
+} as const
+
+export type Mode = (typeof SLOT_VALUES.defaultMode)[number]
+export type HeaderKey = (typeof SLOT_VALUES.header)[number]
+export type HeroKey = (typeof SLOT_VALUES.hero)[number]
+export type TilesKey = (typeof SLOT_VALUES.tiles)[number]
+export type ListingKey = (typeof SLOT_VALUES.listing)[number]
+export type FooterKey = (typeof SLOT_VALUES.footer)[number]
 
 export type StorefrontSettingsInput = {
   defaultMode: Mode
@@ -30,6 +43,8 @@ export type StorefrontSettingsInput = {
   listing: ListingKey
   footer: FooterKey
 }
+
+export type Slot = keyof StorefrontSettingsInput
 
 /** `THEME_IDS` of the storefront's generated presets file. */
 export const THEME_PRESETS = [
@@ -44,118 +59,8 @@ export const THEME_PRESETS = [
 
 export type ThemePreset = (typeof THEME_PRESETS)[number]
 
-/** `THEME_LABELS`, verbatim. An id never reaches the screen. */
-export const THEME_LABELS: Record<ThemePreset, string> = {
-  medusa: "Medusa default",
-  electronics: "Ferrite",
-  geist: "Geist",
-  "home-goods": "Long Morning",
-  sneakers: "Kerbstone",
-  supplements: "Scruple",
-  "womens-fashion": "Larchant",
-}
-
-export type Option<T extends string> = {
-  value: T
-  /** What the operator reads in the select. */
-  label: string
-  /** The one-line description under it — `Composition.<slot>Why.<key>`. */
-  why: string
-}
-
-export const MODE_OPTIONS: Option<Mode>[] = [
-  {
-    value: "light",
-    label: "Светлая",
-    why: "Посетитель, который ничего не переключал, видит светлую палитру.",
-  },
-  {
-    value: "dark",
-    label: "Тёмная",
-    why: "Посетитель, который ничего не переключал, видит тёмную палитру.",
-  },
-]
-
-export const HEADER_OPTIONS: Option<HeaderKey>[] = [
-  {
-    value: "h1",
-    label: "Как сейчас",
-    why: "Бургер-меню слева, логотип по центру, поиск, регион, аккаунт и корзина справа.",
-  },
-  {
-    value: "h2",
-    label: "Слева, меню в строку",
-    why: "Логотип слева, до четырёх ссылок на категории по центру, утилиты справа.",
-  },
-  {
-    value: "h3",
-    label: "Два яруса",
-    why: "Узкая промо-строка над основной строкой с логотипом, меню и поиском.",
-  },
-  {
-    value: "h4",
-    label: "Акцент",
-    why: "Шапка заливается акцентным цветом, логотип слева, меню по центру.",
-  },
-  {
-    value: "h5",
-    label: "Узкая + лента категорий",
-    why: "Узкая полоса и прокручиваемый ряд чипов категорий с числом товаров.",
-  },
-  {
-    value: "h6",
-    label: "По центру + лента категорий",
-    why: "Тот же ряд чипов категорий, что и в «Узкой», но логотип остаётся по центру.",
-  },
-]
-
-export const HERO_OPTIONS: Option<HeroKey>[] = [
-  {
-    value: "none",
-    label: "Нет",
-    why: "Без хиро — страница сразу открывается следующим разделом.",
-  },
-  {
-    value: "g",
-    label: "Витрина",
-    why: "Разделённый хиро: фото товара рядом с названием, ценой и кнопкой добавления в корзину.",
-  },
-  {
-    value: "h",
-    label: "Полка",
-    why: "Полка из трёх товаров рядом с панелью, называющей коллекцию и стартовую цену.",
-  },
-  {
-    value: "j",
-    label: "Три двери",
-    why: "Три крупные плитки категорий с числом товаров вместо хиро-изображения.",
-  },
-  {
-    value: "k",
-    label: "Анонс",
-    why: "Плоская акцентная полоса с заголовком, подзаголовком и одним призывом к действию.",
-  },
-  {
-    value: "l",
-    label: "В движении",
-    why: "Фото на всю ширину с плавающей карточкой одного товара в левом нижнем углу.",
-  },
-  {
-    value: "m",
-    label: "Без хиро, только текст",
-    why: "Без изображения — двухстрочный слоган над заголовком первой коллекции.",
-  },
-  {
-    value: "ga",
-    label: "Карусель с соседями",
-    why: "Карусель слайдов категорий: активный слайд шире, соседние видны по краям.",
-  },
-  {
-    value: "gb",
-    label: "Полосы",
-    why: "Вертикальные полосы категорий; выбранная полоса разворачивается со своим текстом.",
-  },
-]
+/** The five slots of the «Блоки» section, in the order the storefront stacks them. */
+export const BLOCK_SLOTS: readonly Exclude<Slot, "defaultMode">[] = ["header", "hero", "tiles", "listing", "footer"]
 
 /**
  * Whether the storefront's hero variant renders `content.hero.image_url`
@@ -178,135 +83,40 @@ export const HERO_SUPPORTS_IMAGE: Record<Exclude<HeroKey, "none">, boolean> = {
   gb: false,
 }
 
-export const TILES_OPTIONS: Option<TilesKey>[] = [
-  {
-    value: "on",
-    label: "Вкл",
-    why: "Ряд плиток категорий под хиро.",
-  },
-  {
-    value: "off",
-    label: "Выкл",
-    why: "Без плиток категорий на главной странице.",
-  },
-]
+export const heroShowsImage = (hero: HeroKey): boolean => hero !== "none" && HERO_SUPPORTS_IMAGE[hero]
 
-export const LISTING_OPTIONS: Option<ListingKey>[] = [
-  {
-    value: "none",
-    label: "Нет",
-    why: "Без списка товаров — страница заканчивается после хиро и плиток.",
-  },
-  {
-    value: "p1",
-    label: "Сетка из 4",
-    why: "Одна коллекция, четыре колонки, восемь товаров, показаны название и цена.",
-  },
-  {
-    value: "p2",
-    label: "Плотная 6",
-    why: "Все товары, шесть колонок, плотная сетка из двенадцати, только название и цена.",
-  },
-  {
-    value: "p3",
-    label: "Список с характеристиками",
-    why: "Список строками: изображение, название, строка характеристик и цена для каждого товара.",
-  },
-  {
-    value: "p4",
-    label: "Стена",
-    why: "Трёхколоночная стена-мозаика из девяти товаров: изображение, название и цена.",
-  },
-  {
-    value: "p5",
-    label: "Редакционная",
-    why: "Один крупный товар и четыре меньших рядом, редакционная вёрстка.",
-  },
-]
-
-export const FOOTER_OPTIONS: Option<FooterKey>[] = [
-  {
-    value: "none",
-    label: "Нет",
-    why: "Без подвала.",
-  },
-  {
-    value: "f1",
-    label: "Четыре колонки",
-    why: "Четыре колонки: бренд, категории, коллекции и информационные ссылки.",
-  },
-  {
-    value: "f2",
-    label: "Одна строка",
-    why: "Одна строка: логотип и все ссылки в ряд, юридическая строка снизу.",
-  },
-  {
-    value: "f3",
-    label: "Огромный логотип",
-    why: "Ряды ссылок над огромным логотипом на всю ширину.",
-  },
-  {
-    value: "f4",
-    label: "Инвертированный, с рассылкой",
-    why: "Инвертированные цвета: форма рассылки рядом с категориями и коллекциями.",
-  },
-  {
-    value: "f5",
-    label: "Условия плитками",
-    why: "Три карточки с фактами над обычными колонками.",
-  },
-  {
-    value: "f6",
-    label: "Инвертированный огромный логотип",
-    why: "Ряды ссылок над инвертированным огромным логотипом.",
-  },
-  {
-    value: "f7",
-    label: "Три колонки в рамке, значки оплаты",
-    why: "Три колонки ссылок в рамке, ряд значков доставки и оплаты, затем юридическая строка.",
-  },
-]
+/** The variants that do show the picture, for the line that names them. */
+export const IMAGE_HEROES = (Object.keys(HERO_SUPPORTS_IMAGE) as Exclude<HeroKey, "none">[]).filter(
+  (hero) => HERO_SUPPORTS_IMAGE[hero]
+)
 
 export type ForbiddenRule = {
-  field: keyof StorefrontSettingsInput
+  field: Slot
   value: string
-  against: keyof StorefrontSettingsInput
+  against: Slot
   againstValue: string
-  reason: string
+  /** `homeSettings.forbidden.<reason>`: why the pair is refused. */
+  reason: "headerAccentHeroAnnounce" | "footerInvertedDark"
 }
 
 /** The storefront's `FORBIDDEN`, verbatim. The backend re-checks both pairs and
- *  answers 422; the screen greys the option here so a save is never attempted. */
+ *  answers 422; the drawer greys the option here so a save is never attempted. */
 export const FORBIDDEN: readonly ForbiddenRule[] = [
-  {
-    field: "header",
-    value: "h4",
-    against: "hero",
-    againstValue: "k",
-    reason:
-      "«Шапка: Акцент» и «Первый экран: Анонс» одинаково заливают свою полосу акцентным цветом — между ними ничего не остаётся.",
-  },
-  {
-    field: "footer",
-    value: "f6",
-    against: "defaultMode",
-    againstValue: "dark",
-    reason:
-      "«Подвал: Инвертированный огромный логотип» становится светлым на тёмной странице — смотрится оторванно, а не как основание.",
-  },
+  { field: "header", value: "h4", against: "hero", againstValue: "k", reason: "headerAccentHeroAnnounce" },
+  { field: "footer", value: "f6", against: "defaultMode", againstValue: "dark", reason: "footerInvertedDark" },
 ]
 
 /**
  * Why picking `value` for `field` is blocked right now, given the rest of the
- * document — the reason the select shows beside the greyed option. Both
+ * document — the reason key the drawer shows under the greyed option. Both
  * directions of every pair are covered: choosing footer f6 while the mode is
  * dark is blocked, and so is choosing dark while the footer is f6.
  */
 export const blockedReason = (
   settings: StorefrontSettingsInput,
-  field: keyof StorefrontSettingsInput,
+  field: Slot,
   value: string
-): string | null => {
+): ForbiddenRule["reason"] | null => {
   for (const rule of FORBIDDEN) {
     if (rule.field === field && rule.value === value && settings[rule.against] === rule.againstValue) {
       return rule.reason
@@ -318,17 +128,9 @@ export const blockedReason = (
   return null
 }
 
+/** The blocks under the header whose order the owner sets; `homeSettings.blocks.<block>`. */
 export const HOME_BLOCKS = ["hero", "categories", "products"] as const
 export type HomeBlock = (typeof HOME_BLOCKS)[number]
-
-// Matches the section labels already established in translations/*.json
-// ("homeSettings.hero" is "Первый экран", "homeSettings.tiles" is "Плитки
-// категорий") rather than inventing new vocabulary for the same concepts.
-export const BLOCK_LABELS: Record<HomeBlock, string> = {
-  hero: "Первый экран",
-  categories: "Плитки категорий",
-  products: "Товары",
-}
 
 /**
  * One banner of the storefront's HeroSliders block (t-2026-09-24-n15, backend
@@ -366,9 +168,14 @@ export type HomeBanner = {
 
 /** Backend caps: `HOME_BANNER_TEXT_MAX`, `HOME_BANNERS_MAX`, `isAllowedBannerHref`. */
 export const BANNER_TEXT_MAX = 60
+export const BANNER_ALT_MAX = 200
 export const BANNERS_MAX = 10
 export const isAllowedBannerHref = (href: string): boolean =>
   /^https?:\/\/[^\s]+$/i.test(href) || (/^\/[^\s]*$/.test(href) && !href.startsWith("//"))
+
+/** Backend caps of the first screen's texts (`heroSchema`). */
+export const HERO_MAX = { title: 200, subtitle: 500, cta_label: 100, cta_href: 500 } as const
+export const PRODUCTS_TITLE_MAX = 200
 
 export type TenantHomeContent = {
   hero: {
@@ -377,6 +184,8 @@ export type TenantHomeContent = {
     cta_label: string
     cta_href: string
     image_url: string | null
+    /** Copy in other languages; not edited here, kept by every save. */
+    i18n?: Record<string, Partial<{ title: string; subtitle: string; cta_label: string }>>
   }
   products:
     | { source: "popular" }
@@ -399,7 +208,7 @@ export type TenantHomeDocument = {
  * half repeats the storefront's own "no saved settings" baseline (`DEFAULT_HEADER`
  * h1, `DEFAULT_HERO` k, `DEFAULT_TILES` on, `DEFAULT_LISTING` p1, `DEFAULT_FOOTER`
  * f1 in the storefront's `nav/variants`, `home/variants` and `footer/variants`),
- * so saving the form unchanged leaves the storefront looking exactly as it did.
+ * so saving one section of an unsaved page leaves the rest looking exactly as it did.
  */
 export const DEFAULT_DOCUMENT: TenantHomeDocument = {
   theme: { preset: "medusa" },

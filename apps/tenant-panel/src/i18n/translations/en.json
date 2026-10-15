@@ -1297,45 +1297,238 @@
     "selectRegionFirst": "Select a region first"
   },
   "homeSettings": {
-    "composition": "Blocks",
-    "defaultMode": "Default for visitors",
-    "domain": "Home page",
-    "footer": "Footer",
-    "header": "Header",
-    "hero": "Hero",
-    "heroContent": "Hero text",
-    "heroCtaHref": "Button link",
-    "heroCtaLabel": "Button text",
-    "heroImage": "Image address",
-    "heroImageHint": "Only the hero versions that show a photograph use it; Announcement ignores it.",
-    "heroSubtitle": "Subheadline",
-    "heroTitle": "Headline",
-    "hide": "Hide {{block}}",
-    "hint": "What your storefront's home page shows: its theme, which version of each block, and the text inside them.",
-    "listing": "Listing",
-    "moveDown": "Move down",
-    "moveUp": "Move up",
-    "neverSaved": "Not saved yet — these are the defaults.",
-    "omitted": "Not shown on the home page:",
-    "order": "Order of the blocks",
-    "products": "Which products the listing shows",
-    "productsCategory": "Products of a category",
-    "productsCategoryPick": "Category",
-    "productsCategoryWhy": "The listing shows the products of the category you pick.",
-    "productsPopular": "Popular",
-    "productsPopularWhy": "The listing shows your lead collection, the way it does today.",
-    "productsSource": "Source",
-    "productsTitle": "Heading above the products",
-    "saveFailed": "The home page could not be saved.",
-    "saved": "The home page was saved.",
+    "title": "Home page",
     "savedAt": "Last saved {{time}}.",
-    "show": "Show",
-    "theme": "Theme",
-    "themePreset": "Colour preset",
-    "tiles": "Category tiles",
-    "upload": "Upload",
-    "uploadFailed": "The image could not be uploaded.",
-    "uploading": "Uploading…"
+    "neverSaved": "Not saved yet — these are the defaults.",
+    "saved": "Home page saved",
+    "unavailable": "«{{option}}» can't be picked: {{reason}}",
+    "palettes": {
+      "medusa": "Medusa default",
+      "electronics": "Ferrite",
+      "geist": "Geist",
+      "home-goods": "Long Morning",
+      "sneakers": "Kerbstone",
+      "supplements": "Scruple",
+      "womens-fashion": "Larchant"
+    },
+    "slots": {
+      "defaultMode": "Default",
+      "header": "Header",
+      "hero": "First screen",
+      "tiles": "Category tiles",
+      "listing": "Product list",
+      "footer": "Footer"
+    },
+    "options": {
+      "defaultMode": {
+        "light": "Light",
+        "dark": "Dark"
+      },
+      "header": {
+        "h1": "As it is today",
+        "h2": "Left, menu in a row",
+        "h3": "Two tiers",
+        "h4": "Accent",
+        "h5": "Slim + category strip",
+        "h6": "Centre + category strip"
+      },
+      "hero": {
+        "g": "Showcase",
+        "ga": "Carousel with neighbours",
+        "gb": "Stripes",
+        "h": "Shelf",
+        "j": "Three doors",
+        "k": "Announcement",
+        "l": "In motion",
+        "m": "No hero, text only",
+        "none": "None"
+      },
+      "tiles": {
+        "off": "Off",
+        "on": "On"
+      },
+      "listing": {
+        "none": "None",
+        "p1": "Grid of 4",
+        "p2": "Dense 6",
+        "p3": "Spec list",
+        "p4": "Wall",
+        "p5": "Editorial"
+      },
+      "footer": {
+        "f1": "Four columns",
+        "f2": "One row",
+        "f3": "Giant wordmark",
+        "f4": "Inverted, with newsletter",
+        "f5": "Terms as tiles",
+        "f6": "Inverted giant wordmark",
+        "f7": "Framed columns with badges",
+        "none": "None"
+      }
+    },
+    "why": {
+      "defaultMode": {
+        "light": "A visitor who never switched sees the light palette.",
+        "dark": "A visitor who never switched sees the dark palette."
+      },
+      "header": {
+        "h1": "Burger menu left, wordmark centre, search, region, account and cart on the right.",
+        "h2": "Wordmark left, up to four category links centred, utilities on the right.",
+        "h3": "A slim promo line above a main row with the wordmark, menu and search.",
+        "h4": "The header fills with the accent colour, wordmark left, menu centred.",
+        "h5": "A slim bar plus a scrollable row of category chips with product counts.",
+        "h6": "The same category chip row as Slim, but the bar keeps the wordmark centred."
+      },
+      "hero": {
+        "g": "A split hero: a product's photo beside its title, price and an add-to-bag button.",
+        "ga": "A carousel of category slides, the active one wider, with neighbours peeking in.",
+        "gb": "Vertical category stripes; the selected one expands to show its own copy.",
+        "h": "A three-product shelf beside a panel naming the collection and its starting price.",
+        "j": "Three large category tiles with item counts, in place of a hero image.",
+        "k": "A flat accent band with a headline, subheadline and one call to action.",
+        "l": "A full-bleed photo with a floating card for one product in the bottom-left corner.",
+        "m": "No image — a two-line tagline strip above the first collection's heading.",
+        "none": "No hero — the page opens straight into the next section."
+      },
+      "tiles": {
+        "on": "A row of category tiles under the first screen.",
+        "off": "No category tiles on the home page."
+      },
+      "listing": {
+        "none": "No listing — the page ends after the hero and tiles.",
+        "p1": "One collection, four columns, eight products, title and price shown.",
+        "p2": "All products, six columns, a dense grid of twelve, title and price only.",
+        "p3": "A row list with image, title, a spec line and price for each product.",
+        "p4": "A three-column masonry wall of nine products, image, title and price.",
+        "p5": "One large lead product beside four smaller ones, editorial layout."
+      },
+      "footer": {
+        "f1": "Four columns: brand, categories, collections and info links.",
+        "f2": "One row: wordmark and every link inline, with a legal line below.",
+        "f3": "Link rows above a giant wordmark, sized to fit the width.",
+        "f4": "Inverted colours: a newsletter form beside categories and collections.",
+        "f5": "Three fact cards above the usual columns.",
+        "f6": "Link rows above an inverted, giant wordmark.",
+        "f7": "Three framed link columns, a row of delivery and payment badges, then the legal line.",
+        "none": "No footer."
+      }
+    },
+    "forbidden": {
+      "headerAccentHeroAnnounce": "the «Accent» header and the «Announcement» first screen both fill their band with the accent colour — nothing is left between them.",
+      "footerInvertedDark": "the «Inverted giant wordmark» footer turns light on a dark page — it looks detached rather than grounded."
+    },
+    "theme": {
+      "subtitle": "The site's colours and the default palette.",
+      "edit": "Theme",
+      "palette": "Palette",
+      "paletteHint": "The site's set of colours: background, text, buttons and accent.",
+      "defaultMode": "Default for visitors"
+    },
+    "blocks": {
+      "title": "Blocks",
+      "subtitle": "Which parts make up the home page and how each one looks."
+    },
+    "hero": {
+      "title": "First screen",
+      "subtitle": "The text and the picture at the very top of the home page.",
+      "heading": "Headline",
+      "subheading": "Subheadline",
+      "button": "Button",
+      "buttonLabel": "Button text",
+      "buttonHref": "Button link",
+      "buttonHrefHint": "A page of the shop, such as /store, or any link.",
+      "leadsTo": "leads to {{href}}",
+      "noLink": "No link set — the button leads nowhere.",
+      "image": "Picture",
+      "imageEmpty": "Not uploaded.",
+      "imageZone": "Drop a file here or click. JPG, PNG, WebP or GIF.",
+      "imageUnused": "The «{{variant}}» variant shows the first screen without a picture. The picture is shown by {{list}}."
+    },
+    "image": {
+      "drop": "Upload a picture",
+      "replace": "Replace the picture",
+      "remove": "Remove",
+      "uploading": "Uploading…",
+      "uploadFailed": "The picture could not be uploaded.",
+      "stillUploading": "The picture is still uploading. Wait for it and save again."
+    },
+    "banners": {
+      "title": "Banners",
+      "subtitle": "Pictures with captions in the corners under the first screen. Up to {{max}}, shown in this order; a click opens a product or a link.",
+      "add": "Add banner",
+      "emptyTitle": "No banners yet",
+      "emptyMessage": "Without banners the storefront shows the shop's courses under the first screen.",
+      "untitled": "Banner {{n}}",
+      "opensProduct": "Opens the product «{{title}}»",
+      "opensProductUnknown": "Opens a product",
+      "opensLink": "Opens the link {{href}}",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "moved": "Banner order saved",
+      "removeTitle": "Delete the banner?",
+      "removeDescription": "The banner «{{name}}» will disappear from the home page.",
+      "removed": "Banner deleted",
+      "createTitle": "New banner",
+      "editTitle": "Banner {{n}}",
+      "drawerSubtitle": "A picture with captions in its corners; a click on the banner opens a product or a link.",
+      "image": "Picture",
+      "imageZone": "Drop a file here or click. JPG, PNG, WebP or GIF, landscape works best.",
+      "imageRequired": "Add a picture.",
+      "alt": "Picture description",
+      "altHint": "Read by blind shoppers and by search engines.",
+      "kicker": "Top left",
+      "label": "Top right",
+      "cornerTitle": "Bottom left",
+      "cornerTitleHint": "The banner's title; your line break is kept.",
+      "button": "Bottom right",
+      "buttonHint": "The button's caption.",
+      "linkType": "Opens",
+      "linkProduct": "A product",
+      "linkUrl": "A link",
+      "product": "Product",
+      "productPlaceholder": "Find a product",
+      "productHint": "Start typing a name to find the product.",
+      "href": "Link address",
+      "hrefHint": "A page of the shop, such as /store, or an address starting with https://.",
+      "errorHref": "The link must start with http(s):// or with / for a page of this shop.",
+      "errorProduct": "Pick a product.",
+      "preview": "What the buyer sees",
+      "saved": "Banner saved",
+      "added": "Banner added"
+    },
+    "products": {
+      "title": "Products",
+      "subtitle": "Which products the list on the home page shows.",
+      "source": "Source",
+      "sourcePopular": "Popular",
+      "sourcePopularWhy": "The shop's lead collection, as it is today.",
+      "sourceCategory": "Category",
+      "sourceCategoryWhy": "The products of one category you pick.",
+      "category": "Category",
+      "categoryPlaceholder": "Pick a category",
+      "categoryHint": "Available when the source is «Category».",
+      "categoryRequired": "Pick a category.",
+      "heading": "Heading above the products",
+      "headingPlaceholder": "For example, «Hits of the month»",
+      "headingEmpty": "Empty — the list goes without a heading.",
+      "headingOnlyCategory": "A heading is set for a category list."
+    },
+    "order": {
+      "title": "Order",
+      "subtitle": "The order of the blocks under the header. The header and the footer always stay in place.",
+      "edit": "Order of the blocks",
+      "hint": "Drag a block by the handle on the left. A block switched off goes to «Hidden» and is not shown on the home page.",
+      "hidden": "Hidden",
+      "hiddenEmpty": "Nothing yet. Switch a block off above and it will land here.",
+      "hiddenLine": "Hidden blocks: {{list}}",
+      "hiddenNone": "Hidden blocks: none",
+      "show": "Show the «{{block}}» block",
+      "blocks": {
+        "hero": "First screen",
+        "categories": "Category tiles",
+        "products": "Products"
+      }
+    }
   },
   "inventory": {
     "adjustInventory": {
