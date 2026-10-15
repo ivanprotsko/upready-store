@@ -11,7 +11,10 @@ interface DataTableProps<TData>
   isLoading?: boolean
   pageSize: number
   queryObject?: Record<string, any>
-  noRecords?: Pick<NoResultsProps, "title" | "message">
+  /** `action` draws the empty state's one button, the owner's first step. */
+  noRecords?: Pick<NoResultsProps, "title" | "message"> & {
+    action?: { to: string; label: string }
+  }
 }
 
 // Maybe we should use the memoized version of DataTableRoot
