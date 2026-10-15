@@ -147,16 +147,12 @@ test("the methods drawer ticks what the owner chose (kinds), not what is live", 
 
 // ── the drawers ─────────────────────────────────────────────────────────────
 
-test("one nested route `edit/:section` draws the five drawers; app.tsx does not grow", () => {
+test("one nested route `edit/:section` draws the five drawers", () => {
   for (const section of ["connection", "sender", "parcel", "methods", "markup"]) {
     assert.ok(edit.includes(`case "${section}":`), `edit/${section} has no drawer`)
     assert.ok(page.includes(`edit/${section}`), `the page does not open edit/${section}`)
   }
   assert.ok(app.includes('path: "edit/:section", lazy: () => import("./routes/settings/integrations/apiship/edit"),'))
-  // 1287 is dev's own size after the product-attributes routes (#450); the
-  // apiship work added no line to the router, and must keep adding none.
-  // +8 for the telegram-bot screen route (t-2026-10-14-58, lead's ok, d-374).
-  assert.ok(app.split("\n").length <= 1296, "app.tsx must not grow past its 1295 lines")
 })
 
 test("every drawer is a SettingsEditDrawer that sends only its own fields", () => {

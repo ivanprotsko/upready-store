@@ -5177,9 +5177,7 @@
     "notFilled": "not filled in",
     "missingCount": "not filled in: {{count}}",
     "allFilled": "all filled in",
-    "neededOn_one": "needed on the page: {{pages}}",
-    "neededOn_other": "needed on the pages: {{pages}}",
-    "returnAddressOptional": "optional: without it the buyer will not see in the offer where to send goods back",
+    "optional": "optional",
     "phoneNeedsConfirm": "needs confirmation",
     "phoneConfirmHint": "Confirm when you edit that the number answers — then it goes into the contacts.",
     "phoneConfirmed": {
