@@ -102,6 +102,9 @@ export const OWNER_ROUTES = [
   { path: "/customers", core: true },
   { path: "/customers/:customer_id" },
   { path: "/reviews", core: true },
+  { path: "/reviews?q=zzzz-nothing-matches", note: "empty search result" },
+  { path: "/reviews/:review_id", kind: "overlay" },
+  { path: "/reviews/:review_id/reply", kind: "overlay" },
 
   // Акции
   { path: "/promotions" },
@@ -414,6 +417,11 @@ export const PARAM_RESOLVERS = {
   banner_id: async (api) => {
     const body = await api("/tenants/home")
     return first(body.home?.content?.banners, "home banners").id
+  },
+  // «Отзывы» (t-2026-10-14-01, G5): the newest review, the list's first row.
+  review_id: async (api) => {
+    const { reviews } = await api("/tenants/reviews?limit=1")
+    return first(reviews, "reviews").id
   },
 }
 

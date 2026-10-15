@@ -30,7 +30,7 @@ import { adminUploadPostMiddlewares } from "./shared";
 export const buyerRoutes: MiddlewareRoute[] = [
   // ---- t09-reviews: product reviews. The tenant side rides the
   // "/tenants/*" authenticate in `gates.ts` and needs a body schema for the one
-  // write verb (`DELETE` takes none, the two reads take query parameters the
+  // write verb (`DELETE` takes none, the reads take query parameters the
   // route parses itself). The storefront's read rides the framework's own
   // publishable-key gate; its POST needs a customer on top of that, so it
   // carries `authenticate("customer", …)` WITHOUT `allowUnauthenticated` —

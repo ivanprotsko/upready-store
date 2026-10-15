@@ -845,14 +845,14 @@ const routes: RouteObject[] = [
             ],
           },
           {
-            // t09-reviews: the panel's own /reviews screen (no Admin
-            // counterpart — a native Medusa install has no reviews). One
-            // screen: publishing, hiding, answering and deleting all happen in
-            // the row, so there is no drawer or modal to nest under it.
             path: "/reviews",
-            handle: { breadcrumb: () => t("app.nav.main.reviews", { defaultValue: "Отзывы" }) },
+            handle: { breadcrumb: () => t("reviews.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/reviews/review-list"),
+            children: [
+              { path: ":id", lazy: () => import("./routes/reviews/review-detail") },
+              { path: ":id/reply", lazy: () => import("./routes/reviews/review-reply") },
+            ],
           },
           {
             // tenant-panel wave 2, piece 8: the panel's own home page settings (no Admin

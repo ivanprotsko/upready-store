@@ -142,7 +142,7 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
 
   // ---- reviews
   "/tenants/reviews": { GET: "reviews" },
-  "/tenants/reviews/[id]": { POST: "reviews", DELETE: "reviews" },
+  "/tenants/reviews/[id]": { GET: "reviews", POST: "reviews", DELETE: "reviews" },
 
   // ---- catalog
   "/tenants/products/export": { GET: "catalog" },

@@ -1,10 +1,19 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
-import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
+import { MedusaError } from "@medusajs/framework/utils";
 import { PRODUCT_REVIEW_MODULE } from "../../../modules/product-review";
 import type ProductReviewModuleService from "../../../modules/product-review/service";
 import { REVIEW_STATUSES } from "../../../modules/product-review/models/product-review";
 import { getTenantScope, listTenantProductIds, scopeIdFilter } from "../tenant-scope";
-import { parseIdFilter, toReviewDto, type ReviewRow } from "./review-helpers";
+import {
+  parseAnsweredFilter,
+  parseRatingFilter,
+  parseReviewOrder,
+  parseSearch,
+  parseSourceFilter,
+  reviewListWhere,
+} from "./list-query";
+import { parseIdFilter, type ReviewRow } from "./review-helpers";
+import { loadReviewProducts, toTenantReviewDto } from "./review-products";
 
 const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 200;
@@ -39,7 +48,10 @@ const parseStatusFilter = (raw: unknown): string[] | null => {
 /**
  * `GET /tenants/reviews` — the moderation list (t09-reviews). Every status,
  * newest first by the date the review was written, narrowed by `?status=` and
- * `?product_id=`.
+ * `?product_id=`, and since the G5 redesign (t-2026-10-14-01) also by
+ * `?rating=`, `?source=`, `?answered=yes|no` and `?q=` (text, title or name),
+ * sorted by `?order=` (`written_at` or `rating`, `-` for descending); the
+ * parsing lives in `list-query.ts`.
  *
  * Scope is the tenant behind the token twice over: the `tenant_id` column is
  * always in the filter, and `product_id` is intersected with the products the
@@ -70,6 +82,13 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 
   const statuses = parseStatusFilter(req.query.status);
   const languages = parseIdFilter(req.query.language);
+  const narrowing = reviewListWhere({
+    ratings: parseRatingFilter(req.query.rating),
+    sources: parseSourceFilter(req.query.source),
+    answered: parseAnsweredFilter(req.query.answered),
+    search: parseSearch(req.query.q),
+  });
+  const order = parseReviewOrder(req.query.order);
 
   const reviewService: ProductReviewModuleService = req.scope.resolve(PRODUCT_REVIEW_MODULE);
   const [rows, count] = await reviewService.listAndCountProductReviews(
@@ -78,46 +97,15 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       product_id: productIds,
       ...(statuses ? { status: statuses } : {}),
       ...(languages ? { language: languages } : {}),
+      ...narrowing,
     },
-    { skip: offset, take: limit, order: { review_date: "DESC", id: "DESC" } },
+    { skip: offset, take: limit, order },
   );
 
-  type ProductCard = {
-    id: string;
-    title: string;
-    handle: string;
-    thumbnail: string | null;
-  };
-
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
-  const pageProductIds = [...new Set((rows as ReviewRow[]).map((row) => row.product_id))];
-  const products: ProductCard[] = pageProductIds.length
-    ? ((
-        await query.graph({
-          entity: "product",
-          fields: ["id", "title", "handle", "thumbnail"],
-          filters: { id: pageProductIds },
-        })
-      ).data as unknown as ProductCard[])
-    : [];
-
-  const byId = new Map<string, ProductCard>(products.map((product) => [product.id, product]));
+  const products = await loadReviewProducts(req, rows as ReviewRow[]);
 
   res.json({
-    reviews: (rows as ReviewRow[]).map((row) => {
-      const product = byId.get(row.product_id);
-      return {
-        ...toReviewDto(row),
-        product: product
-          ? {
-              id: product.id,
-              title: product.title,
-              handle: product.handle,
-              thumbnail: product.thumbnail ?? null,
-            }
-          : null,
-      };
-    }),
+    reviews: (rows as ReviewRow[]).map((row) => toTenantReviewDto(row, products)),
     count,
     offset,
     limit,

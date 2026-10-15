@@ -1,19 +1,10 @@
+import type { TFunction } from "i18next"
+
 import type { ReviewSource, ReviewStatus } from "../../hooks/api/reviews"
 
 // Plain-language labels for the raw enums the backend stores (rule 18e: a raw
-// enum reaches the screen only through a label map).
-
-export const REVIEW_STATUS_LABEL: Record<ReviewStatus, string> = {
-  pending: "На проверке",
-  published: "Опубликован",
-  hidden: "Скрыт",
-}
-
-export const REVIEW_STATUS_HINT: Record<ReviewStatus, string> = {
-  pending: "Покупатель оставил отзыв на витрине. На странице товара его пока не видно.",
-  published: "Отзыв виден всем на странице товара и учитывается в средней оценке.",
-  hidden: "Отзыв убран со страницы товара, но сохранён — его можно вернуть.",
-}
+// enum reaches the screen only through a label map). t-2026-10-14-01 (G5):
+// every word is a `reviews.*` key in ru.json / en.json.
 
 export const REVIEW_STATUS_COLOR: Record<ReviewStatus, "orange" | "green" | "grey"> = {
   pending: "orange",
@@ -21,39 +12,41 @@ export const REVIEW_STATUS_COLOR: Record<ReviewStatus, "orange" | "green" | "gre
   hidden: "grey",
 }
 
-export const REVIEW_SOURCE_LABEL: Record<ReviewSource, string> = {
-  shop: "С витрины",
-  imported: "Перенесён из старого магазина",
-  wb: "С карточки Wildberries",
-}
+export const reviewStatusLabel = (t: TFunction, status: ReviewStatus): string =>
+  t(`reviews.status.${status}`)
 
-const LANGUAGE_LABEL: Record<string, string> = {
-  ru: "русский",
-  en: "английский",
-  de: "немецкий",
-  fr: "французский",
-  es: "испанский",
-  it: "итальянский",
-  uk: "украинский",
-}
+/** What the status means for the storefront, on hover of the badge. */
+export const reviewStatusHint = (t: TFunction, status: ReviewStatus): string =>
+  t(`reviews.statusHint.${status}`)
+
+export const reviewSourceLabel = (t: TFunction, source: ReviewSource): string =>
+  t(`reviews.source.${source}`)
+
+const KNOWN_LANGUAGES = ["ru", "en", "de", "fr", "es", "it", "uk"]
 
 /** «русский» where the panel knows the tag, the tag itself otherwise. */
-export const languageLabel = (tag: string): string =>
-  LANGUAGE_LABEL[tag.toLowerCase()] ?? tag
+export const reviewLanguageLabel = (t: TFunction, tag: string): string => {
+  const code = tag.toLowerCase()
+  return KNOWN_LANGUAGES.includes(code) ? t(`reviews.language.${code}`) : tag
+}
+
+/** «с витрины · русский»: where the review came from and its language. */
+export const reviewOrigin = (t: TFunction, source: ReviewSource, language: string): string =>
+  t("reviews.origin", {
+    source: reviewSourceLabel(t, source),
+    language: reviewLanguageLabel(t, language),
+  })
 
 /**
- * «11 сентября 2026» — the date the review was written, in the owner's
- * language. `null` in, «дата неизвестна» out: 9 of the imported reviews carry
- * a date the import could not read, and the row says so instead of showing the
- * day it was copied over.
+ * The status moves a review offers: a pending one can only be published; a
+ * published one hidden or sent back to the queue; a hidden one published again
+ * or sent back. «Скрыть» on a review the storefront never showed means nothing.
  */
-export const formatReviewDate = (iso: string | null): string => {
-  if (!iso) return "дата неизвестна"
-  const date = new Date(iso)
-  if (Number.isNaN(date.getTime())) return iso
-  return new Intl.DateTimeFormat("ru-RU", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(date)
-}
+export const statusMoves = (status: ReviewStatus): ReviewStatus[] =>
+  status === "pending"
+    ? ["published"]
+    : status === "published"
+      ? ["hidden", "pending"]
+      : ["published", "pending"]
+
+export const REPLY_MAX_LENGTH = 5000
