@@ -6993,7 +6993,7 @@
       "title": "Reply to the customer",
       "description": "Customers see it under the review on the product page.",
       "label": "Shop's reply",
-      "counter": "{{count}} of {{max}}",
+      "counter": "{{length}} of {{max}}",
       "send": "Send",
       "required": "Write a reply",
       "tooLong": "The reply is longer than {{max}} characters"

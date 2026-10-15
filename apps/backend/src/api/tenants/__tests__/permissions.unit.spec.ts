@@ -243,7 +243,12 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "GET /tenants/analytics/summary",
   ],
   customers: ["GET /tenants/customers", "POST /tenants/customers/export", "GET /tenants/customers/[id]"],
-  reviews: ["GET /tenants/reviews", "POST /tenants/reviews/[id]", "DELETE /tenants/reviews/[id]"],
+  reviews: [
+    "GET /tenants/reviews",
+    "GET /tenants/reviews/[id]",
+    "POST /tenants/reviews/[id]",
+    "DELETE /tenants/reviews/[id]",
+  ],
   catalog: [
     "POST /tenants/products",
     "POST /tenants/products/[id]",

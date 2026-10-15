@@ -215,7 +215,7 @@ test("the reply drawer: quote, one field, one «Отмена / Отправит�
   assert.ok(reply.includes("mutateAsync({ reply: null })"))
   assert.ok(reply.includes("maxLength={REPLY_MAX_LENGTH}"))
   assert.equal(REPLY_MAX_LENGTH, 5000, "the backend's limit")
-  assert.equal(t("reviews.replyForm.counter", { count: "148", max: "5 000" }), "148 из 5 000")
+  assert.equal(t("reviews.replyForm.counter", { length: "148", max: "5 000" }), "148 из 5 000")
 })
 
 test("the toasts are the prototype's short phrases", () => {

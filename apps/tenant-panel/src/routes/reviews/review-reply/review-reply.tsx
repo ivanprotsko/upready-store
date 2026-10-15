@@ -137,7 +137,7 @@ const ReplyForm = ({ review }: { review: TenantReview }) => {
                 </Form.Control>
                 <Form.Hint>
                   {t("reviews.replyForm.counter", {
-                    count: number.format(length),
+                    length: number.format(length),
                     max: number.format(REPLY_MAX_LENGTH),
                   })}
                 </Form.Hint>
