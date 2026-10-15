@@ -62,9 +62,14 @@ export const OWNER_ROUTES = [
 
   // Курсы
   { path: "/courses", core: true },
+  { path: "/courses/create", kind: "overlay" },
   { path: "/courses/:course_id", core: true },
+  { path: "/courses/:course_id/edit", kind: "overlay" },
+  { path: "/courses/:course_id/stream/edit", kind: "overlay" },
   { path: "/courses/:course_id/lessons/new", kind: "overlay" },
   { path: "/courses/:course_id/lessons/:lesson_id", kind: "overlay" },
+  { path: "/courses/:course_id/page/:course_page_list/new", kind: "overlay" },
+  { path: "/courses/:course_id/page/:course_page_list/:course_page_entry", kind: "overlay" },
 
   // Категории
   { path: "/categories", core: true },
@@ -310,6 +315,18 @@ export const PARAM_RESOLVERS = {
   lesson_id: async (api, got) => {
     const { lessons } = await api(`/tenants/courses/${got.course_id}/lessons`)
     return first(lessons, "lessons on the sample course").id
+  },
+  // The course card's three lists of the course page (t-2026-10-14-01, G4):
+  // «О курсе», and its first entry when the sample course's product has one.
+  course_page_list: async () => "about",
+  course_page_entry: async (api, got) => {
+    const { course } = await api(`/tenants/courses/${got.course_id}`)
+    const { product } = await api(`/tenants/products/${course.product_id}?fields=id,metadata`)
+    const entries = product?.metadata?.course_page?.[got.course_page_list]
+    if (!Array.isArray(entries) || entries.length === 0) {
+      throw new Error(`the sample course's page has no «${got.course_page_list}» entry`)
+    }
+    return "0"
   },
   order_id: async (api) => {
     const { orders } = await api(

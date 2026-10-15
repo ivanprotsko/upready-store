@@ -12,6 +12,9 @@ import type {
 // and run them for real (this package renders no JSX in its tests). Every
 // field of the form is a string while the owner types; this is where the
 // strings become the contract's numbers, nulls and lists.
+//
+// t-2026-10-14-01 (G4): a refusal is an i18n key with its values, never a
+// sentence (panel-ds rule 7); the drawer translates it.
 
 export type VideoRow = { url: string; title: string; duration_sec: number | null; poster_url: string | null }
 export type AttachmentRow = { name: string; url: string; size_bytes: string; mime: string | null }
@@ -29,12 +32,8 @@ export type LessonFormValues = {
   links: LinkRow[]
 }
 
-export const LINK_KINDS: { value: TenantLessonLinkKind; label: string }[] = [
-  { value: "telegram_channel", label: "Telegram-канал" },
-  { value: "telegram_chat", label: "Telegram-чат" },
-  { value: "youtube", label: "YouTube" },
-  { value: "other", label: "Другая ссылка" },
-]
+/** The kinds a lesson link may be; each reads `courses.lesson.linkKinds.<kind>`. */
+export const LINK_KINDS: TenantLessonLinkKind[] = ["telegram_channel", "telegram_chat", "youtube", "other"]
 
 export const emptyVideo = (): VideoRow => ({ url: "", title: "", duration_sec: null, poster_url: null })
 export const emptyAttachment = (): AttachmentRow => ({ name: "", url: "", size_bytes: "", mime: null })
@@ -129,9 +128,12 @@ export const lessonGroups = <TLesson extends Pick<TenantLesson, "section">>(
 
 const WEB_URL = /^https?:\/\/\S+$/i
 
-export type LessonSubmit =
-  | { ok: true; body: Omit<CreateTenantLessonBody, "order"> }
-  | { ok: false; error: string }
+/** A refusal: the i18n key of what to fix, and the row number it names. */
+export type FormRefusal = { ok: false; error: string; values?: { number: number } }
+
+export type LessonSubmit = { ok: true; body: Omit<CreateTenantLessonBody, "order"> } | FormRefusal
+
+const E = "courses.lesson.errors"
 
 /**
  * The body the form sends, or the first thing the owner has to fix. A row
@@ -145,18 +147,18 @@ export const toLessonBody = (
 ): LessonSubmit => {
   const title = values.title.trim()
   if (!title) {
-    return { ok: false, error: "Укажите название урока." }
+    return { ok: false, error: `${E}.title` }
   }
 
   const coverUrl = values.cover_url.trim()
   if (coverUrl && !WEB_URL.test(coverUrl)) {
-    return { ok: false, error: "Ссылка на обложку должна начинаться с http:// или https://" }
+    return { ok: false, error: `${E}.cover` }
   }
 
   const dayText = values.available_from_day.trim()
   const day = dayText ? Number(dayText) : null
   if (day !== null && (!Number.isInteger(day) || day < 1)) {
-    return { ok: false, error: "День открытия — целое число от 1, или оставьте поле пустым." }
+    return { ok: false, error: `${E}.day` }
   }
 
   const videos: TenantLessonVideo[] = []
@@ -165,7 +167,7 @@ export const toLessonBody = (
     const videoTitle = row.title.trim()
     if (!url && !videoTitle) continue
     if (!WEB_URL.test(url)) {
-      return { ok: false, error: `Видео ${index + 1}: ссылка должна начинаться с http:// или https://` }
+      return { ok: false, error: `${E}.videoUrl`, values: { number: index + 1 } }
     }
     videos.push({
       url,
@@ -182,14 +184,14 @@ export const toLessonBody = (
     const sizeText = row.size_bytes.trim()
     if (!name && !url && !sizeText) continue
     if (!name) {
-      return { ok: false, error: `Файл ${index + 1}: укажите имя файла.` }
+      return { ok: false, error: `${E}.fileName`, values: { number: index + 1 } }
     }
     if (!WEB_URL.test(url)) {
-      return { ok: false, error: `Файл ${index + 1}: ссылка должна начинаться с http:// или https://` }
+      return { ok: false, error: `${E}.fileUrl`, values: { number: index + 1 } }
     }
     const size = sizeText ? Number(sizeText) : null
     if (size !== null && (!Number.isInteger(size) || size < 0)) {
-      return { ok: false, error: `Файл ${index + 1}: размер — целое число байт.` }
+      return { ok: false, error: `${E}.fileSize`, values: { number: index + 1 } }
     }
     attachments.push({ name, url, ...(size ? { size_bytes: size } : {}), ...(row.mime ? { mime: row.mime } : {}) })
   }
@@ -200,10 +202,10 @@ export const toLessonBody = (
     const linkTitle = row.title.trim()
     if (!url && !linkTitle) continue
     if (!WEB_URL.test(url)) {
-      return { ok: false, error: `Ссылка ${index + 1}: адрес должен начинаться с http:// или https://` }
+      return { ok: false, error: `${E}.linkUrl`, values: { number: index + 1 } }
     }
     if (!linkTitle) {
-      return { ok: false, error: `Ссылка ${index + 1}: укажите текст ссылки.` }
+      return { ok: false, error: `${E}.linkTitle`, values: { number: index + 1 } }
     }
     links.push({ kind: row.kind, url, title: linkTitle })
   }
@@ -229,15 +231,15 @@ export const toLessonBody = (
   }
 }
 
-/** «Доступ, дней» and «Старт потока» of the course form, as the API takes them. */
+/** «Доступ, дней» and «Старт потока» of the stream drawer, as the API takes them. */
 export const courseScheduleBody = (startDate: string, accessDays: string) => {
   const days = accessDays.trim() ? Number(accessDays.trim()) : null
   if (days !== null && (!Number.isInteger(days) || days < 1)) {
-    return { ok: false as const, error: "Доступ, дней — целое число от 1, или оставьте поле пустым." }
+    return { ok: false as const, error: "courses.errors.accessDays" }
   }
   const date = startDate.trim()
   if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return { ok: false as const, error: "Старт потока — дата в формате ГГГГ-ММ-ДД." }
+    return { ok: false as const, error: "courses.errors.startDate" }
   }
   return {
     ok: true as const,
@@ -247,7 +249,7 @@ export const courseScheduleBody = (startDate: string, accessDays: string) => {
   }
 }
 
-/** The `<input type="date">` value of a stored start, read in Moscow time. */
+/** The day of a stored start, `YYYY-MM-DD`, read in Moscow time (the stream drawer's picker). */
 export const dateInputValue = (iso: string | null | undefined): string => {
   if (!iso) {
     return ""
@@ -257,4 +259,37 @@ export const dateInputValue = (iso: string | null | undefined): string => {
     return ""
   }
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Moscow" }).format(date)
+}
+
+/** The day a `DatePicker` holds (its local midnight), as the `YYYY-MM-DD` the stream body takes. */
+export const pickedDay = (date: Date | null | undefined): string =>
+  date
+    ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
+    : ""
+
+/** A `YYYY-MM-DD` day as the `DatePicker`'s local midnight of that day; null for none. */
+export const dayAsDate = (day: string): Date | null => {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(day)
+  return match ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : null
+}
+
+/**
+ * t-2026-10-14-01 (G4): «Выше / Ниже» in a lesson's «…». The lesson trades
+ * places with its neighbour in the course order only when both are in one
+ * section, as the drag it replaces did; the section itself changes in the
+ * lesson's drawer. The whole sequence goes to `POST …/lessons/reorder`; null
+ * when the lesson cannot move that way.
+ */
+export const moveLessonIds = (
+  lessons: Pick<TenantLesson, "id" | "section">[],
+  index: number,
+  delta: -1 | 1
+): string[] | null => {
+  const lesson = lessons[index]
+  const neighbour = lessons[index + delta]
+  const sectionOf = (row: Pick<TenantLesson, "section">) => row.section?.trim() || null
+  if (!lesson || !neighbour || sectionOf(lesson) !== sectionOf(neighbour)) {
+    return null
+  }
+  return moveRow(lessons, index, delta).map((row) => row.id)
 }

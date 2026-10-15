@@ -1,32 +1,136 @@
-import { useState } from "react"
-import { Plus } from "@medusajs/icons"
-import { Button, Container, Heading, Input, StatusBadge, Table, Text, toast } from "@medusajs/ui"
-import { Link, useNavigate } from "react-router-dom"
+import { EllipsisHorizontal, PencilSquare, Trash } from "@medusajs/icons"
+import { Button, Container, Heading, IconButton, StatusBadge, Text } from "@medusajs/ui"
+import { createColumnHelper } from "@tanstack/react-table"
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 
-import { SingleColumnPage } from "../../../components/layout/pages"
-import { TableScroll } from "../../../components/table/table-scroll"
+import { ActionMenu } from "../../../components/common/action-menu"
+import { NoRecords } from "../../../components/common/empty-table-content"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
-import { useCreateTenantCourse, useTenantCourses } from "../../../hooks/api/courses"
+import { SingleColumnPage } from "../../../components/layout/pages"
+import { _DataTable } from "../../../components/table/data-table"
+import { useTenantCourses, type TenantCourse } from "../../../hooks/api/courses"
 import { useProducts } from "../../../hooks/api/products"
-import { productsWithoutCourse, productTitleById, STATUS_BADGE_COLOR, STATUS_LABEL } from "../course-labels"
+import { useDataTable } from "../../../hooks/use-data-table"
+import { productTitleById, STATUS_BADGE_COLOR, STATUS_LABEL_KEY } from "../course-labels"
+import { useCourseDelete } from "../use-course-delete"
 
-// o24-courses: the owner's course catalogue. Built from the same primitives
-// `product-attributes` uses (SingleColumnPage, Container, Table, a quick-add
-// row at the bottom) — no separate `/courses/new` screen, since the create
-// form here asks for a product and a title, not a raw address (the b18-blog-full
-// complaint about the journal's old create form does not apply).
+// o24-courses: the owner's course catalogue.
+//
+// t-2026-10-14-01 (panel redesign, G4, prototype states `courses`,
+// `courses-empty`): the list after panel-ds E1, E8 and rule 9. `_DataTable`
+// with Курс · Товар · Уроки · Статус · «…»; a row opens the course's card.
+// The create form that stood under the table is the «Создать курс» modal on
+// its own address, `/courses/create`. A shop has one course per product at
+// most, so the list is short: no search and no pages, as on /shipping.
+
+const columnHelper = createColumnHelper<TenantCourse>()
+
+const CourseRowActions = ({ course }: { course: TenantCourse }) => {
+  const { t } = useTranslation()
+  const remove = useCourseDelete(course, course.lesson_count ?? 0)
+
+  return (
+    <ActionMenu
+      groups={[
+        {
+          actions: [
+            {
+              icon: <PencilSquare />,
+              label: t("actions.change"),
+              to: `/courses/${course.id}/edit`,
+            },
+          ],
+        },
+        {
+          actions: [
+            {
+              icon: <Trash />,
+              label: t("courses.card.delete"),
+              destructive: true,
+              onClick: () => void remove(),
+            },
+          ],
+        },
+      ]}
+    >
+      <IconButton size="small" variant="transparent" aria-label={t("fields.actions")}>
+        <EllipsisHorizontal />
+      </IconButton>
+    </ActionMenu>
+  )
+}
+
+const useColumns = (titleById: Map<string, string>) => {
+  const { t } = useTranslation()
+
+  return useMemo(
+    () => [
+      columnHelper.accessor("title", {
+        header: t("courses.columns.course"),
+        cell: ({ row }) => {
+          const course = row.original
+          return (
+            <Text size="small" leading="compact" weight="plus" className="truncate" title={course.slug}>
+              {course.title}
+            </Text>
+          )
+        },
+      }),
+      columnHelper.display({
+        id: "product",
+        header: t("courses.columns.product"),
+        cell: ({ row }) => {
+          const title = titleById.get(row.original.product_id) ?? t("courses.productGone")
+          return (
+            <Text size="small" leading="compact" className="text-ui-fg-subtle truncate" title={title}>
+              {title}
+            </Text>
+          )
+        },
+      }),
+      columnHelper.accessor("lesson_count", {
+        header: t("courses.columns.lessons"),
+        cell: ({ getValue }) => (
+          <Text size="small" leading="compact" className="tabular-nums">
+            {getValue() ?? 0}
+          </Text>
+        ),
+      }),
+      columnHelper.accessor("status", {
+        header: t("courses.columns.status"),
+        cell: ({ getValue }) => (
+          <StatusBadge color={STATUS_BADGE_COLOR[getValue()]} className="whitespace-nowrap">
+            {t(STATUS_LABEL_KEY[getValue()])}
+          </StatusBadge>
+        ),
+      }),
+      columnHelper.display({
+        id: "actions",
+        cell: ({ row }) => <CourseRowActions course={row.original} />,
+      }),
+    ],
+    [t, titleById]
+  )
+}
 
 export const CourseList = () => {
-  const navigate = useNavigate()
+  const { t } = useTranslation()
   const { courses, isPending, isError, error } = useTenantCourses()
-  const { products, isPending: isProductsPending } = useProducts({
-    limit: 200,
-    fields: "id,title",
-  })
+  const { products } = useProducts({ limit: 200, fields: "id,title" })
 
-  const [productId, setProductId] = useState("")
-  const [title, setTitle] = useState("")
-  const { mutateAsync: createCourse, isPending: isCreating } = useCreateTenantCourse()
+  const rows = useMemo(() => courses ?? [], [courses])
+  const titleById = useMemo(() => productTitleById(products ?? []), [products])
+  const columns = useColumns(titleById)
+  const { table } = useDataTable({
+    data: rows,
+    columns,
+    count: rows.length,
+    pageSize: Math.max(rows.length, 1),
+    enablePagination: false,
+    getRowId: (row) => row.id,
+  })
 
   if (isError) {
     throw error
@@ -36,166 +140,43 @@ export const CourseList = () => {
     return <SingleColumnPageSkeleton sections={1} />
   }
 
-  const titleById = productTitleById(products ?? [])
-  const availableProducts = productsWithoutCourse(products ?? [], courses)
-
-  const handleCreate = async (event: React.FormEvent) => {
-    event.preventDefault()
-    const trimmedTitle = title.trim()
-
-    if (!productId) {
-      toast.error("Выберите товар, под которым продаётся курс.")
-      return
-    }
-    if (!trimmedTitle) {
-      toast.error("Укажите название курса.")
-      return
-    }
-
-    await createCourse(
-      { product_id: productId, title: trimmedTitle },
-      {
-        onSuccess: (created) => {
-          setProductId("")
-          setTitle("")
-          toast.success("Курс создан")
-          navigate(created.course.id)
-        },
-        onError: (createError) => toast.error(createError.message),
-      }
-    )
-  }
+  const hasCourses = courses.length > 0
 
   return (
-    <SingleColumnPage widgets={{ before: [], after: [] }} data={courses}>
-      <Container className="divide-y p-0">
-        <div className="flex flex-col gap-y-1 px-6 py-4">
-          <Heading level="h2">Курсы</Heading>
-          <Text size="small" className="text-ui-fg-subtle">
-            Онлайн-курс, привязанный к товару: покупатель получает доступ к урокам
-            после оплаты. Уроки и их порядок редактируются на странице курса.
-          </Text>
+    <SingleColumnPage widgets={{ before: [], after: [] }} data={courses} hasOutlet>
+      <Container className="divide-y p-0" data-testid="courses">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
+          <div className="flex min-w-0 flex-col gap-y-1">
+            <Heading level="h1">{t("courses.title")}</Heading>
+            <Text size="small" className="text-ui-fg-subtle text-pretty">
+              {t("courses.subtitle")}
+            </Text>
+          </div>
+          {hasCourses ? (
+            <Button size="small" variant="secondary" asChild>
+              <Link to="/courses/create" data-testid="course-create">
+                {t("courses.create")}
+              </Link>
+            </Button>
+          ) : null}
         </div>
 
-        {/* t-2026-10-13-30: at 390 px the three columns were 435 px wide and
-            pushed the page off the left edge. The course and product cells now
-            share what the status leaves (`w-1/2 max-w-0`) and end in an
-            ellipsis, so the table fits a phone; TableScroll stays as the guard
-            for anything wider. */}
-        <TableScroll>
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell className="w-1/2 max-w-0">Курс</Table.HeaderCell>
-                <Table.HeaderCell className="w-1/2 max-w-0">Товар</Table.HeaderCell>
-                <Table.HeaderCell className="whitespace-nowrap">Статус</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {courses.length === 0 ? (
-                <Table.Row>
-                  {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
-                      state fills the first cell and the rest stay blank. */}
-                  <Table.Cell>
-                    <Text
-                      size="small"
-                      className="text-ui-fg-subtle whitespace-nowrap"
-                      data-testid="course-empty"
-                    >
-                      Курсов пока нет. Создайте первый — форма ниже.
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell />
-                  <Table.Cell />
-                </Table.Row>
-              ) : null}
-              {courses.map((course) => (
-                <Table.Row key={course.id} data-testid="course-row">
-                  <Table.Cell className="max-w-0">
-                    <Link
-                      to={course.id}
-                      className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg block"
-                    >
-                      <Text size="small" weight="plus" className="truncate" title={course.slug}>
-                        {course.title}
-                      </Text>
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell className="max-w-0">
-                    <Text
-                      size="small"
-                      className="text-ui-fg-subtle truncate"
-                      title={titleById.get(course.product_id) ?? "Товар удалён"}
-                    >
-                      {titleById.get(course.product_id) ?? "Товар удалён"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">
-                    <StatusBadge color={STATUS_BADGE_COLOR[course.status]}>
-                      {STATUS_LABEL[course.status]}
-                    </StatusBadge>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </TableScroll>
-
-        <form
-          onSubmit={handleCreate}
-          className="flex flex-wrap items-end gap-x-3 gap-y-2 px-6 py-4"
-        >
-          <div className="flex w-full max-w-[280px] flex-col gap-y-1">
-            <Text size="small" className="text-ui-fg-subtle">
-              Товар
-            </Text>
-            <select
-              value={productId}
-              onChange={(event) => setProductId(event.target.value)}
-              disabled={isProductsPending}
-              className="bg-ui-bg-field border-ui-border-base h-8 rounded-md border px-2 text-ui-fg-base txt-compact-small w-full"
-              data-testid="course-create-product"
-            >
-              <option value="">
-                {isProductsPending
-                  ? "Загрузка…"
-                  : availableProducts.length === 0
-                    ? "Нет доступных товаров"
-                    : "Выберите товар"}
-              </option>
-              {availableProducts.map((product) => (
-                <option key={product.id} value={product.id}>
-                  {product.title}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex w-full max-w-[280px] flex-col gap-y-1">
-            <Text size="small" className="text-ui-fg-subtle">
-              Название курса
-            </Text>
-            <Input
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-              placeholder="Очищение печени"
-              className="w-full"
-              data-testid="course-create-title"
-            />
-          </div>
-          <Button
-            size="small"
-            type="submit"
-            isLoading={isCreating}
-            disabled={availableProducts.length === 0}
-            data-testid="course-create-submit"
-          >
-            <Plus /> Новый курс
-          </Button>
-          <Text size="small" className="text-ui-fg-subtle basis-full">
-            У товара может быть только один курс. Адрес курса и уроки заполняются
-            на следующей странице.
-          </Text>
-        </form>
+        {!hasCourses ? (
+          <NoRecords
+            title={t("courses.empty.title")}
+            message={t("courses.empty.message")}
+            action={{ to: "/courses/create", label: t("courses.create") }}
+          />
+        ) : (
+          <_DataTable
+            table={table}
+            columns={columns}
+            count={courses.length}
+            pageSize={Math.max(courses.length, 1)}
+            pagination={false}
+            navigateTo={(row) => `/courses/${row.original.id}`}
+          />
+        )}
       </Container>
     </SingleColumnPage>
   )

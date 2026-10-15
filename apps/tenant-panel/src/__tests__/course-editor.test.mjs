@@ -12,10 +12,13 @@ import {
 import {
   courseScheduleBody,
   dateInputValue,
+  dayAsDate,
   emptyVideo,
   fromLesson,
   lessonGroups,
+  moveLessonIds,
   moveRow,
+  pickedDay,
   sectionNames,
   sectionOrderFor,
   toLessonBody,
@@ -35,6 +38,8 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url))
 const SRC = join(here, "..")
+const ru = JSON.parse(readFileSync(join(SRC, "i18n/translations/ru.json"), "utf8"))
+const lookup = (catalog, key) => key.split(".").reduce((node, part) => node?.[part], catalog)
 
 test("productsWithoutCourse drops a product that already has one", () => {
   const products = [
@@ -67,26 +72,30 @@ test("productTitleById maps a course's product_id to the product's own title", (
   assert.equal(byId.get("prod_missing"), undefined)
 })
 
-test("a failed lesson reorder puts the list back the way it was", () => {
-  const source = readFileSync(
-    join(SRC, "routes/courses/course-detail/course-detail.tsx"),
-    "utf8"
-  )
+// t-2026-10-14-01 (G4): the drag handle gave way to «Выше / Ниже» in the
+// lesson's «…»; a lesson moves only inside its section, as the drag did.
+test("a lesson moves up or down only inside its section; the whole order goes to reorder", () => {
+  const lessons = [
+    { id: "a", section: "Подготовка" },
+    { id: "b", section: " Подготовка " },
+    { id: "c", section: "Неделя 1" },
+    { id: "d", section: null },
+    { id: "e", section: "" },
+  ]
 
-  const startIndex = source.indexOf("const handleReorder = async")
-  const endIndex = source.indexOf("const handleDeleteLesson")
-  assert.notEqual(startIndex, -1, "handleReorder is missing")
-  assert.notEqual(endIndex, -1, "handleDeleteLesson is missing")
+  assert.deepEqual(moveLessonIds(lessons, 1, -1), ["b", "a", "c", "d", "e"])
+  assert.deepEqual(moveLessonIds(lessons, 0, 1), ["b", "a", "c", "d", "e"])
+  assert.equal(moveLessonIds(lessons, 1, 1), null, "the next lesson is in another section")
+  assert.equal(moveLessonIds(lessons, 2, -1), null)
+  assert.deepEqual(moveLessonIds(lessons, 3, 1), ["a", "b", "c", "e", "d"], "no section and an empty one are one group")
+  assert.equal(moveLessonIds(lessons, 0, -1), null, "the first lesson cannot go up")
+  assert.equal(moveLessonIds(lessons, 4, 1), null, "the last lesson cannot go down")
 
-  const block = source.slice(startIndex, endIndex)
-  assert.ok(
-    block.includes("setOrderedLessons(items)"),
-    "the drag must move the row optimistically, before the request resolves"
-  )
-  assert.ok(
-    /onError:\s*\(reorderError\)\s*=>\s*{[^}]*setOrderedLessons\(previous\)/s.test(block),
-    "a failed reorder must restore the previous order, not leave the optimistic one on screen"
-  )
+  const section = readFileSync(join(SRC, "routes/courses/course-detail/course-lessons-section.tsx"), "utf8")
+  assert.match(section, /const ids = moveLessonIds\(lessons, index, delta\)\s*if \(!ids\) \{\s*return/)
+  assert.match(section, /await reorder\(\{ ids \}\)/)
+  assert.match(section, /disabled: isMoving \|\| !moveLessonIds\(lessons, index, -1\)/)
+  assert.match(section, /disabled: isMoving \|\| !moveLessonIds\(lessons, index, 1\)/)
 })
 
 // t-2026-10-13-29 stage 2 moved the form's checks into `toLessonBody`
@@ -137,14 +146,15 @@ test("buildCourseStorefrontUrl answers null while the product handle has not loa
 })
 
 test("deleting a course warns that a buyer's own access survives it", () => {
-  const source = readFileSync(
-    join(SRC, "routes/courses/course-detail/course-detail.tsx"),
-    "utf8"
-  )
-  assert.ok(
-    source.includes("Покупатели, уже получившие доступ,"),
-    "the delete prompt must say access already granted is not revoked (course-helpers.ts DELETE route keeps entitlement rows on purpose)"
-  )
+  // t-2026-10-14-01 (G4): the prompt's words moved into ru.json, one per plural form.
+  const source = readFileSync(join(SRC, "routes/courses/use-course-delete.tsx"), "utf8")
+  assert.ok(source.includes('t("courses.deletePrompt.description", { count: lessonCount })'))
+  for (const form of ["one", "few", "many", "other"]) {
+    assert.ok(
+      lookup(ru, `courses.deletePrompt.description_${form}`).includes("Покупатели, уже получившие доступ,"),
+      "the delete prompt must say access already granted is not revoked (course-helpers.ts DELETE route keeps entitlement rows on purpose)"
+    )
+  }
 })
 
 // t-2026-10-13-29 stage 2: the lesson form's values become the contract's
@@ -206,16 +216,22 @@ test("empty optional fields go as null and empty lists, an empty row is dropped"
   assert.equal(result.body.video_url, null)
 })
 
-test("the lesson form names the first thing to fix", () => {
+test("the lesson form names the first thing to fix, as an i18n key with the row's number", () => {
   const bad = (patch) => toLessonBody({ ...filled(), ...patch })
+  // What the owner reads: the key's Russian text with the row number put in.
+  const said = (result) =>
+    lookup(ru, result.error).replace("{{number}}", String(result.values?.number ?? ""))
 
-  assert.equal(bad({ title: " " }).error, "Укажите название урока.")
-  assert.match(bad({ available_from_day: "0" }).error, /День открытия/)
-  assert.match(bad({ available_from_day: "2.5" }).error, /День открытия/)
-  assert.match(bad({ videos: [{ ...emptyVideo(), title: "Без ссылки" }] }).error, /^Видео 1:/)
-  assert.match(bad({ attachments: [{ name: "", url: "https://cdn.test/a.pdf", size_bytes: "", mime: null }] }).error, /^Файл 1: укажите имя/)
-  assert.match(bad({ links: [{ kind: "youtube", url: "https://youtu.be/x", title: "" }] }).error, /^Ссылка 1: укажите текст/)
-  assert.match(bad({ cover_url: "cover.jpg" }).error, /обложку/)
+  assert.equal(said(bad({ title: " " })), "Укажите название урока.")
+  assert.match(said(bad({ available_from_day: "0" })), /День открытия/)
+  assert.match(said(bad({ available_from_day: "2.5" })), /День открытия/)
+  assert.match(said(bad({ videos: [{ ...emptyVideo(), title: "Без ссылки" }] })), /^Видео 1:/)
+  assert.match(said(bad({ attachments: [{ name: "", url: "https://cdn.test/a.pdf", size_bytes: "", mime: null }] })), /^Файл 1: укажите имя/)
+  assert.match(said(bad({ links: [{ kind: "youtube", url: "https://youtu.be/x", title: "" }] })), /^Ссылка 1: укажите текст/)
+  assert.match(said(bad({ cover_url: "cover.jpg" })), /обложку/)
+
+  const form = readFileSync(join(SRC, "routes/courses/lesson-form/lesson-form.tsx"), "utf8")
+  assert.ok(form.includes("toast.error(t(result.error, result.values))"), "the drawer translates the refusal")
 })
 
 test("a lesson from before stage 2 opens in the form with its video_url as the one video", () => {
@@ -256,13 +272,28 @@ test("moveRow moves one row and leaves the list alone at either end", () => {
 test("the course's start and access length go to the API as a Moscow midnight and a number", () => {
   assert.deepEqual(courseScheduleBody("2026-10-19", "97"), { ok: true, start_date: "2026-10-19T00:00:00+03:00", access_days: 97 })
   assert.deepEqual(courseScheduleBody("", ""), { ok: true, start_date: null, access_days: null })
-  assert.equal(courseScheduleBody("", "0").ok, false)
+  assert.deepEqual(courseScheduleBody("", "0"), { ok: false, error: "courses.errors.accessDays" })
+  assert.equal(typeof lookup(ru, "courses.errors.accessDays"), "string")
   assert.equal(dateInputValue("2026-10-18T21:00:00Z"), "2026-10-19")
   assert.equal(dateInputValue(null), "")
 })
 
+test("the stream drawer's DatePicker holds the stored day and gives the same day back", () => {
+  // t-2026-10-14-01 (G4): the picker replaced the native date input (panel-ds «Запрещено»).
+  const day = dateInputValue("2026-10-18T21:00:00Z")
+  const picked = dayAsDate(day)
+  assert.equal(picked.getDate(), 19)
+  assert.equal(pickedDay(picked), "2026-10-19")
+  assert.equal(dayAsDate(""), null)
+  assert.equal(pickedDay(null), "")
+})
+
 test("the course page's lesson list and fields carry no fixed px widths and no table", () => {
-  for (const file of ["routes/courses/course-detail/course-detail.tsx", "routes/courses/lesson-form/lesson-form.tsx"]) {
+  for (const file of [
+    "routes/courses/course-detail/course-detail.tsx",
+    "routes/courses/course-detail/course-lessons-section.tsx",
+    "routes/courses/lesson-form/lesson-form.tsx",
+  ]) {
     const source = readFileSync(join(SRC, file), "utf8")
     assert.doesNotMatch(source, /\b(?:max-)?w-\[\d+px\]/, `${file}: a fixed px width`)
     assert.doesNotMatch(source, /<table|<Table\b/, `${file}: a table outside TableScroll`)

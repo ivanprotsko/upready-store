@@ -1,8 +1,9 @@
 import { useId, useState, type ReactNode } from "react"
 import { ArrowDownMini, ArrowUpMini, Plus, Trash } from "@medusajs/icons"
 import { Button, Heading, IconButton, Input, Select, Text, Textarea, toast } from "@medusajs/ui"
+import { useTranslation } from "react-i18next"
 
-import { RouteFocusModal, useRouteModal } from "../../../components/modals"
+import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { KeyboundForm } from "../../../components/utilities/keybound-form"
 import type { CreateTenantLessonBody, TenantLesson } from "../../../hooks/api/courses"
 import {
@@ -20,14 +21,19 @@ import {
 
 // o24-courses: one form for `lessons/new` and `lessons/:lessonId`, the way
 // `ShippingMethodForm` serves both `shipping-create` and `shipping-edit`. Plain
-// `useState` rather than react-hook-form: no cross-field validation, and
-// `RouteFocusModal.Form`'s only extra is the "unsaved changes" blocker, not
-// required here.
+// `useState` rather than react-hook-form: no cross-field validation.
 //
 // t-2026-10-13-29 stage 2: the section, the list summary, the cover, the
 // opening day, and lists of videos, files and links the owner adds, removes
 // and reorders row by row. What the strings become on save is
 // `lesson-form-values.ts`, tested on its own.
+//
+// t-2026-10-14-01 (panel redesign, G4, prototype state `course-lesson-edit`;
+// the lead's G4 decision): the lesson is edited in a side drawer, the list of
+// lessons behind it. The prototype's three fields come first (the title, the
+// video, the text); every other field of today's form follows under
+// «Дополнительно», so nothing is lost. A list's rows stack, the drawer being
+// narrow. One «Отмена / Сохранить» pair in the footer, the outcome a toast.
 
 type LessonFormProps = {
   heading: string
@@ -37,17 +43,18 @@ type LessonFormProps = {
   lessons: TenantLesson[]
   isPending: boolean
   submitLabel: string
+  successMessage: string
   onSubmit: (values: Omit<CreateTenantLessonBody, "order">) => Promise<void>
 }
 
 const Field = ({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) => (
   <div className="flex flex-col gap-y-1">
-    <Text size="small" className="text-ui-fg-subtle">
+    <Text size="small" weight="plus">
       {label}
     </Text>
     {children}
     {hint ? (
-      <Text size="xsmall" className="text-ui-fg-muted">
+      <Text size="xsmall" className="text-ui-fg-subtle text-pretty">
         {hint}
       </Text>
     ) : null}
@@ -67,33 +74,43 @@ const RowActions = ({
   label: string
   onMove: (delta: -1 | 1) => void
   onRemove: () => void
-}) => (
-  <div className="flex items-center gap-x-1">
-    <IconButton
-      type="button"
-      size="small"
-      variant="transparent"
-      disabled={index === 0}
-      onClick={() => onMove(-1)}
-      aria-label={`${label}: выше`}
-    >
-      <ArrowUpMini />
-    </IconButton>
-    <IconButton
-      type="button"
-      size="small"
-      variant="transparent"
-      disabled={index === count - 1}
-      onClick={() => onMove(1)}
-      aria-label={`${label}: ниже`}
-    >
-      <ArrowDownMini />
-    </IconButton>
-    <IconButton type="button" size="small" variant="transparent" onClick={onRemove} aria-label={`${label}: убрать`}>
-      <Trash />
-    </IconButton>
-  </div>
-)
+}) => {
+  const { t } = useTranslation()
+
+  return (
+    <div className="flex shrink-0 items-center gap-x-1">
+      <IconButton
+        type="button"
+        size="small"
+        variant="transparent"
+        disabled={index === 0}
+        onClick={() => onMove(-1)}
+        aria-label={t("courses.lesson.rowUp", { row: label })}
+      >
+        <ArrowUpMini />
+      </IconButton>
+      <IconButton
+        type="button"
+        size="small"
+        variant="transparent"
+        disabled={index === count - 1}
+        onClick={() => onMove(1)}
+        aria-label={t("courses.lesson.rowDown", { row: label })}
+      >
+        <ArrowDownMini />
+      </IconButton>
+      <IconButton
+        type="button"
+        size="small"
+        variant="transparent"
+        onClick={onRemove}
+        aria-label={t("courses.lesson.rowRemove", { row: label })}
+      >
+        <Trash />
+      </IconButton>
+    </div>
+  )
+}
 
 const ListBlock = ({
   title,
@@ -111,24 +128,26 @@ const ListBlock = ({
   children: ReactNode
 }) => (
   <div className="flex flex-col gap-y-2" data-testid={testId}>
-    <div className="flex flex-wrap items-start justify-between gap-2">
-      <div className="flex flex-col">
-        <Text size="small" weight="plus">
-          {title}
-        </Text>
-        <Text size="xsmall" className="text-ui-fg-muted">
-          {hint}
-        </Text>
-      </div>
+    <div className="flex flex-col gap-y-1">
+      <Text size="small" weight="plus">
+        {title}
+      </Text>
+      <Text size="xsmall" className="text-ui-fg-subtle text-pretty">
+        {hint}
+      </Text>
+    </div>
+    {children}
+    <div>
       <Button type="button" size="small" variant="secondary" onClick={onAdd}>
         <Plus /> {addLabel}
       </Button>
     </div>
-    {children}
   </div>
 )
 
-const ROW = "flex flex-col gap-2 rounded-lg border p-2 sm:flex-row sm:items-center"
+/** One row of a list: its main field on top, the rest and the row's buttons under it. */
+const ROW = "flex flex-col gap-2 rounded-lg border p-2"
+const ROW_LINE = "flex items-center gap-2"
 
 export const LessonForm = ({
   heading,
@@ -137,8 +156,10 @@ export const LessonForm = ({
   lessons,
   isPending,
   submitLabel,
+  successMessage,
   onSubmit,
 }: LessonFormProps) => {
+  const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const [values, setValues] = useState<LessonFormValues>(() => fromLesson(lesson))
   const sectionsListId = useId()
@@ -169,240 +190,247 @@ export const LessonForm = ({
     const result = toLessonBody(values, lessons, lesson?.id)
 
     if (!result.ok) {
-      toast.error(result.error)
+      toast.error(t(result.error, result.values))
       return
     }
 
     try {
       await onSubmit(result.body)
+      toast.success(successMessage)
       handleSuccess()
     } catch (submitError) {
-      toast.error(submitError instanceof Error ? submitError.message : "Не удалось сохранить урок")
+      toast.error(submitError instanceof Error ? submitError.message : t("courses.lesson.errors.save"))
     }
   }
 
   return (
     <>
-      <RouteFocusModal.Header>
-        <div className="flex flex-1 flex-col items-start">
-          <RouteFocusModal.Title asChild>
-            <Heading>{heading}</Heading>
-          </RouteFocusModal.Title>
-          <RouteFocusModal.Description asChild>
-            <Text size="small" className="text-ui-fg-subtle">
-              {description}
-            </Text>
-          </RouteFocusModal.Description>
-        </div>
-      </RouteFocusModal.Header>
+      <RouteDrawer.Header>
+        <RouteDrawer.Title asChild>
+          <Heading>{heading}</Heading>
+        </RouteDrawer.Title>
+        <RouteDrawer.Description>{description}</RouteDrawer.Description>
+      </RouteDrawer.Header>
       <KeyboundForm onSubmit={handleSubmit} className="flex flex-1 flex-col overflow-hidden">
-        <RouteFocusModal.Body className="flex flex-1 flex-col items-center overflow-y-auto py-10">
-          <div className="flex w-full max-w-3xl flex-col gap-y-6 px-4 sm:px-0">
-            <div className="flex flex-col gap-y-4">
-              <Field label="Название урока">
-                <Input
-                  autoFocus
-                  value={values.title}
-                  onChange={(event) => set("title", event.target.value)}
-                  data-testid="lesson-title"
-                />
-              </Field>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Раздел (необязательно)" hint="Уроки одного раздела идут в курсе подряд, под его заголовком.">
-                  <Input
-                    value={values.section}
-                    onChange={(event) => set("section", event.target.value)}
-                    list={sectionsListId}
-                    placeholder="Подготовка"
-                    data-testid="lesson-section"
-                  />
-                  <datalist id={sectionsListId}>
-                    {sections.map((name) => (
-                      <option key={name} value={name} />
-                    ))}
-                  </datalist>
-                </Field>
-                <Field label="Открывается на день (необязательно)" hint="Пусто — урок открыт сразу. 3 — на третий день доступа.">
-                  <Input
-                    type="number"
-                    min={1}
-                    step={1}
-                    inputMode="numeric"
-                    value={values.available_from_day}
-                    onChange={(event) => set("available_from_day", event.target.value)}
-                    data-testid="lesson-day"
-                  />
-                </Field>
-              </div>
-              <Field label="Описание в списке уроков (необязательно)">
-                <Input
-                  value={values.summary}
-                  onChange={(event) => set("summary", event.target.value)}
-                  placeholder="Одна строка под названием урока"
-                  data-testid="lesson-summary"
-                />
-              </Field>
-              <Field label="Обложка урока, ссылка (необязательно)">
-                <Input
-                  value={values.cover_url}
-                  onChange={(event) => set("cover_url", event.target.value)}
-                  placeholder="https://…"
-                  data-testid="lesson-cover"
-                />
-              </Field>
-            </div>
+        <RouteDrawer.Body className="flex flex-col gap-y-6 overflow-y-auto">
+          <Field label={t("courses.lesson.title")}>
+            <Input
+              autoFocus
+              value={values.title}
+              onChange={(event) => set("title", event.target.value)}
+              data-testid="lesson-title"
+            />
+          </Field>
 
-            <ListBlock
-              title="Видео"
-              hint="В уроке по порядку, сверху вниз. Название необязательно."
-              addLabel="Добавить видео"
-              onAdd={() => set("videos", [...values.videos, emptyVideo()])}
-              testId="lesson-videos"
-            >
-              {values.videos.map((video, index) => (
+          <ListBlock
+            title={t("courses.lesson.videos")}
+            hint={t("courses.lesson.videosHint")}
+            addLabel={t("courses.lesson.addVideo")}
+            onAdd={() => set("videos", [...values.videos, emptyVideo()])}
+            testId="lesson-videos"
+          >
+            {values.videos.map((video, index) => {
+              const number = index + 1
+              return (
                 <div key={index} className={ROW}>
                   <Input
-                    className="sm:flex-[2]"
                     value={video.url}
                     onChange={(event) => setRow("videos", index, { url: event.target.value })}
-                    placeholder="https://… ссылка на видео"
-                    aria-label={`Видео ${index + 1}: ссылка`}
+                    placeholder={t("courses.lesson.videoUrlPlaceholder")}
+                    aria-label={t("courses.lesson.videoUrl", { number })}
                   />
-                  <Input
-                    className="sm:flex-1"
-                    value={video.title}
-                    onChange={(event) => setRow("videos", index, { title: event.target.value })}
-                    placeholder="Название"
-                    aria-label={`Видео ${index + 1}: название`}
-                  />
-                  <RowActions
-                    index={index}
-                    count={values.videos.length}
-                    label={`Видео ${index + 1}`}
-                    onMove={(delta) => moveIn("videos", index, delta)}
-                    onRemove={() => removeRow("videos", index)}
-                  />
+                  <div className={ROW_LINE}>
+                    <Input
+                      className="min-w-0 flex-1"
+                      value={video.title}
+                      onChange={(event) => setRow("videos", index, { title: event.target.value })}
+                      placeholder={t("courses.lesson.videoTitlePlaceholder")}
+                      aria-label={t("courses.lesson.videoTitle", { number })}
+                    />
+                    <RowActions
+                      index={index}
+                      count={values.videos.length}
+                      label={t("courses.lesson.videoRow", { number })}
+                      onMove={(delta) => moveIn("videos", index, delta)}
+                      onRemove={() => removeRow("videos", index)}
+                    />
+                  </div>
                 </div>
-              ))}
-            </ListBlock>
+              )
+            })}
+          </ListBlock>
 
-            <ListBlock
-              title="Файлы"
-              hint="Показываются под текстом урока: «Скачать «…» — PDF, 1,2 МБ»."
-              addLabel="Добавить файл"
-              onAdd={() => set("attachments", [...values.attachments, emptyAttachment()])}
-              testId="lesson-attachments"
-            >
-              {values.attachments.map((file, index) => (
+          <Field label={t("courses.lesson.body")} hint={t("courses.lesson.bodyHint")}>
+            <Textarea
+              value={values.body}
+              onChange={(event) => set("body", event.target.value)}
+              rows={14}
+              data-testid="lesson-body"
+            />
+          </Field>
+
+          <div className="flex flex-col gap-y-1 border-t pt-6">
+            <Heading level="h3">{t("courses.lesson.more")}</Heading>
+            <Text size="small" className="text-ui-fg-subtle text-pretty">
+              {t("courses.lesson.moreHint")}
+            </Text>
+          </div>
+
+          <Field label={t("courses.lesson.section")} hint={t("courses.lesson.sectionHint")}>
+            <Input
+              value={values.section}
+              onChange={(event) => set("section", event.target.value)}
+              list={sectionsListId}
+              placeholder={t("courses.lesson.sectionPlaceholder")}
+              data-testid="lesson-section"
+            />
+            <datalist id={sectionsListId}>
+              {sections.map((name) => (
+                <option key={name} value={name} />
+              ))}
+            </datalist>
+          </Field>
+          <Field label={t("courses.lesson.day")} hint={t("courses.lesson.dayHint")}>
+            <Input
+              type="number"
+              min={1}
+              step={1}
+              inputMode="numeric"
+              value={values.available_from_day}
+              onChange={(event) => set("available_from_day", event.target.value)}
+              data-testid="lesson-day"
+            />
+          </Field>
+          <Field label={t("courses.lesson.summary")}>
+            <Input
+              value={values.summary}
+              onChange={(event) => set("summary", event.target.value)}
+              placeholder={t("courses.lesson.summaryPlaceholder")}
+              data-testid="lesson-summary"
+            />
+          </Field>
+          <Field label={t("courses.lesson.cover")}>
+            <Input
+              value={values.cover_url}
+              onChange={(event) => set("cover_url", event.target.value)}
+              placeholder={t("courses.lesson.coverPlaceholder")}
+              data-testid="lesson-cover"
+            />
+          </Field>
+
+          <ListBlock
+            title={t("courses.lesson.files")}
+            hint={t("courses.lesson.filesHint")}
+            addLabel={t("courses.lesson.addFile")}
+            onAdd={() => set("attachments", [...values.attachments, emptyAttachment()])}
+            testId="lesson-attachments"
+          >
+            {values.attachments.map((file, index) => {
+              const number = index + 1
+              return (
                 <div key={index} className={ROW}>
                   <Input
-                    className="sm:flex-1"
                     value={file.name}
                     onChange={(event) => setRow("attachments", index, { name: event.target.value })}
-                    placeholder="Подготовительный этап.pdf"
-                    aria-label={`Файл ${index + 1}: имя`}
+                    placeholder={t("courses.lesson.fileNamePlaceholder")}
+                    aria-label={t("courses.lesson.fileName", { number })}
                   />
                   <Input
-                    className="sm:flex-[2]"
                     value={file.url}
                     onChange={(event) => setRow("attachments", index, { url: event.target.value })}
-                    placeholder="https://… ссылка на файл"
-                    aria-label={`Файл ${index + 1}: ссылка`}
+                    placeholder={t("courses.lesson.fileUrlPlaceholder")}
+                    aria-label={t("courses.lesson.fileUrl", { number })}
                   />
-                  <Input
-                    className="sm:basis-1/5"
-                    type="number"
-                    min={0}
-                    inputMode="numeric"
-                    value={file.size_bytes}
-                    onChange={(event) => setRow("attachments", index, { size_bytes: event.target.value })}
-                    placeholder="Размер, байт"
-                    aria-label={`Файл ${index + 1}: размер в байтах`}
-                  />
-                  <RowActions
-                    index={index}
-                    count={values.attachments.length}
-                    label={`Файл ${index + 1}`}
-                    onMove={(delta) => moveIn("attachments", index, delta)}
-                    onRemove={() => removeRow("attachments", index)}
-                  />
-                </div>
-              ))}
-            </ListBlock>
-
-            <ListBlock
-              title="Ссылки"
-              hint="Telegram-канал и чат — кнопками, YouTube и другие — ссылкой с текстом."
-              addLabel="Добавить ссылку"
-              onAdd={() => set("links", [...values.links, emptyLink()])}
-              testId="lesson-links"
-            >
-              {values.links.map((link, index) => (
-                <div key={index} className={ROW}>
-                  <div className="sm:basis-1/4">
-                    <Select
-                      value={link.kind}
-                      onValueChange={(kind) => setRow("links", index, { kind: kind as LinkRow["kind"] })}
-                    >
-                      <Select.Trigger aria-label={`Ссылка ${index + 1}: вид`}>
-                        <Select.Value />
-                      </Select.Trigger>
-                      <Select.Content>
-                        {LINK_KINDS.map((kind) => (
-                          <Select.Item key={kind.value} value={kind.value}>
-                            {kind.label}
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select>
+                  <div className={ROW_LINE}>
+                    <Input
+                      className="min-w-0 flex-1"
+                      type="number"
+                      min={0}
+                      inputMode="numeric"
+                      value={file.size_bytes}
+                      onChange={(event) => setRow("attachments", index, { size_bytes: event.target.value })}
+                      placeholder={t("courses.lesson.fileSizePlaceholder")}
+                      aria-label={t("courses.lesson.fileSize", { number })}
+                    />
+                    <RowActions
+                      index={index}
+                      count={values.attachments.length}
+                      label={t("courses.lesson.fileRow", { number })}
+                      onMove={(delta) => moveIn("attachments", index, delta)}
+                      onRemove={() => removeRow("attachments", index)}
+                    />
                   </div>
+                </div>
+              )
+            })}
+          </ListBlock>
+
+          <ListBlock
+            title={t("courses.lesson.links")}
+            hint={t("courses.lesson.linksHint")}
+            addLabel={t("courses.lesson.addLink")}
+            onAdd={() => set("links", [...values.links, emptyLink()])}
+            testId="lesson-links"
+          >
+            {values.links.map((link, index) => {
+              const number = index + 1
+              return (
+                <div key={index} className={ROW}>
                   <Input
-                    className="sm:flex-[2]"
                     value={link.url}
                     onChange={(event) => setRow("links", index, { url: event.target.value })}
-                    placeholder="https://t.me/…"
-                    aria-label={`Ссылка ${index + 1}: адрес`}
+                    placeholder={t("courses.stream.linkPlaceholder")}
+                    aria-label={t("courses.lesson.linkUrl", { number })}
                   />
                   <Input
-                    className="sm:flex-1"
                     value={link.title}
                     onChange={(event) => setRow("links", index, { title: event.target.value })}
-                    placeholder="Текст ссылки"
-                    aria-label={`Ссылка ${index + 1}: текст`}
+                    placeholder={t("courses.lesson.linkTitlePlaceholder")}
+                    aria-label={t("courses.lesson.linkTitle", { number })}
                   />
-                  <RowActions
-                    index={index}
-                    count={values.links.length}
-                    label={`Ссылка ${index + 1}`}
-                    onMove={(delta) => moveIn("links", index, delta)}
-                    onRemove={() => removeRow("links", index)}
-                  />
+                  <div className={ROW_LINE}>
+                    <div className="min-w-0 flex-1">
+                      <Select
+                        value={link.kind}
+                        onValueChange={(kind) => setRow("links", index, { kind: kind as LinkRow["kind"] })}
+                      >
+                        <Select.Trigger aria-label={t("courses.lesson.linkKind", { number })}>
+                          <Select.Value />
+                        </Select.Trigger>
+                        <Select.Content>
+                          {LINK_KINDS.map((kind) => (
+                            <Select.Item key={kind} value={kind}>
+                              {t(`courses.lesson.linkKinds.${kind}`)}
+                            </Select.Item>
+                          ))}
+                        </Select.Content>
+                      </Select>
+                    </div>
+                    <RowActions
+                      index={index}
+                      count={values.links.length}
+                      label={t("courses.lesson.linkRow", { number })}
+                      onMove={(delta) => moveIn("links", index, delta)}
+                      onRemove={() => removeRow("links", index)}
+                    />
+                  </div>
                 </div>
-              ))}
-            </ListBlock>
-
-            <Field label="Текст урока">
-              <Textarea
-                value={values.body}
-                onChange={(event) => set("body", event.target.value)}
-                rows={16}
-                data-testid="lesson-body"
-              />
-            </Field>
-          </div>
-        </RouteFocusModal.Body>
-        <RouteFocusModal.Footer>
-          <div className="flex items-center gap-x-2">
-            <RouteFocusModal.Close asChild>
+              )
+            })}
+          </ListBlock>
+        </RouteDrawer.Body>
+        <RouteDrawer.Footer>
+          <div className="flex items-center justify-end gap-x-2">
+            <RouteDrawer.Close asChild>
               <Button size="small" variant="secondary" type="button">
-                Отмена
+                {t("actions.cancel")}
               </Button>
-            </RouteFocusModal.Close>
+            </RouteDrawer.Close>
             <Button size="small" type="submit" isLoading={isPending} data-testid="lesson-save">
               {submitLabel}
             </Button>
           </div>
-        </RouteFocusModal.Footer>
+        </RouteDrawer.Footer>
       </KeyboundForm>
     </>
   )

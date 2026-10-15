@@ -7,11 +7,16 @@ import { fileURLToPath } from "node:url"
 
 import {
   coursePageChanged,
+  coursePageEntryText,
   coursePageIssues,
   coursePageMetadata,
   coursePageTranslations,
   emptyRow,
+  isCoursePageList,
+  moveCoursePageEntry,
+  putCoursePageEntry,
   readCoursePageDraft,
+  removeCoursePageEntry,
 } from "../routes/courses/course-page.ts"
 import { permissionOfPath, permissionsOf, pathAllowed } from "../lib/permissions.ts"
 
@@ -236,25 +241,62 @@ test("rights: the course screen and the product write both need catalog, which a
   assert.match(server, /operator: \["orders", "customers"\],/)
 })
 
-test("the section saves the whole metadata through the product write, and a login without catalog only reads it", () => {
+// t-2026-10-14-01 (G4): the card reads the lists; one entry at a time is
+// written, from its drawer or its «…», and the storefront reads the result.
+test("one entry written, added, moved or deleted: the rest of the page and of metadata stay", () => {
+  const metadata = product()
+
+  const edited = putCoursePageEntry(metadata, "faq", 0, { q: " Когда старт? ", a: " 1 апреля. " })
+  assert.deepEqual(readCoursePage(edited, "ru").faq, [{ q: "Когда старт?", a: "1 апреля." }])
+  assert.deepEqual(edited.cover, metadata.cover)
+  assert.deepEqual(edited.course_page.i18n, metadata.course_page.i18n)
+  assert.deepEqual(edited.course_page.about, metadata.course_page.about)
+
+  const added = putCoursePageEntry(metadata, "testimonials", null, { author: "Ольга", text: "Спасибо." })
+  assert.deepEqual(added.course_page.testimonials.at(-1), { author: "Ольга", text: "Спасибо.", source: "text" })
+  assert.deepEqual(added.course_page.testimonials[1], metadata.course_page.testimonials[1],
+    "an entry's key the drawer does not show (image_url) stays")
+
+  const moved = moveCoursePageEntry(metadata, "about", 1, -1)
+  assert.deepEqual(moved.course_page.about.map((entry) => entry.heading), ["Что внутри", "Кому подойдёт"])
+  assert.equal(moveCoursePageEntry(metadata, "about", 0, -1), null, "the first entry cannot go up")
+  assert.equal(moveCoursePageEntry(metadata, "about", 1, 1), null, "the last entry cannot go down")
+
+  const removed = removeCoursePageEntry(metadata, "testimonials", 0)
+  assert.deepEqual(readCoursePage(removed, "ru").testimonials, [{ author: "Мария", text: "Со скриншота.", source: "image" }])
+
+  assert.deepEqual(metadata, product(), "the product's own object is not changed in place")
+  assert.equal(JSON.stringify([edited, added, moved, removed]).includes('"id"'), false, "no row id reaches the product")
+})
+
+test("a row reads its heading, question or author, and its text; a route's list is checked", () => {
+  assert.deepEqual(coursePageEntryText("faq", { q: "Когда?", a: "Завтра" }), { title: "Когда?", text: "Завтра" })
+  assert.deepEqual(coursePageEntryText("testimonials", { author: "Анна", text: 7 }), { title: "Анна", text: "" })
+  assert.equal(isCoursePageList("about"), true)
+  assert.equal(isCoursePageList("i18n"), false)
+  assert.equal(isCoursePageList(undefined), false)
+})
+
+test("the lists save through the product write; without catalog they only read", () => {
   const section = read("routes/courses/course-detail/course-page-section.tsx")
+  const entry = read("routes/courses/page-entry-edit/page-entry-edit.tsx")
   const detail = read("routes/courses/course-detail/course-detail.tsx")
   const hook = read("hooks/api/products.tsx")
 
   assert.match(detail, /<CoursePageSection product=\{product\} productMissing=\{isProductError\} \/>/)
-  assert.match(section, /useUpdateProduct\(product\?\.id \?\? ""\)/)
   assert.match(hook, /`\/tenants\/products\/\$\{id\}`,\s*\{\s*method: "POST"/)
-  assert.match(section, /\{ metadata: coursePageMetadata\(product\.metadata, draft\) \}/)
-
-  const guard = section.indexOf("if (coursePageIssues(draft).length > 0)")
-  const write = section.indexOf("await save(")
-  assert.ok(guard !== -1 && write !== -1 && guard < write, "the check runs before the request is sent")
-  assert.match(section.slice(guard, write), /\breturn\b/, "an incomplete entry stops the save")
+  assert.match(section, /useUpdateProduct\(product\?\.id \?\? ""\)/)
+  assert.match(section, /await save\(\{ metadata \}\)/)
+  assert.match(section, /moveCoursePageEntry\(product\.metadata, list, index, -1\)/)
+  assert.match(section, /removeCoursePageEntry\(product\.metadata, list, index\)/)
+  assert.match(entry, /metadata: putCoursePageEntry\(product\?\.metadata, list, index, \{/)
+  assert.match(entry, /min\(1, \{ message: t\("coursePage\.required"\) \}\)/, "both fields are required: the storefront drops an entry without one")
 
   assert.match(section, /const readOnly = !can\("catalog"\)/)
-  assert.match(section, /\{readOnly \? null : \(\s*<div className="flex shrink-0 items-center gap-x-3">/,
-    "without catalog there is no save button")
-  assert.equal((section.match(/disabled=\{readOnly\}/g) ?? []).length, 6, "every field is locked without catalog")
+  assert.match(section, /action: readOnly \? undefined :/, "without catalog there is no «Добавить»")
+  assert.match(section, /to=\{readOnly \? undefined :/, "without catalog a row opens nothing")
+  assert.match(section, /readOnly\s*\? undefined\s*: \(row, index\) => \[/, "without catalog a row has no «…»")
+  assert.ok(!/<(Input|Textarea)\b/.test(section), "no field on the card")
 })
 
 test("every string of the section is in both panel languages, translated", () => {

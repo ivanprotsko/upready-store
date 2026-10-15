@@ -534,31 +534,30 @@ const routes: RouteObject[] = [
             ],
           },
           {
-            // o24-courses: the shop's online courses. Hangs under Каталог,
-            // next to Характеристики. The list owns no children of its own
-            // (course creation is a quick-add row, same shape as
-            // /product-attributes); the course page owns the two lesson
-            // drawers, since a lesson's text runs long enough to need one.
             path: "/courses",
-            handle: { breadcrumb: () => t("app.nav.main.courses", { defaultValue: "Курсы" }) },
+            handle: { breadcrumb: () => t("courses.title") },
             errorElement: <ErrorBoundary />,
             children: [
               {
                 path: "",
                 lazy: () => import("./routes/courses/course-list"),
+                children: [
+                  { path: "create", lazy: () => import("./routes/courses/course-create") },
+                ],
               },
               {
                 path: ":id",
-                lazy: () => import("./routes/courses/course-detail"),
+                lazy: async () => {
+                  const { Component, Breadcrumb } = await import("./routes/courses/course-detail")
+                  return { Component, handle: { breadcrumb: (match: UIMatch) => <Breadcrumb {...match} /> } }
+                },
                 children: [
-                  {
-                    path: "lessons/new",
-                    lazy: () => import("./routes/courses/lesson-new"),
-                  },
-                  {
-                    path: "lessons/:lessonId",
-                    lazy: () => import("./routes/courses/lesson-edit"),
-                  },
+                  { path: "edit", lazy: () => import("./routes/courses/course-edit") },
+                  { path: "stream/edit", lazy: () => import("./routes/courses/course-stream-edit") },
+                  { path: "lessons/new", lazy: () => import("./routes/courses/lesson-new") },
+                  { path: "lessons/:lessonId", lazy: () => import("./routes/courses/lesson-edit") },
+                  { path: "page/:list/new", lazy: () => import("./routes/courses/page-entry-edit") },
+                  { path: "page/:list/:index", lazy: () => import("./routes/courses/page-entry-edit") },
                 ],
               },
             ],
