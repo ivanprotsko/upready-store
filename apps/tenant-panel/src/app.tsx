@@ -738,12 +738,8 @@ const routes: RouteObject[] = [
             ],
           },
           {
-            // tenant-panel wave 2, piece 7 (content pages): the panel's own
-            // routes/pages tree (no Admin counterpart). Same nesting the Admin
-            // uses for a list with a modal child: the list screen renders the
-            // Outlet (SingleColumnPage does it), and `:key` mounts the focus
-            // modal over it, so Save returns to the list with the row already
-            // refreshed by the mutation's own invalidation.
+            // piece 7 (content pages): the list renders the Outlet; `create`
+            // (G4, «Добавить страницу») and `:key` open as focus modals over it.
             path: "/pages",
             handle: { breadcrumb: () => t("app.nav.main.pages", { defaultValue: "Страницы" }) },
             errorElement: <ErrorBoundary />,
@@ -752,6 +748,10 @@ const routes: RouteObject[] = [
                 path: "",
                 lazy: () => import("./routes/pages/page-list"),
                 children: [
+                  {
+                    path: "create",
+                    lazy: () => import("./routes/pages/page-create"),
+                  },
                   {
                     path: ":key",
                     lazy: () => import("./routes/pages/page-edit"),

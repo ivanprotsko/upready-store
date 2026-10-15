@@ -62,22 +62,15 @@ test("attribute list: type and flags stay on one line, the rows are _DataTable r
     "each flag is one badge in its own column and does not wrap")
 })
 
-test("page list: the reserved-section row shows only the title, no hint line", () => {
+test("page list: a row shows only the title; the section's hint or the page's key is its title attribute", () => {
+  // t-2026-10-14-01 (G4): one `_DataTable` cell for the five sections and the
+  // owner's own pages alike (the custom row's file became the row's «…»).
   const source = read("routes/pages/page-list/page-list.tsx")
   assert.ok(
-    !/<Text size="small" className="text-ui-fg-subtle">\s*\{section\.hint\}\s*<\/Text>/.test(source),
-    "section.hint must not render as its own <Text> under the title"
+    source.includes("title={section ? t(`contentPages.sections.${section}.hint`) : page.key}"),
+    "the hint and the key stay reachable, via title"
   )
-  assert.ok(source.includes("title={section.hint}"), "the hint must still be reachable, via title")
-})
-
-test("page list: a custom page row shows only the title, no machine-key line", () => {
-  const source = read("routes/pages/page-list/custom-page-row.tsx")
-  assert.ok(
-    !/<Text size="small" className="text-ui-fg-subtle font-mono">\s*\{page\.key\}\s*<\/Text>/.test(source),
-    "page.key must not render as its own <Text> under the title"
-  )
-  assert.ok(source.includes("title={page.key}"), "the key must still be reachable, via title")
+  assert.ok(!/\{section\.hint\}|\{page\.key\}\s*<\/Text>/.test(source), "no second line under the title")
 })
 
 test("course list: the row shows only the course title, no slug line", () => {
@@ -92,13 +85,11 @@ test("course list: the row shows only the course title, no slug line", () => {
 test("article list: the row shows only the article title, no public URL line", () => {
   const source = read("routes/journal/article-list/article-list.tsx")
   assert.ok(
-    !/<Text size="small" className="text-ui-fg-subtle font-mono line-clamp-1">\s*\{publicArticleUrl\(primaryHost, group\.slug\)\}\s*<\/Text>/.test(
-      source
-    ),
+    !/\{articleAddress\(host, row\.original\.slug\)\.label\}\s*<\/Text>/.test(source),
     "the public article URL must not render as its own <Text> under the title"
   )
   assert.ok(
-    source.includes("title={publicArticleUrl(primaryHost, group.slug)}"),
+    source.includes("title={articleAddress(host, row.original.slug).label}"),
     "the URL must still be reachable, via title"
   )
 })

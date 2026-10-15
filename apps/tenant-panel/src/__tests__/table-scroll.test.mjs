@@ -116,9 +116,14 @@ test("old addresses: the search is the list toolbar and the rows are _DataTable 
   assert.ok(!source.includes("<Table>") && !source.includes("max-w-[320px]"))
 })
 
-test("pages: below md the rows are cards, from md up the table scrolls in its box", () => {
-  const source = read("routes/pages/page-list/page-list.tsx")
-  assert.match(source, /<TableScroll className=\{PHONE_CARDS\}>\s*<Table>/)
+test("pages and journal: the rows are _DataTable rows (phone cards built in), no hand-made table", () => {
+  // t-2026-10-14-01 (G4): the hand-made tables of /pages and /journal gave way
+  // to the native list, which turns rows into cards below md by itself.
+  for (const file of ["routes/pages/page-list/page-list.tsx", "routes/journal/article-list/article-list.tsx"]) {
+    const source = read(file)
+    assert.ok(source.includes("<_DataTable"), `${file}: _DataTable`)
+    assert.ok(!source.includes("<Table>") && !source.includes("<TableScroll"), `${file}: no hand-made table`)
+  }
 })
 
 test("the audit opens every screen of the router or says why not", () => {

@@ -1,26 +1,28 @@
 import { useRef, useState } from "react"
 import { Button, Text, Textarea, toast } from "@medusajs/ui"
+import { useTranslation } from "react-i18next"
 
 import { sdk } from "../../../lib/client"
-import { MarkdownPreview } from "./markdown-preview"
 
 /**
- * The body of an article: a markdown field, a small toolbar, and a live
- * preview beside it (b18-blog-full).
+ * The body of an article or a page: a markdown field and a small toolbar
+ * (b18-blog-full).
  *
  * Before this the body was a bare `<Textarea rows={24}>` with a line of hints
  * under it — an owner wrote the text blind and found out what a `##` did only
- * after saving and opening the shop. The preview reads the source with the
- * SAME parser the storefront uses (`../../../lib/markdown`, pinned equal to the
- * storefront's copy by `pnpm check:shared-markdown`), so it cannot promise a
- * heading the page will not render.
+ * after saving and opening the shop.
  *
  * The toolbar writes markdown INTO the text rather than hiding it: the stored
  * body stays plain markdown, which is what the storefront renders, what the
  * import script wrote and what an owner can paste somewhere else. A picture is
  * uploaded through the same `POST /tenants/uploads` the cover uses — every file
- * lands under this tenant's own prefix — and is inserted as `![подпись](url)`
- * at the cursor.
+ * lands under this tenant's own prefix — and is inserted as `![name](url)` at
+ * the cursor.
+ *
+ * t-2026-10-14-01 (panel redesign, G4, prototype states `pages-edit` and
+ * `journal-edit`): the preview left this field for the right half of the
+ * editor window (`editor-split.tsx`), so the editor only says whether it is
+ * shown and asks to toggle it. Every word is a catalogue key.
  */
 
 type Props = {
@@ -29,6 +31,8 @@ type Props = {
   onBlur?: () => void
   /** Shown under the field; the form owns the error text. */
   invalid?: boolean
+  previewShown: boolean
+  onTogglePreview: () => void
 }
 
 const uploadImage = async (file: File): Promise<string | undefined> => {
@@ -43,9 +47,26 @@ const uploadImage = async (file: File): Promise<string | undefined> => {
   return files?.[0]?.url
 }
 
-export const MarkdownEditor = ({ value, onChange, onBlur, invalid }: Props) => {
+/** The toolbar, in the prototype's order; `%s` is the selection or a placeholder word. */
+const TOOLS = [
+  { key: "heading", snippet: "## %s", block: true },
+  { key: "bold", snippet: "**%s**", block: false },
+  { key: "italic", snippet: "_%s_", block: false },
+  { key: "list", snippet: "- %s", block: true },
+  { key: "quote", snippet: "> %s", block: true },
+  { key: "link", snippet: "[%s](https://)", block: false },
+] as const
+
+export const MarkdownEditor = ({
+  value,
+  onChange,
+  onBlur,
+  invalid,
+  previewShown,
+  onTogglePreview,
+}: Props) => {
+  const { t } = useTranslation()
   const areaRef = useRef<HTMLTextAreaElement | null>(null)
-  const [showPreview, setShowPreview] = useState(true)
   const [isUploading, setIsUploading] = useState(false)
 
   /**
@@ -61,7 +82,9 @@ export const MarkdownEditor = ({ value, onChange, onBlur, invalid }: Props) => {
     const selected = value.slice(start, end)
 
     const prefix = block && start > 0 && !value.slice(0, start).endsWith("\n\n") ? "\n\n" : ""
-    const text = snippet.includes("%s") ? snippet.replace("%s", selected || "текст") : snippet
+    const text = snippet.includes("%s")
+      ? snippet.replace("%s", selected || t("markdownEditor.snippet"))
+      : snippet
     const next = `${value.slice(0, start)}${prefix}${text}${block ? "\n\n" : ""}${value.slice(end)}`
 
     onChange(next)
@@ -81,13 +104,13 @@ export const MarkdownEditor = ({ value, onChange, onBlur, invalid }: Props) => {
     try {
       const url = await uploadImage(file)
       if (!url) {
-        toast.error("Загрузка не вернула адрес файла")
+        toast.error(t("markdownEditor.uploadNoUrl"))
         return
       }
       insert(`![${file.name.replace(/\.[^.]+$/, "")}](${url})`, { block: true })
-      toast.success("Картинка вставлена в текст")
+      toast.success(t("markdownEditor.imageInserted"))
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Не удалось загрузить картинку")
+      toast.error(error instanceof Error ? error.message : t("markdownEditor.imageFailed"))
     } finally {
       setIsUploading(false)
       // The same file picked twice in a row still has to fire `change`.
@@ -97,28 +120,21 @@ export const MarkdownEditor = ({ value, onChange, onBlur, invalid }: Props) => {
 
   return (
     <div className="flex flex-col gap-y-2">
-      <div className="flex flex-wrap items-center gap-x-1 gap-y-1">
-        <Button size="small" variant="transparent" type="button" onClick={() => insert("## %s", { block: true })}>
-          Заголовок
-        </Button>
-        <Button size="small" variant="transparent" type="button" onClick={() => insert("**%s**")}>
-          Жирный
-        </Button>
-        <Button size="small" variant="transparent" type="button" onClick={() => insert("_%s_")}>
-          Курсив
-        </Button>
-        <Button size="small" variant="transparent" type="button" onClick={() => insert("- %s", { block: true })}>
-          Список
-        </Button>
-        <Button size="small" variant="transparent" type="button" onClick={() => insert("> %s", { block: true })}>
-          Врезка
-        </Button>
-        <Button size="small" variant="transparent" type="button" onClick={() => insert("[%s](https://)")}>
-          Ссылка
-        </Button>
+      <div className="flex flex-wrap items-center gap-1">
+        {TOOLS.map((tool) => (
+          <Button
+            key={tool.key}
+            size="small"
+            variant="secondary"
+            type="button"
+            onClick={() => insert(tool.snippet, { block: tool.block })}
+          >
+            {t(`markdownEditor.tools.${tool.key}`)}
+          </Button>
+        ))}
         <Button size="small" variant="secondary" asChild isLoading={isUploading}>
           <label className="cursor-pointer">
-            Картинка в текст
+            {t("markdownEditor.tools.image")}
             <input
               type="file"
               accept="image/*"
@@ -128,41 +144,31 @@ export const MarkdownEditor = ({ value, onChange, onBlur, invalid }: Props) => {
             />
           </label>
         </Button>
-        <div className="flex-1" />
         <Button
           size="small"
-          variant="transparent"
+          variant="secondary"
           type="button"
-          onClick={() => setShowPreview((shown) => !shown)}
+          onClick={onTogglePreview}
           data-testid="article-preview-toggle"
         >
-          {showPreview ? "Скрыть превью" : "Показать превью"}
+          {previewShown ? t("markdownEditor.hidePreview") : t("markdownEditor.showPreview")}
         </Button>
       </div>
 
-      <div className={showPreview ? "grid grid-cols-1 gap-3 lg:grid-cols-2" : ""}>
-        <Textarea
-          ref={areaRef}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          onBlur={onBlur}
-          rows={24}
-          className="font-mono"
-          aria-invalid={invalid}
-          placeholder={"## Подзаголовок\n\nАбзац текста.\n\n- пункт списка\n\n> выделенная врезка"}
-          data-testid="article-body-input"
-        />
-        {showPreview ? (
-          <div className="border-ui-border-base bg-ui-bg-subtle max-h-[560px] overflow-y-auto rounded-md border p-4">
-            <MarkdownPreview source={value} />
-          </div>
-        ) : null}
-      </div>
+      <Textarea
+        ref={areaRef}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        onBlur={onBlur}
+        rows={24}
+        className="font-mono"
+        aria-invalid={invalid}
+        placeholder={t("markdownEditor.placeholder")}
+        data-testid="article-body-input"
+      />
 
-      <Text size="small" className="text-ui-fg-muted">
-        Markdown: {"##"} — подзаголовок, {"-"} — пункт списка, {">"} — врезка, --- — разделитель,
-        [текст](https://example.com) — ссылка, пустая строка между абзацами. Кнопки выше
-        вставляют это за вас.
+      <Text size="small" className="text-ui-fg-muted text-pretty">
+        {t("markdownEditor.hint")}
       </Text>
     </div>
   )

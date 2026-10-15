@@ -128,6 +128,7 @@ export const OWNER_ROUTES = [
   { path: "/home-settings/products/edit", kind: "overlay" },
   { path: "/home-settings/order/edit", kind: "overlay" },
   { path: "/pages", core: true },
+  { path: "/pages/create", kind: "overlay" },
   { path: "/pages/:page_key", core: true },
   { path: "/journal" },
   { path: "/journal/new" },
