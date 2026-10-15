@@ -1,16 +1,19 @@
-import { Heading, Text } from "@medusajs/ui"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 
 import { RouteFocusModal } from "../../../components/modals"
 import { useTenantPage } from "../../../hooks/api/pages"
-import { sectionOf } from "../page-sections"
+import { isSectionKey } from "../page-sections"
 import { EditPageForm } from "./components/edit-page-form/edit-page-form"
 
 // tenant-panel wave 2, piece 7: the panel's own edit screen, no Admin
-// counterpart. A focus modal rather than the drawer `profile-edit` uses: the
-// body is a markdown document, and a 440 px drawer is the wrong shape to write
-// a privacy policy in (`RouteFocusModal`'s own doc comment: "forms that
-// require a lot of space").
+// counterpart. A focus modal rather than a drawer: the body is a markdown
+// document, and a 440 px drawer is the wrong shape to write a privacy policy
+// in (panel-ds E4, the editor's exception).
+//
+// t-2026-10-14-01 (panel redesign, G4, prototype states `pages-edit` and
+// `pages-edit-publish`): the form's header carries the tabs «Текст» and
+// «Публикация», the page's name and its status (`edit-page-form.tsx`).
 //
 // An unknown key is not handled here: `GET /tenants/pages/:key` answers 404 for
 // it, `useTenantPage` surfaces that as an error, and the throw below lands on
@@ -18,33 +21,28 @@ import { EditPageForm } from "./components/edit-page-form/edit-page-form"
 // copied product-detail screen.
 
 export const PageEdit = () => {
+  const { t } = useTranslation()
   const { key = "" } = useParams()
-  const section = sectionOf(key)
   const { page, isPending, isError, error } = useTenantPage(key)
 
   if (isError) {
     throw error
   }
 
+  const name =
+    page?.title.trim() || (isSectionKey(key) ? t(`contentPages.sections.${key}.label`) : key)
+
   return (
     <RouteFocusModal>
-      <RouteFocusModal.Header>
-        {/* `FocusModal.Header` is `flex items-center justify-between` with its
-            own close/esc group first, so children land hard against the right
-            edge (measured on the Admin's own header). `flex-1` gives the title
-            the rest of the row and puts it where a title belongs. */}
-        <div className="flex flex-1 flex-col items-start">
+      {!isPending && page ? (
+        <EditPageForm pageKey={key} page={page} name={name} />
+      ) : (
+        <RouteFocusModal.Header>
           <RouteFocusModal.Title asChild>
-            <Heading>{section?.label ?? page?.title?.trim() ?? key}</Heading>
+            <span className="sr-only">{name}</span>
           </RouteFocusModal.Title>
-          <RouteFocusModal.Description asChild>
-            <Text size="small" className="text-ui-fg-subtle font-mono">
-              {section?.hint ?? `/pages/${key}`}
-            </Text>
-          </RouteFocusModal.Description>
-        </div>
-      </RouteFocusModal.Header>
-      {!isPending && page && <EditPageForm pageKey={key} page={page} />}
+        </RouteFocusModal.Header>
+      )}
     </RouteFocusModal>
   )
 }

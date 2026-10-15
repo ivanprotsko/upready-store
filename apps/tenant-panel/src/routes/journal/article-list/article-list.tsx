@@ -1,129 +1,182 @@
-import { useMemo, useState } from "react"
-import { Plus } from "@medusajs/icons"
-import { Button, Container, Heading, Input, Select, StatusBadge, Table, Text } from "@medusajs/ui"
-import { Link, useNavigate } from "react-router-dom"
+import { useMemo } from "react"
+import { Badge, Button, Container, Heading, StatusBadge, Text } from "@medusajs/ui"
+import { createColumnHelper } from "@tanstack/react-table"
+import { useTranslation } from "react-i18next"
+import { Link, useLocation } from "react-router-dom"
 
-import { SingleColumnPage } from "../../../components/layout/pages"
+import { NoRecords, NoResults } from "../../../components/common/empty-table-content"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
-import { TableScroll } from "../../../components/table/table-scroll"
+import { SingleColumnPage } from "../../../components/layout/pages"
+import { Filter, _DataTable } from "../../../components/table/data-table"
+import { DataTableQuery } from "../../../components/table/data-table/data-table-query"
 import { useDomains } from "../../../hooks/api/domains"
-import {
-  TenantArticle,
-  useTenantArticleCategories,
-  useTenantArticles,
-} from "../../../hooks/api/articles"
-import {
-  DEFAULT_ARTICLE_LOCALE,
-  formatArticleDate,
-  localeLabel,
-  statusBadge,
-} from "../article-locales"
+import { useTenantArticleCategories, useTenantArticles } from "../../../hooks/api/articles"
+import { useDataTable } from "../../../hooks/use-data-table"
+import { useDate } from "../../../hooks/use-date"
+import { useQueryParams } from "../../../hooks/use-query-params"
+import { ARTICLE_STATUSES, STATUS_COLOR, localeLabel, localeTag, shownStatus } from "../article-locales"
+import { ArticleGroup, articleListPage, groupArticles } from "./article-groups"
 import { ArticleRowActions } from "./article-row-actions"
 
-// t10-blog: the shop's journal. The panel's own screen, no Admin counterpart,
-// built from the same primitives the pages screen uses (SingleColumnPage,
-// Container, Heading, Table, StatusBadge) so it sits in the Admin's shell
-// unchanged.
+// t10-blog: the shop's journal. The panel's own screen, no Admin counterpart.
+// b18-blog-full gave it the search, a status filter and a rubric filter, and
+// moved «Новая статья» to the top as a whole editor screen.
 //
-// One ROW per article, not per row of the table `GET /tenants/articles`
-// returns: that endpoint answers one row per language, and an owner thinks of
-// «the article about peptides», with Russian and English as its two texts.
-//
-// b18-blog-full changed the top of this screen. The create form used to live at
-// the BOTTOM and its first field asked for a URL slug, which is what Ivan found
-// on the live panel («странный функционал с указанием адреса статей, с
-// отсутствием страниц на которые бы можно было бы добавить сами статьи»,
-// 2026-09-16 08:31). It is now one «Новая статья» button opening a whole
-// editor screen, and the list grew the three controls a journal with more than
-// a handful of articles needs: search, a status filter and a rubric filter.
+// t-2026-10-14-01 (panel redesign, G4, prototype states `journal`,
+// `journal-empty`, `journal-no-results`): the list after panel-ds E1 and E10.
+// `Container` with the heading and its one button «Написать статью», then the
+// native toolbar — «Добавить фильтр» with «Статус» and «Рубрика», and the
+// search — and `_DataTable` with 20 articles a page, a row opening the editor
+// and its «…». The search, the filters and the page live in the URL
+// (`article-groups.ts`). No articles at all: «Статей пока нет» with the one
+// button. A query that finds nothing: «Ничего не найдено», the toolbar stays.
 
-const publicArticleUrl = (host: string | undefined, slug: string) =>
-  host ? `${host}/journal/${slug}` : `/journal/${slug}`
+const PAGE_SIZE = 20
 
-export type ArticleGroup = {
-  slug: string
-  /** The row shown in the table: the owner's default language, else the first. */
-  primary: TenantArticle
-  locales: TenantArticle[]
-}
+const columnHelper = createColumnHelper<ArticleGroup>()
 
-/** Groups the flat locale rows into articles, newest first. */
-export const groupArticles = (rows: TenantArticle[]): ArticleGroup[] => {
-  const bySlug = new Map<string, TenantArticle[]>()
-  for (const row of rows) {
-    const group = bySlug.get(row.slug) ?? []
-    group.push(row)
-    bySlug.set(row.slug, group)
-  }
+/** The article's address as the owner reads it, and as a link opens it. */
+export const articleAddress = (host: string | undefined, slug: string) => ({
+  label: host ? `${host}/journal/${slug}` : `/journal/${slug}`,
+  href: host ? `https://${host}/journal/${slug}` : undefined,
+})
 
-  return [...bySlug.entries()]
-    .map(([slug, locales]) => {
-      const sorted = [...locales].sort((a, b) => a.locale.localeCompare(b.locale))
-      const primary =
-        sorted.find((row) => row.locale === "ru") ??
-        sorted.find((row) => row.locale === DEFAULT_ARTICLE_LOCALE) ??
-        sorted[0]
-      return { slug, primary, locales: sorted }
-    })
-    .sort((a, b) => {
-      const dateA = a.primary.published_at ? Date.parse(a.primary.published_at) : -Infinity
-      const dateB = b.primary.published_at ? Date.parse(b.primary.published_at) : -Infinity
-      if (dateA !== dateB) return dateB - dateA
-      return a.slug.localeCompare(b.slug)
-    })
-}
+const useColumns = (host: string | undefined) => {
+  const { t } = useTranslation()
+  const { getFullDate } = useDate()
 
-/**
- * Search runs over what an owner can SEE of an article — its title, its
- * address, its excerpt and its rubric, in every language it has — rather than
- * over the body: a hit deep inside a 12 000-character text that the row cannot
- * show reads as a false positive.
- */
-export const matchesQuery = (group: ArticleGroup, query: string): boolean => {
-  const needle = query.trim().toLowerCase()
-  if (!needle) return true
-
-  return group.locales.some((row) =>
-    [row.title, row.slug, row.excerpt ?? "", row.category ?? "", ...row.tags]
-      .join(" ")
-      .toLowerCase()
-      .includes(needle)
+  return useMemo(
+    () => [
+      columnHelper.display({
+        id: "article",
+        header: t("journal.columns.article"),
+        cell: ({ row }) => (
+          <Text
+            size="small"
+            leading="compact"
+            weight="plus"
+            className="truncate"
+            title={articleAddress(host, row.original.slug).label}
+          >
+            {row.original.primary.title.trim() || row.original.slug}
+          </Text>
+        ),
+      }),
+      columnHelper.display({
+        id: "status",
+        header: t("journal.columns.status"),
+        cell: ({ row }) => {
+          const status = shownStatus(row.original.primary)
+          return (
+            <StatusBadge color={STATUS_COLOR[status]} className="whitespace-nowrap">
+              {t(`journal.status.${status}`)}
+            </StatusBadge>
+          )
+        },
+      }),
+      columnHelper.display({
+        id: "category",
+        header: t("journal.columns.category"),
+        cell: ({ row }) => (
+          <Text size="small" leading="compact" className="truncate">
+            {row.original.primary.category || "—"}
+          </Text>
+        ),
+      }),
+      columnHelper.display({
+        id: "locales",
+        header: t("journal.columns.locales"),
+        cell: ({ row }) => (
+          <div className="flex items-center gap-1">
+            {row.original.locales.map((text) => (
+              <Badge
+                key={text.locale}
+                size="2xsmall"
+                title={`${localeLabel(text.locale)} · ${t(`journal.status.${shownStatus(text)}`)}`}
+              >
+                {localeTag(text.locale)}
+              </Badge>
+            ))}
+          </div>
+        ),
+      }),
+      columnHelper.display({
+        id: "date",
+        header: t("journal.columns.date"),
+        cell: ({ row }) => {
+          const date = row.original.primary.published_at
+          return (
+            <Text size="small" leading="compact" className="text-ui-fg-subtle whitespace-nowrap">
+              {date ? getFullDate({ date }) : "—"}
+            </Text>
+          )
+        },
+      }),
+      columnHelper.display({
+        id: "actions",
+        cell: ({ row }) => (
+          <ArticleRowActions group={row.original} href={articleAddress(host, row.original.slug).href} />
+        ),
+      }),
+    ],
+    [t, getFullDate, host]
   )
 }
 
-/** The status filter works on the ARTICLE: a row matches if any language does. */
-export const matchesStatus = (group: ArticleGroup, status: string): boolean =>
-  status === "all" || group.locales.some((row) => row.status === status)
+const useFilters = (): Filter[] => {
+  const { t } = useTranslation()
+  const { categories } = useTenantArticleCategories()
 
-export const matchesCategory = (group: ArticleGroup, category: string): boolean =>
-  category === "all" || group.locales.some((row) => (row.category ?? "") === category)
-
-const STATUS_FILTERS = [
-  { value: "all", label: "Все статусы" },
-  { value: "published", label: "Опубликованные" },
-  { value: "draft", label: "Черновики" },
-  { value: "scheduled", label: "По расписанию" },
-]
+  return useMemo(() => {
+    const filters: Filter[] = [
+      {
+        key: "status",
+        label: t("journal.filters.status"),
+        type: "select",
+        multiple: true,
+        options: ARTICLE_STATUSES.map((status) => ({ label: t(`journal.status.${status}`), value: status })),
+      },
+    ]
+    if (categories && categories.length > 0) {
+      filters.push({
+        key: "category",
+        label: t("journal.filters.category"),
+        type: "select",
+        multiple: true,
+        options: categories.map((option) => ({
+          label: t("journal.editor.categoryOption", { category: option.category, number: option.count }),
+          value: option.category,
+        })),
+      })
+    }
+    return filters
+  }, [t, categories])
+}
 
 export const ArticleList = () => {
-  const navigate = useNavigate()
+  const { t } = useTranslation()
+  const { search } = useLocation()
+  const { q, status, category, offset } = useQueryParams(["q", "status", "category", "offset"])
   const { articles, isPending, isError, error } = useTenantArticles()
-  const { categories } = useTenantArticleCategories()
   const { primary_host: primaryHost } = useDomains()
 
-  const [query, setQuery] = useState("")
-  const [status, setStatus] = useState("all")
-  const [category, setCategory] = useState("all")
-
+  const columns = useColumns(primaryHost)
+  const filters = useFilters()
   const groups = useMemo(() => groupArticles(articles ?? []), [articles])
-  const visible = useMemo(
+  const page = useMemo(
     () =>
-      groups
-        .filter((group) => matchesQuery(group, query))
-        .filter((group) => matchesStatus(group, status))
-        .filter((group) => matchesCategory(group, category)),
-    [groups, query, status, category]
+      articleListPage(groups, { q, status, category, offset: Number(offset) || 0, limit: PAGE_SIZE }),
+    [groups, q, status, category, offset]
   )
+
+  const { table } = useDataTable({
+    data: page.rows,
+    columns,
+    count: page.count,
+    pageSize: PAGE_SIZE,
+    enablePagination: true,
+    getRowId: (row) => row.slug,
+  })
 
   if (isError) {
     throw error
@@ -133,153 +186,50 @@ export const ArticleList = () => {
     return <SingleColumnPageSkeleton sections={1} />
   }
 
-  const filtering = query.trim() !== "" || status !== "all" || category !== "all"
+  const hasArticles = groups.length > 0
 
   return (
-    <SingleColumnPage widgets={{ before: [], after: [] }} data={articles}>
-      <Container className="divide-y p-0">
-        <div className="flex flex-wrap items-start justify-between gap-4 px-6 py-4">
-          <div className="flex flex-col gap-y-1">
-            <Heading level="h2">Журнал</Heading>
-            <Text size="small" className="text-ui-fg-subtle">
-              Статьи магазина: их читают покупатели и по ним магазин находят в
-              поиске. Опубликованная статья появляется в ленте
-              <span className="font-mono"> /journal</span> и в карте сайта. У одной
-              статьи может быть текст на нескольких языках — посетителю
-              показывается его язык, а если такого текста нет, любой другой.
+    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet>
+      <Container className="divide-y p-0" data-testid="journal">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
+          <div className="flex min-w-0 flex-col gap-y-1">
+            <Heading level="h1">{t("journal.title")}</Heading>
+            <Text size="small" className="text-ui-fg-subtle text-pretty">
+              {t("journal.subtitle")}
             </Text>
           </div>
-          <Button size="small" onClick={() => navigate("new")} data-testid="article-new">
-            <Plus /> Новая статья
-          </Button>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 px-6 py-3">
-          <Input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Поиск по заголовку, адресу, рубрике"
-            className="w-[320px]"
-            data-testid="article-search"
-          />
-          <Select value={status} onValueChange={setStatus}>
-            <Select.Trigger className="w-[200px]" data-testid="article-status-filter">
-              <Select.Value />
-            </Select.Trigger>
-            <Select.Content>
-              {STATUS_FILTERS.map((option) => (
-                <Select.Item key={option.value} value={option.value}>
-                  {option.label}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select>
-          {categories && categories.length > 0 ? (
-            <Select value={category} onValueChange={setCategory}>
-              <Select.Trigger className="w-[220px]" data-testid="article-category-filter">
-                <Select.Value />
-              </Select.Trigger>
-              <Select.Content>
-                <Select.Item value="all">Все рубрики</Select.Item>
-                {categories.map((option) => (
-                  <Select.Item key={option.category} value={option.category}>
-                    {option.category} · {option.count}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select>
+          {hasArticles ? (
+            <Link to="/journal/new">
+              <Button size="small" variant="secondary" data-testid="article-new">
+                {t("journal.add")}
+              </Button>
+            </Link>
           ) : null}
-          <Text size="small" className="text-ui-fg-muted">
-            {/* A count, not «найдено»: the number is the answer (rule 18e). */}
-            {visible.length} из {groups.length}
-          </Text>
         </div>
 
-        <TableScroll>
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Статья</Table.HeaderCell>
-                <Table.HeaderCell>Статус</Table.HeaderCell>
-                <Table.HeaderCell>Рубрика</Table.HeaderCell>
-                <Table.HeaderCell>Языки</Table.HeaderCell>
-                <Table.HeaderCell>Дата</Table.HeaderCell>
-                <Table.HeaderCell />
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {visible.length === 0 ? (
-                <Table.Row>
-                  {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
-                      state fills the first cell and the rest stay blank. */}
-                  <Table.Cell>
-                    <Text size="small" className="text-ui-fg-subtle" data-testid="article-empty">
-                      {filtering
-                        ? "Под фильтр ничего не подошло. Снимите его, чтобы увидеть все статьи."
-                        : "Статей пока нет. Нажмите «Новая статья» — откроется страница, где можно сразу писать."}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell />
-                  <Table.Cell />
-                  <Table.Cell />
-                  <Table.Cell />
-                  <Table.Cell />
-                </Table.Row>
-              ) : null}
-              {visible.map((group) => {
-                const badge = statusBadge(group.primary)
-                return (
-                  <Table.Row key={group.slug} data-testid="article-row">
-                    <Table.Cell>
-                      <Link
-                        to={group.slug}
-                        className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
-                      >
-                        <Text
-                          size="small"
-                          weight="plus"
-                          className="truncate"
-                          title={publicArticleUrl(primaryHost, group.slug)}
-                        >
-                          {group.primary.title.trim() || group.slug}
-                        </Text>
-                      </Link>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <StatusBadge color={badge.color}>{badge.label}</StatusBadge>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Text
-                        size="small"
-                        className="text-ui-fg-subtle truncate"
-                        title={group.primary.category || "—"}
-                      >
-                        {group.primary.category || "—"}
-                      </Text>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className="flex flex-wrap items-center gap-1">
-                        {group.locales.map((row) => (
-                          <StatusBadge key={row.locale} color={row.published ? "green" : "orange"}>
-                            {localeLabel(row.locale)}
-                          </StatusBadge>
-                        ))}
-                      </div>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Text size="small" className="text-ui-fg-subtle">
-                        {formatArticleDate(group.primary.published_at) || "—"}
-                      </Text>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <ArticleRowActions group={group} publicHost={primaryHost} />
-                    </Table.Cell>
-                  </Table.Row>
-                )
-              })}
-            </Table.Body>
-          </Table>
-        </TableScroll>
+        {!hasArticles ? (
+          <NoRecords
+            title={t("journal.empty.title")}
+            message={t("journal.empty.message")}
+            action={{ to: "/journal/new", label: t("journal.add") }}
+          />
+        ) : (
+          <>
+            <DataTableQuery<ArticleGroup> search filters={filters} />
+            {page.count === 0 ? (
+              <NoResults title={t("journal.noResults.title")} message={t("journal.noResults.message")} />
+            ) : (
+              <_DataTable
+                table={table}
+                columns={columns}
+                count={page.count}
+                pageSize={PAGE_SIZE}
+                pagination
+                navigateTo={(row) => `/journal/${row.original.slug}${search}`}
+              />
+            )}
+          </>
+        )}
       </Container>
     </SingleColumnPage>
   )

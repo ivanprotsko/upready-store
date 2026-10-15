@@ -121,6 +121,7 @@ export const OWNER_ROUTES = [
   // Витрина
   { path: "/home-settings", core: true },
   { path: "/pages", core: true },
+  { path: "/pages/create", kind: "overlay" },
   { path: "/pages/:page_key", core: true },
   { path: "/journal" },
   { path: "/journal/new" },

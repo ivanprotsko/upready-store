@@ -1,16 +1,21 @@
 import { sdk } from "../../../lib/client"
 import { queryClient } from "../../../lib/query-client"
 import { pagesQueryKeys, TenantPage } from "../../../hooks/api/pages"
+import { moveInFooter } from "../page-sections"
 
-// t05-page-keys: swaps `footer_order` between two footer-linked pages. Plain
-// function rather than a hook — the swap always touches a row NEITHER of the
-// two calling components mounted a `useUpdateTenantPage` for (the button
-// lives on one row, the neighbour's mutation would have to be a second hook
-// called conditionally) — so it goes straight through the same `sdk.client`
-// every hook in `hooks/api/pages.tsx` uses, and invalidates the one list
-// query the whole screen reads from once both writes land.
+// t05-page-keys: moves a footer link one step. Plain function rather than a
+// hook — a move touches rows the calling «…» never mounted a
+// `useUpdateTenantPage` for — so it goes straight through the same
+// `sdk.client` every hook in `hooks/api/pages.tsx` uses, and invalidates the
+// one list query the whole screen reads from once the writes land.
+//
+// t-2026-10-14-01 (G4): every link gets its place 1, 2, 3 … (`moveInFooter`)
+// instead of two pages swapping their values, which did nothing when both had
+// none. Each write names the row's own `locale`: without it the backend saves
+// the `en` row (`DEFAULT_PAGE_LOCALE`), and a Russian shop's footer, read from
+// the `ru` rows, never moved.
 
-const putPage = (page: TenantPage, footerOrder: number | null) =>
+const putPage = (page: TenantPage, footerOrder: number) =>
   sdk.client.fetch(`/tenants/pages/${page.key}`, {
     method: "PUT",
     body: {
@@ -19,10 +24,16 @@ const putPage = (page: TenantPage, footerOrder: number | null) =>
       published: page.published,
       in_footer: page.in_footer,
       footer_order: footerOrder,
+      locale: page.locale,
     },
   })
 
-export const swapFooterOrder = async (a: TenantPage, b: TenantPage): Promise<void> => {
-  await Promise.all([putPage(a, b.footer_order ?? 0), putPage(b, a.footer_order ?? 0)])
+export const moveFooterPage = async (
+  pages: TenantPage[],
+  key: string,
+  direction: "up" | "down"
+): Promise<void> => {
+  const writes = moveInFooter(pages, key, direction)
+  await Promise.all(writes.map(({ page, footer_order }) => putPage(page, footer_order)))
   await queryClient.invalidateQueries({ queryKey: pagesQueryKeys.lists() })
 }

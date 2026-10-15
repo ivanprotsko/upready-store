@@ -1,4 +1,5 @@
 import { Text } from "@medusajs/ui"
+import { useTranslation } from "react-i18next"
 
 import type { MarkdownBlock, MarkdownInline } from "../../../lib/markdown"
 import { parseMarkdown } from "../../../lib/markdown"
@@ -136,6 +137,7 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
 }
 
 export const MarkdownPreview = ({ source }: { source: string }) => {
+  const { t } = useTranslation()
   const blocks = parseMarkdown(source ?? "")
 
   // An empty body is an empty body, not a broken preview: say so in words
@@ -143,7 +145,7 @@ export const MarkdownPreview = ({ source }: { source: string }) => {
   if (blocks.length === 0) {
     return (
       <Text size="small" className="text-ui-fg-muted">
-        Здесь появится то, что увидит читатель. Начните писать слева.
+        {t("markdownEditor.previewEmpty")}
       </Text>
     )
   }

@@ -6986,5 +6986,226 @@
       "synced": "Statuses checked: {{checked}}, changed: {{updated}}",
       "syncFailed": "Shipment {{shipment}} ({{status}}): {{reason}}"
     }
+  },
+  "contentPages": {
+    "title": "Pages",
+    "subtitle": "Five ready-made sections and any pages of your own. A published page marked “in footer” appears in the Information block at the bottom of the site.",
+    "add": "Add page",
+    "columns": {
+      "page": "Page",
+      "address": "Address",
+      "status": "Status",
+      "footer": "In footer"
+    },
+    "status": {
+      "published": "Published",
+      "draft": "Draft",
+      "empty": "Empty"
+    },
+    "sections": {
+      "contacts": {
+        "label": "Contacts",
+        "hint": "Address, phone, opening hours, how to find you."
+      },
+      "legal": {
+        "label": "Legal details",
+        "hint": "Name, registration and tax numbers, bank details."
+      },
+      "about": {
+        "label": "About the shop",
+        "hint": "Who you are and what you sell."
+      },
+      "privacy": {
+        "label": "Privacy policy",
+        "hint": "What customer data you collect and what you do with it."
+      },
+      "offer": {
+        "label": "Public offer",
+        "hint": "The terms a customer accepts when placing an order."
+      }
+    },
+    "actions": {
+      "open": "Open editor",
+      "view": "View on the storefront",
+      "up": "Up in the footer",
+      "down": "Down in the footer",
+      "delete": "Delete page"
+    },
+    "deletePrompt": {
+      "title": "Delete the page?",
+      "description": "The page “{{title}}” will be deleted with its text. Its address will stop opening and its link leaves the footer.",
+      "confirm": "Delete"
+    },
+    "toast": {
+      "created": "Page created",
+      "saved": "Page saved",
+      "deleted": "Page deleted",
+      "moved": "Footer order changed"
+    },
+    "create": {
+      "title": "New page",
+      "description": "A page of your own: delivery, questions and answers, wholesale terms. You write the text on the next step.",
+      "titleLabel": "Title",
+      "titleHint": "It is also the text of the footer link.",
+      "titlePlaceholder": "Delivery and payment",
+      "slugLabel": "Page address",
+      "slugHint": "Latin letters, 2–48 characters. Filled in from the title; change it before anyone links to the page.",
+      "submit": "Create and open"
+    },
+    "validation": {
+      "title": "Enter the page title.",
+      "slug": "Page address: lowercase latin letters, digits and hyphens, 2 to 48 characters.",
+      "slugReserved": "The address “{{slug}}” is taken. Choose another one.",
+      "publishedTitle": "A published page needs a title."
+    },
+    "editor": {
+      "tabs": {
+        "text": "Text",
+        "publish": "Publishing"
+      },
+      "titleLabel": "Title",
+      "titleHint": "The page heading and the text of its footer link.",
+      "bodyLabel": "Text",
+      "preview": "What a customer sees",
+      "where": "Where the page is shown",
+      "published": "Published",
+      "publishedHint": "Open to customers at {{url}}. Only you see a draft.",
+      "inFooter": "In footer",
+      "inFooterHint": "A link in the Information block at the bottom of the site, next to the other footer pages. Change the order in the list of pages.",
+      "search": "For search",
+      "searchHint": "How the page looks in Yandex and Google results. Empty — the title and the first sentence are used.",
+      "seoTitle": "Search title",
+      "seoDescription": "Search description",
+      "counter": "{{length}} / {{max}}"
+    }
+  },
+  "journal": {
+    "title": "Journal",
+    "subtitle": "The shop's articles: customers read them and find the shop through them in search. A published article appears in the feed and in the sitemap.",
+    "add": "Write an article",
+    "columns": {
+      "article": "Article",
+      "status": "Status",
+      "category": "Rubric",
+      "locales": "Languages",
+      "date": "Date"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "scheduled": "Scheduled"
+    },
+    "statusHint": {
+      "draft": "only you see it, the article is not on the site",
+      "published": "in the feed, the sitemap and search",
+      "scheduled": "goes out by itself on the date below"
+    },
+    "filters": {
+      "status": "Status",
+      "category": "Rubric"
+    },
+    "empty": {
+      "title": "No articles yet",
+      "message": "Your first article appears in the journal feed as soon as you publish it."
+    },
+    "noResults": {
+      "title": "Nothing found",
+      "message": "Change the query or remove a filter."
+    },
+    "actions": {
+      "edit": "Edit",
+      "openOnSite": "Open on the site",
+      "delete": "Delete"
+    },
+    "deletePrompt": {
+      "title": "Delete the article?",
+      "description": "The article “{{title}}” and all its texts ({{locales}}) will be deleted. Its address will stop opening.",
+      "confirm": "Delete"
+    },
+    "toast": {
+      "saved": "Article saved",
+      "published": "Article published",
+      "renamed": "Article saved, new address /journal/{{slug}}",
+      "deleted": "Article deleted",
+      "localeAdded": "Added a text in “{{locale}}”",
+      "coverUploaded": "Cover uploaded",
+      "coverFailed": "Could not upload the cover",
+      "uploadNoUrl": "The upload returned no file address"
+    },
+    "editor": {
+      "newTitle": "New article",
+      "tabs": {
+        "text": "Text",
+        "card": "Card and publishing",
+        "search": "For search"
+      },
+      "addLanguage": "Add a text: {{locale}}",
+      "newLanguageHint": "Other languages are added after saving.",
+      "titleLabel": "Title",
+      "titleHint": "The article starts with it. It is also the caption of the feed card and the browser tab title.",
+      "titlePlaceholder": "Khavinson peptides: what they are and how they work",
+      "bodyLabel": "Article text",
+      "preview": "What a reader sees",
+      "publishGroup": "Publishing",
+      "statusLabel": "Status",
+      "dateLabel": "Publication date",
+      "dateScheduledLabel": "Goes out",
+      "dateHint": "The date on the card and in the markup for search engines. Empty — set on the first publication.",
+      "dateScheduledHint": "The article appears on the site by itself, at this time on your computer's clock.",
+      "cardGroup": "Feed card",
+      "excerptLabel": "Short description",
+      "excerptHint": "Two or three lines under the title in the feed. They also become the search description if that one is empty.",
+      "coverLabel": "Cover",
+      "coverHint": "The feed card picture and the preview when the link is sent in a messenger. Landscape, at least 1200 px wide.",
+      "coverUpload": "Upload",
+      "coverReplace": "Replace",
+      "coverRemove": "Remove",
+      "categoryLabel": "Rubric",
+      "categoryHint": "One per article; readers filter the feed by it. While you type, the rubrics of your articles are suggested.",
+      "categoryPlaceholder": "Health",
+      "categoryOption": "{{category}} · {{number}}",
+      "authorLabel": "Author",
+      "authorHint": "Empty — the article is signed by the shop.",
+      "authorPlaceholder": "Oksana Cherkashina",
+      "tagsLabel": "Tags",
+      "tagsHint": "Comma separated. Shown under the article.",
+      "tagsPlaceholder": "detox, peptides",
+      "optional": "(optional)",
+      "slugLabel": "Article address",
+      "slugHint": "The article opens at {{url}}. It is made from the title; change it only before anyone links to the article.",
+      "seoHint": "How the article looks in Yandex and Google results.",
+      "seoTitle": "Search title",
+      "seoTitleHint": "Empty — the article title is used.",
+      "seoDescription": "Search description",
+      "seoDescriptionHint": "Empty — the short description is used.",
+      "coverUrlLabel": "Picture address"
+    },
+    "validation": {
+      "slugMin": "Address: at least 2 characters.",
+      "slugPattern": "Address: lowercase latin letters, digits and hyphens.",
+      "slugReserved": "The address “new” is used by the panel. Choose another one.",
+      "publishedTitle": "A published article needs a title.",
+      "scheduledDate": "Enter the date and time the article should go out."
+    }
+  },
+  "markdownEditor": {
+    "tools": {
+      "heading": "Heading",
+      "bold": "Bold",
+      "italic": "Italic",
+      "list": "List",
+      "quote": "Quote",
+      "link": "Link",
+      "image": "Picture"
+    },
+    "snippet": "text",
+    "hidePreview": "Hide preview",
+    "showPreview": "Show preview",
+    "placeholder": "## Subheading\n\nA paragraph of text.\n\n- a list item\n\n> a highlighted quote",
+    "hint": "Markdown: ## — subheading, - — list item, > — quote, --- — divider, [text](link) — link, an empty line between paragraphs. The buttons above insert this for you.",
+    "imageInserted": "Picture inserted into the text",
+    "imageFailed": "Could not upload the picture",
+    "uploadNoUrl": "The upload returned no file address",
+    "previewEmpty": "What the reader sees appears here. Start writing on the left."
   }
 }
