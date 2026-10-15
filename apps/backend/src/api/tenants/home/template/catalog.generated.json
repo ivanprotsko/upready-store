@@ -371,6 +371,7 @@
     {"id":"collection/featured","category":"collection","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"collection/tabs","category":"collection","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"columns/multicolumn","category":"columns","placement":"home","status":"lab","props":true,"propsEditable":true},
+    {"id":"columns/steps","category":"columns","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"contacts/store-map","category":"contacts","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"countdown/timer","category":"countdown","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"faq/accordion","category":"faq","placement":"home","status":"lab","props":true,"propsEditable":true},

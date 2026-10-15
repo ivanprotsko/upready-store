@@ -4,3 +4,4 @@
  * file, sorts it by variant and puts the category where `BLOCK_CATEGORIES` says.
  */
 export { multicolumn } from "./multicolumn/block"
+export { steps } from "./steps/block"
