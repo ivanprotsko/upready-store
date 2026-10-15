@@ -16,6 +16,11 @@
  *
  * Plain TS, free of React, so `src/__tests__/course-page-editor.test.mjs`
  * imports and runs it as is, next to the storefront's own reader.
+ *
+ * t-2026-10-14-01 (G4): the course card reads the lists, and one entry at a
+ * time is written: added or changed in its drawer, moved or deleted from its
+ * «…». Each of those is the whole `metadata` again with that one change
+ * (`putCoursePageEntry`, `moveCoursePageEntry`, `removeCoursePageEntry`).
  */
 
 type Metadata = Record<string, unknown> | null | undefined
@@ -186,3 +191,74 @@ export function coursePageTranslations(metadata: Metadata): string[] {
   const i18n = coursePageOf(metadata).i18n
   return isRecord(i18n) ? Object.keys(i18n).filter((locale) => isRecord(i18n[locale])) : []
 }
+
+/** The fields of one entry, keyed by the list's own field names (`COURSE_PAGE_FIELDS`). */
+export type CoursePageEntryFields = Record<string, string>
+
+/** What an entry's row reads: its heading, question or author, and its text. */
+export const coursePageEntryText = (
+  list: CoursePageList,
+  entry: Record<string, unknown>
+): { title: string; text: string } => {
+  const [titleField, textField] = COURSE_PAGE_FIELDS[list]
+  return { title: text(entry[titleField]), text: text(entry[textField]) }
+}
+
+/**
+ * The whole `metadata` with one entry written: entry `index` of `list` takes
+ * the fields, or a new entry goes last when `index` is null. Keys of the entry
+ * the drawer does not show stay as they were.
+ */
+export function putCoursePageEntry(
+  metadata: Metadata,
+  list: CoursePageList,
+  index: number | null,
+  fields: CoursePageEntryFields
+): Record<string, unknown> {
+  const draft = readCoursePageDraft(metadata)
+  const rows = draft[list] as Record<string, unknown>[]
+  const picked = Object.fromEntries(COURSE_PAGE_FIELDS[list].map((field) => [field, fields[field] ?? ""]))
+
+  if (index === null) {
+    rows.push({ ...emptyRow(list), ...picked })
+  } else if (rows[index]) {
+    rows[index] = { ...rows[index], ...picked }
+  }
+
+  return coursePageMetadata(metadata, draft)
+}
+
+/** The whole `metadata` with entry `index` of `list` one place up or down; null at either end. */
+export function moveCoursePageEntry(
+  metadata: Metadata,
+  list: CoursePageList,
+  index: number,
+  delta: -1 | 1
+): Record<string, unknown> | null {
+  const draft = readCoursePageDraft(metadata)
+  const rows = draft[list] as unknown[]
+  const target = index + delta
+  if (index < 0 || index >= rows.length || target < 0 || target >= rows.length) {
+    return null
+  }
+  const [row] = rows.splice(index, 1)
+  rows.splice(target, 0, row)
+  return coursePageMetadata(metadata, draft)
+}
+
+/** The whole `metadata` without entry `index` of `list`. */
+export function removeCoursePageEntry(
+  metadata: Metadata,
+  list: CoursePageList,
+  index: number
+): Record<string, unknown> {
+  const draft = readCoursePageDraft(metadata)
+  ;(draft[list] as unknown[]).splice(index, 1)
+  return coursePageMetadata(metadata, draft)
+}
+
+/** The lists the course card shows, in its order; a route's `:list` outside them is no list. */
+export const COURSE_PAGE_LISTS = Object.keys(COURSE_PAGE_FIELDS) as CoursePageList[]
+
+export const isCoursePageList = (value: string | undefined): value is CoursePageList =>
+  COURSE_PAGE_LISTS.includes(value as CoursePageList)

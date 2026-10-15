@@ -4,9 +4,10 @@ import type { CourseStatus, TenantCourse } from "../../hooks/api/courses"
 // be imported and run for real by `src/__tests__/course-editor.test.mjs` (this
 // package has no vitest/jsdom, see `error-boundary-auth.test.mjs`).
 
-export const STATUS_LABEL: Record<CourseStatus, string> = {
-  draft: "Черновик",
-  published: "Опубликован",
+/** The status words live in `courses.status.<status>` (t-2026-10-14-01, G4: rule 7). */
+export const STATUS_LABEL_KEY: Record<CourseStatus, string> = {
+  draft: "courses.status.draft",
+  published: "courses.status.published",
 }
 
 export const STATUS_BADGE_COLOR: Record<CourseStatus, "grey" | "green"> = {

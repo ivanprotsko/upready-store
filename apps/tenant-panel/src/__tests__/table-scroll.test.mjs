@@ -86,25 +86,23 @@ test("the shell column and its gutter cannot be stretched by a wide child", () =
   assert.match(source, /"flex w-full min-w-0 max-w-\[1600px\] flex-col gap-y-2 p-3"/)
 })
 
-test("course list: the table fits a phone and the create form has no fixed-width field", () => {
+test("course list: _DataTable rows (phone cards built in), the course and product cells truncate", () => {
+  // t-2026-10-14-01 (G4): the hand-rolled table and the create form under it
+  // gave way to `_DataTable` and the «Создать курс» modal.
   const source = read("routes/courses/course-list/course-list.tsx")
-  assert.match(source, /<TableScroll>\s*<Table>/, "the table sits in TableScroll")
-  assert.equal(
-    (source.match(/<Table\.(Header)?Cell className="(w-1\/2 )?max-w-0">/g) ?? []).length,
-    4,
-    "the course and product columns share the width left by the status and truncate"
-  )
-  assert.equal((source.match(/className="whitespace-nowrap">/g) ?? []).length, 2, "the status column stays on one line")
-  assert.ok(!/w-\[\d+px\]/.test(source.replace(/max-w-\[\d+px\]/g, "")), "no field has a fixed px width")
+  assert.ok(source.includes("<_DataTable") && !/<Table[\s>]/.test(source))
+  assert.equal((source.match(/className="(text-ui-fg-subtle )?truncate"/g) ?? []).length, 2)
+  assert.ok(!/w-\[\d+px\]/.test(source), "no field has a fixed px width")
 })
 
-test("course page: the storefront address ends in an ellipsis and the buttons wrap under the title", () => {
+test("course card: read sections only; the storefront address breaks instead of pushing the page", () => {
+  // t-2026-10-14-01 (G4): no buttons in the card's header any more; the
+  // address is a read row of the first section.
   const source = read("routes/courses/course-detail/course-detail.tsx")
-  assert.ok(source.includes('"flex flex-wrap items-start justify-between gap-x-4 gap-y-3 px-6 py-4"'))
-  assert.ok(source.includes('"flex min-w-0 max-w-full flex-col gap-y-1"'), "the title column may shrink")
-  assert.ok(source.includes('"text-ui-fg-subtle font-mono truncate"'), "the address stays on one line")
-  assert.ok(source.includes('"flex shrink-0 items-center gap-x-2"'), "the buttons keep their size")
-  assert.ok(!/className="(font-mono )?w-\[\d+px\]"/.test(source), "no field has a fixed px width")
+  assert.ok(source.includes("<SettingsDetailSection section={general} level=\"h1\" />"))
+  assert.ok(source.includes("font-mono break-all"), "the address wraps on a phone")
+  assert.ok(!/<Button\b|<Input\b|<Textarea\b/.test(source), "no field and no button on the card")
+  assert.ok(!/w-\[\d+px\]/.test(source), "no fixed px width")
 })
 
 test("old addresses: the search is the list toolbar and the rows are _DataTable rows (phone cards built in)", () => {

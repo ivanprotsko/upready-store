@@ -37,6 +37,8 @@ export type TenantCourse = {
   start_date?: string | null
   /** Days of access; null is no limit. */
   access_days?: number | null
+  /** The course's lessons; `GET /tenants/courses` counts them (t-2026-10-14-01, G4). */
+  lesson_count?: number
   created_at: string
   updated_at: string
 }

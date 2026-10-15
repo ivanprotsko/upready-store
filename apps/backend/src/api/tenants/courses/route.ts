@@ -6,20 +6,29 @@ import { firstFreeSlug, toSlug } from "../../../product-csv/slugify";
 import { assertOwnedProduct, getTenantScope } from "../tenant-scope";
 import type { PostTenantCourseBody } from "./validators";
 import { type CourseRow, courseStreamForWrite, markProductAsCourse, toCourseDto } from "./course-helpers";
+import { lessonCountsByCourse } from "./lesson-counts";
 
 /**
  * `GET /tenants/courses` — every course of the tenant behind the token
  * (o24-courses). Scope is `course.tenant_id`, set from the token, never the
  * link-table walk `tenant-scope.ts` uses for a core Medusa entity: `course`
- * carries its own tenant column, the same shape as `product_review`.
+ * carries its own tenant column, the same shape as `product_review`. Each
+ * course carries `lesson_count` (t-2026-10-14-01, G4).
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const scope = await getTenantScope(req);
   const courseService: CourseModuleService = req.scope.resolve(COURSE_MODULE);
 
   const rows = (await courseService.listCourses({ tenant_id: scope.id })) as CourseRow[];
+  // t-2026-10-14-01 (G4): the list's «Уроки» column, one read for every course.
+  const counts = lessonCountsByCourse(
+    (await courseService.listLessons(
+      { tenant_id: scope.id },
+      { select: ["id", "course_id"] },
+    )) as { course_id: string }[],
+  );
   const courses = rows
-    .map(toCourseDto)
+    .map((row) => ({ ...toCourseDto(row), lesson_count: counts.get(row.id) ?? 0 }))
     .sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
 
   res.json({ courses, count: courses.length });
