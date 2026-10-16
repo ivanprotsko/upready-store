@@ -25,6 +25,7 @@ import {
   SyncRedirect,
 } from "./routes/marketplaces/common/redirects"
 import { homeSettingsChildren } from "./routes/home-settings/routes"
+import { ozonChildren } from "./routes/marketplaces/ozon-routes"
 
 import "./index.css"
 
@@ -266,7 +267,7 @@ const routes: RouteObject[] = [
             // «Заказы», «Отзывы», «Аналитика», «Обновление» — the children of
             // the marketplace's entry in the sidebar. Read only, as the orders
             // of 2026-09-16 02:46 WITA decided: nothing here writes to the
-            // marketplace. Ozon is a stub until its adapter delivers data.
+            // marketplace. Ozon mounts the same screens, see ozon-routes.tsx.
             path: "/marketplaces/wildberries/products",
             handle: { breadcrumb: () => t("mp.products.title") },
             errorElement: <ErrorBoundary />,
@@ -316,10 +317,10 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/marketplaces/mp-sync"),
           },
           {
+            // «Ozon» (t-2026-10-16-37): «Подключение», then the data screens.
             path: "/marketplaces/ozon",
             handle: { breadcrumb: () => "Ozon" },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/marketplaces/ozon-stub"),
+            children: ozonChildren,
           },
           {
             path: "/orders",

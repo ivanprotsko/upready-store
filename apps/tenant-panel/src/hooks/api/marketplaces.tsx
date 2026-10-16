@@ -10,6 +10,7 @@ import {
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
+import { marketplaceSectionQueryKeys } from "./marketplace-section"
 
 // tenant-panel: own hooks, no Admin counterpart — GET /tenants/marketplaces and
 // GET /tenants/marketplaces/:marketplace/status per w12-marketplace-core.
@@ -199,6 +200,9 @@ export const useSaveMarketplaceKey = (
       }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: marketplacesQueryKeys.all })
+      // The data screens carry `key_set` too: «ключ не сохранён» on «Товары»
+      // must not outlive the save (t-2026-10-16-37).
+      queryClient.invalidateQueries({ queryKey: marketplaceSectionQueryKeys.all })
       options?.onSuccess?.(data, variables, context)
     },
     ...options,
@@ -216,6 +220,9 @@ export const useDeleteMarketplaceKey = (
       }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: marketplacesQueryKeys.all })
+      // The data screens carry `key_set` too: «ключ не сохранён» on «Товары»
+      // must not outlive the save (t-2026-10-16-37).
+      queryClient.invalidateQueries({ queryKey: marketplaceSectionQueryKeys.all })
       options?.onSuccess?.(data, variables, context)
     },
     ...options,

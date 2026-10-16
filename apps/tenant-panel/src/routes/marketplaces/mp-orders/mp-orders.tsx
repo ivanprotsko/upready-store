@@ -26,6 +26,7 @@ import { sdk } from "../../../lib/client"
 import { DateTimeCell, MoneyCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 import { useMpListQuery } from "../common/use-mp-list-query"
+import { useRouteMarketplace } from "../common/use-route-marketplace"
 import { ORDER_STATUS_COLOR, rawStatusOf } from "./order-status"
 
 /**
@@ -64,7 +65,9 @@ const EMPTY_REASON: Record<string, string> = {
   rate_limited: "rate_limited",
 }
 
-export const MpOrders = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
+export const MpOrders = ({ marketplace: forced }: { marketplace?: MarketplaceId }) => {
+  const fromRoute = useRouteMarketplace()
+  const marketplace = forced ?? fromRoute
   const { t } = useTranslation()
   const { search } = useLocation()
   const { params, raw, dates } = useMpListQuery([...FILTER_KEYS], PAGE_SIZE)

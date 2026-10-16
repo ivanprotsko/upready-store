@@ -225,7 +225,14 @@ export const OWNER_ROUTES = [
   { path: "/marketplaces/wildberries/reviews" },
   { path: "/marketplaces/wildberries/analytics" },
   { path: "/marketplaces/wildberries/sync" },
-  { path: "/marketplaces/ozon", kind: "placeholder", note: "Ozon stub until the adapter delivers data" },
+  // Ozon (t-2026-10-16-37): «Подключение» first, then the screens it has data for.
+  { path: "/marketplaces/ozon", note: "«не подключено» with the key fields until the shop saves its Ozon key" },
+  { path: "/marketplaces/ozon/products" },
+  { path: "/marketplaces/ozon/products/:ozon_product_id" },
+  { path: "/marketplaces/ozon/price-stock" },
+  { path: "/marketplaces/ozon/orders" },
+  { path: "/marketplaces/ozon/orders/:ozon_order_id" },
+  { path: "/marketplaces/ozon/sync" },
   { path: "/marketplaces/catalog", note: "legacy URL, redirects" },
   { path: "/marketplaces/price-stock", note: "legacy URL, redirects" },
   { path: "/settings/marketplaces" },
@@ -367,6 +374,20 @@ export const PARAM_RESOLVERS = {
     const { orders } = await api("/tenants/marketplaces/wb/orders?limit=1")
     if (!orders?.length) {
       throw new Error("the stand has no Wildberries orders")
+    }
+    return orders[0].id
+  },
+  ozon_product_id: async (api) => {
+    const { products } = await api("/tenants/marketplaces/ozon/products?limit=1")
+    if (!products?.length) {
+      throw new Error("the stand has no Ozon cards: the shop has no Ozon key or no import ran")
+    }
+    return products[0].id
+  },
+  ozon_order_id: async (api) => {
+    const { orders } = await api("/tenants/marketplaces/ozon/orders?limit=1")
+    if (!orders?.length) {
+      throw new Error("the stand has no Ozon orders")
     }
     return orders[0].id
   },

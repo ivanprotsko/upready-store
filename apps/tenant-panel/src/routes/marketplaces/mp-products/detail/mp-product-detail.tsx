@@ -20,6 +20,7 @@ import {
   type MpProductDetail as MpProductDetailData,
 } from "../../../../hooks/api/marketplace-section"
 import { DateTimeCell, MoneyCell, UnitsCell } from "../../common/mp-cells"
+import { useRouteMarketplace } from "../../common/use-route-marketplace"
 import { MpLinkDrawer } from "../components/mp-link-drawer"
 import { MpProductActions } from "../components/mp-product-actions"
 import { useMpLinkActions } from "../use-link-actions"
@@ -39,7 +40,9 @@ import { useMpLinkActions } from "../use-link-actions"
  * A card of another shop answers 404, and the route's `ErrorBoundary` shows
  * «не найдено» exactly as for a card that does not exist.
  */
-export const MpProductDetail = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
+export const MpProductDetail = ({ marketplace: forced }: { marketplace?: MarketplaceId }) => {
+  const fromRoute = useRouteMarketplace()
+  const marketplace = forced ?? fromRoute
   const { id } = useParams()
   const { product, isLoading, isError, error } = useMpProduct(marketplace, id!)
   const [linking, setLinking] = useState(false)

@@ -23,7 +23,7 @@ export type OwnerNavItem = {
    * route with nested items does. The entry itself opens its first child.
    */
   children?: OwnerNavItem[]
-  /** Drawn, not yet built: «Ozon» is a stub until the adapter is wired. */
+  /** Drawn, not yet built: an entry marked «скоро» (Ozon was one until t-2026-10-16-37). */
   stub?: boolean
 }
 
@@ -118,11 +118,24 @@ export const OWNER_NAV: OwnerNavGroup[] = [
         ],
       },
       {
+        // t-2026-10-16-37: «Подключение» first, so a shop without a key lands
+        // on the fields; then the screens Ozon has data for. Reviews and
+        // analytics stay Wildberries-only: Ozon reviews need Premium Pro and
+        // the analytics have no Ozon source yet.
         labelKey: "app.nav.owner.mp.ozon",
         label: "Ozon",
         to: "/marketplaces/ozon",
-        match: ["/settings/marketplaces/ozon", "/settings/ozon"],
-        stub: true,
+        children: [
+          {
+            labelKey: "app.nav.owner.mp.connection",
+            to: "/marketplaces/ozon",
+            match: ["/settings/marketplaces/ozon", "/settings/ozon"],
+          },
+          { labelKey: "app.nav.owner.mp.products", to: "/marketplaces/ozon/products" },
+          { labelKey: "app.nav.owner.mp.priceStock", to: "/marketplaces/ozon/price-stock" },
+          { labelKey: "app.nav.owner.mp.orders", to: "/marketplaces/ozon/orders" },
+          { labelKey: "app.nav.owner.mp.sync", to: "/marketplaces/ozon/sync" },
+        ],
       },
     ],
   },

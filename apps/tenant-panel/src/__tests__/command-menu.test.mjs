@@ -76,6 +76,10 @@ test("every screen of the sidebar is in the menu, in the sidebar's order, the ma
     "/marketplaces/wildberries/analytics",
     "/marketplaces/wildberries/sync",
     "/marketplaces/ozon",
+    "/marketplaces/ozon/products",
+    "/marketplaces/ozon/price-stock",
+    "/marketplaces/ozon/orders",
+    "/marketplaces/ozon/sync",
   ]) {
     assert.ok(targets.includes(required), `the menu has no entry for ${required}`)
   }
