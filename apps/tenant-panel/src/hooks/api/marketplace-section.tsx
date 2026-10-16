@@ -528,10 +528,40 @@ export type MpAnalyticsResponse = {
     stock: number | null
     /** Whole days today's stock lasts at the period's pace; `null` without stock or sales. */
     days_to_zero: number | null
+    /** WB's subject of the card; `null` — not in the catalogue or none. */
+    category: string | null
+    /** Revenue over the previous period; `null` — no comparison. */
+    revenue_previous: number | null
+    /** Qty-weighted seller's discount, whole percent; `null` — none sent. */
+    discount: number | null
+    warehouses: MpWarehouseType[]
   }>
   cards_count: number
+  /** The revenue of every card the search and the filters matched, not just this page. */
+  cards_revenue: number
   limit: number
   offset: number
+  /**
+   * v3 (t-2026-10-16-36): the previous period of the same length. `available`
+   * is false when the stored orders begin after it starts, and then every
+   * `*_previous` field is `null`.
+   */
+  comparison: { from_day: string; to_day: string; available: boolean; data_from_day: string | null }
+  totals_previous: { revenue: number; orders: number; avg_check: number | null; cancelled_orders: number } | null
+  by_day_previous: MpAnalyticsResponse["by_day"] | null
+  /** The average check: lines with one WB `gNumber` are one purchase. */
+  checks: MpChecks
+  /** Calendar weeks, Monday to Sunday, cut by the period. */
+  by_week: Array<MpChecks & { start: string; end: string; days: number }>
+  by_category: Array<{ category: string | null; revenue: number; share: number; revenue_previous: number | null }>
+  /** `warehouse: null` — the marketplace did not say. */
+  by_warehouse: Array<{ warehouse: MpWarehouseType | null; revenue: number; orders: number; share: number }>
+  by_region: {
+    top: Array<{ region: string; revenue: number; share: number }>
+    other: { regions: number; revenue: number; share: number } | null
+    known_orders: number
+    orders: number
+  }
   /**
    * The seller rating, or why there is none. `detail` is the owner's sentence,
    * `as_of` when the marketplace answered (the rating or the refusal),
@@ -548,7 +578,19 @@ export type MpAnalyticsResponse = {
   connection: FeedConnection
 }
 
-export type MpAnalyticsParams = ListParams & { from?: string; to?: string }
+export type MpWarehouseType = "wb" | "seller"
+
+export type MpChecks = { checks: number; revenue: number; avg_check: number | null }
+
+export type MpAnalyticsParams = ListParams & {
+  from?: string
+  to?: string
+  category?: string[]
+  discount?: string[]
+  warehouse?: string[]
+  abc?: string[]
+  runs_out?: string[]
+}
 
 /** `GET /tenants/marketplaces/:marketplace/analytics` (task-06). */
 export const useMpAnalytics = (

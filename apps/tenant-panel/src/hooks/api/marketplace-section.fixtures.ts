@@ -714,6 +714,10 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
       xyz: (i % 7 === 0 ? null : i % 3 === 0 ? "Y" : i % 5 === 0 ? "Z" : "X") as "X" | "Y" | "Z" | null,
       stock: card.stock,
       days_to_zero: card.stock !== null ? Math.round(card.stock / (units / days) || 0) : null,
+      category: null,
+      revenue_previous: null,
+      discount: null,
+      warehouses: [],
     }
   })
   const sum = sold.reduce((s, c) => s + c.revenue, 0)
@@ -748,8 +752,18 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
     by_day: byDay,
     cards: page.rows,
     cards_count: filtered.length,
+    cards_revenue: filtered.reduce((s, c) => s + c.revenue, 0),
     limit: page.limit,
     offset: page.offset,
+    /** The fixture has no previous period and no order facts: those blocks stay out, never invented. */
+    comparison: { from_day: isoDay(from), to_day: isoDay(from), available: false, data_from_day: isoDay(from) },
+    totals_previous: null,
+    by_day_previous: null,
+    checks: { checks: totals.orders, revenue: totals.revenue, avg_check: Math.round(totals.revenue / totals.orders) },
+    by_week: [],
+    by_category: [],
+    by_warehouse: [],
+    by_region: { top: [], other: null, known_orders: 0, orders: totals.orders },
     rating: {
       value: 4.8,
       scale: 5,
