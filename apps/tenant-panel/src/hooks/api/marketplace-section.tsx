@@ -12,7 +12,8 @@ import {
   type MarketplaceSyncWarning,
   type SyncNowResponse,
 } from "./marketplace-sync"
-import { fixtureAnalytics, fixtureOrders, fixturePriceStock, fixtureProducts, fixtureReviews, fixtureSync } from "./marketplace-section.fixtures"
+import { fixtureOrders, fixturePriceStock, fixtureProducts, fixtureReviews, fixtureSync } from "./marketplace-section.fixtures"
+import { fixtureAnalytics } from "./marketplace-section.fixtures-v3"
 
 /**
  * The screens of ONE marketplace (mp-section-design, Ivan 2026-10-05):
@@ -576,6 +577,23 @@ export type MpAnalyticsResponse = {
     support: string | null
   }
   connection: FeedConnection
+}
+
+/** What «Аналитика» v3 added (t-2026-10-16-36): `marketplace-section.fixtures-v3.ts` fills it for the dev fixture. */
+type MpAnalyticsV3Key =
+  | "cards_revenue"
+  | "comparison"
+  | "totals_previous"
+  | "by_day_previous"
+  | "checks"
+  | "by_week"
+  | "by_category"
+  | "by_warehouse"
+  | "by_region"
+
+/** The answer the dev fixture draws before the v3 fields are added. */
+export type MpAnalyticsFixture = Omit<MpAnalyticsResponse, "cards" | MpAnalyticsV3Key> & {
+  cards: Array<Omit<MpAnalyticsResponse["cards"][number], "category" | "revenue_previous" | "discount" | "warehouses">>
 }
 
 export type MpWarehouseType = "wb" | "seller"

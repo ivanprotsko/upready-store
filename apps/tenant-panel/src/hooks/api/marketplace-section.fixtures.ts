@@ -2,8 +2,8 @@ import type { FeedOrder } from "./marketplace-orders"
 import type { DeskItem } from "./marketplace-desk"
 import type {
   MarketplaceId,
+  MpAnalyticsFixture,
   MpAnalyticsParams,
-  MpAnalyticsResponse,
   MpLinkState,
   MpOrdersParams,
   MpOrdersResponse,
@@ -662,13 +662,13 @@ export const fixtureReviews = (marketplace: MarketplaceId, params: MpReviewsPara
 
 /* --------------------------------------------------------------- analytics */
 
-export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalyticsParams): MpAnalyticsResponse => {
+export const fixtureAnalyticsBase = (marketplace: MarketplaceId, params: MpAnalyticsParams): MpAnalyticsFixture => {
   const next = rng(2026)
   const days = 30
   const to = new Date(NOW)
   const from = new Date(NOW)
   from.setDate(from.getDate() - (days - 1))
-  const byDay: MpAnalyticsResponse["by_day"] = []
+  const byDay: MpAnalyticsFixture["by_day"] = []
   for (let i = 0; i < days; i++) {
     const d = new Date(from)
     d.setDate(d.getDate() + i)
@@ -695,7 +695,7 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
     { revenue: 0, orders: 0, units: 0, cancelled_orders: 0, cancelled_revenue: 0 }
   )
   const cards = buildCards(marketplace)
-  const sold: MpAnalyticsResponse["cards"] = cards.slice(0, 140).map((card, i) => {
+  const sold: MpAnalyticsFixture["cards"] = cards.slice(0, 140).map((card, i) => {
     const units = Math.max(1, Math.round(((140 - i) ** 1.6) / 3))
     const avg = card.discount_price ?? card.price ?? 500
     const revenue = units * avg
@@ -714,10 +714,6 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
       xyz: (i % 7 === 0 ? null : i % 3 === 0 ? "Y" : i % 5 === 0 ? "Z" : "X") as "X" | "Y" | "Z" | null,
       stock: card.stock,
       days_to_zero: card.stock !== null ? Math.round(card.stock / (units / days) || 0) : null,
-      category: null,
-      revenue_previous: null,
-      discount: null,
-      warehouses: [],
     }
   })
   const sum = sold.reduce((s, c) => s + c.revenue, 0)
@@ -752,18 +748,8 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
     by_day: byDay,
     cards: page.rows,
     cards_count: filtered.length,
-    cards_revenue: filtered.reduce((s, c) => s + c.revenue, 0),
     limit: page.limit,
     offset: page.offset,
-    /** The fixture has no previous period and no order facts: those blocks stay out, never invented. */
-    comparison: { from_day: isoDay(from), to_day: isoDay(from), available: false, data_from_day: isoDay(from) },
-    totals_previous: null,
-    by_day_previous: null,
-    checks: { checks: totals.orders, revenue: totals.revenue, avg_check: Math.round(totals.revenue / totals.orders) },
-    by_week: [],
-    by_category: [],
-    by_warehouse: [],
-    by_region: { top: [], other: null, known_orders: 0, orders: totals.orders },
     rating: {
       value: 4.8,
       scale: 5,
