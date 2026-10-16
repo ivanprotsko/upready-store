@@ -1,0 +1,358 @@
+/*
+ * t-2026-10-17-01: the panel in hub-v2's look, through variables only (Ivan 17.10.2026: «да, я имел ввиду
+ * именно перекраску … если мы изменим стили, то измениться всё»). Every @medusajs/ui component draws its
+ * look from the preset's CSS variables (`--bg-base`, `--fg-base`, `--border-base`, the `--elevation-*`
+ * shadows), so this file gives those variables hub-v2's values and no screen changes its structure.
+ *
+ * Layer 1 copies hub-v2's tokens under a `--hub-` prefix, as written in shiftship
+ * packages/dashboard-ui/src/styles/globals.css (origin/main 1247dcd5). Layer 2 points the preset's
+ * variables at them. A variable hub-v2 has no match for takes a value by hub-v2's own logic; the comment
+ * next to it says which. The table of the mapping is in the task's report.
+ *
+ * index.css imports this file before `@tailwind base`, so the preset's own `:root` and `.dark` come later.
+ * Layer 2 therefore says `html:root` and `html.dark`, one element above them, and wins in either order.
+ * Every value that differs between the themes reads a `--hub-*` token of layer 1, which `.dark` swaps.
+ * src/__tests__/hub-theme.test.mjs keeps the light and dark token sets equal.
+ */
+
+/* ---- Layer 1: hub-v2 tokens (dashboard-ui globals.css) ---------------------------------------------- */
+
+:root {
+  --hub-background: oklch(1 0 0);
+  --hub-foreground: oklch(0.145 0 0);
+  --hub-card: oklch(1 0 0);
+  --hub-popover: oklch(1 0 0);
+  --hub-primary: oklch(0.205 0 0);
+  --hub-primary-foreground: oklch(0.985 0 0);
+  --hub-muted: oklch(0.97 0 0);
+  --hub-muted-foreground: oklch(0.54 0 0);
+  --hub-accent: oklch(0.97 0 0);
+  --hub-destructive: oklch(0.577 0.245 27.325);
+  --hub-border: oklch(0.922 0 0);
+  --hub-input: oklch(0.922 0 0);
+  --hub-ring: oklch(0.708 0 0);
+  --hub-chart-1: oklch(0.87 0 0);
+  --hub-chart-3: oklch(0.439 0 0);
+  --hub-sidebar: oklch(0.985 0 0);
+  /* Roles dashboard-ui has no token for, by its own logic (see the report's table). */
+  /* fg-subtle: the third grey of the chart scale; 9.4:1 on white. */
+  --hub-subtle-foreground: var(--hub-chart-3);
+  /* fg-muted: muted-foreground itself, the grey SH-03 keeps at 4.5:1 on every surface. */
+  --hub-faint-foreground: var(--hub-muted-foreground);
+  /* fg-disabled: the ring grey, as faint as hub-v2's 50 % opacity of a disabled control. */
+  --hub-disabled-foreground: var(--hub-ring);
+  /* The shadows of hub-v2's components (Tailwind 4's shadow-sm/md/lg/xl, ring-foreground/5). */
+  --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 5%, transparent);
+  --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  --hub-shadow-alpha: 0.1;
+  --hub-focus-alpha: 30%;
+  --hub-radius: 0.45rem;
+}
+
+.dark {
+  --hub-background: oklch(0.145 0 0);
+  --hub-foreground: oklch(0.985 0 0);
+  --hub-card: oklch(0.205 0 0);
+  --hub-popover: oklch(0.205 0 0);
+  --hub-primary: oklch(0.922 0 0);
+  --hub-primary-foreground: oklch(0.205 0 0);
+  --hub-muted: oklch(0.269 0 0);
+  --hub-muted-foreground: oklch(0.708 0 0);
+  --hub-accent: oklch(0.269 0 0);
+  --hub-destructive: oklch(0.704 0.191 22.216);
+  --hub-border: oklch(1 0 0 / 10%);
+  --hub-input: oklch(1 0 0 / 15%);
+  --hub-ring: oklch(0.556 0 0);
+  --hub-chart-1: oklch(0.87 0 0);
+  --hub-chart-3: oklch(0.439 0 0);
+  --hub-sidebar: oklch(0.205 0 0);
+  /* fg-subtle: muted-foreground, as hub-v2 draws all secondary text in dark. */
+  --hub-subtle-foreground: var(--hub-muted-foreground);
+  /* fg-muted: the lowest grey that keeps SH-03's 4.5:1 on a card (oklch 0.205). */
+  --hub-faint-foreground: oklch(0.6 0 0);
+  /* fg-disabled: the chart scale's 0.439, as faint on a dark card as the ring grey is on white. */
+  --hub-disabled-foreground: var(--hub-chart-3);
+  --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  --hub-shadow-alpha: 0.32;
+  --hub-focus-alpha: 50%;
+  --hub-radius: 0.45rem;
+}
+
+/* ---- Layer 2: the preset's variables on hub-v2's tokens --------------------------------------------- */
+
+html:root {
+  /* Backgrounds. The page and the sidebar are subtle, a card or a section is base. */
+  --bg-base: var(--hub-card);
+  --bg-base-hover: var(--hub-accent);
+  --bg-base-pressed: color-mix(in oklch, var(--hub-accent), var(--hub-foreground) 6%);
+  --bg-subtle: var(--hub-sidebar);
+  --bg-subtle-hover: var(--hub-accent);
+  --bg-subtle-pressed: color-mix(in oklch, var(--hub-accent), var(--hub-foreground) 6%);
+  --bg-component: var(--hub-muted);
+  --bg-component-hover: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 5%);
+  --bg-component-pressed: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 10%);
+  /* A field is filled, as hub-v2's Input: bg-input/50. */
+  --bg-field: color-mix(in oklch, var(--hub-input) 50%, transparent);
+  --bg-field-hover: color-mix(in oklch, var(--hub-input) 75%, transparent);
+  --bg-field-component: var(--hub-card);
+  --bg-field-component-hover: var(--hub-accent);
+  /* The accent of hub-v2 is its primary: a checked box, a switch that is on, a progress bar. */
+  --bg-interactive: var(--hub-primary);
+  /* A selected row: hub-v2's Table puts bg-muted on it, a little above the hover. */
+  --bg-highlight: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 4%);
+  --bg-highlight-hover: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 8%);
+  --bg-disabled: var(--hub-muted);
+  /* hub-v2's Dialog overlay: bg-black/30. */
+  --bg-overlay: oklch(0 0 0 / 30%);
+  /* hub-v2's Switch when off: bg-input/90. */
+  --bg-switch-off: color-mix(in oklch, var(--hub-input) 90%, transparent);
+  --bg-switch-off-hover: var(--hub-input);
+
+  /* Text. */
+  --fg-base: var(--hub-foreground);
+  --fg-subtle: var(--hub-subtle-foreground);
+  --fg-muted: var(--hub-faint-foreground);
+  --fg-disabled: var(--hub-disabled-foreground);
+  /* hub-v2 colours no text (its rule 27k): a link is primary, underlined on hover (below). */
+  --fg-interactive: var(--hub-primary);
+  --fg-interactive-hover: var(--hub-primary);
+  --fg-error: var(--hub-destructive);
+  --fg-on-color: var(--hub-primary-foreground);
+  --fg-on-inverted: var(--hub-primary-foreground);
+
+  /* Borders. */
+  --border-base: var(--hub-border);
+  --border-strong: var(--hub-chart-1);
+  --border-interactive: var(--hub-ring);
+  --border-error: var(--hub-destructive);
+  --border-danger: var(--hub-destructive);
+  /* A menu separator is one line, as hub-v2's Separator. */
+  --border-menu-top: var(--hub-border);
+  --border-menu-bot: transparent;
+
+  /* Buttons. Primary is hub-v2's default button, secondary its outline button, transparent its ghost. */
+  --button-inverted: var(--hub-primary);
+  --button-inverted-hover: color-mix(in oklch, var(--hub-primary) 80%, var(--hub-card));
+  --button-inverted-pressed: color-mix(in oklch, var(--hub-primary) 70%, var(--hub-card));
+  --button-neutral: var(--hub-background);
+  --button-neutral-hover: var(--hub-muted);
+  --button-neutral-pressed: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 6%);
+  --button-transparent: transparent;
+  --button-transparent-hover: var(--hub-muted);
+  --button-transparent-pressed: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 6%);
+  --button-danger: var(--hub-destructive);
+  --button-danger-hover: color-mix(in oklch, var(--hub-destructive) 88%, var(--hub-foreground));
+  --button-danger-pressed: color-mix(in oklch, var(--hub-destructive) 78%, var(--hub-foreground));
+
+  /* Inverted surfaces (the bulk-action bar, a code block): hub-v2 inverts with its primary, as its
+     Tooltip does with bg-foreground, so they turn light in the dark theme. */
+  --contrast-bg-base: var(--hub-primary);
+  --contrast-bg-base-hover: color-mix(in oklch, var(--hub-primary) 88%, var(--hub-primary-foreground));
+  --contrast-bg-base-pressed: color-mix(in oklch, var(--hub-primary) 80%, var(--hub-primary-foreground));
+  --contrast-bg-subtle: color-mix(in oklch, var(--hub-primary) 92%, var(--hub-primary-foreground));
+  --contrast-fg-primary: var(--hub-primary-foreground);
+  --contrast-fg-secondary: color-mix(in oklch, var(--hub-primary-foreground) 62%, transparent);
+  --contrast-border-base: color-mix(in oklch, var(--hub-primary-foreground) 15%, transparent);
+  --contrast-border-top: var(--hub-primary);
+  --contrast-border-bot: color-mix(in oklch, var(--hub-primary-foreground) 10%, transparent);
+
+  --alpha-250: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  --alpha-400: color-mix(in oklch, var(--hub-foreground) 24%, transparent);
+
+  /* Tags. hub-v2 has one coloured badge, destructive: a 10 % tint, the colour as text. Red takes it; the
+     neutral tag takes hub-v2's greys. Green, orange, blue and purple keep Medusa's values: hub-v2 has no
+     token for a status hue, and the colour carries the status. */
+  --tag-neutral-bg: var(--hub-muted);
+  --tag-neutral-bg-hover: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 5%);
+  --tag-neutral-border: var(--hub-border);
+  --tag-neutral-text: var(--hub-subtle-foreground);
+  --tag-neutral-icon: var(--hub-faint-foreground);
+  --tag-red-bg: color-mix(in oklch, var(--hub-destructive) 10%, var(--hub-card));
+  --tag-red-bg-hover: color-mix(in oklch, var(--hub-destructive) 20%, var(--hub-card));
+  --tag-red-border: color-mix(in oklch, var(--hub-destructive) 25%, var(--hub-card));
+  --tag-red-text: var(--hub-destructive);
+  --tag-red-icon: var(--hub-destructive);
+
+  /* Shadows: hub-v2's Card is ring-1 ring-foreground/5 + shadow-md, a menu ring + shadow-lg, a dialog
+     ring + shadow-xl. A field has no shadow, one line of the input colour. */
+  --elevation-card-rest: 0 0 0 1px var(--hub-ring-edge), 0 1px 3px 0 rgb(0 0 0 / calc(var(--hub-shadow-alpha) * 0.6)),
+    0 1px 2px -1px rgb(0 0 0 / calc(var(--hub-shadow-alpha) * 0.6));
+  --elevation-card-hover: 0 0 0 1px var(--hub-ring-edge), 0 4px 6px -1px rgb(0 0 0 / var(--hub-shadow-alpha)),
+    0 2px 4px -2px rgb(0 0 0 / var(--hub-shadow-alpha));
+  --elevation-flyout: 0 0 0 1px var(--hub-ring-edge-strong), 0 10px 15px -3px rgb(0 0 0 / var(--hub-shadow-alpha)),
+    0 4px 6px -4px rgb(0 0 0 / var(--hub-shadow-alpha));
+  --elevation-tooltip: 0 0 0 1px var(--hub-ring-edge-strong), 0 4px 6px -1px rgb(0 0 0 / var(--hub-shadow-alpha)),
+    0 2px 4px -2px rgb(0 0 0 / var(--hub-shadow-alpha));
+  --elevation-modal: 0 0 0 1px var(--hub-ring-edge-strong), 0 20px 25px -5px rgb(0 0 0 / var(--hub-shadow-alpha)),
+    0 8px 10px -6px rgb(0 0 0 / var(--hub-shadow-alpha));
+  --elevation-commandbar: 0 0 0 1px var(--hub-ring-edge-strong), 0 20px 25px -5px rgb(0 0 0 / var(--hub-shadow-alpha)),
+    0 8px 10px -6px rgb(0 0 0 / var(--hub-shadow-alpha));
+  --elevation-code-block: 0 0 0 1px var(--hub-ring-edge-strong) inset;
+  --borders-base: 0 0 0 1px var(--hub-input);
+  --buttons-neutral: 0 0 0 1px var(--hub-border);
+  --buttons-inverted: 0 0 0 1px var(--hub-primary);
+  --buttons-danger: 0 0 0 1px var(--hub-destructive);
+  --details-contrast-on-bg-interactive: none;
+  --details-switch-background: none;
+  --details-switch-handle: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+  /* Focus: hub-v2's focus-visible:border-ring ring-3 ring-ring/30, a line of the ring grey and a 3 px halo. */
+  --hub-focus-halo: 0 0 0 4px color-mix(in oklch, var(--hub-ring) var(--hub-focus-alpha), transparent);
+  --borders-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --borders-interactive-with-shadow: 0 0 0 1px var(--hub-ring);
+  --borders-interactive-with-active: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --borders-interactive-with-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --buttons-neutral-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --buttons-inverted-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --buttons-danger-focus: 0 0 0 1px var(--hub-destructive),
+    0 0 0 4px color-mix(in oklch, var(--hub-destructive) 25%, transparent);
+  --details-switch-background-focus: var(--hub-focus-halo);
+  --borders-error: 0 0 0 1px var(--hub-destructive),
+    0 0 0 4px color-mix(in oklch, var(--hub-destructive) 20%, transparent);
+
+  /* The weight of body text: hub-v2's --font-weight-text (apps/hub-v2/app/app.css). */
+  --hub-font-weight-text: 450;
+}
+
+html.dark {
+  /* hub-v2's outline button is transparent in dark, with dark:hover:bg-input/30. */
+  --button-neutral: transparent;
+  --button-neutral-hover: color-mix(in oklch, var(--hub-input) 30%, transparent);
+  --button-neutral-pressed: color-mix(in oklch, var(--hub-input) 45%, transparent);
+  /* The page is hub-v2's background, a card its card: dark pages sit under their cards. */
+  --bg-subtle: var(--hub-background);
+}
+
+/* ---- Fonts: Inter for text, Geist for headings, both self-hosted -------------------------------------- */
+
+/* The preset's font stack and every one of its text classes name the family "Inter". These faces give that
+   name to the files of @fontsource-variable/inter, so the whole kit takes the self-hosted Inter Variable
+   with no change to a component. The subsets are Latin and Cyrillic, the panel's two scripts. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-cyrillic-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/geist/files/geist-cyrillic-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/geist/files/geist-cyrillic-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/geist/files/geist-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/geist/files/geist-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* ---- Type: Geist for headings, body text at hub-v2's weight 450 ----------------------------------------- */
+
+/* hub-v2 sets its titles in Geist (`--font-heading`, CardTitle and the like). The kit's Heading carries
+   `font-sans` next to its h*-core class, and that utility comes later in the sheet, so `html` lifts these
+   one element above it. */
+html :is(.h1-core, .h2-core, .h3-core, .h1-docs, .h2-docs, .h3-docs, .h4-docs, .h1-webs, .h2-webs, .h3-webs, .h4-webs) {
+  font-family: "Geist", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Body text a little above 400, so Inter is not «hairline» (hub-v2 t-2026-10-14-61). The regular text
+   classes of the preset fix 400; they sit in the components layer here, so a weight utility on the same
+   element (`font-medium`) still wins. `font-normal` itself is 450 through tailwind.config.cjs. */
+@layer components {
+  .txt-compact-xsmall,
+  .txt-compact-small,
+  .txt-compact-medium,
+  .txt-compact-large,
+  .txt-compact-xlarge,
+  .txt-xsmall,
+  .txt-small,
+  .txt-medium,
+  .txt-large,
+  .txt-xlarge {
+    font-weight: var(--hub-font-weight-text);
+  }
+}
+
+/* Code stays at the normal weight, as in hub-v2: a monospace face often has one weight. */
+html :is(code, kbd, samp, pre, .font-mono.font-normal) {
+  font-weight: 400;
+}
+
+/* A link is the primary colour, so it is underlined on hover (hub-v2's link button: hover:underline). */
+a.text-ui-fg-interactive:hover,
+a .text-ui-fg-interactive:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---- Scrollbars: 6 px, only where something scrolls (apps/hub-v2/app/app.css) --------------------------- */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--hub-muted-foreground) 35%, transparent);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--hub-muted-foreground) 60%, transparent);
+}
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--hub-muted-foreground) 35%, transparent) transparent;
+  }
+}
