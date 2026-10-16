@@ -6,6 +6,8 @@
  * client module gets a client reference, not the function.
  */
 
+import { realEmailOrEmpty } from "@lib/util/telegram-contact"
+
 export type ContactsField =
   | "first_name"
   | "last_name"
@@ -45,4 +47,44 @@ export function contactsFieldErrors(
     if (!values.recipient_last_name.trim()) errors.recipient_last_name = "fieldRequired"
   }
   return errors
+}
+
+/** The slice of the signed-in buyer's account the contacts form may start from. */
+export type ContactsAccount = {
+  first_name?: string | null
+  last_name?: string | null
+  email?: string | null
+  phone?: string | null
+}
+
+export type ContactsStartValues = {
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+}
+
+/**
+ * What the contacts form opens with. A value the cart already carries wins,
+ * because the buyer typed it for this order. A field the cart has not got yet
+ * starts from the signed-in buyer's account (t-2026-10-16-38): the Telegram
+ * sign-in already gave the account the buyer's name, so a buyer inside the
+ * shop's Mini App does not type it a second time. The synthetic Telegram
+ * e-mail is never offered, from either side.
+ */
+export function contactsStartValues(
+  cart: { email?: string | null; metadata?: Record<string, unknown> | null },
+  account: ContactsAccount | null
+): ContactsStartValues {
+  const meta = cart.metadata ?? {}
+  const fromCart = (key: string): string => {
+    const value = meta[key]
+    return typeof value === "string" ? value : ""
+  }
+  return {
+    first_name: fromCart("contact_first_name") || account?.first_name?.trim() || "",
+    last_name: fromCart("contact_last_name") || account?.last_name?.trim() || "",
+    email: realEmailOrEmpty(cart.email) || realEmailOrEmpty(account?.email),
+    phone: fromCart("contact_phone") || account?.phone?.trim() || "",
+  }
 }

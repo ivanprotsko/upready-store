@@ -9,10 +9,13 @@ import CheckoutContactsForm, {
   contactsFieldErrors,
 } from "@modules/checkout/components/checkout-contacts-form"
 import { realEmailOrEmpty } from "@lib/util/telegram-contact"
+import type { ContactsAccount } from "@lib/util/checkout-contacts"
 import { useTranslations } from "next-intl"
 
 interface CheckoutContactsRowProps {
   cart: HttpTypes.StoreCart
+  /** The signed-in buyer, for the form to start from (t-2026-10-16-38). */
+  account?: ContactsAccount | null
   /**
    * t-2026-10-09-56 (Ivan's item 7): the sections before this one are not done
    * yet, so this one shows its heading alone (`checkoutStepLocksOf`).
@@ -34,6 +37,7 @@ interface CheckoutContactsRowProps {
  */
 export default function CheckoutContactsRow({
   cart,
+  account = null,
   locked = false,
 }: CheckoutContactsRowProps) {
   const t = useTranslations("CheckoutPage")
@@ -155,6 +159,7 @@ export default function CheckoutContactsRow({
           <div id={panelId}>
             <CheckoutContactsForm
               cart={cart}
+              account={account}
               onSaved={collapse}
               // Nothing to go back to while the contacts are not complete: the form
               // stays, a «Закрыть» would only bring the empty row back.
