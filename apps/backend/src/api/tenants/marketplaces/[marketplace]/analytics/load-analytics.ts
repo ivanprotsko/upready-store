@@ -27,6 +27,25 @@ import {
   type RawLine,
 } from "../../../../../modules/marketplace/analytics";
 import {
+  byCategory,
+  byRegion,
+  byWarehouse,
+  cardExtrasOf,
+  checksByWeek,
+  checksOf,
+  comparisonOf,
+  previousPeriodOf,
+  previousTotalsOf,
+  warehouseTypeOf,
+  type CategoryShare,
+  type CheckWeek,
+  type Checks,
+  type Comparison,
+  type PreviousTotals,
+  type Regions,
+  type WarehouseShare,
+} from "../../../../../modules/marketplace/analytics/infographic";
+import {
   RATING_ENDPOINTS,
   sellerRating,
   type LastCall,
@@ -78,7 +97,19 @@ export type LoadedMpAnalytics = {
   by_day: DayPoint[];
   cards: CardRow[];
   cards_count: number;
+  /** The revenue of every card the list's search and filters matched. */
+  cards_revenue: number;
   query: CardsQuery;
+  /** v3 (t-2026-10-16-36): the previous period of the same length and whether the mirror reaches it. */
+  comparison: Comparison;
+  /** `null` when `comparison.available` is false. */
+  totals_previous: PreviousTotals | null;
+  by_day_previous: DayPoint[] | null;
+  checks: Checks;
+  by_week: CheckWeek[];
+  by_category: CategoryShare[];
+  by_warehouse: WarehouseShare[];
+  by_region: Regions;
   rating: SellerRating;
   connection: FeedConnection;
 };
@@ -106,10 +137,22 @@ const readLines = async (
   marketplace: string,
   period: AnalyticsPeriod,
 ): Promise<RawLine[]> => {
-  const rows = (await pg("mp_order as o")
+  const statement = pg("mp_order as o")
     .leftJoin("mp_order_line as l", function () {
       this.on("l.order_id", "=", "o.id").andOn("l.tenant_id", "=", "o.tenant_id").andOnNull("l.deleted_at");
-    })
+    });
+  /**
+   * WB's buyer purchase (`gNumber`) and warehouse type (`warehouseType`) have
+   * no column of their own: the statistics mirror keeps WB's whole row in
+   * `wb_order.raw`, and `mp_order.source_row_id` is that row's id. An FBS
+   * order points at `wb_fbs_order` instead and joins nothing.
+   */
+  if (marketplace === "wb") {
+    statement.leftJoin("wb_order as w", function () {
+      this.on("w.id", "=", "o.source_row_id").andOn("w.tenant_id", "=", "o.tenant_id");
+    });
+  }
+  const rows = (await statement
     .where({ "o.tenant_id": tenantId, "o.marketplace": marketplace })
     .whereNull("o.deleted_at")
     .where("o.ordered_at", ">=", period.from)
@@ -123,6 +166,12 @@ const readLines = async (
       "l.vendor_code",
       "l.qty",
       "l.price",
+      "l.discount",
+      "o.buyer_region",
+      "o.scheme",
+      ...(marketplace === "wb"
+        ? [pg.raw("w.raw->>'gNumber' as check_id"), pg.raw("w.raw->>'warehouseType' as warehouse_type")]
+        : []),
     )) as Record<string, unknown>[];
 
   return rows.map((row) => ({
@@ -134,7 +183,29 @@ const readLines = async (
     vendor_code: (row.vendor_code ?? null) as string | null,
     qty: (row.qty ?? null) as number | string | null,
     price: (row.price ?? null) as number | string | null,
+    discount: (row.discount ?? null) as number | string | null,
+    region: (row.buyer_region ?? null) as string | null,
+    warehouse: warehouseTypeOf(
+      (row.warehouse_type ?? null) as string | null,
+      (row.scheme ?? null) as string | null,
+    ),
+    check_id: (row.check_id ?? null) as string | null,
   }));
+};
+
+/** The shop-calendar day of the first order the mirror holds on this marketplace; `null` — none. */
+const readFirstStoredDay = async (
+  pg: Knex,
+  tenantId: string,
+  marketplace: string,
+  timeZone: string,
+): Promise<string | null> => {
+  const [row] = (await pg("mp_order")
+    .where({ tenant_id: tenantId, marketplace })
+    .whereNull("deleted_at")
+    .whereNotNull("ordered_at")
+    .min({ first: "ordered_at" })) as { first: Date | string | null }[];
+  return row?.first ? dayReader(timeZone)(new Date(row.first)) : null;
 };
 
 /**
@@ -195,14 +266,15 @@ const readCardInfo = async (
   tenantId: string,
   marketplace: string,
   cardIds: string[],
-): Promise<Map<string, CardInfo>> => {
+): Promise<{ info: Map<string, CardInfo>; categories: Map<string, string | null> }> => {
   const info = new Map<string, CardInfo>();
+  const categories = new Map<string, string | null>();
   for (const ids of batches(cardIds)) {
     const rows = (await pg("mp_product")
       .where({ tenant_id: tenantId, marketplace })
       .whereNull("deleted_at")
       .whereIn("external_id", ids)
-      .select("id", "external_id", "title", "vendor_code", "photos")) as Record<string, unknown>[];
+      .select("id", "external_id", "title", "vendor_code", "photos", "category_name")) as Record<string, unknown>[];
     for (const row of rows) {
       const key = cardKey(String(row.external_id));
       if (info.has(key)) {
@@ -214,9 +286,10 @@ const readCardInfo = async (
         vendor_code: (row.vendor_code ?? null) as string | null,
         thumbnail: photoUrls(row.photos, "thumb")[0] ?? null,
       });
+      categories.set(key, (row.category_name ?? null) as string | null);
     }
   }
-  return info;
+  return { info, categories };
 };
 
 /**
@@ -333,8 +406,11 @@ export const loadMpAnalytics = async (
   const marketplace = adapter.id;
 
   const ratingEndpoint = RATING_ENDPOINTS[marketplace] ?? null;
-  const [lines, currency, stock, [{ n: cardsTotal }], slot, ratingCall] = await Promise.all([
+  const previous = previousPeriodOf(period);
+  const [lines, previousLines, firstStoredDay, currency, stock, [{ n: cardsTotal }], slot, ratingCall] = await Promise.all([
     readLines(pg, tenant.id, marketplace, period),
+    readLines(pg, tenant.id, marketplace, previous),
+    readFirstStoredDay(pg, tenant.id, marketplace, period.time_zone),
     readSellerCurrency(pg, tenant.id, marketplace),
     readStock(pg, tenant.id, marketplace),
     pg("mp_product")
@@ -349,10 +425,19 @@ export const loadMpAnalytics = async (
   const sold = salesByCard(rows);
   const soldIds = sold.map((card) => card.card_id).filter((id): id is string => id !== null);
 
-  const [info, firstDays] = await Promise.all([
-    readCardInfo(pg, tenant.id, marketplace, soldIds),
+  const comparison = comparisonOf(previous, firstStoredDay);
+  const previousRows = comparison.available ? saleRowsOf(previousLines, previous) : null;
+  const previousSold = previousRows ? salesByCard(previousRows) : null;
+  const soldSet = new Set(soldIds);
+  const previousIds = (previousSold ?? [])
+    .map((card) => card.card_id)
+    .filter((id): id is string => id !== null && !soldSet.has(id));
+
+  const [{ info, categories }, firstDays] = await Promise.all([
+    readCardInfo(pg, tenant.id, marketplace, [...soldIds, ...previousIds]),
     readFirstDays(pg, tenant.id, marketplace, soldIds, period.time_zone),
   ]);
+  const categoryOf = (cardId: string | null) => categories.get(cardKey(cardId)) ?? null;
 
   const totals = totalsOf({
     rows,
@@ -371,6 +456,9 @@ export const loadMpAnalytics = async (
     stock: stock.byCard,
     info,
     period,
+    categories,
+    extras: cardExtrasOf(rows),
+    previous: previousSold ? new Map(previousSold.map((card) => [cardKey(card.card_id), card.revenue])) : null,
   });
   const page = selectCards(cardRows, cardsQuery);
 
@@ -383,7 +471,16 @@ export const loadMpAnalytics = async (
     by_day: salesByDay(rows, period),
     cards: page.rows,
     cards_count: page.count,
+    cards_revenue: page.revenue,
     query: cardsQuery,
+    comparison,
+    totals_previous: previousRows ? previousTotalsOf(previousRows) : null,
+    by_day_previous: previousRows ? salesByDay(previousRows, previous) : null,
+    checks: checksOf(rows),
+    by_week: checksByWeek(rows, period),
+    by_category: byCategory(rows, categoryOf, previousRows),
+    by_warehouse: byWarehouse(rows),
+    by_region: byRegion(rows),
     rating: sellerRating({
       label: adapter.label,
       hasKey,

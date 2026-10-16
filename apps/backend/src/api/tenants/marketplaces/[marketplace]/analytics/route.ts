@@ -25,6 +25,9 @@ import { loadMpAnalytics } from "./load-analytics";
  *   `order`         `revenue | units | days_to_zero`, `-` for descending,
  *                   `-revenue` by default.
  *   `limit`/`offset` the card table's page, 20 by default, 200 at most.
+ *   `category`, `discount`, `warehouse`, `abc`, `runs_out`
+ *                   the list's filters (v3, t-2026-10-16-36), comma lists;
+ *                   they narrow the list only, never the totals or charts.
  *
  * The totals, the days and the ABC/XYZ classes always cover the whole period
  * and every card that sold: a class computed over one page, or over the cards
@@ -47,9 +50,18 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     by_day: data.by_day,
     cards: data.cards,
     cards_count: data.cards_count,
+    cards_revenue: data.cards_revenue,
     limit: data.query.limit,
     offset: data.query.offset,
     rating: data.rating,
     connection: data.connection,
+    comparison: data.comparison,
+    totals_previous: data.totals_previous,
+    by_day_previous: data.by_day_previous,
+    checks: data.checks,
+    by_week: data.by_week,
+    by_category: data.by_category,
+    by_warehouse: data.by_warehouse,
+    by_region: data.by_region,
   });
 };
