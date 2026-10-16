@@ -165,7 +165,8 @@ export function OrderCreateFulfillmentItem({
           </div>
 
           <div className="flex flex-1 items-center gap-x-1">
-            <div className="mr-2 block h-[16px] w-[2px] bg-gray-200" />
+            {/* tenant-panel: t-2026-10-17-01, a colour of the theme instead of a fixed palette one */}
+            <div className="mr-2 block h-[16px] w-[2px] bg-ui-border-strong" />
 
             <div className="text-small flex flex-1 flex-col">
               <span className="text-ui-fg-subtle font-medium">
@@ -177,7 +178,8 @@ export function OrderCreateFulfillmentItem({
             </div>
 
             <div className="flex flex-1 items-center gap-x-1">
-              <div className="mr-2 block h-[16px] w-[2px] bg-gray-200" />
+              {/* tenant-panel: t-2026-10-17-01, a colour of the theme instead of a fixed palette one */}
+              <div className="mr-2 block h-[16px] w-[2px] bg-ui-border-strong" />
 
               <div className="flex flex-col">
                 <span className="text-ui-fg-subtle font-medium">
@@ -186,7 +188,7 @@ export function OrderCreateFulfillmentItem({
                 <span className="text-ui-fg-subtle">
                   {inStockQuantity || "N/A"}{" "}
                   {inStockQuantity && (
-                    <span className="font-medium text-red-500">
+                    <span className="font-medium text-ui-fg-error">
                       -{form.getValues(`quantity.${item.id}`)}
                     </span>
                   )}

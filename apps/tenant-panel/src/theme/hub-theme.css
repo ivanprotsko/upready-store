@@ -35,12 +35,14 @@
   --hub-chart-3: oklch(0.439 0 0);
   --hub-sidebar: oklch(0.985 0 0);
   /* Roles dashboard-ui has no token for, by its own logic (see the report's table). */
-  /* fg-subtle: the third grey of the chart scale; 9.4:1 on white. */
+  /* fg-subtle: the third grey of the chart scale; 7.8:1 on white. */
   --hub-subtle-foreground: var(--hub-chart-3);
   /* fg-muted: muted-foreground itself, the grey SH-03 keeps at 4.5:1 on every surface. */
   --hub-faint-foreground: var(--hub-muted-foreground);
   /* fg-disabled: the ring grey, as faint as hub-v2's 50 % opacity of a disabled control. */
   --hub-disabled-foreground: var(--hub-ring);
+  /* border-strong: the chart scale's lightest grey, one step above the border. */
+  --hub-border-strong: var(--hub-chart-1);
   /* The shadows of hub-v2's components (Tailwind 4's shadow-sm/md/lg/xl, ring-foreground/5). */
   --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 5%, transparent);
   --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
@@ -68,10 +70,12 @@
   --hub-sidebar: oklch(0.205 0 0);
   /* fg-subtle: muted-foreground, as hub-v2 draws all secondary text in dark. */
   --hub-subtle-foreground: var(--hub-muted-foreground);
-  /* fg-muted: the lowest grey that keeps SH-03's 4.5:1 on a card (oklch 0.205). */
-  --hub-faint-foreground: oklch(0.6 0 0);
+  /* fg-muted: the lowest grey that keeps SH-03's 4.5:1 on a card and on a muted surface (0.269): 4.7:1. */
+  --hub-faint-foreground: oklch(0.65 0 0);
   /* fg-disabled: the chart scale's 0.439, as faint on a dark card as the ring grey is on white. */
   --hub-disabled-foreground: var(--hub-chart-3);
+  /* border-strong: the input line, hub-v2's one border above --border in dark. */
+  --hub-border-strong: var(--hub-input);
   --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
   --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
   --hub-shadow-alpha: 0.32;
@@ -123,7 +127,7 @@ html:root {
 
   /* Borders. */
   --border-base: var(--hub-border);
-  --border-strong: var(--hub-chart-1);
+  --border-strong: var(--hub-border-strong);
   --border-interactive: var(--hub-ring);
   --border-error: var(--hub-destructive);
   --border-danger: var(--hub-destructive);
