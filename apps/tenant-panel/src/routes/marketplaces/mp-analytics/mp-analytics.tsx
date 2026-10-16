@@ -280,8 +280,10 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
 
       {analytics && totals && !nothingStored ? (
         <>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4" data-testid="mp-analytics-tiles">
+          {/* Phone as in v3: the sum and the cancellations across, orders and the check side by side. */}
+          <div className="grid grid-cols-2 gap-3 xl:grid-cols-4" data-testid="mp-analytics-tiles">
             <Tile
+              wide
               label={t("mp.analytics.v3.tiles.revenue")}
               value={money(totals.revenue)}
               change={changeOf(totals.revenue, previous?.revenue)}
@@ -307,6 +309,7 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
               ]}
             />
             <Tile
+              wide
               label={t("marketplaceAnalytics.metrics.cancelled")}
               value={count(totals.cancelled_orders, locale)}
               change={changeOf(totals.cancelled_orders, previous?.cancelled_orders)}
@@ -472,7 +475,10 @@ const Tile = ({
   rows,
   inverse,
   neutral,
+  wide,
 }: {
+  /** Across the whole row on a phone and a tablet; one of four on a wide screen. */
+  wide?: boolean
   label: string
   value: string
   change: number | null
@@ -485,7 +491,7 @@ const Tile = ({
   const { t, i18n } = useTranslation()
   const good = change === null || neutral ? null : inverse ? change < 0 : change > 0
   return (
-    <Container className="flex min-w-0 flex-col gap-y-1 px-5 py-4">
+    <Container className={clx("flex min-w-0 flex-col gap-y-1 px-5 py-4 max-md:px-4", wide && "col-span-2 xl:col-span-1")}>
       <Text size="small" className="text-ui-fg-subtle">
         {label}
       </Text>
@@ -600,6 +606,7 @@ const useColumns = (currency: string, compared: boolean, days: number) => {
           const category = getValue()
           return category ? <span className="text-ui-fg-subtle truncate">{category}</span> : <PlaceholderCell />
         },
+        meta: { phoneHidden: true },
       }),
       columnHelper.accessor("revenue", {
         header: () => <span>{t("mp.analytics.v3.columns.sum")}</span>,
@@ -632,10 +639,12 @@ const useColumns = (currency: string, compared: boolean, days: number) => {
       columnHelper.accessor("orders", {
         header: () => <span>{t("marketplaceAnalytics.metrics.orders")}</span>,
         cell: ({ getValue }) => <span className="tabular-nums">{count(getValue(), locale)}</span>,
+        meta: { phoneHidden: true },
       }),
       columnHelper.accessor("revenue_share", {
         header: () => <span>{t("mp.analytics.columns.share")}</span>,
         cell: ({ getValue }) => <span className="tabular-nums">{pct(getValue(), locale)}</span>,
+        meta: { phoneHidden: true },
       }),
       columnHelper.display({
         id: "abc",
@@ -646,6 +655,7 @@ const useColumns = (currency: string, compared: boolean, days: number) => {
             {row.original.xyz ? <Badge size="2xsmall">{row.original.xyz}</Badge> : null}
           </div>
         ),
+        meta: { phoneHidden: true },
       }),
       columnHelper.accessor("stock", {
         header: () => <span>{t("mp.fields.stock")}</span>,
@@ -653,6 +663,7 @@ const useColumns = (currency: string, compared: boolean, days: number) => {
           const stock = getValue()
           return stock === null ? <PlaceholderCell /> : <span className="whitespace-nowrap tabular-nums">{`${count(stock, locale)} ${t("mp.units.pcs")}`}</span>
         },
+        meta: { phoneHidden: true },
       }),
       columnHelper.accessor("days_to_zero", {
         header: () => <span>{t("mp.analytics.columns.daysToZero")}</span>,
@@ -662,8 +673,10 @@ const useColumns = (currency: string, compared: boolean, days: number) => {
             return <PlaceholderCell />
           }
           return (
-            <span className={days <= DAYS_TO_ZERO_ALERT ? "text-ui-fg-error tabular-nums" : "tabular-nums"}>
-              {t("mp.analytics.days", { count: days })}
+            <span className="whitespace-nowrap">
+              <span className={days <= DAYS_TO_ZERO_ALERT ? "text-ui-fg-error tabular-nums" : "tabular-nums"}>
+                {t("mp.analytics.days", { count: days })}
+              </span>
             </span>
           )
         },
