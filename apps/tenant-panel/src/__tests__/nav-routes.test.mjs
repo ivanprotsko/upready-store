@@ -55,6 +55,19 @@ const literalTargets = (source) => [
 const registeredPaths = (source) =>
   [...source.matchAll(/\bpath:\s*"([^"]*)"/g)].map((m) => m[1])
 
+/**
+ * `app.tsx` with the route modules it imports for `children:` appended
+ * (`homeSettingsChildren`, `ozonChildren`), which hold their routes outside it
+ * so that it stays within its recorded length (t-2026-10-14-55).
+ */
+const appWithChildModules = () => {
+  const app = readFileSync(APP, "utf8")
+  const modules = [...app.matchAll(/^import \{ \w+ \} from "(\.\/routes\/[^"]+)"$/gm)].map(([, from]) =>
+    [".ts", ".tsx"].map((ext) => join(SRC, `${from}${ext}`)).find((file) => existsSync(file))
+  )
+  return [app, ...modules.filter(Boolean).map((file) => readFileSync(file, "utf8"))].join("\n")
+}
+
 test("no navigation target in the panel carries an anchor", () => {
   const offenders = []
   for (const file of sourceFiles(SRC)) {
@@ -72,7 +85,7 @@ test("no navigation target in the panel carries an anchor", () => {
 })
 
 test("every sidebar target resolves to a route registered in app.tsx", () => {
-  const paths = registeredPaths(readFileSync(APP, "utf8"))
+  const paths = registeredPaths(appWithChildModules())
   assert.ok(paths.length > 20, `app.tsx yielded ${paths.length} routes, which cannot be right`)
 
   // A registered path may carry `:params`; compare segment by segment so
@@ -121,7 +134,8 @@ test("the addresses Ivan named on 2026-09-16 are registered", () => {
 
 /**
  * «Торговые площадки» (mp-section-design, Ivan 2026-10-05): a heading that is
- * not a link, «Wildberries» with six screens under it, «Ozon» a stub. The
+ * not a link, «Wildberries» with six screens under it, «Ozon» with five
+ * (t-2026-10-16-37). The
  * group is cut out of the model's source by its braces, the way the rest of
  * this file reads text rather than renders.
  */
@@ -190,22 +204,52 @@ test("«Wildberries» opens its first screen and unfolds into the six screens Iv
 })
 
 test("every child of a sidebar entry is a route registered in app.tsx", () => {
-  const paths = new Set(registeredPaths(readFileSync(APP, "utf8")))
+  const paths = new Set(registeredPaths(appWithChildModules()))
   const children = itemsOf(marketplacesGroup).flatMap(childTargetsOf)
-  assert.ok(children.length >= 6, `the sidebar yielded ${children.length} children`)
+  assert.ok(children.length >= 11, `the sidebar yielded ${children.length} children`)
   const missing = children.filter((target) => !paths.has(target))
   assert.deepEqual(missing, [], `children with no route in app.tsx:\n${missing.join("\n")}`)
 })
 
-test("«Ozon» is a stub with its own page that leads to the key", () => {
+test("«Ozon» opens «Подключение» and unfolds into the screens it has data for (t-2026-10-16-37)", () => {
   const ozon = itemsOf(marketplacesGroup).find((item) => /label:\s*"Ozon"/.test(item))
   assert.ok(ozon, "the marketplaces group has no Ozon entry")
-  assert.match(ozon, /\bto:\s*"\/marketplaces\/ozon"/)
-  assert.match(ozon, /\bstub:\s*true\b/)
-  assert.doesNotMatch(ozon, /children:/)
-  assert.ok(registeredPaths(readFileSync(APP, "utf8")).includes("/marketplaces/ozon"))
-  const stub = readFileSync(join(SRC, "routes/marketplaces/ozon-stub/ozon-stub.tsx"), "utf8")
-  assert.ok(stub.includes('to="/settings/integrations/ozon"'), "the stub must lead to the Ozon key")
+  assert.doesNotMatch(ozon, /\bstub:\s*true\b/, "Ozon is no longer a stub")
+  const children = childTargetsOf(ozon)
+  assert.deepEqual(children, [
+    "/marketplaces/ozon",
+    "/marketplaces/ozon/products",
+    "/marketplaces/ozon/price-stock",
+    "/marketplaces/ozon/orders",
+    "/marketplaces/ozon/sync",
+  ])
+  const own = ozon.slice(0, ozon.indexOf("children:"))
+  assert.deepEqual(literalTargets(own), [children[0]], "the entry must open «Подключение»")
+
+  const app = readFileSync(APP, "utf8")
+  assert.doesNotMatch(app, /ozon-stub/, "the stub is mounted again")
+  const routes = readFileSync(join(SRC, "routes/marketplaces/ozon-routes.tsx"), "utf8")
+  assert.match(routes, /index:\s*true,[^}]*import\("\.\/mp-connection"\)/, "«Подключение» must be the index of /marketplaces/ozon")
+  const connection = readFileSync(join(SRC, "routes/marketplaces/mp-connection/mp-connection.tsx"), "utf8")
+  assert.ok(connection.includes("<MpKeyForm card={card} />"), "«Подключение» must carry the key fields")
+})
+
+test("the screens Ozon mounts read the marketplace from the address, not a Wildberries default", () => {
+  for (const file of [
+    "routes/marketplaces/mp-products/mp-products.tsx",
+    "routes/marketplaces/mp-products/detail/mp-product-detail.tsx",
+    "routes/marketplaces/mp-price-stock/mp-price-stock.tsx",
+    "routes/marketplaces/mp-orders/mp-orders.tsx",
+    "routes/marketplaces/mp-orders/detail/mp-order-detail.tsx",
+    "routes/marketplaces/mp-sync/mp-sync.tsx",
+    "routes/marketplaces/mp-connection/mp-connection.tsx",
+  ]) {
+    const source = readFileSync(join(SRC, file), "utf8")
+    assert.ok(source.includes("useRouteMarketplace()"), `${file} must read the marketplace from the address`)
+    assert.doesNotMatch(source, /marketplace = "wb"/, `${file} still defaults to Wildberries`)
+  }
+  const hook = readFileSync(join(SRC, "routes/marketplaces/common/use-route-marketplace.ts"), "utf8")
+  assert.ok(hook.includes("MARKETPLACE_BY_SLUG"), "the slug map of marketplace-section is the one table of slugs")
 })
 
 test("the marketplace screens draw no tab row; promotions, delivery, payments and search do", () => {

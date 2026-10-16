@@ -20,6 +20,7 @@ import {
 } from "../../../../hooks/api/marketplace-section"
 import { useDate } from "../../../../hooks/use-date"
 import { getLocaleAmount } from "../../../../lib/money-amount-helpers"
+import { useRouteMarketplace } from "../../common/use-route-marketplace"
 import { ORDER_STATUS_COLOR, rawStatusOf } from "../order-status"
 
 /**
@@ -49,7 +50,9 @@ import { ORDER_STATUS_COLOR, rawStatusOf } from "../order-status"
  * filters and the same page.
  */
 
-export const MpOrderDetail = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
+export const MpOrderDetail = ({ marketplace: forced }: { marketplace?: MarketplaceId }) => {
+  const fromRoute = useRouteMarketplace()
+  const marketplace = forced ?? fromRoute
   const { id } = useParams()
   const { search } = useLocation()
   const { detail, isPending, isError, error } = useMarketplaceOrder(marketplace, id!)

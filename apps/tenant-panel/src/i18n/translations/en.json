@@ -332,6 +332,7 @@
         "mp": {
           "wildberries": "Wildberries",
           "ozon": "Ozon",
+          "connection": "Connection",
           "products": "Товары",
           "priceStock": "Цены и остатки",
           "orders": "Заказы",
@@ -6879,6 +6880,18 @@
         "noKeyTitle": "No rows",
         "noKeyMessage": "Data from {{marketplace}} shows up here once a key is saved."
       }
+    },
+    "connection": {
+      "subtitle": "The shop's products, stock and orders on {{marketplace}}. The panel only reads the marketplace's data and sends it nothing.",
+      "on": "Connected",
+      "off": "Not connected",
+      "onTitle": "The shop is connected to {{marketplace}}",
+      "offTitle": "{{marketplace}} is not connected",
+      "onMessage": "The key is saved. Products, stock and orders arrive with every update. You can run one by hand on the «Updates» screen.",
+      "offMessage": {
+        "ozon": "Enter the Client-Id and the API key from your Ozon seller account: Settings → Seller API. A read-only key is enough. Once you save them, products, stock and orders arrive with the first update."
+      },
+      "offMessageAny": "Enter the API key from your {{marketplace}} seller account. Once you save it, the data arrives with the first update."
     },
     "ozon": {
       "subtitle": "Площадка готовится к подключению",

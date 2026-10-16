@@ -198,6 +198,10 @@ test("the manager sees sales, catalog, storefront, marketing and the marketplace
     "/marketplaces/wildberries/analytics",
     "/marketplaces/wildberries/sync",
     "/marketplaces/ozon",
+    "/marketplaces/ozon/products",
+    "/marketplaces/ozon/price-stock",
+    "/marketplaces/ozon/orders",
+    "/marketplaces/ozon/sync",
     "/settings/profile",
   ])
 })

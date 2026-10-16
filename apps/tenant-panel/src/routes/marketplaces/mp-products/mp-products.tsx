@@ -21,6 +21,7 @@ import {
 import { CardCell, DateTimeCell, LinkStateCell, MoneyCell, UnitsCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 import { useMpListQuery } from "../common/use-mp-list-query"
+import { useRouteMarketplace } from "../common/use-route-marketplace"
 import { MpLinkDrawer } from "./components/mp-link-drawer"
 import { MpProductActions } from "./components/mp-product-actions"
 import { MpProductsEmpty } from "./components/mp-products-empty"
@@ -48,7 +49,9 @@ const FILTER_KEYS = ["link_state", "category", "brand", "synced_at"] as const
 
 const LINK_STATES: MpLinkState[] = ["linked", "needs_choice", "not_found"]
 
-export const MpProducts = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
+export const MpProducts = ({ marketplace: forced }: { marketplace?: MarketplaceId }) => {
+  const fromRoute = useRouteMarketplace()
+  const marketplace = forced ?? fromRoute
   const { t } = useTranslation()
   const { getFullDate } = useDate()
   const { params, raw, dates } = useMpListQuery([...FILTER_KEYS], PAGE_SIZE)

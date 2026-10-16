@@ -28,6 +28,7 @@ import { sdk } from "../../../lib/client"
 import { CardCell, DateTimeCell, DiffLine, MoneyCell, UnitsCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 import { useMpListQuery } from "../common/use-mp-list-query"
+import { useRouteMarketplace } from "../common/use-route-marketplace"
 import { MpLinesDrawer } from "./components/mp-lines-drawer"
 import { MpPriceStockEmpty, emptyReasonOf } from "./components/mp-price-stock-empty"
 
@@ -50,7 +51,9 @@ const STATES: MpPriceStockState[] = ["both", "shop_only", "marketplace_only"]
 /** The export's ceiling on the backend (`PRICE_STOCK_EXPORT_LIMIT`). */
 const EXPORT_LIMIT = 10_000
 
-export const MpPriceStock = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
+export const MpPriceStock = ({ marketplace: forced }: { marketplace?: MarketplaceId }) => {
+  const fromRoute = useRouteMarketplace()
+  const marketplace = forced ?? fromRoute
   const { t } = useTranslation()
   const { getFullDate } = useDate()
   const { params, raw } = useMpListQuery([...FILTER_KEYS], PAGE_SIZE)

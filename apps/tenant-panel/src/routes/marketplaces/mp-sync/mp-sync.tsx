@@ -21,6 +21,7 @@ import {
 import type { MarketplaceSyncKind, SyncNowResult } from "../../../hooks/api/marketplace-sync"
 import { DateTimeCell, UnitsCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
+import { useRouteMarketplace } from "../common/use-route-marketplace"
 import { useSyncLabels } from "./components/kind-label"
 import { MpSyncWarnings } from "./components/mp-sync-warnings"
 
@@ -66,7 +67,9 @@ const CORE_KINDS = new Set(["projection"])
 /** While any kind is running, how often the screen looks again. */
 const RUNNING_REFETCH_MS = 10_000
 
-export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
+export const MpSync = ({ marketplace: forced }: { marketplace?: MarketplaceId }) => {
+  const fromRoute = useRouteMarketplace()
+  const marketplace = forced ?? fromRoute
   const { t } = useTranslation()
   const { getFullDate } = useDate()
   const { kindLabel } = useSyncLabels()
