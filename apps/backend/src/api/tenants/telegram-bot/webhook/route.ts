@@ -9,7 +9,7 @@ import { writeTenantSecretSlot } from "../../../../tenant-secrets/slot";
 import { readUsableTelegramBot } from "../../../../tenant-secrets/telegram";
 import { createBotApi, TelegramBotApiError } from "../../../../telegram/bot-api";
 import { t } from "../../../../shop-bot/i18n";
-import { normalizeLocale, shopBotStorefrontUrl } from "../../../../shop-bot/storefront-url";
+import { shopMiniAppEntry, type ShopQuery } from "../../../../shop-bot/storefront-url";
 import { generateWebhookSecret } from "../../../../shop-bot/webhook-secret";
 import { SHOP_BOT_COMMANDS } from "../../../../shop-bot/router";
 import { getTenantScope } from "../../tenant-scope";
@@ -67,26 +67,14 @@ const setShopMenuButton = async (
   tenantHandle: string,
 ): Promise<void> => {
   try {
-    const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
-    const {
-      data: [shop],
-    } = await query.graph({
-      entity: "tenant",
-      fields: ["handle", "locale_settings.default_locale", "domains.host", "domains.is_primary"],
-      filters: { handle: tenantHandle },
-    });
-    const raw = shop as
-      | {
-          locale_settings?: { default_locale?: string | null } | null;
-          domains?: Array<{ host?: string | null; is_primary?: boolean | null }> | null;
-        }
-      | undefined;
-    const locale = normalizeLocale(raw?.locale_settings?.default_locale);
-    const primaryDomain = raw?.domains?.find((domain) => domain.is_primary && domain.host)?.host ?? null;
+    const { url, locale } = await shopMiniAppEntry(
+      req.scope.resolve<ShopQuery>(ContainerRegistrationKeys.QUERY),
+      tenantHandle,
+    );
     await botApi.setChatMenuButton({
       type: "web_app",
       text: t(locale, "btn_open_shop"),
-      web_app: { url: shopBotStorefrontUrl({ handle: tenantHandle, primaryDomain, locale }) },
+      web_app: { url },
     });
   } catch (error) {
     const description = error instanceof TelegramBotApiError ? error.description : (error as Error).message;
