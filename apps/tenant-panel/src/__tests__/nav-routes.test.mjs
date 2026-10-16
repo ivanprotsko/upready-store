@@ -85,7 +85,7 @@ test("no navigation target in the panel carries an anchor", () => {
 })
 
 test("every sidebar target resolves to a route registered in app.tsx", () => {
-  const paths = registeredPaths(readFileSync(APP, "utf8"))
+  const paths = registeredPaths(appWithChildModules())
   assert.ok(paths.length > 20, `app.tsx yielded ${paths.length} routes, which cannot be right`)
 
   // A registered path may carry `:params`; compare segment by segment so

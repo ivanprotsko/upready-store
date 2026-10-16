@@ -220,8 +220,8 @@ export const useDeleteMarketplaceKey = (
       }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: marketplacesQueryKeys.all })
-      // The data screens carry `key_set` too: «ключ не сохранён» on «Товары»
-      // must not outlive the save (t-2026-10-16-37).
+      // The data screens carry `key_set` too: a removed key must not stay
+      // «сохранён» on «Товары» (t-2026-10-16-37).
       queryClient.invalidateQueries({ queryKey: marketplaceSectionQueryKeys.all })
       options?.onSuccess?.(data, variables, context)
     },

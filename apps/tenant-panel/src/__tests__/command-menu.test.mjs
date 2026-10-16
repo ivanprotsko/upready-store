@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -101,7 +101,17 @@ test("a marketplace screen carries the marketplace's name", () => {
  * registers its first segments and, inside that route's braces, the rest as a
  * child path (`/products` + `create`).
  */
-const app = read("app.tsx")
+// app.tsx and the route modules it imports for `children:` (`homeSettingsChildren`,
+// `ozonChildren`), which hold their routes outside it so that it stays within its
+// recorded length (t-2026-10-14-55). Ozon's paths there are absolute (t-2026-10-16-37).
+const readModule = (from) => {
+  const file = [".ts", ".tsx"].map((ext) => `${from}${ext}`).find((path) => existsSync(join(here, "..", path)))
+  return file ? read(file) : ""
+}
+const app = [
+  read("app.tsx"),
+  ...[...read("app.tsx").matchAll(/^import \{ \w+ \} from "\.\/(routes\/[^"]+)"$/gm)].map(([, from]) => readModule(from)),
+].join("\n")
 const blockAt = (source, from) => {
   const start = source.indexOf("{", from)
   let depth = 0
