@@ -6862,8 +6862,7 @@
         "subtitle": "{{marketplace}}: {{range}}, {{count}} days.",
         "subtitleDefault": "{{marketplace}}: the last {{count}} days, {{range}}. Pick another period with the buttons and date fields below.",
         "presets": {
-          "days_one": "{{count}} day",
-          "days_other": "{{count}} days",
+          "days": "{{count}} days",
           "month": "This month"
         },
         "comparison": {
@@ -6928,8 +6927,7 @@
         "list": {
           "title": "Products of the period",
           "hint": "{{sold}} cards with orders out of {{total}} the shop has on {{marketplace}}. The filters change the list only, the charts above cover the whole shop.",
-          "footer_one": "{{matched}} product selected, worth {{sum}}, {{share}} of the order sum.",
-          "footer_other": "{{matched}} products selected, worth {{sum}}, {{share}} of the order sum."
+          "footer": "Products selected: {{matched}}, worth {{sum}}, {{share}} of the order sum."
         },
         "columns": {
           "sum": "Sum",

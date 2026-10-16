@@ -130,7 +130,7 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
   )
 
   const currency = analytics?.currency ?? "RUB"
-  const columns = useColumns(currency, analytics?.comparison.available ?? false, analytics?.period.days ?? 30)
+  const columns = useColumns(currency, analytics?.comparison?.available ?? false, analytics?.period.days ?? 30)
   const filters = useFilters(analytics?.by_category ?? [])
   const { table } = useDataTable({
     data: analytics?.cards ?? [],
@@ -155,6 +155,8 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
   const rating = analytics?.rating
   const comparison = analytics?.comparison
   const previous = analytics?.totals_previous ?? null
+  /** An answer of the backend before v3 has none of the infographic fields: the page then shows what it has. */
+  const infographic = analytics && analytics.by_category && analytics.by_week && analytics.by_region ? analytics : null
 
   /**
    * No key and nothing ever imported: the blocks would be zeros that measure
@@ -295,12 +297,12 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
             />
             <Tile
               label={t("mp.analytics.v3.tiles.avgCheck")}
-              value={money(analytics.checks.avg_check)}
-              change={changeOf(analytics.checks.avg_check, previous?.avg_check)}
+              value={money(analytics.checks?.avg_check ?? totals.avg_order)}
+              change={changeOf(analytics.checks?.avg_check ?? null, previous?.avg_check)}
               neutral
               days={analytics.period.days}
               rows={[
-                [t("mp.analytics.v3.tiles.checks"), count(analytics.checks.checks, locale)],
+                [t("mp.analytics.v3.tiles.checks"), analytics.checks ? count(analytics.checks.checks, locale) : "—"],
                 [t("mp.analytics.v3.tiles.itemPrice"), money(totals.units > 0 ? totals.revenue / totals.units : null)],
               ]}
             />
@@ -342,16 +344,18 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
                     })}`
                   : null}
               </Text>
-              <SalesChart currency={analytics.currency} days={analytics.by_day} previous={analytics.by_day_previous} locale={locale} />
+              <SalesChart currency={analytics.currency} days={analytics.by_day} previous={analytics.by_day_previous ?? null} locale={locale} />
             </Panel>
-            <CategoryShares analytics={analytics} locale={locale} />
+            {infographic ? <CategoryShares analytics={infographic} locale={locale} /> : null}
           </div>
 
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-            <ChecksByWeek analytics={analytics} locale={locale} />
-            <WarehouseSplit analytics={analytics} locale={locale} />
-            <Regions analytics={analytics} locale={locale} />
-          </div>
+          {infographic ? (
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+              <ChecksByWeek analytics={infographic} locale={locale} />
+              <WarehouseSplit analytics={infographic} locale={locale} />
+              <Regions analytics={infographic} locale={locale} />
+            </div>
+          ) : null}
         </>
       ) : null}
 
@@ -395,9 +399,8 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
             <div className="flex flex-col gap-y-1 px-6 py-4">
               <Text size="small" className="tabular-nums">
                 {t("mp.analytics.v3.list.footer", {
-                  count: analytics.cards_count,
                   matched: count(analytics.cards_count, locale),
-                  sum: money(analytics.cards_revenue),
+                  sum: money(analytics.cards_revenue ?? null),
                   share: pct(totals.revenue > 0 ? Math.round((analytics.cards_revenue / totals.revenue) * 1000) / 10 : 0, locale),
                 })}
               </Text>

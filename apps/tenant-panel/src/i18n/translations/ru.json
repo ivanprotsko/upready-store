@@ -6976,10 +6976,7 @@
         "subtitle": "{{marketplace}}: {{range}}, дней: {{count}}.",
         "subtitleDefault": "{{marketplace}}: последние {{count}} дн., {{range}}. Другой период — кнопками и полями дат ниже.",
         "presets": {
-          "days_one": "{{count}} день",
-          "days_few": "{{count}} дня",
-          "days_many": "{{count}} дней",
-          "days_other": "{{count}} дня",
+          "days": "{{count}} дней",
           "month": "Этот месяц"
         },
         "comparison": {
@@ -7054,10 +7051,7 @@
         "list": {
           "title": "Товары за период",
           "hint": "{{sold}} карточек с заказами из {{total}} у магазина на {{marketplace}}. Фильтры меняют только список, графики выше — по всему магазину.",
-          "footer_one": "Отобран {{matched}} товар на {{sum}}, {{share}} суммы заказов.",
-          "footer_few": "Отобрано {{matched}} товара на {{sum}}, {{share}} суммы заказов.",
-          "footer_many": "Отобрано {{matched}} товаров на {{sum}}, {{share}} суммы заказов.",
-          "footer_other": "Отобрано {{matched}} товара на {{sum}}, {{share}} суммы заказов."
+          "footer": "Отобрано товаров: {{matched}} на {{sum}}, это {{share}} суммы заказов."
         },
         "columns": {
           "sum": "Сумма",
