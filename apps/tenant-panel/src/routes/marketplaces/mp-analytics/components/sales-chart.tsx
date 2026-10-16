@@ -176,7 +176,7 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
             role="img"
             tabIndex={0}
             aria-label={t("mp.analytics.chart.revenueLabel")}
-            className="touch-pan-y outline-none focus-visible:shadow-borders-focus rounded-md"
+            className="touch-pan-y overflow-visible outline-none focus-visible:shadow-borders-focus rounded-md"
             onPointerMove={pick}
             onPointerDown={pick}
             onPointerLeave={(event) => (event.pointerType === "mouse" ? setActive(null) : undefined)}
