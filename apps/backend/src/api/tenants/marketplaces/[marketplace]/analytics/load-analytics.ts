@@ -144,13 +144,26 @@ const readLines = async (
   /**
    * WB's buyer purchase (`gNumber`) and warehouse type (`warehouseType`) have
    * no column of their own: the statistics mirror keeps WB's whole row in
-   * `wb_order.raw`, and `mp_order.source_row_id` is that row's id. An FBS
-   * order points at `wb_fbs_order` instead and joins nothing.
+   * `wb_order.raw`, and `mp_order.source_row_id` is that row's id.
+   *
+   * AN FBS ORDER points at `wb_fbs_order` instead, and the projection drops
+   * the statistics row of the same order (`dedupeOrders`, joined on WB's
+   * `rid` = `srid`). The statistics row is still in the mirror, so it is
+   * reached the same way back: on the stand that lifts the orders with a
+   * purchase number and a region from a quarter to nine in ten (3 154 of
+   * 3 560 over 30 days, 16.10.2026).
    */
   if (marketplace === "wb") {
-    statement.leftJoin("wb_order as w", function () {
-      this.on("w.id", "=", "o.source_row_id").andOn("w.tenant_id", "=", "o.tenant_id");
-    });
+    statement
+      .leftJoin("wb_order as w", function () {
+        this.on("w.id", "=", "o.source_row_id").andOn("w.tenant_id", "=", "o.tenant_id");
+      })
+      .leftJoin("wb_fbs_order as f", function () {
+        this.on("f.id", "=", "o.source_row_id").andOn("f.tenant_id", "=", "o.tenant_id");
+      })
+      .leftJoin("wb_order as ws", function () {
+        this.on("ws.srid", "=", "f.rid").andOn("ws.tenant_id", "=", "o.tenant_id").andOnNull("ws.deleted_at");
+      });
   }
   const rows = (await statement
     .where({ "o.tenant_id": tenantId, "o.marketplace": marketplace })
@@ -167,11 +180,14 @@ const readLines = async (
       "l.qty",
       "l.price",
       "l.discount",
-      "o.buyer_region",
       "o.scheme",
       ...(marketplace === "wb"
-        ? [pg.raw("w.raw->>'gNumber' as check_id"), pg.raw("w.raw->>'warehouseType' as warehouse_type")]
-        : []),
+        ? [
+            pg.raw("coalesce(w.raw->>'gNumber', ws.raw->>'gNumber') as check_id"),
+            pg.raw("coalesce(w.raw->>'warehouseType', ws.raw->>'warehouseType') as warehouse_type"),
+            pg.raw("coalesce(o.buyer_region, ws.region_name) as buyer_region"),
+          ]
+        : ["o.buyer_region"]),
     )) as Record<string, unknown>[];
 
   return rows.map((row) => ({
