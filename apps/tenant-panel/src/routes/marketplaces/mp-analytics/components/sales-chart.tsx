@@ -134,7 +134,14 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
       ? previous.map((day, index) => `${index ? "L" : "M"}${xOf(index).toFixed(1)},${y(day.revenue).toFixed(1)}`).join(" ")
       : null
 
-  const labels = days.length ? [0, Math.floor(days.length / 4), Math.floor(days.length / 2), Math.floor((days.length * 3) / 4), days.length - 1] : []
+  /** Five dates along the axis, fewer on a short period: the same day is never printed twice. */
+  const labels = [
+    ...new Set(
+      days.length
+        ? [0, Math.floor(days.length / 4), Math.floor(days.length / 2), Math.floor((days.length * 3) / 4), days.length - 1]
+        : []
+    ),
+  ]
 
   return (
     <div className="flex flex-col gap-y-2">
