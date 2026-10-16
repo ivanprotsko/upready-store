@@ -1,4 +1,11 @@
 import { type AnalyticsPeriod, dayReader, daysOf, shiftDay } from "./analytics/calendar";
+import {
+  DISCOUNT_BUCKETS,
+  discountBucketOf,
+  type CardExtras,
+  type DiscountBucket,
+  type WarehouseType,
+} from "./analytics/infographic";
 
 /**
  * The arithmetic of «Wildberries → Аналитика» (mp-section-design task-06,
@@ -58,6 +65,14 @@ export type RawLine = {
   qty: number | string | null;
   /** Price of ONE item, in the seller's currency. */
   price: number | string | null;
+  /** v3 infographic (t-2026-10-16-36): `mp_order.buyer_region`. */
+  region?: string | null;
+  /** Which warehouse the order shipped from, already read by `warehouseTypeOf`. */
+  warehouse?: WarehouseType | null;
+  /** WB's `gNumber`: the buyer's whole purchase. */
+  check_id?: string | null;
+  /** The seller's discount on the line, percent (`mp_order_line.discount` on WB). */
+  discount?: number | string | null;
 };
 
 export type SaleRow = {
@@ -71,6 +86,10 @@ export type SaleRow = {
   revenue: number | null;
   is_cancelled: boolean;
   has_line: boolean;
+  region: string | null;
+  warehouse: WarehouseType | null;
+  check_id: string | null;
+  discount: number | null;
 };
 
 const asNumber = (value: unknown): number | null => {
@@ -115,6 +134,10 @@ export const saleRowsOf = (lines: RawLine[], period: AnalyticsPeriod): SaleRow[]
       revenue: price === null ? null : qty * price,
       is_cancelled: Boolean(line.is_cancelled),
       has_line: line.has_line,
+      region: line.region ?? null,
+      warehouse: line.warehouse ?? null,
+      check_id: line.check_id ?? null,
+      discount: line.has_line ? asNumber(line.discount) : null,
     });
   }
   return rows;
@@ -520,6 +543,14 @@ export type CardRow = {
   xyz: XyzClass | null;
   stock: number | null;
   days_to_zero: number | null;
+  /** v3: `mp_product.category_name`; `null` — the card is not in the catalogue or has none. */
+  category: string | null;
+  /** The card's revenue over the previous period; `null` when there is no comparison. */
+  revenue_previous: number | null;
+  /** Qty-weighted seller's discount, whole percent; `null` — none sent. */
+  discount: number | null;
+  /** The warehouses the card shipped from in the period. */
+  warehouses: WarehouseType[];
 };
 
 export type CardInfo = { id: string; title: string | null; vendor_code: string | null; thumbnail: string | null };
@@ -533,6 +564,10 @@ export const cardRowsOf = (input: {
   stock: Map<string, number | null>;
   info: Map<string, CardInfo>;
   period: AnalyticsPeriod;
+  categories?: Map<string, string | null>;
+  extras?: Map<string, CardExtras>;
+  /** Revenue per card over the previous period; absent — no comparison. */
+  previous?: Map<string, number> | null;
 }): CardRow[] =>
   input.cards.map((card) => {
     const key = cardKey(card.card_id);
@@ -553,6 +588,10 @@ export const cardRowsOf = (input: {
       xyz: input.xyz.get(key)?.xyz ?? null,
       stock,
       days_to_zero: daysToZero(stock, card.units, input.period.days),
+      category: input.categories?.get(key) ?? null,
+      revenue_previous: input.previous ? (input.previous.get(key) ?? 0) : null,
+      discount: input.extras?.get(key)?.discount ?? null,
+      warehouses: input.extras?.get(key)?.warehouses ?? [],
     };
   });
 
@@ -561,7 +600,33 @@ export type CardSortField = (typeof CARD_SORT_FIELDS)[number];
 export type CardSort = { field: CardSortField; desc: boolean };
 export const DEFAULT_CARD_SORT: CardSort = { field: "revenue", desc: true };
 
-export type CardsQuery = { q: string | null; sort: CardSort; limit: number; offset: number };
+/**
+ * The list's filters (v3): they narrow the list only, never the totals, the
+ * charts or the ABC classes, which stay over the whole shop.
+ */
+export type CardFilters = {
+  category: string[] | null;
+  discount: DiscountBucket[] | null;
+  warehouse: WarehouseType[] | null;
+  abc: AbcClass[] | null;
+  /** «Кончатся за 14 дней»: `days_to_zero` at or under `DAYS_TO_ZERO_ALERT`. */
+  runs_out: boolean;
+};
+
+export type CardsQuery = { q: string | null; sort: CardSort; limit: number; offset: number } & CardFilters;
+
+/** A comma list of the address, cut to the values the filter knows; empty is no filter. */
+const listOf = <T extends string>(value: unknown, known?: readonly T[]): T[] | null => {
+  if (typeof value !== "string" && !Array.isArray(value)) {
+    return null;
+  }
+  const items = (Array.isArray(value) ? value.join(",") : value)
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .filter((item) => !known || (known as readonly string[]).includes(item)) as T[];
+  return items.length ? items : null;
+};
 
 /**
  * The table's own query: `q` over the title and the vendor code, `order` as
@@ -585,8 +650,23 @@ export const resolveCardsQuery = (query: Record<string, unknown>): CardsQuery =>
     sort,
     limit: Number.isFinite(limitRaw) ? Math.min(Math.max(1, Math.floor(limitRaw)), 200) : 20,
     offset: Number.isFinite(offsetRaw) && offsetRaw > 0 ? Math.floor(offsetRaw) : 0,
+    category: listOf<string>(query.category),
+    discount: listOf(query.discount, DISCOUNT_BUCKETS),
+    warehouse: listOf(query.warehouse, ["wb", "seller"] as const),
+    abc: listOf(query.abc, ["A", "B", "C"] as const),
+    runs_out: query.runs_out === "1" || query.runs_out === "true",
   };
 };
+
+/** The card is not in the catalogue or has no category: the filter's own value for it. */
+export const NO_CATEGORY = "__none__";
+
+const passesFilters = (row: CardRow, query: CardFilters): boolean =>
+  (!query.category || query.category.includes(row.category ?? NO_CATEGORY)) &&
+  (!query.discount || query.discount.includes(discountBucketOf(row.discount) as DiscountBucket)) &&
+  (!query.warehouse || row.warehouses.some((warehouse) => query.warehouse!.includes(warehouse))) &&
+  (!query.abc || query.abc.includes(row.abc)) &&
+  (!query.runs_out || (row.days_to_zero !== null && row.days_to_zero <= DAYS_TO_ZERO_ALERT));
 
 /**
  * The page of the table and how many rows matched.
@@ -595,14 +675,17 @@ export const resolveCardsQuery = (query: Record<string, unknown>): CardsQuery =>
  * neither the most urgent card nor the calmest one. Ties keep the revenue
  * order, so a page boundary never reshuffles between two requests.
  */
-export const selectCards = (rows: CardRow[], query: CardsQuery): { rows: CardRow[]; count: number } => {
-  const matched = query.q
-    ? rows.filter(
-        (row) =>
-          (row.title ?? "").toLowerCase().includes(query.q!) ||
-          (row.vendor_code ?? "").toLowerCase().includes(query.q!),
-      )
-    : rows;
+export const selectCards = (
+  rows: CardRow[],
+  query: CardsQuery,
+): { rows: CardRow[]; count: number; revenue: number } => {
+  const matched = rows.filter(
+    (row) =>
+      (!query.q ||
+        (row.title ?? "").toLowerCase().includes(query.q) ||
+        (row.vendor_code ?? "").toLowerCase().includes(query.q)) &&
+      passesFilters(row, query),
+  );
 
   const { field, desc } = query.sort;
   const sorted = matched
@@ -620,5 +703,10 @@ export const selectCards = (rows: CardRow[], query: CardsQuery): { rows: CardRow
     })
     .map(({ row }) => row);
 
-  return { rows: sorted.slice(query.offset, query.offset + query.limit), count: matched.length };
+  return {
+    rows: sorted.slice(query.offset, query.offset + query.limit),
+    count: matched.length,
+    /** The revenue of every matched card, not just this page: «48 товаров на 2,1 млн ₽». */
+    revenue: money(matched.reduce((sum, row) => sum + row.revenue, 0)),
+  };
 };

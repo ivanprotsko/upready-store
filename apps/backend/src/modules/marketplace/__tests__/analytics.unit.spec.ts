@@ -504,6 +504,11 @@ describe("итоги и строки таблицы", () => {
       xyz: "Z",
       stock: 10,
       days_to_zero: 15,
+      // v3 (t-2026-10-16-36): nothing given for them here, so nothing is said.
+      category: null,
+      revenue_previous: null,
+      discount: null,
+      warehouses: [],
     });
     expect(table[1]).toMatchObject({ id: "wb:2", title: null, vendor_code: "V-100", stock: null, days_to_zero: null });
   });
@@ -525,6 +530,10 @@ describe("поиск, сортировка и страницы таблицы", 
     xyz: null,
     stock: null,
     days_to_zero: null,
+    category: null,
+    revenue_previous: null,
+    discount: null,
+    warehouses: [],
     ...over,
   });
   const rows = [
@@ -534,7 +543,17 @@ describe("поиск, сортировка и страницы таблицы", 
   ];
 
   it("по умолчанию — по убыванию выручки, 20 на страницу; лимит не больше 200", () => {
-    expect(resolveCardsQuery({})).toEqual({ q: null, sort: { field: "revenue", desc: true }, limit: 20, offset: 0 });
+    expect(resolveCardsQuery({})).toEqual({
+      q: null,
+      sort: { field: "revenue", desc: true },
+      limit: 20,
+      offset: 0,
+      category: null,
+      discount: null,
+      warehouse: null,
+      abc: null,
+      runs_out: false,
+    });
     expect(resolveCardsQuery({ limit: "5000", offset: "-3" })).toMatchObject({ limit: 200, offset: 0 });
     expect(resolveCardsQuery({ order: "-title" }).sort).toEqual({ field: "revenue", desc: true });
   });

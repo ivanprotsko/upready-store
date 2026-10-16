@@ -2,8 +2,8 @@ import type { FeedOrder } from "./marketplace-orders"
 import type { DeskItem } from "./marketplace-desk"
 import type {
   MarketplaceId,
+  MpAnalyticsFixture,
   MpAnalyticsParams,
-  MpAnalyticsResponse,
   MpLinkState,
   MpOrdersParams,
   MpOrdersResponse,
@@ -662,13 +662,13 @@ export const fixtureReviews = (marketplace: MarketplaceId, params: MpReviewsPara
 
 /* --------------------------------------------------------------- analytics */
 
-export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalyticsParams): MpAnalyticsResponse => {
+export const fixtureAnalyticsBase = (marketplace: MarketplaceId, params: MpAnalyticsParams): MpAnalyticsFixture => {
   const next = rng(2026)
   const days = 30
   const to = new Date(NOW)
   const from = new Date(NOW)
   from.setDate(from.getDate() - (days - 1))
-  const byDay: MpAnalyticsResponse["by_day"] = []
+  const byDay: MpAnalyticsFixture["by_day"] = []
   for (let i = 0; i < days; i++) {
     const d = new Date(from)
     d.setDate(d.getDate() + i)
@@ -695,7 +695,7 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
     { revenue: 0, orders: 0, units: 0, cancelled_orders: 0, cancelled_revenue: 0 }
   )
   const cards = buildCards(marketplace)
-  const sold: MpAnalyticsResponse["cards"] = cards.slice(0, 140).map((card, i) => {
+  const sold: MpAnalyticsFixture["cards"] = cards.slice(0, 140).map((card, i) => {
     const units = Math.max(1, Math.round(((140 - i) ** 1.6) / 3))
     const avg = card.discount_price ?? card.price ?? 500
     const revenue = units * avg

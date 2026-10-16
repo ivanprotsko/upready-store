@@ -35,6 +35,14 @@ const isPhoneWide = (meta: unknown): boolean =>
   (meta as { phoneWide?: boolean } | undefined)?.phoneWide ?? false
 
 /**
+ * `meta: { phoneHidden: true }` leaves the column out of the phone card: a
+ * compact list keeps the two or three values a phone needs, the desktop table
+ * keeps them all («Аналитика» v3, t-2026-10-16-36).
+ */
+const isPhoneHidden = (meta: unknown): boolean =>
+  (meta as { phoneHidden?: boolean } | undefined)?.phoneHidden ?? false
+
+/**
  * Below 640 px Medusa's command bar, a pill of «N выбрано» and every command
  * in one line, is wider than the screen: the third ApiShip batch action could
  * not be seen or pressed (t-2026-10-14-58, rule 15). There it becomes a sheet
@@ -325,6 +333,7 @@ export const DataTableRoot = <TData,>({
                               !isSpecialCell &&
                               !isPhoneWide(cell.column.columnDef.meta),
                             "max-md:ms-auto": cell.column.id === "actions" || phoneTop === "end",
+                            "max-md:hidden": isPhoneHidden(cell.column.columnDef.meta),
                             "!pe-0 !ps-0": shouldRenderAsLink,
                             "bg-ui-bg-base group-data-[selected=true]/row:bg-ui-bg-highlight group-data-[selected=true]/row:group-hover/row:bg-ui-bg-highlight-hover group-hover/row:bg-ui-bg-base-hover transition-fg group-has-[[data-row-link]:focus-visible]:bg-ui-bg-base-hover sticky start-0 after:absolute after:inset-y-0 after:right-0 after:h-full after:w-px after:bg-transparent after:content-['']":
                               isStickyCell,

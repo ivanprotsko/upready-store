@@ -6850,7 +6850,104 @@
         "unitsLabel": "Items by day",
         "bar": "{{day}}: {{value}}",
         "barCancelled": "{{day}}: {{value}}, cancelled {{cancelled}}",
-        "legend": "Tallest bar: {{max}}. The pale cap is cancelled orders, which are not revenue."
+        "legend": "Tallest bar: {{max}}. The pale cap is cancelled orders, which are not revenue.",
+        "dayReadout": "{{day}}: {{revenue}}, {{orders}} orders",
+        "dayCancelled": "{{units}} pcs cancelled worth {{amount}}",
+        "dayBefore": "{{days}} days earlier: {{revenue}}",
+        "hint": "Hover a bar or touch the chart: the day's numbers appear here.",
+        "prevDay": "Previous day",
+        "nextDay": "Next day",
+        "legendV3": "The pale cap is cancelled orders, not in the sum. Arrow keys step through the days."
+      },
+      "v3": {
+        "subtitle": "{{marketplace}}: {{range}}, {{count}} days.",
+        "subtitleDefault": "{{marketplace}}: the last {{count}} days, {{range}}. Pick another period with the buttons and date fields below.",
+        "presets": {
+          "days": "{{count}} days",
+          "month": "This month"
+        },
+        "comparison": {
+          "with": "Compared with {{range}}",
+          "noData": "No comparison: the previous period is {{range}}, and orders are stored from {{since}}",
+          "nothing": "No comparison: no orders of this marketplace are imported yet"
+        },
+        "tiles": {
+          "revenue": "Ordered for",
+          "revenueHint": "Orders before buyout, cancelled ones excluded",
+          "avgCheck": "Average check",
+          "checks": "Purchases",
+          "itemPrice": "Item price",
+          "cancelledSum": "Worth",
+          "cancelledHint": "Not in the order sum",
+          "change": "{{value}} against the previous {{days}} days"
+        },
+        "dynamics": {
+          "title": "Daily dynamics",
+          "hint": "Ordered for, day by day",
+          "dashed": "dashed: {{range}}",
+          "average": "On average {{revenue}} and {{orders}} orders a day.",
+          "averageBefore": "The previous {{days}} days: {{revenue}} and {{orders}}."
+        },
+        "categories": {
+          "title": "Sales by category",
+          "hint": "The category is the card's subject on Wildberries",
+          "none": "No category",
+          "other_one": "Other: {{count}} category",
+          "other_other": "Other: {{count}} categories",
+          "footer": "On the right: the category's change against the previous {{days}} days."
+        },
+        "forDays_one": "for {{count}} day",
+        "forDays_other": "for {{count}} days",
+        "noSales": "No sales in this period.",
+        "checks": {
+          "title": "Average check by week",
+          "hint": "A check is everything the buyer ordered together",
+          "previous": "Dashed: the previous {{days}} days, {{value}}",
+          "days_one": "{{count}} day",
+          "days_other": "{{count}} days",
+          "footer": "{{checks}} purchases for {{orders}} orders. A purchase is the shared order number Wildberries puts on every item of one basket."
+        },
+        "warehouse": {
+          "title": "Shipped from",
+          "hint": "Share of the order sum",
+          "wb": "Wildberries warehouse",
+          "seller": "Seller's warehouse",
+          "unknown": "Not stated by the marketplace",
+          "line_one": "{{amount}}, {{orders}} order",
+          "line_other": "{{amount}}, {{orders}} orders",
+          "footer": "Seller's warehouse: orders you pack and deliver yourself."
+        },
+        "regions": {
+          "title": "Where buyers are",
+          "hint": "Share of the order sum by region",
+          "other_one": "Other regions ({{count}})",
+          "other_other": "Other regions ({{count}})",
+          "none": "Wildberries stated no region for any order of the period.",
+          "footer": "The region is known for {{share}} of orders ({{known}} of {{orders}}). Wildberries did not state it for the rest."
+        },
+        "list": {
+          "title": "Products of the period",
+          "hint": "{{sold}} cards with orders out of {{total}} the shop has on {{marketplace}}. The filters change the list only, the charts above cover the whole shop.",
+          "footer": "Products selected: {{matched}}, worth {{sum}}, {{share}} of the order sum."
+        },
+        "columns": {
+          "sum": "Sum",
+          "change": "Change against the previous {{days}} days",
+          "new": "New"
+        },
+        "filters": {
+          "category": "Category",
+          "discount": "Seller's discount",
+          "warehouse": "Warehouse",
+          "runsOut": "Runs out in 14 days",
+          "runsOutYes": "Stock for 14 days or less"
+        },
+        "discount": {
+          "none": "No discount",
+          "lt20": "Under 20 %",
+          "20to40": "20–40 %",
+          "gt40": "Over 40 %"
+        }
       }
     },
     "sync": {

@@ -55,6 +55,7 @@ const CORE_MODULES = [
   path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics.ts"),
   path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics-sources.ts"),
   path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics", "calendar.ts"),
+  path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "analytics", "infographic.ts"),
 ];
 
 const PANEL_DIR = path.join(
