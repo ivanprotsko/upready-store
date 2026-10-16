@@ -100,7 +100,20 @@ export default async function CheckoutForm({
               locked={locks.shipping}
             />
           )}
-          <CheckoutContactsRow cart={cart} locked={locks.contacts} />
+          <CheckoutContactsRow
+            cart={cart}
+            account={
+              customer
+                ? {
+                    first_name: customer.first_name,
+                    last_name: customer.last_name,
+                    email: customer.email,
+                    phone: customer.phone,
+                  }
+                : null
+            }
+            locked={locks.contacts}
+          />
           {!isDigital && <CheckoutPickupPointSheet />}
         </PickupSheetProvider>
       </HydrationSlot>
