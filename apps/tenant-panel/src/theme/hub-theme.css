@@ -11,7 +11,10 @@
  *
  * Colours only: the fonts and the radii stay the preset's own (Ivan 17.10.2026: «я хочу чтобы шрифты в
  * перекрашеной мадели остались такими же, а также радиус скруглений тоже не менялся»). This file sets no
- * font family, weight, size or radius; the one rounded corner here is the scrollbar thumb's.
+ * font family, weight, size or radius. The scrollbars stay the browser's own as well: a page that styles
+ * `::-webkit-scrollbar` turns macOS's overlay scrollbars into classic ones that take width from every
+ * scrolling element, and the sidebar moved (Ivan 17.10.2026: «А почему в перекрашеной версии появился
+ * видимый скроллбар который создает отступ в левом сайдбаре»).
  *
  * index.css imports this file before `@tailwind base`, so the preset's own `:root` and `.dark` come later.
  * Layer 2 therefore says `html:root` and `html.dark`, one element above them, and wins in either order.
@@ -232,28 +235,4 @@ a.text-ui-fg-interactive:hover,
 a .text-ui-fg-interactive:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
-}
-
-/* ---- Scrollbars: 6 px, only where something scrolls (apps/hub-v2/app/app.css) --------------------------- */
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--hub-muted-foreground) 35%, transparent);
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in oklab, var(--hub-muted-foreground) 60%, transparent);
-}
-@supports not selector(::-webkit-scrollbar) {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in oklab, var(--hub-muted-foreground) 35%, transparent) transparent;
-  }
 }

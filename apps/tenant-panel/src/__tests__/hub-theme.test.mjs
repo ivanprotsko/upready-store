@@ -14,7 +14,9 @@ import { fileURLToPath } from "node:url"
  *
  * The recolour is colours only: the fonts and the radii stay the preset's own
  * (Ivan 17.10.2026: «я хочу чтобы шрифты в перекрашеной мадели остались такими
- * же, а также радиус скруглений тоже не менялся»). The last checks keep it so.
+ * же, а также радиус скруглений тоже не менялся»), and the scrollbars stay the
+ * browser's (Ivan 17.10.2026: «А почему в перекрашеной версии появился видимый
+ * скроллбар который создает отступ в левом сайдбаре»). The last checks keep it so.
  */
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -99,10 +101,19 @@ test("the theme sets no font and no radius: both stay the preset's", () => {
   }
   assert.doesNotMatch(rules, /@font-face|url\(/, "hub-theme.css loads a font")
   assert.doesNotMatch(rules, /--[a-z-]*(radius|font)[a-z-]*\s*:/, "hub-theme.css declares a font or radius token")
-  // The one rounded corner is the 6 px scrollbar's thumb, which the recolour keeps.
-  const rounded = [...rules.matchAll(/([^{}]+)\{[^{}]*\bborder(-[a-z-]+)?-radius\s*:/g)].map((m) => m[1].trim())
-  assert.deepEqual(rounded, ["::-webkit-scrollbar-thumb"])
+  assert.doesNotMatch(rules, /\bborder(-[a-z-]+)?-radius\s*:/, "hub-theme.css rounds a corner")
   assert.doesNotMatch(css + index, /https?:\/\//, "a stylesheet loads something from the network")
+})
+
+// A styled ::-webkit-scrollbar turns macOS's overlay scrollbars into classic ones, which take width from
+// every scrolling element: the sidebar's content moved by 6 px.
+test("the theme and index.css leave the scrollbars to the browser", () => {
+  for (const [file, sheet] of [
+    ["hub-theme.css", rules],
+    ["index.css", index.replace(/\/\*[\s\S]*?\*\//g, "")],
+  ]) {
+    assert.doesNotMatch(sheet, /scrollbar/, `${file} styles a scrollbar`)
+  }
 })
 
 test("tailwind.config.cjs and package.json leave the fonts and the radii to the preset", () => {
