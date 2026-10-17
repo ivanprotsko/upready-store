@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { existsSync, readFileSync } from "node:fs"
+import { readFileSync } from "node:fs"
 import { createRequire } from "node:module"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -10,8 +10,11 @@ import { fileURLToPath } from "node:url"
  * (src/theme/hub-theme.css). The file has two layers: hub-v2's tokens under a
  * `--hub-` prefix, light in `:root` and dark in `.dark`, and the preset's
  * variables pointed at them. These checks keep the two themes in step, keep
- * every reference resolvable, keep the small grey text readable, and keep the
- * fonts on this machine.
+ * every reference resolvable and keep the small grey text readable.
+ *
+ * The recolour is colours only: the fonts and the radii stay the preset's own
+ * (Ivan 17.10.2026: «я хочу чтобы шрифты в перекрашеной мадели остались такими
+ * же, а также радиус скруглений тоже не менялся»). The last checks keep it so.
  */
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -87,17 +90,30 @@ test("small grey text keeps 4.5:1 on a card and on a muted surface in both theme
   }
 })
 
-test("the fonts are self-hosted: every url() is a file of an installed package", () => {
-  const urls = [...css.matchAll(/url\("([^"]+)"\)/g)].map((m) => m[1])
-  assert.ok(urls.length >= 8, `only ${urls.length} font files`)
-  const require = createRequire(join(SRC, "..", "package.json"))
-  for (const url of urls) {
-    assert.ok(url.startsWith("@fontsource-variable/"), `${url} is not a font package file`)
-    const [scope, pkg, ...rest] = url.split("/")
-    const root = dirname(require.resolve(`${scope}/${pkg}/package.json`))
-    assert.ok(existsSync(join(root, ...rest)), `${url} does not exist`)
+// The sheet without its comments, so a comment that names a property does not count.
+const rules = css.replace(/\/\*[\s\S]*?\*\//g, "")
+
+test("the theme sets no font and no radius: both stay the preset's", () => {
+  for (const property of ["font-family", "font-weight", "font-size", "font", "line-height", "letter-spacing"]) {
+    assert.doesNotMatch(rules, new RegExp(`(^|[;{\\s])${property}\\s*:`, "m"), `hub-theme.css sets ${property}`)
   }
+  assert.doesNotMatch(rules, /@font-face|url\(/, "hub-theme.css loads a font")
+  assert.doesNotMatch(rules, /--[a-z-]*(radius|font)[a-z-]*\s*:/, "hub-theme.css declares a font or radius token")
+  // The one rounded corner is the 6 px scrollbar's thumb, which the recolour keeps.
+  const rounded = [...rules.matchAll(/([^{}]+)\{[^{}]*\bborder(-[a-z-]+)?-radius\s*:/g)].map((m) => m[1].trim())
+  assert.deepEqual(rounded, ["::-webkit-scrollbar-thumb"])
   assert.doesNotMatch(css + index, /https?:\/\//, "a stylesheet loads something from the network")
+})
+
+test("tailwind.config.cjs and package.json leave the fonts and the radii to the preset", () => {
+  const require = createRequire(join(SRC, "..", "package.json"))
+  const { theme = {} } = require("./tailwind.config.cjs")
+  for (const key of ["borderRadius", "fontFamily", "fontWeight", "fontSize", "lineHeight", "letterSpacing"]) {
+    assert.ok(!(key in theme) && !(key in (theme.extend ?? {})), `tailwind.config.cjs sets theme.${key}`)
+  }
+  const { dependencies = {}, devDependencies = {} } = JSON.parse(readFileSync(join(SRC, "..", "package.json"), "utf8"))
+  const fonts = Object.keys({ ...dependencies, ...devDependencies }).filter((name) => name.startsWith("@fontsource"))
+  assert.deepEqual(fonts, [], "the panel installs a font package")
 })
 
 test("index.css imports the theme before Tailwind's layers", () => {
