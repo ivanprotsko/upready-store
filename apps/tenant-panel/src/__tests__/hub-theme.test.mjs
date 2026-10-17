@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { readdirSync, readFileSync } from "node:fs"
 import { createRequire } from "node:module"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -188,6 +188,45 @@ test("the frame of a card, a menu, a dialog and a drawer is the line of the divi
   const require = createRequire(join(SRC, "..", "package.json"))
   const preset = readFileSync(require.resolve("@medusajs/ui-preset"), "utf8")
   assert.match(preset, /"\*":\s*\{\s*borderColor:\s*"var\(--border-base\)"/)
+})
+
+// The class strings of a tree of sources: every quoted or backticked literal with a shadow-elevation-* class.
+const classStrings = (dir, ext) => {
+  const found = []
+  for (const entry of readdirSync(dir, { recursive: true })) {
+    if (!ext.test(entry) || entry.includes("__tests__")) continue
+    const text = readFileSync(join(dir, entry), "utf8")
+    for (const [, s] of text.matchAll(/["'`]([^"'`\n]*\bshadow-elevation-[^"'`\n]*)["'`]/g)) found.push([entry, s.split(/\s+/)])
+  }
+  return found
+}
+
+test("a drawer, a focus modal or a prompt with its own border draws no frame ring: one 1px edge", () => {
+  // The theme turns off the shadow layer of a frame ring wherever the element also carries `border`.
+  const frames = ["card-rest", "card-hover", "flyout", "modal"].map((f) => `.shadow-elevation-${f}.border`)
+  const rule = rules.match(/\n([^{}]+)\{\s*--tw-shadow:\s*0 0 #0000;\s*\}/)
+  assert.ok(rule, "hub-theme.css has no rule that turns a ring off")
+  assert.deepEqual(rule[1].split(",").map((s) => s.trim()).sort(), frames.sort())
+
+  const require = createRequire(join(SRC, "..", "package.json"))
+  const ui = dirname(require.resolve("@medusajs/ui"))
+  const all = [...classStrings(ui, /\.js$/), ...classStrings(SRC, /\.tsx?$/)]
+  const isFrame = (c) => /^shadow-elevation-(card-rest|card-hover|flyout|modal)$/.test(c)
+  const pairs = all.filter(([, cls]) => cls.some(isFrame) && cls.includes("border"))
+  // The pairs of @medusajs/ui 4.2.1. Each keeps a visible border, so turning the ring off leaves one line.
+  assert.deepEqual(
+    [...new Set(pairs.map(([file]) => file.split(/[\\/]/).pop()))].sort(),
+    ["drawer.js", "focus-modal.js", "prompt.js"]
+  )
+  for (const [file, cls] of pairs) {
+    assert.ok(!cls.some((c) => /^border-(none|0|transparent)$/.test(c)), `${file}: its border is hidden`)
+  }
+  // Surfaces whose ring is their only edge keep it: no `border` on them.
+  for (const file of ["command-menu.tsx", "user-menu.tsx", "data-grid-keyboard-shortcut-modal.tsx"]) {
+    const modal = all.filter(([f, cls]) => f.endsWith(file) && cls.includes("shadow-elevation-modal"))
+    assert.ok(modal.length > 0, `${file} has no shadow-elevation-modal`)
+    for (const [, cls] of modal) assert.ok(!cls.includes("border"), `${file} has its own border`)
+  }
 })
 
 test("tailwind.config.cjs turns Tailwind's own shadow and drop-shadow scales off", () => {

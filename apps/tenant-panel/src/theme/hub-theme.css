@@ -23,7 +23,7 @@
  *
  * The frame of a card, a menu, a dialog or a drawer is the line of the dividers inside it (Ivan
  * 17.10.2026: «а почему сейчас рамки вокруг контейнера выглядят тоньше чем разделители между пунктами
- * внутри контейнера»).
+ * внутри контейнера»). A drawer or a dialog with its own border keeps only that border, one line.
  *
  * index.css imports this file before `@tailwind base`, so the preset's own `:root` and `.dark` come later.
  * Layer 2 therefore says `html:root` and `html.dark`, one element above them, and wins in either order.
@@ -236,6 +236,19 @@ html.dark {
   --button-neutral-pressed: color-mix(in oklch, var(--hub-input) 45%, transparent);
   /* The page is hub-v2's background, a card its card: dark pages sit under their cards. */
   --bg-subtle: var(--hub-background);
+}
+
+/* A surface with its own 1px border draws no frame ring: Medusa's Drawer and FocusModal (shadow-elevation-modal)
+   and Prompt (shadow-elevation-flyout) carry `border` in --border-base, and the ring outside it made the edge two
+   lines, 2px (lead's decision d-2026-10-17-68 on Ivan's «рамки вокруг контейнера выглядят тоньше чем
+   разделители»). The border stays and is the one line. A surface without a border (the command menu, the user
+   menu, the mobile sidebar) keeps the ring. --tw-shadow is the layer the shadow-* utility draws; Tailwind resets
+   it on every element, so this reaches no child. */
+.shadow-elevation-card-rest.border,
+.shadow-elevation-card-hover.border,
+.shadow-elevation-flyout.border,
+.shadow-elevation-modal.border {
+  --tw-shadow: 0 0 #0000;
 }
 
 /* A link is the primary colour, so it is underlined on hover (hub-v2's link button: hover:underline). */
