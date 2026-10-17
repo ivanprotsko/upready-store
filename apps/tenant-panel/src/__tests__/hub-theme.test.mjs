@@ -16,7 +16,10 @@ import { fileURLToPath } from "node:url"
  * (Ivan 17.10.2026: «я хочу чтобы шрифты в перекрашеной мадели остались такими
  * же, а также радиус скруглений тоже не менялся»), and the scrollbars stay the
  * browser's (Ivan 17.10.2026: «А почему в перекрашеной версии появился видимый
- * скроллбар который создает отступ в левом сайдбаре»). The last checks keep it so.
+ * скроллбар который создает отступ в левом сайдбаре»). No drop shadow is left
+ * (Ivan 17.10.2026: «и не убраны тени» … «убрать, я же просил убрать»): a shadow
+ * keeps only its lines, the 1px rings, inset lines and focus rings. The last
+ * checks keep it so.
  */
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -113,6 +116,65 @@ test("the theme and index.css leave the scrollbars to the browser", () => {
     ["index.css", index.replace(/\/\*[\s\S]*?\*\//g, "")],
   ]) {
     assert.doesNotMatch(sheet, /scrollbar/, `${file} styles a scrollbar`)
+  }
+})
+
+// The layers of a box-shadow, split on the commas outside parentheses.
+const layersOf = (value) => {
+  const layers = [""]
+  let depth = 0
+  for (const ch of value) {
+    depth += ch === "(" ? 1 : ch === ")" ? -1 : 0
+    if (ch === "," && depth === 0) layers.push("")
+    else layers[layers.length - 1] += ch
+  }
+  return layers.map((layer) => layer.trim())
+}
+// A layer draws a line, not a shadow, when its offsets and its blur are 0: a ring, an inset line, a focus
+// halo. Colours (a function, a hex or `transparent`) and `inset` are dropped; the rest are the lengths.
+const assertFlat = (name, value) => {
+  if (value === "none") return
+  for (const layer of layersOf(value)) {
+    let rest = layer
+    while (/[a-z-]+\([^()]*\)/i.test(rest)) rest = rest.replace(/[a-z-]+\([^()]*\)/gi, " ")
+    const lengths = rest.replace(/\binset\b|\btransparent\b|#[0-9a-f]+/gi, " ").trim().split(/\s+/)
+    assert.ok(
+      lengths.length >= 2 && lengths.length <= 4 && lengths.every((l) => /^-?[\d.]+(px)?$/.test(l)),
+      `${name}: cannot read the layer «${layer}»`
+    )
+    const [x, y, blur = 0] = lengths.map(parseFloat)
+    assert.ok(x === 0 && y === 0 && blur === 0, `${name} draws a drop shadow: «${layer}»`)
+  }
+}
+
+test("no shadow variable of the theme draws a drop shadow: every layer has zero offset and zero blur", () => {
+  const require = createRequire(join(SRC, "..", "package.json"))
+  const preset = readFileSync(require.resolve("@medusajs/ui-preset"), "utf8")
+  // The preset's shadow variables: their values start with two lengths ("0px 1px …").
+  const shadows = new Set(
+    [...preset.matchAll(/"(--[a-z0-9-]+)":\s*"-?[\d.]+px\s+-?[\d.]+px\b/g)].map((m) => m[1])
+  )
+  assert.ok(shadows.size >= 20, `found only ${shadows.size} shadow variables in the preset`)
+  // Every one is set here, so none falls back to Medusa's own drop shadow, in either theme.
+  for (const name of shadows) assert.ok(mapping.has(name), `${name} keeps the preset's drop shadow`)
+  const resolve = (value) => value.replace(/var\((--hub-focus-halo)\)/g, () => mapping.get("--hub-focus-halo"))
+  for (const [name, value] of [...mapping, ...darkMapping]) {
+    if (shadows.has(name) || name === "--hub-focus-halo") assertFlat(name, resolve(value))
+  }
+  assert.doesNotMatch(rules, /--hub-shadow/, "a --hub-shadow-* token is still declared")
+})
+
+test("tailwind.config.cjs turns Tailwind's own shadow and drop-shadow scales off", () => {
+  const require = createRequire(join(SRC, "..", "package.json"))
+  const resolveConfig = require("tailwindcss/resolveConfig")
+  const { theme } = resolveConfig(require("./tailwind.config.cjs"))
+  for (const [key, value] of Object.entries(theme.boxShadow)) {
+    // The preset's named shadows read the variables checked above.
+    if (/^var\(--[a-z0-9-]+\)$/.test(value)) continue
+    assertFlat(`shadow-${key}`, value)
+  }
+  for (const [key, value] of Object.entries(theme.dropShadow)) {
+    for (const layer of [].concat(value)) assertFlat(`drop-shadow-${key}`, layer)
   }
 })
 

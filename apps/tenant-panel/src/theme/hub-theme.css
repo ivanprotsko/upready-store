@@ -2,7 +2,7 @@
  * t-2026-10-17-01: the panel in hub-v2's look, through variables only (Ivan 17.10.2026: «да, я имел ввиду
  * именно перекраску … если мы изменим стили, то измениться всё»). Every @medusajs/ui component draws its
  * look from the preset's CSS variables (`--bg-base`, `--fg-base`, `--border-base`, the `--elevation-*`
- * shadows), so this file gives those variables hub-v2's values and no screen changes its structure.
+ * edges), so this file gives those variables hub-v2's values and no screen changes its structure.
  *
  * Layer 1 copies hub-v2's tokens under a `--hub-` prefix, as written in shiftship
  * packages/dashboard-ui/src/styles/globals.css (origin/main 1247dcd5). Layer 2 points the preset's
@@ -15,6 +15,11 @@
  * `::-webkit-scrollbar` turns macOS's overlay scrollbars into classic ones that take width from every
  * scrolling element, and the sidebar moved (Ivan 17.10.2026: «А почему в перекрашеной версии появился
  * видимый скроллбар который создает отступ в левом сайдбаре»).
+ *
+ * No drop shadow anywhere (Ivan 17.10.2026: «и не убраны тени» … «убрать, я же просил убрать»). Every
+ * shadow variable of the preset keeps only lines with zero offset and zero blur: the 1px rings Medusa
+ * draws borders with, inset lines and the focus rings. tailwind.config.cjs sets Tailwind's own shadow and
+ * drop-shadow scales to nothing for the few screens that use them.
  *
  * index.css imports this file before `@tailwind base`, so the preset's own `:root` and `.dark` come later.
  * Layer 2 therefore says `html:root` and `html.dark`, one element above them, and wins in either order.
@@ -50,10 +55,9 @@
   --hub-disabled-foreground: var(--hub-ring);
   /* border-strong: the chart scale's lightest grey, one step above the border. */
   --hub-border-strong: var(--hub-chart-1);
-  /* The shadows of hub-v2's components (Tailwind 4's shadow-sm/md/lg/xl, ring-foreground/5). */
+  /* The 1px edge lines of hub-v2's components (ring-foreground/5 and /10). */
   --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 5%, transparent);
   --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
-  --hub-shadow-alpha: 0.1;
   --hub-focus-alpha: 30%;
 }
 
@@ -84,7 +88,6 @@
   --hub-border-strong: var(--hub-input);
   --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
   --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
-  --hub-shadow-alpha: 0.32;
   --hub-focus-alpha: 50%;
 }
 
@@ -183,20 +186,15 @@ html:root {
   --tag-red-text: var(--hub-destructive);
   --tag-red-icon: var(--hub-destructive);
 
-  /* Shadows: hub-v2's Card is ring-1 ring-foreground/5 + shadow-md, a menu ring + shadow-lg, a dialog
-     ring + shadow-xl. A field has no shadow, one line of the input colour. */
-  --elevation-card-rest: 0 0 0 1px var(--hub-ring-edge), 0 1px 3px 0 rgb(0 0 0 / calc(var(--hub-shadow-alpha) * 0.6)),
-    0 1px 2px -1px rgb(0 0 0 / calc(var(--hub-shadow-alpha) * 0.6));
-  --elevation-card-hover: 0 0 0 1px var(--hub-ring-edge), 0 4px 6px -1px rgb(0 0 0 / var(--hub-shadow-alpha)),
-    0 2px 4px -2px rgb(0 0 0 / var(--hub-shadow-alpha));
-  --elevation-flyout: 0 0 0 1px var(--hub-ring-edge-strong), 0 10px 15px -3px rgb(0 0 0 / var(--hub-shadow-alpha)),
-    0 4px 6px -4px rgb(0 0 0 / var(--hub-shadow-alpha));
-  --elevation-tooltip: 0 0 0 1px var(--hub-ring-edge-strong), 0 4px 6px -1px rgb(0 0 0 / var(--hub-shadow-alpha)),
-    0 2px 4px -2px rgb(0 0 0 / var(--hub-shadow-alpha));
-  --elevation-modal: 0 0 0 1px var(--hub-ring-edge-strong), 0 20px 25px -5px rgb(0 0 0 / var(--hub-shadow-alpha)),
-    0 8px 10px -6px rgb(0 0 0 / var(--hub-shadow-alpha));
-  --elevation-commandbar: 0 0 0 1px var(--hub-ring-edge-strong), 0 20px 25px -5px rgb(0 0 0 / var(--hub-shadow-alpha)),
-    0 8px 10px -6px rgb(0 0 0 / var(--hub-shadow-alpha));
+  /* No drop shadow (Ivan 17.10.2026: «и не убраны тени» … «убрать, я же просил убрать»). A shadow
+     variable keeps only lines: hub-v2's ring-1 ring-foreground/5 around a card, /10 around a menu, a
+     tooltip or a dialog. A field has one line of the input colour. */
+  --elevation-card-rest: 0 0 0 1px var(--hub-ring-edge);
+  --elevation-card-hover: 0 0 0 1px var(--hub-ring-edge);
+  --elevation-flyout: 0 0 0 1px var(--hub-ring-edge-strong);
+  --elevation-tooltip: 0 0 0 1px var(--hub-ring-edge-strong);
+  --elevation-modal: 0 0 0 1px var(--hub-ring-edge-strong);
+  --elevation-commandbar: 0 0 0 1px var(--hub-ring-edge-strong);
   --elevation-code-block: 0 0 0 1px var(--hub-ring-edge-strong) inset;
   --borders-base: 0 0 0 1px var(--hub-input);
   --buttons-neutral: 0 0 0 1px var(--hub-border);
@@ -204,7 +202,9 @@ html:root {
   --buttons-danger: 0 0 0 1px var(--hub-destructive);
   --details-contrast-on-bg-interactive: none;
   --details-switch-background: none;
-  --details-switch-handle: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  /* The switch handle keeps an edge line where hub-v2 has shadow-sm: in light the white handle on the grey
+     track that is off is about 1.2:1, and without the line its edge is gone. */
+  --details-switch-handle: 0 0 0 1px var(--hub-ring-edge-strong);
 
   /* Focus: hub-v2's focus-visible:border-ring ring-3 ring-ring/30, a line of the ring grey and a 3 px halo. */
   --hub-focus-halo: 0 0 0 4px color-mix(in oklch, var(--hub-ring) var(--hub-focus-alpha), transparent);
