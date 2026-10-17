@@ -74,7 +74,8 @@ export function VariantPricesSection({ variant }: VariantPricesSectionProps) {
           <Button
             onClick={onShowMore}
             disabled={pageSize >= prices.length}
-            className="-mr-3 text-blue-500"
+            // tenant-panel: t-2026-10-17-01, a colour of the theme instead of a fixed palette one
+            className="-mr-3 text-ui-fg-interactive"
             variant="transparent"
           >
             {t("actions.showMore")}

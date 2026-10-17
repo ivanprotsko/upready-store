@@ -1,0 +1,259 @@
+/*
+ * t-2026-10-17-01: the panel in hub-v2's look, through variables only (Ivan 17.10.2026: «да, я имел ввиду
+ * именно перекраску … если мы изменим стили, то измениться всё»). Every @medusajs/ui component draws its
+ * look from the preset's CSS variables (`--bg-base`, `--fg-base`, `--border-base`, the `--elevation-*`
+ * edges), so this file gives those variables hub-v2's values and no screen changes its structure.
+ *
+ * Layer 1 copies hub-v2's tokens under a `--hub-` prefix, as written in shiftship
+ * packages/dashboard-ui/src/styles/globals.css (origin/main 1247dcd5). Layer 2 points the preset's
+ * variables at them. A variable hub-v2 has no match for takes a value by hub-v2's own logic; the comment
+ * next to it says which. The table of the mapping is in the task's report.
+ *
+ * Colours only: the fonts and the radii stay the preset's own (Ivan 17.10.2026: «я хочу чтобы шрифты в
+ * перекрашеной мадели остались такими же, а также радиус скруглений тоже не менялся»). This file sets no
+ * font family, weight, size or radius. The scrollbars stay the browser's own as well: a page that styles
+ * `::-webkit-scrollbar` turns macOS's overlay scrollbars into classic ones that take width from every
+ * scrolling element, and the sidebar moved (Ivan 17.10.2026: «А почему в перекрашеной версии появился
+ * видимый скроллбар который создает отступ в левом сайдбаре»).
+ *
+ * No drop shadow anywhere (Ivan 17.10.2026: «и не убраны тени» … «убрать, я же просил убрать»). Every
+ * shadow variable of the preset keeps only lines with zero offset and zero blur: the 1px rings Medusa
+ * draws borders with, inset lines and the focus rings. tailwind.config.cjs sets Tailwind's own shadow and
+ * drop-shadow scales to nothing for the few screens that use them.
+ *
+ * The frame of a card, a menu, a dialog or a drawer is the line of the dividers inside it (Ivan
+ * 17.10.2026: «а почему сейчас рамки вокруг контейнера выглядят тоньше чем разделители между пунктами
+ * внутри контейнера»). A drawer or a dialog with its own border keeps only that border, one line.
+ *
+ * index.css imports this file before `@tailwind base`, so the preset's own `:root` and `.dark` come later.
+ * Layer 2 therefore says `html:root` and `html.dark`, one element above them, and wins in either order.
+ * Every value that differs between the themes reads a `--hub-*` token of layer 1, which `.dark` swaps.
+ * src/__tests__/hub-theme.test.mjs keeps the light and dark token sets equal.
+ */
+
+/* ---- Layer 1: hub-v2 tokens (dashboard-ui globals.css) ---------------------------------------------- */
+
+:root {
+  --hub-background: oklch(1 0 0);
+  --hub-foreground: oklch(0.145 0 0);
+  --hub-card: oklch(1 0 0);
+  --hub-popover: oklch(1 0 0);
+  --hub-primary: oklch(0.205 0 0);
+  --hub-primary-foreground: oklch(0.985 0 0);
+  --hub-muted: oklch(0.97 0 0);
+  --hub-muted-foreground: oklch(0.54 0 0);
+  --hub-accent: oklch(0.97 0 0);
+  --hub-destructive: oklch(0.577 0.245 27.325);
+  --hub-border: oklch(0.922 0 0);
+  --hub-input: oklch(0.922 0 0);
+  --hub-ring: oklch(0.708 0 0);
+  --hub-chart-1: oklch(0.87 0 0);
+  --hub-chart-3: oklch(0.439 0 0);
+  --hub-sidebar: oklch(0.985 0 0);
+  /* Roles dashboard-ui has no token for, by its own logic (see the report's table). */
+  /* fg-subtle: the third grey of the chart scale; 7.8:1 on white. */
+  --hub-subtle-foreground: var(--hub-chart-3);
+  /* fg-muted: muted-foreground itself, the grey SH-03 keeps at 4.5:1 on every surface. */
+  --hub-faint-foreground: var(--hub-muted-foreground);
+  /* fg-disabled: the ring grey, as faint as hub-v2's 50 % opacity of a disabled control. */
+  --hub-disabled-foreground: var(--hub-ring);
+  /* border-strong: the chart scale's lightest grey, one step above the border. */
+  --hub-border-strong: var(--hub-chart-1);
+  /* The 1px edge line of hub-v2's small floating parts (ring-foreground/10). */
+  --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  --hub-focus-alpha: 30%;
+}
+
+.dark {
+  --hub-background: oklch(0.145 0 0);
+  --hub-foreground: oklch(0.985 0 0);
+  --hub-card: oklch(0.205 0 0);
+  --hub-popover: oklch(0.205 0 0);
+  --hub-primary: oklch(0.922 0 0);
+  --hub-primary-foreground: oklch(0.205 0 0);
+  --hub-muted: oklch(0.269 0 0);
+  --hub-muted-foreground: oklch(0.708 0 0);
+  --hub-accent: oklch(0.269 0 0);
+  --hub-destructive: oklch(0.704 0.191 22.216);
+  --hub-border: oklch(1 0 0 / 10%);
+  --hub-input: oklch(1 0 0 / 15%);
+  --hub-ring: oklch(0.556 0 0);
+  --hub-chart-1: oklch(0.87 0 0);
+  --hub-chart-3: oklch(0.439 0 0);
+  --hub-sidebar: oklch(0.205 0 0);
+  /* fg-subtle: muted-foreground, as hub-v2 draws all secondary text in dark. */
+  --hub-subtle-foreground: var(--hub-muted-foreground);
+  /* fg-muted: the lowest grey that keeps SH-03's 4.5:1 on a card and on a muted surface (0.269): 4.7:1. */
+  --hub-faint-foreground: oklch(0.65 0 0);
+  /* fg-disabled: the chart scale's 0.439, as faint on a dark card as the ring grey is on white. */
+  --hub-disabled-foreground: var(--hub-chart-3);
+  /* border-strong: the input line, hub-v2's one border above --border in dark. */
+  --hub-border-strong: var(--hub-input);
+  --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  --hub-focus-alpha: 50%;
+}
+
+/* ---- Layer 2: the preset's variables on hub-v2's tokens --------------------------------------------- */
+
+html:root {
+  /* Backgrounds. The page and the sidebar are subtle, a card or a section is base. */
+  --bg-base: var(--hub-card);
+  --bg-base-hover: var(--hub-accent);
+  --bg-base-pressed: color-mix(in oklch, var(--hub-accent), var(--hub-foreground) 6%);
+  --bg-subtle: var(--hub-sidebar);
+  --bg-subtle-hover: var(--hub-accent);
+  --bg-subtle-pressed: color-mix(in oklch, var(--hub-accent), var(--hub-foreground) 6%);
+  --bg-component: var(--hub-muted);
+  --bg-component-hover: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 5%);
+  --bg-component-pressed: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 10%);
+  /* A field is filled, as hub-v2's Input: bg-input/50. */
+  --bg-field: color-mix(in oklch, var(--hub-input) 50%, transparent);
+  --bg-field-hover: color-mix(in oklch, var(--hub-input) 75%, transparent);
+  --bg-field-component: var(--hub-card);
+  --bg-field-component-hover: var(--hub-accent);
+  /* The accent of hub-v2 is its primary: a checked box, a switch that is on, a progress bar. */
+  --bg-interactive: var(--hub-primary);
+  /* A selected row: hub-v2's Table puts bg-muted on it, a little above the hover. */
+  --bg-highlight: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 4%);
+  --bg-highlight-hover: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 8%);
+  --bg-disabled: var(--hub-muted);
+  /* hub-v2's Dialog overlay: bg-black/30. */
+  --bg-overlay: oklch(0 0 0 / 30%);
+  /* hub-v2's Switch when off: bg-input/90. */
+  --bg-switch-off: color-mix(in oklch, var(--hub-input) 90%, transparent);
+  --bg-switch-off-hover: var(--hub-input);
+
+  /* Text. */
+  --fg-base: var(--hub-foreground);
+  --fg-subtle: var(--hub-subtle-foreground);
+  --fg-muted: var(--hub-faint-foreground);
+  --fg-disabled: var(--hub-disabled-foreground);
+  /* hub-v2 colours no text (its rule 27k): a link is primary, underlined on hover (below). */
+  --fg-interactive: var(--hub-primary);
+  --fg-interactive-hover: var(--hub-primary);
+  --fg-error: var(--hub-destructive);
+  --fg-on-color: var(--hub-primary-foreground);
+  --fg-on-inverted: var(--hub-primary-foreground);
+
+  /* Borders. */
+  --border-base: var(--hub-border);
+  --border-strong: var(--hub-border-strong);
+  --border-interactive: var(--hub-ring);
+  --border-error: var(--hub-destructive);
+  --border-danger: var(--hub-destructive);
+  /* A menu separator is one line, as hub-v2's Separator. */
+  --border-menu-top: var(--hub-border);
+  --border-menu-bot: transparent;
+
+  /* Buttons. Primary is hub-v2's default button, secondary its outline button, transparent its ghost. */
+  --button-inverted: var(--hub-primary);
+  --button-inverted-hover: color-mix(in oklch, var(--hub-primary) 80%, var(--hub-card));
+  --button-inverted-pressed: color-mix(in oklch, var(--hub-primary) 70%, var(--hub-card));
+  --button-neutral: var(--hub-background);
+  --button-neutral-hover: var(--hub-muted);
+  --button-neutral-pressed: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 6%);
+  --button-transparent: transparent;
+  --button-transparent-hover: var(--hub-muted);
+  --button-transparent-pressed: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 6%);
+  --button-danger: var(--hub-destructive);
+  --button-danger-hover: color-mix(in oklch, var(--hub-destructive) 88%, var(--hub-foreground));
+  --button-danger-pressed: color-mix(in oklch, var(--hub-destructive) 78%, var(--hub-foreground));
+
+  /* Inverted surfaces (the bulk-action bar, a code block): hub-v2 inverts with its primary, as its
+     Tooltip does with bg-foreground, so they turn light in the dark theme. */
+  --contrast-bg-base: var(--hub-primary);
+  --contrast-bg-base-hover: color-mix(in oklch, var(--hub-primary) 88%, var(--hub-primary-foreground));
+  --contrast-bg-base-pressed: color-mix(in oklch, var(--hub-primary) 80%, var(--hub-primary-foreground));
+  --contrast-bg-subtle: color-mix(in oklch, var(--hub-primary) 92%, var(--hub-primary-foreground));
+  --contrast-fg-primary: var(--hub-primary-foreground);
+  --contrast-fg-secondary: color-mix(in oklch, var(--hub-primary-foreground) 62%, transparent);
+  --contrast-border-base: color-mix(in oklch, var(--hub-primary-foreground) 15%, transparent);
+  --contrast-border-top: var(--hub-primary);
+  --contrast-border-bot: color-mix(in oklch, var(--hub-primary-foreground) 10%, transparent);
+
+  --alpha-250: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  --alpha-400: color-mix(in oklch, var(--hub-foreground) 24%, transparent);
+
+  /* Tags. hub-v2 has one coloured badge, destructive: a 10 % tint, the colour as text. Red takes it; the
+     neutral tag takes hub-v2's greys. Green, orange, blue and purple keep Medusa's values: hub-v2 has no
+     token for a status hue, and the colour carries the status. */
+  --tag-neutral-bg: var(--hub-muted);
+  --tag-neutral-bg-hover: color-mix(in oklch, var(--hub-muted), var(--hub-foreground) 5%);
+  --tag-neutral-border: var(--hub-border);
+  --tag-neutral-text: var(--hub-subtle-foreground);
+  --tag-neutral-icon: var(--hub-faint-foreground);
+  --tag-red-bg: color-mix(in oklch, var(--hub-destructive) 10%, var(--hub-card));
+  --tag-red-bg-hover: color-mix(in oklch, var(--hub-destructive) 20%, var(--hub-card));
+  --tag-red-border: color-mix(in oklch, var(--hub-destructive) 25%, var(--hub-card));
+  --tag-red-text: var(--hub-destructive);
+  --tag-red-icon: var(--hub-destructive);
+
+  /* No drop shadow (Ivan 17.10.2026: «и не убраны тени» … «убрать, я же просил убрать»). A shadow
+     variable keeps only lines.
+     The frame of a card, a menu, a dialog or a drawer is --border-base, the line divide-y draws between
+     the rows inside it (Ivan 17.10.2026: «а почему сейчас рамки вокруг контейнера выглядят тоньше чем
+     разделители между пунктами внутри контейнера»). A divider lies over the surface, the ring outside it
+     over the page. In dark --border-base is 10 % white, so the ring has a second line under it in the
+     surface's own background, and the frame comes out the colour of the divider.
+     A tooltip, the command bar and a code block keep hub-v2's ring-foreground/10. A field has one line of
+     the input colour. */
+  --elevation-card-rest: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-base);
+  --elevation-card-hover: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-base);
+  --elevation-flyout: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-component);
+  --elevation-tooltip: 0 0 0 1px var(--hub-ring-edge);
+  --elevation-modal: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-base);
+  --elevation-commandbar: 0 0 0 1px var(--hub-ring-edge);
+  --elevation-code-block: 0 0 0 1px var(--hub-ring-edge) inset;
+  --borders-base: 0 0 0 1px var(--hub-input);
+  --buttons-neutral: 0 0 0 1px var(--hub-border);
+  --buttons-inverted: 0 0 0 1px var(--hub-primary);
+  --buttons-danger: 0 0 0 1px var(--hub-destructive);
+  --details-contrast-on-bg-interactive: none;
+  --details-switch-background: none;
+  /* The switch handle keeps an edge line where hub-v2 has shadow-sm: in light the white handle on the grey
+     track that is off is about 1.2:1, and without the line its edge is gone. */
+  --details-switch-handle: 0 0 0 1px var(--hub-ring-edge);
+
+  /* Focus: hub-v2's focus-visible:border-ring ring-3 ring-ring/30, a line of the ring grey and a 3 px halo. */
+  --hub-focus-halo: 0 0 0 4px color-mix(in oklch, var(--hub-ring) var(--hub-focus-alpha), transparent);
+  --borders-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --borders-interactive-with-shadow: 0 0 0 1px var(--hub-ring);
+  --borders-interactive-with-active: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --borders-interactive-with-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --buttons-neutral-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --buttons-inverted-focus: 0 0 0 1px var(--hub-ring), var(--hub-focus-halo);
+  --buttons-danger-focus: 0 0 0 1px var(--hub-destructive),
+    0 0 0 4px color-mix(in oklch, var(--hub-destructive) 25%, transparent);
+  --details-switch-background-focus: var(--hub-focus-halo);
+  --borders-error: 0 0 0 1px var(--hub-destructive),
+    0 0 0 4px color-mix(in oklch, var(--hub-destructive) 20%, transparent);
+}
+
+html.dark {
+  /* hub-v2's outline button is transparent in dark, with dark:hover:bg-input/30. */
+  --button-neutral: transparent;
+  --button-neutral-hover: color-mix(in oklch, var(--hub-input) 30%, transparent);
+  --button-neutral-pressed: color-mix(in oklch, var(--hub-input) 45%, transparent);
+  /* The page is hub-v2's background, a card its card: dark pages sit under their cards. */
+  --bg-subtle: var(--hub-background);
+}
+
+/* A surface with its own 1px border draws no frame ring: Medusa's Drawer and FocusModal (shadow-elevation-modal)
+   and Prompt (shadow-elevation-flyout) carry `border` in --border-base, and the ring outside it made the edge two
+   lines, 2px (lead's decision d-2026-10-17-68 on Ivan's «рамки вокруг контейнера выглядят тоньше чем
+   разделители»). The border stays and is the one line. A surface without a border (the command menu, the user
+   menu, the mobile sidebar) keeps the ring. --tw-shadow is the layer the shadow-* utility draws; Tailwind resets
+   it on every element, so this reaches no child. */
+.shadow-elevation-card-rest.border,
+.shadow-elevation-card-hover.border,
+.shadow-elevation-flyout.border,
+.shadow-elevation-modal.border {
+  --tw-shadow: 0 0 #0000;
+}
+
+/* A link is the primary colour, so it is underlined on hover (hub-v2's link button: hover:underline). */
+a.text-ui-fg-interactive:hover,
+a .text-ui-fg-interactive:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

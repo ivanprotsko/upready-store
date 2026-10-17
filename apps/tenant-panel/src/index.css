@@ -1,3 +1,6 @@
+/* t-2026-10-17-01: hub-v2's colours; fonts, radii and scrollbars stay the preset's. First, because an @import must be. */
+@import "./theme/hub-theme.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

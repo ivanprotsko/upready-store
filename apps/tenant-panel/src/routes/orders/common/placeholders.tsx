@@ -15,7 +15,8 @@ export const ReturnShippingPlaceholder = () => {
           i18nKey="orders.returns.placeholders.noReturnShippingOptions.hint"
           components={{
             LinkComponent: (
-              <Link to={`/settings/locations`} className="text-blue-500" />
+              // tenant-panel: t-2026-10-17-01, a colour of the theme instead of a fixed palette one
+              <Link to={`/settings/locations`} className="text-ui-fg-interactive" />
             ),
           }}
         />
@@ -38,7 +39,8 @@ export const OutboundShippingPlaceholder = () => {
           i18nKey="orders.returns.placeholders.outboundShippingOptions.hint"
           components={{
             LinkComponent: (
-              <Link to={`/settings/locations`} className="text-blue-500" />
+              // tenant-panel: t-2026-10-17-01, a colour of the theme instead of a fixed palette one
+              <Link to={`/settings/locations`} className="text-ui-fg-interactive" />
             ),
           }}
         />
