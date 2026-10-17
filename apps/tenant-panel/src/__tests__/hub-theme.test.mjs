@@ -18,8 +18,10 @@ import { fileURLToPath } from "node:url"
  * browser's (Ivan 17.10.2026: «А почему в перекрашеной версии появился видимый
  * скроллбар который создает отступ в левом сайдбаре»). No drop shadow is left
  * (Ivan 17.10.2026: «и не убраны тени» … «убрать, я же просил убрать»): a shadow
- * keeps only its lines, the 1px rings, inset lines and focus rings. The last
- * checks keep it so.
+ * keeps only its lines, the 1px rings, inset lines and focus rings. The frame
+ * of a container is the line of its dividers (Ivan 17.10.2026: «а почему сейчас
+ * рамки вокруг контейнера выглядят тоньше чем разделители между пунктами внутри
+ * контейнера»). The last checks keep it so.
  */
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -162,6 +164,30 @@ test("no shadow variable of the theme draws a drop shadow: every layer has zero 
     if (shadows.has(name) || name === "--hub-focus-halo") assertFlat(name, resolve(value))
   }
   assert.doesNotMatch(rules, /--hub-shadow/, "a --hub-shadow-* token is still declared")
+})
+
+test("the frame of a card, a menu, a dialog and a drawer is the line of the dividers inside it", () => {
+  // A divider is --border-base over the surface. The frame is the same line with the surface's own
+  // background under it, so the two match on screen in dark too, where --border-base is translucent.
+  const frames = {
+    "--elevation-card-rest": "--bg-base",
+    "--elevation-card-hover": "--bg-base",
+    "--elevation-flyout": "--bg-component",
+    "--elevation-modal": "--bg-base",
+  }
+  for (const [name, surface] of Object.entries(frames)) {
+    assert.deepEqual(
+      layersOf(mapping.get(name)),
+      ["0 0 0 1px var(--border-base)", `0 0 0 1px var(${surface})`],
+      `${name} is not the divider line`
+    )
+    assert.ok(!darkMapping.has(name), `${name} is set again for dark`)
+  }
+  // The dividers themselves: the preset's plugin gives every element `border-color: var(--border-base)`,
+  // so divide-y and a plain border draw with it.
+  const require = createRequire(join(SRC, "..", "package.json"))
+  const preset = readFileSync(require.resolve("@medusajs/ui-preset"), "utf8")
+  assert.match(preset, /"\*":\s*\{\s*borderColor:\s*"var\(--border-base\)"/)
 })
 
 test("tailwind.config.cjs turns Tailwind's own shadow and drop-shadow scales off", () => {

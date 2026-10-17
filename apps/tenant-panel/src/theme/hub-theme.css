@@ -21,6 +21,10 @@
  * draws borders with, inset lines and the focus rings. tailwind.config.cjs sets Tailwind's own shadow and
  * drop-shadow scales to nothing for the few screens that use them.
  *
+ * The frame of a card, a menu, a dialog or a drawer is the line of the dividers inside it (Ivan
+ * 17.10.2026: «а почему сейчас рамки вокруг контейнера выглядят тоньше чем разделители между пунктами
+ * внутри контейнера»).
+ *
  * index.css imports this file before `@tailwind base`, so the preset's own `:root` and `.dark` come later.
  * Layer 2 therefore says `html:root` and `html.dark`, one element above them, and wins in either order.
  * Every value that differs between the themes reads a `--hub-*` token of layer 1, which `.dark` swaps.
@@ -55,9 +59,8 @@
   --hub-disabled-foreground: var(--hub-ring);
   /* border-strong: the chart scale's lightest grey, one step above the border. */
   --hub-border-strong: var(--hub-chart-1);
-  /* The 1px edge lines of hub-v2's components (ring-foreground/5 and /10). */
-  --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 5%, transparent);
-  --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
+  /* The 1px edge line of hub-v2's small floating parts (ring-foreground/10). */
+  --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
   --hub-focus-alpha: 30%;
 }
 
@@ -87,7 +90,6 @@
   /* border-strong: the input line, hub-v2's one border above --border in dark. */
   --hub-border-strong: var(--hub-input);
   --hub-ring-edge: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
-  --hub-ring-edge-strong: color-mix(in oklch, var(--hub-foreground) 10%, transparent);
   --hub-focus-alpha: 50%;
 }
 
@@ -187,15 +189,21 @@ html:root {
   --tag-red-icon: var(--hub-destructive);
 
   /* No drop shadow (Ivan 17.10.2026: «и не убраны тени» … «убрать, я же просил убрать»). A shadow
-     variable keeps only lines: hub-v2's ring-1 ring-foreground/5 around a card, /10 around a menu, a
-     tooltip or a dialog. A field has one line of the input colour. */
-  --elevation-card-rest: 0 0 0 1px var(--hub-ring-edge);
-  --elevation-card-hover: 0 0 0 1px var(--hub-ring-edge);
-  --elevation-flyout: 0 0 0 1px var(--hub-ring-edge-strong);
-  --elevation-tooltip: 0 0 0 1px var(--hub-ring-edge-strong);
-  --elevation-modal: 0 0 0 1px var(--hub-ring-edge-strong);
-  --elevation-commandbar: 0 0 0 1px var(--hub-ring-edge-strong);
-  --elevation-code-block: 0 0 0 1px var(--hub-ring-edge-strong) inset;
+     variable keeps only lines.
+     The frame of a card, a menu, a dialog or a drawer is --border-base, the line divide-y draws between
+     the rows inside it (Ivan 17.10.2026: «а почему сейчас рамки вокруг контейнера выглядят тоньше чем
+     разделители между пунктами внутри контейнера»). A divider lies over the surface, the ring outside it
+     over the page. In dark --border-base is 10 % white, so the ring has a second line under it in the
+     surface's own background, and the frame comes out the colour of the divider.
+     A tooltip, the command bar and a code block keep hub-v2's ring-foreground/10. A field has one line of
+     the input colour. */
+  --elevation-card-rest: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-base);
+  --elevation-card-hover: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-base);
+  --elevation-flyout: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-component);
+  --elevation-tooltip: 0 0 0 1px var(--hub-ring-edge);
+  --elevation-modal: 0 0 0 1px var(--border-base), 0 0 0 1px var(--bg-base);
+  --elevation-commandbar: 0 0 0 1px var(--hub-ring-edge);
+  --elevation-code-block: 0 0 0 1px var(--hub-ring-edge) inset;
   --borders-base: 0 0 0 1px var(--hub-input);
   --buttons-neutral: 0 0 0 1px var(--hub-border);
   --buttons-inverted: 0 0 0 1px var(--hub-primary);
@@ -204,7 +212,7 @@ html:root {
   --details-switch-background: none;
   /* The switch handle keeps an edge line where hub-v2 has shadow-sm: in light the white handle on the grey
      track that is off is about 1.2:1, and without the line its edge is gone. */
-  --details-switch-handle: 0 0 0 1px var(--hub-ring-edge-strong);
+  --details-switch-handle: 0 0 0 1px var(--hub-ring-edge);
 
   /* Focus: hub-v2's focus-visible:border-ring ring-3 ring-ring/30, a line of the ring grey and a 3 px halo. */
   --hub-focus-halo: 0 0 0 4px color-mix(in oklch, var(--hub-ring) var(--hub-focus-alpha), transparent);
