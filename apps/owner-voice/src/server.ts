@@ -6,9 +6,10 @@
  *   POST /api/text    { question, history } → answer + audio
  *   POST /api/voice   { audio (base64), contentType, history } → transcript + answer + audio
  *
- * The page shows the shop's sales, so once the owner data is live the stand
- * asks for `STAND_PASSWORD` (HTTP Basic, any user name) and refuses to start
- * without it.
+ * Once anything real is behind the page, the stand asks for `STAND_PASSWORD`
+ * (HTTP Basic, any user name) and refuses to start without it: the shop login
+ * shows the shop's sales, and an ElevenLabs or Anthropic key spends paid
+ * credits on every visitor's question.
  */
 import { timingSafeEqual } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -16,7 +17,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { fileURLToPath } from "node:url";
 
 import { type App, createApp } from "./app.ts";
-import { describeConfig, readConfig } from "./config.ts";
+import { type Config, readConfig } from "./config.ts";
 import type { Audio } from "./elevenlabs.ts";
 import type { ChatMessage } from "./model/types.ts";
 
@@ -76,6 +77,15 @@ export function authorized(header: string | undefined, password: string | null):
   return given.length === wanted.length && timingSafeEqual(given, wanted);
 }
 
+/** What makes the stand need a password; empty when it runs on fixtures only. */
+export function passwordReasons(config: Config): string[] {
+  const reasons: string[] = [];
+  if (config.shop.login) reasons.push("SHOP_LOGIN_EMAIL/SHOP_LOGIN_PASSWORD (the shop's sales)");
+  if (config.elevenlabs.apiKey) reasons.push("ELEVENLABS_API_KEY (paid speech)");
+  if (config.model.anthropicKey) reasons.push("ANTHROPIC_API_KEY (paid model calls)");
+  return reasons;
+}
+
 export function handler(app: App, password: string | null) {
   return async (req: IncomingMessage, res: ServerResponse) => {
     try {
@@ -115,10 +125,10 @@ export function handler(app: App, password: string | null) {
 // Started as `node src/server.ts`, not imported by a test (`import.meta.main` is Node 24+ only).
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const config = readConfig();
-  const status = describeConfig(config);
   const password = process.env.STAND_PASSWORD?.trim() || null;
-  if (status.ownerApi === "live" && !password) {
-    console.error("[owner-voice] STAND_PASSWORD is required once the shop login is set: the page shows the shop's sales.");
+  const reasons = passwordReasons(config);
+  if (reasons.length && !password) {
+    console.error(`[owner-voice] STAND_PASSWORD is required when any of these is set: ${reasons.join(", ")}.`);
     process.exit(1);
   }
   const app = createApp(config);

@@ -67,7 +67,8 @@
 - `apps/owner-voice/src/voice.ts`: живой голос ElevenLabs или фикстуры. Распознавание на фикстурах — таблица по sha256 записи, озвучка — тон-заглушка.
 - `apps/owner-voice/src/app.ts`, `src/server.ts`, `src/page.html`: сборка частей, HTTP-стенд и страница.
   Пузыри как в owner-chat chrxnasdmds: ассистент — текст на фоне, владелец — белая «пилюля».
-  Как только задан логин магазина, сервер без `STAND_PASSWORD` не стартует: страница показывает продажи.
+  Как только задан логин магазина, `ELEVENLABS_API_KEY` или `ANTHROPIC_API_KEY`, сервер без `STAND_PASSWORD` не стартует.
+  Логин открывает продажи магазина, а ключи тратят платные кредиты (правка по ревью лида).
 - `apps/owner-voice/scripts/fixture-run.ts`: прогон от начала до конца без ключей и без сети.
 - `apps/owner-voice/fixtures/`: записи Store API cherkashino.com от 20.10.2026 (publishable key заменён).
   Файлы `tenants-*.json` собраны по коду маршрутов, а не записаны: логина магазина на машине сборки нет, и каждый файл говорит об этом в поле `_fixture`.
@@ -78,12 +79,12 @@
 
 ## Тесты
 
-`node --test src/*.test.ts src/**/*.test.ts` в `apps/owner-voice`: 32 теста, все проходят.
+`node --test src/*.test.ts src/**/*.test.ts` в `apps/owner-voice`: 34 теста, все проходят.
 `tsc --noEmit` проходит чисто, `node scripts/check-file-length.mjs` — тоже.
 
 ```
-ℹ tests 32
-ℹ pass 32
+ℹ tests 34
+ℹ pass 34
 ℹ fail 0
 ```
 
@@ -135,7 +136,7 @@ Store API работает без ключа, Store API живой, осталь
   - `ELEVENLABS_API_KEY` (и `ELEVENLABS_VOICE_ID`, если не клон голоса Оксаны);
   - `ANTHROPIC_API_KEY`;
   - `SHOP_LOGIN_EMAIL` и `SHOP_LOGIN_PASSWORD` — вход в панель cherkashino.com с ролью `manager`;
-  - `STAND_PASSWORD` — обязателен вместе с логином.
+  - `STAND_PASSWORD` — обязателен, как только задан логин или любой из двух ключей.
 - Остальное по умолчанию уже указывает на cherkashino.com. Таблица переменных — в `apps/owner-voice/README.md`.
 
 ## Пробелы и пропущенные шаги

@@ -48,7 +48,7 @@ default is in `.env.example` and in `src/config.ts`; they point at cherkashino.c
 | `SHOP_PANEL_URL`, `SHOP_STOREFRONT_URL` | Where the links point | the cherkashino.com panel and storefront |
 | `SHOP_LOCALE`, `SHOP_COUNTRY` | Language of the answers and speech, the country whose region prices are read | `ru`, `ru` |
 | `SHOP_LOGIN_EMAIL`, `SHOP_LOGIN_PASSWORD` | A shop panel login for orders, sales, stock and reviews. Give it the role `manager` | those four run on fixtures |
-| `STAND_PASSWORD` | HTTP Basic password for the page, any user name | required once the shop login is set: the server refuses to start |
+| `STAND_PASSWORD` | HTTP Basic password for the page, any user name | required once the shop login, `ELEVENLABS_API_KEY` or `ANTHROPIC_API_KEY` is set: the server refuses to start. Only a stand on fixtures alone runs open |
 | `ELEVENLABS_API_KEY` | Speech to text and text to speech | speech runs on fixtures, a typed question still works |
 | `ELEVENLABS_VOICE_ID` | The voice | Oksana's cloned voice from chrxnasdmds, which plays only on the account that owns it |
 | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | The model | a keyword router answers instead |

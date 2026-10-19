@@ -6,13 +6,15 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
+import { fileURLToPath } from "node:url";
 
 import { createApp } from "./app.ts";
 import { readConfig } from "./config.ts";
-import { authorized, handler } from "./server.ts";
+import { authorized, handler, passwordReasons } from "./server.ts";
 
 const offline: typeof fetch = async (url) => {
   throw new Error(`no network in this test: ${String(url)}`);
@@ -98,4 +100,29 @@ test("Basic auth compares the password only", () => {
   assert.equal(authorized(header("any:pw:with:colons"), "pw:with:colons"), true);
   assert.equal(authorized(header("any:wrong"), "pw"), false);
   assert.equal(authorized("Bearer x", "pw"), false);
+});
+
+test("the stand needs STAND_PASSWORD once the shop login or any paid key is set", () => {
+  assert.deepEqual(passwordReasons(readConfig({})), [], "fixtures only: no password needed");
+  assert.deepEqual(passwordReasons(readConfig({ SHOP_LOGIN_EMAIL: "o@shop.test", SHOP_LOGIN_PASSWORD: "pw" })), [
+    "SHOP_LOGIN_EMAIL/SHOP_LOGIN_PASSWORD (the shop's sales)",
+  ]);
+  assert.deepEqual(passwordReasons(readConfig({ ELEVENLABS_API_KEY: "k" })), ["ELEVENLABS_API_KEY (paid speech)"]);
+  assert.deepEqual(passwordReasons(readConfig({ ANTHROPIC_API_KEY: "k" })), ["ANTHROPIC_API_KEY (paid model calls)"]);
+  assert.equal(passwordReasons(readConfig({ SHOP_LOGIN_EMAIL: "o@shop.test" })).length, 0, "half a login is no login");
+});
+
+test("the server refuses to start with a paid key and no STAND_PASSWORD", () => {
+  const run = (env: Record<string, string>) =>
+    spawnSync(process.execPath, [fileURLToPath(new URL("./server.ts", import.meta.url))], {
+      env: { PATH: process.env.PATH ?? "", PORT: "0", ...env },
+      encoding: "utf8",
+      timeout: 10_000,
+    });
+  const refused = run({ ELEVENLABS_API_KEY: "test-key-not-real" });
+  assert.equal(refused.status, 1);
+  assert.match(refused.stderr, /STAND_PASSWORD is required when any of these is set: ELEVENLABS_API_KEY/);
+  const refusedModel = run({ ANTHROPIC_API_KEY: "test-key-not-real" });
+  assert.equal(refusedModel.status, 1);
+  assert.match(refusedModel.stderr, /ANTHROPIC_API_KEY/);
 });
