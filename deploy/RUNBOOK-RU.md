@@ -174,6 +174,22 @@ Lower the TTL to 300 before the switch, the same way `t-cherk-15` in the plan al
 runbook does not switch DNS itself — that is `t-cherk-14`/`t-cherk-15`'s moment, after real data has
 moved here, not this stack's first boot.
 
+Course media has its own host directory. The course import (`docs/courses/import-getcourse.md`)
+runs with the local file provider here, because this host sets no `S3_BUCKET`, so it writes each
+lesson's video and file under `/app/static/courses/` of `mt-backend`. `deploy/compose.mt.yml` mounts
+that path from `COURSE_MEDIA_HOST_PATH`, default `/opt/upready-store/media-courses`, and step 5 of
+`deploy-instance.sh` creates the directory before `up`. Without the mount the next release drops every
+lesson's video. Check it after a release:
+
+```bash
+ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP \
+  'docker inspect mt-backend --format "{{range .Mounts}}{{.Source}} -> {{.Destination}}{{println}}{{end}}" | grep courses; du -sh /opt/upready-store/media-courses'
+```
+
+The three exports measured on 19.10.2026 are about 5.4 GB together (kidneys 1.3, lymph 2.2, liver
+1.9), against 15 GB free on this host. Import them only after this mount is live, or the files land in
+the container layer and vanish at the next release.
+
 ## 5. Backups — RU copy stays in Russia
 
 `deploy/backup/RUNBOOK.md` already covers the mechanics (`pg-backup.sh`, `nightly-run.sh`,

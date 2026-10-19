@@ -240,6 +240,13 @@ services:
       # is written at runtime, so without this bind mount every picture a shop
       # owner uploads is destroyed by the next `up -d --build`.
       - ${TENANT_MEDIA_HOST_PATH:-/opt/upready-store/media-tenants}:/app/static/tenants
+      # Course media lives OUTSIDE the image too: the course import
+      # (docs/courses/import-getcourse.md) writes `static/courses/<tenant_id>/…`
+      # with the local file provider, a few GB of video per course. Without
+      # this bind mount the next `up -d --build` drops every lesson's video.
+      # Kept apart from the tenant uploads so the nightly media backup can
+      # leave it out (deploy/backup/RUNBOOK.md, «Course Media»).
+      - ${COURSE_MEDIA_HOST_PATH:-/opt/upready-store/media-courses}:/app/static/courses
     networks:
       # traefik reaches the backend on `coolify` (the traefik.docker.network
       # label below pins it); Redis only on `mt-private`.

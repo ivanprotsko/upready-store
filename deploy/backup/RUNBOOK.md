@@ -109,6 +109,29 @@ so the two are never confused about which dumps are routine and which are pre-de
 (default `/opt/upready-store/backups/cross-copy/`, kept apart from that host's OWN tier 1 so an
 operator never confuses "this host's own last night" with "what the other host sent over").
 
+## Course Media
+
+The nightly media archive leaves course media out, on purpose (t-2026-10-13-29). Course videos and
+files live in their own host directory, `COURSE_MEDIA_HOST_PATH` in `deploy/compose.mt.yml`, default
+`/opt/upready-store/media-courses`. `media-backup.sh` archives only the directories
+`MEDIA_SOURCE_DIRS` names, and `nightly.env.example` names `/opt/upready-store/media-tenants` alone.
+Keep it that way on the RU host. The numbers, measured there on 19.10.2026:
+
+- The three course exports are about 5.4 GB (kidneys 1.3, lymph 2.2, liver 1.9). The disk has 77 GB
+  and 15 GB free, so about 9.6 GB stay free after the import.
+- `tar -czf` barely shrinks video, so one archive of the course folder is about 5.4 GB.
+  `nightly-run.sh` keeps 7 daily and up to 4 weekly archives, which is about 59 GB of course archives
+  alone. The first night already leaves about 4 GB free, and the second fills the disk.
+- `cross-copy.sh` would then push 5.4 GB a night to the other host, and the RU instance allows no
+  cross-host copy (`crossCopyHosts` in `deploy/instances/ru.json` is empty).
+
+What you restore from instead is the GetCourse export the import ran from, on Ivan's Mac
+(`docs/courses/import-getcourse.md`, «What You Need»). A second run of the import is safe. It matches
+lessons by `metadata.getcourse_id` and uploads again only the files that are gone, so a lost
+`media-courses` folder comes back with every lesson's id and every buyer's progress intact. An
+off-host copy of the folder itself belongs in the RU S3 bucket (`S3_ENABLED=1`, a Russian endpoint,
+`deploy/RUNBOOK-RU.md` §5), uploaded once per import rather than archived every night.
+
 ## Installing on a host (NOT done by this task)
 
 SSH access: `ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_contabo root@$CONTABO_SERVER_IP` for contabo

@@ -360,6 +360,11 @@ step_pre_migration_backup() {
 # ------------------------------------------------------------------- step 5
 step_up() {
   begin_step 5 "up"
+  # Course media is a bind mount of its own (COURSE_MEDIA_HOST_PATH in deploy/compose.mt.yml). Docker would
+  # create a missing one as an empty folder too; creating it here names it in the log.
+  local courses; courses="$(rssh "grep '^COURSE_MEDIA_HOST_PATH=' '$REMOTE_ENV' | cut -d= -f2-" || true)"
+  courses="${courses:-$HOST_ROOT/media-courses}"
+  if rssh "mkdir -p '$courses'"; then log "course media on the host: $courses"; else log "warning: could not create $courses (docker creates it at up)"; fi
   log "up -d --build (migrations run in docker-entrypoint.sh, as on every boot)"
   rssh "cd '$REMOTE_DIR' && $COMPOSE up -d --build 2>&1 | tail -20"
 }
