@@ -1,0 +1,32 @@
+{
+  "regions": [
+    {
+      "id": "reg_01M28EPYZW3F7X1WH03JFVJMXB",
+      "currency_code": "eur",
+      "countries": [
+        {
+          "iso_2": "de"
+        }
+      ]
+    },
+    {
+      "id": "reg_01M28EPZ15P07ZB3SC29AG9JPD",
+      "currency_code": "usd",
+      "countries": [
+        {
+          "iso_2": "ru"
+        }
+      ]
+    },
+    {
+      "id": "reg_01M28EPZ1AP5VR5QZFWRHKGY1C",
+      "currency_code": "usd",
+      "countries": [
+        {
+          "iso_2": "us"
+        }
+      ]
+    }
+  ],
+  "count": 3
+}

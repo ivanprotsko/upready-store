@@ -1,0 +1,43 @@
+{
+  "_fixture": "Shaped after apps/backend/src/api/tenants/inventory-items/route.ts (Admin inventory_item list shape). NOT recorded from cherkashino.com: the build machine has no shop login. Numbers are made up.",
+  "inventory_items": [
+    {
+      "id": "iitem_fixture_0",
+      "sku": "1268099764-CHERKASHINO",
+      "title": "Свечи АСД с чесноком, 10 шт",
+      "stocked_quantity": 14,
+      "reserved_quantity": 2
+    },
+    {
+      "id": "iitem_fixture_1",
+      "sku": "PL-09-CHERKASHINO",
+      "title": "Тройчатка плюс от глистов и паразитов 120 капсул",
+      "stocked_quantity": 3,
+      "reserved_quantity": 1
+    },
+    {
+      "id": "iitem_fixture_2",
+      "sku": "966747909-CHERKASHINO",
+      "title": "Каштан капсулы от варикоза 60 шт",
+      "stocked_quantity": 0,
+      "reserved_quantity": 0
+    },
+    {
+      "id": "iitem_fixture_3",
+      "sku": "966976362-CHERKASHINO",
+      "title": "Мазь Каштан от варикоза, 100 мл",
+      "stocked_quantity": 22,
+      "reserved_quantity": 4
+    },
+    {
+      "id": "iitem_fixture_4",
+      "sku": "COURSE-OCHISHCHENIE-PECHENI-CHERKASHINO",
+      "title": "Очищение печени. Полный курс",
+      "stocked_quantity": 40,
+      "reserved_quantity": 0
+    }
+  ],
+  "count": 5,
+  "offset": 0,
+  "limit": 50
+}

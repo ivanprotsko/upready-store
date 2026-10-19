@@ -1,0 +1,17 @@
+{
+  "tenant": {
+    "id": "ten_01M3YEY90HCKP192V0KEGKKJTH",
+    "handle": "cherkashino-com",
+    "name": "Черкашино"
+  },
+  "primary_host": "cherkashino.com",
+  "publishable_key": "pk_fixture",
+  "locale": {
+    "default_locale": "en",
+    "enabled_locales": [
+      "en",
+      "ru"
+    ],
+    "default_country": "us"
+  }
+}

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Голосовой чат владельца</title>
+<style>
+  /* Bubbles after the chrxnasdmds owner chat (Ivan, 13.06): the assistant is plain text on the canvas, the owner a white pill. */
+  :root { --bg: #f2f1ee; --text: #1a1b19; --muted: #6f706b; --pill: #ffffff; --line: #e2e0da; --accent: #1a1b19; --warn: #9a5b00; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151614; --text: #ecebe6; --muted: #9a9b95; --pill: #2a2b28; --line: #2f302d; --accent: #ecebe6; --warn: #e0a54a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 720px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; padding: 16px; }
+  header h1 { font-size: 18px; margin: 4px 0 2px; }
+  #mode { color: var(--muted); font-size: 13px; }
+  #mode b { color: var(--warn); font-weight: 600; }
+  #log { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 20px 0; }
+  .user { align-self: flex-end; background: var(--pill); border-radius: 22px; padding: 9px 16px; max-width: 85%; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  .bot { align-self: flex-start; max-width: 92%; white-space: pre-wrap; }
+  .card { margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .card h2 { font-size: 14px; margin: 0 0 4px; }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card a { color: inherit; }
+  .tools { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .err { color: var(--warn); }
+  form { display: flex; gap: 8px; align-items: center; position: sticky; bottom: 0; background: var(--bg); padding: 12px 0 4px; }
+  input { flex: 1; min-width: 0; border: 1px solid var(--line); background: var(--pill); color: var(--text); border-radius: 22px; padding: 11px 16px; font: inherit; }
+  button { border: 0; border-radius: 22px; padding: 11px 16px; font: inherit; cursor: pointer; background: var(--pill); color: var(--text); }
+  #mic { background: var(--accent); color: var(--bg); min-width: 120px; touch-action: none; user-select: none; }
+  #mic.rec { background: #c0392b; color: #fff; }
+  #hint { color: var(--muted); font-size: 13px; text-align: center; margin: 0; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Голосовой чат владельца</h1>
+    <div id="mode">Загрузка…</div>
+  </header>
+  <section id="log" aria-live="polite"></section>
+  <form id="ask">
+    <button type="button" id="mic" aria-label="Нажмите и говорите">🎙 Говорить</button>
+    <input id="q" autocomplete="off" placeholder="Или спросите текстом: сколько продали за неделю?" />
+    <button type="submit">→</button>
+  </form>
+  <p id="hint">Держите кнопку, пока говорите. Чат только читает данные магазина.</p>
+</main>
+<script>
+  const log = document.getElementById("log");
+  const mic = document.getElementById("mic");
+  const history = [];
+  let player = null;
+
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const scroll = () => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+
+  fetch("/api/status").then((r) => r.json()).then((s) => {
+    const part = (label, mode) => mode === "live" ? `${label}: живые` : `${label}: <b>записи</b>`;
+    document.getElementById("mode").innerHTML =
+      `${s.shop} · ${part("каталог", s.storeApi)} · ${part("заказы и продажи", s.ownerApi)} · ${part("голос", s.voice)} · модель: ${s.provider}`;
+  });
+
+  function showAnswer(data) {
+    if (data.transcript) { log.append(el("div", "user", data.transcript)); history.push({ role: "user", text: data.transcript }); }
+    const bot = el("div", "bot", data.reply);
+    for (const card of data.cards || []) {
+      const box = el("div", "card");
+      box.append(el("h2", null, card.title));
+      const ul = el("ul");
+      for (const row of card.rows) ul.append(el("li", null, row));
+      box.append(ul);
+      if (card.link) { const a = el("a", null, card.link.label); a.href = card.link.href; a.target = "_blank"; a.rel = "noopener"; box.append(a); }
+      bot.append(box);
+    }
+    if (data.calls && data.calls.length) bot.append(el("div", "tools", "Запросы: " + data.calls.map((c) => c.name).join(", ")));
+    log.append(bot);
+    history.push({ role: "assistant", text: data.reply });
+    if (data.audio) {
+      if (player) player.pause();
+      player = new Audio(`data:${data.audioType};base64,${data.audio}`);
+      player.play().catch(() => {});
+    }
+    scroll();
+  }
+
+  async function post(path, body) {
+    const pending = el("div", "bot tools", "Думаю…");
+    log.append(pending); scroll();
+    try {
+      const res = await fetch(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...body, history: history.slice(-8) }) });
+      const data = await res.json();
+      pending.remove();
+      if (!res.ok) { log.append(el("div", "bot err", data.error || "Ошибка")); return; }
+      showAnswer(data);
+    } catch (e) {
+      pending.remove();
+      log.append(el("div", "bot err", "Стенд не ответил."));
+    }
+  }
+
+  document.getElementById("ask").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = document.getElementById("q");
+    const question = input.value.trim();
+    if (!question) return;
+    input.value = "";
+    post("/api/text", { question });
+  });
+
+  let recorder = null, chunks = [], holding = false;
+  async function start() {
+    holding = true;
+    if (recorder) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recorder = new MediaRecorder(stream);
+      chunks = [];
+      recorder.ondataavailable = (e) => chunks.push(e.data);
+      recorder.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop());
+        const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" });
+        recorder = null;
+        mic.classList.remove("rec"); mic.textContent = "🎙 Говорить";
+        if (blob.size < 2000) return;
+        const bytes = new Uint8Array(await blob.arrayBuffer());
+        let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+        post("/api/voice", { audio: btoa(bin), contentType: blob.type });
+      };
+      recorder.start();
+      mic.classList.add("rec"); mic.textContent = "● Слушаю";
+      // The button was let go while the microphone was still being opened.
+      if (!holding) recorder.stop();
+    } catch (e) {
+      log.append(el("div", "bot err", "Нет доступа к микрофону. Спросите текстом."));
+    }
+  }
+  const stop = () => { holding = false; if (recorder && recorder.state === "recording") recorder.stop(); };
+  mic.addEventListener("pointerdown", start);
+  mic.addEventListener("pointerup", stop);
+  mic.addEventListener("pointerleave", stop);
+</script>
+</body>
+</html>

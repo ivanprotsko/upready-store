@@ -1,0 +1,5 @@
+{
+  "_fixture": "Speech-to-text stand-in: the sha256 of an audio file and the words it stands for. The two .wav files are generated tones (ffmpeg sine), not a voice; with ELEVENLABS_API_KEY set the real ElevenLabs STT runs instead.",
+  "8b7c57e003e5ced5b6771de33a9da2c6404ac5ce080361aed493a42d84db89e9": { "file": "question-sales-week.wav", "text": "Сколько мы продали за неделю?" },
+  "34c585fd4c7987647c42d17bd88e5f2ce6788e86a2c8dfa4ad78850cff0691be": { "file": "question-stock.wav", "text": "Сколько осталось каштана на складе?" }
+}

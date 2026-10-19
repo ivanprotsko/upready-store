@@ -1,0 +1,59 @@
+{
+  "_fixture": "Shaped after apps/backend/src/api/tenants/analytics/summary/route.ts. NOT recorded from cherkashino.com: the build machine has no shop login. Numbers are made up.",
+  "has_orders": true,
+  "currency_code": "usd",
+  "currencies": [
+    "usd"
+  ],
+  "currency_breakdown": [
+    {
+      "currency_code": "usd",
+      "revenue": 1284,
+      "order_count": 23
+    }
+  ],
+  "period": {
+    "key": "7d",
+    "from": "2026-10-13T21:00:00.000Z",
+    "to": "2026-10-20T20:59:59.999Z"
+  },
+  "current": {
+    "revenue": 1284,
+    "order_count": 23,
+    "aov": 55.83
+  },
+  "previous": {
+    "revenue": 1107,
+    "order_count": 21,
+    "aov": 52.71
+  },
+  "canceled": {
+    "order_count": 1,
+    "revenue": 30
+  },
+  "change": {
+    "revenue_pct": 15.99,
+    "order_count_pct": 9.52,
+    "aov_pct": 5.92
+  },
+  "top_products": [
+    {
+      "product_id": "prod_01M2GRCGSCKDNQ4SCAPEVBCCN9",
+      "title": "Очищение печени",
+      "quantity": 3,
+      "revenue": 597
+    },
+    {
+      "product_id": "prod_01M2GREFG0PEWGYRHR3F3Z139P",
+      "title": "Каштан капсулы от варикоза 60 шт",
+      "quantity": 9,
+      "revenue": 171
+    },
+    {
+      "product_id": "prod_01M2GRC9BG5GJG7CV5X0WKMNNC",
+      "title": "Тройчатка плюс",
+      "quantity": 8,
+      "revenue": 120
+    }
+  ]
+}
