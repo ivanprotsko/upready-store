@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://upready.store/schemas/owner-summary.v1.json",
+  "title": "upready.owner-summary/v1 — GET /tenants/owner/summary, the «Сводка» page of the owner's panel",
+  "description": "t-2026-10-20-23. What the panel's backend answers on either instance: the shop of this instance read locally, the shops of the other instance as the relay last brought them (each a shop-summary/v1), and the totals across them. Totals are one row per currency, never summed across currencies (b12-analytics-accuracy). This shape never leaves the instance that computes it; only shop-summary/v1 crosses.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "owner_sub", "current_tenant_id", "computed_at", "shops", "totals", "attention"],
+  "properties": {
+    "schema": { "const": "upready.owner-summary/v1" },
+    "owner_sub": { "type": "string", "pattern": "^own_[0-9A-HJKMNP-TV-Z]{26}$" },
+    "current_tenant_id": {
+      "description": "The shop the panel is open on; the «…» menu marks it.",
+      "type": "string",
+      "pattern": "^ten_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "computed_at": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$" },
+    "shops": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tenant_id", "instance", "received_at", "freshness", "summary"],
+        "properties": {
+          "tenant_id": { "type": "string", "pattern": "^ten_[0-9A-HJKMNP-TV-Z]{26}$" },
+          "instance": { "enum": ["ru", "intl"] },
+          "received_at": {
+            "description": "When this instance last got the shop's totals; for the local shop, when they were computed.",
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$"
+          },
+          "freshness": {
+            "description": "fresh: younger than 15 minutes; late: older, the page says since when; missing: never received, summary is null.",
+            "enum": ["fresh", "late", "missing"]
+          },
+          "summary": {
+            "oneOf": [{ "$ref": "shop-summary.v1.schema.json" }, { "type": "null" }]
+          }
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["today", "7d", "30d"],
+      "properties": {
+        "today": { "$ref": "#/$defs/totalRows" },
+        "7d": { "$ref": "#/$defs/totalRows" },
+        "30d": { "$ref": "#/$defs/totalRows" }
+      }
+    },
+    "attention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["to_pack", "reviews_pending"],
+      "properties": {
+        "to_pack": { "type": "integer", "minimum": 0 },
+        "reviews_pending": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "$defs": {
+    "totalRows": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["currency_code", "revenue", "order_count", "aov", "previous_revenue", "shops"],
+        "properties": {
+          "currency_code": { "type": "string", "pattern": "^[a-z]{3}$" },
+          "revenue": { "type": "number", "minimum": 0 },
+          "order_count": { "type": "integer", "minimum": 0 },
+          "aov": { "type": "number", "minimum": 0 },
+          "previous_revenue": { "type": "number", "minimum": 0 },
+          "shops": { "description": "How many shops hold this currency in the period.", "type": "integer", "minimum": 1 }
+        }
+      }
+    }
+  }
+}
