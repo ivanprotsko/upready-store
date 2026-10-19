@@ -111,6 +111,11 @@ function getLocalizedCountryName(
   }
 }
 
+/** A country's name in the reader's locale, the code itself when the runtime has none (t-2026-10-20-22). */
+export function regionNameOf(isoCode: string, locale: string) {
+  return getLocalizedCountryName(isoCode, locale, isoCode.toUpperCase())
+}
+
 function getLocalizedLanguageName(
   code: string,
   fallback: string,

@@ -1075,6 +1075,12 @@
     "close": "Tutup",
     "message": "DTC starter lengkap dan siap produksi."
   },
+  "RegionPopup": {
+    "description": "Kami bertanya sekali untuk menampilkan toko, harga, dan pengiriman yang tepat.",
+    "goesTo": "Membuka {site}",
+    "otherCountry": "Negara lain",
+    "title": "Anda berbelanja dari mana?"
+  },
   "RegionSelect": {
     "apply": "Terapkan",
     "close": "Tutup",

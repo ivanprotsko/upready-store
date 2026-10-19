@@ -1,0 +1,12 @@
+import { createRequire } from "node:module"
+const require = createRequire("/Users/ivanprotsko/upready/worktrees/upready-store/feat/t22-region-popup/apps/storefront/package.json")
+const { chromium } = require("@playwright/test")
+const browser = await chromium.launch({ executablePath: process.argv[2] })
+const c = await browser.newContext({ userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36" })
+const p = await c.newPage(); await p.goto("http://localhost:8000/en", { waitUntil: "networkidle" }); await p.waitForTimeout(2000)
+const n = await p.getByTestId("region-popup").count()
+console.log(`${n === 0 ? "PASS" : "FAIL"} no popup on a shop without region_redirects (${n})`)
+await p.getByTestId("nav-country-select-button").first().click(); await p.waitForTimeout(600)
+const ru = await p.locator('label[for="region-country-ru"]').innerText().catch(() => "")
+console.log(`${!ru.includes("cherkashino.ru") ? "PASS" : "FAIL"} switcher has no redirect row (ru row: ${JSON.stringify(ru)})`)
+await browser.close()

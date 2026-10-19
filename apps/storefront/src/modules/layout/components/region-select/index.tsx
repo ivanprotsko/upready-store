@@ -23,11 +23,14 @@ import { useLocale, useTranslations } from "next-intl"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useMemo, useState, useTransition } from "react"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
+import { regionChoiceCookie } from "@lib/tenant/region-redirects"
+import { useRegionRedirects } from "@modules/layout/components/region-popup/context"
 import {
   countryOptionsOf,
   countrySearchText,
   languageOptionsOf,
   languageSearchText,
+  regionNameOf,
 } from "./options"
 
 type RegionSelectProps = {
@@ -118,6 +121,27 @@ const RegionSelect = ({
     [regions, currentLocale]
   )
 
+  // t-2026-10-20-22: the countries that lead to another shop (cherkashino.com's
+  // «Россия» → cherkashino.ru). Listed first, named by that shop's address, and a
+  // pick sends the visitor there, the way the first-visit popup does.
+  const redirects = useRegionRedirects()
+  const redirectOptions = useMemo(
+    () =>
+      redirects.map((r) => ({
+        country: r.country,
+        url: r.url,
+        label:
+          countryOptions.find((o) => o.country === r.country)?.label ??
+          regionNameOf(r.country, currentLocale),
+        host: new URL(r.url).host,
+      })),
+    [redirects, countryOptions, currentLocale]
+  )
+  const awayCountries = useMemo(
+    () => new Set(redirects.map((r) => r.country)),
+    [redirects]
+  )
+
   const languageOptions = useMemo(
     () =>
       languageOptionsOf(locales, currentLocale, (l) =>
@@ -130,7 +154,7 @@ const RegionSelect = ({
   // a shop that sells in one country has nothing to pick there. The dialog then
   // keeps only the languages; with one language as well there is no dialog at
   // all, and the header just names the country and the currency it prices in.
-  const canPickCountry = countryOptions.length > 1
+  const canPickCountry = countryOptions.length + redirectOptions.length > 1
   const canPickLanguage = languageOptions.length > 1
   const interactive = canPickCountry || canPickLanguage
 
@@ -155,11 +179,19 @@ const RegionSelect = ({
   )
 
   const filteredCountryOptions = useMemo(() => {
-    if (!searching) return countryOptions
-    return countryOptions.filter((_, i) =>
-      countrySearchTexts[i].includes(normalizedQuery)
+    const own = countryOptions.filter((o) => !awayCountries.has(o.country))
+    if (!searching) return own
+    return own.filter((o) =>
+      countrySearchTexts[countryOptions.indexOf(o)].includes(normalizedQuery)
     )
-  }, [searching, countryOptions, countrySearchTexts, normalizedQuery])
+  }, [searching, countryOptions, awayCountries, countrySearchTexts, normalizedQuery])
+
+  const filteredRedirectOptions = useMemo(() => {
+    if (!searching) return redirectOptions
+    return redirectOptions.filter((o) =>
+      `${o.label} ${o.country} ${o.host}`.toLowerCase().includes(normalizedQuery)
+    )
+  }, [searching, redirectOptions, normalizedQuery])
 
   const filteredLanguageOptions = useMemo(() => {
     if (!searching) return languageOptions
@@ -230,6 +262,14 @@ const RegionSelect = ({
       !!pendingCountry && pendingCountry !== selectedCountryOption?.country
     const localeChanged = pendingLocale !== currentLocale
 
+    const away = redirectOptions.find((o) => o.country === pendingCountry)
+    if (away) {
+      startTransition(() => {
+        window.location.assign(away.url)
+      })
+      return
+    }
+
     if (!countryChanged && !localeChanged) {
       setOpen(false)
       return
@@ -246,6 +286,13 @@ const RegionSelect = ({
         await updateLocale(pendingLocale)
       }
       if (countryChanged && pendingCountry) {
+        // The switcher answers the first-visit region popup as well (t-2026-10-20-22).
+        if (redirectOptions.length) {
+          document.cookie = regionChoiceCookie(
+            pendingCountry,
+            window.location.protocol === "https:"
+          )
+        }
         await updateRegion(pendingCountry, newPath)
         return
       }
@@ -427,6 +474,16 @@ const RegionSelect = ({
                             disabled={isPending}
                             className="gap-1"
                           >
+                            {filteredRedirectOptions.map((opt) => (
+                              <RegionOptionRow
+                                key={opt.country}
+                                id={`region-country-${opt.country}`}
+                                value={opt.country}
+                                label={opt.label}
+                                description={opt.host}
+                                flagCode={opt.country.toUpperCase()}
+                              />
+                            ))}
                             {filteredCountryOptions.map((opt) => (
                               <RegionOptionRow
                                 key={opt.country}

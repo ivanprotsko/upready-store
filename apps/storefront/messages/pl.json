@@ -1075,6 +1075,12 @@
     "close": "Zamknij",
     "message": "W pełni funkcjonalny, gotowy do produkcji starter DTC."
   },
+  "RegionPopup": {
+    "description": "Pytamy raz, aby pokazać właściwy sklep, ceny i dostawę.",
+    "goesTo": "Otworzy {site}",
+    "otherCountry": "Inny kraj",
+    "title": "Skąd robisz zakupy?"
+  },
   "RegionSelect": {
     "apply": "Zastosuj",
     "close": "Zamknij",

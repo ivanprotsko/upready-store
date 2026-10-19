@@ -1075,6 +1075,12 @@
     "close": "Isara",
     "message": "Full-featured at production-ready na DTC starter."
   },
+  "RegionPopup": {
+    "description": "Isang beses lang naming itatanong para maipakita ang tamang tindahan, presyo at delivery.",
+    "goesTo": "Bubuksan ang {site}",
+    "otherCountry": "Ibang bansa",
+    "title": "Saan ka namimili?"
+  },
   "RegionSelect": {
     "apply": "I-apply",
     "close": "Isara",

@@ -1075,6 +1075,12 @@
     "close": "Sluiten",
     "message": "Volledig uitgeruste, productieklare DTC starter."
   },
+  "RegionPopup": {
+    "description": "We vragen het één keer om je de juiste winkel, prijzen en levering te tonen.",
+    "goesTo": "Opent {site}",
+    "otherCountry": "Ander land",
+    "title": "Vanuit waar bestel je?"
+  },
   "RegionSelect": {
     "apply": "Toepassen",
     "close": "Sluiten",

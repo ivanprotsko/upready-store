@@ -1075,6 +1075,12 @@
     "close": "Đóng",
     "message": "DTC starter đầy đủ tính năng, sẵn sàng cho production."
   },
+  "RegionPopup": {
+    "description": "Chúng tôi hỏi một lần để hiển thị đúng cửa hàng, giá và giao hàng.",
+    "goesTo": "Mở {site}",
+    "otherCountry": "Quốc gia khác",
+    "title": "Bạn mua sắm từ đâu?"
+  },
   "RegionSelect": {
     "apply": "Áp dụng",
     "close": "Đóng",

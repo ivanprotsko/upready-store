@@ -1075,6 +1075,12 @@
     "close": "Sulje",
     "message": "Täysiverinen, tuotantovalmis DTC-starter."
   },
+  "RegionPopup": {
+    "description": "Kysymme kerran, jotta näet oikean kaupan, hinnat ja toimituksen.",
+    "goesTo": "Avaa {site}",
+    "otherCountry": "Muu maa",
+    "title": "Mistä teet ostoksia?"
+  },
   "RegionSelect": {
     "apply": "Käytä",
     "close": "Sulje",

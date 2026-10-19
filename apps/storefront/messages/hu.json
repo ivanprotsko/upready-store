@@ -1075,6 +1075,12 @@
     "close": "Bezárás",
     "message": "Teljes funkciós, éles környezetre kész DTC starter."
   },
+  "RegionPopup": {
+    "description": "Egyszer kérdezzük meg, hogy a megfelelő boltot, árakat és szállítást mutassuk.",
+    "goesTo": "Megnyílik: {site}",
+    "otherCountry": "Másik ország",
+    "title": "Honnan vásárol?"
+  },
   "RegionSelect": {
     "apply": "Alkalmaz",
     "close": "Bezárás",

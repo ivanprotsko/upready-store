@@ -1075,6 +1075,12 @@
     "close": "Luk",
     "message": "Fuldt udstyret, produktionsklar DTC-starter."
   },
+  "RegionPopup": {
+    "description": "Vi spørger én gang for at vise dig den rigtige butik, priser og levering.",
+    "goesTo": "Åbner {site}",
+    "otherCountry": "Andet land",
+    "title": "Hvor handler du fra?"
+  },
   "RegionSelect": {
     "apply": "Anvend",
     "close": "Luk",

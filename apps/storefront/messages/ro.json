@@ -1075,6 +1075,12 @@
     "close": "Închide",
     "message": "Starter DTC complet, gata pentru producție."
   },
+  "RegionPopup": {
+    "description": "Întrebăm o singură dată ca să vă arătăm magazinul, prețurile și livrarea potrivite.",
+    "goesTo": "Deschide {site}",
+    "otherCountry": "Altă țară",
+    "title": "De unde cumpărați?"
+  },
   "RegionSelect": {
     "apply": "Aplică",
     "close": "Închide",
