@@ -1,0 +1,36 @@
+{
+  "title": "Сводка — cherkashino.com, итоги .ru запаздывают",
+  "template": "shell",
+  "props": {
+    "panel": {
+      "$ref": "parts/panel-com.json"
+    },
+    "active": "summary",
+    "links": {
+      "summary": "summary-late.html",
+      "overview": "overview-com.html",
+      "openMenu": "menu-com.html",
+      "openDrawer": "menu-com.html",
+      "closeMenu": "summary-late.html"
+    },
+    "title": "Сводка",
+    "body": [
+      {
+        "component": "summaryPage",
+        "props": {
+          "data": {
+            "$ref": "../../../../docs/owner-cabinet/contract/example.owner-summary.intl-late.json"
+          },
+          "panel": {
+            "$ref": "parts/panel-com.json"
+          },
+          "period": "7d",
+          "days": {
+            "$ref": "parts/days.json"
+          },
+          "lateNote": "Сервер в России не присылал новые итоги 47 минут. Остальные цифры свежие; как только связь вернётся, сводка обновится сама."
+        }
+      }
+    ]
+  }
+}

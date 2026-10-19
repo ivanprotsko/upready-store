@@ -1,0 +1,14 @@
+{
+  "title": "Вход — cherkashino.ru",
+  "template": "plain",
+  "props": {
+    "body": [
+      {
+        "component": "loginRu",
+        "props": {
+          "next": "summary-ru.html"
+        }
+      }
+    ]
+  }
+}

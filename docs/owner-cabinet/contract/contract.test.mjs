@@ -92,7 +92,7 @@ test("the shop examples match shop-summary/v1", () => {
 })
 
 test("the panel examples match owner-summary/v1", () => {
-  for (const name of ["example.owner-summary.ru.json", "example.owner-summary.intl-late.json"]) {
+  for (const name of ["example.owner-summary.ru.json", "example.owner-summary.intl-late.json", "example.owner-summary.ru-missing.json"]) {
     assert.deepEqual(validate(ownerSchema, read(name), ownerSchema), [], name)
   }
 })

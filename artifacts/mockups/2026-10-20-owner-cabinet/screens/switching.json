@@ -1,0 +1,15 @@
+{
+  "title": "Переход в cherkashino.com",
+  "template": "plain",
+  "props": {
+    "body": [
+      {
+        "component": "switching",
+        "props": {
+          "next": "overview-com.html",
+          "target": "cherkashino.com"
+        }
+      }
+    ]
+  }
+}

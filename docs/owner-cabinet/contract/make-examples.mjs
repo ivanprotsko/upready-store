@@ -196,7 +196,7 @@ const ownerSummary = (current, entries) => {
   const totals = {}
   for (const key of ["today", "7d", "30d"]) {
     const byCurrency = new Map()
-    for (const { summary } of entries) {
+    for (const { summary } of entries.filter((e) => e.summary)) {
       for (const bucket of summary.periods[key].currencies) {
         const row = byCurrency.get(bucket.currency_code) ?? {
           currency_code: bucket.currency_code,
@@ -222,17 +222,17 @@ const ownerSummary = (current, entries) => {
     owner_sub: OWNER_SUB,
     current_tenant_id: current,
     computed_at: NOW,
-    shops: entries.map(({ summary, received_at, freshness }) => ({
-      tenant_id: summary.shop.tenant_id,
-      instance: summary.instance,
+    shops: entries.map(({ summary, received_at, freshness, tenant_id, instance }) => ({
+      tenant_id: summary?.shop.tenant_id ?? tenant_id,
+      instance: summary?.instance ?? instance,
       received_at,
       freshness,
       summary,
     })),
     totals,
     attention: {
-      to_pack: entries.reduce((a, e) => a + e.summary.orders.to_pack, 0),
-      reviews_pending: entries.reduce((a, e) => a + e.summary.reviews.pending, 0),
+      to_pack: entries.reduce((a, e) => a + (e.summary?.orders.to_pack ?? 0), 0),
+      reviews_pending: entries.reduce((a, e) => a + (e.summary?.reviews.pending ?? 0), 0),
     },
   }
 }
@@ -257,5 +257,13 @@ write(
   ownerSummary(SHOPS.intl.tenant, [
     { summary: { ...ru, generated_at: "2026-10-20T05:13:00Z" }, received_at: "2026-10-20T05:13:04Z", freshness: "late" },
     { summary: intl, received_at: NOW, freshness: "fresh" },
+  ]),
+)
+// cherkashino.com is linked but has not sent its first totals yet.
+write(
+  "example.owner-summary.ru-missing.json",
+  ownerSummary(SHOPS.ru.tenant, [
+    { summary: ru, received_at: NOW, freshness: "fresh" },
+    { summary: null, received_at: null, freshness: "missing", tenant_id: SHOPS.intl.tenant, instance: "intl" },
   ]),
 )

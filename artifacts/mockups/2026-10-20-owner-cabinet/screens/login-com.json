@@ -1,0 +1,15 @@
+{
+  "title": "Вход — cherkashino.com",
+  "template": "plain",
+  "props": {
+    "body": [
+      {
+        "component": "loginCom",
+        "props": {
+          "viaRu": "link-first.html",
+          "other": "#"
+        }
+      }
+    ]
+  }
+}

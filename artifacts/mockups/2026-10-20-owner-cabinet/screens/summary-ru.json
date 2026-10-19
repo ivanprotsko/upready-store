@@ -1,0 +1,35 @@
+{
+  "title": "Сводка — cherkashino.ru",
+  "template": "shell",
+  "props": {
+    "panel": {
+      "$ref": "parts/panel-ru.json"
+    },
+    "active": "summary",
+    "links": {
+      "summary": "summary-ru.html",
+      "overview": "overview-ru.html",
+      "openMenu": "menu-ru.html",
+      "openDrawer": "menu-ru.html",
+      "closeMenu": "summary-ru.html"
+    },
+    "title": "Сводка",
+    "body": [
+      {
+        "component": "summaryPage",
+        "props": {
+          "data": {
+            "$ref": "../../../../docs/owner-cabinet/contract/example.owner-summary.ru.json"
+          },
+          "panel": {
+            "$ref": "parts/panel-ru.json"
+          },
+          "period": "7d",
+          "days": {
+            "$ref": "parts/days.json"
+          }
+        }
+      }
+    ]
+  }
+}
