@@ -10,8 +10,8 @@ cherkashino.com through its API and never from a database connection (Ivan, 20.1
 | Tool | Asks the shop | Ported from the chrxnasdmds admin-actions map |
 |---|---|---|
 | `find_products` | `GET /store/products` (Store API, prices for the region of `SHOP_COUNTRY`) | `products.list`, `products.get` |
-| `product_stock` | `GET /tenants/inventory-items` | `inventory.list`, `reservations.list` |
-| `sales_summary` | `GET /tenants/analytics/summary`, computed by the shop's server | `orders.list`, `payments.list` |
+| `product_stock` | `GET /tenants/inventory-items` | `inventory.list` |
+| `sales_summary` | `GET /tenants/analytics/summary`, computed by the shop's server | `orders.list` (the sums come from the engine's own summary route) |
 | `recent_orders` | `GET /tenants/orders`, no customer fields requested | `orders.list` |
 | `product_reviews` | `GET /tenants/reviews`, the author's name is dropped | none, a route of this engine |
 | `open_product` | `GET /store/products`, then a panel and a storefront link | `products.get` |

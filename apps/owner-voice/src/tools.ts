@@ -144,7 +144,7 @@ const findProducts: Tool = {
 
 const productStock: Tool = {
   name: "product_stock",
-  ports: ["inventory.list", "reservations.list"],
+  ports: ["inventory.list"],
   description: "Остатки товара на складе: сколько лежит, сколько в резерве под заказы, сколько можно продать. Только чтение.",
   inputSchema: {
     type: "object",
@@ -177,7 +177,7 @@ const pct = (value: unknown): string =>
 
 const salesSummary: Tool = {
   name: "sales_summary",
-  ports: ["orders.list", "payments.list"],
+  ports: ["orders.list"],
   description:
     "Продажи за период: выручка, число заказов, средний чек, отмены, сравнение с прошлым таким же периодом и самые продаваемые товары. Считает сервер магазина. Только чтение.",
   inputSchema: {
