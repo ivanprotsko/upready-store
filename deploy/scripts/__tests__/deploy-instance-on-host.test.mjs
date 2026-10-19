@@ -89,6 +89,8 @@ test("--on-host runs the seven steps on this host: no ssh, the listed paths only
   assert.deepEqual(readdirSync(mt).sort(), [".dockerignore", ".npmrc", "LICENSE", "apps", "deploy", "docs", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "scripts", "shipshift.env", "specs", "turbo.json"]);
   assert.deepEqual(readdirSync(path.join(mt, "docs")), ["owner-guide"], "only docs/owner-guide of docs/");
   assert.equal(readFileSync(w.envFile, "utf8").startsWith("ENGINE_DOMAIN=engine.example"), true, "the env file is untouched");
+  assert.ok(existsSync(path.join(w.hostRoot, "media-courses")), "step 5 creates the course media folder (COURSE_MEDIA_HOST_PATH default)");
+  assert.match(r.stdout, new RegExp(`course media on the host: ${w.hostRoot}/media-courses`));
 
   const calls = w.calls();
   assert.doesNotMatch(calls, /^ssh /m, "no ssh on the host");
