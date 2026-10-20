@@ -20,14 +20,38 @@
         {
           "currency_code": "eur",
           "current": {
-            "revenue": 43,
-            "order_count": 1,
-            "aov": 43
+            "revenue": 0,
+            "order_count": 0,
+            "aov": 0
           },
           "previous": {
-            "revenue": 31,
+            "revenue": 0,
+            "order_count": 0,
+            "aov": 0
+          },
+          "canceled": {
+            "order_count": 0,
+            "revenue": 0
+          }
+        }
+      ],
+      "top_products": []
+    },
+    "yesterday": {
+      "from": "2026-10-19",
+      "to": "2026-10-19",
+      "currencies": [
+        {
+          "currency_code": "eur",
+          "current": {
+            "revenue": 58,
             "order_count": 1,
-            "aov": 31
+            "aov": 58
+          },
+          "previous": {
+            "revenue": 44,
+            "order_count": 2,
+            "aov": 22
           },
           "canceled": {
             "order_count": 0,
@@ -41,35 +65,35 @@
           "title": "Thai toothpaste with charcoal",
           "currency_code": "eur",
           "quantity": 1,
-          "revenue": 10.5
+          "revenue": 14
         },
         {
           "product_id": "prod_PY27D3WGWB12XFX8BJHVRPM5HD",
           "title": "Pine resin balm",
           "currency_code": "eur",
           "quantity": 1,
-          "revenue": 7.5
+          "revenue": 10
         },
         {
           "product_id": "prod_JTWGA39HTYSKYFK2F14NPD9K1B",
           "title": "Horse chestnut vein ointment",
           "currency_code": "eur",
           "quantity": 1,
-          "revenue": 5
+          "revenue": 7
         },
         {
           "product_id": "prod_EEB6STA0FE3XRRFY482FZTEZQZ",
           "title": "Propolis",
           "currency_code": "eur",
           "quantity": 1,
-          "revenue": 4
+          "revenue": 5
         },
         {
           "product_id": "prod_7WV8YR05A24MMZSZJEFCHM7DK3",
           "title": "Thai concentrated shampoo, 90 g",
           "currency_code": "eur",
           "quantity": 1,
-          "revenue": 3
+          "revenue": 4
         }
       ]
     },
@@ -80,14 +104,14 @@
         {
           "currency_code": "eur",
           "current": {
-            "revenue": 400,
-            "order_count": 9,
-            "aov": 44.44
+            "revenue": 329,
+            "order_count": 8,
+            "aov": 41.13
           },
           "previous": {
-            "revenue": 403,
+            "revenue": 497.5,
             "order_count": 10,
-            "aov": 40.3
+            "aov": 49.75
           },
           "canceled": {
             "order_count": 0,
@@ -101,35 +125,35 @@
           "title": "Thai toothpaste with charcoal",
           "currency_code": "eur",
           "quantity": 3,
-          "revenue": 96
+          "revenue": 79
         },
         {
           "product_id": "prod_PY27D3WGWB12XFX8BJHVRPM5HD",
           "title": "Pine resin balm",
           "currency_code": "eur",
           "quantity": 2,
-          "revenue": 68
+          "revenue": 56
         },
         {
           "product_id": "prod_JTWGA39HTYSKYFK2F14NPD9K1B",
           "title": "Horse chestnut vein ointment",
           "currency_code": "eur",
-          "quantity": 2,
-          "revenue": 48
+          "quantity": 1,
+          "revenue": 39.5
         },
         {
           "product_id": "prod_EEB6STA0FE3XRRFY482FZTEZQZ",
           "title": "Propolis",
           "currency_code": "eur",
           "quantity": 1,
-          "revenue": 36
+          "revenue": 29.5
         },
         {
           "product_id": "prod_7WV8YR05A24MMZSZJEFCHM7DK3",
           "title": "Thai concentrated shampoo, 90 g",
           "currency_code": "eur",
           "quantity": 1,
-          "revenue": 28
+          "revenue": 23
         }
       ]
     },
@@ -140,31 +164,31 @@
         {
           "currency_code": "eur",
           "current": {
-            "revenue": 1551.5,
+            "revenue": 1923.5,
             "order_count": 41,
-            "aov": 37.84
+            "aov": 46.91
           },
           "previous": {
-            "revenue": 1628,
-            "order_count": 41,
-            "aov": 39.71
+            "revenue": 1835.5,
+            "order_count": 43,
+            "aov": 42.69
           },
           "canceled": {
             "order_count": 1,
-            "revenue": 38
+            "revenue": 47
           }
         },
         {
           "currency_code": "usd",
           "current": {
-            "revenue": 27,
-            "order_count": 1,
-            "aov": 27
+            "revenue": 127.5,
+            "order_count": 2,
+            "aov": 63.75
           },
           "previous": {
-            "revenue": 239,
-            "order_count": 4,
-            "aov": 59.75
+            "revenue": 72,
+            "order_count": 2,
+            "aov": 36
           },
           "canceled": {
             "order_count": 0,
@@ -177,36 +201,267 @@
           "product_id": "prod_VH8CNFJ1838VYHSKB5ZEZEC8Y8",
           "title": "Thai toothpaste with charcoal",
           "currency_code": "eur",
-          "quantity": 13,
-          "revenue": 372.5
+          "quantity": 16,
+          "revenue": 461.5
         },
         {
           "product_id": "prod_PY27D3WGWB12XFX8BJHVRPM5HD",
           "title": "Pine resin balm",
           "currency_code": "eur",
-          "quantity": 9,
-          "revenue": 264
+          "quantity": 11,
+          "revenue": 327
         },
         {
           "product_id": "prod_JTWGA39HTYSKYFK2F14NPD9K1B",
           "title": "Horse chestnut vein ointment",
           "currency_code": "eur",
-          "quantity": 6,
-          "revenue": 186
+          "quantity": 8,
+          "revenue": 231
         },
         {
           "product_id": "prod_EEB6STA0FE3XRRFY482FZTEZQZ",
           "title": "Propolis",
           "currency_code": "eur",
-          "quantity": 5,
-          "revenue": 139.5
+          "quantity": 6,
+          "revenue": 173
         },
         {
           "product_id": "prod_7WV8YR05A24MMZSZJEFCHM7DK3",
           "title": "Thai concentrated shampoo, 90 g",
           "currency_code": "eur",
+          "quantity": 5,
+          "revenue": 134.5
+        }
+      ]
+    },
+    "90d": {
+      "from": "2026-07-23",
+      "to": "2026-10-20",
+      "currencies": [
+        {
+          "currency_code": "eur",
+          "current": {
+            "revenue": 5486.5,
+            "order_count": 126,
+            "aov": 43.54
+          },
+          "previous": {
+            "revenue": 4829.5,
+            "order_count": 113,
+            "aov": 42.74
+          },
+          "canceled": {
+            "order_count": 5,
+            "revenue": 217.5
+          }
+        },
+        {
+          "currency_code": "usd",
+          "current": {
+            "revenue": 512.5,
+            "order_count": 9,
+            "aov": 56.94
+          },
+          "previous": {
+            "revenue": 347,
+            "order_count": 8,
+            "aov": 43.38
+          },
+          "canceled": {
+            "order_count": 0,
+            "revenue": 0
+          }
+        }
+      ],
+      "top_products": [
+        {
+          "product_id": "prod_VH8CNFJ1838VYHSKB5ZEZEC8Y8",
+          "title": "Thai toothpaste with charcoal",
+          "currency_code": "eur",
+          "quantity": 45,
+          "revenue": 1317
+        },
+        {
+          "product_id": "prod_PY27D3WGWB12XFX8BJHVRPM5HD",
+          "title": "Pine resin balm",
+          "currency_code": "eur",
+          "quantity": 32,
+          "revenue": 932.5
+        },
+        {
+          "product_id": "prod_JTWGA39HTYSKYFK2F14NPD9K1B",
+          "title": "Horse chestnut vein ointment",
+          "currency_code": "eur",
+          "quantity": 23,
+          "revenue": 658.5
+        },
+        {
+          "product_id": "prod_EEB6STA0FE3XRRFY482FZTEZQZ",
+          "title": "Propolis",
+          "currency_code": "eur",
+          "quantity": 17,
+          "revenue": 494
+        },
+        {
+          "product_id": "prod_7WV8YR05A24MMZSZJEFCHM7DK3",
+          "title": "Thai concentrated shampoo, 90 g",
+          "currency_code": "eur",
+          "quantity": 13,
+          "revenue": 384
+        }
+      ]
+    },
+    "365d": {
+      "from": "2025-10-21",
+      "to": "2026-10-20",
+      "currencies": [
+        {
+          "currency_code": "eur",
+          "current": {
+            "revenue": 21771,
+            "order_count": 499,
+            "aov": 43.63
+          },
+          "previous": {
+            "revenue": 17854.5,
+            "order_count": 437,
+            "aov": 40.86
+          },
+          "canceled": {
+            "order_count": 19,
+            "revenue": 829
+          }
+        },
+        {
+          "currency_code": "usd",
+          "current": {
+            "revenue": 1725,
+            "order_count": 39,
+            "aov": 44.23
+          },
+          "previous": {
+            "revenue": 359,
+            "order_count": 8,
+            "aov": 44.88
+          },
+          "canceled": {
+            "order_count": 1,
+            "revenue": 44
+          }
+        }
+      ],
+      "top_products": [
+        {
+          "product_id": "prod_VH8CNFJ1838VYHSKB5ZEZEC8Y8",
+          "title": "Thai toothpaste with charcoal",
+          "currency_code": "eur",
+          "quantity": 180,
+          "revenue": 5225
+        },
+        {
+          "product_id": "prod_PY27D3WGWB12XFX8BJHVRPM5HD",
+          "title": "Pine resin balm",
+          "currency_code": "eur",
+          "quantity": 128,
+          "revenue": 3701
+        },
+        {
+          "product_id": "prod_JTWGA39HTYSKYFK2F14NPD9K1B",
+          "title": "Horse chestnut vein ointment",
+          "currency_code": "eur",
+          "quantity": 90,
+          "revenue": 2612.5
+        },
+        {
+          "product_id": "prod_EEB6STA0FE3XRRFY482FZTEZQZ",
+          "title": "Propolis",
+          "currency_code": "eur",
+          "quantity": 68,
+          "revenue": 1959.5
+        },
+        {
+          "product_id": "prod_7WV8YR05A24MMZSZJEFCHM7DK3",
+          "title": "Thai concentrated shampoo, 90 g",
+          "currency_code": "eur",
+          "quantity": 53,
+          "revenue": 1524
+        }
+      ]
+    },
+    "range": {
+      "from": "2026-10-01",
+      "to": "2026-10-14",
+      "currencies": [
+        {
+          "currency_code": "eur",
+          "current": {
+            "revenue": 1031.5,
+            "order_count": 20,
+            "aov": 51.58
+          },
+          "previous": {
+            "revenue": 837.5,
+            "order_count": 20,
+            "aov": 41.88
+          },
+          "canceled": {
+            "order_count": 0,
+            "revenue": 0
+          }
+        },
+        {
+          "currency_code": "usd",
+          "current": {
+            "revenue": 127.5,
+            "order_count": 2,
+            "aov": 63.75
+          },
+          "previous": {
+            "revenue": 0,
+            "order_count": 0,
+            "aov": 0
+          },
+          "canceled": {
+            "order_count": 0,
+            "revenue": 0
+          }
+        }
+      ],
+      "top_products": [
+        {
+          "product_id": "prod_VH8CNFJ1838VYHSKB5ZEZEC8Y8",
+          "title": "Thai toothpaste with charcoal",
+          "currency_code": "eur",
+          "quantity": 9,
+          "revenue": 247.5
+        },
+        {
+          "product_id": "prod_PY27D3WGWB12XFX8BJHVRPM5HD",
+          "title": "Pine resin balm",
+          "currency_code": "eur",
+          "quantity": 6,
+          "revenue": 175.5
+        },
+        {
+          "product_id": "prod_JTWGA39HTYSKYFK2F14NPD9K1B",
+          "title": "Horse chestnut vein ointment",
+          "currency_code": "eur",
           "quantity": 4,
-          "revenue": 108.5
+          "revenue": 124
+        },
+        {
+          "product_id": "prod_EEB6STA0FE3XRRFY482FZTEZQZ",
+          "title": "Propolis",
+          "currency_code": "eur",
+          "quantity": 3,
+          "revenue": 93
+        },
+        {
+          "product_id": "prod_7WV8YR05A24MMZSZJEFCHM7DK3",
+          "title": "Thai concentrated shampoo, 90 g",
+          "currency_code": "eur",
+          "quantity": 2,
+          "revenue": 72
         }
       ]
     }
@@ -215,604 +470,756 @@
     {
       "date": "2026-07-23",
       "currency_code": "eur",
-      "revenue": 35,
+      "revenue": 42.5,
       "order_count": 2
     },
     {
       "date": "2026-07-23",
       "currency_code": "usd",
-      "revenue": 37.5,
+      "revenue": 57,
       "order_count": 1
     },
     {
       "date": "2026-07-24",
       "currency_code": "eur",
-      "revenue": 43,
-      "order_count": 1
+      "revenue": 120.5,
+      "order_count": 2
     },
     {
       "date": "2026-07-25",
       "currency_code": "eur",
-      "revenue": 43,
+      "revenue": 41,
       "order_count": 1
     },
     {
       "date": "2026-07-26",
       "currency_code": "eur",
-      "revenue": 94,
+      "revenue": 15.5,
       "order_count": 1
     },
     {
       "date": "2026-07-27",
       "currency_code": "eur",
-      "revenue": 91,
+      "revenue": 54,
       "order_count": 2
-    },
-    {
-      "date": "2026-07-27",
-      "currency_code": "usd",
-      "revenue": 46.5,
-      "order_count": 1
     },
     {
       "date": "2026-07-28",
       "currency_code": "eur",
-      "revenue": 90.5,
+      "revenue": 47.5,
       "order_count": 2
     },
     {
       "date": "2026-07-28",
       "currency_code": "usd",
-      "revenue": 97,
+      "revenue": 64,
       "order_count": 1
     },
     {
       "date": "2026-07-29",
       "currency_code": "eur",
-      "revenue": 96,
-      "order_count": 2
+      "revenue": 35.5,
+      "order_count": 1
     },
     {
       "date": "2026-07-30",
       "currency_code": "eur",
-      "revenue": 49.5,
-      "order_count": 2
+      "revenue": 36.5,
+      "order_count": 1
     },
     {
       "date": "2026-07-31",
       "currency_code": "eur",
-      "revenue": 87,
-      "order_count": 2
+      "revenue": 21.5,
+      "order_count": 1
     },
     {
       "date": "2026-08-01",
       "currency_code": "eur",
-      "revenue": 85,
+      "revenue": 25,
       "order_count": 1
     },
     {
       "date": "2026-08-02",
       "currency_code": "eur",
-      "revenue": 40.5,
+      "revenue": 83,
       "order_count": 1
     },
     {
       "date": "2026-08-03",
       "currency_code": "eur",
-      "revenue": 84,
-      "order_count": 1
+      "revenue": 148,
+      "order_count": 2
     },
     {
       "date": "2026-08-04",
-      "currency_code": "eur",
-      "revenue": 30.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-04",
-      "currency_code": "usd",
-      "revenue": 47,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-05",
-      "currency_code": "eur",
-      "revenue": 124,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-06",
-      "currency_code": "eur",
-      "revenue": 46,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-07",
-      "currency_code": "eur",
-      "revenue": 78.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-08",
-      "currency_code": "eur",
-      "revenue": 94,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-09",
-      "currency_code": "eur",
-      "revenue": 13.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-10",
-      "currency_code": "eur",
-      "revenue": 19,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-11",
-      "currency_code": "eur",
-      "revenue": 19.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-12",
-      "currency_code": "eur",
-      "revenue": 71,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-13",
-      "currency_code": "eur",
-      "revenue": 102,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-14",
-      "currency_code": "eur",
-      "revenue": 98.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-15",
-      "currency_code": "eur",
-      "revenue": 9,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-16",
-      "currency_code": "eur",
-      "revenue": 63,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-17",
-      "currency_code": "eur",
-      "revenue": 30,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-18",
-      "currency_code": "eur",
-      "revenue": 131,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-19",
-      "currency_code": "eur",
-      "revenue": 80,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-20",
-      "currency_code": "eur",
-      "revenue": 74.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-20",
-      "currency_code": "usd",
-      "revenue": 41.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-21",
-      "currency_code": "eur",
-      "revenue": 140,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-22",
-      "currency_code": "eur",
-      "revenue": 92,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-23",
-      "currency_code": "eur",
-      "revenue": 45,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-24",
-      "currency_code": "eur",
-      "revenue": 46,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-25",
-      "currency_code": "eur",
-      "revenue": 101.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-26",
-      "currency_code": "eur",
-      "revenue": 24,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-27",
-      "currency_code": "eur",
-      "revenue": 20.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-28",
-      "currency_code": "eur",
-      "revenue": 89,
-      "order_count": 2
-    },
-    {
-      "date": "2026-08-29",
-      "currency_code": "eur",
-      "revenue": 42.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-30",
-      "currency_code": "eur",
-      "revenue": 43.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-08-31",
-      "currency_code": "eur",
-      "revenue": 65.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-01",
-      "currency_code": "eur",
-      "revenue": 13,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-01",
-      "currency_code": "usd",
-      "revenue": 95,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-02",
-      "currency_code": "eur",
-      "revenue": 41,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-02",
-      "currency_code": "usd",
-      "revenue": 42,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-03",
-      "currency_code": "eur",
-      "revenue": 85,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-04",
-      "currency_code": "eur",
-      "revenue": 34,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-05",
-      "currency_code": "eur",
-      "revenue": 76,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-06",
-      "currency_code": "eur",
-      "revenue": 25,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-07",
-      "currency_code": "eur",
-      "revenue": 66,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-07",
-      "currency_code": "usd",
-      "revenue": 57,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-08",
-      "currency_code": "eur",
-      "revenue": 63,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-09",
-      "currency_code": "eur",
-      "revenue": 30.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-10",
-      "currency_code": "eur",
-      "revenue": 27,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-11",
-      "currency_code": "eur",
-      "revenue": 69.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-12",
-      "currency_code": "eur",
-      "revenue": 26.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-13",
-      "currency_code": "eur",
-      "revenue": 29,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-14",
-      "currency_code": "eur",
-      "revenue": 35,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-15",
-      "currency_code": "eur",
-      "revenue": 22,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-16",
-      "currency_code": "eur",
-      "revenue": 62,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-17",
-      "currency_code": "eur",
-      "revenue": 82,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-18",
-      "currency_code": "eur",
-      "revenue": 52.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-18",
-      "currency_code": "usd",
-      "revenue": 45,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-19",
-      "currency_code": "eur",
-      "revenue": 176,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-20",
-      "currency_code": "eur",
-      "revenue": 43.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-21",
-      "currency_code": "eur",
-      "revenue": 90.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-22",
-      "currency_code": "eur",
-      "revenue": 107.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-23",
-      "currency_code": "eur",
-      "revenue": 85,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-24",
-      "currency_code": "eur",
-      "revenue": 39,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-24",
-      "currency_code": "usd",
-      "revenue": 27,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-25",
-      "currency_code": "eur",
-      "revenue": 48,
-      "order_count": 2
-    },
-    {
-      "date": "2026-09-26",
-      "currency_code": "eur",
-      "revenue": 29.5,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-27",
-      "currency_code": "eur",
-      "revenue": 39,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-28",
-      "currency_code": "eur",
-      "revenue": 18,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-29",
-      "currency_code": "eur",
-      "revenue": 25,
-      "order_count": 1
-    },
-    {
-      "date": "2026-09-30",
-      "currency_code": "eur",
-      "revenue": 51,
-      "order_count": 2
-    },
-    {
-      "date": "2026-10-01",
-      "currency_code": "eur",
-      "revenue": 60.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-10-02",
-      "currency_code": "eur",
-      "revenue": 21,
-      "order_count": 1
-    },
-    {
-      "date": "2026-10-03",
-      "currency_code": "eur",
-      "revenue": 23,
-      "order_count": 1
-    },
-    {
-      "date": "2026-10-04",
       "currency_code": "eur",
       "revenue": 20,
       "order_count": 1
     },
     {
-      "date": "2026-10-05",
+      "date": "2026-08-05",
       "currency_code": "eur",
-      "revenue": 80,
+      "revenue": 24,
       "order_count": 1
     },
     {
-      "date": "2026-10-06",
+      "date": "2026-08-06",
       "currency_code": "eur",
-      "revenue": 11.5,
+      "revenue": 32,
       "order_count": 1
     },
     {
-      "date": "2026-10-07",
+      "date": "2026-08-07",
       "currency_code": "eur",
-      "revenue": 126,
+      "revenue": 167,
       "order_count": 2
     },
     {
-      "date": "2026-10-08",
+      "date": "2026-08-08",
       "currency_code": "eur",
-      "revenue": 42,
+      "revenue": 28,
       "order_count": 1
     },
     {
-      "date": "2026-10-09",
-      "currency_code": "eur",
-      "revenue": 36,
-      "order_count": 1
-    },
-    {
-      "date": "2026-10-10",
-      "currency_code": "eur",
-      "revenue": 56,
-      "order_count": 1
-    },
-    {
-      "date": "2026-10-11",
+      "date": "2026-08-09",
       "currency_code": "eur",
       "revenue": 52,
       "order_count": 1
     },
     {
-      "date": "2026-10-12",
+      "date": "2026-08-10",
       "currency_code": "eur",
-      "revenue": 58,
+      "revenue": 77,
       "order_count": 2
     },
     {
-      "date": "2026-10-13",
-      "currency_code": "eur",
-      "revenue": 33,
-      "order_count": 2
-    },
-    {
-      "date": "2026-10-14",
-      "currency_code": "eur",
-      "revenue": 68,
+      "date": "2026-08-10",
+      "currency_code": "usd",
+      "revenue": 64,
       "order_count": 1
     },
     {
-      "date": "2026-10-15",
+      "date": "2026-08-11",
       "currency_code": "eur",
-      "revenue": 62.5,
-      "order_count": 2
-    },
-    {
-      "date": "2026-10-16",
-      "currency_code": "eur",
-      "revenue": 67,
+      "revenue": 34,
       "order_count": 1
     },
     {
-      "date": "2026-10-17",
+      "date": "2026-08-12",
+      "currency_code": "eur",
+      "revenue": 25,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-13",
+      "currency_code": "eur",
+      "revenue": 37.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-08-13",
+      "currency_code": "usd",
+      "revenue": 87,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-14",
+      "currency_code": "eur",
+      "revenue": 71,
+      "order_count": 2
+    },
+    {
+      "date": "2026-08-15",
+      "currency_code": "eur",
+      "revenue": 83,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-16",
+      "currency_code": "eur",
+      "revenue": 27,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-17",
+      "currency_code": "eur",
+      "revenue": 80.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-08-17",
+      "currency_code": "usd",
+      "revenue": 41,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-18",
+      "currency_code": "eur",
+      "revenue": 47.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-19",
+      "currency_code": "eur",
+      "revenue": 118.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-08-20",
+      "currency_code": "eur",
+      "revenue": 110,
+      "order_count": 2
+    },
+    {
+      "date": "2026-08-21",
+      "currency_code": "eur",
+      "revenue": 23,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-22",
+      "currency_code": "eur",
+      "revenue": 46,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-23",
+      "currency_code": "eur",
+      "revenue": 12,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-24",
+      "currency_code": "eur",
+      "revenue": 27.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-25",
       "currency_code": "eur",
       "revenue": 13.5,
       "order_count": 1
     },
     {
-      "date": "2026-10-18",
+      "date": "2026-08-26",
+      "currency_code": "eur",
+      "revenue": 71,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-27",
+      "currency_code": "eur",
+      "revenue": 53,
+      "order_count": 2
+    },
+    {
+      "date": "2026-08-28",
+      "currency_code": "eur",
+      "revenue": 64.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-08-28",
+      "currency_code": "usd",
+      "revenue": 47,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-29",
+      "currency_code": "eur",
+      "revenue": 52,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-30",
+      "currency_code": "eur",
+      "revenue": 19,
+      "order_count": 1
+    },
+    {
+      "date": "2026-08-31",
+      "currency_code": "eur",
+      "revenue": 97,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-01",
+      "currency_code": "eur",
+      "revenue": 116,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-02",
+      "currency_code": "eur",
+      "revenue": 55,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-02",
+      "currency_code": "usd",
+      "revenue": 25,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-03",
       "currency_code": "eur",
       "revenue": 115,
       "order_count": 2
     },
     {
-      "date": "2026-10-19",
+      "date": "2026-09-04",
       "currency_code": "eur",
-      "revenue": 31,
+      "revenue": 111,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-05",
+      "currency_code": "eur",
+      "revenue": 38.5,
       "order_count": 1
     },
     {
-      "date": "2026-10-20",
+      "date": "2026-09-06",
       "currency_code": "eur",
-      "revenue": 43,
+      "revenue": 45.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-07",
+      "currency_code": "eur",
+      "revenue": 52,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-08",
+      "currency_code": "eur",
+      "revenue": 95,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-09",
+      "currency_code": "eur",
+      "revenue": 49,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-10",
+      "currency_code": "eur",
+      "revenue": 47.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-11",
+      "currency_code": "eur",
+      "revenue": 166,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-12",
+      "currency_code": "eur",
+      "revenue": 47.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-13",
+      "currency_code": "eur",
+      "revenue": 70,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-14",
+      "currency_code": "eur",
+      "revenue": 52,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-15",
+      "currency_code": "eur",
+      "revenue": 36.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-16",
+      "currency_code": "eur",
+      "revenue": 65,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-17",
+      "currency_code": "eur",
+      "revenue": 37.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-18",
+      "currency_code": "eur",
+      "revenue": 38,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-19",
+      "currency_code": "eur",
+      "revenue": 89,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-20",
+      "currency_code": "eur",
+      "revenue": 54,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-21",
+      "currency_code": "eur",
+      "revenue": 41.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-22",
+      "currency_code": "eur",
+      "revenue": 30,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-23",
+      "currency_code": "eur",
+      "revenue": 96,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-24",
+      "currency_code": "eur",
+      "revenue": 47.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-25",
+      "currency_code": "eur",
+      "revenue": 22,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-26",
+      "currency_code": "eur",
+      "revenue": 135.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-27",
+      "currency_code": "eur",
+      "revenue": 11.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-09-28",
+      "currency_code": "eur",
+      "revenue": 89.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-29",
+      "currency_code": "eur",
+      "revenue": 99.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-09-30",
+      "currency_code": "eur",
+      "revenue": 46,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-01",
+      "currency_code": "eur",
+      "revenue": 133,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-02",
+      "currency_code": "eur",
+      "revenue": 63.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-03",
+      "currency_code": "eur",
+      "revenue": 41,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-04",
+      "currency_code": "eur",
+      "revenue": 57,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-05",
+      "currency_code": "eur",
+      "revenue": 89,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-06",
+      "currency_code": "eur",
+      "revenue": 94.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-07",
+      "currency_code": "eur",
+      "revenue": 76.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-07",
+      "currency_code": "usd",
+      "revenue": 40.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-08",
+      "currency_code": "eur",
+      "revenue": 79,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-09",
+      "currency_code": "eur",
+      "revenue": 34,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-10",
+      "currency_code": "eur",
+      "revenue": 74,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-11",
+      "currency_code": "eur",
+      "revenue": 89,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-12",
+      "currency_code": "eur",
+      "revenue": 45,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-12",
+      "currency_code": "usd",
+      "revenue": 87,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-13",
+      "currency_code": "eur",
+      "revenue": 100,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-14",
+      "currency_code": "eur",
+      "revenue": 56,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-15",
+      "currency_code": "eur",
+      "revenue": 45.5,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-16",
+      "currency_code": "eur",
+      "revenue": 45.5,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-17",
+      "currency_code": "eur",
+      "revenue": 80,
+      "order_count": 1
+    },
+    {
+      "date": "2026-10-18",
+      "currency_code": "eur",
+      "revenue": 44,
+      "order_count": 2
+    },
+    {
+      "date": "2026-10-19",
+      "currency_code": "eur",
+      "revenue": 58,
       "order_count": 1
     }
   ],
+  "hourly": [
+    {
+      "hour": "2026-10-19T10",
+      "currency_code": "eur",
+      "revenue": 58,
+      "order_count": 1
+    }
+  ],
+  "monthly": [
+    {
+      "month": "2025-10",
+      "currency_code": "eur",
+      "revenue": 820,
+      "order_count": 17
+    },
+    {
+      "month": "2025-11",
+      "currency_code": "eur",
+      "revenue": 1564.5,
+      "order_count": 41
+    },
+    {
+      "month": "2025-12",
+      "currency_code": "eur",
+      "revenue": 2533,
+      "order_count": 61
+    },
+    {
+      "month": "2025-12",
+      "currency_code": "usd",
+      "revenue": 494,
+      "order_count": 13
+    },
+    {
+      "month": "2026-01",
+      "currency_code": "eur",
+      "revenue": 1479.5,
+      "order_count": 35
+    },
+    {
+      "month": "2026-02",
+      "currency_code": "eur",
+      "revenue": 1634.5,
+      "order_count": 37
+    },
+    {
+      "month": "2026-02",
+      "currency_code": "usd",
+      "revenue": 66,
+      "order_count": 2
+    },
+    {
+      "month": "2026-03",
+      "currency_code": "eur",
+      "revenue": 2043,
+      "order_count": 43
+    },
+    {
+      "month": "2026-03",
+      "currency_code": "usd",
+      "revenue": 243.5,
+      "order_count": 5
+    },
+    {
+      "month": "2026-04",
+      "currency_code": "eur",
+      "revenue": 1794.5,
+      "order_count": 35
+    },
+    {
+      "month": "2026-04",
+      "currency_code": "usd",
+      "revenue": 85,
+      "order_count": 3
+    },
+    {
+      "month": "2026-05",
+      "currency_code": "eur",
+      "revenue": 1748.5,
+      "order_count": 40
+    },
+    {
+      "month": "2026-05",
+      "currency_code": "usd",
+      "revenue": 143.5,
+      "order_count": 4
+    },
+    {
+      "month": "2026-06",
+      "currency_code": "eur",
+      "revenue": 1533.5,
+      "order_count": 37
+    },
+    {
+      "month": "2026-06",
+      "currency_code": "usd",
+      "revenue": 164,
+      "order_count": 2
+    },
+    {
+      "month": "2026-07",
+      "currency_code": "eur",
+      "revenue": 1548,
+      "order_count": 40
+    },
+    {
+      "month": "2026-07",
+      "currency_code": "usd",
+      "revenue": 137.5,
+      "order_count": 3
+    },
+    {
+      "month": "2026-08",
+      "currency_code": "eur",
+      "revenue": 1768.5,
+      "order_count": 42
+    },
+    {
+      "month": "2026-08",
+      "currency_code": "usd",
+      "revenue": 239,
+      "order_count": 4
+    },
+    {
+      "month": "2026-09",
+      "currency_code": "eur",
+      "revenue": 1999,
+      "order_count": 44
+    },
+    {
+      "month": "2026-09",
+      "currency_code": "usd",
+      "revenue": 25,
+      "order_count": 1
+    },
+    {
+      "month": "2026-10",
+      "currency_code": "eur",
+      "revenue": 1304.5,
+      "order_count": 27
+    },
+    {
+      "month": "2026-10",
+      "currency_code": "usd",
+      "revenue": 127.5,
+      "order_count": 2
+    }
+  ],
+  "fx": {
+    "display_currency": "rub",
+    "source": "cbr",
+    "rates": [
+      {
+        "currency_code": "eur",
+        "rate": 94.37,
+        "date": "2026-10-20"
+      },
+      {
+        "currency_code": "usd",
+        "rate": 81.05,
+        "date": "2026-10-20"
+      }
+    ]
+  },
   "orders": {
     "to_pack": 2
   },

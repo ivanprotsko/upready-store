@@ -2,7 +2,7 @@
 // They draw the tenant panel as it is (apps/tenant-panel: main-layout.tsx, owner-nav, routes/home)
 // in its own colours (src/theme/hub-theme.css) plus what this task adds: «Сводка», the shop list
 // in the «…» menu, the sign-in once.
-import { changePct, count, escape, money, shortDate } from "./format.mjs"
+import { changePct, count, escape, money, plural, shortDate } from "./format.mjs"
 
 const PERIOD_LABELS = { today: "Сегодня", "7d": "7 дней", "30d": "30 дней" }
 
@@ -184,30 +184,99 @@ export const shell = ({ panel, active, menuOpen = false, drawerOpen = false, lin
   </div>`
 
 // ---- the period bar pinned under the top bar (Ivan 20.10, mark 4: «контролы нужно загрепить в хедере по аналогии
-// как в яндекс метрике») ------------------------------------------------------------------------------------------
+// как в яндекс метрике»). It works (Ivan 21.10, mark 15: «нужно сделать чтобы работал переключатель и я увидел как будет
+// выглядеть график на разном количестве дней»): one radio per period, CSS shows the chosen period's figures, chart and
+// rows (`.per-<key>`), the page carries no script. The range button opens the list of periods and the calendar's range.
 
-const BAR_PERIODS = [
-  ["today", "Сегодня"],
-  ["yesterday", "Вчера"],
-  ["7d", "Неделя"],
-  ["30d", "Месяц"],
-  ["90d", "Квартал"],
+const PERIODS = [
+  { key: "today", label: "Сегодня", unit: "hour" },
+  { key: "yesterday", label: "Вчера", unit: "hour" },
+  { key: "7d", label: "Неделя", unit: "day" },
+  { key: "30d", label: "Месяц", unit: "day" },
+  { key: "90d", label: "Квартал", unit: "week" },
+  { key: "365d", label: "Год", unit: "month" },
+  { key: "range", label: "Свой период", unit: "day" },
 ]
-const PERIOD_DAYS = { today: 1, "7d": 7, "30d": 30 }
+const UNIT_WORD = { hour: "По часам", day: "По дням", week: "По неделям", month: "По месяцам" }
 
-export const periodBar = ({ period = "7d", days }) => {
-  const shown = days.slice(-PERIOD_DAYS[period])
-  const range =
-    shown.length > 1 ? `${shortDate(shown[0]).replace(/ .*/, "")} — ${shortDate(shown[shown.length - 1])}` : shortDate(shown[0])
-  return `
+const MONTHS = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]
+const dayParts = (iso) => ({ d: Number(iso.slice(8, 10)), m: Number(iso.slice(5, 7)) - 1, y: iso.slice(0, 4) })
+
+/** «20 окт», «1 — 14 окт», «21 сен — 20 окт», «21 окт 2025 — 20 окт 2026». */
+const rangeText = ({ from, to }) => {
+  const a = dayParts(from)
+  const b = dayParts(to)
+  if (from === to) return `${b.d} ${MONTHS[b.m]}`
+  if (a.y !== b.y) return `${a.d} ${MONTHS[a.m]} ${a.y} — ${b.d} ${MONTHS[b.m]} ${b.y}`
+  if (a.m === b.m) return `${a.d} — ${b.d} ${MONTHS[b.m]}`
+  return `${a.d} ${MONTHS[a.m]} — ${b.d} ${MONTHS[b.m]}`
+}
+
+/**
+ * One copy per period; CSS keeps the chosen one (panel.css, «the period switch»). The state's own period comes first,
+ * so a selector of the viewer's marks and comments finds the copy on screen.
+ */
+const perPeriod = (periods, draw, tag = "div", first = "7d") =>
+  PERIODS.filter(({ key }) => periods[key])
+    .sort((a, b) => (b.key === first) - (a.key === first))
+    .map((p) => `<${tag} class="per per-${p.key}">${draw(p)}</${tag}>`)
+    .join("")
+
+export const periodBar = ({ period = "7d", periods }) => `
     <div class="period-bar" data-proto="period-bar">
+      ${PERIODS.map(({ key }) => `<input class="sr" type="radio" name="period" id="period-${key}"${key === period ? " checked" : ""}>`).join("")}
       <div class="seg seg-periods" role="radiogroup" aria-label="Период">
-        ${BAR_PERIODS.map(([key, label]) => `<span class="seg-item${key === period ? " is-on" : ""}" role="radio" aria-checked="${key === period}">${label}</span>`).join("")}
-        <span class="seg-item seg-range is-on-soft">${range}${icon("chevronDown", "muted")}</span>
+        ${PERIODS.filter(({ key }) => key !== "range")
+          .map(({ key, label }) => `<label class="seg-item" for="period-${key}">${label}</label>`)
+          .join("")}
       </div>
-      <span class="btn btn-secondary btn-small bar-pill bar-pill-range">${range}${icon("chevronDown", "muted")}</span>
-      <span class="btn btn-secondary btn-small bar-pill">По дням${icon("chevronDown", "muted")}</span>
+      <button type="button" class="btn btn-secondary btn-small bar-pill bar-range" popovertarget="period-pick" data-proto="period-range">
+        ${perPeriod(periods, ({ key, label }) => `<span class="bar-range-label">${label}</span>${rangeText(periods[key])}`, "span", period)}${icon("chevronDown", "muted")}
+      </button>
+      <div class="period-pick" id="period-pick" popover>
+        ${PERIODS.map(
+          ({ key, label }) => `
+        <label class="dropdown-item" for="period-${key}">
+          <span class="dropdown-check pick-${key}">${icon("check")}</span>
+          <span>${label}</span>
+          <span class="dropdown-hint">${rangeText(periods[key])}</span>
+        </label>`,
+        ).join("")}
+      </div>
+      <span class="btn btn-secondary btn-small bar-pill bar-unit">${perPeriod(periods, ({ unit }) => UNIT_WORD[unit], "span", period)}${icon("chevronDown", "muted")}</span>
     </div>`
+
+// ---- one currency: rubles (Ivan 21.10, marks 17, 19, 20: «валюту нужно показывать одну, пусть пересчитывается по какому
+// то курсу, но показывать в рублях», «пунктирное подчеркивание и тултип с реальной валютой», «в поповере показывать уже
+// список валют»). An amount in another currency is multiplied by the rate its source sent (shop-summary/v1 `fx`).
+
+const CURRENCY_IN = { rub: "В рублях", eur: "В евро", usd: "В долларах" }
+const CURRENCY_SIGN = { rub: "₽", eur: "€", usd: "$" }
+const sign = (code) => CURRENCY_SIGN[code] ?? code.toUpperCase()
+const rateNumber = (rate) => new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(rate)
+const rateDay = (iso) => `${iso.slice(8, 10)}.${iso.slice(5, 7)}.${iso.slice(0, 4)}`
+const rub = (value) => money(value, "rub")
+
+/** Rubles of an amount, at the rate of the source that sent it. */
+const toRub = (fx, code, amount) => (code === "rub" ? amount : Math.round(amount * fx.rates.find((r) => r.currency_code === code).rate))
+
+/** «По курсу ЦБ РФ на 20.10.2026: 1 € = 94,37 ₽, 1 $ = 81,05 ₽.» */
+const rateLine = (rates) =>
+  rates.length
+    ? `По курсу ЦБ РФ на ${rateDay(rates[0].date)}: ${rates.map((r) => `1 ${sign(r.currency_code)} = ${rateNumber(r.rate)} ₽`).join(", ")}.`
+    : ""
+
+/**
+ * A ruble figure; when some of it was sold in another currency, a dotted underline and a tooltip with the real amounts
+ * and the rate. `parts` are [{ code, amount }] in their own currencies. Hover shows it, a tap focuses it on the phone.
+ */
+const rubFigure = ({ parts, fx, value, cls = "" }) => {
+  const sold = parts.filter((p) => p.amount && p.code !== "rub")
+  const text = rub(value ?? parts.reduce((a, p) => a + toRub(fx, p.code, p.amount), 0))
+  if (!sold.length) return `<span class="${cls}">${text}</span>`
+  const rates = fx.rates.filter((r) => sold.some((p) => p.code === r.currency_code))
+  const real = parts.filter((p) => p.amount).map((p) => money(p.amount, p.code))
+  return `<span class="conv ${cls}" tabindex="0">${text}<span class="tip" role="tooltip"><span>Продажи: ${real.join(" и ")}.</span><span class="txt-subtle">${rateLine(rates)}</span></span></span>`
 }
 
 // ---- «Сводка»: the sales sources of the owner ---------------------------------------------------------------------
@@ -224,11 +293,46 @@ const sourceLabel = (entry, panelShops) =>
 
 const sourceKey = (entry) => `${entry.instance}-${entry.source}`
 
-const totalsCard = ({ label, rows, proto }) => `
-  <div class="stat" ${proto ? `data-proto="${proto}"` : ""}>
+/** A source's period in rubles: revenue, the period before, orders, the average order, and the real amounts behind them. */
+const inRub = (summary, key) => {
+  const buckets = summary.periods[key].currencies
+  const revenue = buckets.reduce((a, b) => a + toRub(summary.fx, b.currency_code, b.current.revenue), 0)
+  const previous = buckets.reduce((a, b) => a + toRub(summary.fx, b.currency_code, b.previous.revenue), 0)
+  const orders = buckets.reduce((a, b) => a + b.current.order_count, 0)
+  const previousOrders = buckets.reduce((a, b) => a + b.previous.order_count, 0)
+  return {
+    revenue,
+    previous,
+    orders,
+    previousOrders,
+    aov: orders ? Math.round(revenue / orders) : 0,
+    previousAov: previousOrders ? Math.round(previous / previousOrders) : 0,
+    parts: buckets.map((b) => ({ code: b.currency_code, amount: b.current.revenue })),
+    aovParts: buckets.map((b) => ({ code: b.currency_code, amount: b.current.aov })),
+    canceled: buckets.reduce((a, b) => a + b.canceled.order_count, 0),
+  }
+}
+
+const totalsCard = ({ label, value, badge = "", proto, pop = "" }) => `
+  <div class="stat${pop ? " has-pop" : ""}" ${pop ? 'tabindex="0"' : ""} ${proto ? `data-proto="${proto}"` : ""}>
     <span class="txt-subtle">${escape(label)}</span>
-    ${rows.map((row) => `<div class="stat-row"><span class="stat-value">${row.value}</span>${row.badge ?? ""}</div>`).join("")}
+    <div class="stat-row"><span class="stat-value${pop ? " dotted" : ""}">${value}</span>${badge}</div>
+    ${pop}
   </div>`
+
+/** The popover of a total: the amounts by currency behind the ruble figure (marks 19, 20). */
+const currencyPop = ({ title, rows, rates }) => `
+    <div class="pop" role="tooltip">
+      <span class="txt-plus">${escape(title)}</span>
+      ${rows
+        .map(
+          (row) => `<div class="pop-row"><span class="txt-subtle">${row.label}</span><span class="nowrap">${row.value}${row.rub ? ` <span class="txt-subtle">= ${row.rub}</span>` : ""}</span></div>`,
+        )
+        .join("")}
+      ${rates.length ? `<span class="txt-subtle pop-foot">${rateLine(rates)}</span>` : ""}
+    </div>`
+
+const sourcesWord = (n) => `${n} ${plural(n, "источник", "источника", "источников")}`
 
 // A chart scale with round steps: 1, 2, 2.5 or 5 times a power of ten, four or five lines; whole steps for counts.
 const niceScale = (max, whole) => {
@@ -239,90 +343,128 @@ const niceScale = (max, whole) => {
   return { step, top }
 }
 const compact = (value) => new Intl.NumberFormat("ru-RU", { notation: "compact", maximumFractionDigits: 1 }).format(value)
-const CURRENCY_SIGN = { rub: "₽", eur: "€", usd: "$" }
 
-const plot = ({ series, days, value, format, proto, whole = false }) => {
-  const totals = days.map((day) => series.reduce((a, s) => a + (value(s, day) ?? 0), 0))
+const addDays = (iso, days) => {
+  const date = new Date(`${iso}T00:00:00Z`)
+  date.setUTCDate(date.getUTCDate() + days)
+  return date.toISOString().slice(0, 10)
+}
+
+/**
+ * The bars of a period: hours for one day, days up to a month, weeks for a quarter, months for a year (mark 15). Each
+ * bar names the rows of a source it takes: `pick(summary)` → the rows of `daily`, `hourly` or `monthly`.
+ */
+const bucketsOf = ({ from, to }, unit) => {
+  if (unit === "hour") {
+    const last = to === TODAY ? NOW_HOUR : 23
+    return Array.from({ length: last + 1 }, (_, h) => {
+      const hour = `${from}T${String(h).padStart(2, "0")}`
+      return { label: String(h).padStart(2, "0"), tip: `${shortDate(from)}, ${h}:00`, pick: (s) => s.hourly.filter((r) => r.hour === hour) }
+    })
+  }
+  if (unit === "month") {
+    const out = []
+    for (let at = from.slice(0, 7); at <= to.slice(0, 7); ) {
+      const month = at
+      const { m, y } = dayParts(`${month}-01`)
+      out.push({ label: m === 0 || !out.length ? `${MONTHS[m]} ${y}` : MONTHS[m], tip: `${MONTHS[m]} ${y}`, pick: (s) => s.monthly.filter((r) => r.month === month) })
+      at = m === 11 ? `${Number(y) + 1}-01` : `${y}-${String(m + 2).padStart(2, "0")}`
+    }
+    return out
+  }
+  const out = []
+  const step = unit === "week" ? 7 : 1
+  for (let day = from; day <= to; day = addDays(day, step)) {
+    const start = day
+    const end = unit === "week" ? [addDays(day, 6), to].sort()[0] : day
+    out.push({
+      label: shortDate(start),
+      tip: start === end ? shortDate(start) : `${shortDate(start)} — ${shortDate(end)}`,
+      pick: (s) => s.daily.filter((r) => r.date >= start && r.date <= end),
+    })
+  }
+  return out
+}
+
+// The example's moment (docs/owner-cabinet/contract/make-examples.mjs): 20.10.2026, 09:00 in Moscow.
+const TODAY = "2026-10-20"
+const NOW_HOUR = 8
+
+const plot = ({ series, buckets, value, format, proto, whole = false, fromStart = false }) => {
+  const totals = buckets.map((bucket) => series.reduce((a, s) => a + value(s, bucket), 0))
   const { step, top } = niceScale(Math.max(...totals), whole)
   const ticks = []
   for (let v = top; v >= 0; v -= step) ticks.push(v)
-  const every = days.length > 14 ? 5 : 1
-  const bars = days
-    .map((day, d) => {
+  const n = buckets.length
+  const every = n <= 14 ? 1 : n <= 24 ? 3 : 5
+  const cols = buckets
+    .map((bucket, d) => {
       const parts = series
         .map((s) => {
-          const n = value(s, day) ?? 0
-          return n ? `<span class="bar-part shop-${s.color}" style="height:${((n / totals[d]) * 100).toFixed(2)}%"></span>` : ""
+          const v = value(s, bucket)
+          return v ? `<span class="bar-part shop-${s.color}" style="height:${((v / totals[d]) * 100).toFixed(2)}%"></span>` : ""
         })
         .join("")
-      const tip = `${shortDate(day)}: ${series.map((s) => `${s.label} ${format(value(s, day) ?? 0)}`).join(", ")}`
-      const label = (days.length - 1 - d) % every === 0 ? shortDate(day) : ""
+      const tip = `${bucket.tip}: ${series.map((s) => `${s.label} ${format(value(s, bucket))}`).join(", ")}`
+      // the last bar (today) always has its label; hours count from midnight
+      const at = (fromStart ? d : n - 1 - d) / every
+      const label = Number.isInteger(at) ? `<span class="col-date${n > 6 && at % 2 ? " minor" : ""}">${bucket.label}</span>` : '<span class="col-date"></span>'
       return `<div class="col" title="${escape(tip)}">
-        <div class="col-bar">${days.length <= 14 && totals[d] ? `<span class="col-total">${format(totals[d])}</span>` : ""}<div class="col-stack" style="height:${((totals[d] / top) * 100).toFixed(2)}%">${parts}</div></div>
-        <span class="col-date">${label}</span>
+        <div class="col-bar">${n <= 14 && totals[d] ? `<span class="col-total">${format(totals[d])}</span>` : ""}<div class="col-stack" style="height:${((totals[d] / top) * 100).toFixed(2)}%">${parts}</div></div>
+        ${label}
       </div>`
     })
     .join("")
   return `
-    <div class="plot" data-proto="${proto}">
+    <div class="plot${n > 20 ? " dense" : ""}" data-proto="${proto}">
       <div class="plot-grid">${ticks.map((v) => `<div class="grid-line"><span class="grid-label">${format(v)}</span></div>`).join("")}</div>
-      <div class="plot-cols">${bars}</div>
+      <div class="plot-cols">${cols}</div>
     </div>`
 }
 
+const UNIT_TITLE = { hour: "Продажи по часам", day: "Продажи по дням", week: "Продажи по неделям", month: "Продажи по месяцам" }
+const UNIT_AXIS = { hour: "в час", day: "в день", week: "в неделю", month: "в месяц" }
+
 /**
- * Orders or sales by day of the period, one colour per source (marks 3 and 14). «Заказы | Сумма» and the currency are
- * radio buttons styled as a segmented control: CSS shows the chosen plot, the page carries no script. Sums are drawn one
- * currency at a time, never added across currencies.
+ * Orders or sales of a period, one colour per source (marks 3 and 14), bars by hour, day, week or month (mark 15).
+ * «Заказы | Сумма» are the two radios of the page (`#mode-orders`, `#mode-sum`); the sum is in rubles (mark 17).
  */
-export const salesChart = ({ series, days, mode = "orders", currency, title = "Продажи по дням" }) => {
-  const inPeriod = new Set(days)
-  const currencies = [...new Set(series.flatMap((s) => s.daily.filter((row) => inPeriod.has(row.date)).map((row) => row.currency_code)))]
-  const chosen = currency ?? currencies[0]
-  const ordersOf = (s, day) => s.daily.filter((row) => row.date === day).reduce((a, row) => a + row.order_count, 0)
-  const revenueOf = (code) => (s, day) => s.daily.find((row) => row.date === day && row.currency_code === code)?.revenue ?? 0
-  const legend = (valueOf, format, list) =>
-    `<div class="legend">${list
-      .map((s) => `<span><span class="dot shop-${s.color}"></span>${escape(s.label)}<span class="legend-value">${format(days.reduce((a, day) => a + valueOf(s, day), 0))}</span></span>`)
+const salesChart = ({ series, period, unit }) => {
+  const buckets = bucketsOf(period, unit)
+  const ordersOf = (s, bucket) => bucket.pick(s.summary).reduce((a, row) => a + row.order_count, 0)
+  const rubOf = (s, bucket) => bucket.pick(s.summary).reduce((a, row) => a + toRub(s.summary.fx, row.currency_code, row.revenue), 0)
+  const legend = (valueOf, format) =>
+    `<div class="legend">${series
+      .map((s) => `<span><span class="dot shop-${s.color}"></span>${escape(s.label)}<span class="legend-value">${format(buckets.reduce((a, bucket) => a + valueOf(s, bucket), 0))}</span></span>`)
       .join("")}</div>`
-  const withCurrency = (code) => series.filter((s) => s.daily.some((row) => inPeriod.has(row.date) && row.currency_code === code))
   return `
     <section class="container chart-block" data-proto="chart">
-      <input class="sr" type="radio" name="chart-mode" id="mode-orders"${mode === "orders" ? " checked" : ""}>
-      <input class="sr" type="radio" name="chart-mode" id="mode-sum"${mode === "sum" ? " checked" : ""}>
-      ${currencies.map((code) => `<input class="sr" type="radio" name="chart-cur" id="cur-${code}"${code === chosen ? " checked" : ""}>`).join("")}
       <div class="chart-head">
-        <h2 class="h2">${escape(title)}</h2>
-        <div class="chart-tools">
-          <div class="seg" data-proto="chart-mode"><label class="seg-item" for="mode-orders">Заказы</label><label class="seg-item" for="mode-sum">Сумма</label></div>
-          ${currencies.length > 1 ? `<div class="seg seg-cur" data-proto="chart-currency">${currencies.map((code) => `<label class="seg-item" for="cur-${code}">${CURRENCY_SIGN[code] ?? code.toUpperCase()}</label>`).join("")}</div>` : ""}
-        </div>
+        <h2 class="h2">${UNIT_TITLE[unit]}</h2>
+        <div class="seg" data-proto="chart-mode"><label class="seg-item mode-orders" for="mode-orders">Заказы</label><label class="seg-item mode-sum" for="mode-sum">Сумма</label></div>
       </div>
-      <div class="plots">
-        <div class="plot-wrap plot-orders">
-          <span class="axis-caption">заказов в день</span>
-          ${plot({ series, days, value: ordersOf, format: count, proto: "plot-orders", whole: true })}
-          ${legend(ordersOf, count, series)}
-        </div>
-        ${currencies
-          .map(
-            (code) => `
-        <div class="plot-wrap plot-sum plot-sum-${code}">
-          <span class="axis-caption">сумма заказов в день, ${CURRENCY_SIGN[code] ?? code.toUpperCase()}</span>
-          ${plot({ series: withCurrency(code), days, value: revenueOf(code), format: compact, proto: `plot-sum-${code}` })}
-          ${legend(revenueOf(code), (v) => money(v, code), withCurrency(code))}
-        </div>`,
-          )
-          .join("")}
+      <div class="plot-wrap plot-orders">
+        <span class="axis-caption">заказов ${UNIT_AXIS[unit]}</span>
+        ${plot({ series, buckets, value: ordersOf, format: count, proto: "plot-orders", whole: true, fromStart: unit === "hour" })}
+        ${legend(ordersOf, count)}
+      </div>
+      <div class="plot-wrap plot-sum">
+        <span class="axis-caption">сумма заказов ${UNIT_AXIS[unit]}, ₽</span>
+        ${plot({ series, buckets, value: rubOf, format: compact, proto: "plot-sum", fromStart: unit === "hour" })}
+        ${legend(rubOf, rub)}
       </div>
     </section>`
 }
+
+/** The page's «Заказы | Сумма»: two radios every copy of the chart reads (panel.css). */
+const chartModes = (mode) =>
+  `<input class="sr" type="radio" name="chart-mode" id="mode-orders"${mode === "orders" ? " checked" : ""}><input class="sr" type="radio" name="chart-mode" id="mode-sum"${mode === "sum" ? " checked" : ""}>`
 
 const chartSeries = (sources, panelShops) =>
   sources
     .map((entry, index) => ({ entry, index }))
     .filter(({ entry }) => entry.state === "ok")
-    .map(({ entry, index }) => ({ label: sourceLabel(entry, panelShops), color: index, daily: entry.summary.daily }))
+    .map(({ entry, index }) => ({ label: sourceLabel(entry, panelShops), color: index, summary: entry.summary }))
 
 const rowState = ({ entry, label, index, links }) => {
   const text =
@@ -341,26 +483,24 @@ const rowState = ({ entry, label, index, links }) => {
       </div>`
 }
 
+/** A source's row. The whole row opens its statistics; a ruble figure with a tooltip sits above that link, so a tap on it opens the tooltip. */
 const sourceRow = ({ entry, period, panelShops, index, links }) => {
   const label = sourceLabel(entry, panelShops)
   if (entry.state !== "ok") return rowState({ entry, label, index, links })
   const summary = entry.summary
-  const buckets = summary.periods[period].currencies
-  const revenue = buckets
-    .map((b) => `<span class="nowrap">${money(b.current.revenue, b.currency_code)} ${changeBadge(changePct(b.current.revenue, b.previous.revenue))}</span>`)
-    .join("")
-  const orders = buckets.reduce((a, b) => a + b.current.order_count, 0)
-  const aov = buckets.map((b) => `<span class="nowrap">${money(b.current.aov, b.currency_code)}</span>`).join("")
+  const p = inRub(summary, period)
   return `
-    <a class="shop-row" role="row" href="${escape(links.detail[sourceKey(entry)] ?? "#")}" data-proto="source-row-${index}">
+    <div class="shop-row is-link" role="row" data-proto="source-row-${index}">
+      <a class="row-link" href="${escape(links.detail[sourceKey(entry)] ?? "#")}" aria-label="Статистика: ${escape(label)}"></a>
       <div class="shop-cell-name"><span class="dot shop-${index}"></span><span class="txt-plus truncate">${escape(label)}</span></div>
-      <div class="cell" data-label="Выручка">${revenue}</div>
-      <div class="cell" data-label="Заказы">${count(orders)}</div>
-      <div class="cell" data-label="Ср. чек">${aov}</div>
+      <div class="cell" data-label="Выручка">${rubFigure({ parts: p.parts, fx: summary.fx, value: p.revenue, cls: "nowrap" })}</div>
+      <div class="cell" data-label="Динамика">${changeBadge(changePct(p.revenue, p.previous)) || "—"}</div>
+      <div class="cell" data-label="Заказы">${count(p.orders)}</div>
+      <div class="cell" data-label="Ср. чек">${rubFigure({ parts: p.aovParts, fx: summary.fx, value: p.aov, cls: "nowrap" })}</div>
       <div class="cell" data-label="В сборке">${summary.orders.to_pack ? count(summary.orders.to_pack) : "—"}</div>
-      <div class="cell" data-label="Отзывы"><span class="nowrap">${icon("star", "star")} ${summary.reviews.average_rating ?? "—"}</span></div>
+      <div class="cell" data-label="Рейтинг"><span class="nowrap">${icon("star", "star")} ${summary.reviews.average_rating ?? "—"}</span></div>
       <div class="cell go">${icon("chevronRight", "muted")}</div>
-    </a>`
+    </div>`
 }
 
 const topProducts = ({ sources, period, panelShops }) => `
@@ -375,7 +515,8 @@ const topProducts = ({ sources, period, panelShops }) => `
         <ol class="top-list">
           ${entry.summary.periods[period].top_products
             .map(
-              (p) => `<li><span class="truncate">${escape(p.title)}</span><span class="txt-subtle nowrap">${count(p.quantity)} шт — ${money(p.revenue, p.currency_code)}</span></li>`,
+              (p) =>
+                `<li><span class="truncate">${escape(p.title)}</span><span class="txt-subtle nowrap">${count(p.quantity)} шт — ${rubFigure({ parts: [{ code: p.currency_code, amount: p.revenue }], fx: entry.summary.fx })}</span></li>`,
             )
             .join("")}
         </ol>
@@ -384,105 +525,148 @@ const topProducts = ({ sources, period, panelShops }) => `
       .join("")}
   </div>`
 
-export const summaryPage = ({ data, panel, period = "7d", days, loading = false, chartMode = "orders", chartCurrency, links }) => {
+/** The totals of a period across the sources that answered: one ruble figure each, the currencies in a popover. */
+const summaryStats = ({ data, key }) => {
+  const total = data.totals[key]
+  const rates = total.by_currency
+    .filter((row) => row.rate)
+    .map((row) => ({ currency_code: row.currency_code, rate: row.rate, date: row.rate_date }))
+  const mixed = total.by_currency.some((row) => row.currency_code !== data.display_currency && row.revenue > 0)
+  const previousOrders = data.shops
+    .filter((entry) => entry.state === "ok")
+    .reduce((a, entry) => a + inRub(entry.summary, key).previousOrders, 0)
+  const revenuePop = mixed
+    ? currencyPop({
+        title: "Выручка по валютам",
+        rows: total.by_currency.map((row) => ({
+          label: `${CURRENCY_IN[row.currency_code] ?? row.currency_code} · ${sourcesWord(row.shops)}`,
+          value: money(row.revenue, row.currency_code),
+          rub: row.rate ? rub(row.revenue_converted) : "",
+        })),
+        rates,
+      })
+    : ""
+  const aovPop = mixed
+    ? currencyPop({
+        title: "Средний чек по валютам",
+        rows: total.by_currency.map((row) => ({
+          label: CURRENCY_IN[row.currency_code] ?? row.currency_code,
+          value: money(row.order_count ? Math.round((row.revenue / row.order_count) * 100) / 100 : 0, row.currency_code),
+          rub: row.rate && row.order_count ? rub(Math.round(row.revenue_converted / row.order_count)) : "",
+        })),
+        rates,
+      })
+    : ""
+  return `
+      <div class="stats stats-page" data-proto="summary">
+        ${totalsCard({ label: "Выручка", proto: "total-revenue", value: rub(total.revenue), badge: changeBadge(changePct(total.revenue, total.previous_revenue)), pop: revenuePop })}
+        ${totalsCard({ label: "Заказы", proto: "total-orders", value: count(total.order_count), badge: changeBadge(changePct(total.order_count, previousOrders)) })}
+        ${totalsCard({ label: "Ср. чек", proto: "total-aov", value: rub(total.aov), pop: aovPop })}
+        ${totalsCard({ label: "В сборке", value: count(data.attention.to_pack) })}
+      </div>`
+}
+
+/**
+ * «Сводка» without a card around its figures and without the heading (Ivan 21.10, mark 22: «Убрать общий контейнер с
+ * заголовком "сводка" и сам заголовок»; mark 21: the caption under the figures is gone).
+ */
+export const summaryPage = ({ data, panel, period = "7d", loading = false, chartMode = "orders", links }) => {
   const sources = data.shops
-  const totals = data.totals[period]
-  const header = `<div class="page-head"><h1 class="h1">Сводка</h1></div>`
-  const shown = days.slice(-PERIOD_DAYS[period])
+  const periods = sources.find((entry) => entry.state === "ok").summary.periods
 
   if (loading) {
     return `
-      <section class="container" data-proto="summary">
-        ${header}
-        <div class="stats">${[1, 2, 3, 4].map(() => '<div class="stat"><span class="skeleton w-60"></span><span class="skeleton h-24 w-120"></span></div>').join("")}</div>
-      </section>
+      <div class="stats stats-page" data-proto="summary">${[1, 2, 3, 4].map(() => '<div class="stat"><span class="skeleton w-60"></span><span class="skeleton h-24 w-120"></span></div>').join("")}</div>
       <section class="container flush" data-proto="sources">
         <div class="section-head"><h2 class="h2">Источники продаж</h2></div>
         <div class="skeleton-table">${sources.map(() => '<span class="skeleton h-40 w-full"></span>').join("")}</div>
       </section>`
   }
 
-  const orders = totals.reduce((a, row) => a + row.order_count, 0)
-  const silent = sources.filter((entry) => entry.state !== "ok")
   return `
-    <section class="container" data-proto="summary">
-      ${header}
-      <div class="stats">
-        ${totalsCard({
-          label: "Выручка",
-          proto: "total-revenue",
-          rows: totals.map((row) => ({ value: money(row.revenue, row.currency_code), badge: changeBadge(changePct(row.revenue, row.previous_revenue)) })),
-        })}
-        ${totalsCard({ label: "Заказы", proto: "total-orders", rows: [{ value: count(orders) }] })}
-        ${totalsCard({ label: "Ср. чек", rows: totals.map((row) => ({ value: money(row.aov, row.currency_code) })) })}
-        ${totalsCard({ label: "В сборке", rows: [{ value: count(data.attention.to_pack) }] })}
-      </div>
-      <p class="txt-subtle note">Выручка в разных валютах показана отдельно: рубли и евро не складываются.${
-        silent.length ? ` В итогах нет: ${silent.map((entry) => escape(sourceLabel(entry, panel.shops))).join(", ")}.` : ""
-      }</p>
-    </section>
+    ${chartModes(chartMode)}
+    ${perPeriod(
+      periods,
+      ({ key, unit }) => `
+    ${summaryStats({ data, key })}
 
     <section class="container flush" data-proto="sources">
       <div class="section-head"><h2 class="h2">Источники продаж</h2></div>
       <div class="shop-table" role="table">
         <div class="shop-row shop-head" role="row">
-          <div>Источник</div><div>Выручка</div><div>Заказы</div><div>Ср. чек</div><div>В сборке</div><div>Отзывы</div><div></div>
+          <div>Источник</div><div>Выручка</div><div>Динамика</div><div>Заказы</div><div>Ср. чек</div><div>В сборке</div><div>Рейтинг</div><div></div>
         </div>
-        ${sources.map((entry, index) => sourceRow({ entry, period, panelShops: panel.shops, index, links })).join("")}
+        ${sources.map((entry, index) => sourceRow({ entry, period: key, panelShops: panel.shops, index, links })).join("")}
       </div>
     </section>
 
-    ${salesChart({ series: chartSeries(sources, panel.shops), days: shown, mode: chartMode, currency: chartCurrency })}
+    ${salesChart({ series: chartSeries(sources, panel.shops), period: periods[key], unit })}
 
     <section class="container">
       <div class="section-head-row"><h2 class="h2">Топ товаров</h2></div>
-      ${topProducts({ sources, period, panelShops: panel.shops })}
-    </section>`
+      ${topProducts({ sources, period: key, panelShops: panel.shops })}
+    </section>`,
+      "div",
+      period,
+    )}`
 }
 
 // ---- a source's own statistics, opened from its row (mark 2) ----------------------------------------------------
 
-export const sourcePage = ({ data, index, panel, period = "7d", days, chartMode = "orders", links }) => {
+export const sourcePage = ({ data, index, panel, period = "7d", chartMode = "orders", links }) => {
   const entry = data.shops[index]
   const summary = entry.summary
   const label = sourceLabel(entry, panel.shops)
-  const buckets = summary.periods[period].currencies
-  const shown = days.slice(-PERIOD_DAYS[period])
   const kind = entry.source === "storefront" ? `Сайт магазина «${escape(summary.shop.name)}»` : `Маркетплейс, магазин ${escape(summary.shop.primary_domain)}`
-  const orders = buckets.reduce((a, b) => a + b.current.order_count, 0)
-  const previousOrders = buckets.reduce((a, b) => a + b.previous.order_count, 0)
-  const canceled = buckets.reduce((a, b) => a + b.canceled.order_count, 0)
   const reviews = summary.reviews
   const ratingMax = Math.max(1, ...Object.values(reviews.by_rating))
-  const main = buckets[0]
-  const products = summary.periods[period].top_products
+  const stats = (key) => {
+    const p = inRub(summary, key)
+    const mixed = p.parts.some((part) => part.code !== "rub" && part.amount > 0)
+    const pop = (title, parts) =>
+      mixed
+        ? currencyPop({
+            title,
+            rows: parts.map((part) => ({ label: CURRENCY_IN[part.code] ?? part.code, value: money(part.amount, part.code), rub: part.code === "rub" ? "" : rub(toRub(summary.fx, part.code, part.amount)) })),
+            rates: summary.fx.rates.filter((r) => parts.some((part) => part.amount && part.code === r.currency_code)),
+          })
+        : ""
+    return `
+      <div class="stats five">
+        ${totalsCard({ label: "Выручка", value: rub(p.revenue), badge: changeBadge(changePct(p.revenue, p.previous)), pop: pop("Выручка по валютам", p.parts) })}
+        ${totalsCard({ label: "Заказы", value: count(p.orders), badge: changeBadge(changePct(p.orders, p.previousOrders)) })}
+        ${totalsCard({ label: "Ср. чек", value: rub(p.aov), badge: changeBadge(changePct(p.aov, p.previousAov)), pop: pop("Средний чек по валютам", p.aovParts) })}
+        ${totalsCard({ label: "Отменены", value: count(p.canceled) })}
+        ${totalsCard({ label: "В сборке", value: count(summary.orders.to_pack) })}
+      </div>`
+  }
+  const products = (key) => {
+    const p = inRub(summary, key)
+    return summary.periods[key].top_products
+      .map((product) => {
+        const value = toRub(summary.fx, product.currency_code, product.revenue)
+        return `<div class="prod-row"><span class="truncate">${escape(product.title)}</span><span>${count(product.quantity)} шт</span>${rubFigure({ parts: [{ code: product.currency_code, amount: product.revenue }], fx: summary.fx, cls: "nowrap" })}<span>${p.revenue ? Math.round((value / p.revenue) * 100) : 0}%</span></div>`
+      })
+      .join("")
+  }
   return `
+    ${chartModes(chartMode)}
     <section class="container" data-proto="source-head">
       <a class="back" href="${escape(links.summary)}">${icon("chevronLeft", "muted")}<span>Сводка</span></a>
       <div class="page-head">
         <div><h1 class="h1">${escape(label)}</h1><p class="txt-subtle">${kind}</p></div>
       </div>
-      <div class="stats five">
-        ${totalsCard({ label: "Выручка", rows: buckets.map((b) => ({ value: money(b.current.revenue, b.currency_code), badge: changeBadge(changePct(b.current.revenue, b.previous.revenue)) })) })}
-        ${totalsCard({ label: "Заказы", rows: [{ value: count(orders), badge: changeBadge(changePct(orders, previousOrders)) }] })}
-        ${totalsCard({ label: "Ср. чек", rows: buckets.map((b) => ({ value: money(b.current.aov, b.currency_code), badge: changeBadge(changePct(b.current.aov, b.previous.aov)) })) })}
-        ${totalsCard({ label: "Отменены", rows: [{ value: count(canceled) }] })}
-        ${totalsCard({ label: "В сборке", rows: [{ value: count(summary.orders.to_pack) }] })}
-      </div>
+      ${perPeriod(summary.periods, ({ key }) => stats(key), "div", period)}
     </section>
 
-    ${salesChart({ series: [{ label, color: index, daily: summary.daily }], days: shown, mode: chartMode })}
+    ${perPeriod(summary.periods, ({ key, unit }) => salesChart({ series: [{ label, color: index, summary }], period: summary.periods[key], unit }), "div", period)}
 
     <div class="split">
       <section class="container flush" data-proto="source-products">
         <div class="section-head"><h2 class="h2">Топ товаров</h2></div>
         <div class="prod-table">
           <div class="prod-row prod-head"><span>Товар</span><span>Продано</span><span>Выручка</span><span>Доля</span></div>
-          ${products
-            .map(
-              (p) => `<div class="prod-row"><span class="truncate">${escape(p.title)}</span><span>${count(p.quantity)} шт</span><span class="nowrap">${money(p.revenue, p.currency_code)}</span><span>${main.current.revenue ? Math.round((p.revenue / main.current.revenue) * 100) : 0}%</span></div>`,
-            )
-            .join("")}
+          ${perPeriod(summary.periods, ({ key }) => products(key), "div", period)}
         </div>
       </section>
       <section class="container" data-proto="source-reviews">
@@ -503,8 +687,8 @@ export const sourcePage = ({ data, index, panel, period = "7d", days, chartMode 
     <section class="container" data-proto="source-catalog">
       <div class="section-head-row"><h2 class="h2">Товары</h2></div>
       <div class="stats two">
-        ${totalsCard({ label: "Опубликовано", rows: [{ value: count(summary.catalog.published) }] })}
-        ${totalsCard({ label: "Черновики", rows: [{ value: count(summary.catalog.draft) }] })}
+        ${totalsCard({ label: "Опубликовано", value: count(summary.catalog.published) })}
+        ${totalsCard({ label: "Черновики", value: count(summary.catalog.draft) })}
       </div>
     </section>`
 }

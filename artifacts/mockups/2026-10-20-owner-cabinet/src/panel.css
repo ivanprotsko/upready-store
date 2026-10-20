@@ -173,6 +173,28 @@ kbd { font: inherit; }
 .stat-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; }
 .stat-value { font-size: 16px; line-height: 24px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .stat-caption { width: 100%; font-size: 12px; line-height: 16px; }
+/* «Сводка»'s figures stand on the page without a card around them (Ivan 21.10, mark 22): each figure is its own tile */
+.stats-page .stat { background: var(--bg-base); border: 0; box-shadow: var(--elevation-card-rest); }
+
+/* one currency (marks 17, 19, 20): a ruble figure partly sold in another currency is underlined with dots; hover or a
+   tap shows the real amounts and the rate */
+.conv, .dotted { text-decoration: underline dotted var(--fg-muted); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.conv { position: relative; z-index: 1; cursor: help; outline: none; }
+.tip, .pop {
+  display: none; position: absolute; z-index: 40; flex-direction: column; gap: 4px;
+  background: var(--bg-component); color: var(--fg-base); border-radius: 8px; box-shadow: var(--elevation-flyout);
+  font-size: 12px; line-height: 16px; font-weight: 400; white-space: normal; text-align: left; cursor: auto;
+}
+.tip { left: -8px; top: calc(100% + 6px); width: 260px; padding: 8px 10px; }
+.conv:hover, .conv:focus { z-index: 45; }
+.conv:hover .tip, .conv:focus .tip { display: flex; }
+.has-pop { position: relative; cursor: help; outline: none; }
+.has-pop:focus-visible { box-shadow: var(--buttons-neutral-focus); }
+.pop { left: 8px; top: calc(100% - 8px); width: 300px; padding: 10px 12px; gap: 6px; }
+.has-pop:hover, .has-pop:focus { z-index: 45; }
+.has-pop:hover .pop, .has-pop:focus .pop { display: flex; }
+.pop-row { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+.pop-foot { border-top: 1px solid var(--border-menu-top); padding-top: 6px; }
 .change { font-size: 12px; line-height: 16px; }
 .change.up { color: var(--tag-green-text); }
 .change.down { color: var(--tag-red-text); }
@@ -181,11 +203,13 @@ kbd { font: inherit; }
 .shop-table { display: flex; flex-direction: column; }
 .shop-row {
   display: grid; align-items: center; gap: 12px; padding: 12px 24px;
-  grid-template-columns: minmax(140px, 1.3fr) 1.5fr .7fr 1fr .7fr .7fr 24px;
+  grid-template-columns: minmax(140px, 1.3fr) 1.1fr .7fr .6fr .9fr .6fr .6fr 24px;
   border-bottom: 1px solid var(--border-base);
 }
 .shop-row:last-child { border-bottom: 0; border-radius: 0 0 8px 8px; }
-a.shop-row:hover { background: var(--bg-base-hover); }
+.shop-row.is-link { position: relative; }
+.shop-row.is-link:hover { background: var(--bg-base-hover); }
+.row-link { position: absolute; inset: 0; z-index: 0; border-radius: inherit; }
 .shop-head { color: var(--fg-subtle); font-weight: 500; padding-top: 8px; padding-bottom: 8px; }
 .shop-cell-name { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .shop-name { display: flex; flex-direction: column; min-width: 0; }
@@ -195,8 +219,8 @@ a.shop-row:hover { background: var(--bg-base-hover); }
 .cell .txt-subtle { font-size: 12px; line-height: 16px; }
 .cell.go { flex-direction: row; align-items: center; justify-content: flex-end; gap: 4px; color: var(--fg-subtle); }
 .shop-row.is-quiet { color: var(--fg-subtle); }
-.row-state { grid-column: 2 / 6; display: flex; align-items: center; gap: 8px; min-width: 0; }
-.row-action { grid-column: 6 / -1; justify-self: end; }
+.row-state { grid-column: 2 / 7; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.row-action { grid-column: 7 / -1; justify-self: end; }
 .dot { width: 8px; height: 8px; border-radius: 2px; flex: none; display: inline-block; }
 .shop-0 { background: var(--shop-0); }
 .shop-1 { background: var(--shop-1); }
@@ -212,29 +236,57 @@ a.shop-row:hover { background: var(--bg-base-hover); }
 }
 .seg-item:hover { color: var(--fg-base); }
 .seg-item.is-on, .seg-item.is-on-soft { background: var(--bg-base); color: var(--fg-base); box-shadow: var(--elevation-card-rest); }
-.seg-range { margin-left: 4px; }
 .bar-pill { gap: 4px; }
-.bar-pill-range { display: none; }
+.bar-range-label { display: none; margin-right: 4px; }
+
+/* the period switch (Ivan 21.10, mark 15): the checked radio shows its period's copy of the page, nothing else */
+.per { display: contents; }
+.app:has(#period-today:checked) .per:not(.per-today),
+.app:has(#period-yesterday:checked) .per:not(.per-yesterday),
+.app:has(#period-7d:checked) .per:not(.per-7d),
+.app:has(#period-30d:checked) .per:not(.per-30d),
+.app:has(#period-90d:checked) .per:not(.per-90d),
+.app:has(#period-365d:checked) .per:not(.per-365d),
+.app:has(#period-range:checked) .per:not(.per-range) { display: none; }
+.dropdown-check .icon { visibility: hidden; }
+#period-today:checked ~ .seg label[for="period-today"],
+#period-yesterday:checked ~ .seg label[for="period-yesterday"],
+#period-7d:checked ~ .seg label[for="period-7d"],
+#period-30d:checked ~ .seg label[for="period-30d"],
+#period-90d:checked ~ .seg label[for="period-90d"],
+#period-365d:checked ~ .seg label[for="period-365d"] {
+  background: var(--bg-base); color: var(--fg-base); box-shadow: var(--elevation-card-rest);
+}
+#period-today:checked ~ .period-pick .pick-today .icon,
+#period-yesterday:checked ~ .period-pick .pick-yesterday .icon,
+#period-7d:checked ~ .period-pick .pick-7d .icon,
+#period-30d:checked ~ .period-pick .pick-30d .icon,
+#period-90d:checked ~ .period-pick .pick-90d .icon,
+#period-365d:checked ~ .period-pick .pick-365d .icon,
+#period-range:checked ~ .period-pick .pick-range .icon { visibility: visible; }
+#period-range:checked ~ .bar-range { box-shadow: var(--buttons-neutral-focus); }
+.bar-range { anchor-name: --period-range; }
+.period-pick {
+  position: fixed; inset: auto; position-anchor: --period-range; top: anchor(bottom); left: anchor(left);
+  position-try-fallbacks: flip-inline; margin: 4px 0 0; width: 280px; border: 0; padding: 4px;
+  background: var(--bg-component); color: var(--fg-base); border-radius: 8px; box-shadow: var(--elevation-flyout);
+}
+.period-pick .dropdown-item { cursor: pointer; }
 
 /* sales by day: a scale on the left, dates under the bars, «Заказы | Сумма» (marks 3 and 14) */
 .sr { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
 .chart-block { position: relative; }
 .chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
 .chart-tools { display: flex; flex-wrap: wrap; gap: 8px; }
-.seg-cur { display: none; }
-#mode-sum:checked ~ .chart-head .seg-cur { display: inline-flex; }
-#mode-orders:checked ~ .chart-head label[for="mode-orders"],
-#mode-sum:checked ~ .chart-head label[for="mode-sum"],
-#cur-rub:checked ~ .chart-head label[for="cur-rub"],
-#cur-eur:checked ~ .chart-head label[for="cur-eur"],
-#cur-usd:checked ~ .chart-head label[for="cur-usd"] {
+#mode-orders:checked ~ .per .chart-head .mode-orders,
+#mode-orders:checked ~ .chart-block .chart-head .mode-orders,
+#mode-sum:checked ~ .per .chart-head .mode-sum,
+#mode-sum:checked ~ .chart-block .chart-head .mode-sum {
   background: var(--bg-base); color: var(--fg-base); box-shadow: var(--elevation-card-rest);
 }
 .plot-wrap { display: none; flex-direction: column; gap: 8px; }
-#mode-orders:checked ~ .plots .plot-orders,
-#mode-sum:checked ~ #cur-rub:checked ~ .plots .plot-sum-rub,
-#mode-sum:checked ~ #cur-eur:checked ~ .plots .plot-sum-eur,
-#mode-sum:checked ~ #cur-usd:checked ~ .plots .plot-sum-usd { display: flex; }
+#mode-orders:checked ~ .per .plot-orders, #mode-orders:checked ~ .chart-block .plot-orders,
+#mode-sum:checked ~ .per .plot-sum, #mode-sum:checked ~ .chart-block .plot-sum { display: flex; }
 .axis-caption { color: var(--fg-muted); font-size: 12px; line-height: 16px; }
 .plot { position: relative; height: 240px; }
 .plot-grid { position: absolute; inset: 18px 0 24px 52px; display: flex; flex-direction: column; justify-content: space-between; }
@@ -245,11 +297,14 @@ a.shop-row:hover { background: var(--bg-base-hover); }
   font-size: 11px; line-height: 16px; white-space: nowrap; font-variant-numeric: tabular-nums;
 }
 .plot-cols { position: absolute; inset: 18px 0 0 52px; display: flex; gap: 4px; }
-.col { flex: 1; min-width: 0; display: grid; grid-template-rows: 1fr 24px; }
+.col { flex: 1; min-width: 0; display: grid; grid-template-rows: 1fr 24px; grid-template-columns: minmax(0, 1fr); }
+.col-date { justify-self: center; }
+.col:last-child .col-date { justify-self: end; }
 .col-bar { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; min-height: 0; }
 .col-stack { width: 100%; max-width: 56px; display: flex; flex-direction: column-reverse; gap: 1px; }
 .col-stack .bar-part { display: block; width: 100%; border-radius: 2px; min-height: 2px; }
 .col-total { font-size: 11px; line-height: 16px; color: var(--fg-subtle); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.plot.dense .plot-cols { gap: 2px; }
 .col-date { align-self: end; text-align: center; color: var(--fg-muted); font-size: 11px; line-height: 16px; white-space: nowrap; overflow: visible; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 20px; color: var(--fg-subtle); font-size: 12px; }
 .legend > span { display: inline-flex; align-items: center; gap: 6px; }
@@ -331,7 +386,6 @@ a.shop-row:hover { background: var(--bg-base-hover); }
   .shop-cell-name { grid-column: 1 / -1; }
   .cell::before { content: attr(data-label); color: var(--fg-muted); font-size: 12px; line-height: 16px; }
   .cell.num { align-items: flex-start; }
-  a.shop-row { position: relative; }
   .cell.go { position: absolute; top: 14px; right: 16px; }
   .cell.go::before { content: none; }
   .row-state, .row-action { grid-column: 1 / -1; justify-self: start; }
@@ -339,7 +393,7 @@ a.shop-row:hover { background: var(--bg-base-hover); }
   .stats.five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .split { grid-template-columns: 1fr; }
   .seg-periods { display: none; }
-  .bar-pill-range { display: inline-flex; }
+  .bar-range-label { display: inline; }
   .tops { grid-template-columns: 1fr; }
 }
 
@@ -361,6 +415,11 @@ a.shop-row:hover { background: var(--bg-base-hover); }
   .plot { height: 200px; }
   .plot-grid { left: 40px; }
   .plot-cols { left: 40px; gap: 3px; }
+  .plot.dense .plot-cols { gap: 1px; }
+  .col-date.minor { visibility: hidden; }
+  .col-total { display: none; }
+  .tip { width: 220px; }
+  .pop { width: 260px; left: 0; }
   .page { padding: 8px; }
   .container { padding: 16px; }
   .section-head { padding: 12px 16px; }
@@ -368,7 +427,7 @@ a.shop-row:hover { background: var(--bg-base-hover); }
   .stats.three { grid-template-columns: 1fr; }
   .stat { padding: 12px; }
   .periods .btn { height: 44px; padding: 0 12px; }
-  .shop-row { grid-template-columns: 1fr 1fr; padding: 14px 16px; }
+  .shop-row { grid-template-columns: 1fr 1fr 1fr; padding: 14px 16px; }
   .dropdown { width: auto; right: 12px; }
   .tops { grid-template-columns: 1fr; }
   .attention-row { padding: 12px 16px; }

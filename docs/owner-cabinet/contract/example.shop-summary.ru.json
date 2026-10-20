@@ -20,14 +20,14 @@
         {
           "currency_code": "rub",
           "current": {
-            "revenue": 4010,
-            "order_count": 2,
-            "aov": 2005
+            "revenue": 840,
+            "order_count": 1,
+            "aov": 840
           },
           "previous": {
-            "revenue": 25290,
-            "order_count": 12,
-            "aov": 2107.5
+            "revenue": 0,
+            "order_count": 0,
+            "aov": 0
           },
           "canceled": {
             "order_count": 0,
@@ -41,35 +41,95 @@
           "title": "Мазь-бальзам живичный",
           "currency_code": "rub",
           "quantity": 1,
-          "revenue": 960
+          "revenue": 200
         },
         {
           "product_id": "prod_5MWATMAMKQZ4M62HK33CNBMYF8",
           "title": "Зубная паста тайская с углём",
           "currency_code": "rub",
           "quantity": 1,
-          "revenue": 680
+          "revenue": 140
         },
         {
           "product_id": "prod_EQEF3C3JG760N2R9RTS9CM3GAM",
           "title": "Шампунь-концентрат тайский для блеска, 90 г",
           "currency_code": "rub",
           "quantity": 1,
-          "revenue": 480
+          "revenue": 100
         },
         {
           "product_id": "prod_XNX1MRKYTKPX8J2R294MYB8JQV",
           "title": "Мазь от варикоза с каштаном",
           "currency_code": "rub",
           "quantity": 1,
-          "revenue": 360
+          "revenue": 80
         },
         {
           "product_id": "prod_B5W1QQERJJX0GQYB04DM4X67TK",
           "title": "Книга рецептов для мультиварок",
           "currency_code": "rub",
           "quantity": 1,
-          "revenue": 280
+          "revenue": 60
+        }
+      ]
+    },
+    "yesterday": {
+      "from": "2026-10-19",
+      "to": "2026-10-19",
+      "currencies": [
+        {
+          "currency_code": "rub",
+          "current": {
+            "revenue": 21810,
+            "order_count": 10,
+            "aov": 2181
+          },
+          "previous": {
+            "revenue": 12890,
+            "order_count": 6,
+            "aov": 2148.33
+          },
+          "canceled": {
+            "order_count": 0,
+            "revenue": 0
+          }
+        }
+      ],
+      "top_products": [
+        {
+          "product_id": "prod_V2YM88AKMQTWS6PFHKYSZPSWQE",
+          "title": "Мазь-бальзам живичный",
+          "currency_code": "rub",
+          "quantity": 4,
+          "revenue": 5230
+        },
+        {
+          "product_id": "prod_5MWATMAMKQZ4M62HK33CNBMYF8",
+          "title": "Зубная паста тайская с углём",
+          "currency_code": "rub",
+          "quantity": 3,
+          "revenue": 3710
+        },
+        {
+          "product_id": "prod_EQEF3C3JG760N2R9RTS9CM3GAM",
+          "title": "Шампунь-концентрат тайский для блеска, 90 г",
+          "currency_code": "rub",
+          "quantity": 2,
+          "revenue": 2620
+        },
+        {
+          "product_id": "prod_XNX1MRKYTKPX8J2R294MYB8JQV",
+          "title": "Мазь от варикоза с каштаном",
+          "currency_code": "rub",
+          "quantity": 1,
+          "revenue": 1960
+        },
+        {
+          "product_id": "prod_B5W1QQERJJX0GQYB04DM4X67TK",
+          "title": "Книга рецептов для мультиварок",
+          "currency_code": "rub",
+          "quantity": 1,
+          "revenue": 1530
         }
       ]
     },
@@ -80,18 +140,18 @@
         {
           "currency_code": "rub",
           "current": {
-            "revenue": 118440,
-            "order_count": 58,
-            "aov": 2042.07
+            "revenue": 91810,
+            "order_count": 46,
+            "aov": 1995.87
           },
           "previous": {
-            "revenue": 113460,
-            "order_count": 54,
-            "aov": 2101.11
+            "revenue": 119000,
+            "order_count": 51,
+            "aov": 2333.33
           },
           "canceled": {
-            "order_count": 2,
-            "revenue": 4080
+            "order_count": 1,
+            "revenue": 2000
           }
         }
       ],
@@ -100,36 +160,36 @@
           "product_id": "prod_V2YM88AKMQTWS6PFHKYSZPSWQE",
           "title": "Мазь-бальзам живичный",
           "currency_code": "rub",
-          "quantity": 20,
-          "revenue": 28430
+          "quantity": 15,
+          "revenue": 22030
         },
         {
           "product_id": "prod_5MWATMAMKQZ4M62HK33CNBMYF8",
           "title": "Зубная паста тайская с углём",
           "currency_code": "rub",
-          "quantity": 14,
-          "revenue": 20130
+          "quantity": 11,
+          "revenue": 15610
         },
         {
           "product_id": "prod_EQEF3C3JG760N2R9RTS9CM3GAM",
           "title": "Шампунь-концентрат тайский для блеска, 90 г",
           "currency_code": "rub",
-          "quantity": 10,
-          "revenue": 14210
+          "quantity": 8,
+          "revenue": 11020
         },
         {
           "product_id": "prod_XNX1MRKYTKPX8J2R294MYB8JQV",
           "title": "Мазь от варикоза с каштаном",
           "currency_code": "rub",
-          "quantity": 7,
-          "revenue": 10660
+          "quantity": 6,
+          "revenue": 8260
         },
         {
           "product_id": "prod_B5W1QQERJJX0GQYB04DM4X67TK",
           "title": "Книга рецептов для мультиварок",
           "currency_code": "rub",
-          "quantity": 6,
-          "revenue": 8290
+          "quantity": 4,
+          "revenue": 6430
         }
       ]
     },
@@ -140,18 +200,18 @@
         {
           "currency_code": "rub",
           "current": {
-            "revenue": 530740,
-            "order_count": 248,
-            "aov": 2140.08
+            "revenue": 513580,
+            "order_count": 235,
+            "aov": 2185.45
           },
           "previous": {
-            "revenue": 528930,
-            "order_count": 250,
-            "aov": 2115.72
+            "revenue": 578090,
+            "order_count": 262,
+            "aov": 2206.45
           },
           "canceled": {
             "order_count": 9,
-            "revenue": 19260
+            "revenue": 19670
           }
         }
       ],
@@ -160,36 +220,216 @@
           "product_id": "prod_V2YM88AKMQTWS6PFHKYSZPSWQE",
           "title": "Мазь-бальзам живичный",
           "currency_code": "rub",
-          "quantity": 88,
-          "revenue": 127380
+          "quantity": 86,
+          "revenue": 123260
         },
         {
           "product_id": "prod_5MWATMAMKQZ4M62HK33CNBMYF8",
           "title": "Зубная паста тайская с углём",
           "currency_code": "rub",
-          "quantity": 63,
-          "revenue": 90230
+          "quantity": 61,
+          "revenue": 87310
         },
         {
           "product_id": "prod_EQEF3C3JG760N2R9RTS9CM3GAM",
           "title": "Шампунь-концентрат тайский для блеска, 90 г",
           "currency_code": "rub",
-          "quantity": 44,
-          "revenue": 63690
+          "quantity": 43,
+          "revenue": 61630
         },
         {
           "product_id": "prod_XNX1MRKYTKPX8J2R294MYB8JQV",
           "title": "Мазь от варикоза с каштаном",
           "currency_code": "rub",
-          "quantity": 33,
-          "revenue": 47770
+          "quantity": 32,
+          "revenue": 46220
         },
         {
           "product_id": "prod_B5W1QQERJJX0GQYB04DM4X67TK",
           "title": "Книга рецептов для мультиварок",
           "currency_code": "rub",
-          "quantity": 26,
-          "revenue": 37150
+          "quantity": 25,
+          "revenue": 35950
+        }
+      ]
+    },
+    "90d": {
+      "from": "2026-07-23",
+      "to": "2026-10-20",
+      "currencies": [
+        {
+          "currency_code": "rub",
+          "current": {
+            "revenue": 1663530,
+            "order_count": 751,
+            "aov": 2215.09
+          },
+          "previous": {
+            "revenue": 1403270,
+            "order_count": 666,
+            "aov": 2107.01
+          },
+          "canceled": {
+            "order_count": 30,
+            "revenue": 66450
+          }
+        }
+      ],
+      "top_products": [
+        {
+          "product_id": "prod_V2YM88AKMQTWS6PFHKYSZPSWQE",
+          "title": "Мазь-бальзам живичный",
+          "currency_code": "rub",
+          "quantity": 277,
+          "revenue": 399250
+        },
+        {
+          "product_id": "prod_5MWATMAMKQZ4M62HK33CNBMYF8",
+          "title": "Зубная паста тайская с углём",
+          "currency_code": "rub",
+          "quantity": 196,
+          "revenue": 282800
+        },
+        {
+          "product_id": "prod_EQEF3C3JG760N2R9RTS9CM3GAM",
+          "title": "Шампунь-концентрат тайский для блеска, 90 г",
+          "currency_code": "rub",
+          "quantity": 139,
+          "revenue": 199620
+        },
+        {
+          "product_id": "prod_XNX1MRKYTKPX8J2R294MYB8JQV",
+          "title": "Мазь от варикоза с каштаном",
+          "currency_code": "rub",
+          "quantity": 104,
+          "revenue": 149720
+        },
+        {
+          "product_id": "prod_B5W1QQERJJX0GQYB04DM4X67TK",
+          "title": "Книга рецептов для мультиварок",
+          "currency_code": "rub",
+          "quantity": 81,
+          "revenue": 116450
+        }
+      ]
+    },
+    "365d": {
+      "from": "2025-10-21",
+      "to": "2026-10-20",
+      "currencies": [
+        {
+          "currency_code": "rub",
+          "current": {
+            "revenue": 6057460,
+            "order_count": 2812,
+            "aov": 2154.15
+          },
+          "previous": {
+            "revenue": 4969310,
+            "order_count": 2315,
+            "aov": 2146.57
+          },
+          "canceled": {
+            "order_count": 112,
+            "revenue": 241260
+          }
+        }
+      ],
+      "top_products": [
+        {
+          "product_id": "prod_V2YM88AKMQTWS6PFHKYSZPSWQE",
+          "title": "Мазь-бальзам живичный",
+          "currency_code": "rub",
+          "quantity": 1010,
+          "revenue": 1453790
+        },
+        {
+          "product_id": "prod_5MWATMAMKQZ4M62HK33CNBMYF8",
+          "title": "Зубная паста тайская с углём",
+          "currency_code": "rub",
+          "quantity": 715,
+          "revenue": 1029770
+        },
+        {
+          "product_id": "prod_EQEF3C3JG760N2R9RTS9CM3GAM",
+          "title": "Шампунь-концентрат тайский для блеска, 90 г",
+          "currency_code": "rub",
+          "quantity": 505,
+          "revenue": 726900
+        },
+        {
+          "product_id": "prod_XNX1MRKYTKPX8J2R294MYB8JQV",
+          "title": "Мазь от варикоза с каштаном",
+          "currency_code": "rub",
+          "quantity": 379,
+          "revenue": 545170
+        },
+        {
+          "product_id": "prod_B5W1QQERJJX0GQYB04DM4X67TK",
+          "title": "Книга рецептов для мультиварок",
+          "currency_code": "rub",
+          "quantity": 294,
+          "revenue": 424020
+        }
+      ]
+    },
+    "range": {
+      "from": "2026-10-01",
+      "to": "2026-10-14",
+      "currencies": [
+        {
+          "currency_code": "rub",
+          "current": {
+            "revenue": 252430,
+            "order_count": 107,
+            "aov": 2359.16
+          },
+          "previous": {
+            "revenue": 254700,
+            "order_count": 125,
+            "aov": 2037.6
+          },
+          "canceled": {
+            "order_count": 4,
+            "revenue": 9440
+          }
+        }
+      ],
+      "top_products": [
+        {
+          "product_id": "prod_V2YM88AKMQTWS6PFHKYSZPSWQE",
+          "title": "Мазь-бальзам живичный",
+          "currency_code": "rub",
+          "quantity": 42,
+          "revenue": 60580
+        },
+        {
+          "product_id": "prod_5MWATMAMKQZ4M62HK33CNBMYF8",
+          "title": "Зубная паста тайская с углём",
+          "currency_code": "rub",
+          "quantity": 30,
+          "revenue": 42910
+        },
+        {
+          "product_id": "prod_EQEF3C3JG760N2R9RTS9CM3GAM",
+          "title": "Шампунь-концентрат тайский для блеска, 90 г",
+          "currency_code": "rub",
+          "quantity": 21,
+          "revenue": 30290
+        },
+        {
+          "product_id": "prod_XNX1MRKYTKPX8J2R294MYB8JQV",
+          "title": "Мазь от варикоза с каштаном",
+          "currency_code": "rub",
+          "quantity": 16,
+          "revenue": 22720
+        },
+        {
+          "product_id": "prod_B5W1QQERJJX0GQYB04DM4X67TK",
+          "title": "Книга рецептов для мультиварок",
+          "currency_code": "rub",
+          "quantity": 12,
+          "revenue": 17670
         }
       ]
     }
@@ -198,544 +438,679 @@
     {
       "date": "2026-07-23",
       "currency_code": "rub",
-      "revenue": 16230,
-      "order_count": 8
+      "revenue": 23530,
+      "order_count": 12
     },
     {
       "date": "2026-07-24",
       "currency_code": "rub",
-      "revenue": 15820,
-      "order_count": 8
+      "revenue": 15420,
+      "order_count": 6
     },
     {
       "date": "2026-07-25",
       "currency_code": "rub",
-      "revenue": 11190,
-      "order_count": 4
+      "revenue": 17310,
+      "order_count": 7
     },
     {
       "date": "2026-07-26",
       "currency_code": "rub",
-      "revenue": 14770,
-      "order_count": 6
+      "revenue": 15770,
+      "order_count": 9
     },
     {
       "date": "2026-07-27",
       "currency_code": "rub",
-      "revenue": 27530,
-      "order_count": 13
+      "revenue": 28280,
+      "order_count": 11
     },
     {
       "date": "2026-07-28",
       "currency_code": "rub",
-      "revenue": 11400,
-      "order_count": 6
+      "revenue": 23730,
+      "order_count": 11
     },
     {
       "date": "2026-07-29",
       "currency_code": "rub",
-      "revenue": 14010,
-      "order_count": 6
+      "revenue": 9710,
+      "order_count": 4
     },
     {
       "date": "2026-07-30",
       "currency_code": "rub",
-      "revenue": 14460,
-      "order_count": 5
+      "revenue": 21130,
+      "order_count": 10
     },
     {
       "date": "2026-07-31",
       "currency_code": "rub",
-      "revenue": 32750,
-      "order_count": 12
+      "revenue": 21060,
+      "order_count": 8
     },
     {
       "date": "2026-08-01",
       "currency_code": "rub",
-      "revenue": 8820,
-      "order_count": 4
+      "revenue": 7640,
+      "order_count": 5
     },
     {
       "date": "2026-08-02",
       "currency_code": "rub",
-      "revenue": 20090,
+      "revenue": 20140,
       "order_count": 8
     },
     {
       "date": "2026-08-03",
       "currency_code": "rub",
-      "revenue": 10950,
-      "order_count": 6
+      "revenue": 17060,
+      "order_count": 7
     },
     {
       "date": "2026-08-04",
       "currency_code": "rub",
-      "revenue": 25520,
-      "order_count": 13
+      "revenue": 23960,
+      "order_count": 8
     },
     {
       "date": "2026-08-05",
       "currency_code": "rub",
-      "revenue": 12370,
-      "order_count": 7
+      "revenue": 24750,
+      "order_count": 11
     },
     {
       "date": "2026-08-06",
       "currency_code": "rub",
-      "revenue": 38090,
-      "order_count": 12
+      "revenue": 17280,
+      "order_count": 7
     },
     {
       "date": "2026-08-07",
       "currency_code": "rub",
-      "revenue": 20810,
-      "order_count": 12
+      "revenue": 7620,
+      "order_count": 5
     },
     {
       "date": "2026-08-08",
       "currency_code": "rub",
-      "revenue": 9690,
-      "order_count": 4
+      "revenue": 10020,
+      "order_count": 6
     },
     {
       "date": "2026-08-09",
       "currency_code": "rub",
-      "revenue": 19560,
-      "order_count": 8
+      "revenue": 9550,
+      "order_count": 5
     },
     {
       "date": "2026-08-10",
       "currency_code": "rub",
-      "revenue": 20060,
-      "order_count": 7
+      "revenue": 24140,
+      "order_count": 12
     },
     {
       "date": "2026-08-11",
       "currency_code": "rub",
-      "revenue": 28450,
-      "order_count": 13
+      "revenue": 20440,
+      "order_count": 8
     },
     {
       "date": "2026-08-12",
       "currency_code": "rub",
-      "revenue": 18750,
-      "order_count": 9
+      "revenue": 10060,
+      "order_count": 5
     },
     {
       "date": "2026-08-13",
       "currency_code": "rub",
-      "revenue": 28060,
+      "revenue": 42440,
       "order_count": 13
     },
     {
       "date": "2026-08-14",
       "currency_code": "rub",
-      "revenue": 30760,
-      "order_count": 12
+      "revenue": 21200,
+      "order_count": 13
     },
     {
       "date": "2026-08-15",
       "currency_code": "rub",
-      "revenue": 15190,
-      "order_count": 7
+      "revenue": 16320,
+      "order_count": 6
     },
     {
       "date": "2026-08-16",
       "currency_code": "rub",
-      "revenue": 18920,
-      "order_count": 5
+      "revenue": 14910,
+      "order_count": 8
     },
     {
       "date": "2026-08-17",
       "currency_code": "rub",
-      "revenue": 11710,
-      "order_count": 6
+      "revenue": 27660,
+      "order_count": 12
     },
     {
       "date": "2026-08-18",
       "currency_code": "rub",
-      "revenue": 24060,
-      "order_count": 12
+      "revenue": 21120,
+      "order_count": 11
     },
     {
       "date": "2026-08-19",
-      "currency_code": "rub",
-      "revenue": 24060,
-      "order_count": 12
-    },
-    {
-      "date": "2026-08-20",
-      "currency_code": "rub",
-      "revenue": 21780,
-      "order_count": 7
-    },
-    {
-      "date": "2026-08-21",
-      "currency_code": "rub",
-      "revenue": 9360,
-      "order_count": 6
-    },
-    {
-      "date": "2026-08-22",
-      "currency_code": "rub",
-      "revenue": 10740,
-      "order_count": 6
-    },
-    {
-      "date": "2026-08-23",
-      "currency_code": "rub",
-      "revenue": 21490,
-      "order_count": 8
-    },
-    {
-      "date": "2026-08-24",
-      "currency_code": "rub",
-      "revenue": 23910,
-      "order_count": 9
-    },
-    {
-      "date": "2026-08-25",
-      "currency_code": "rub",
-      "revenue": 19140,
-      "order_count": 8
-    },
-    {
-      "date": "2026-08-26",
-      "currency_code": "rub",
-      "revenue": 10040,
-      "order_count": 5
-    },
-    {
-      "date": "2026-08-27",
-      "currency_code": "rub",
-      "revenue": 17220,
-      "order_count": 8
-    },
-    {
-      "date": "2026-08-28",
-      "currency_code": "rub",
-      "revenue": 25830,
-      "order_count": 11
-    },
-    {
-      "date": "2026-08-29",
-      "currency_code": "rub",
-      "revenue": 7210,
-      "order_count": 5
-    },
-    {
-      "date": "2026-08-30",
-      "currency_code": "rub",
-      "revenue": 19390,
-      "order_count": 7
-    },
-    {
-      "date": "2026-08-31",
-      "currency_code": "rub",
-      "revenue": 15110,
-      "order_count": 6
-    },
-    {
-      "date": "2026-09-01",
-      "currency_code": "rub",
-      "revenue": 15790,
-      "order_count": 10
-    },
-    {
-      "date": "2026-09-02",
-      "currency_code": "rub",
-      "revenue": 11240,
-      "order_count": 8
-    },
-    {
-      "date": "2026-09-03",
-      "currency_code": "rub",
-      "revenue": 30050,
-      "order_count": 12
-    },
-    {
-      "date": "2026-09-04",
-      "currency_code": "rub",
-      "revenue": 19960,
-      "order_count": 12
-    },
-    {
-      "date": "2026-09-05",
-      "currency_code": "rub",
-      "revenue": 15750,
-      "order_count": 5
-    },
-    {
-      "date": "2026-09-06",
-      "currency_code": "rub",
-      "revenue": 19440,
-      "order_count": 8
-    },
-    {
-      "date": "2026-09-07",
-      "currency_code": "rub",
-      "revenue": 25510,
-      "order_count": 13
-    },
-    {
-      "date": "2026-09-08",
-      "currency_code": "rub",
-      "revenue": 24960,
-      "order_count": 11
-    },
-    {
-      "date": "2026-09-09",
-      "currency_code": "rub",
-      "revenue": 19480,
-      "order_count": 10
-    },
-    {
-      "date": "2026-09-10",
-      "currency_code": "rub",
-      "revenue": 21030,
-      "order_count": 11
-    },
-    {
-      "date": "2026-09-11",
-      "currency_code": "rub",
-      "revenue": 16030,
-      "order_count": 7
-    },
-    {
-      "date": "2026-09-12",
-      "currency_code": "rub",
-      "revenue": 13550,
-      "order_count": 7
-    },
-    {
-      "date": "2026-09-13",
-      "currency_code": "rub",
-      "revenue": 12590,
-      "order_count": 8
-    },
-    {
-      "date": "2026-09-14",
-      "currency_code": "rub",
-      "revenue": 22360,
-      "order_count": 11
-    },
-    {
-      "date": "2026-09-15",
-      "currency_code": "rub",
-      "revenue": 15470,
-      "order_count": 7
-    },
-    {
-      "date": "2026-09-16",
-      "currency_code": "rub",
-      "revenue": 14860,
-      "order_count": 7
-    },
-    {
-      "date": "2026-09-17",
-      "currency_code": "rub",
-      "revenue": 21240,
-      "order_count": 9
-    },
-    {
-      "date": "2026-09-18",
-      "currency_code": "rub",
-      "revenue": 9790,
-      "order_count": 5
-    },
-    {
-      "date": "2026-09-19",
-      "currency_code": "rub",
-      "revenue": 15750,
-      "order_count": 8
-    },
-    {
-      "date": "2026-09-20",
-      "currency_code": "rub",
-      "revenue": 14000,
-      "order_count": 8
-    },
-    {
-      "date": "2026-09-21",
-      "currency_code": "rub",
-      "revenue": 24190,
-      "order_count": 10
-    },
-    {
-      "date": "2026-09-22",
-      "currency_code": "rub",
-      "revenue": 25740,
-      "order_count": 9
-    },
-    {
-      "date": "2026-09-23",
-      "currency_code": "rub",
-      "revenue": 16830,
-      "order_count": 7
-    },
-    {
-      "date": "2026-09-24",
-      "currency_code": "rub",
-      "revenue": 22660,
-      "order_count": 13
-    },
-    {
-      "date": "2026-09-25",
-      "currency_code": "rub",
-      "revenue": 12320,
-      "order_count": 9
-    },
-    {
-      "date": "2026-09-26",
-      "currency_code": "rub",
-      "revenue": 12280,
-      "order_count": 7
-    },
-    {
-      "date": "2026-09-27",
-      "currency_code": "rub",
-      "revenue": 19020,
-      "order_count": 9
-    },
-    {
-      "date": "2026-09-28",
-      "currency_code": "rub",
-      "revenue": 20250,
-      "order_count": 9
-    },
-    {
-      "date": "2026-09-29",
-      "currency_code": "rub",
-      "revenue": 18500,
-      "order_count": 7
-    },
-    {
-      "date": "2026-09-30",
       "currency_code": "rub",
       "revenue": 14040,
       "order_count": 6
     },
     {
+      "date": "2026-08-20",
+      "currency_code": "rub",
+      "revenue": 16420,
+      "order_count": 8
+    },
+    {
+      "date": "2026-08-21",
+      "currency_code": "rub",
+      "revenue": 29150,
+      "order_count": 12
+    },
+    {
+      "date": "2026-08-22",
+      "currency_code": "rub",
+      "revenue": 10220,
+      "order_count": 5
+    },
+    {
+      "date": "2026-08-23",
+      "currency_code": "rub",
+      "revenue": 8800,
+      "order_count": 4
+    },
+    {
+      "date": "2026-08-24",
+      "currency_code": "rub",
+      "revenue": 18080,
+      "order_count": 8
+    },
+    {
+      "date": "2026-08-25",
+      "currency_code": "rub",
+      "revenue": 18880,
+      "order_count": 11
+    },
+    {
+      "date": "2026-08-26",
+      "currency_code": "rub",
+      "revenue": 19480,
+      "order_count": 11
+    },
+    {
+      "date": "2026-08-27",
+      "currency_code": "rub",
+      "revenue": 21290,
+      "order_count": 11
+    },
+    {
+      "date": "2026-08-28",
+      "currency_code": "rub",
+      "revenue": 19490,
+      "order_count": 9
+    },
+    {
+      "date": "2026-08-29",
+      "currency_code": "rub",
+      "revenue": 12620,
+      "order_count": 6
+    },
+    {
+      "date": "2026-08-30",
+      "currency_code": "rub",
+      "revenue": 8800,
+      "order_count": 4
+    },
+    {
+      "date": "2026-08-31",
+      "currency_code": "rub",
+      "revenue": 30180,
+      "order_count": 12
+    },
+    {
+      "date": "2026-09-01",
+      "currency_code": "rub",
+      "revenue": 20000,
+      "order_count": 7
+    },
+    {
+      "date": "2026-09-02",
+      "currency_code": "rub",
+      "revenue": 32600,
+      "order_count": 13
+    },
+    {
+      "date": "2026-09-03",
+      "currency_code": "rub",
+      "revenue": 24940,
+      "order_count": 11
+    },
+    {
+      "date": "2026-09-04",
+      "currency_code": "rub",
+      "revenue": 21140,
+      "order_count": 12
+    },
+    {
+      "date": "2026-09-05",
+      "currency_code": "rub",
+      "revenue": 20490,
+      "order_count": 6
+    },
+    {
+      "date": "2026-09-06",
+      "currency_code": "rub",
+      "revenue": 8370,
+      "order_count": 3
+    },
+    {
+      "date": "2026-09-07",
+      "currency_code": "rub",
+      "revenue": 25350,
+      "order_count": 12
+    },
+    {
+      "date": "2026-09-08",
+      "currency_code": "rub",
+      "revenue": 33350,
+      "order_count": 12
+    },
+    {
+      "date": "2026-09-09",
+      "currency_code": "rub",
+      "revenue": 14080,
+      "order_count": 6
+    },
+    {
+      "date": "2026-09-10",
+      "currency_code": "rub",
+      "revenue": 16850,
+      "order_count": 9
+    },
+    {
+      "date": "2026-09-11",
+      "currency_code": "rub",
+      "revenue": 15740,
+      "order_count": 9
+    },
+    {
+      "date": "2026-09-12",
+      "currency_code": "rub",
+      "revenue": 22060,
+      "order_count": 7
+    },
+    {
+      "date": "2026-09-13",
+      "currency_code": "rub",
+      "revenue": 18450,
+      "order_count": 9
+    },
+    {
+      "date": "2026-09-14",
+      "currency_code": "rub",
+      "revenue": 16000,
+      "order_count": 6
+    },
+    {
+      "date": "2026-09-15",
+      "currency_code": "rub",
+      "revenue": 31340,
+      "order_count": 13
+    },
+    {
+      "date": "2026-09-16",
+      "currency_code": "rub",
+      "revenue": 26790,
+      "order_count": 12
+    },
+    {
+      "date": "2026-09-17",
+      "currency_code": "rub",
+      "revenue": 15440,
+      "order_count": 10
+    },
+    {
+      "date": "2026-09-18",
+      "currency_code": "rub",
+      "revenue": 12680,
+      "order_count": 7
+    },
+    {
+      "date": "2026-09-19",
+      "currency_code": "rub",
+      "revenue": 22520,
+      "order_count": 8
+    },
+    {
+      "date": "2026-09-20",
+      "currency_code": "rub",
+      "revenue": 12060,
+      "order_count": 9
+    },
+    {
+      "date": "2026-09-21",
+      "currency_code": "rub",
+      "revenue": 8020,
+      "order_count": 6
+    },
+    {
+      "date": "2026-09-22",
+      "currency_code": "rub",
+      "revenue": 28060,
+      "order_count": 12
+    },
+    {
+      "date": "2026-09-23",
+      "currency_code": "rub",
+      "revenue": 20680,
+      "order_count": 12
+    },
+    {
+      "date": "2026-09-24",
+      "currency_code": "rub",
+      "revenue": 37290,
+      "order_count": 13
+    },
+    {
+      "date": "2026-09-25",
+      "currency_code": "rub",
+      "revenue": 17810,
+      "order_count": 10
+    },
+    {
+      "date": "2026-09-26",
+      "currency_code": "rub",
+      "revenue": 14350,
+      "order_count": 6
+    },
+    {
+      "date": "2026-09-27",
+      "currency_code": "rub",
+      "revenue": 9020,
+      "order_count": 5
+    },
+    {
+      "date": "2026-09-28",
+      "currency_code": "rub",
+      "revenue": 8480,
+      "order_count": 5
+    },
+    {
+      "date": "2026-09-29",
+      "currency_code": "rub",
+      "revenue": 23490,
+      "order_count": 11
+    },
+    {
+      "date": "2026-09-30",
+      "currency_code": "rub",
+      "revenue": 24800,
+      "order_count": 11
+    },
+    {
       "date": "2026-10-01",
       "currency_code": "rub",
-      "revenue": 10200,
+      "revenue": 8860,
       "order_count": 5
     },
     {
       "date": "2026-10-02",
       "currency_code": "rub",
-      "revenue": 31660,
-      "order_count": 13
+      "revenue": 22760,
+      "order_count": 12
     },
     {
       "date": "2026-10-03",
       "currency_code": "rub",
-      "revenue": 13450,
-      "order_count": 5
+      "revenue": 18460,
+      "order_count": 9
     },
     {
       "date": "2026-10-04",
       "currency_code": "rub",
-      "revenue": 21730,
-      "order_count": 9
+      "revenue": 22440,
+      "order_count": 7
     },
     {
       "date": "2026-10-05",
       "currency_code": "rub",
-      "revenue": 21770,
+      "revenue": 24250,
       "order_count": 9
     },
     {
       "date": "2026-10-06",
       "currency_code": "rub",
-      "revenue": 14200,
-      "order_count": 9
+      "revenue": 14000,
+      "order_count": 5
     },
     {
       "date": "2026-10-07",
       "currency_code": "rub",
-      "revenue": 12030,
-      "order_count": 6
+      "revenue": 16480,
+      "order_count": 5
     },
     {
       "date": "2026-10-08",
       "currency_code": "rub",
-      "revenue": 9250,
-      "order_count": 5
+      "revenue": 24450,
+      "order_count": 10
     },
     {
       "date": "2026-10-09",
       "currency_code": "rub",
-      "revenue": 18700,
-      "order_count": 11
+      "revenue": 8070,
+      "order_count": 5
     },
     {
       "date": "2026-10-10",
       "currency_code": "rub",
-      "revenue": 23950,
+      "revenue": 20420,
       "order_count": 8
     },
     {
       "date": "2026-10-11",
       "currency_code": "rub",
-      "revenue": 14210,
-      "order_count": 7
+      "revenue": 21850,
+      "order_count": 9
     },
     {
       "date": "2026-10-12",
       "currency_code": "rub",
-      "revenue": 26540,
-      "order_count": 12
+      "revenue": 16970,
+      "order_count": 8
     },
     {
       "date": "2026-10-13",
       "currency_code": "rub",
-      "revenue": 8780,
-      "order_count": 5
+      "revenue": 10760,
+      "order_count": 6
     },
     {
       "date": "2026-10-14",
       "currency_code": "rub",
-      "revenue": 8790,
-      "order_count": 6
+      "revenue": 22660,
+      "order_count": 9
     },
     {
       "date": "2026-10-15",
       "currency_code": "rub",
-      "revenue": 24090,
-      "order_count": 11
+      "revenue": 13710,
+      "order_count": 8
     },
     {
       "date": "2026-10-16",
       "currency_code": "rub",
-      "revenue": 28950,
-      "order_count": 13
+      "revenue": 11900,
+      "order_count": 7
     },
     {
       "date": "2026-10-17",
       "currency_code": "rub",
-      "revenue": 10970,
-      "order_count": 7
+      "revenue": 8000,
+      "order_count": 5
     },
     {
       "date": "2026-10-18",
       "currency_code": "rub",
-      "revenue": 16340,
-      "order_count": 7
+      "revenue": 12890,
+      "order_count": 6
     },
     {
       "date": "2026-10-19",
       "currency_code": "rub",
-      "revenue": 25290,
-      "order_count": 12
+      "revenue": 21810,
+      "order_count": 10
     },
     {
       "date": "2026-10-20",
       "currency_code": "rub",
-      "revenue": 4010,
-      "order_count": 2
+      "revenue": 840,
+      "order_count": 1
     }
   ],
+  "hourly": [
+    {
+      "hour": "2026-10-19T10",
+      "currency_code": "rub",
+      "revenue": 2150,
+      "order_count": 1
+    },
+    {
+      "hour": "2026-10-19T14",
+      "currency_code": "rub",
+      "revenue": 8350,
+      "order_count": 3
+    },
+    {
+      "hour": "2026-10-19T15",
+      "currency_code": "rub",
+      "revenue": 1760,
+      "order_count": 1
+    },
+    {
+      "hour": "2026-10-19T16",
+      "currency_code": "rub",
+      "revenue": 1630,
+      "order_count": 1
+    },
+    {
+      "hour": "2026-10-19T18",
+      "currency_code": "rub",
+      "revenue": 4660,
+      "order_count": 2
+    },
+    {
+      "hour": "2026-10-19T19",
+      "currency_code": "rub",
+      "revenue": 2150,
+      "order_count": 1
+    },
+    {
+      "hour": "2026-10-19T21",
+      "currency_code": "rub",
+      "revenue": 1110,
+      "order_count": 1
+    },
+    {
+      "hour": "2026-10-20T07",
+      "currency_code": "rub",
+      "revenue": 840,
+      "order_count": 1
+    }
+  ],
+  "monthly": [
+    {
+      "month": "2025-10",
+      "currency_code": "rub",
+      "revenue": 152590,
+      "order_count": 75
+    },
+    {
+      "month": "2025-11",
+      "currency_code": "rub",
+      "revenue": 447730,
+      "order_count": 208
+    },
+    {
+      "month": "2025-12",
+      "currency_code": "rub",
+      "revenue": 685940,
+      "order_count": 319
+    },
+    {
+      "month": "2026-01",
+      "currency_code": "rub",
+      "revenue": 392290,
+      "order_count": 186
+    },
+    {
+      "month": "2026-02",
+      "currency_code": "rub",
+      "revenue": 442470,
+      "order_count": 205
+    },
+    {
+      "month": "2026-03",
+      "currency_code": "rub",
+      "revenue": 468880,
+      "order_count": 222
+    },
+    {
+      "month": "2026-04",
+      "currency_code": "rub",
+      "revenue": 509690,
+      "order_count": 231
+    },
+    {
+      "month": "2026-05",
+      "currency_code": "rub",
+      "revenue": 469580,
+      "order_count": 226
+    },
+    {
+      "month": "2026-06",
+      "currency_code": "rub",
+      "revenue": 492250,
+      "order_count": 222
+    },
+    {
+      "month": "2026-07",
+      "currency_code": "rub",
+      "revenue": 508450,
+      "order_count": 245
+    },
+    {
+      "month": "2026-08",
+      "currency_code": "rub",
+      "revenue": 563760,
+      "order_count": 257
+    },
+    {
+      "month": "2026-09",
+      "currency_code": "rub",
+      "revenue": 602250,
+      "order_count": 272
+    },
+    {
+      "month": "2026-10",
+      "currency_code": "rub",
+      "revenue": 321580,
+      "order_count": 144
+    }
+  ],
+  "fx": {
+    "display_currency": "rub",
+    "source": "cbr",
+    "rates": []
+  },
   "orders": {
     "to_pack": 6
   },

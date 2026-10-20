@@ -18,8 +18,8 @@
       "component": "periodBar",
       "props": {
         "period": "7d",
-        "days": {
-          "$ref": "parts/days.json"
+        "periods": {
+          "$ref": "../../../../docs/owner-cabinet/contract/example.shop-summary.ru.json#/periods"
         }
       }
     },
@@ -34,9 +34,6 @@
             "$ref": "parts/panel-ru.json"
           },
           "period": "7d",
-          "days": {
-            "$ref": "parts/days.json"
-          },
           "links": {
             "$ref": "parts/source-links-ru.json"
           },

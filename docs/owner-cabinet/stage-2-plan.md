@@ -26,8 +26,8 @@ first with `.com` as the only peer. A live run needs the release discipline of
 
 ## Questions for Ivan before stage 2
 
-1. Should «Сводка» also show one total converted to roubles at the Central Bank's rate, next to
-   the per-currency rows? The prototype keeps currencies apart, as the «Обзор» does today.
+1. Answered by Ivan 21.10 (mark 17 on prototype v2): one currency, roubles, converted at a rate,
+   the real currency in a tooltip. Prototype v3 does it at the Bank of Russia's rate of the day.
 2. The relay as a container on the existing RU host, or on a separate small RU server?
 3. Slice 8 (a second factor for owners) now, or later?
 4. A lawyer's look at the three points of `architecture.md` §8 before slice 6 goes live.

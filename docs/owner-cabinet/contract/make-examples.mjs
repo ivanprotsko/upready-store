@@ -148,28 +148,75 @@ const SHOPS = {
   },
 }
 
+// The Bank of Russia's rate on the day of the example, rubles for one unit (synthetic). Every
+// amount of another currency is shown in rubles at this rate (Ivan 21.10, mark 17: «показывать в
+// рублях»); the tooltip names the real amount, the rate and its date.
+const RATES = { eur: 94.37, usd: 81.05 }
+const DISPLAY = "rub"
+
+// The periods of the bar (Ivan 21.10, mark 15: «чтобы работал переключатель»): the presets and one
+// range picked in the calendar, 1–14 October. `previous` is the period of the same length just before.
+const PERIODS = {
+  today: [TODAY, TODAY],
+  yesterday: [addDays(TODAY, -1), addDays(TODAY, -1)],
+  "7d": [addDays(TODAY, -6), TODAY],
+  "30d": [addDays(TODAY, -29), TODAY],
+  "90d": [addDays(TODAY, -89), TODAY],
+  "365d": [addDays(TODAY, -364), TODAY],
+  range: ["2026-10-01", "2026-10-14"],
+}
+const spanDays = (from, to) => Math.round((new Date(`${to}T00:00:00Z`) - new Date(`${from}T00:00:00Z`)) / 86400000) + 1
+
+// Orders by hour of the day: few at night, most in the day and the evening.
+const HOUR_WEIGHT = [1, 0.5, 0.3, 0.2, 0.2, 0.4, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 7, 7, 6, 4, 2]
+const HOUR_SUM = HOUR_WEIGHT.reduce((a, w) => a + w, 0)
+
 const shopSummary = (def) => {
   const rand = mulberry32(def.seed)
   const productIds = def.products.map(() => `prod_${ulid(rand)}`)
+  const currencies = [def.currency, ...(def.second ? [def.second.currency] : [])]
+  const pickHour = (upTo) => {
+    let left = rand() * HOUR_WEIGHT.slice(0, upTo).reduce((a, w) => a + w, 0)
+    for (let hour = 0; hour < upTo; hour += 1) {
+      left -= HOUR_WEIGHT[hour]
+      if (left < 0) return hour
+    }
+    return upTo - 1
+  }
 
-  // 90 days of orders, oldest first; days without orders are left out.
+  // Two years of orders, oldest first, for a year and the year before it; days without orders are
+  // left out. Sales grow slowly over the two years and rise before the New Year.
   const days = []
-  for (let back = 89; back >= 0; back -= 1) {
+  const hours = []
+  for (let back = 729; back >= 0; back -= 1) {
     const date = addDays(TODAY, -back)
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay()
-    const lift = weekday === 0 || weekday === 6 ? 0.7 : 1
-    // «today» is 09:00 in the morning: a third of a day.
-    const share = back === 0 ? 0.35 : 1
-    const currencies = [def.currency, ...(def.second ? [def.second.currency] : [])]
+    const month = Number(date.slice(5, 7))
+    const lift = (weekday === 0 || weekday === 6 ? 0.7 : 1) * (0.7 + (0.3 * (729 - back)) / 729) * (month === 12 ? 1.4 : month === 1 ? 0.8 : 1)
+    // «today» is 09:00 in the morning: the hours before nine.
+    const upTo = back === 0 ? 9 : 24
+    const share = back === 0 ? HOUR_WEIGHT.slice(0, 9).reduce((a, w) => a + w, 0) / HOUR_SUM : 1
     for (const currency of currencies) {
       const part = currency === def.currency ? 1 - (def.second?.share ?? 0) : def.second.share
       const orders = Math.round(def.ordersPerDay * lift * share * part * (0.5 + rand()))
       if (orders === 0) continue
       let revenue = 0
+      const byHour = new Map()
       for (let i = 0; i < orders; i += 1) {
-        revenue += round(def.price[0] + rand() * (def.price[1] - def.price[0]), def.step) * (1 + Math.floor(rand() * 2))
+        const amount = round(def.price[0] + rand() * (def.price[1] - def.price[0]), def.step) * (1 + Math.floor(rand() * 2))
+        revenue += amount
+        if (back <= 1) {
+          const hour = pickHour(upTo)
+          const row = byHour.get(hour) ?? { revenue: 0, order_count: 0 }
+          row.revenue += amount
+          row.order_count += 1
+          byHour.set(hour, row)
+        }
       }
       days.push({ date, currency_code: currency, revenue: round(revenue, def.step), order_count: orders })
+      for (const [hour, row] of [...byHour].sort((a, b) => a[0] - b[0])) {
+        hours.push({ hour: `${date}T${String(hour).padStart(2, "0")}`, currency_code: currency, revenue: round(row.revenue, def.step), order_count: row.order_count })
+      }
     }
   }
 
@@ -180,30 +227,34 @@ const shopSummary = (def) => {
     return { revenue, order_count, aov: order_count ? Math.round((revenue / order_count) * 100) / 100 : 0 }
   }
 
-  const period = (length) => {
-    const from = addDays(TODAY, -(length - 1))
+  // «Today» is compared with yesterday up to the same hour, not with the whole of yesterday.
+  const untilNow = (day, currency) => {
+    const rows = hours.filter((h) => h.currency_code === currency && h.hour.startsWith(day) && Number(h.hour.slice(11)) < 9)
+    const revenue = round(rows.reduce((a, h) => a + h.revenue, 0), def.step)
+    const order_count = rows.reduce((a, h) => a + h.order_count, 0)
+    return { revenue, order_count, aov: order_count ? Math.round((revenue / order_count) * 100) / 100 : 0 }
+  }
+
+  const period = ([from, to]) => {
     const prevTo = addDays(from, -1)
-    const prevFrom = addDays(prevTo, -(length - 1))
-    const currencyCodes = [def.currency, ...(def.second ? [def.second.currency] : [])]
-    const currencies = currencyCodes
+    const prevFrom = addDays(prevTo, -(spanDays(from, to) - 1))
+    const buckets = currencies
       .map((currency_code) => {
-        const current = sum(from, TODAY, currency_code)
+        const current = sum(from, to, currency_code)
         const canceledCount = Math.floor(current.order_count * 0.04)
         return {
           currency_code,
           current,
-          previous: sum(prevFrom, prevTo, currency_code),
+          previous: from === TODAY ? untilNow(prevFrom, currency_code) : sum(prevFrom, prevTo, currency_code),
           canceled: { order_count: canceledCount, revenue: round(canceledCount * current.aov, def.step) },
         }
       })
       // The main currency always stays, a second one only when the period holds it.
       .filter((bucket, index) => index === 0 || bucket.current.order_count > 0)
-    const main = currencies[0].current
-    let left = main.revenue
+    const main = buckets[0].current
     const top_products = def.products.slice(0, 5).map((title, index) => {
       const weight = [0.24, 0.17, 0.12, 0.09, 0.07][index]
       const revenue = round(main.revenue * weight, def.step)
-      left -= revenue
       return {
         product_id: productIds[index],
         title,
@@ -212,7 +263,19 @@ const shopSummary = (def) => {
         revenue,
       }
     })
-    return { from, to: TODAY, currencies, top_products: main.revenue > 0 ? top_products : [] }
+    return { from, to, currencies: buckets, top_products: main.revenue > 0 ? top_products : [] }
+  }
+
+  // The year's chart: the days of the «365d» period by calendar month, so the first and the last
+  // month are partial and the months add up to the period's totals.
+  const monthly = []
+  for (const row of days.filter((d) => d.date >= PERIODS["365d"][0])) {
+    const month = row.date.slice(0, 7)
+    const at = monthly.find((m) => m.month === month && m.currency_code === row.currency_code)
+    if (at) {
+      at.revenue = round(at.revenue + row.revenue, def.step)
+      at.order_count += row.order_count
+    } else monthly.push({ month, currency_code: row.currency_code, revenue: row.revenue, order_count: row.order_count })
   }
 
   const published = Object.values(def.reviews).reduce((a, n) => a + n, 0)
@@ -227,8 +290,15 @@ const shopSummary = (def) => {
     owner_sub: OWNER_SUB,
     shop: { tenant_id: def.tenant, name: def.name, primary_domain: def.domain, panel_url: def.panel },
     timezone: def.timezone,
-    periods: { today: period(1), "7d": period(7), "30d": period(30) },
-    daily: days,
+    periods: Object.fromEntries(Object.entries(PERIODS).map(([key, span]) => [key, period(span)])),
+    daily: days.filter((d) => d.date > addDays(TODAY, -90)),
+    hourly: hours,
+    monthly,
+    fx: {
+      display_currency: DISPLAY,
+      source: "cbr",
+      rates: currencies.filter((code) => code !== DISPLAY).map((currency_code) => ({ currency_code, rate: RATES[currency_code], date: TODAY })),
+    },
     orders: { to_pack: def.toPack },
     catalog: def.catalog,
     reviews: {
@@ -249,38 +319,59 @@ const ozon = shopSummary(SHOPS.ozon)
 // What the panel's GET /tenants/owner/summary answers on cherkashino.ru when the page loads: the
 // sources of this instance read locally, the .com shop asked through the relay at that moment
 // (Ivan 20.10, mark 6: «данные должны быть всегда актуальные на момент загрузки страницы»). The
-// totals are per currency over the sources that answered, never summed across currencies;
-// `shops` counts the sources that hold that currency.
+// totals are in rubles over the sources that answered (Ivan 21.10, marks 17, 19, 20: «валюту нужно
+// показывать одну … в рублях», «в поповере показывать уже список валют»): an amount in another
+// currency is converted at the rate its source sent in `fx`, and `by_currency` keeps the real
+// amounts for the popover.
+const toDisplay = (amount, code, rates) => (code === DISPLAY ? amount : Math.round(amount * rates.get(code).rate))
+
 const ownerSummary = (current, entries) => {
+  const answered = entries.filter((e) => e.summary && (e.state ?? "ok") === "ok")
+  const rates = new Map(answered.flatMap(({ summary }) => summary.fx.rates.map((rate) => [rate.currency_code, rate])))
   const totals = {}
-  for (const key of ["today", "7d", "30d"]) {
+  for (const key of Object.keys(PERIODS)) {
     const byCurrency = new Map()
-    for (const { summary } of entries.filter((e) => e.summary && (e.state ?? "ok") === "ok")) {
+    for (const { summary } of answered) {
       for (const bucket of summary.periods[key].currencies) {
+        const rate = rates.get(bucket.currency_code)
         const row = byCurrency.get(bucket.currency_code) ?? {
           currency_code: bucket.currency_code,
           revenue: 0,
-          order_count: 0,
           previous_revenue: 0,
+          order_count: 0,
+          rate: rate?.rate ?? null,
+          rate_date: rate?.date ?? null,
+          revenue_converted: 0,
+          previous_converted: 0,
           shops: 0,
         }
         row.revenue = Math.round((row.revenue + bucket.current.revenue) * 100) / 100
-        row.order_count += bucket.current.order_count
         row.previous_revenue = Math.round((row.previous_revenue + bucket.previous.revenue) * 100) / 100
+        row.order_count += bucket.current.order_count
+        row.revenue_converted += toDisplay(bucket.current.revenue, bucket.currency_code, rates)
+        row.previous_converted += toDisplay(bucket.previous.revenue, bucket.currency_code, rates)
         row.shops += 1
         byCurrency.set(bucket.currency_code, row)
       }
     }
-    totals[key] = [...byCurrency.values()].map((row) => ({
-      ...row,
-      aov: row.order_count ? Math.round((row.revenue / row.order_count) * 100) / 100 : 0,
-    }))
+    const by_currency = [...byCurrency.values()]
+    const revenue = by_currency.reduce((a, row) => a + row.revenue_converted, 0)
+    const order_count = by_currency.reduce((a, row) => a + row.order_count, 0)
+    totals[key] = {
+      revenue,
+      previous_revenue: by_currency.reduce((a, row) => a + row.previous_converted, 0),
+      order_count,
+      aov: order_count ? Math.round(revenue / order_count) : 0,
+      by_currency,
+    }
   }
   return {
     schema: "upready.owner-summary/v1",
     owner_sub: OWNER_SUB,
     current_tenant_id: current,
     computed_at: NOW,
+    display_currency: DISPLAY,
+    rate_source: "cbr",
     shops: entries.map(({ summary, state = "ok", def }) => ({
       tenant_id: def.tenant,
       instance: def.instance,

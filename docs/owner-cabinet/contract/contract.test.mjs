@@ -86,7 +86,7 @@ const shopSchema = files["shop-summary.v1.schema.json"]
 const ownerSchema = files["owner-summary.v1.schema.json"]
 
 test("the shop examples match shop-summary/v1", () => {
-  for (const name of ["example.shop-summary.ru.json", "example.shop-summary.intl.json", "example.shop-summary.wildberries.json"]) {
+  for (const name of shopFiles) {
     assert.deepEqual(validate(shopSchema, read(name), shopSchema), [], name)
   }
 })
@@ -150,11 +150,64 @@ test("a source that did not answer is a row without numbers, left out of the tot
     assert.equal(entry.fetched_at, null)
   }
   const answered = page.shops.filter((entry) => entry.state === "ok")
-  for (const row of page.totals["7d"]) {
+  for (const row of page.totals["7d"].by_currency) {
     const sum = answered
       .flatMap((entry) => entry.summary.periods["7d"].currencies)
       .filter((bucket) => bucket.currency_code === row.currency_code)
       .reduce((a, bucket) => a + bucket.current.order_count, 0)
     assert.equal(row.order_count, sum, row.currency_code)
+  }
+})
+
+const shopFiles = ["example.shop-summary.ru.json", "example.shop-summary.intl.json", "example.shop-summary.wildberries.json"]
+const pageFiles = ["example.owner-summary.ru.json", "example.owner-summary.intl-late.json", "example.owner-summary.ru-missing.json"]
+
+test("every currency other than rubles has a Bank of Russia rate with its date, rubles have none", () => {
+  for (const name of shopFiles) {
+    const payload = read(name)
+    const sold = new Set([...payload.daily, ...payload.monthly].map((row) => row.currency_code))
+    const rated = new Set(payload.fx.rates.map((rate) => rate.currency_code))
+    assert.equal(payload.fx.display_currency, "rub", name)
+    assert.ok(!rated.has("rub"), name)
+    for (const code of sold) if (code !== "rub") assert.ok(rated.has(code), `${name}: no rate for ${code}`)
+    for (const rate of payload.fx.rates) assert.ok(rate.rate > 0 && /^\d{4}-\d{2}-\d{2}$/.test(rate.date), name)
+  }
+})
+
+test("the page's totals are rubles: each currency converted at its source's rate, the real amounts kept", () => {
+  for (const name of pageFiles) {
+    const page = read(name)
+    const answered = page.shops.filter((entry) => entry.state === "ok")
+    const rates = new Map(answered.flatMap((entry) => entry.summary.fx.rates.map((rate) => [rate.currency_code, rate])))
+    for (const [key, total] of Object.entries(page.totals)) {
+      for (const row of total.by_currency) {
+        const buckets = answered
+          .flatMap((entry) => entry.summary.periods[key].currencies)
+          .filter((bucket) => bucket.currency_code === row.currency_code)
+        const rate = row.currency_code === "rub" ? null : rates.get(row.currency_code)
+        assert.equal(row.rate, rate?.rate ?? null, `${name} ${key} ${row.currency_code}`)
+        assert.equal(row.rate_date, rate?.date ?? null, `${name} ${key} ${row.currency_code}`)
+        const converted = buckets.reduce((a, b) => a + (rate ? Math.round(b.current.revenue * rate.rate) : b.current.revenue), 0)
+        assert.equal(row.revenue_converted, converted, `${name} ${key} ${row.currency_code}`)
+        assert.equal(row.revenue, Math.round(buckets.reduce((a, b) => a + b.current.revenue, 0) * 100) / 100)
+      }
+      assert.equal(total.revenue, total.by_currency.reduce((a, row) => a + row.revenue_converted, 0), `${name} ${key}`)
+      assert.equal(total.order_count, total.by_currency.reduce((a, row) => a + row.order_count, 0), `${name} ${key}`)
+    }
+  }
+})
+
+test("the year's months and a day's hours add up to their periods", () => {
+  for (const name of shopFiles) {
+    const payload = read(name)
+    const check = (rows, key) => {
+      for (const bucket of payload.periods[key].currencies) {
+        const mine = rows.filter((row) => row.currency_code === bucket.currency_code)
+        assert.equal(mine.reduce((a, row) => a + row.order_count, 0), bucket.current.order_count, `${name} ${key}`)
+      }
+    }
+    check(payload.monthly, "365d")
+    check(payload.hourly.filter((row) => row.hour.startsWith(payload.periods.today.from)), "today")
+    check(payload.hourly.filter((row) => row.hour.startsWith(payload.periods.yesterday.from)), "yesterday")
   }
 })

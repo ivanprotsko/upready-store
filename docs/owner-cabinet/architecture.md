@@ -106,10 +106,17 @@ shop's storefront or one of its marketplace accounts (`source`: `storefront`, `w
 `ozon`); a marketplace source belongs to its shop and is computed by the instance that holds the
 marketplace connection, today the RU one. Per source:
 
-- per period (today, 7 days, 30 days) and per currency: revenue, orders, average order, the same
-  for the previous period, cancelled orders;
+- per period (today, yesterday, 7, 30, 90 and 365 days, and the range picked in the calendar) and
+  per currency: revenue, orders, average order, the same for the previous period (for today:
+  yesterday up to the same hour), cancelled orders;
 - the top five products: id, title, quantity, revenue;
-- revenue and orders by day for 90 days;
+- revenue and orders by day for 90 days, by hour for today and yesterday, by month over the year
+  (the chart: hours for a day, days up to a month, weeks for a quarter, months for a year);
+- `fx`: the Bank of Russia's rate, with its date, for every currency other than roubles. Amounts
+  stay in their own currency in the payload; the page shows them in roubles at this rate and names
+  the real amount, the rate and its date in a tooltip (Ivan 21.10, marks 17, 19, 20 on prototype
+  v2). `owner-summary/v1` totals are one rouble figure per period with `by_currency` for the
+  popover;
 - orders waiting to be packed; published and draft products;
 - reviews: published, pending, average, counts by star, new in 30 days.
 
@@ -222,10 +229,11 @@ The reading above is the lead's and this line's, not a lawyer's.
 
 ## 9. Gaps of stage 1
 
-- The prototype's period bar does not switch the numbers; «Неделя» is shown. With totals fetched at
-  page load the period becomes a request parameter; the contract still carries today, 7 and 30
-  days plus 90 days by day, which covers «Вчера» and «Квартал» too.
 - Marketplace totals assume the shop's Wildberries and Ozon connections give orders by day; which
   API fields feed `shop-summary/v1` for a marketplace is a stage-2 question.
-- Converting currencies into one total is not designed: it is Ivan's call (question in the plan).
+- One rate per currency for every period (the rate of the day the totals are computed), not a rate
+  per day of each sale: a year's euro sales are converted at today's rate. Exact per-day
+  conversion is a stage-2 option if Ivan wants it.
+- With totals fetched at page load the period is a request parameter (`?from=&to=`); the payload
+  answers the presets and, when named, one `range`.
 - Memory and CPU of the relay are estimates until slice 3.
