@@ -29,12 +29,17 @@ type Row = Record<string, unknown>;
 const read = (file: string): Record<string, unknown> =>
   JSON.parse(readFileSync(`${DIR}${file}`, "utf8")) as Record<string, unknown>;
 
+/**
+ * Lower case with ё read as е. Speech to text writes «мумие» for «мумиё» and
+ * owners type either, so every match folds both sides.
+ */
+export const fold = (text: string): string => text.toLowerCase().replace(/ё/g, "е");
+
 /** Every word of the query, cut to its first five letters, appears in the text: «печени» finds «Очищение печени». */
 export function matchesQuery(text: string, q: string | null): boolean {
   if (!q) return true;
-  const hay = text.toLowerCase();
-  return q
-    .toLowerCase()
+  const hay = fold(text);
+  return fold(q)
     .split(/[^\p{L}\p{N}-]+/u)
     .filter(Boolean)
     .every((word) => hay.includes(word.slice(0, 5)));

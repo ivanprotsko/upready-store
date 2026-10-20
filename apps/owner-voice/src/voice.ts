@@ -69,6 +69,20 @@ export function placeholderWav(text: string): Uint8Array {
   return new Uint8Array(buf);
 }
 
+/** The line the owner sees when speech runs on fixtures and a real recording comes in. */
+export const VOICE_OFF = "Голос на этом стенде выключен, спросите текстом.";
+
+/**
+ * Speech is not available on this stand. The message is for the owner; the
+ * technical cause is in `cause` and goes to the server log only.
+ */
+export class VoiceOffError extends Error {
+  constructor(cause: string) {
+    super(VOICE_OFF, { cause });
+    this.name = "VoiceOffError";
+  }
+}
+
 /** Answers from `fixtures/voice/transcripts.json`, keyed by the audio's sha256. */
 export class FixtureVoice implements Voice {
   readonly mode = "fixture";
@@ -77,7 +91,7 @@ export class FixtureVoice implements Voice {
     const table = JSON.parse(readFileSync(TRANSCRIPTS, "utf8")) as Record<string, { text: string }>;
     const hit = table[sha256(audio.data)];
     if (!hit) {
-      throw new Error("Голос на записях: этой аудиозаписи нет среди записанных. Задайте ELEVENLABS_API_KEY или спросите текстом.");
+      throw new VoiceOffError("no ELEVENLABS_API_KEY: speech runs on fixtures/voice and this recording is not among them");
     }
     return hit.text;
   }

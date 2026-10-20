@@ -20,10 +20,13 @@ import { type App, createApp } from "./app.ts";
 import { type Config, readConfig } from "./config.ts";
 import type { Audio } from "./elevenlabs.ts";
 import type { ChatMessage } from "./model/types.ts";
+import { VoiceOffError } from "./voice.ts";
 
 const PAGE = fileURLToPath(new URL("./page.html", import.meta.url));
 const MAX_BODY = 12 * 1024 * 1024;
 const MAX_HISTORY = 8;
+/** What the owner sees when something behind the page failed. */
+export const SORRY = "Сейчас не получилось ответить. Попробуйте ещё раз чуть позже.";
 
 class HttpError extends Error {
   readonly status: number;
@@ -114,10 +117,14 @@ export function handler(app: App, password: string | null) {
       }
       send(res, 404, { error: "Нет такого адреса." });
     } catch (err) {
-      const status = err instanceof HttpError ? err.status : 502;
-      const message = err instanceof Error ? err.message : "Ошибка";
-      if (status >= 500) console.error("[owner-voice]", message);
-      send(res, status, { error: message });
+      // The owner sees a plain sentence; the cause (keys, codes, paths) stays in the log.
+      if (err instanceof HttpError) return send(res, err.status, { error: err.message });
+      if (err instanceof VoiceOffError) {
+        console.error("[owner-voice] voice off:", err.cause);
+        return send(res, 409, { error: err.message });
+      }
+      console.error("[owner-voice]", err instanceof Error ? err.message : err);
+      send(res, 502, { error: SORRY });
     }
   };
 }

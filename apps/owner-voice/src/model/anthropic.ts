@@ -6,6 +6,8 @@ import type { FetchFn } from "../shop/api.ts";
 import type { ChatMessage, ModelProvider, ModelRequest, ModelStep, ToolCall } from "./types.ts";
 
 const API_URL = "https://api.anthropic.com/v1/messages";
+/** A model that does not answer in this time counts as failed, and the router answers instead. */
+const TIMEOUT_MS = 30_000;
 
 type Block =
   | { type: "text"; text: string }
@@ -43,6 +45,7 @@ export class AnthropicProvider implements ModelProvider {
   async next(request: ModelRequest): Promise<ModelStep> {
     const res = await this.#fetch(API_URL, {
       method: "POST",
+      signal: AbortSignal.timeout(TIMEOUT_MS),
       headers: {
         "x-api-key": this.#apiKey,
         "anthropic-version": "2023-06-01",

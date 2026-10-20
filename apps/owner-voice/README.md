@@ -16,6 +16,10 @@ cherkashino.com through its API and never from a database connection (Ivan, 20.1
 | `product_reviews` | `GET /tenants/reviews`, the author's name is dropped | none, a route of this engine |
 | `open_product` | `GET /store/products`, then a panel and a storefront link | `products.get` |
 
+Product and stock search fold ё into е on both sides: speech to text writes «мумие» for «мумиё».
+The API's own search does not fold ё, so when it finds nothing the tool reads the list (up to 500
+rows) and matches locally.
+
 Every request is a GET. The client in `src/shop/api.ts` refuses any other path or method before
 it leaves, and the only POST is the shop login.
 
@@ -30,6 +34,33 @@ node scripts/fixture-run.ts        # audio in, answer text and audio out, no key
 node --test src/*.test.ts src/**/*.test.ts
 npx tsc --noEmit                   # after pnpm install, for the types
 ```
+
+## Stand on a Mac without Docker
+
+One Node process, no build. Pass the keys as environment variables of that one command, from your
+own key store, never typed into a chat:
+
+```bash
+cd apps/owner-voice
+PORT=5475 \
+STAND_PASSWORD=<a password for the page> \
+ELEVENLABS_API_KEY=<key> \
+ANTHROPIC_API_KEY=<key> \
+node src/server.ts
+```
+
+- `STAND_PASSWORD` is required once any key or the shop login is set: without it the server
+  prints why and exits. With no key at all the stand runs open, on fixtures.
+- Leave out a key and that part runs on fixtures. With no `ELEVENLABS_API_KEY` the mic button is
+  off and the page says «Голос на этом стенде выключен, спросите текстом».
+- `MODEL_PROVIDER=rules` turns the model off and the keyword router answers.
+- When the model call fails (an HTTP error such as an empty Anthropic balance, no network, a
+  30-second timeout), the keyword router answers the same question. The server log has the cause,
+  and `GET /api/status` shows it in `modelFallback` (time and reason, keys masked) until the model
+  answers again.
+- The page shows the owner plain sentences only. Variable names, HTTP codes and vendor errors
+  stay in the server log.
+- Open `http://localhost:5475`: the browser opens the microphone on `localhost` without HTTPS.
 
 ## Put It on a Stand
 
@@ -49,9 +80,10 @@ default is in `.env.example` and in `src/config.ts`; they point at cherkashino.c
 | `SHOP_LOCALE`, `SHOP_COUNTRY` | Language of the answers and speech, the country whose region prices are read | `ru`, `ru` |
 | `SHOP_LOGIN_EMAIL`, `SHOP_LOGIN_PASSWORD` | A shop panel login for orders, sales, stock and reviews. Give it the role `manager` | those four run on fixtures |
 | `STAND_PASSWORD` | HTTP Basic password for the page, any user name | required once the shop login, `ELEVENLABS_API_KEY` or `ANTHROPIC_API_KEY` is set: the server refuses to start. Only a stand on fixtures alone runs open |
-| `ELEVENLABS_API_KEY` | Speech to text and text to speech | speech runs on fixtures, a typed question still works |
+| `ELEVENLABS_API_KEY` | Speech to text and text to speech | speech runs on fixtures, the mic button is off, a typed question still works |
 | `ELEVENLABS_VOICE_ID` | The voice | Oksana's cloned voice from chrxnasdmds, which plays only on the account that owns it |
-| `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | The model | a keyword router answers instead |
+| `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | The model | a keyword router answers instead; it also answers any turn the model fails |
+| `MODEL_PROVIDER=rules` | The keyword router even with a model key | the model answers when its key is set |
 | `SHOP_FIXTURES=1` | The Store API on fixtures as well | the Store API is live, it needs no key |
 | `PORT` | The port | `5470` |
 

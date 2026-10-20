@@ -6,6 +6,7 @@ import { runTurn, type TurnResult } from "./agent.ts";
 import { type Config, describeConfig } from "./config.ts";
 import type { Audio } from "./elevenlabs.ts";
 import { AnthropicProvider } from "./model/anthropic.ts";
+import { type FallbackNote, FallbackProvider } from "./model/fallback.ts";
 import { RulesProvider } from "./model/rules.ts";
 import type { ChatMessage, ModelProvider } from "./model/types.ts";
 import { type FetchFn, HttpShopApi } from "./shop/api.ts";
@@ -19,7 +20,7 @@ export interface VoiceTurn extends TurnResult {
 }
 
 export interface App {
-  status(): ReturnType<typeof describeConfig> & { provider: string };
+  status(): ReturnType<typeof describeConfig> & { provider: string; modelFallback: FallbackNote | null };
   text(question: string, history: ChatMessage[]): Promise<TurnResult & { audio: Audio | null }>;
   voice(audio: Audio, history: ChatMessage[]): Promise<VoiceTurn>;
 }
@@ -43,11 +44,14 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
     store: described.storeApi === "live" ? net : fixtures,
     owner: described.ownerApi === "live" ? net : fixtures,
   });
-  const provider =
+  const rules = new RulesProvider();
+  const model =
     overrides.provider ??
     (config.model.provider === "anthropic" && config.model.anthropicKey
       ? new AnthropicProvider(config.model.anthropicKey, config.model.anthropicModel, net)
-      : new RulesProvider());
+      : null);
+  // Any model sits behind the router: when it fails, the router answers the same turn.
+  const provider = model ? new FallbackProvider(model, rules, [config.model.anthropicKey]) : rules;
   const voice =
     overrides.voice ??
     (config.elevenlabs.apiKey
@@ -77,7 +81,12 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
   };
 
   return {
-    status: () => ({ ...described, voice: voice.mode, provider: provider.name }),
+    status: () => ({
+      ...described,
+      voice: voice.mode,
+      provider: provider.name,
+      modelFallback: provider instanceof FallbackProvider ? provider.last : null,
+    }),
     text: answer,
     async voice(audio, history) {
       const transcript = await voice.transcribe(audio);

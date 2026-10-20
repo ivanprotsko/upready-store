@@ -9,8 +9,8 @@
  * `get-sales-summary.ts`), and no buyer's name, email or address reaches the
  * model: reviews drop the author, orders ask for no customer fields at all.
  */
-import type { ShopApi } from "./shop/api.ts";
-import { matchesQuery } from "./shop/fixtures.ts";
+import type { Query, ShopApi } from "./shop/api.ts";
+import { fold, matchesQuery } from "./shop/fixtures.ts";
 
 export interface ToolSpec {
   name: string;
@@ -82,7 +82,33 @@ const day = (iso: string): string =>
 export function searchStem(query: string): string {
   const words = query.split(/[^\p{L}\p{N}-]+/u).filter((w) => w.length > 2);
   const longest = words.sort((a, b) => b.length - a.length)[0] ?? query;
-  return longest.toLowerCase().slice(0, 5);
+  return fold(longest).slice(0, 5);
+}
+
+/** Pages read when the API's own search finds nothing: up to this many rows of the list. */
+const SCAN_PAGE = 100;
+const SCAN_MAX = 500;
+
+/**
+ * The API's `q` is a plain substring that does not fold ё, so «мумие» misses
+ * «Мумиё». When the search finds nothing, read the list itself page by page and
+ * match locally with folded text.
+ */
+async function scanList(
+  read: (query: Query) => Promise<unknown>,
+  key: string,
+  base: Query,
+  keep: (row: Row) => boolean,
+): Promise<Row[]> {
+  const found: Row[] = [];
+  for (let offset = 0; offset < SCAN_MAX; offset += SCAN_PAGE) {
+    const body = (await read({ ...base, limit: SCAN_PAGE, offset })) as Record<string, unknown>;
+    const rows = (body[key] as Row[] | undefined) ?? [];
+    found.push(...rows.filter(keep));
+    const count = typeof body.count === "number" ? body.count : null;
+    if (rows.length < SCAN_PAGE || (count !== null && offset + SCAN_PAGE >= count)) break;
+  }
+  return found;
 }
 
 interface StoreProduct {
@@ -94,13 +120,16 @@ interface StoreProduct {
 
 async function searchProducts(ctx: ToolContext, query: string, limit: number): Promise<StoreProduct[]> {
   const regionId = await ctx.shop.regionId();
-  const body = (await ctx.shop.store("/store/products", {
-    q: searchStem(query),
-    limit: 20,
+  const base: Query = {
     region_id: regionId ?? undefined,
     fields: "id,title,handle,*variants.calculated_price,variants.title,variants.sku",
-  })) as { products?: StoreProduct[] };
-  return (body.products ?? []).filter((p) => matchesQuery(`${p.title} ${p.handle}`, query)).slice(0, limit);
+  };
+  const keep = (p: Row) => matchesQuery(`${p.title} ${p.handle}`, query);
+  const read = (q: Query) => ctx.shop.store("/store/products", q);
+  const body = (await read({ ...base, q: searchStem(query), limit: 20 })) as { products?: Row[] };
+  let found = (body.products ?? []).filter(keep);
+  if (!found.length) found = await scanList(read, "products", base, keep);
+  return (found as unknown as StoreProduct[]).slice(0, limit);
 }
 
 const panelLink = (ctx: ToolContext, product: StoreProduct) => ({
@@ -154,12 +183,13 @@ const productStock: Tool = {
   async run(input, ctx) {
     const query = str(input, "query");
     if (!query) return { text: "Не понял, остаток какого товара нужен." };
-    const body = (await ctx.shop.owner("/tenants/inventory-items", {
-      q: searchStem(query),
-      limit: 50,
-      fields: "id,sku,title,stocked_quantity,reserved_quantity",
-    })) as { inventory_items?: Row[] };
-    const items = (body.inventory_items ?? []).filter((i) => matchesQuery(`${i.title} ${i.sku}`, query)).slice(0, 8);
+    const base: Query = { fields: "id,sku,title,stocked_quantity,reserved_quantity" };
+    const keep = (i: Row) => matchesQuery(`${i.title} ${i.sku}`, query);
+    const read = (q: Query) => ctx.shop.owner("/tenants/inventory-items", q);
+    const body = (await read({ ...base, q: searchStem(query), limit: 50 })) as { inventory_items?: Row[] };
+    let items = (body.inventory_items ?? []).filter(keep);
+    if (!items.length) items = await scanList(read, "inventory_items", base, keep);
+    items = items.slice(0, 8);
     if (!items.length) return { text: `Складских позиций по запросу «${query}» не нашлось.` };
     const rows = items.map((i) => {
       const stocked = Number(i.stocked_quantity ?? 0);
@@ -372,6 +402,8 @@ export async function runTool(name: string, input: Record<string, unknown>, ctx:
   try {
     return await tool.run(input, ctx);
   } catch (err) {
-    return { text: `Не удалось прочитать данные магазина: ${err instanceof Error ? err.message : "ошибка запроса"}.` };
+    // The cause (path, HTTP status) goes to the log; the owner hears a plain sentence.
+    console.error(`[owner-voice] tool ${name} failed:`, err instanceof Error ? err.message : err);
+    return { text: "Не удалось прочитать данные магазина, попробуйте чуть позже." };
   }
 }

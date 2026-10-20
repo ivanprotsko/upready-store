@@ -30,6 +30,7 @@
   button { border: 0; border-radius: 22px; padding: 11px 16px; font: inherit; cursor: pointer; background: var(--pill); color: var(--text); }
   #mic { background: var(--accent); color: var(--bg); min-width: 120px; touch-action: none; user-select: none; }
   #mic.rec { background: #c0392b; color: #fff; }
+  #mic:disabled { opacity: .4; cursor: not-allowed; }
   #hint { color: var(--muted); font-size: 13px; text-align: center; margin: 0; }
 </style>
 </head>
@@ -56,11 +57,25 @@
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const scroll = () => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
 
-  fetch("/api/status").then((r) => r.json()).then((s) => {
+  // The owner sees plain words only: no variable names, codes or vendor errors; those are in the server log.
+  // Read again after every answer, so a model that just fell back shows in the header.
+  const loadStatus = () => fetch("/api/status").then((r) => r.json()).then((s) => {
     const part = (label, mode) => mode === "live" ? `${label}: живые` : `${label}: <b>записи</b>`;
+    const model = !s.provider.startsWith("anthropic") ? "модель: <b>выключена</b>, отвечает разбор по словам"
+      : s.modelFallback ? "модель: <b>недоступна</b>, отвечает разбор по словам" : "модель: Claude";
     document.getElementById("mode").innerHTML =
-      `${s.shop} · ${part("каталог", s.storeApi)} · ${part("заказы и продажи", s.ownerApi)} · ${part("голос", s.voice)} · модель: ${s.provider}`;
-  });
+      `${s.shop} · ${part("каталог", s.storeApi)} · ${part("заказы и продажи", s.ownerApi)} · ${part("голос", s.voice)} · ${model}`;
+    if (s.voice !== "live") {
+      mic.disabled = true;
+      document.getElementById("hint").textContent = "Голос на этом стенде выключен, спросите текстом";
+    }
+  }).catch(() => {});
+  loadStatus();
+
+  const TOOL_WORDS = {
+    find_products: "каталог", product_stock: "склад", sales_summary: "продажи",
+    recent_orders: "заказы", product_reviews: "отзывы", open_product: "карточку товара",
+  };
 
   function showAnswer(data) {
     if (data.transcript) { log.append(el("div", "user", data.transcript)); history.push({ role: "user", text: data.transcript }); }
@@ -74,7 +89,7 @@
       if (card.link) { const a = el("a", null, card.link.label); a.href = card.link.href; a.target = "_blank"; a.rel = "noopener"; box.append(a); }
       bot.append(box);
     }
-    if (data.calls && data.calls.length) bot.append(el("div", "tools", "Запросы: " + data.calls.map((c) => c.name).join(", ")));
+    if (data.calls && data.calls.length) bot.append(el("div", "tools", "Посмотрел: " + data.calls.map((c) => TOOL_WORDS[c.name] || "данные магазина").join(", ")));
     log.append(bot);
     history.push({ role: "assistant", text: data.reply });
     if (data.audio) {
@@ -92,12 +107,13 @@
       const res = await fetch(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...body, history: history.slice(-8) }) });
       const data = await res.json();
       pending.remove();
-      if (!res.ok) { log.append(el("div", "bot err", data.error || "Ошибка")); return; }
+      if (!res.ok) { log.append(el("div", "bot err", data.error || "Сейчас не получилось ответить.")); return; }
       showAnswer(data);
     } catch (e) {
       pending.remove();
       log.append(el("div", "bot err", "Стенд не ответил."));
     }
+    loadStatus();
   }
 
   document.getElementById("ask").addEventListener("submit", (e) => {
@@ -111,6 +127,7 @@
 
   let recorder = null, chunks = [], holding = false;
   async function start() {
+    if (mic.disabled) return;
     holding = true;
     if (recorder) return;
     try {

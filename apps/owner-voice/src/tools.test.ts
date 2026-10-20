@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 
 import type { Query, ShopApi } from "./shop/api.ts";
+import { matchesQuery } from "./shop/fixtures.ts";
 import { money, runTool, searchStem, TOOLS, type ToolContext } from "./tools.ts";
 
 interface Seen {
@@ -178,9 +179,58 @@ test("open_product: links to the panel and the storefront", async () => {
   assert.ok(out.card?.rows.includes("На витрине: https://cherkashino.com/ru/products/troychatka"));
 });
 
-test("an API failure becomes a sentence, not a crash", async () => {
+test("an API failure becomes a plain sentence, the cause only in the log", async (t) => {
+  const logged = t.mock.method(console, "error", () => {});
   const { ctx } = mockShop({});
   const out = await runTool("recent_orders", {}, ctx);
-  assert.match(out.text, /^Не удалось прочитать данные магазина: answered 500/);
+  assert.equal(out.text, "Не удалось прочитать данные магазина, попробуйте чуть позже.");
+  assert.match(String(logged.mock.calls[0]?.arguments.join(" ")), /recent_orders failed: answered 500/);
   assert.equal((await runTool("delete_everything", {}, ctx)).text, "Инструмента delete_everything нет.");
+});
+
+/**
+ * A shop whose `q` is a plain substring with no ё folding, like Medusa's:
+ * «мумие» finds nothing there, the full list still holds «Мумиё».
+ */
+function strictShop() {
+  const seen: Query[] = [];
+  const rows = {
+    products: [
+      { id: "prod_m", title: "Мумиё алтайское очищенное натуральное 100%", handle: "mumie", variants: [{ title: "1", calculated_price: { calculated_amount: 30, currency_code: "usd" } }] },
+      ...PRODUCTS.products,
+    ],
+    inventory_items: [{ id: "inv_m", sku: "MUM-1", title: "Мумиё алтайское", stocked_quantity: 7, reserved_quantity: 2 }],
+  };
+  const list = (key: "products" | "inventory_items") => async (_path: string, query: Query = {}) => {
+    seen.push(query);
+    const q = typeof query.q === "string" ? query.q : null;
+    const all = rows[key] as { title: string }[];
+    const hits = q ? all.filter((r) => r.title.toLowerCase().includes(q)) : all;
+    return { [key]: hits, count: hits.length };
+  };
+  const shop: ShopApi = { store: list("products"), owner: list("inventory_items"), regionId: async () => "reg_ru" };
+  const ctx: ToolContext = { shop, panelUrl: "https://panel.cherkashino.com", storefrontUrl: "https://cherkashino.com", locale: "ru" };
+  return { ctx, seen };
+}
+
+test("ё and е: «мумие» finds «Мумиё» when the API search does not fold ё", async () => {
+  const { ctx, seen } = strictShop();
+  const out = await runTool("find_products", { query: "мумие" }, ctx);
+  assert.match(out.text, /Мумиё алтайское очищенное натуральное 100% — 30 \$/);
+  assert.equal(seen[0]?.q, "мумие", "the API is asked first");
+  assert.equal(seen[1]?.q, undefined, "then the list is read and matched locally");
+  assert.equal(seen[1]?.offset, 0);
+
+  const typed = await runTool("find_products", { query: "мумиё" }, strictShop().ctx);
+  assert.match(typed.text, /Мумиё алтайское/, "a typed ё still finds it");
+
+  const stock = await runTool("product_stock", { query: "мумие" }, ctx);
+  assert.match(stock.text, /Мумиё алтайское: на складе 7, в резерве 2, можно продать 5/);
+});
+
+test("ё and е fold on both sides of a match", () => {
+  assert.equal(matchesQuery("Мумиё алтайское", "мумие"), true);
+  assert.equal(matchesQuery("Мумие алтайское", "МУМИЁ"), true);
+  assert.equal(matchesQuery("Иван-чай", "мумие"), false);
+  assert.equal(searchStem("мумиё"), "мумие");
 });

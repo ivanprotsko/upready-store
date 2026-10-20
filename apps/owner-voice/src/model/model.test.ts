@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import type { FetchFn } from "../shop/api.ts";
 import { toolSpecs } from "../tools.ts";
 import { AnthropicProvider, toAnthropicMessages } from "./anthropic.ts";
+import { FallbackProvider, safeReason } from "./fallback.ts";
 import { productPhrase, RulesProvider } from "./rules.ts";
 import type { ChatMessage } from "./types.ts";
 
@@ -65,6 +66,8 @@ test("the rules provider picks a tool from the words, then reads its answer back
   assert.deepEqual((await calls("покажи плохие отзывы"))?.input, { max_rating: 3 });
   assert.equal((await calls("открой карточку тройчатка"))?.name, "open_product");
   assert.equal((await calls("сколько стоит мумиё"))?.name, "find_products");
+  assert.deepEqual((await calls("Сколько стоит мумие?"))?.input, { query: "мумие" }, "speech to text writes е for ё");
+  assert.deepEqual((await calls("почём мумиё"))?.input, { query: "мумие" });
   assert.equal((await ask("привет")).kind, "text");
   assert.deepEqual(await ask("удали все заказы"), {
     kind: "text",
@@ -82,4 +85,30 @@ test("the rules provider picks a tool from the words, then reads its answer back
 test("productPhrase keeps only the words that name the product", () => {
   assert.equal(productPhrase("Сколько осталось мази каштан на складе?"), "мази каштан");
   assert.equal(productPhrase("сколько у нас на складе"), null);
+});
+
+const creditTooLow: FetchFn = async () =>
+  new Response(
+    JSON.stringify({
+      type: "error",
+      error: { type: "invalid_request_error", message: "Your credit balance is too low to access the Anthropic API." },
+    }),
+    { status: 400 },
+  );
+
+test("a failing model hands the same turn to the keyword router and says why", async (t) => {
+  const logged = t.mock.method(console, "error", () => {});
+  const key = "sk-ant-test-key-not-real-0123456789";
+  const provider = new FallbackProvider(new AnthropicProvider(key, "claude-sonnet-5-5", creditTooLow), new RulesProvider(), [key]);
+  const step = await provider.next({ system: "", tools: [], messages: [{ role: "user", text: "Сколько стоит мумие?" }] });
+
+  assert.deepEqual(step, { kind: "tools", text: "", calls: [{ id: "rules-find_products", name: "find_products", input: { query: "мумие" } }] });
+  assert.match(provider.last?.reason ?? "", /^Anthropic answered 400: .*credit balance is too low/);
+  assert.match(String(logged.mock.calls[0]?.arguments[0]), /keyword router answers this turn: Anthropic answered 400/);
+  assert.equal(provider.name, "anthropic claude-sonnet-5-5");
+});
+
+test("safeReason masks keys and key-shaped strings", () => {
+  assert.equal(safeReason("bad key abc123secret", ["abc123secret"]), "bad key ***");
+  assert.equal(safeReason("invalid x-api-key sk-ant-api03-AbCdEf0123456789"), "invalid x-api-key ***");
 });
