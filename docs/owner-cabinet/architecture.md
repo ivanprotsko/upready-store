@@ -1,7 +1,14 @@
-# Unified owner cabinet: «Сводка» across shops, one sign-in, totals-only relay (t-2026-10-20-23, stage 1)
+# Unified owner cabinet: «Сводка» across sales sources, one sign-in, totals-only relay (t-2026-10-20-23, stage 1)
 
 Stage 1 is design only. No live server was touched and no production code changes here. Stage 2
 starts when Ivan approves the prototype.
+
+**v2 of this note (20.10, after Ivan's 13 marks on prototype v1).** Two marks change the design, not
+only the screens. Mark 6: «колонка "данные" не нужна, данные должны быть всегда актуальные на
+момент загрузки страницы» — totals are no longer pushed every five minutes and kept; each page
+asks for them when it loads (§4). Mark 1: «Предлагаю сделать заголовок "Источники продаж", чтобы в
+список можно было добавить маркетплейсы wildberries и ozon» — a row is a sales source, a shop's
+storefront or one of its marketplace accounts, and the contract carries `source` (§4).
 
 ## Ivan's words (verbatim)
 
@@ -25,8 +32,10 @@ section, «Сводка», shows the totals of all the owner's shops.
 3. **A small relay on the RU host carries totals out.** It is its own container with no database
    access. The RU backend hands it a payload; the relay checks it against a closed schema, signs
    it and sends it to .com.
-4. **One call every five minutes carries both directions.** RU pushes its totals; the answer
-   carries the .com totals back. Nothing on the RU host listens to the internet for this.
+4. **Totals are fetched when a page loads, never cached.** On cherkashino.ru the relay makes one
+   outbound call to .com and gets the .com totals in the answer. For cherkashino.com the RU relay
+   keeps one connection open *from* Russia to .com; a .com page load asks over it, and the RU relay
+   answers with fresh RU totals. Nothing on the RU host listens to the internet for this.
 5. **Only totals cross.** The contract is `contract/shop-summary.v1.schema.json`: sums, counts,
    the shop's own product titles, review counts by star. No buyer's name, phone, address, e-mail,
    order number, review text or review author.
@@ -92,7 +101,10 @@ one host: the .com relay endpoint.
 The same image runs on the INTL host for symmetry. There it is not required by law, but one code
 path is easier to check than two.
 
-**What it carries.** `upready.shop-summary/v1` per shop (`contract/`):
+**What it carries.** `upready.shop-summary/v1` per sales source (`contract/`). A source is a
+shop's storefront or one of its marketplace accounts (`source`: `storefront`, `wildberries`,
+`ozon`); a marketplace source belongs to its shop and is computed by the instance that holds the
+marketplace connection, today the RU one. Per source:
 
 - per period (today, 7 days, 30 days) and per currency: revenue, orders, average order, the same
   for the previous period, cancelled orders;
@@ -106,27 +118,41 @@ addresses, e-mails, order numbers, delivery data, review texts and authors, any 
 Every object of the schema is closed, so an extra field is refused before it leaves the host
 (`contract/contract.test.mjs` proves it on five such fields).
 
-**How it moves.**
+**How it moves: at page load, in both directions, every connection opened from Russia.**
 
-1. Every five minutes the RU backend job `owner-summary-publish` computes one payload per shop
-   that has an `owner_identity` and hands them to the relay on the internal port.
-2. The relay validates each payload against the schema, refuses any that fails, and writes the
-   accepted ones to its own log.
-3. It signs the batch (Ed25519, its own key) and sends one `POST /owner-relay/v1/exchange` over
-   HTTPS to the .com relay.
-4. The .com relay checks the signature, the `seq` of each shop (must grow) and the schema, and
-   stores the payloads. Its answer is the .com shops' payloads for the same `owner_sub`, signed
-   with the .com key.
-5. The RU relay checks that answer the same way and hands it to the RU backend.
+From cherkashino.ru (the owner opens «Сводка» or a source page in the RU panel):
 
-Each panel then serves `GET /tenants/owner/summary` (`contract/owner-summary.v1.schema.json`): its
-own shop read locally, the other shops as last received, totals per currency, and freshness —
-`fresh` under 15 minutes, `late` with the time of the numbers (`summary-late`), `missing` before
-the first payload (`summary-missing`).
+1. The RU backend computes the RU sources itself and asks the RU relay for the .com ones.
+2. The relay sends one `POST /owner-relay/v1/exchange` over HTTPS to the .com relay, signed
+   (Ed25519, its own key), with a request id and the `owner_sub`.
+3. The .com relay checks the signature, asks the .com backend for the owner's .com sources, checks
+   each payload against the schema, signs the answer with the .com key and returns it.
+4. The RU relay checks the answer (signature, request id, schema) and hands it to the backend.
+
+From cherkashino.com (the owner opens the same pages in the .com panel):
+
+1. The RU relay keeps one connection open to the .com relay: a WebSocket it dials itself on
+   start, with a ping every 30 s, redialled when it drops. This is outbound from Russia, like the
+   call above; the RU host still accepts nothing from abroad.
+2. The .com backend asks its relay for the RU sources; the .com relay puts the request (request
+   id, `owner_sub`, period) on that connection.
+3. The RU relay asks the RU backend on its internal port, checks every payload against the
+   schema, signs the batch and sends it back on the same connection.
+4. The .com relay checks the signature, the request id and the schema, and hands the totals to its
+   backend. Nothing is stored: the page gets them and they are gone.
+
+Each panel serves `GET /tenants/owner/summary` (`contract/owner-summary.v1.schema.json`): every
+source of the owner with a `state` per row. `ok` — the totals of this page load. `no_answer` — the
+other instance did not answer within 3 s; the row stays in «Источники продаж» with its name, a line
+«не ответил при загрузке страницы», a «Повторить» button and no numbers, and the totals above say
+which sources they leave out (`summary-late`). `not_connected` — a .com shop of the owner not yet
+linked to her RU sign-in; its row says so and leads to the link screen (`summary-missing`). There is
+no «Данные» column and no «на 08:13»: the numbers on screen are always those of this page load.
 
 **What is logged.** The relay keeps every payload it sent or received, in full, for a year, on the
 RU host. Since a payload holds no personal data this is safe, and it is the proof of exactly what
-left Russia. Plus per call: time, size, `seq` per shop, result.
+left Russia. Plus per request: time, direction, request id, size, `seq` per source, result. The log
+is the only place totals are kept; no panel caches them.
 
 ## 5. Threats and how each is closed
 
@@ -135,22 +161,31 @@ left Russia. Plus per call: time, size, `seq` per shop, result.
 | A buyer's data slips into a payload (a new field, a review text) | closed schema checked twice, in the backend job and in the relay; the contract test forbids personal field names; the payload is built from a fixed list of queries, not from rows passed through |
 | Someone abroad reads the RU database | no path: the relay has no DB credentials; nothing on the RU host accepts connections from abroad for this |
 | The .com host is broken into | the attacker gets totals and the .com panel; RU accepts nothing from .com except signed totals in an answer, which it only stores and shows |
-| Forged or replayed totals | Ed25519 signature per batch; `seq` per shop must grow; payloads older than 24 h are refused |
+| Forged or replayed totals | Ed25519 signature per batch; every answer carries the request id it answers, used once; `seq` per source must grow; payloads older than 1 minute are refused |
 | A stolen sign-in ticket | 60 s life, single use (`jti` stored), bound to the .com browser's `nonce` cookie and to `aud`; carried in the URL fragment, so no server log holds it |
 | A stolen RU signing key | key in the RU backend's environment only; two keys pinned on .com so a rotation needs no downtime; a rotation is a runbook step |
 | Takeover of the owner's RU account opens both shops | the cost of one sign-in; a second factor for owners (Telegram confirmation) is slice 8 below |
 | A small shop's numbers point at one buyer («1 order today») | no geography, no product per order, no time of day in the payload; a count of orders is not a person |
-| The relay is down | panels show the last numbers with their time; the shops keep working; nothing else depends on the relay |
+| The relay or the connection is down | the other instance's rows say «не ответил» with «Повторить», the totals leave them out and say so; the panel's own sources are unaffected; the shops keep working |
+| Page loads used to pull totals out of Russia in bulk | totals leave only for a signed request of the .com relay naming an `owner_sub` with a live session on .com; the RU relay answers at most one request per owner per 2 s and logs every one |
 
 ## 6. Numbers
 
 - **Payload size.** The RU example is 16 KB of JSON, about 2 KB compressed
   (`contract/example.shop-summary.ru.json`, measured). The test keeps a payload under 32 KB.
-- **Request rate.** One call every five minutes per instance pair, whatever the number of shops:
-  288 calls a day. For two shops about 9 MB a day uncompressed, about 1 MB compressed.
+- **Request rate: one relay request per page load of «Сводка» or a source page.** On cherkashino.ru
+  it is one outbound HTTPS call to .com. On cherkashino.com it is one request and one answer over
+  the standing connection, plus the connection's ping: 2 880 small frames a day. An owner who
+  opens these pages 20–50 times a day makes 20–50 requests, fewer than the 288 a day of the v1
+  five-minute schedule, and nothing moves while nobody looks.
+- **Size per request.** The RU side sends three sources (storefront, Wildberries, Ozon): about
+  45 KB of JSON, about 6 KB compressed. The .com side sends one, about 2 KB compressed.
+- **Time added to the page.** One round trip Russia–Germany (about 50–80 ms, not measured) plus the
+  other backend computing its sources, the same work as one opening of today's «Обзор» per source.
+  The page waits at most 3 s for the other instance, then shows its rows as `no_answer`.
 - **Load.** Computing the totals of one shop is the same work as one opening of today's «Обзор»
-  (one analytics query per period). At 288 runs a day per shop this is not measurable next to the
-  storefront's traffic.
+  (one analytics query per period), done once per page load and per source instead of on a
+  schedule: not measurable next to the storefront's traffic.
 - **Cost.** No new server: one more container on the existing RU and INTL hosts. Expected memory
   30–60 MB each, not measured yet (slice 3 measures it). A separate RU VPS is possible if Ivan
   wants the relay physically apart; its price is not checked here.
@@ -187,6 +222,10 @@ The reading above is the lead's and this line's, not a lawyer's.
 
 ## 9. Gaps of stage 1
 
-- The prototype's period buttons do not switch the numbers; 7 days is shown.
+- The prototype's period bar does not switch the numbers; «Неделя» is shown. With totals fetched at
+  page load the period becomes a request parameter; the contract still carries today, 7 and 30
+  days plus 90 days by day, which covers «Вчера» and «Квартал» too.
+- Marketplace totals assume the shop's Wildberries and Ozon connections give orders by day; which
+  API fields feed `shop-summary/v1` for a marketplace is a stage-2 question.
 - Converting currencies into one total is not designed: it is Ivan's call (question in the plan).
 - Memory and CPU of the relay are estimates until slice 3.

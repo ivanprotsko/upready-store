@@ -1,5 +1,5 @@
 {
-  "title": "Сводка — cherkashino.com, итоги .ru запаздывают",
+  "title": "Сводка — cherkashino.com, cherkashino.ru не ответил",
   "template": "shell",
   "props": {
     "panel": {
@@ -14,6 +14,15 @@
       "closeMenu": "summary-late.html"
     },
     "title": "Сводка",
+    "bar": {
+      "component": "periodBar",
+      "props": {
+        "period": "7d",
+        "days": {
+          "$ref": "parts/days.json"
+        }
+      }
+    },
     "body": [
       {
         "component": "summaryPage",
@@ -28,7 +37,9 @@
           "days": {
             "$ref": "parts/days.json"
           },
-          "lateNote": "Сервер в России не присылал новые итоги 47 минут. Остальные цифры свежие; как только связь вернётся, сводка обновится сама."
+          "links": {
+            "$ref": "parts/source-links-com.json"
+          }
         }
       }
     ]

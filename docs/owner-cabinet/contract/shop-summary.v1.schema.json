@@ -1,13 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://upready.store/schemas/shop-summary.v1.json",
-  "title": "upready.shop-summary/v1 — the totals one shop hands to the owner's «Сводка» on the other instance",
+  "title": "upready.shop-summary/v1 — the totals one sales source (a shop's storefront or one of its marketplace accounts) hands to the owner's «Сводка» on the other instance",
   "description": "t-2026-10-20-23. The only shape that crosses between the RU and the INTL instance. Totals only: sums, counts, the shop's own product titles, review counts by star. No buyer's name, e-mail, phone, address, order number, review text or review author, and no free text a buyer wrote. Every object is closed (additionalProperties: false), so a field this file does not name is refused by the relay before anything leaves the host. Amounts are in the currency's main unit, the way Medusa 2 stores them (4990 = 4 990 ₽). The shapes of a period follow GET /tenants/analytics/summary (apps/tenant-panel/src/hooks/api/analytics-summary.ts), one row per currency, never summed across currencies (b12-analytics-accuracy).",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema",
     "instance",
+    "source",
     "seq",
     "generated_at",
     "owner_sub",
@@ -24,6 +25,10 @@
     "instance": {
       "description": "Which deployment computed the totals: ru = cherkashino.ru on the RU host, intl = the Contabo host.",
       "enum": ["ru", "intl"]
+    },
+    "source": {
+      "description": "Where the sales of these totals happen: the shop's own storefront, or a marketplace account the shop has connected in «Торговые площадки» (Ivan 20.10, mark 1 on prototype v1: «Источники продаж», with Wildberries and Ozon in the list). A marketplace source belongs to the shop in `shop`; its totals are computed by the instance that holds the marketplace connection.",
+      "enum": ["storefront", "wildberries", "ozon"]
     },
     "seq": {
       "description": "Grows by one with every payload of this shop. The receiver keeps the last one and refuses a payload whose seq is not larger (replay).",

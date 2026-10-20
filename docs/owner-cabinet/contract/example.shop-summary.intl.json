@@ -1,6 +1,7 @@
 {
   "schema": "upready.shop-summary/v1",
   "instance": "intl",
+  "source": "storefront",
   "seq": 6117,
   "generated_at": "2026-10-20T06:00:00Z",
   "owner_sub": "own_01JAB3CH3RK45H1N0WN3R0000X",

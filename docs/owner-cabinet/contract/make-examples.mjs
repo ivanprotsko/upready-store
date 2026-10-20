@@ -92,6 +92,60 @@ const SHOPS = {
     // A few orders of the .com shop are paid in dollars: the second currency row of a period.
     second: { currency: "usd", share: 0.2 },
   },
+  // The marketplace accounts of cherkashino.ru (Ivan 20.10, mark 1: «Источники продаж» with
+  // Wildberries and Ozon). They belong to the RU shop and are computed on the RU instance.
+  wildberries: {
+    seed: 2330,
+    instance: "ru",
+    source: "wildberries",
+    tenant: "ten_01JAB3CH3RK45H1N0R00000001",
+    name: "Черкашино",
+    domain: "cherkashino.ru",
+    panel: "https://panel.cherkashino.ru",
+    timezone: "Europe/Moscow",
+    currency: "rub",
+    ordersPerDay: 14,
+    price: [290, 1490],
+    step: 10,
+    products: [
+      "Зубная паста тайская с углём",
+      "Мазь-бальзам живичный",
+      "Шампунь-концентрат тайский для блеска, 90 г",
+      "Прополис",
+      "Мазь от варикоза с каштаном",
+    ],
+    catalog: { published: 28, draft: 0 },
+    reviews: { 1: 9, 2: 6, 3: 21, 4: 88, 5: 412 },
+    pending: 0,
+    toPack: 11,
+    seq: 9021,
+  },
+  ozon: {
+    seed: 2340,
+    instance: "ru",
+    source: "ozon",
+    tenant: "ten_01JAB3CH3RK45H1N0R00000001",
+    name: "Черкашино",
+    domain: "cherkashino.ru",
+    panel: "https://panel.cherkashino.ru",
+    timezone: "Europe/Moscow",
+    currency: "rub",
+    ordersPerDay: 5,
+    price: [290, 1490],
+    step: 10,
+    products: [
+      "Мазь-бальзам живичный",
+      "Прополис",
+      "Зубная паста тайская с углём",
+      "Мазь от варикоза с каштаном",
+      "Таблетки от варикоза с каштаном",
+    ],
+    catalog: { published: 19, draft: 2 },
+    reviews: { 1: 3, 2: 2, 3: 8, 4: 31, 5: 96 },
+    pending: 0,
+    toPack: 3,
+    seq: 4410,
+  },
 }
 
 const shopSummary = (def) => {
@@ -167,6 +221,7 @@ const shopSummary = (def) => {
   return {
     schema: "upready.shop-summary/v1",
     instance: def.instance,
+    source: def.source ?? "storefront",
     seq: def.seq,
     generated_at: NOW,
     owner_sub: OWNER_SUB,
@@ -188,15 +243,19 @@ const shopSummary = (def) => {
 
 const ru = shopSummary(SHOPS.ru)
 const intl = shopSummary(SHOPS.intl)
+const wildberries = shopSummary(SHOPS.wildberries)
+const ozon = shopSummary(SHOPS.ozon)
 
-// What the panel's GET /tenants/owner/summary answers on cherkashino.ru: its own shop read
-// locally, the .com shop as the relay last brought it. The totals are per currency, never summed
-// across currencies; `shops` counts the shops that hold that currency.
+// What the panel's GET /tenants/owner/summary answers on cherkashino.ru when the page loads: the
+// sources of this instance read locally, the .com shop asked through the relay at that moment
+// (Ivan 20.10, mark 6: «данные должны быть всегда актуальные на момент загрузки страницы»). The
+// totals are per currency over the sources that answered, never summed across currencies;
+// `shops` counts the sources that hold that currency.
 const ownerSummary = (current, entries) => {
   const totals = {}
   for (const key of ["today", "7d", "30d"]) {
     const byCurrency = new Map()
-    for (const { summary } of entries.filter((e) => e.summary)) {
+    for (const { summary } of entries.filter((e) => e.summary && (e.state ?? "ok") === "ok")) {
       for (const bucket of summary.periods[key].currencies) {
         const row = byCurrency.get(bucket.currency_code) ?? {
           currency_code: bucket.currency_code,
@@ -222,17 +281,18 @@ const ownerSummary = (current, entries) => {
     owner_sub: OWNER_SUB,
     current_tenant_id: current,
     computed_at: NOW,
-    shops: entries.map(({ summary, received_at, freshness, tenant_id, instance }) => ({
-      tenant_id: summary?.shop.tenant_id ?? tenant_id,
-      instance: summary?.instance ?? instance,
-      received_at,
-      freshness,
-      summary,
+    shops: entries.map(({ summary, state = "ok", def }) => ({
+      tenant_id: def.tenant,
+      instance: def.instance,
+      source: def.source ?? "storefront",
+      state,
+      fetched_at: state === "ok" ? summary.generated_at : null,
+      summary: state === "ok" ? summary : null,
     })),
     totals,
     attention: {
-      to_pack: entries.reduce((a, e) => a + (e.summary?.orders.to_pack ?? 0), 0),
-      reviews_pending: entries.reduce((a, e) => a + (e.summary?.reviews.pending ?? 0), 0),
+      to_pack: entries.reduce((a, e) => a + ((e.state ?? "ok") === "ok" ? e.summary.orders.to_pack : 0), 0),
+      reviews_pending: entries.reduce((a, e) => a + ((e.state ?? "ok") === "ok" ? e.summary.reviews.pending : 0), 0),
     },
   }
 }
@@ -244,26 +304,35 @@ const write = (name, value) => {
 
 write("example.shop-summary.ru.json", ru)
 write("example.shop-summary.intl.json", intl)
+// The four sources on cherkashino.ru, all answering.
 write(
   "example.owner-summary.ru.json",
   ownerSummary(SHOPS.ru.tenant, [
-    { summary: ru, received_at: NOW, freshness: "fresh" },
-    { summary: intl, received_at: "2026-10-20T05:57:12Z", freshness: "fresh" },
+    { summary: ru, def: SHOPS.ru },
+    { summary: intl, def: SHOPS.intl },
+    { summary: wildberries, def: SHOPS.wildberries },
+    { summary: ozon, def: SHOPS.ozon },
   ]),
 )
-// The same owner on cherkashino.com while the relay has been silent for 47 minutes.
+// The same owner on cherkashino.com when the RU instance did not answer in time: its three sources
+// are rows without numbers, the totals hold cherkashino.com only. (The file keeps its v1 name.)
 write(
   "example.owner-summary.intl-late.json",
   ownerSummary(SHOPS.intl.tenant, [
-    { summary: { ...ru, generated_at: "2026-10-20T05:13:00Z" }, received_at: "2026-10-20T05:13:04Z", freshness: "late" },
-    { summary: intl, received_at: NOW, freshness: "fresh" },
+    { state: "no_answer", def: SHOPS.ru },
+    { summary: intl, def: SHOPS.intl },
+    { state: "no_answer", def: SHOPS.wildberries },
+    { state: "no_answer", def: SHOPS.ozon },
   ]),
 )
-// cherkashino.com is linked but has not sent its first totals yet.
+// cherkashino.com belongs to the owner but is not linked to her RU sign-in yet.
 write(
   "example.owner-summary.ru-missing.json",
   ownerSummary(SHOPS.ru.tenant, [
-    { summary: ru, received_at: NOW, freshness: "fresh" },
-    { summary: null, received_at: null, freshness: "missing", tenant_id: SHOPS.intl.tenant, instance: "intl" },
+    { summary: ru, def: SHOPS.ru },
+    { state: "not_connected", def: SHOPS.intl },
+    { summary: wildberries, def: SHOPS.wildberries },
+    { summary: ozon, def: SHOPS.ozon },
   ]),
 )
+write("example.shop-summary.wildberries.json", wildberries)

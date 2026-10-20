@@ -2,7 +2,7 @@
 // They draw the tenant panel as it is (apps/tenant-panel: main-layout.tsx, owner-nav, routes/home)
 // in its own colours (src/theme/hub-theme.css) plus what this task adds: «Сводка», the shop list
 // in the «…» menu, the sign-in once.
-import { changePct, count, escape, money, moscowTime, plural, shortDate } from "./format.mjs"
+import { changePct, count, escape, money, shortDate } from "./format.mjs"
 
 const PERIOD_LABELS = { today: "Сегодня", "7d": "7 дней", "30d": "30 дней" }
 
@@ -11,6 +11,7 @@ const PERIOD_LABELS = { today: "Сегодня", "7d": "7 дней", "30d": "30 
 const ICONS = {
   ellipsis: '<circle cx="3.5" cy="7.5" r=".9"/><circle cx="7.5" cy="7.5" r=".9"/><circle cx="11.5" cy="7.5" r=".9"/>',
   chevronRight: '<path d="m6 3.5 4 4-4 4"/>',
+  chevronLeft: '<path d="m9 3.5-4 4 4 4"/>',
   chevronDown: '<path d="m3.5 6 4 4 4-4"/>',
   check: '<path d="m3 8 3 3 6-7"/>',
   arrowOut: '<path d="M6 3.5H3.5v8h8V9"/><path d="M8.5 3.5h3v3M11.5 3.5 7 8"/>',
@@ -165,117 +166,212 @@ const mobileBar = ({ panel, links, drawerOpen, title }) => `
     <span class="mobile-shop">${avatar(panel.shop.letter)}</span>
   </header>`
 
-export const shell = ({ panel, active, menuOpen = false, drawerOpen = false, links, title, body }) => `
+export const shell = ({ panel, active, menuOpen = false, drawerOpen = false, links, title, bar, body }) => `
   <div class="app${drawerOpen ? " drawer-open" : ""}">
     ${drawerOpen ? `<a class="scrim" href="${escape(links.closeMenu)}" aria-label="Закрыть меню"></a>` : ""}
     ${sidebar({ panel, active, menuOpen, links })}
     <div class="main">
-      ${mobileBar({ panel, links, drawerOpen, title })}
-      <div class="topbar">
-        <span class="crumb">${escape(title)}</span>
-        <span class="host">${icon("lock", "muted")}${escape(panel.host)}</span>
+      <div class="head${bar ? " has-bar" : ""}">
+        ${mobileBar({ panel, links, drawerOpen, title })}
+        <div class="topbar">
+          <span class="crumb">${escape(title)}</span>
+          <span class="host">${icon("lock", "muted")}${escape(panel.host)}</span>
+        </div>
+        ${bar ?? ""}
       </div>
       <main class="page">${body}</main>
     </div>
   </div>`
 
-// ---- «Сводка» ------------------------------------------------------------------------------------------
+// ---- the period bar pinned under the top bar (Ivan 20.10, mark 4: «контролы нужно загрепить в хедере по аналогии
+// как в яндекс метрике») ------------------------------------------------------------------------------------------
 
-const instanceWord = { ru: "Россия", intl: "Германия" }
+const BAR_PERIODS = [
+  ["today", "Сегодня"],
+  ["yesterday", "Вчера"],
+  ["7d", "Неделя"],
+  ["30d", "Месяц"],
+  ["90d", "Квартал"],
+]
+const PERIOD_DAYS = { today: 1, "7d": 7, "30d": 30 }
 
-const freshnessLine = (entry, summary) => {
-  if (entry.freshness === "missing") {
-    return `<span class="fresh missing">${icon("info")}Данных ещё нет</span>`
-  }
-  const at = moscowTime(summary.generated_at)
-  return entry.freshness === "late"
-    ? `<span class="fresh late" data-proto="late">${icon("clock")}на ${at}</span>`
-    : `<span class="fresh ok">на ${at}</span>`
+export const periodBar = ({ period = "7d", days }) => {
+  const shown = days.slice(-PERIOD_DAYS[period])
+  const range =
+    shown.length > 1 ? `${shortDate(shown[0]).replace(/ .*/, "")} — ${shortDate(shown[shown.length - 1])}` : shortDate(shown[0])
+  return `
+    <div class="period-bar" data-proto="period-bar">
+      <div class="seg seg-periods" role="radiogroup" aria-label="Период">
+        ${BAR_PERIODS.map(([key, label]) => `<span class="seg-item${key === period ? " is-on" : ""}" role="radio" aria-checked="${key === period}">${label}</span>`).join("")}
+        <span class="seg-item seg-range is-on-soft">${range}${icon("chevronDown", "muted")}</span>
+      </div>
+      <span class="btn btn-secondary btn-small bar-pill bar-pill-range">${range}${icon("chevronDown", "muted")}</span>
+      <span class="btn btn-secondary btn-small bar-pill">По дням${icon("chevronDown", "muted")}</span>
+    </div>`
 }
+
+// ---- «Сводка»: the sales sources of the owner ---------------------------------------------------------------------
+
+const SOURCE_LABEL = { wildberries: "Wildberries", ozon: "Ozon" }
+const instanceWord = { ru: "cherkashino.ru", intl: "cherkashino.com" }
+
+/** A row's name: the shop's domain for a storefront (mark 5: «в магазине просто писать домен»), the marketplace's name otherwise. */
+const sourceLabel = (entry, panelShops) =>
+  SOURCE_LABEL[entry.source] ??
+  entry.summary?.shop.primary_domain ??
+  panelShops.find((shop) => shop.tenant_id === entry.tenant_id)?.domain ??
+  ""
+
+const sourceKey = (entry) => `${entry.instance}-${entry.source}`
 
 const totalsCard = ({ label, rows, proto }) => `
   <div class="stat" ${proto ? `data-proto="${proto}"` : ""}>
     <span class="txt-subtle">${escape(label)}</span>
-    ${rows
-      .map(
-        (row) => `<div class="stat-row"><span class="stat-value">${row.value}</span>${row.badge ?? ""}${row.caption ? `<span class="txt-subtle stat-caption">${escape(row.caption)}</span>` : ""}</div>`,
-      )
-      .join("")}
+    ${rows.map((row) => `<div class="stat-row"><span class="stat-value">${row.value}</span>${row.badge ?? ""}</div>`).join("")}
   </div>`
 
-const ordersByDay = ({ shops, days, panelShops }) => {
-  // The 30 days of the period, with each shop's orders on the day, one colour a shop.
-  const series = shops.map((entry) => {
-    const byDate = new Map()
-    for (const row of entry.summary?.daily ?? []) byDate.set(row.date, (byDate.get(row.date) ?? 0) + row.order_count)
-    return byDate
-  })
-  const max = Math.max(1, ...days.map((day) => series.reduce((a, s) => a + (s.get(day) ?? 0), 0)))
+// A chart scale with round steps: 1, 2, 2.5 or 5 times a power of ten, four or five lines; whole steps for counts.
+const niceScale = (max, whole) => {
+  const raw = Math.max(Math.max(max, 1) / 4, whole ? 1 : 0)
+  const power = 10 ** Math.floor(Math.log10(raw))
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * power).find((s) => s >= raw)
+  const top = Math.ceil(Math.max(max, 1) / step) * step
+  return { step, top }
+}
+const compact = (value) => new Intl.NumberFormat("ru-RU", { notation: "compact", maximumFractionDigits: 1 }).format(value)
+const CURRENCY_SIGN = { rub: "₽", eur: "€", usd: "$" }
+
+const plot = ({ series, days, value, format, proto, whole = false }) => {
+  const totals = days.map((day) => series.reduce((a, s) => a + (value(s, day) ?? 0), 0))
+  const { step, top } = niceScale(Math.max(...totals), whole)
+  const ticks = []
+  for (let v = top; v >= 0; v -= step) ticks.push(v)
+  const every = days.length > 14 ? 5 : 1
   const bars = days
-    .map((day) => {
+    .map((day, d) => {
       const parts = series
-        .map((s, i) => {
-          const n = s.get(day) ?? 0
-          return n ? `<span class="bar-part shop-${i}" style="height:${((n / max) * 100).toFixed(1)}%"></span>` : ""
+        .map((s) => {
+          const n = value(s, day) ?? 0
+          return n ? `<span class="bar-part shop-${s.color}" style="height:${((n / totals[d]) * 100).toFixed(2)}%"></span>` : ""
         })
         .join("")
-      return `<span class="bar" title="${shortDate(day)}">${parts}</span>`
+      const tip = `${shortDate(day)}: ${series.map((s) => `${s.label} ${format(value(s, day) ?? 0)}`).join(", ")}`
+      const label = (days.length - 1 - d) % every === 0 ? shortDate(day) : ""
+      return `<div class="col" title="${escape(tip)}">
+        <div class="col-bar">${days.length <= 14 && totals[d] ? `<span class="col-total">${format(totals[d])}</span>` : ""}<div class="col-stack" style="height:${((totals[d] / top) * 100).toFixed(2)}%">${parts}</div></div>
+        <span class="col-date">${label}</span>
+      </div>`
     })
     .join("")
   return `
-    <div class="chart" data-proto="chart">
-      <div class="chart-bars">${bars}</div>
-      <div class="chart-axis"><span>${shortDate(days[0])}</span><span>${shortDate(days[days.length - 1])}</span></div>
-      <div class="legend">${shops
-        .map((entry, i) => `<span><span class="dot shop-${i}"></span>${escape(entry.summary?.shop.primary_domain ?? panelShops.find((shop) => shop.tenant_id === entry.tenant_id)?.domain ?? "")}${entry.summary ? "" : ", итогов ещё нет"}</span>`)
-        .join("")}</div>
+    <div class="plot" data-proto="${proto}">
+      <div class="plot-grid">${ticks.map((v) => `<div class="grid-line"><span class="grid-label">${format(v)}</span></div>`).join("")}</div>
+      <div class="plot-cols">${bars}</div>
     </div>`
 }
 
-const shopRow = ({ entry, period, panelShops, index }) => {
-  const summary = entry.summary
-  const link = panelShops.find((shop) => shop.tenant_id === entry.tenant_id)
-  if (!summary) {
-    return `
-      <div class="shop-row is-missing" role="row">
-        <div class="shop-cell-name">${avatar("?", "sm")}<span>${escape(link?.domain ?? "")}</span></div>
-        <div class="shop-missing">Магазин ещё не прислал итоги. Они появятся в течение пяти минут после подключения.</div>
+/**
+ * Orders or sales by day of the period, one colour per source (marks 3 and 14). «Заказы | Сумма» and the currency are
+ * radio buttons styled as a segmented control: CSS shows the chosen plot, the page carries no script. Sums are drawn one
+ * currency at a time, never added across currencies.
+ */
+export const salesChart = ({ series, days, mode = "orders", currency, title = "Продажи по дням" }) => {
+  const inPeriod = new Set(days)
+  const currencies = [...new Set(series.flatMap((s) => s.daily.filter((row) => inPeriod.has(row.date)).map((row) => row.currency_code)))]
+  const chosen = currency ?? currencies[0]
+  const ordersOf = (s, day) => s.daily.filter((row) => row.date === day).reduce((a, row) => a + row.order_count, 0)
+  const revenueOf = (code) => (s, day) => s.daily.find((row) => row.date === day && row.currency_code === code)?.revenue ?? 0
+  const legend = (valueOf, format, list) =>
+    `<div class="legend">${list
+      .map((s) => `<span><span class="dot shop-${s.color}"></span>${escape(s.label)}<span class="legend-value">${format(days.reduce((a, day) => a + valueOf(s, day), 0))}</span></span>`)
+      .join("")}</div>`
+  const withCurrency = (code) => series.filter((s) => s.daily.some((row) => inPeriod.has(row.date) && row.currency_code === code))
+  return `
+    <section class="container chart-block" data-proto="chart">
+      <input class="sr" type="radio" name="chart-mode" id="mode-orders"${mode === "orders" ? " checked" : ""}>
+      <input class="sr" type="radio" name="chart-mode" id="mode-sum"${mode === "sum" ? " checked" : ""}>
+      ${currencies.map((code) => `<input class="sr" type="radio" name="chart-cur" id="cur-${code}"${code === chosen ? " checked" : ""}>`).join("")}
+      <div class="chart-head">
+        <h2 class="h2">${escape(title)}</h2>
+        <div class="chart-tools">
+          <div class="seg" data-proto="chart-mode"><label class="seg-item" for="mode-orders">Заказы</label><label class="seg-item" for="mode-sum">Сумма</label></div>
+          ${currencies.length > 1 ? `<div class="seg seg-cur" data-proto="chart-currency">${currencies.map((code) => `<label class="seg-item" for="cur-${code}">${CURRENCY_SIGN[code] ?? code.toUpperCase()}</label>`).join("")}</div>` : ""}
+        </div>
+      </div>
+      <div class="plots">
+        <div class="plot-wrap plot-orders">
+          <span class="axis-caption">заказов в день</span>
+          ${plot({ series, days, value: ordersOf, format: count, proto: "plot-orders", whole: true })}
+          ${legend(ordersOf, count, series)}
+        </div>
+        ${currencies
+          .map(
+            (code) => `
+        <div class="plot-wrap plot-sum plot-sum-${code}">
+          <span class="axis-caption">сумма заказов в день, ${CURRENCY_SIGN[code] ?? code.toUpperCase()}</span>
+          ${plot({ series: withCurrency(code), days, value: revenueOf(code), format: compact, proto: `plot-sum-${code}` })}
+          ${legend(revenueOf(code), (v) => money(v, code), withCurrency(code))}
+        </div>`,
+          )
+          .join("")}
+      </div>
+    </section>`
+}
+
+const chartSeries = (sources, panelShops) =>
+  sources
+    .map((entry, index) => ({ entry, index }))
+    .filter(({ entry }) => entry.state === "ok")
+    .map(({ entry, index }) => ({ label: sourceLabel(entry, panelShops), color: index, daily: entry.summary.daily }))
+
+const rowState = ({ entry, label, index, links }) => {
+  const text =
+    entry.state === "no_answer"
+      ? `${instanceWord[entry.instance]} не ответил при загрузке страницы. Цифр нет, в итоги не вошёл.`
+      : "Магазин ещё не связан с вашим входом. Цифры появятся после первого входа через cherkashino.ru."
+  const action =
+    entry.state === "no_answer"
+      ? button({ label: "Повторить", href: links.retry })
+      : button({ label: "Связать", href: links.connect })
+  return `
+      <div class="shop-row is-quiet" role="row" data-proto="source-row-${index}" data-state="${entry.state}">
+        <div class="shop-cell-name"><span class="dot shop-${index}"></span><span class="txt-plus truncate">${escape(label)}</span></div>
+        <div class="row-state">${icon("info", "muted")}<span>${text}</span></div>
+        <div class="row-action">${action}</div>
       </div>`
-  }
+}
+
+const sourceRow = ({ entry, period, panelShops, index, links }) => {
+  const label = sourceLabel(entry, panelShops)
+  if (entry.state !== "ok") return rowState({ entry, label, index, links })
+  const summary = entry.summary
   const buckets = summary.periods[period].currencies
   const revenue = buckets
     .map((b) => `<span class="nowrap">${money(b.current.revenue, b.currency_code)} ${changeBadge(changePct(b.current.revenue, b.previous.revenue))}</span>`)
     .join("")
   const orders = buckets.reduce((a, b) => a + b.current.order_count, 0)
   const aov = buckets.map((b) => `<span class="nowrap">${money(b.current.aov, b.currency_code)}</span>`).join("")
-  const reviews = summary.reviews
   return `
-    <a class="shop-row" role="row" href="${escape(link?.href ?? "#")}" data-proto="shop-row-${index}">
-      <div class="shop-cell-name">
-        <span class="dot shop-${index}"></span>
-        <span class="shop-name">
-          <span class="txt-plus truncate">${escape(summary.shop.name)}</span>
-          <span class="txt-subtle truncate">${escape(summary.shop.primary_domain)}${link?.current ? ", открыт сейчас" : ""}</span>
-        </span>
-      </div>
+    <a class="shop-row" role="row" href="${escape(links.detail[sourceKey(entry)] ?? "#")}" data-proto="source-row-${index}">
+      <div class="shop-cell-name"><span class="dot shop-${index}"></span><span class="txt-plus truncate">${escape(label)}</span></div>
       <div class="cell" data-label="Выручка">${revenue}</div>
-      <div class="cell num" data-label="Заказы">${count(orders)}</div>
-      <div class="cell" data-label="Средний чек">${aov}</div>
-      <div class="cell num" data-label="Ждут сборки">${summary.orders.to_pack ? `<span class="pill">${count(summary.orders.to_pack)}</span>` : "—"}</div>
-      <div class="cell" data-label="Отзывы"><span class="nowrap">${icon("star", "star")} ${reviews.average_rating ?? "—"}</span>${reviews.pending ? `<span class="txt-subtle">${reviews.pending} на проверке</span>` : ""}</div>
-      <div class="cell" data-label="Данные">${freshnessLine(entry, summary)}<span class="txt-subtle">${instanceWord[summary.instance]}</span></div>
-      <div class="cell go">${link?.current ? "" : `<span class="go-label">Открыть</span>`}${icon("chevronRight", "muted")}</div>
+      <div class="cell" data-label="Заказы">${count(orders)}</div>
+      <div class="cell" data-label="Ср. чек">${aov}</div>
+      <div class="cell" data-label="В сборке">${summary.orders.to_pack ? count(summary.orders.to_pack) : "—"}</div>
+      <div class="cell" data-label="Отзывы"><span class="nowrap">${icon("star", "star")} ${summary.reviews.average_rating ?? "—"}</span></div>
+      <div class="cell go">${icon("chevronRight", "muted")}</div>
     </a>`
 }
 
-const topProducts = ({ shops, period }) => `
+const topProducts = ({ sources, period, panelShops }) => `
   <div class="tops">
-    ${shops
-      .filter((entry) => entry.summary)
+    ${sources
+      .map((entry, index) => ({ entry, index }))
+      .filter(({ entry }) => entry.state === "ok")
       .map(
-        (entry, i) => `
+        ({ entry, index }) => `
       <div class="top">
-        <div class="top-head"><span class="dot shop-${i}"></span><span class="txt-plus">${escape(entry.summary.shop.primary_domain)}</span></div>
+        <div class="top-head"><span class="dot shop-${index}"></span><span class="txt-plus">${escape(sourceLabel(entry, panelShops))}</span></div>
         <ol class="top-list">
           ${entry.summary.periods[period].top_products
             .map(
@@ -288,79 +384,129 @@ const topProducts = ({ shops, period }) => `
       .join("")}
   </div>`
 
-export const summaryPage = ({ data, panel, period = "7d", periodLinks = {}, days, loading = false, lateNote }) => {
-  const shops = data.shops
+export const summaryPage = ({ data, panel, period = "7d", days, loading = false, chartMode = "orders", chartCurrency, links }) => {
+  const sources = data.shops
   const totals = data.totals[period]
-  const header = `
-    <div class="page-head">
-      <div>
-        <h1 class="h1">Сводка</h1>
-        <p class="txt-subtle">${shops.length} ${plural(shops.length, "магазин", "магазина", "магазинов")}: ${shops
-          .map((s) => escape(s.summary?.shop.primary_domain ?? panel.shops.find((p) => p.tenant_id === s.tenant_id)?.domain ?? ""))
-          .join(" и ")}</p>
-      </div>
-      ${periodButtons(period, periodLinks)}
-    </div>`
+  const header = `<div class="page-head"><h1 class="h1">Сводка</h1></div>`
+  const shown = days.slice(-PERIOD_DAYS[period])
 
   if (loading) {
     return `
       <section class="container" data-proto="summary">
         ${header}
         <div class="stats">${[1, 2, 3, 4].map(() => '<div class="stat"><span class="skeleton w-60"></span><span class="skeleton h-24 w-120"></span></div>').join("")}</div>
-        <div class="skeleton-table">${[1, 2].map(() => '<span class="skeleton h-40 w-full"></span>').join("")}</div>
+      </section>
+      <section class="container flush" data-proto="sources">
+        <div class="section-head"><h2 class="h2">Источники продаж</h2></div>
+        <div class="skeleton-table">${sources.map(() => '<span class="skeleton h-40 w-full"></span>').join("")}</div>
       </section>`
   }
 
   const orders = totals.reduce((a, row) => a + row.order_count, 0)
-  const late = shops.find((s) => s.freshness === "late")
+  const silent = sources.filter((entry) => entry.state !== "ok")
   return `
     <section class="container" data-proto="summary">
       ${header}
-      ${
-        late
-          ? `<div class="alert" data-proto="late-alert">${icon("clock")}<div><span class="txt-plus">Цифры ${escape(late.summary.shop.primary_domain)} — на ${moscowTime(late.summary.generated_at)}</span><span class="txt-subtle">${escape(lateNote ?? "")}</span></div></div>`
-          : ""
-      }
       <div class="stats">
         ${totalsCard({
           label: "Выручка",
           proto: "total-revenue",
-          rows: totals.map((row) => ({
-            value: money(row.revenue, row.currency_code),
-            badge: changeBadge(changePct(row.revenue, row.previous_revenue)),
-          })),
+          rows: totals.map((row) => ({ value: money(row.revenue, row.currency_code), badge: changeBadge(changePct(row.revenue, row.previous_revenue)) })),
         })}
         ${totalsCard({ label: "Заказы", proto: "total-orders", rows: [{ value: count(orders) }] })}
-        ${totalsCard({ label: "Средний чек", rows: totals.map((row) => ({ value: money(row.aov, row.currency_code) })) })}
-        ${totalsCard({
-          label: "Ждут сборки",
-          rows: [{ value: count(data.attention.to_pack), caption: `отзывов на проверке: ${data.attention.reviews_pending}` }],
-        })}
+        ${totalsCard({ label: "Ср. чек", rows: totals.map((row) => ({ value: money(row.aov, row.currency_code) })) })}
+        ${totalsCard({ label: "В сборке", rows: [{ value: count(data.attention.to_pack) }] })}
       </div>
-      <p class="txt-subtle note">Выручка в разных валютах показана отдельно: рубли и евро не складываются.</p>
+      <p class="txt-subtle note">Выручка в разных валютах показана отдельно: рубли и евро не складываются.${
+        silent.length ? ` В итогах нет: ${silent.map((entry) => escape(sourceLabel(entry, panel.shops))).join(", ")}.` : ""
+      }</p>
     </section>
 
-    <section class="container flush" data-proto="shops">
-      <div class="section-head"><h2 class="h2">Магазины</h2></div>
+    <section class="container flush" data-proto="sources">
+      <div class="section-head"><h2 class="h2">Источники продаж</h2></div>
       <div class="shop-table" role="table">
         <div class="shop-row shop-head" role="row">
-          <div>Магазин</div><div>Выручка</div><div class="num">Заказы</div><div>Средний чек</div><div class="num">Ждут сборки</div><div>Отзывы</div><div>Данные</div><div></div>
+          <div>Источник</div><div>Выручка</div><div>Заказы</div><div>Ср. чек</div><div>В сборке</div><div>Отзывы</div><div></div>
         </div>
-        ${shops.map((entry, index) => shopRow({ entry, period, panelShops: panel.shops, index })).join("")}
+        ${sources.map((entry, index) => sourceRow({ entry, period, panelShops: panel.shops, index, links })).join("")}
       </div>
     </section>
 
-    <section class="container">
-      <div class="section-head-row"><h2 class="h2">Заказы по дням</h2><span class="txt-subtle">30 дней</span></div>
-      ${ordersByDay({ shops, days, panelShops: panel.shops })}
-    </section>
+    ${salesChart({ series: chartSeries(sources, panel.shops), days: shown, mode: chartMode, currency: chartCurrency })}
 
     <section class="container">
-      <div class="section-head-row"><h2 class="h2">Топ товаров</h2><span class="txt-subtle">${PERIOD_LABELS[period]}</span></div>
-      ${topProducts({ shops, period })}
+      <div class="section-head-row"><h2 class="h2">Топ товаров</h2></div>
+      ${topProducts({ sources, period, panelShops: panel.shops })}
+    </section>`
+}
+
+// ---- a source's own statistics, opened from its row (mark 2) ----------------------------------------------------
+
+export const sourcePage = ({ data, index, panel, period = "7d", days, chartMode = "orders", links }) => {
+  const entry = data.shops[index]
+  const summary = entry.summary
+  const label = sourceLabel(entry, panel.shops)
+  const buckets = summary.periods[period].currencies
+  const shown = days.slice(-PERIOD_DAYS[period])
+  const kind = entry.source === "storefront" ? `Сайт магазина «${escape(summary.shop.name)}»` : `Маркетплейс, магазин ${escape(summary.shop.primary_domain)}`
+  const orders = buckets.reduce((a, b) => a + b.current.order_count, 0)
+  const previousOrders = buckets.reduce((a, b) => a + b.previous.order_count, 0)
+  const canceled = buckets.reduce((a, b) => a + b.canceled.order_count, 0)
+  const reviews = summary.reviews
+  const ratingMax = Math.max(1, ...Object.values(reviews.by_rating))
+  const main = buckets[0]
+  const products = summary.periods[period].top_products
+  return `
+    <section class="container" data-proto="source-head">
+      <a class="back" href="${escape(links.summary)}">${icon("chevronLeft", "muted")}<span>Сводка</span></a>
+      <div class="page-head">
+        <div><h1 class="h1">${escape(label)}</h1><p class="txt-subtle">${kind}</p></div>
+      </div>
+      <div class="stats five">
+        ${totalsCard({ label: "Выручка", rows: buckets.map((b) => ({ value: money(b.current.revenue, b.currency_code), badge: changeBadge(changePct(b.current.revenue, b.previous.revenue)) })) })}
+        ${totalsCard({ label: "Заказы", rows: [{ value: count(orders), badge: changeBadge(changePct(orders, previousOrders)) }] })}
+        ${totalsCard({ label: "Ср. чек", rows: buckets.map((b) => ({ value: money(b.current.aov, b.currency_code), badge: changeBadge(changePct(b.current.aov, b.previous.aov)) })) })}
+        ${totalsCard({ label: "Отменены", rows: [{ value: count(canceled) }] })}
+        ${totalsCard({ label: "В сборке", rows: [{ value: count(summary.orders.to_pack) }] })}
+      </div>
     </section>
 
-    <p class="privacy" data-proto="privacy">${icon("lock", "muted")}<span>В сводку магазины присылают только итоги: суммы, количество заказов, названия своих товаров и число отзывов. Имена, телефоны, адреса и почта покупателей остаются в своём магазине и в своей стране.</span></p>`
+    ${salesChart({ series: [{ label, color: index, daily: summary.daily }], days: shown, mode: chartMode })}
+
+    <div class="split">
+      <section class="container flush" data-proto="source-products">
+        <div class="section-head"><h2 class="h2">Топ товаров</h2></div>
+        <div class="prod-table">
+          <div class="prod-row prod-head"><span>Товар</span><span>Продано</span><span>Выручка</span><span>Доля</span></div>
+          ${products
+            .map(
+              (p) => `<div class="prod-row"><span class="truncate">${escape(p.title)}</span><span>${count(p.quantity)} шт</span><span class="nowrap">${money(p.revenue, p.currency_code)}</span><span>${main.current.revenue ? Math.round((p.revenue / main.current.revenue) * 100) : 0}%</span></div>`,
+            )
+            .join("")}
+        </div>
+      </section>
+      <section class="container" data-proto="source-reviews">
+        <div class="section-head-row"><h2 class="h2">Отзывы</h2><span class="nowrap">${icon("star", "star")} <span class="txt-plus">${reviews.average_rating ?? "—"}</span></span></div>
+        <div class="rating-bars">
+          ${[5, 4, 3, 2, 1]
+            .map(
+              (star) => `<div class="rating-row"><span>${star}</span><span class="rating-track"><span style="width:${((reviews.by_rating[star] / ratingMax) * 100).toFixed(1)}%"></span></span><span class="txt-subtle">${count(reviews.by_rating[star])}</span></div>`,
+            )
+            .join("")}
+        </div>
+        <div class="kv"><span class="txt-subtle">Всего опубликовано</span><span>${count(reviews.published)}</span></div>
+        <div class="kv"><span class="txt-subtle">Новых за 30 дней</span><span>${count(reviews.new_30d)}</span></div>
+        <div class="kv"><span class="txt-subtle">Ждут проверки</span><span>${count(reviews.pending)}</span></div>
+      </section>
+    </div>
+
+    <section class="container" data-proto="source-catalog">
+      <div class="section-head-row"><h2 class="h2">Товары</h2></div>
+      <div class="stats two">
+        ${totalsCard({ label: "Опубликовано", rows: [{ value: count(summary.catalog.published) }] })}
+        ${totalsCard({ label: "Черновики", rows: [{ value: count(summary.catalog.draft) }] })}
+      </div>
+    </section>`
 }
 
 // ---- a shop's «Обзор», as routes/home/home.tsx draws it ----------------------------------------------
@@ -522,6 +668,8 @@ export const components = {
   shell,
   plain,
   summaryPage,
+  sourcePage,
+  periodBar,
   overviewPage,
   loginRu,
   loginCom,

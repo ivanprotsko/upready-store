@@ -86,7 +86,7 @@ const shopSchema = files["shop-summary.v1.schema.json"]
 const ownerSchema = files["owner-summary.v1.schema.json"]
 
 test("the shop examples match shop-summary/v1", () => {
-  for (const name of ["example.shop-summary.ru.json", "example.shop-summary.intl.json"]) {
+  for (const name of ["example.shop-summary.ru.json", "example.shop-summary.intl.json", "example.shop-summary.wildberries.json"]) {
     assert.deepEqual(validate(shopSchema, read(name), shopSchema), [], name)
   }
 })
@@ -136,7 +136,25 @@ test("no property of the contract names a person's data", () => {
 })
 
 test("one payload stays small: under 32 KB as JSON", () => {
-  for (const name of ["example.shop-summary.ru.json", "example.shop-summary.intl.json"]) {
+  for (const name of ["example.shop-summary.ru.json", "example.shop-summary.intl.json", "example.shop-summary.wildberries.json"]) {
     assert.ok(readFileSync(join(here, name)).length < 32 * 1024, name)
+  }
+})
+
+test("a source that did not answer is a row without numbers, left out of the totals", () => {
+  const page = read("example.owner-summary.intl-late.json")
+  const silent = page.shops.filter((entry) => entry.state !== "ok")
+  assert.ok(silent.length > 0)
+  for (const entry of silent) {
+    assert.equal(entry.summary, null)
+    assert.equal(entry.fetched_at, null)
+  }
+  const answered = page.shops.filter((entry) => entry.state === "ok")
+  for (const row of page.totals["7d"]) {
+    const sum = answered
+      .flatMap((entry) => entry.summary.periods["7d"].currencies)
+      .filter((bucket) => bucket.currency_code === row.currency_code)
+      .reduce((a, bucket) => a + bucket.current.order_count, 0)
+    assert.equal(row.order_count, sum, row.currency_code)
   }
 })

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://upready.store/schemas/owner-summary.v1.json",
   "title": "upready.owner-summary/v1 — GET /tenants/owner/summary, the «Сводка» page of the owner's panel",
-  "description": "t-2026-10-20-23. What the panel's backend answers on either instance: the shop of this instance read locally, the shops of the other instance as the relay last brought them (each a shop-summary/v1), and the totals across them. Totals are one row per currency, never summed across currencies (b12-analytics-accuracy). This shape never leaves the instance that computes it; only shop-summary/v1 crosses.",
+  "description": "t-2026-10-20-23. What the panel's backend answers on either instance: every sales source of the owner fetched for this page load — the sources of this instance read locally, the sources of the other instance asked through the relay at that moment (each a shop-summary/v1) — and the totals across the sources that answered. Totals are one row per currency, never summed across currencies (b12-analytics-accuracy). This shape never leaves the instance that computes it; only shop-summary/v1 crosses.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "owner_sub", "current_tenant_id", "computed_at", "shops", "totals", "attention"],
@@ -22,18 +22,22 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["tenant_id", "instance", "received_at", "freshness", "summary"],
+        "required": ["tenant_id", "instance", "source", "state", "fetched_at", "summary"],
         "properties": {
           "tenant_id": { "type": "string", "pattern": "^ten_[0-9A-HJKMNP-TV-Z]{26}$" },
           "instance": { "enum": ["ru", "intl"] },
-          "received_at": {
-            "description": "When this instance last got the shop's totals; for the local shop, when they were computed; null while freshness is missing.",
+          "source": {
+            "description": "storefront or a marketplace account of the shop; one row of «Источники продаж» per (tenant_id, source).",
+            "enum": ["storefront", "wildberries", "ozon"]
+          },
+          "state": {
+            "description": "Totals are fetched when the page loads, never served from a cache (Ivan 20.10, mark 6 on prototype v1). ok: the source answered, summary holds its totals; no_answer: its instance did not answer within the page's time limit, summary is null and the row says so; not_connected: the source belongs to the owner but is not linked yet (a .com shop before its first sign-in through RU), summary is null.",
+            "enum": ["ok", "no_answer", "not_connected"]
+          },
+          "fetched_at": {
+            "description": "When the totals were computed for this page load; null unless state is ok.",
             "type": ["string", "null"],
             "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$"
-          },
-          "freshness": {
-            "description": "fresh: younger than 15 minutes; late: older, the page says since when; missing: never received, summary is null.",
-            "enum": ["fresh", "late", "missing"]
           },
           "summary": {
             "oneOf": [{ "$ref": "shop-summary.v1.schema.json" }, { "type": "null" }]
@@ -75,7 +79,7 @@
           "order_count": { "type": "integer", "minimum": 0 },
           "aov": { "type": "number", "minimum": 0 },
           "previous_revenue": { "type": "number", "minimum": 0 },
-          "shops": { "description": "How many shops hold this currency in the period.", "type": "integer", "minimum": 1 }
+          "shops": { "description": "How many sources hold this currency in the period.", "type": "integer", "minimum": 1 }
         }
       }
     }

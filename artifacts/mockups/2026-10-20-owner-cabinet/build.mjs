@@ -7,7 +7,11 @@
 //
 //   node artifacts/mockups/2026-10-20-owner-cabinet/build.mjs            → dist/<state>.html
 //   node artifacts/mockups/2026-10-20-owner-cabinet/build.mjs --publish  → also the proto-viewer work
-import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+//
+// Publishing writes the root of the work (the current version) and its snapshot versions/<n>/, n from
+// prototype.json's `version`, the way proto-viewer's version.mjs lays a version out. It never removes
+// a file there: earlier versions, review.jsonl and Ivan's review-files stay as they are.
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 import { components } from "./src/components.mjs"
@@ -43,6 +47,7 @@ const render = (call) => {
   if (!component) throw new Error(`unknown component ${call.component}`)
   const props = { ...call.props }
   if (Array.isArray(props.body)) props.body = props.body.map(render).join("")
+  if (props.bar?.component) props.bar = render(props.bar)
   return component(props)
 }
 
@@ -85,9 +90,13 @@ console.log(`built ${prototype.states.length} states into ${dist}`)
 
 if (process.argv.includes("--publish")) {
   const target = join(PUBLISH_ROOT, WORK_ID)
-  rmSync(target, { recursive: true, force: true })
-  mkdirSync(target, { recursive: true })
-  for (const file of readdirSync(dist)) cpSync(join(dist, file), join(target, file))
+  const snapshot = join(target, "versions", String(prototype.version.n))
+  if (existsSync(snapshot)) throw new Error(`${snapshot} exists: a published version is never rewritten`)
+  mkdirSync(snapshot, { recursive: true })
+  for (const file of readdirSync(dist)) {
+    cpSync(join(dist, file), join(target, file))
+    cpSync(join(dist, file), join(snapshot, file))
+  }
   const proto = {
     id: WORK_ID,
     title: prototype.title,
@@ -96,6 +105,7 @@ if (process.argv.includes("--publish")) {
     author: "opus-t23-boat",
     date: prototype.date,
     note: prototype.note,
+    version: { n: prototype.version.n, date: new Date().toISOString(), note: prototype.version.note },
     schemeParam: "scheme",
     variants: [{ id: "a", title: "Вариант A" }],
     states: prototype.states.map(({ id, title, note, page: pageName, option }) => ({
@@ -112,5 +122,6 @@ if (process.argv.includes("--publish")) {
     comments: prototype.comments,
   }
   writeFileSync(join(target, "proto.json"), `${JSON.stringify(proto, null, 2)}\n`)
-  console.log(`published ${target}`)
+  writeFileSync(join(snapshot, "proto.json"), `${JSON.stringify(proto, null, 2)}\n`)
+  console.log(`published ${target} and ${snapshot}`)
 }
