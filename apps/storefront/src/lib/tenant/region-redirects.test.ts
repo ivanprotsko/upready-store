@@ -104,10 +104,12 @@ describe("popupCountriesOf", () => {
   it("lists a small shop's countries after Kazakhstan, without Russia", () => {
     expect(popupCountriesOf(["us", "kz", "RU", "kz"], RU)).toEqual(["kz", "us"])
     expect(popupCountriesOf(["ru", "us"], RU)).toEqual(["kz", "us"])
+    // Exactly the limit: six countries besides Kazakhstan and Russia are still listed.
+    expect(popupCountriesOf(["am", "by", "de", "fr", "gb", "kz", "ru", "us"], RU)).toEqual(["kz", "am", "by", "de", "fr", "gb", "us"])
   })
 
   it("keeps only Kazakhstan for a shop on the whole world's regions", () => {
-    expect(popupCountriesOf(["am", "by", "de", "fr", "gb", "kz", "ru", "us"], RU)).toEqual(["kz"])
+    expect(popupCountriesOf(["am", "by", "de", "fr", "gb", "it", "kz", "ru", "us"], RU)).toEqual(["kz"])
     expect(popupCountriesOf(["am", "by", "de", "fr", "gb", "it", "us"], RU)).toEqual(["kz"])
   })
 })
