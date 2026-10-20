@@ -5676,8 +5676,7 @@
   "marketplaceAnalytics": {
     "filters": {
       "from": "From",
-      "to": "To",
-      "reset": "Reset"
+      "to": "To"
     },
     "metrics": {
       "revenue": "Revenue",
@@ -6860,16 +6859,13 @@
         "legendV3": "The pale cap is cancelled orders, not in the sum. Arrow keys step through the days."
       },
       "v3": {
-        "subtitle": "{{marketplace}}: {{range}}, {{count}} days.",
-        "subtitleDefault": "{{marketplace}}: the last {{count}} days, {{range}}. Pick another period with the buttons and date fields below.",
         "presets": {
           "days": "{{count}} days",
           "month": "This month"
         },
         "comparison": {
-          "with": "Compared with {{range}}",
-          "noData": "No comparison: the previous period is {{range}}, and orders are stored from {{since}}",
-          "nothing": "No comparison: no orders of this marketplace are imported yet"
+          "noData": "no comparison: orders are stored from {{since}}",
+          "nothing": "no comparison: no orders of this marketplace are imported yet"
         },
         "tiles": {
           "revenue": "Ordered for",
@@ -6884,7 +6880,7 @@
         "dynamics": {
           "title": "Daily dynamics",
           "hint": "Ordered for, day by day",
-          "dashed": "dashed: {{range}}",
+          "dashed": "dashed: the previous {{days}} days",
           "average": "On average {{revenue}} and {{orders}} orders a day.",
           "averageBefore": "The previous {{days}} days: {{revenue}} and {{orders}}."
         },
@@ -6896,8 +6892,6 @@
           "other_other": "Other: {{count}} categories",
           "footer": "On the right: the category's change against the previous {{days}} days."
         },
-        "forDays_one": "for {{count}} day",
-        "forDays_other": "for {{count}} days",
         "noSales": "No sales in this period.",
         "checks": {
           "title": "Average check by week",
@@ -6947,7 +6941,8 @@
           "lt20": "Under 20 %",
           "20to40": "20–40 %",
           "gt40": "Over 40 %"
-        }
+        },
+        "period": "Period"
       }
     },
     "sync": {
