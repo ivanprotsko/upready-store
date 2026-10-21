@@ -79,8 +79,9 @@ export const parseBrandingHeader = (raw: string | null | undefined): TenantBrand
   }
 }
 
-const CYRILLIC = /\p{Script=Cyrillic}/u
-const LATIN = /\p{Script=Latin}/u
+// `new RegExp` rather than a literal: the storefront compiles to ES5, which rejects a `u` literal.
+const CYRILLIC = new RegExp("\\p{Script=Cyrillic}", "u")
+const LATIN = new RegExp("\\p{Script=Latin}", "u")
 
 /**
  * The name the logo shows in this locale. Ivan 21.10.2026: «он должен меняться
