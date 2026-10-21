@@ -14,6 +14,7 @@ import {
   pinnedRegionCountry,
   resolveCountry,
   shopRegionIds,
+  shopRegionsNarrowed,
   type RegionMap,
 } from "@lib/geolocation"
 import { ATTRIBUTION_HIDDEN_HEADER } from "@lib/tenant/attribution"
@@ -622,8 +623,9 @@ export async function middleware(request: NextRequest) {
   // a single-store deployment keeps every region, exactly as before. A country
   // outside them — a cookie the old switcher wrote, «Германия» on
   // cherkashino.ru — is then simply not in the map the country is resolved
-  // against, and the visitor lands on the shop's default.
-  const shopRegions = tenant
+  // against, and the visitor lands on the shop's default. A deployment that
+  // sells abroad turns this off with `SHOP_REGIONS=all` (`shopRegionsNarrowed`).
+  const shopRegions = tenant && shopRegionsNarrowed()
     ? shopRegionIds({
         locales: tenantLocale?.enabledLocales ?? locales,
         countryFor: (code) => countryForLocale(code, tenantLocaleCountryMap),

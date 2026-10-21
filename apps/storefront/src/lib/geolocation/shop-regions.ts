@@ -20,6 +20,17 @@
  * one a locale named — so a shop's «International» region keeps all of its
  * countries.
  */
+/**
+ * Whether this deployment narrows a shop's regions at all (`SHOP_REGIONS`).
+ * The RU host keeps the narrowing N9 was made for (cherkashino.ru, one
+ * currency). The INTL host sells abroad and sets `SHOP_REGIONS=all`: every
+ * country the backend has stays in «Смена региона» (Ivan 21.10.2026 on
+ * cherkashino.com: «СРОНО ВЕРНУТЬ ВСЕ СТРАНЫ»).
+ */
+export const shopRegionsNarrowed = (
+  raw: string | undefined = process.env.SHOP_REGIONS
+): boolean => raw?.trim().toLowerCase() !== "all"
+
 export const shopRegionIds = ({
   locales,
   countryFor,

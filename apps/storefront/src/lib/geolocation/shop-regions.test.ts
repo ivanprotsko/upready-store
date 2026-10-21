@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest"
 
 import { parseLocaleCountryMap } from "./locale-country"
-import { narrowRegionMap, narrowRegions, shopRegionIds } from "./shop-regions"
+import {
+  narrowRegionMap,
+  narrowRegions,
+  shopRegionIds,
+  shopRegionsNarrowed,
+} from "./shop-regions"
 
 /**
  * N9 (t-2026-10-04-19): the switcher of cherkashino.ru offered every country
@@ -161,5 +166,15 @@ describe("narrowRegions", () => {
     const regions = [germany, russia]
 
     expect(narrowRegions(regions, null)).toBe(regions)
+  })
+})
+
+describe("shopRegionsNarrowed", () => {
+  it("narrows unless the deployment says all (cherkashino.com, 21.10.2026)", () => {
+    expect(shopRegionsNarrowed(undefined)).toBe(true)
+    expect(shopRegionsNarrowed("")).toBe(true)
+    expect(shopRegionsNarrowed("narrow")).toBe(true)
+    expect(shopRegionsNarrowed("all")).toBe(false)
+    expect(shopRegionsNarrowed(" ALL ")).toBe(false)
   })
 })

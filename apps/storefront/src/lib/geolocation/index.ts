@@ -9,7 +9,12 @@ export {
   hasLocaleCountryMap,
   parseLocaleCountryMap,
 } from "./locale-country"
-export { narrowRegionMap, narrowRegions, shopRegionIds } from "./shop-regions"
+export {
+  narrowRegionMap,
+  narrowRegions,
+  shopRegionIds,
+  shopRegionsNarrowed,
+} from "./shop-regions"
 
 export const COUNTRY_COOKIE = "_medusa_country"
 
