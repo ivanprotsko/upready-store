@@ -1,4 +1,4 @@
-import { Container, Heading, Text } from "@medusajs/ui"
+import { Container, Heading, Text, clx } from "@medusajs/ui"
 import { ReactNode } from "react"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
@@ -11,20 +11,31 @@ import { SingleColumnPage } from "../../../components/layout/pages"
  *
  * On a phone the actions wrap under the heading and stretch, the way the
  * «Добавить товар» row of the shop's products does (o21, P6).
+ *
+ * `bar` is a control row that belongs to the heading on every width (the
+ * period of «Аналитика», t-2026-10-20-29): it is not stretched under the
+ * heading on a phone, the screen gives it its own phone shape. With `sticky`
+ * the heading container stays at the top of the scrolling area while the page
+ * scrolls, the way Yandex Metrica keeps its period bar; stacked pages only.
  */
 export const MpPage = ({
   title,
   subtitle,
   actions,
+  bar,
   children,
   stacked,
+  sticky,
 }: {
   title: string
   subtitle?: ReactNode
   actions?: ReactNode
+  bar?: ReactNode
   children: ReactNode
   /** Several containers one under another (analytics) instead of one divided container. */
   stacked?: boolean
+  /** The heading container sticks to the top of `main` while the rest scrolls (stacked only). */
+  sticky?: boolean
 }) => {
   const header = (
     <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
@@ -36,6 +47,7 @@ export const MpPage = ({
           </Text>
         ) : null}
       </div>
+      {bar}
       {actions ? (
         <div className="flex flex-wrap items-center gap-2 max-md:w-full [&>a]:max-md:min-h-11 [&>a]:max-md:flex-1 [&>button]:max-md:min-h-11 [&>button]:max-md:flex-1">
           {actions}
@@ -48,7 +60,7 @@ export const MpPage = ({
     <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
       {stacked ? (
         <>
-          <Container className="p-0">{header}</Container>
+          <Container className={clx("p-0", sticky && "sticky top-0 z-10")}>{header}</Container>
           {children}
         </>
       ) : (

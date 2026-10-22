@@ -135,12 +135,10 @@ export const CategoryShares = ({ analytics, locale }: { analytics: Analytics; lo
                 return node
               })}
             </svg>
+            {/* The sum alone: the period is in the bar on top (t-2026-10-20-29). */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <Text size="base" weight="plus" className="tabular-nums">
                 {moneyCompact(total, analytics.currency, locale)}
-              </Text>
-              <Text size="xsmall" className="text-ui-fg-muted">
-                {t("mp.analytics.v3.forDays", { count: analytics.period.days })}
               </Text>
             </div>
           </div>
