@@ -194,13 +194,16 @@ describe("the region switcher's rows (FX5)", () => {
   it("finds Germany by its name in another language, as before", () => {
     const en = withSearchText(countryOptionsOf(regions, "en"))
     const ru = withSearchText(countryOptionsOf(regions, "ru"))
+    // the old rows once per locale: each build makes a DisplayNames per country and locale (10 s on the CI runner)
+    const enBefore = countryOptionsBefore(regions, "en", locales)
+    const ruBefore = countryOptionsBefore(regions, "ru", locales)
 
     expect(en.find((o) => o.country === "de")?.label).toBe("Germany")
     expect(ru.find((o) => o.country === "de")?.label).toBe("Германия")
 
     for (const query of ["Германия", "  germany ", "Deutschland", "kz", "₽", "rub"]) {
-      expect(hits(en, query)).toEqual(hits(countryOptionsBefore(regions, "en", locales), query))
-      expect(hits(ru, query)).toEqual(hits(countryOptionsBefore(regions, "ru", locales), query))
+      expect(hits(en, query)).toEqual(hits(enBefore, query))
+      expect(hits(ru, query)).toEqual(hits(ruBefore, query))
     }
 
     expect(hits(en, "Германия")).toEqual(["de", "de", "de"])

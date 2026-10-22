@@ -85,7 +85,7 @@ jobs:
     needs: scope
     if: ${{ !cancelled() && (!startsWith(github.base_ref, 'templates/') || needs.scope.outputs.backend != 'false') }}
     runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
