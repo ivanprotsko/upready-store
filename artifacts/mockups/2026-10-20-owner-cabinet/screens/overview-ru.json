@@ -1,0 +1,32 @@
+{
+  "title": "Обзор — cherkashino.ru",
+  "template": "shell",
+  "props": {
+    "panel": {
+      "$ref": "parts/panel-ru.json"
+    },
+    "active": "overview",
+    "links": {
+      "summary": "summary-ru.html",
+      "overview": "overview-ru.html",
+      "openMenu": "menu-ru.html",
+      "openDrawer": "menu-ru.html",
+      "closeMenu": "overview-ru.html"
+    },
+    "title": "Обзор",
+    "body": [
+      {
+        "component": "overviewPage",
+        "props": {
+          "summary": {
+            "$ref": "../../../../docs/owner-cabinet/contract/example.shop-summary.ru.json"
+          },
+          "plan": "Профи",
+          "days": {
+            "$ref": "parts/days.json"
+          }
+        }
+      }
+    ]
+  }
+}

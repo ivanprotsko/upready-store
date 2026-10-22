@@ -1,0 +1,15 @@
+{
+  "title": "Ссылка для входа устарела",
+  "template": "plain",
+  "props": {
+    "body": [
+      {
+        "component": "ticketUsed",
+        "props": {
+          "next": "switching.html",
+          "back": "summary-ru.html"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Связать магазин — cherkashino.com",
+  "template": "plain",
+  "props": {
+    "body": [
+      {
+        "component": "linkFirst",
+        "props": {
+          "next": "overview-com.html",
+          "back": "login-com.html"
+        }
+      }
+    ]
+  }
+}

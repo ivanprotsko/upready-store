@@ -1,0 +1,45 @@
+{
+  "title": "Сводка — график по сумме продаж",
+  "template": "shell",
+  "props": {
+    "panel": {
+      "$ref": "parts/panel-ru.json"
+    },
+    "active": "summary",
+    "links": {
+      "summary": "summary-ru.html",
+      "overview": "overview-ru.html",
+      "openMenu": "menu-ru.html",
+      "openDrawer": "menu-ru.html",
+      "closeMenu": "summary-sum.html"
+    },
+    "title": "Сводка",
+    "bar": {
+      "component": "periodBar",
+      "props": {
+        "period": "7d",
+        "periods": {
+          "$ref": "../../../../docs/owner-cabinet/contract/example.shop-summary.ru.json#/periods"
+        }
+      }
+    },
+    "body": [
+      {
+        "component": "summaryPage",
+        "props": {
+          "data": {
+            "$ref": "../../../../docs/owner-cabinet/contract/example.owner-summary.ru.json"
+          },
+          "panel": {
+            "$ref": "parts/panel-ru.json"
+          },
+          "period": "7d",
+          "links": {
+            "$ref": "parts/source-links-ru.json"
+          },
+          "chartMode": "sum"
+        }
+      }
+    ]
+  }
+}
