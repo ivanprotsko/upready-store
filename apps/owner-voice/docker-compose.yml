@@ -1,0 +1,26 @@
+# The owner voice chat as its own stack: its own project name, container,
+# network and .env. It reads the shop over HTTPS only and needs no database.
+# Start: `docker compose up -d --build` from this folder (RUNBOOK in README.md).
+name: upready-owner-voice
+
+services:
+  owner-voice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: upready-owner-voice:local
+    container_name: upready-owner-voice
+    restart: unless-stopped
+    init: true
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "${OWNER_VOICE_PORT:-5470}:5470"
+    environment:
+      TZ: UTC
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
