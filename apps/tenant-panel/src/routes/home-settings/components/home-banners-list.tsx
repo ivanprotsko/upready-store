@@ -149,7 +149,7 @@ export const HomeBannersList = ({
           title={t("homeSettings.banners.emptyTitle")}
           message={t("homeSettings.banners.emptyMessage")}
           action={{ to: "banners/create", label: t("homeSettings.banners.add") }}
-          className="h-auto pt-8"
+          className="h-auto px-0 pt-8"
         />
       </div>
     )

@@ -87,7 +87,7 @@ export const PromotionConditionsSection = ({
       <div className="text-ui-fg-subtle flex flex-col gap-2 px-6 pb-4 pt-2">
         {!rules.length && (
           <NoRecords
-            className="h-[180px]"
+            className="h-[180px] px-0"
             title={t("general.noRecordsTitle")}
             message={t("promotions.conditions.list.noRecordsMessage")}
             action={{

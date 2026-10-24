@@ -76,7 +76,7 @@ const SettingsRowValue = ({ row }: { row: SettingsRow }) => {
     >
       <div className="flex min-w-0 flex-wrap items-center gap-2">
         {empty ? (
-          <Text size="small" leading="compact">
+          <Text size="small" leading="compact" className="text-ui-fg-base">
             —
           </Text>
         ) : isEmpty(row.value) ? null : typeof row.value === "string" ? (
@@ -84,7 +84,7 @@ const SettingsRowValue = ({ row }: { row: SettingsRow }) => {
             size="small"
             leading="compact"
             family={row.mono ? "mono" : "sans"}
-            className={clx({ "break-all": row.mono })}
+            className={clx("text-ui-fg-base", { "break-all": row.mono })}
           >
             {row.value}
           </Text>
@@ -153,7 +153,14 @@ export const SettingsDetailSection = ({
       {section.lead ? <div className="px-4 py-4">{section.lead}</div> : null}
       {section.body ??
         section.rows.map((row) => (
-          <SectionRow key={row.id} title={row.label} value={<SettingsRowValue row={row} />} />
+          // t-2026-10-20-30 (the lead's d-2026-10-25-17): every settings screen's rows are one
+          // column on a phone, the label lighter than its value, in this shared part.
+          <SectionRow
+            key={row.id}
+            title={row.label}
+            value={<SettingsRowValue row={row} />}
+            variant="setting"
+          />
         ))}
     </Container>
   )

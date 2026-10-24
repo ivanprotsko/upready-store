@@ -4,6 +4,12 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
+// t-2026-10-20-30 (Ivan 25.10 on «Своего домена пока нет»: «нельзя центрировать
+// текст и контролы»; the lead's d-2026-10-25-17: a rule for the whole panel). Both
+// empty states sit at the start: icon, title, message and button on the left
+// edge of the section, at the rows' 24px inset, never in the middle. The column
+// says `text-start`, so a caller's `text-center` does not reach the text either.
+
 export type NoResultsProps = {
   title?: string
   message?: string
@@ -16,11 +22,11 @@ export const NoResults = ({ title, message, className }: NoResultsProps) => {
   return (
     <div
       className={clx(
-        "flex h-[400px] w-full items-center justify-center",
+        "flex h-[400px] w-full items-center justify-start px-6",
         className
       )}
     >
-      <div className="flex flex-col items-center gap-y-2">
+      <div className="flex flex-col items-start gap-y-2 text-start">
         <MagnifyingGlass />
         <Text size="small" leading="compact" weight="plus">
           {title ?? t("general.noResultsTitle")}
@@ -79,14 +85,14 @@ export const NoRecords = ({
   return (
     <div
       className={clx(
-        "flex h-[150px] w-full flex-col items-center justify-center gap-y-4",
+        "flex h-[150px] w-full flex-col items-start justify-center gap-y-4 px-6",
         className
       )}
     >
-      <div className="flex flex-col items-center gap-y-3">
+      <div className="flex flex-col items-start gap-y-3 text-start">
         {icon}
 
-        <div className="flex flex-col items-center gap-y-1">
+        <div className="flex flex-col items-start gap-y-1">
           <Text size="small" leading="compact" weight="plus">
             {title ?? t("general.noRecordsTitle")}
           </Text>
