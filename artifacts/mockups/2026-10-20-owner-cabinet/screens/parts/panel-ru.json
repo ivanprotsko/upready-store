@@ -1,5 +1,4 @@
 {
-  "host": "panel.cherkashino.ru",
   "shop": {
     "name": "Черкашино",
     "domain": "cherkashino.ru",
@@ -23,7 +22,7 @@
       "instance": "intl",
       "name": "Cherkashino",
       "domain": "cherkashino.com",
-      "href": "switching.html",
+      "href": "overview-com.html",
       "current": false
     }
   ],

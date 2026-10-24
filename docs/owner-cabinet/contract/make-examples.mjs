@@ -146,6 +146,85 @@ const SHOPS = {
     toPack: 3,
     seq: 4410,
   },
+  // Three more sources for the prototype's states with 5 and 7 sources (Ivan 21.10, mark 29: «как это будет выглядеть
+  // и работать если будет 3,5, 7 источников»): two more marketplace accounts and a second shop on the RU instance.
+  yandex_market: {
+    seed: 2350,
+    instance: "ru",
+    source: "yandex_market",
+    tenant: "ten_01JAB3CH3RK45H1N0R00000001",
+    name: "Черкашино",
+    domain: "cherkashino.ru",
+    panel: "https://panel.cherkashino.ru",
+    timezone: "Europe/Moscow",
+    currency: "rub",
+    ordersPerDay: 4,
+    price: [290, 1490],
+    step: 10,
+    products: [
+      "Прополис",
+      "Мазь-бальзам живичный",
+      "Мазь от варикоза с каштаном",
+      "Зубная паста тайская с углём",
+      "Книга рецептов для мультиварок",
+    ],
+    catalog: { published: 15, draft: 1 },
+    reviews: { 1: 1, 2: 1, 3: 4, 4: 17, 5: 52 },
+    pending: 0,
+    toPack: 2,
+    seq: 2205,
+  },
+  megamarket: {
+    seed: 2360,
+    instance: "ru",
+    source: "megamarket",
+    tenant: "ten_01JAB3CH3RK45H1N0R00000001",
+    name: "Черкашино",
+    domain: "cherkashino.ru",
+    panel: "https://panel.cherkashino.ru",
+    timezone: "Europe/Moscow",
+    currency: "rub",
+    ordersPerDay: 2,
+    price: [290, 1490],
+    step: 10,
+    products: [
+      "Мазь-бальзам живичный",
+      "Таблетки от варикоза с каштаном",
+      "Прополис",
+      "Шампунь-концентрат тайский для блеска, 90 г",
+      "Зубная паста тайская с углём",
+    ],
+    catalog: { published: 11, draft: 0 },
+    reviews: { 1: 0, 2: 1, 3: 2, 4: 6, 5: 21 },
+    pending: 0,
+    toPack: 1,
+    seq: 1307,
+  },
+  opt: {
+    seed: 2370,
+    instance: "ru",
+    tenant: "ten_01JAB3CH3RK45H1N0PT0000003",
+    name: "Черкашино Опт",
+    domain: "opt.cherkashino.ru",
+    panel: "https://panel.opt.cherkashino.ru",
+    timezone: "Europe/Moscow",
+    currency: "rub",
+    ordersPerDay: 1,
+    price: [4900, 19900],
+    step: 100,
+    products: [
+      "Мазь-бальзам живичный, 24 шт",
+      "Зубная паста тайская с углём, 48 шт",
+      "Прополис, 30 шт",
+      "Мазь от варикоза с каштаном, 24 шт",
+      "Шампунь-концентрат тайский, 36 шт",
+    ],
+    catalog: { published: 12, draft: 2 },
+    reviews: { 1: 0, 2: 0, 3: 1, 4: 3, 5: 8 },
+    pending: 0,
+    toPack: 1,
+    seq: 803,
+  },
 }
 
 // The Bank of Russia's rate on the day of the example, rubles for one unit (synthetic). Every
@@ -315,6 +394,9 @@ const ru = shopSummary(SHOPS.ru)
 const intl = shopSummary(SHOPS.intl)
 const wildberries = shopSummary(SHOPS.wildberries)
 const ozon = shopSummary(SHOPS.ozon)
+const yandexMarket = shopSummary(SHOPS.yandex_market)
+const megamarket = shopSummary(SHOPS.megamarket)
+const opt = shopSummary(SHOPS.opt)
 
 // What the panel's GET /tenants/owner/summary answers on cherkashino.ru when the page loads: the
 // sources of this instance read locally, the .com shop asked through the relay at that moment
@@ -427,3 +509,34 @@ write(
   ]),
 )
 write("example.shop-summary.wildberries.json", wildberries)
+// The prototype's states with 3, 5 and 7 sources (mark 29), all answering, seen on cherkashino.ru.
+write(
+  "example.owner-summary.ru-3.json",
+  ownerSummary(SHOPS.ru.tenant, [
+    { summary: ru, def: SHOPS.ru },
+    { summary: wildberries, def: SHOPS.wildberries },
+    { summary: ozon, def: SHOPS.ozon },
+  ]),
+)
+write(
+  "example.owner-summary.ru-5.json",
+  ownerSummary(SHOPS.ru.tenant, [
+    { summary: ru, def: SHOPS.ru },
+    { summary: intl, def: SHOPS.intl },
+    { summary: wildberries, def: SHOPS.wildberries },
+    { summary: ozon, def: SHOPS.ozon },
+    { summary: yandexMarket, def: SHOPS.yandex_market },
+  ]),
+)
+write(
+  "example.owner-summary.ru-7.json",
+  ownerSummary(SHOPS.ru.tenant, [
+    { summary: ru, def: SHOPS.ru },
+    { summary: intl, def: SHOPS.intl },
+    { summary: wildberries, def: SHOPS.wildberries },
+    { summary: ozon, def: SHOPS.ozon },
+    { summary: yandexMarket, def: SHOPS.yandex_market },
+    { summary: megamarket, def: SHOPS.megamarket },
+    { summary: opt, def: SHOPS.opt },
+  ]),
+)

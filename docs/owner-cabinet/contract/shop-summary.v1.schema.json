@@ -31,7 +31,7 @@
     },
     "source": {
       "description": "Where the sales of these totals happen: the shop's own storefront, or a marketplace account the shop has connected in «Торговые площадки» (Ivan 20.10, mark 1 on prototype v1: «Источники продаж», with Wildberries and Ozon in the list). A marketplace source belongs to the shop in `shop`; its totals are computed by the instance that holds the marketplace connection.",
-      "enum": ["storefront", "wildberries", "ozon"]
+      "enum": ["storefront", "wildberries", "ozon", "yandex_market", "megamarket"]
     },
     "seq": {
       "description": "Grows by one with every payload of this shop. The receiver keeps the last one and refuses a payload whose seq is not larger (replay).",
