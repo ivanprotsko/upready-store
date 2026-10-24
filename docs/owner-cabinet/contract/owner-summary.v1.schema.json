@@ -43,7 +43,7 @@
           "instance": { "enum": ["ru", "intl"] },
           "source": {
             "description": "storefront or a marketplace account of the shop; one row of «Источники продаж» per (tenant_id, source).",
-            "enum": ["storefront", "wildberries", "ozon"]
+            "enum": ["storefront", "wildberries", "ozon", "yandex_market", "megamarket"]
           },
           "state": {
             "description": "Totals are fetched when the page loads, never served from a cache (Ivan 20.10, mark 6 on prototype v1). ok: the source answered, summary holds its totals; no_answer: its instance did not answer within the page's time limit, summary is null and the row says so; not_connected: the source belongs to the owner but is not linked yet (a .com shop before its first sign-in through RU), summary is null.",

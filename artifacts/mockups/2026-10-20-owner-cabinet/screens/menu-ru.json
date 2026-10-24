@@ -11,7 +11,8 @@
       "overview": "overview-ru.html",
       "openMenu": "menu-ru.html",
       "openDrawer": "menu-ru.html",
-      "closeMenu": "menu-ru.html"
+      "closeMenu": "menu-ru.html",
+      "customers": "confirm-ru.html"
     },
     "title": "Сводка",
     "bar": {

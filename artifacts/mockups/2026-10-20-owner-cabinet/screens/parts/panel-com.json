@@ -1,5 +1,4 @@
 {
-  "host": "panel.cherkashino.com",
   "shop": {
     "name": "Cherkashino",
     "domain": "cherkashino.com",
@@ -32,5 +31,5 @@
     "ordersToPack": 2,
     "reviewsToModerate": 1
   },
-  "logoutHref": "login-com.html"
+  "logoutHref": "login-ru.html"
 }

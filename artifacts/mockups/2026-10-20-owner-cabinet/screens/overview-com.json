@@ -24,7 +24,8 @@
           "plan": "Профи",
           "days": {
             "$ref": "parts/days.json"
-          }
+          },
+          "color": 1
         }
       }
     ]

@@ -59,6 +59,10 @@ const periodButtons = (active, links = {}) =>
 
 // ---- the shell: sidebar + page, as main-layout.tsx and shell.tsx draw it ------------------------------
 
+/**
+ * The shop menu (Ivan 21.10, mark 33: «убрать заголовок, оставить домен, убрать отступ слева»): a shop is its domain,
+ * flush left; the current one carries a check on the right. Every shop opens at once: one sign-in for all of them.
+ */
 const shopMenu = (panel) => `
   <div class="dropdown" data-proto="shop-menu" role="menu">
     <div class="dropdown-head">
@@ -73,20 +77,16 @@ const shopMenu = (panel) => `
     ${panel.shops
       .map(
         (shop) => `
-      <a class="dropdown-item${shop.current ? " is-current" : ""}" href="${escape(shop.href)}" role="menuitemradio" aria-checked="${shop.current ? "true" : "false"}" data-proto="shop-${escape(shop.instance)}">
-        <span class="dropdown-check">${shop.current ? icon("check") : ""}</span>
-        <span class="dropdown-item-text">
-          <span class="truncate">${escape(shop.name)}</span>
-          <span class="txt-subtle truncate">${escape(shop.domain)}</span>
-        </span>
-        ${shop.current ? "" : `<span class="dropdown-hint">без входа</span>`}
+      <a class="dropdown-item shop-item${shop.current ? " is-current" : ""}" href="${escape(shop.href)}" role="menuitemradio" aria-checked="${shop.current ? "true" : "false"}" data-proto="shop-${escape(shop.instance)}">
+        <span class="truncate">${escape(shop.domain)}</span>
+        ${shop.current ? icon("check", "dropdown-tick") : ""}
       </a>`,
       )
       .join("")}
     <div class="dropdown-sep"></div>
     <a class="dropdown-item" href="${escape(panel.logoutHref)}" role="menuitem">
-      <span class="dropdown-check">${icon("logout", "muted")}</span>
-      <span class="dropdown-item-text"><span>Выйти</span></span>
+      ${icon("logout", "muted")}
+      <span>Выйти из всех магазинов</span>
     </a>
   </div>`
 
@@ -134,7 +134,7 @@ const sidebar = ({ panel, active, menuOpen, links }) => `
           open: true,
           items: [
             { label: "Заказы", counter: panel.counters.ordersToPack },
-            { label: "Клиенты" },
+            { label: "Клиенты", href: links.customers, active: active === "customers", proto: "nav-customers" },
             { label: "Отзывы", counter: panel.counters.reviewsToModerate },
           ],
         })}
@@ -171,11 +171,10 @@ export const shell = ({ panel, active, menuOpen = false, drawerOpen = false, lin
     ${drawerOpen ? `<a class="scrim" href="${escape(links.closeMenu)}" aria-label="Закрыть меню"></a>` : ""}
     ${sidebar({ panel, active, menuOpen, links })}
     <div class="main">
-      <div class="head${bar ? " has-bar" : ""}">
+      <div class="head${bar ? " has-bar" : ""}" data-hide-on-scroll>
         ${mobileBar({ panel, links, drawerOpen, title })}
-        <div class="topbar">
+        <div class="topbar" data-proto="topbar">
           <span class="crumb">${escape(title)}</span>
-          <span class="host">${icon("lock", "muted")}${escape(panel.host)}</span>
         </div>
         ${bar ?? ""}
       </div>
@@ -197,7 +196,6 @@ const PERIODS = [
   { key: "365d", label: "Год", unit: "month" },
   { key: "range", label: "Свой период", unit: "day" },
 ]
-const UNIT_WORD = { hour: "По часам", day: "По дням", week: "По неделям", month: "По месяцам" }
 
 const MONTHS = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]
 const dayParts = (iso) => ({ d: Number(iso.slice(8, 10)), m: Number(iso.slice(5, 7)) - 1, y: iso.slice(0, 4) })
@@ -243,7 +241,6 @@ export const periodBar = ({ period = "7d", periods }) => `
         </label>`,
         ).join("")}
       </div>
-      <span class="btn btn-secondary btn-small bar-pill bar-unit">${perPeriod(periods, ({ unit }) => UNIT_WORD[unit], "span", period)}${icon("chevronDown", "muted")}</span>
     </div>`
 
 // ---- one currency: rubles (Ivan 21.10, marks 17, 19, 20: «валюту нужно показывать одну, пусть пересчитывается по какому
@@ -281,7 +278,7 @@ const rubFigure = ({ parts, fx, value, cls = "" }) => {
 
 // ---- «Сводка»: the sales sources of the owner ---------------------------------------------------------------------
 
-const SOURCE_LABEL = { wildberries: "Wildberries", ozon: "Ozon" }
+const SOURCE_LABEL = { wildberries: "Wildberries", ozon: "Ozon", yandex_market: "Яндекс Маркет", megamarket: "Мегамаркет" }
 const instanceWord = { ru: "cherkashino.ru", intl: "cherkashino.com" }
 
 /** A row's name: the shop's domain for a storefront (mark 5: «в магазине просто писать домен»), the marketplace's name otherwise. */
@@ -355,11 +352,17 @@ const addDays = (iso, days) => {
  * bar names the rows of a source it takes: `pick(summary)` → the rows of `daily`, `hourly` or `monthly`.
  */
 const bucketsOf = ({ from, to }, unit) => {
+  // A day is always 24 hours, 00–23 (Ivan 21.10, mark 23: «единый формат 24 часа»); today's hours still to come stay
+  // on the axis, empty.
   if (unit === "hour") {
-    const last = to === TODAY ? NOW_HOUR : 23
-    return Array.from({ length: last + 1 }, (_, h) => {
+    return Array.from({ length: 24 }, (_, h) => {
       const hour = `${from}T${String(h).padStart(2, "0")}`
-      return { label: String(h).padStart(2, "0"), tip: `${shortDate(from)}, ${h}:00`, pick: (s) => s.hourly.filter((r) => r.hour === hour) }
+      return {
+        label: String(h).padStart(2, "0"),
+        tip: `${shortDate(from)}, ${String(h).padStart(2, "0")}:00–${String(h + 1).padStart(2, "0")}:00`,
+        future: to === TODAY && h > NOW_HOUR,
+        pick: (s) => s.hourly.filter((r) => r.hour === hour),
+      }
     })
   }
   if (unit === "month") {
@@ -390,33 +393,40 @@ const bucketsOf = ({ from, to }, unit) => {
 const TODAY = "2026-10-20"
 const NOW_HOUR = 8
 
-const plot = ({ series, buckets, value, format, proto, whole = false, fromStart = false }) => {
+/**
+ * A stacked bar chart. Every bar names its bucket, its total and each source's part (`data-*`); client.js turns them
+ * into the tooltip on hover and pins it on a click (Ivan 21.10, mark 24: «интерактив при наведении и клике, с подписью
+ * проекта и значений выбранного блока в столбце»). Hours are labelled every 3 hours from midnight (mark 23); other
+ * units from the last bar back, so today always has its label.
+ */
+const plot = ({ series, buckets, value, format, tipFormat = format, proto, whole = false, hourly = false }) => {
   const totals = buckets.map((bucket) => series.reduce((a, s) => a + value(s, bucket), 0))
   const { step, top } = niceScale(Math.max(...totals), whole)
   const ticks = []
   for (let v = top; v >= 0; v -= step) ticks.push(v)
   const n = buckets.length
-  const every = n <= 14 ? 1 : n <= 24 ? 3 : 5
+  const every = hourly ? 3 : n <= 14 ? 1 : n <= 24 ? 3 : 5
   const cols = buckets
     .map((bucket, d) => {
       const parts = series
         .map((s) => {
           const v = value(s, bucket)
-          return v ? `<span class="bar-part shop-${s.color}" style="height:${((v / totals[d]) * 100).toFixed(2)}%"></span>` : ""
+          return v
+            ? `<span class="bar-part shop-${s.color}" style="height:${((v / totals[d]) * 100).toFixed(2)}%" data-src="${escape(s.label)}" data-color="${s.color}" data-value="${escape(tipFormat(v))}"></span>`
+            : ""
         })
         .join("")
-      const tip = `${bucket.tip}: ${series.map((s) => `${s.label} ${format(value(s, bucket))}`).join(", ")}`
-      // the last bar (today) always has its label; hours count from midnight
-      const at = (fromStart ? d : n - 1 - d) / every
-      const label = Number.isInteger(at) ? `<span class="col-date${n > 6 && at % 2 ? " minor" : ""}">${bucket.label}</span>` : '<span class="col-date"></span>'
-      return `<div class="col" title="${escape(tip)}">
+      const at = (hourly ? d : n - 1 - d) / every
+      const label = Number.isInteger(at) ? `<span class="col-date${!hourly && n > 6 && at % 2 ? " minor" : ""}">${bucket.label}</span>` : '<span class="col-date"></span>'
+      const rows = series.map((s) => `${s.color}|${s.label}|${tipFormat(value(s, bucket))}`).join(";")
+      return `<div class="col${bucket.future ? " is-future" : ""}" data-tip="${escape(bucket.tip)}" data-total="${escape(bucket.future ? "ещё не наступил" : tipFormat(totals[d]))}" data-rows="${escape(bucket.future ? "" : rows)}">
         <div class="col-bar">${n <= 14 && totals[d] ? `<span class="col-total">${format(totals[d])}</span>` : ""}<div class="col-stack" style="height:${((totals[d] / top) * 100).toFixed(2)}%">${parts}</div></div>
         ${label}
       </div>`
     })
     .join("")
   return `
-    <div class="plot${n > 20 ? " dense" : ""}" data-proto="${proto}">
+    <div class="plot${n > 20 ? " dense" : ""}" data-proto="${proto}" data-chart>
       <div class="plot-grid">${ticks.map((v) => `<div class="grid-line"><span class="grid-label">${format(v)}</span></div>`).join("")}</div>
       <div class="plot-cols">${cols}</div>
     </div>`
@@ -445,12 +455,12 @@ const salesChart = ({ series, period, unit }) => {
       </div>
       <div class="plot-wrap plot-orders">
         <span class="axis-caption">заказов ${UNIT_AXIS[unit]}</span>
-        ${plot({ series, buckets, value: ordersOf, format: count, proto: "plot-orders", whole: true, fromStart: unit === "hour" })}
+        ${plot({ series, buckets, value: ordersOf, format: count, proto: "plot-orders", whole: true, hourly: unit === "hour" })}
         ${legend(ordersOf, count)}
       </div>
       <div class="plot-wrap plot-sum">
         <span class="axis-caption">сумма заказов ${UNIT_AXIS[unit]}, ₽</span>
-        ${plot({ series, buckets, value: rubOf, format: compact, proto: "plot-sum", fromStart: unit === "hour" })}
+        ${plot({ series, buckets, value: rubOf, format: compact, tipFormat: rub, proto: "plot-sum", hourly: unit === "hour" })}
         ${legend(rubOf, rub)}
       </div>
     </section>`
@@ -470,11 +480,11 @@ const rowState = ({ entry, label, index, links }) => {
   const text =
     entry.state === "no_answer"
       ? `${instanceWord[entry.instance]} не ответил при загрузке страницы. Цифр нет, в итоги не вошёл.`
-      : "Магазин ещё не связан с вашим входом. Цифры появятся после первого входа через cherkashino.ru."
+      : "Магазин ещё не добавлен в ваш вход. Добавьте его один раз — код придёт на почту магазина."
   const action =
     entry.state === "no_answer"
       ? button({ label: "Повторить", href: links.retry })
-      : button({ label: "Связать", href: links.connect })
+      : button({ label: "Добавить", href: links.connect })
   return `
       <div class="shop-row is-quiet" role="row" data-proto="source-row-${index}" data-state="${entry.state}">
         <div class="shop-cell-name"><span class="dot shop-${index}"></span><span class="txt-plus truncate">${escape(label)}</span></div>
@@ -503,27 +513,114 @@ const sourceRow = ({ entry, period, panelShops, index, links }) => {
     </div>`
 }
 
-const topProducts = ({ sources, period, panelShops }) => `
-  <div class="tops">
-    ${sources
-      .map((entry, index) => ({ entry, index }))
-      .filter(({ entry }) => entry.state === "ok")
-      .map(
-        ({ entry, index }) => `
-      <div class="top">
-        <div class="top-head"><span class="dot shop-${index}"></span><span class="txt-plus">${escape(sourceLabel(entry, panelShops))}</span></div>
-        <ol class="top-list">
-          ${entry.summary.periods[period].top_products
-            .map(
-              (p) =>
-                `<li><span class="truncate">${escape(p.title)}</span><span class="txt-subtle nowrap">${count(p.quantity)} шт — ${rubFigure({ parts: [{ code: p.currency_code, amount: p.revenue }], fx: entry.summary.fx })}</span></li>`,
-            )
-            .join("")}
-        </ol>
-      </div>`,
-      )
-      .join("")}
-  </div>`
+// ---- «Топ товаров» as a donut with its legend under it (Ivan 21.10, mark 28: «pie chart + подписи, снизу с названиями и
+// цветом товара, а также при клике на сегменты графика тоже показывались значения»). A segment's share is of the whole
+// revenue of the view; what the top does not cover is the grey «Остальные товары». A click (a tap) on a segment or on its
+// legend row puts its units and rubles into the middle (client.js).
+
+const arc = (cx, cy, r, a0, a1) => {
+  const p = (a) => [cx + r * Math.sin(a), cy - r * Math.cos(a)].map((v) => v.toFixed(2)).join(" ")
+  return { from: p(a0), to: p(a1), large: a1 - a0 > Math.PI ? 1 : 0 }
+}
+
+const segmentPath = (a0, a1) => {
+  // a full circle cannot be one arc: two halves
+  if (a1 - a0 >= Math.PI * 2 - 1e-6) return `${segmentPath(a0, a0 + Math.PI)} ${segmentPath(a0 + Math.PI, a1)}`
+  const o = arc(100, 100, 92, a0, a1)
+  const i = arc(100, 100, 58, a1, a0)
+  return `M ${o.from} A 92 92 0 ${o.large} 1 ${o.to} L ${i.from} A 58 58 0 ${o.large} 0 ${i.to} Z`
+}
+
+/** `items`: [{ title, quantity, rub }] by rank; `total`: the view's revenue in rubles. */
+const donut = ({ items, total, proto }) => {
+  const rest = Math.max(0, total - items.reduce((a, item) => a + item.rub, 0))
+  const all = [
+    ...items.map((item, i) => ({ ...item, color: `prod-${i}` })),
+    ...(rest > 0 ? [{ title: "Остальные товары", quantity: null, rub: rest, color: "prod-rest" }] : []),
+  ]
+  let at = 0
+  const segments = all.map((item, i) => {
+    const share = total ? item.rub / total : 0
+    const a0 = at * Math.PI * 2
+    at += share
+    const a1 = at * Math.PI * 2
+    const mid = (a0 + a1) / 2
+    const pct = Math.round(share * 100)
+    const data = `data-i="${i}" data-name="${escape(item.title)}" data-share="${pct}%" data-qty="${item.quantity === null ? "" : `${count(item.quantity)} шт`}" data-sum="${escape(rub(item.rub))}"`
+    return {
+      path: `<path class="seg-${item.color}" d="${segmentPath(a0, a1)}" ${data} tabindex="0" role="button" aria-label="${escape(`${item.title}: ${pct}%`)}"></path>`,
+      label: share >= 0.07 ? `<text x="${(100 + 75 * Math.sin(mid)).toFixed(1)}" y="${(100 - 75 * Math.cos(mid)).toFixed(1)}">${pct}%</text>` : "",
+      legend: `<li ${data} tabindex="0"><span class="dot ${item.color}"></span><span class="truncate">${escape(item.title)}</span><span class="txt-subtle nowrap">${item.quantity === null ? "" : `${count(item.quantity)} шт`}</span><span class="nowrap">${rub(item.rub)}</span><span class="txt-subtle pie-pct">${pct}%</span></li>`,
+    }
+  })
+  if (!total) return `<p class="txt-subtle">За этот период продаж нет.</p>`
+  return `
+    <div class="pie" data-pie data-proto="${proto}">
+      <div class="pie-chart">
+        <svg viewBox="0 0 200 200" role="group" aria-label="Доля товаров в выручке">${segments.map((x) => x.path).join("")}<g class="pie-labels" aria-hidden="true">${segments.map((x) => x.label).join("")}</g></svg>
+        <div class="pie-center" aria-live="polite">
+          <span class="pie-center-value" data-default="${escape(rub(total))}">${rub(total)}</span>
+          <span class="txt-subtle pie-center-caption" data-default="выручка за период">выручка за период</span>
+        </div>
+      </div>
+      <ol class="pie-legend">${segments.map((x) => x.legend).join("")}</ol>
+    </div>`
+}
+
+/** A source's top in rubles. */
+const topOf = (summary, key) =>
+  summary.periods[key].top_products.map((p) => ({ title: p.title, quantity: p.quantity, rub: toRub(summary.fx, p.currency_code, p.revenue) }))
+
+/**
+ * Several sources (mark 29): one donut over all the sources by default — the same product sold in several places adds up —
+ * and a source switch that opens one source's donut. The switch is the period list's control: a button and a list, so it
+ * holds any number of sources. The radios are the page's (`#top-src-*`), the CSS shows the chosen view.
+ */
+const topProducts = ({ sources, period, panelShops }) => {
+  const ok = sources.map((entry, index) => ({ entry, index })).filter(({ entry }) => entry.state === "ok")
+  if (ok.length === 1) {
+    const { entry } = ok[0]
+    return `
+    <section class="container" data-proto="top-products">
+      <div class="section-head-row"><h2 class="h2">Топ товаров</h2></div>
+      ${donut({ items: topOf(entry.summary, period), total: inRub(entry.summary, period).revenue, proto: "pie" })}
+    </section>`
+  }
+  const merged = new Map()
+  for (const { entry } of ok) {
+    for (const item of topOf(entry.summary, period)) {
+      const at = merged.get(item.title) ?? { title: item.title, quantity: 0, rub: 0 }
+      at.quantity += item.quantity
+      at.rub += item.rub
+      merged.set(item.title, at)
+    }
+  }
+  const allItems = [...merged.values()].sort((a, b) => b.rub - a.rub).slice(0, 6)
+  const allTotal = ok.reduce((a, { entry }) => a + inRub(entry.summary, period).revenue, 0)
+  const pickId = `top-pick-${period}`
+  return `
+    <section class="container" data-proto="top-products">
+      <div class="section-head-row">
+        <h2 class="h2">Топ товаров</h2>
+        <button type="button" class="btn btn-secondary btn-small bar-pill top-switch" popovertarget="${pickId}" style="anchor-name: --${pickId}" data-proto="top-source">
+          <span class="tsl tsl-all">Все источники</span>${ok.map(({ entry, index }) => `<span class="tsl tsl-${index}"><span class="dot shop-${index}"></span>${escape(sourceLabel(entry, panelShops))}</span>`).join("")}${icon("chevronDown", "muted")}
+        </button>
+        <div class="period-pick top-pick" id="${pickId}" popover style="position-anchor: --${pickId}">
+          <label class="dropdown-item" for="top-src-all"><span class="truncate">Все источники</span><span class="dropdown-check tpk-all">${icon("check")}</span></label>
+          ${ok.map(({ entry, index }) => `<label class="dropdown-item" for="top-src-${index}"><span class="dot shop-${index}"></span><span class="truncate">${escape(sourceLabel(entry, panelShops))}</span><span class="dropdown-check tpk-${index}">${icon("check")}</span></label>`).join("")}
+        </div>
+      </div>
+      <div class="topv topv-all">${donut({ items: allItems, total: allTotal, proto: "pie" })}</div>
+      ${ok.map(({ entry, index }) => `<div class="topv topv-${index}">${donut({ items: topOf(entry.summary, period), total: inRub(entry.summary, period).revenue, proto: `pie-${index}` })}</div>`).join("")}
+    </section>`
+}
+
+/** The page's source switch of «Топ товаров»: one radio per view, read by every period's copy (panel.css). */
+const topModes = (sources) => {
+  const ok = sources.map((entry, index) => ({ entry, index })).filter(({ entry }) => entry.state === "ok")
+  if (ok.length < 2) return ""
+  return `<input class="sr" type="radio" name="top-src" id="top-src-all" checked>${ok.map(({ index }) => `<input class="sr" type="radio" name="top-src" id="top-src-${index}">`).join("")}`
+}
 
 /** The totals of a period across the sources that answered: one ruble figure each, the currencies in a popover. */
 const summaryStats = ({ data, key }) => {
@@ -585,6 +682,7 @@ export const summaryPage = ({ data, panel, period = "7d", loading = false, chart
 
   return `
     ${chartModes(chartMode)}
+    ${topModes(sources)}
     ${perPeriod(
       periods,
       ({ key, unit }) => `
@@ -600,12 +698,10 @@ export const summaryPage = ({ data, panel, period = "7d", loading = false, chart
       </div>
     </section>
 
-    ${salesChart({ series: chartSeries(sources, panel.shops), period: periods[key], unit })}
-
-    <section class="container">
-      <div class="section-head-row"><h2 class="h2">Топ товаров</h2></div>
+    <div class="duo">
+      ${salesChart({ series: chartSeries(sources, panel.shops), period: periods[key], unit })}
       ${topProducts({ sources, period: key, panelShops: panel.shops })}
-    </section>`,
+    </div>`,
       "div",
       period,
     )}`
@@ -640,15 +736,6 @@ export const sourcePage = ({ data, index, panel, period = "7d", chartMode = "ord
         ${totalsCard({ label: "В сборке", value: count(summary.orders.to_pack) })}
       </div>`
   }
-  const products = (key) => {
-    const p = inRub(summary, key)
-    return summary.periods[key].top_products
-      .map((product) => {
-        const value = toRub(summary.fx, product.currency_code, product.revenue)
-        return `<div class="prod-row"><span class="truncate">${escape(product.title)}</span><span>${count(product.quantity)} шт</span>${rubFigure({ parts: [{ code: product.currency_code, amount: product.revenue }], fx: summary.fx, cls: "nowrap" })}<span>${p.revenue ? Math.round((value / p.revenue) * 100) : 0}%</span></div>`
-      })
-      .join("")
-  }
   return `
     ${chartModes(chartMode)}
     <section class="container" data-proto="source-head">
@@ -662,12 +749,9 @@ export const sourcePage = ({ data, index, panel, period = "7d", chartMode = "ord
     ${perPeriod(summary.periods, ({ key, unit }) => salesChart({ series: [{ label, color: index, summary }], period: summary.periods[key], unit }), "div", period)}
 
     <div class="split">
-      <section class="container flush" data-proto="source-products">
-        <div class="section-head"><h2 class="h2">Топ товаров</h2></div>
-        <div class="prod-table">
-          <div class="prod-row prod-head"><span>Товар</span><span>Продано</span><span>Выручка</span><span>Доля</span></div>
-          ${perPeriod(summary.periods, ({ key }) => products(key), "div", period)}
-        </div>
+      <section class="container" data-proto="source-products">
+        <div class="section-head-row"><h2 class="h2">Топ товаров</h2></div>
+        ${perPeriod(summary.periods, ({ key }) => donut({ items: topOf(summary, key), total: inRub(summary, key).revenue, proto: "pie" }), "div", period)}
       </section>
       <section class="container" data-proto="source-reviews">
         <div class="section-head-row"><h2 class="h2">Отзывы</h2><span class="nowrap">${icon("star", "star")} <span class="txt-plus">${reviews.average_rating ?? "—"}</span></span></div>
@@ -695,7 +779,7 @@ export const sourcePage = ({ data, index, panel, period = "7d", chartMode = "ord
 
 // ---- a shop's «Обзор», as routes/home/home.tsx draws it ----------------------------------------------
 
-export const overviewPage = ({ summary, plan, period = "7d", days }) => {
+export const overviewPage = ({ summary, plan, period = "7d", days, color = 0 }) => {
   const bucket = summary.periods[period].currencies[0]
   const others = summary.periods[period].currencies.slice(1)
   const attention = [
@@ -763,7 +847,7 @@ export const overviewPage = ({ summary, plan, period = "7d", days }) => {
         <div class="mini-chart">
           <span class="txt-subtle">Выручка по дням</span>
           <div class="mini-bars">${shown
-            .map((d) => `<span class="mini-bar"><span style="height:${(((daily.get(d) ?? 0) / max) * 100).toFixed(1)}%"></span><span class="txt-subtle">${shortDate(d)}</span></span>`)
+            .map((d) => `<span class="mini-bar"><span class="shop-${color}" style="height:${(((daily.get(d) ?? 0) / max) * 100).toFixed(1)}%"></span><span class="txt-subtle">${shortDate(d)}</span></span>`)
             .join("")}</div>
         </div>
         <div class="top">
@@ -776,77 +860,68 @@ export const overviewPage = ({ summary, plan, period = "7d", days }) => {
     </section>`
 }
 
-// ---- the plain pages: sign-in, the switch on its way, the first link --------------------------------
+// ---- the plain pages and the sign-in (Ivan 21.10, mark 33: «вошел в один магазин - вошел во все. А если это не
+// безопасно, то можно к конфиденциальным данным при переходе на страницу, которая их содержит запрашивать авторизацию
+// отдельно»). One sign-in opens every shop of the owner; a page with buyers' personal data asks to confirm it again.
 
 export const plain = ({ body }) => `<div class="plain">${body}</div>`
 
-const brandHead = ({ letter, title, hint, host }) => `
+const brandHead = ({ letter, title, hint }) => `
   <div class="auth-head">
     ${avatar(letter, "lg")}
     <h1 class="h1">${escape(title)}</h1>
     ${hint ? `<p class="txt-subtle">${escape(hint)}</p>` : ""}
-    ${host ? `<span class="host">${icon("lock", "muted")}${escape(host)}</span>` : ""}
   </div>`
 
-const field = ({ label, value = "", type = "text", placeholder = "" }) => `
-  <label class="field"><span class="field-label">${escape(label)}</span><span class="input${value ? "" : " is-empty"}">${escape(value || placeholder)}${type === "password" && value ? "" : ""}</span></label>`
+const field = ({ label, value = "", placeholder = "" }) => `
+  <label class="field"><span class="field-label">${escape(label)}</span><span class="input${value ? "" : " is-empty"}">${escape(value || placeholder)}</span></label>`
 
 export const loginRu = ({ next }) => `
   <div class="auth" data-proto="login-ru">
-    ${brandHead({ letter: "Ч", title: "Вход в панель магазина", hint: "Войдите, чтобы получить доступ к панели управления", host: "panel.cherkashino.ru" })}
+    ${brandHead({ letter: "Ч", title: "Вход в панель магазина", hint: "Один вход — во все ваши магазины" })}
     <div class="auth-form">
       ${field({ label: "Почта", value: "owner@cherkashino.ru" })}
-      ${field({ label: "Пароль", value: "••••••••••", type: "password" })}
+      ${field({ label: "Пароль", value: "••••••••••" })}
       ${button({ label: "Продолжить", variant: "primary", href: next, full: true, attrs: 'data-proto="login-submit"' })}
+      <div class="or"><span>или</span></div>
+      ${button({ label: "Войти через Telegram", variant: "secondary", href: next, full: true, iconName: "telegram" })}
     </div>
-    <p class="auth-once" data-proto="once">${icon("info", "muted")}<span>Один вход на все ваши магазины. После него cherkashino.com откроется из меню «…» без пароля.</span></p>
+    <p class="auth-once" data-proto="once">${icon("info", "muted")}<span>После входа cherkashino.ru и cherkashino.com открываются из меню магазинов сразу, без второго входа.</span></p>
     <p class="txt-subtle auth-foot">Забыли пароль? <a class="link" href="#">Сбросить</a></p>
   </div>`
 
-export const loginCom = ({ viaRu, other }) => `
-  <div class="auth" data-proto="login-com">
-    ${brandHead({ letter: "C", title: "Вход в панель магазина", hint: "Cherkashino, cherkashino.com", host: "panel.cherkashino.com" })}
-    <div class="auth-form">
-      ${button({ label: "Войти через cherkashino.ru", variant: "primary", href: viaRu, full: true, size: "large", attrs: 'data-proto="via-ru"' })}
-      <p class="txt-subtle auth-why">Ваш вход хранится в России, на cherkashino.ru. Сюда пароль не передаётся: cherkashino.ru только подтверждает, что это вы.</p>
-      <div class="or"><span>или</span></div>
-      ${button({ label: "Войти через Telegram", variant: "secondary", href: other, full: true, iconName: "telegram" })}
-      ${button({ label: "Войти по почте", variant: "transparent", href: other, full: true })}
-    </div>
-  </div>`
-
+/** A shop of the owner that the sign-in does not know yet (another e-mail): added once, by a code sent to the shop's e-mail. */
 export const linkFirst = ({ next, back }) => `
   <div class="auth" data-proto="link-first">
-    ${brandHead({ letter: "C", title: "Связать cherkashino.com с вашим входом", host: "panel.cherkashino.com" })}
+    ${brandHead({ letter: "C", title: "Добавить cherkashino.com в ваш вход" })}
     <div class="auth-form">
-      <p class="auth-text">cherkashino.ru подтвердил, что вы — владелец «Черкашино». На cherkashino.com есть магазин Cherkashino с почтой o•••@cherkashino.ru.</p>
-      <p class="auth-text">Введите пароль от cherkashino.com один раз. Дальше он не понадобится: оба магазина будут открываться одним входом.</p>
-      ${field({ label: "Пароль от cherkashino.com", value: "••••••••", type: "password" })}
-      ${button({ label: "Связать и открыть", variant: "primary", href: next, full: true, attrs: 'data-proto="link-submit"' })}
+      <p class="auth-text">Магазин cherkashino.com зарегистрирован на почту o•••@cherkashino.com. Мы отправили на неё код.</p>
+      <p class="auth-text">Введите его один раз: дальше магазин откроется из меню магазинов без входа.</p>
+      ${field({ label: "Код из письма", value: "•••  •••" })}
+      ${button({ label: "Добавить магазин", variant: "primary", href: next, full: true, attrs: 'data-proto="link-submit"' })}
       ${button({ label: "Не сейчас", variant: "transparent", href: back, full: true })}
     </div>
   </div>`
 
-export const switching = ({ next, target }) => `
-  <div class="auth" data-proto="switching">
-    ${brandHead({ letter: "C", title: `Открываем ${target}`, host: "panel.cherkashino.com" })}
-    <div class="auth-form">
-      <div class="progress"><span></span></div>
-      <p class="auth-text">Вход подтверждён в cherkashino.ru. Пароль вводить не нужно.</p>
-      ${button({ label: "Открыть сейчас", variant: "secondary", href: next, full: true })}
+/**
+ * A page with buyers' personal data («Клиенты») when the last confirmation is older than 15 minutes: the list stays
+ * closed until the owner confirms it is her (docs/owner-cabinet/architecture.md §3, «Pages that ask again»).
+ */
+export const confirmPage = ({ next, back, email }) => `
+  <section class="container confirm-wrap" data-proto="confirm-page">
+    <div class="section-head-row"><h2 class="h2">Клиенты</h2></div>
+    <div class="locked-list" aria-hidden="true">${[1, 2, 3, 4, 5, 6].map(() => '<span class="skeleton h-40 w-full"></span>').join("")}</div>
+    <div class="confirm-card" data-proto="confirm">
+      <span class="confirm-icon">${icon("lock")}</span>
+      <h2 class="h2">Подтвердите, что это вы</h2>
+      <p class="txt-subtle">Здесь имена, телефоны и адреса покупателей. Мы спрашиваем пароль ещё раз, если с последнего подтверждения прошло больше 15 минут.</p>
+      ${field({ label: "Пароль от входа", value: "••••••••••" })}
+      <span class="txt-subtle confirm-who">${escape(email)}</span>
+      ${button({ label: "Подтвердить", variant: "primary", href: next, full: true, attrs: 'data-proto="confirm-submit"' })}
+      ${button({ label: "Подтвердить в Telegram", variant: "secondary", href: next, full: true, iconName: "telegram" })}
+      ${button({ label: "Вернуться к сводке", variant: "transparent", href: back, full: true })}
     </div>
-  </div>`
-
-export const ticketUsed = ({ next, back }) => `
-  <div class="auth" data-proto="ticket-used">
-    ${brandHead({ letter: "C", title: "Ссылка для входа устарела", host: "panel.cherkashino.com" })}
-    <div class="auth-form">
-      <p class="auth-text">Ссылка из cherkashino.ru живёт одну минуту и открывается один раз. Эту уже открыли, или минута прошла.</p>
-      <p class="auth-text">Ваш вход в cherkashino.ru в порядке: откройте магазин из меню «…» ещё раз.</p>
-      ${button({ label: "Открыть через cherkashino.ru", variant: "primary", href: next, full: true })}
-      ${button({ label: "Вернуться в cherkashino.ru", variant: "transparent", href: back, full: true })}
-    </div>
-  </div>`
+  </section>`
 
 export const components = {
   shell,
@@ -856,8 +931,6 @@ export const components = {
   periodBar,
   overviewPage,
   loginRu,
-  loginCom,
   linkFirst,
-  switching,
-  ticketUsed,
+  confirmPage,
 }

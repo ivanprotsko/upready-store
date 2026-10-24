@@ -53,8 +53,10 @@ const render = (call) => {
 
 const theme = readFileSync(join(repo, "apps/tenant-panel/src/theme/hub-theme.css"), "utf8")
 const css = readFileSync(join(here, "src/panel.css"), "utf8")
+// v4: the behaviour Ivan asked to see (marks 24, 27, 28): the top bar on scroll, chart tooltips, donut segments.
+const client = readFileSync(join(here, "src/client.js"), "utf8")
 
-// The one script a page carries: the colour scheme from `?scheme=light|dark` (else the OS), and the
+// The page's first script: the colour scheme from `?scheme=light|dark` (else the OS), and the
 // same query kept on the links between the states. No state of the screen lives in it.
 const schemeScript = `(()=>{const q=new URLSearchParams(location.search).get("scheme");const d=q?q==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d);addEventListener("DOMContentLoaded",()=>{if(!location.search)return;for(const a of document.querySelectorAll('a[href$=".html"]'))a.href=a.getAttribute("href")+location.search})})()`
 
@@ -70,6 +72,7 @@ ${css}</style>
 </head>
 <body>
 ${html}
+<script>${client}</script>
 <script src="/proto-anchor.js"></script>
 </body>
 </html>

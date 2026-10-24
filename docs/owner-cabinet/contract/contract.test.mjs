@@ -85,6 +85,9 @@ const validate = (schema, value, root, path = "$") => {
 const shopSchema = files["shop-summary.v1.schema.json"]
 const ownerSchema = files["owner-summary.v1.schema.json"]
 
+const shopFiles = ["example.shop-summary.ru.json", "example.shop-summary.intl.json", "example.shop-summary.wildberries.json"]
+const pageFiles = ["example.owner-summary.ru.json", "example.owner-summary.intl-late.json", "example.owner-summary.ru-missing.json", "example.owner-summary.ru-3.json", "example.owner-summary.ru-5.json", "example.owner-summary.ru-7.json"]
+
 test("the shop examples match shop-summary/v1", () => {
   for (const name of shopFiles) {
     assert.deepEqual(validate(shopSchema, read(name), shopSchema), [], name)
@@ -92,7 +95,7 @@ test("the shop examples match shop-summary/v1", () => {
 })
 
 test("the panel examples match owner-summary/v1", () => {
-  for (const name of ["example.owner-summary.ru.json", "example.owner-summary.intl-late.json", "example.owner-summary.ru-missing.json"]) {
+  for (const name of pageFiles) {
     assert.deepEqual(validate(ownerSchema, read(name), ownerSchema), [], name)
   }
 })
@@ -159,8 +162,6 @@ test("a source that did not answer is a row without numbers, left out of the tot
   }
 })
 
-const shopFiles = ["example.shop-summary.ru.json", "example.shop-summary.intl.json", "example.shop-summary.wildberries.json"]
-const pageFiles = ["example.owner-summary.ru.json", "example.owner-summary.intl-late.json", "example.owner-summary.ru-missing.json"]
 
 test("every currency other than rubles has a Bank of Russia rate with its date, rubles have none", () => {
   for (const name of shopFiles) {

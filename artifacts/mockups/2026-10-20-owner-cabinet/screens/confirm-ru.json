@@ -1,0 +1,29 @@
+{
+  "title": "Клиенты — подтверждение входа",
+  "template": "shell",
+  "props": {
+    "panel": {
+      "$ref": "parts/panel-ru.json"
+    },
+    "active": "customers",
+    "links": {
+      "summary": "summary-ru.html",
+      "overview": "overview-ru.html",
+      "openMenu": "menu-ru.html",
+      "openDrawer": "menu-ru.html",
+      "closeMenu": "confirm-ru.html",
+      "customers": "confirm-ru.html"
+    },
+    "title": "Клиенты",
+    "body": [
+      {
+        "component": "confirmPage",
+        "props": {
+          "next": "confirm-ru.html",
+          "back": "summary-ru.html",
+          "email": "owner@cherkashino.ru"
+        }
+      }
+    ]
+  }
+}
