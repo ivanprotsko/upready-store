@@ -378,7 +378,9 @@ kbd { font: inherit; }
 .top-switch { max-width: 60%; }
 .top-switch .tsl { display: none; align-items: center; gap: 6px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .app:has(#top-src-all:checked) .tsl-all { display: inline-flex; }
-.top-pick { width: 260px; }
+/* the switch stands at the section's right edge: the list takes the button's right edge by default, and its one fallback
+   (opened upward) keeps that edge, so a list taller than the room below never leaves the screen on the right */
+.top-pick { width: 260px; left: auto; right: anchor(right); position-try-fallbacks: flip-block; }
 .top-pick .dropdown-item { gap: 8px; cursor: pointer; }
 .top-pick .dropdown-check { margin-left: auto; }
 .topv { display: none; }
