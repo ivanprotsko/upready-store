@@ -3,6 +3,10 @@
 Stage 1 is design only. No live server was touched and no production code changes here. Stage 2
 starts when Ivan approves the prototype.
 
+**v4 of this note (24.10, after Ivan's 18 marks on prototype v3).** Mark 33 changes the sign-in:
+one session across all the owner's shops, a second confirmation only on pages with confidential
+data (§3 is rewritten). The other marks change the screens only.
+
 **v2 of this note (20.10, after Ivan's 13 marks on prototype v1).** Two marks change the design, not
 only the screens. Mark 6: «колонка "данные" не нужна, данные должны быть всегда актуальные на
 момент загрузки страницы» — totals are no longer pushed every five minutes and kept; each page
@@ -27,8 +31,10 @@ section, «Сводка», shows the totals of all the owner's shops.
 
 1. **The owner's identity lives in Russia.** The RU backend is the one place the owner signs in.
    The .com panel never sees her password.
-2. **.com trusts a signed ticket.** The RU backend signs a one-minute, single-use ticket. The .com
-   backend checks it with RU's public key and opens a session. No call goes from abroad into RU.
+2. **Signed in to one shop — signed in to all.** One owner session, held in Russia, opens every shop.
+   .com gets it by an invisible hop: the RU backend signs a one-minute, single-use ticket, the .com
+   backend checks it with RU's public key. No call goes from abroad into RU. Pages with buyers'
+   personal data ask to confirm the sign-in again after 15 minutes (§3).
 3. **A small relay on the RU host carries totals out.** It is its own container with no database
    access. The RU backend hands it a payload; the relay checks it against a closed schema, signs
    it and sends it to .com.
@@ -44,52 +50,98 @@ section, «Сводка», shows the totals of all the owner's shops.
 
 | Piece | Today | New |
 |---|---|---|
-| Shop switch inside one instance | `POST /tenants/me/switch`, `GET /tenants/me/shops` (`apps/backend/src/api/tenants/me/`), a submenu «Сменить магазин» in `main-layout.tsx` | the list moves up into the «…» menu flat, with the domain under each name |
+| Shop switch inside one instance | `POST /tenants/me/switch`, `GET /tenants/me/shops` (`apps/backend/src/api/tenants/me/`), a submenu «Сменить магазин» in `main-layout.tsx` | the list moves up into the «…» menu flat, each shop by its domain only, the current one with a check |
 | Group of sites of one client | `tenant_group`, `tenant.group_id` (`docs/multitenancy/sites-one-db-many-storefronts.md`) | a group still lives inside one database; the owner link below joins shops across the two databases |
 | Shop's «Обзор» | `routes/home/home.tsx` over `GET /tenants/analytics/summary` | unchanged; «Сводка» reuses its shapes |
 | Cross-instance flow | the one-way catalog sync .ru → .com (`t-cherk-24`), product data only (`docs/instances/RULES.md` §1) | a second flow: totals, both ways, through the relay |
 | Single sign-in pattern | the school's SSO (`api/store/tenant/sso/`): a 60 s single-use code the school's server redeems at the shop | same idea, but signed so that .com never calls into RU |
 
-## 3. Identity: one sign-in, kept in Russia
+## 3. Identity: one sign-in for all the owner's shops, kept in Russia
+
+**v4 (Ivan 21.10, mark 33 on prototype v3, verbatim):** «я же говорил что у нас должна быть
+центральная авторизация, вошел в один магазин - вошел во все. А если это не безопасно, то можно к
+конфиденциальным данным при переходе на страницу, которая их содержит запрашивать авторизацию
+отдельно. так много где сделано.» This section is rewritten to that model: one session across the
+owner's shops, and a second confirmation only on pages with confidential data.
 
 The owner of cherkashino.ru and cherkashino.com is a Russian citizen. 152-FZ art. 18 p. 5 wants her
-personal data recorded and kept first in a database in Russia. So the account that both panels
-trust lives in the RU database.
+personal data recorded and kept first in a database in Russia. So the account that every panel
+trusts lives in the RU database, and the one sign-in form is the RU one.
 
 **Records.**
 
 - RU database, new table `owner_identity`: `id` = `owner_sub` (`own_<ULID>`), the link to her
-  existing `tenant_admin` row on RU, `created_at`. Her e-mail and password stay where they are
-  today (the RU `auth_identity`).
+  existing `tenant_admin` row on RU, `created_at`, `confirmed_at` (the last confirmation, see below).
+  Her e-mail and password stay where they are today (the RU `auth_identity`).
 - INTL database, new table `owner_link`: `owner_sub`, `tenant_admin_id` (her .com row),
   `linked_at`. No e-mail is copied for this; the .com row already has the e-mail it had before.
 
-**Sign-in on .com (prototype states «Вход»).**
+**Signed in to one shop — signed in to all.**
 
-1. The .com panel shows «Войти через cherkashino.ru» (`login-com`).
-2. The browser goes to `panel.cherkashino.ru/owner-sso?aud=intl&state=<nonce>`. If the RU session
-   is alive, nothing is asked. Otherwise the owner signs in on RU once (`login-ru`).
-3. The RU backend signs a ticket: ES256 JWT with `iss` = RU, `aud` = `panel.cherkashino.com`,
-   `sub` = `owner_sub`, `tenants` = the .com tenant ids she may open, `nonce`, `jti`, `exp` = 60 s.
-4. The browser carries it to `panel.cherkashino.com/sso#ticket=…`. The fragment never reaches a
-   server log.
-5. The .com backend checks the signature with RU's public key (pinned in its environment, two
+1. The owner signs in once, on the RU form (`login-ru`): e-mail and password or Telegram. That
+   creates the owner session on RU. It covers every shop of the owner on RU at once (the existing
+   `POST /tenants/me/switch` inside one instance).
+2. The .com panel has no sign-in form of its own for her. When it has no session, it sends the
+   browser to `panel.cherkashino.ru/owner-sso?aud=intl&state=<nonce>` at once. The RU session is
+   alive, so nothing is asked: the RU backend signs a ticket (ES256 JWT, `iss` = RU, `aud` =
+   `panel.cherkashino.com`, `sub` = `owner_sub`, `tenants` = the .com tenant ids she may open,
+   `auth_time`, `nonce`, `jti`, `exp` = 60 s) and sends the browser back to
+   `panel.cherkashino.com/sso#ticket=…`. The fragment never reaches a server log.
+3. The .com backend checks the signature with RU's public key (pinned in its environment, two
    keys during a rotation), `aud`, `exp`, `nonce` against its own cookie, and that `jti` was never
    used. Then it mints the usual panel session for her `tenant_admin` row.
-6. The first time only, `owner_link` is empty for this `owner_sub`. The panel asks for the old
-   .com password once (`link-first`), proving the .com row is hers, and writes the link.
+4. The whole hop is a pair of redirects, well under a second, with no screen of its own. The owner
+   sees the .com page open (`overview-com`, `menu-com`). If a ticket comes late or twice, the .com
+   panel silently starts the hop again; there is no error screen for it.
+5. If the owner opens cherkashino.com first, with no RU session, the hop lands on the RU sign-in
+   form; after it she is back on the .com page she asked for and every other shop is open too.
+6. The .com session never outlives the RU one: it is capped at the RU session's end (carried in
+   the ticket), and «Выйти из всех магазинов» ends the RU session and sends a signed sign-out for
+   `owner_sub` to .com over the relay's outbound connection (§4), which ends the .com sessions.
 
-**The «…» switch (prototype states «Переключение»).**
+**The «…» menu.** It lists the owner's shops by domain only (cherkashino.ru, cherkashino.com), the
+current one with a check on the right (Ivan 21.10, mark 33). Any shop opens at once: inside one
+instance by `POST /tenants/me/switch`, across instances by the hop above.
 
-- From .ru to .com: the RU panel asks its backend for a ticket for `aud = intl`, then opens
-  `panel.cherkashino.com/sso#ticket=…` (`switching`). A ticket used twice or after a minute gets a
-  plain explanation (`ticket-used`).
-- From .com to .ru: the browser goes straight to `panel.cherkashino.ru`; the RU session is the one
-  the owner already has. If it ended, she signs in on RU once.
-- Inside one instance the existing `POST /tenants/me/switch` stays as it is.
+**A shop on another e-mail.** If one of the owner's .com shops is registered to another e-mail,
+the RU identity does not know it is hers yet. Its row in «Сводка» says so (`summary-missing`), and
+it is added once, by a code sent to that shop's e-mail (`link-first`), which writes `owner_link`.
+After that it opens from the menu like any other shop. (v3 asked for the old .com password here;
+a code to the shop's own e-mail proves the same thing without a second password.)
+
+**Pages that ask again.** A page that shows buyers' personal data or changes who can reach the
+shops asks the owner to confirm the sign-in if her last confirmation is older than 15 minutes
+(`confirm-ru`): the RU password or a Telegram confirmation, on the page itself, the data hidden
+until then. On .com the same page starts the hop with `max_age=900`; RU asks for the confirmation
+and the new ticket carries the fresh `auth_time`. The pages:
+
+- «Клиенты»: the list of buyers and a buyer's card;
+- an order's card with the buyer's name, phone and delivery address;
+- exports of orders and customers;
+- staff and access rights;
+- payout details and payouts;
+- the owner's e-mail, password and Telegram link;
+- marketplace and payment API keys.
+
+Everything else — «Сводка», «Обзор», a source's statistics, the catalog, orders without the
+buyer's data, the switch between shops — never asks.
+
+**What of Ivan's model cannot be done literally, and why.** One cookie cannot cover
+cherkashino.ru and cherkashino.com: they are different registrable domains, and browsers do not
+share cookies between them. So «signed in to one — signed in to all» is done by the invisible hop
+above, not by a shared cookie; for the owner the result is the same. And the sign-in form is always
+the RU one, also when she starts on .com: her credentials are personal data first recorded in
+Russia (152-FZ art. 18 p. 5), so the .com host never takes her password. Nothing else of the model
+is dropped.
 
 **Owners of INTL-only shops** keep the .com sign-in they have (e-mail, Telegram). Nothing in this
 note touches them.
+
+**Prototype states, v3 → v4.** `login-com` is removed: .com has no sign-in screen of its own for an
+owner whose identity is in Russia. `switching` is removed: the hop has no screen. `ticket-used` is
+removed: a late or reused ticket is retried silently. `link-first` is rewritten: only for a shop on
+another e-mail, by a code from that shop's e-mail. `confirm-ru` is new: «Клиенты» asking to confirm.
+`login-ru` says that one sign-in opens every shop.
 
 ## 4. The relay: a server in Russia that takes totals and passes them on
 
@@ -171,7 +223,7 @@ is the only place totals are kept; no panel caches them.
 | Forged or replayed totals | Ed25519 signature per batch; every answer carries the request id it answers, used once; `seq` per source must grow; payloads older than 1 minute are refused |
 | A stolen sign-in ticket | 60 s life, single use (`jti` stored), bound to the .com browser's `nonce` cookie and to `aud`; carried in the URL fragment, so no server log holds it |
 | A stolen RU signing key | key in the RU backend's environment only; two keys pinned on .com so a rotation needs no downtime; a rotation is a runbook step |
-| Takeover of the owner's RU account opens both shops | the cost of one sign-in; a second factor for owners (Telegram confirmation) is slice 8 below |
+| Takeover of the owner's session opens every shop | the cost of one sign-in (Ivan's model, mark 33); buyers' data, access rights, payouts and keys ask to confirm the sign-in again after 15 minutes (§3, «Pages that ask again»), so a stolen session cookie alone does not open them; a second factor for owners (Telegram confirmation) is slice 8 below |
 | A small shop's numbers point at one buyer («1 order today») | no geography, no product per order, no time of day in the payload; a count of orders is not a person |
 | The relay or the connection is down | the other instance's rows say «не ответил» with «Повторить», the totals leave them out and say so; the panel's own sources are unaffected; the shops keep working |
 | Page loads used to pull totals out of Russia in bulk | totals leave only for a signed request of the .com relay naming an `owner_sub` with a live session on .com; the RU relay answers at most one request per owner per 2 s and logs every one |

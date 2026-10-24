@@ -424,6 +424,8 @@ kbd { font: inherit; }
 .pie-chart .seg-prod-rest { fill: var(--chart-rest); }
 .pie.has-pick path:not(.is-pick), .pie.has-pick .pie-legend li:not(.is-pick) { opacity: .4; }
 .pie-labels text { fill: #fff; font-size: 11px; font-weight: 500; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+/* the dark theme's hues are light: a dark figure on them */
+html.dark .pie-labels text { fill: var(--bg-base); }
 .pie-center { position: absolute; inset: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none; }
 .pie-center-value { font-size: 15px; line-height: 20px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .pie-center-caption { font-size: 11px; line-height: 14px; }
