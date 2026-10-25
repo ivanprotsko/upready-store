@@ -79,3 +79,9 @@ test("the label is lighter than the value: subtle grey label, base ink value", (
   // The hint stays under the value, in the subtle grey.
   assert.ok(value.indexOf("{row.hint ?") > value.indexOf("{row.value}"))
 })
+
+test("NoRecords grows with its text: a minimum height and its own top and bottom inset, not a fixed 150px", () => {
+  const source = componentOf(empty, "NoRecords")
+  assert.ok(source.includes("min-h-[150px]") && source.includes("py-6"))
+  assert.ok(!source.includes('"flex h-[150px]'), "a fixed height crops a message that wraps on a phone")
+})

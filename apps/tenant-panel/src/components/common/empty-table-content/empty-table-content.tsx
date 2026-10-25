@@ -9,6 +9,8 @@ import { Link } from "react-router-dom"
 // empty states sit at the start: icon, title, message and button on the left
 // edge of the section, at the rows' 24px inset, never in the middle. The column
 // says `text-start`, so a caller's `text-center` does not reach the text either.
+// `NoRecords` grows past 150px with its own 24px top and bottom: at 375 the
+// message wraps to three lines and the button used to sit on the frame.
 
 export type NoResultsProps = {
   title?: string
@@ -85,7 +87,7 @@ export const NoRecords = ({
   return (
     <div
       className={clx(
-        "flex h-[150px] w-full flex-col items-start justify-center gap-y-4 px-6",
+        "flex min-h-[150px] w-full flex-col items-start justify-center gap-y-4 px-6 py-6",
         className
       )}
     >
