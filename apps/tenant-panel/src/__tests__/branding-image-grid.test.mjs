@@ -135,3 +135,39 @@ test("the row hints the tiles replaced are gone from both catalogs", () => {
     assert.equal(en.brandingSettings.fields[key], undefined, `en fields.${key}`)
   }
 })
+
+/**
+ * t-2026-10-20-30 (Ivan 25.10 on «Логотип (светлая тема)» at 375: «здесь нужно
+ * сделать вертикальную ориентацию макетов, чтобы показывать мобильные версии
+ * шаблонов»; the lead's d-2026-10-25-18). Below `sm` the two logo tiles are
+ * portrait phones of the storefront; the social image and the favicon keep
+ * their shapes, and at `sm` and wider nothing changes.
+ */
+test("on a phone a logo tile is a portrait mockup of the storefront, light for the light logo and dark for the dark one", () => {
+  for (const id of ["logo_light", "logo_dark"]) {
+    assert.ok(tileOf(id).includes("name={shopName}"), `${id}'s phone reads the shop's name without a logo`)
+  }
+  for (const id of ["og_image", "favicon"]) {
+    assert.ok(!tileOf(id).includes("name="), `${id} keeps its own shape`)
+  }
+  assert.ok(page.includes('const shopName = branding?.shop_name_short || store?.name ||'), "the same fallback as HeaderPreview's name")
+
+  const tile = componentOf(file, "BrandingImageTile")
+  assert.ok(tile.includes('const phone = shape === "logo" && name !== undefined'))
+  assert.ok(tile.includes('<span className="sm:hidden">') && tile.includes("<StorefrontPhoneMockup url={url} name={name} dark={dark} />"), "the phone shows below sm only")
+  assert.ok(tile.includes('phone ? "hidden sm:flex" : "flex"'), "the 16:9 tile is back from sm")
+  assert.ok(tile.includes("aspect-video"), "the 16:9 tile itself is unchanged")
+
+  const mockup = componentOf(file, "StorefrontPhoneMockup")
+  assert.ok(mockup.includes("aspect-[9/19]"), "portrait, about 9:19")
+  assert.ok(mockup.includes('dark ? "hub-dark" : "hub-light"'), "pinned to its theme")
+  assert.ok(mockup.includes("<BrandingImage src={url}") && mockup.includes("fallback={name}"), "the logo in the header, or the name in its place")
+  assert.equal((mockup.match(/<MockupBlock className="aspect-\[4\/3\] w-full" \/>/g) ?? []).length, 1, "one hero block")
+  assert.ok(mockup.includes("{[0, 1].map((card) =>"), "two product cards")
+  assert.doesNotMatch(mockup, /\bt\(|₽|\$|\d+\s?(?:руб|RUB)/, "plain blocks: no invented text or prices")
+  assert.doesNotMatch(mockup, /\bui-(?:bg|fg|border)-/, "the preset's classes resolve on html and would follow the panel's theme")
+
+  const css = read("theme/hub-theme.css")
+  assert.ok(css.includes("\n.hub-light,\n:root {\n"), "hub-light takes the light tokens")
+  assert.ok(css.includes("\n.hub-dark,\n.dark {\n"), "hub-dark takes the dark tokens")
+})

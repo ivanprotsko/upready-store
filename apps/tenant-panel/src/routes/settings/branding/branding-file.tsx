@@ -108,6 +108,56 @@ const TILE_IMAGE: Record<BrandingThumbShape, string> = {
   cover: "h-full w-full object-cover",
 }
 
+/** One plain block of the mockup's page: no text, no price, only a shape. */
+const MockupBlock = ({ className }: { className: string }) => (
+  <span className={clx("block rounded-md bg-[var(--hub-muted)]", className)} />
+)
+
+/**
+ * A logo tile on a phone (t-2026-10-20-30, Ivan 25.10 on «Логотип (светлая
+ * тема)» at 375: «здесь нужно сделать вертикальную ориентацию макетов, чтобы
+ * показывать мобильные версии шаблонов»; the lead's d-2026-10-25-18): the
+ * storefront's mobile page, portrait, about 9:19. Its header carries the logo,
+ * or the name in its place, the fallback of `HeaderPreview`; under it a quiet
+ * skeleton, one hero block and two product cards. The light logo's phone is
+ * always light and the dark logo's always dark, whatever the panel's theme
+ * (`.hub-light` / `.hub-dark` in hub-theme.css).
+ */
+export const StorefrontPhoneMockup = ({
+  url,
+  name,
+  dark = false,
+}: {
+  url: string | null | undefined
+  name: string
+  dark?: boolean
+}) => (
+  <span
+    className={clx(
+      dark ? "hub-dark" : "hub-light",
+      "flex aspect-[9/19] w-full flex-col overflow-hidden rounded-xl border border-[color:var(--hub-border)] bg-[var(--hub-background)]"
+    )}
+    data-testid="branding-phone-mockup"
+  >
+    <span className="flex h-10 shrink-0 items-center border-b border-[color:var(--hub-border)] px-3">
+      <span className="flex min-w-0 items-center truncate txt-compact-xsmall-plus uppercase text-[color:var(--hub-foreground)]">
+        <BrandingImage src={url} className="h-5 w-auto max-w-full object-contain" fallback={name} />
+      </span>
+    </span>
+    <span className="flex flex-1 flex-col gap-y-2 p-2">
+      <MockupBlock className="aspect-[4/3] w-full" />
+      <span className="grid grid-cols-2 gap-2">
+        {[0, 1].map((card) => (
+          <span key={card} className="flex flex-col gap-y-1">
+            <MockupBlock className="aspect-square w-full" />
+            <MockupBlock className="h-1.5 w-3/4" />
+          </span>
+        ))}
+      </span>
+    </span>
+  </span>
+)
+
 /**
  * One tile of the read page's 2×2 image grid (t-2026-10-14-01, Ivan 14.10:
  * «сеткой 2х2 вместо строк и сразу поставить плейсхолдеры изображений»): the
@@ -121,6 +171,7 @@ export const BrandingImageTile = ({
   url,
   shape,
   dark = false,
+  name,
 }: {
   id: string
   to: string
@@ -128,7 +179,12 @@ export const BrandingImageTile = ({
   url: string | null | undefined
   shape: BrandingThumbShape
   dark?: boolean
+  /** A logo tile's phone mockup reads the name where there is no logo. */
+  name?: string
 }) => {
+  // Below `sm` a logo is the storefront's phone; at `sm` and wider, and for the
+  // social image and the favicon, the tile stays the 16:9 picture.
+  const phone = shape === "logo" && name !== undefined
   const { t } = useTranslation()
 
   return (
@@ -137,9 +193,15 @@ export const BrandingImageTile = ({
       data-testid={`branding-tile-${id}`}
       className="flex min-w-0 flex-col gap-y-2 rounded-lg p-2 outline-none transition-fg hover:bg-ui-bg-base-hover focus-visible:shadow-borders-focus"
     >
+      {phone && name !== undefined ? (
+        <span className="sm:hidden">
+          <StorefrontPhoneMockup url={url} name={name} dark={dark} />
+        </span>
+      ) : null}
       <span
         className={clx(
-          "flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border border-ui-border-base",
+          "aspect-video w-full items-center justify-center overflow-hidden rounded-md border border-ui-border-base",
+          phone ? "hidden sm:flex" : "flex",
           dark ? "bg-ui-contrast-bg-base" : "bg-ui-bg-subtle"
         )}
       >

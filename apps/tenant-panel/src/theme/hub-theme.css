@@ -33,6 +33,11 @@
 
 /* ---- Layer 1: hub-v2 tokens (dashboard-ui globals.css) ---------------------------------------------- */
 
+/* `.hub-light` and `.hub-dark` pin one picture to a theme whatever the panel's own (t-2026-10-20-30): the
+   branding page's phone mockups of the storefront, the light logo always on light, the dark logo always on
+   dark. They swap the `--hub-*` tokens only, so a pinned picture paints with `var(--hub-*)`, not the
+   preset's `ui-*` classes, which layer 2 resolves once on `html`. */
+.hub-light,
 :root {
   --hub-background: oklch(1 0 0);
   --hub-foreground: oklch(0.145 0 0);
@@ -64,6 +69,7 @@
   --hub-focus-alpha: 30%;
 }
 
+.hub-dark,
 .dark {
   --hub-background: oklch(0.145 0 0);
   --hub-foreground: oklch(0.985 0 0);
