@@ -13,6 +13,8 @@ import { EYEBROW } from "@modules/journal/typography"
  * 720 px the rail beside the text has no room, so a pill in the bottom corner opens a bottom
  * sheet with the same entries. An entry scrolls to its section and closes the sheet; so do
  * the backdrop, the cross and Escape. From 720 px the pill is hidden and the rail takes over.
+ * The store's bottom bar (4rem, shown below 1024 px) is always under the pill, so the pill
+ * floats 1rem above it.
  */
 export default function ArticleTocFab({
   items,
@@ -52,7 +54,7 @@ export default function ArticleTocFab({
         aria-expanded={open}
         onClick={() => setOpen(true)}
         className="fixed end-4 z-40 inline-flex h-11 items-center gap-2 rounded-full bg-ui-fg-base pe-5 ps-4 text-sm font-medium text-ui-bg-base shadow-lg transition-transform active:scale-95"
-        style={{ bottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
+        style={{ bottom: "calc(env(safe-area-inset-bottom) + 5rem)" }}
         data-testid="article-toc-fab-button"
       >
         <ListBullet aria-hidden />
