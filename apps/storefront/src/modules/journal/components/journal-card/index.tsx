@@ -16,6 +16,7 @@ export default function JournalCard({
   article,
   sizes,
   clone = false,
+  excerpt = true,
   "data-testid": dataTestid = "journal-card",
 }: {
   article: Pick<TenantArticleSummary, "slug" | "title" | "excerpt" | "cover_url" | "category">
@@ -23,6 +24,8 @@ export default function JournalCard({
   sizes: string
   /** A carousel's loop clone: clickable, never reached by Tab. */
   clone?: boolean
+  /** The three lines of excerpt under the title; a journal page's rubric rail goes without. */
+  excerpt?: boolean
   "data-testid"?: string
 }) {
   return (
@@ -51,7 +54,7 @@ export default function JournalCard({
       <h3 className="text-balance text-base font-medium leading-snug text-ui-fg-base transition-colors duration-200 group-hover:text-ui-fg-interactive small:text-lg medium:text-xl">
         {article.title}
       </h3>
-      {article.excerpt ? (
+      {excerpt && article.excerpt ? (
         <p className="line-clamp-3 text-sm leading-relaxed text-ui-fg-subtle medium:text-base">
           {article.excerpt}
         </p>
