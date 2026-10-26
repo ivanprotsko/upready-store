@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server"
 
-import { listTenantArticles } from "@lib/data/tenant-articles"
+import { listTenantArticles, type TenantArticleSummary } from "@lib/data/tenant-articles"
 import JournalCard from "@modules/journal/components/journal-card"
 
 import { JOURNAL_RAIL_LIMIT, journalRailCopies } from "./layout"
@@ -41,6 +41,34 @@ export default async function JournalRail({ olavka = false }: { olavka?: boolean
     getTranslations("OlavkaHome.slider"),
   ])
 
+  return (
+    <JournalRailSection
+      articles={articles}
+      title={olavka ? tOlavka("title") : tJournal("feedTitle")}
+      headingId={HEADING_ID}
+      labels={{ previous: tSlider("previous"), next: tSlider("next") }}
+    />
+  )
+}
+
+/**
+ * The rail itself, for a list the caller already has: the home page's newest articles, or
+ * an article page's «Читайте также» (the rest of the journal, starting with the next one).
+ * An empty list renders nothing.
+ */
+export function JournalRailSection({
+  articles,
+  title,
+  headingId,
+  labels,
+  "data-testid": dataTestid = "journal-rail",
+}: {
+  articles: Pick<TenantArticleSummary, "slug" | "title" | "excerpt" | "cover_url" | "category">[]
+  title: string
+  headingId: string
+  labels: { previous: string; next: string }
+  "data-testid"?: string
+}) {
   if (!articles.length) {
     return null
   }
@@ -50,21 +78,21 @@ export default async function JournalRail({ olavka = false }: { olavka?: boolean
   return (
     <section
       className={`${styles.rail} py-10 small:py-14`}
-      aria-labelledby={HEADING_ID}
-      data-testid="journal-rail"
+      aria-labelledby={headingId}
+      data-testid={dataTestid}
     >
       <JournalRailTrack
         heading={
           <h2
-            id={HEADING_ID}
+            id={headingId}
             className="text-xl font-semibold tracking-[-0.02em] text-ui-fg-base small:text-2xl"
           >
-            {olavka ? tOlavka("title") : tJournal("feedTitle")}
+            {title}
           </h2>
         }
         setSize={articles.length}
         loop={copies.length > 1}
-        labels={{ previous: tSlider("previous"), next: tSlider("next") }}
+        labels={labels}
       >
         {copies.flatMap((copy) =>
           articles.map((article) => {
