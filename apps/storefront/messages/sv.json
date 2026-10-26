@@ -563,7 +563,11 @@
     "copyLink": "Kopiera länk",
     "linkCopied": "Länk kopierad",
     "allCategories": "Alla ämnen",
-    "categories": "Ämnen"
+    "categories": "Ämnen",
+    "feed": "Flöde",
+    "toc": "I den här artikeln",
+    "readNext": "Läs vidare",
+    "toCatalog": "Till katalogen"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Hälsomagasin"
+      "title": "Hälsomagasin",
+      "subtitle": "Örter, ritualer, program och berättelser — för dig som ser hälsa som en vana, inte en sista utväg."
     },
     "slider": {
       "course": "Kurs",

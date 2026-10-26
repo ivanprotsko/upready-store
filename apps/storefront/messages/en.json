@@ -563,7 +563,11 @@
     "copyLink": "Copy link",
     "linkCopied": "Link copied",
     "allCategories": "All topics",
-    "categories": "Journal topics"
+    "categories": "Journal topics",
+    "feed": "Feed",
+    "toc": "In this article",
+    "readNext": "Read next",
+    "toCatalog": "Browse catalog"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Health journal"
+      "title": "Health journal",
+      "subtitle": "Herbs, rituals, programs and stories — for those who treat health as a practice, not a last resort."
     },
     "slider": {
       "course": "Course",

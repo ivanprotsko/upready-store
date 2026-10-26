@@ -563,7 +563,11 @@
     "copyLink": "Kopyahin ang link",
     "linkCopied": "Nakopya ang link",
     "allCategories": "Lahat ng paksa",
-    "categories": "Mga paksa"
+    "categories": "Mga paksa",
+    "feed": "Pinakabago",
+    "toc": "Sa artikulong ito",
+    "readNext": "Basahin ang susunod",
+    "toCatalog": "Pumunta sa katalogo"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Journal ng kalusugan"
+      "title": "Journal ng kalusugan",
+      "subtitle": "Mga halamang gamot, ritwal, programa at kuwento — para sa mga itinuturing ang kalusugan bilang gawi, hindi huling paraan."
     },
     "slider": {
       "course": "Kurso",

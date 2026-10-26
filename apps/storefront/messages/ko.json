@@ -563,7 +563,11 @@
     "copyLink": "링크 복사",
     "linkCopied": "링크를 복사했습니다",
     "allCategories": "전체 주제",
-    "categories": "주제"
+    "categories": "주제",
+    "feed": "피드",
+    "toc": "이 글의 내용",
+    "readNext": "다음 글",
+    "toCatalog": "카탈로그 보기"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "건강 매거진"
+      "title": "건강 매거진",
+      "subtitle": "허브, 습관, 프로그램, 그리고 이야기 — 건강을 마지막 수단이 아닌 일상의 실천으로 여기는 분들을 위해."
     },
     "slider": {
       "course": "코스",

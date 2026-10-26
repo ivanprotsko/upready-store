@@ -563,7 +563,11 @@
     "copyLink": "Link kopieren",
     "linkCopied": "Link kopiert",
     "allCategories": "Alle Rubriken",
-    "categories": "Rubriken"
+    "categories": "Rubriken",
+    "feed": "Neueste",
+    "toc": "In diesem Artikel",
+    "readNext": "Weiterlesen",
+    "toCatalog": "Zum Katalog"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Gesundheitsmagazin"
+      "title": "Gesundheitsmagazin",
+      "subtitle": "Kräuter, Rituale, Programme und Geschichten — für alle, die Gesundheit als Praxis verstehen, nicht als Notfallmaßnahme."
     },
     "slider": {
       "course": "Kurs",

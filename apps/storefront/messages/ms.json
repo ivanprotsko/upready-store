@@ -563,7 +563,11 @@
     "copyLink": "Salin pautan",
     "linkCopied": "Pautan disalin",
     "allCategories": "Semua topik",
-    "categories": "Topik"
+    "categories": "Topik",
+    "feed": "Suapan",
+    "toc": "Dalam artikel ini",
+    "readNext": "Baca seterusnya",
+    "toCatalog": "Ke katalog"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Jurnal kesihatan"
+      "title": "Jurnal kesihatan",
+      "subtitle": "Herba, ritual, program dan kisah — untuk mereka yang menjadikan kesihatan satu amalan, bukan jalan terakhir."
     },
     "slider": {
       "course": "Kursus",

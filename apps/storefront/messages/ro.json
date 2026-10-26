@@ -563,7 +563,11 @@
     "copyLink": "Copiază linkul",
     "linkCopied": "Link copiat",
     "allCategories": "Toate rubricile",
-    "categories": "Rubrici"
+    "categories": "Rubrici",
+    "feed": "Flux",
+    "toc": "În acest articol",
+    "readNext": "Citește în continuare",
+    "toCatalog": "Către catalog"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Jurnal de sănătate"
+      "title": "Jurnal de sănătate",
+      "subtitle": "Plante, ritualuri, programe și povești — pentru cei care privesc sănătatea ca pe o practică, nu ca pe o ultimă soluție."
     },
     "slider": {
       "course": "Curs",

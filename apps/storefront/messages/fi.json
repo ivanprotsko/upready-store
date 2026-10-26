@@ -563,7 +563,11 @@
     "copyLink": "Kopioi linkki",
     "linkCopied": "Linkki kopioitu",
     "allCategories": "Kaikki aiheet",
-    "categories": "Aiheet"
+    "categories": "Aiheet",
+    "feed": "Syöte",
+    "toc": "Tässä artikkelissa",
+    "readNext": "Lue seuraavaksi",
+    "toCatalog": "Luetteloon"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Terveyslehti"
+      "title": "Terveyslehti",
+      "subtitle": "Yrttejä, rituaaleja, ohjelmia ja tarinoita — niille, joille terveys on käytäntö eikä hätäratkaisu."
     },
     "slider": {
       "course": "Kurssi",

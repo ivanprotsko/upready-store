@@ -563,7 +563,11 @@
     "copyLink": "Copiar enlace",
     "linkCopied": "Enlace copiado",
     "allCategories": "Todas las secciones",
-    "categories": "Secciones"
+    "categories": "Secciones",
+    "feed": "Novedades",
+    "toc": "En este artículo",
+    "readNext": "Seguir leyendo",
+    "toCatalog": "Ir al catálogo"
   },
   "LanguageSelect": {
     "locales": {
@@ -1239,7 +1243,8 @@
   },
   "OlavkaHome": {
     "journal": {
-      "title": "Revista de salud"
+      "title": "Revista de salud",
+      "subtitle": "Hierbas, rituales, programas e historias — para quienes viven la salud como una práctica y no como un último recurso."
     },
     "slider": {
       "course": "Curso",
