@@ -41,6 +41,10 @@ export default async function JournalRail({ olavka = false }: { olavka?: boolean
     getTranslations("OlavkaHome.slider"),
   ])
 
+  if (!articles.length) {
+    return null
+  }
+
   return (
     <JournalRailSection
       articles={articles}
