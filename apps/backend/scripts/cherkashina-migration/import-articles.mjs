@@ -166,6 +166,25 @@ const nz = (v) => {
   return text.length ? text : null;
 };
 
+/**
+ * The source keeps a category SLUG (`peptides`), the shop shows a word. These are the
+ * words the old storefront printed above each card and article (chrxnasdmds
+ * `articles-generated.ts` and `articles-en-part*.json`, field `eyebrow`). A slug with no
+ * entry goes over as written, a locale with no entry falls back to English.
+ */
+const CATEGORY_LABELS = {
+  peptides: { ru: "Пептиды", en: "Peptides" },
+  detox: { ru: "Детокс", en: "Detox" },
+  cleansing: { ru: "Очищение", en: "Cleansing" },
+};
+
+const categoryLabel = (slug, locale) => {
+  const key = nz(slug);
+  if (!key) return null;
+  const labels = CATEGORY_LABELS[key.toLowerCase()];
+  return labels ? (labels[locale] ?? labels.en) : key;
+};
+
 // ---------- target
 async function login() {
   const res = await api.post(
@@ -228,6 +247,7 @@ const desired = (src, coverUrl) => ({
   body: src.body ?? "",
   published: true,
   published_at: isoOrNull(src.published_at),
+  category: categoryLabel(src.category, src.locale),
   tags: parseTags(src.tags ?? src.category),
   seo_title: nz(src.seo_title),
   seo_description: nz(src.seo_description),
@@ -241,6 +261,7 @@ const sameAsTarget = (want, have) =>
   (have.body ?? "") === want.body &&
   have.published === want.published &&
   isoOrNull(have.published_at) === want.published_at &&
+  (have.category ?? null) === want.category &&
   JSON.stringify(have.tags ?? []) === JSON.stringify(want.tags) &&
   (have.seo_title ?? null) === want.seo_title &&
   (have.seo_description ?? null) === want.seo_description;
