@@ -563,7 +563,11 @@
     "copyLink": "Kopiuj link",
     "linkCopied": "Link skopiowany",
     "allCategories": "Wszystkie rubryki",
-    "categories": "Rubryki"
+    "categories": "Rubryki",
+    "feed": "Aktualności",
+    "toc": "W tym artykule",
+    "readNext": "Czytaj dalej",
+    "toCatalog": "Do katalogu"
   },
   "LanguageSelect": {
     "locales": {
@@ -1238,6 +1242,10 @@
     "lost": "Zagubiona"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Magazyn zdrowia",
+      "subtitle": "Zioła, rytuały, programy i historie — dla tych, którzy traktują zdrowie jak praktykę, a nie ostateczność."
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "Przejdź do „{title}”",

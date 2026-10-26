@@ -563,7 +563,11 @@
     "copyLink": "リンクをコピー",
     "linkCopied": "リンクをコピーしました",
     "allCategories": "すべてのテーマ",
-    "categories": "テーマ"
+    "categories": "テーマ",
+    "feed": "フィード",
+    "toc": "この記事の内容",
+    "readNext": "次の記事",
+    "toCatalog": "カタログへ"
   },
   "LanguageSelect": {
     "locales": {
@@ -1238,6 +1242,10 @@
     "lost": "紛失"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "健康の読みもの",
+      "subtitle": "ハーブ、習慣、プログラム、そして体験談。健康を最後の手段ではなく、日々の実践と考える人のために。"
+    },
     "slider": {
       "course": "コース",
       "goTo": "「{title}」に移動",

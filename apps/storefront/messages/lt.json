@@ -563,7 +563,11 @@
     "copyLink": "Kopijuoti nuorodą",
     "linkCopied": "Nuoroda nukopijuota",
     "allCategories": "Visos rubrikos",
-    "categories": "Rubrikos"
+    "categories": "Rubrikos",
+    "feed": "Naujienos",
+    "toc": "Šiame straipsnyje",
+    "readNext": "Skaityti toliau",
+    "toCatalog": "Į katalogą"
   },
   "LanguageSelect": {
     "locales": {
@@ -1238,6 +1242,10 @@
     "lost": "Pamesta"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Sveikatos žurnalas",
+      "subtitle": "Žolelės, ritualai, programos ir istorijos — tiems, kam sveikata yra praktika, o ne kraštutinė priemonė."
+    },
     "slider": {
       "course": "Kursas",
       "goTo": "Eiti į „{title}“",

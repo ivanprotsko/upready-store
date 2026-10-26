@@ -563,7 +563,11 @@
     "copyLink": "Hivatkozás másolása",
     "linkCopied": "Hivatkozás másolva",
     "allCategories": "Minden rovat",
-    "categories": "Rovatok"
+    "categories": "Rovatok",
+    "feed": "Hírfolyam",
+    "toc": "Ebben a cikkben",
+    "readNext": "Olvasd tovább",
+    "toCatalog": "A katalógushoz"
   },
   "LanguageSelect": {
     "locales": {
@@ -1238,6 +1242,10 @@
     "lost": "Elveszett"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Egészségmagazin",
+      "subtitle": "Gyógynövények, rituálék, programok és történetek — azoknak, akik az egészséget gyakorlatnak tekintik, nem végső megoldásnak."
+    },
     "slider": {
       "course": "Kurzus",
       "goTo": "Ugrás ide: „{title}”",

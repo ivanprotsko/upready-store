@@ -563,7 +563,11 @@
     "copyLink": "Bağlantıyı kopyala",
     "linkCopied": "Bağlantı kopyalandı",
     "allCategories": "Tüm konular",
-    "categories": "Konular"
+    "categories": "Konular",
+    "feed": "Akış",
+    "toc": "Bu makalede",
+    "readNext": "Sıradaki yazı",
+    "toCatalog": "Kataloğa git"
   },
   "LanguageSelect": {
     "locales": {
@@ -1238,6 +1242,10 @@
     "lost": "Kayboldu"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Sağlık dergisi",
+      "subtitle": "Bitkiler, ritüeller, programlar ve hikâyeler — sağlığı son çare değil, bir pratik olarak görenler için."
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "“{title}” öğesine git",

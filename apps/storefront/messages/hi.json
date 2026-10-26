@@ -563,7 +563,11 @@
     "copyLink": "लिंक कॉपी करें",
     "linkCopied": "लिंक कॉपी हो गया",
     "allCategories": "सभी विषय",
-    "categories": "विषय"
+    "categories": "विषय",
+    "feed": "फ़ीड",
+    "toc": "इस लेख में",
+    "readNext": "आगे पढ़ें",
+    "toCatalog": "कैटलॉग देखें"
   },
   "LanguageSelect": {
     "locales": {
@@ -1238,6 +1242,10 @@
     "lost": "खो गया"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "स्वास्थ्य पत्रिका",
+      "subtitle": "जड़ी-बूटियाँ, अनुष्ठान, कार्यक्रम और कहानियाँ — उनके लिए जो सेहत को आपात उपाय नहीं, रोज़ का अभ्यास मानते हैं।"
+    },
     "slider": {
       "course": "कोर्स",
       "goTo": "“{title}” पर जाएं",

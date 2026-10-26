@@ -563,7 +563,11 @@
     "copyLink": "Copier le lien",
     "linkCopied": "Lien copié",
     "allCategories": "Toutes les rubriques",
-    "categories": "Rubriques"
+    "categories": "Rubriques",
+    "feed": "Fil",
+    "toc": "Dans cet article",
+    "readNext": "À lire ensuite",
+    "toCatalog": "Voir le catalogue"
   },
   "LanguageSelect": {
     "locales": {
@@ -1238,6 +1242,10 @@
     "lost": "Perdu"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Journal santé",
+      "subtitle": "Plantes, rituels, programmes et histoires — pour celles et ceux qui vivent la santé comme une pratique, pas comme un dernier recours."
+    },
     "slider": {
       "course": "Cours",
       "goTo": "Aller à « {title} »",
