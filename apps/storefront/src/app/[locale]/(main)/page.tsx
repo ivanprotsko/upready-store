@@ -3,6 +3,7 @@ import { Fragment, Suspense } from "react"
 
 import CategoryTiles from "@modules/home/components/category-tiles"
 import HomeBrands from "@modules/home/components/home-brands"
+import JournalRail from "@modules/journal/components/journal-rail"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import {
   DEFAULT_BLOCK_ORDER,
@@ -10,9 +11,7 @@ import {
   DEFAULT_LISTING,
   DEFAULT_TILES,
   OLAVKA_HOME_BLOCKS,
-  OLAVKA_HOME_BLOCKS_AFTER,
   OLAVKA_HOME_ORDER,
-  OLAVKA_HOME_ORDER_AFTER,
   HERO_VARIANTS,
   LISTING_VARIANTS,
   type HomeBlockKey,
@@ -234,13 +233,9 @@ export default async function Home() {
       ))}
       {/* The shop's brands, when it keeps a `brands` category (ask a0e1); nothing otherwise. */}
       <HomeBrands />
-      {/* And the Olavka shop's blocks that close the page, under the tenant's own:
-          `OLAVKA_HOME_ORDER_AFTER` in the same file. */}
-      {olavka &&
-        OLAVKA_HOME_ORDER_AFTER.map((block) => {
-          const Block = OLAVKA_HOME_BLOCKS_AFTER[block]
-          return <Block key={block} />
-        })}
+      {/* The shop's journal closes the page (t-2026-10-05-03): every shop with a published
+          article gets the rail, the Olavka shops under their own «Журнал здоровья» title. */}
+      <JournalRail olavka={olavka} />
     </>
   )
 }

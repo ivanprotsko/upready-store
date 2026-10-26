@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react"
 
-import styles from "./olavka-journal-rail.module.css"
+import styles from "./journal-rail.module.css"
 
 // useLayoutEffect warns on the server; this island only ever positions in a browser.
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect
@@ -32,7 +32,7 @@ const ARROW_CLASS =
  * right-to-left track counts its scroll position from 0 down, hence `startOf`. When the
  * track's width changes, the row comes back to the card that led it.
  */
-export default function OlavkaJournalRailTrack({
+export default function JournalRailTrack({
   heading,
   setSize,
   loop,
@@ -199,7 +199,7 @@ export default function OlavkaJournalRailTrack({
             disabled={!arrows.previous}
             aria-label={labels.previous}
             aria-controls={trackId}
-            data-testid="olavka-journal-rail-prev"
+            data-testid="journal-rail-prev"
           >
             <ChevronLeft aria-hidden className="rtl:rotate-180" />
           </button>
@@ -210,7 +210,7 @@ export default function OlavkaJournalRailTrack({
             disabled={!arrows.next}
             aria-label={labels.next}
             aria-controls={trackId}
-            data-testid="olavka-journal-rail-next"
+            data-testid="journal-rail-next"
           >
             <ChevronRight aria-hidden className="rtl:rotate-180" />
           </button>
@@ -221,7 +221,7 @@ export default function OlavkaJournalRailTrack({
         id={trackId}
         className={styles.track}
         data-loop={loop || undefined}
-        data-testid="olavka-journal-rail-track"
+        data-testid="journal-rail-track"
       >
         {children}
       </ul>

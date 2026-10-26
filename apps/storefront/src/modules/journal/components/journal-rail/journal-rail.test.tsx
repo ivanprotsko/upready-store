@@ -11,7 +11,7 @@ import {
   JOURNAL_RAIL_LIMIT,
   JOURNAL_RAIL_PER_VIEW,
   journalRailCopies,
-} from "./olavka-journal-rail-layout"
+} from "./layout"
 
 /**
  * ask d11e. Ivan: «для cherkashino .ru и .com нужно сделать "журнал", в точности такой же,
@@ -20,7 +20,7 @@ import {
  * The component is an async server component, so it is called and its markup read.
  */
 
-const STOREFRONT = join(__dirname, "../../../..")
+const STOREFRONT = join(__dirname, "../../../../..")
 const messages = JSON.parse(readFileSync(join(STOREFRONT, "messages/ru.json"), "utf8"))
 
 let feed: TenantArticleSummary[] = []
@@ -68,9 +68,9 @@ const article = (n: number, over: Partial<TenantArticleSummary> = {}): TenantArt
   ...over,
 })
 
-const render = async () => {
-  const { default: OlavkaJournalRail } = await import("./olavka-journal-rail")
-  const element = await OlavkaJournalRail()
+const render = async (olavka = true) => {
+  const { default: JournalRail } = await import(".")
+  const element = await JournalRail({ olavka })
   return element === null ? null : renderToStaticMarkup(element)
 }
 
@@ -78,7 +78,7 @@ const count = (html: string, pattern: RegExp) => html.match(pattern)?.length ?? 
 
 // The first import pulls `@medusajs/ui` in; under a full parallel run it outlasts vitest's
 // default 5 s.
-describe("OlavkaJournalRail, «Журнал здоровья» on the home page", { timeout: 30_000 }, () => {
+describe("JournalRail, the journal on the home page", { timeout: 30_000 }, () => {
   beforeEach(() => {
     listTenantArticles.mockClear()
   })
@@ -98,11 +98,11 @@ describe("OlavkaJournalRail, «Журнал здоровья» on the home page"
     feed = [article(1), article(2), article(3)]
     const html = (await render()) as string
 
-    expect(html).toMatch(/<h2[^>]*id="olavka-journal-rail-heading"[^>]*>Журнал здоровья<\/h2>/)
-    expect(html).toContain('aria-labelledby="olavka-journal-rail-heading"')
+    expect(html).toMatch(/<h2[^>]*id="journal-rail-heading"[^>]*>Журнал здоровья<\/h2>/)
+    expect(html).toContain('aria-labelledby="journal-rail-heading"')
     expect(count(html, /<li /g)).toBe(3)
-    expect(count(html, /data-testid="olavka-journal-card"/g)).toBe(3)
-    expect(html).toMatch(/<a[^>]*href="\/ru\/journal\/statya-2"[^>]*data-testid="olavka-journal-card"/)
+    expect(count(html, /data-testid="journal-card"/g)).toBe(3)
+    expect(html).toMatch(/<a[^>]*href="\/ru\/journal\/statya-2"[^>]*data-testid="journal-card"/)
     expect(html).toContain('src="https://cdn.test/cover-2.webp"')
     expect(html).toContain(">Пептиды</span>")
     expect(html).toMatch(/<h3[^>]*>Статья 2<\/h3>/)
@@ -114,10 +114,10 @@ describe("OlavkaJournalRail, «Журнал здоровья» on the home page"
     const html = (await render()) as string
 
     expect(count(html, /data-copy="real"/g)).toBe(JOURNAL_RAIL_PER_VIEW)
-    expect(html).not.toContain("olavka-journal-card-clone")
+    expect(html).not.toContain("journal-card-clone")
     expect(count(html, /<li[^>]*aria-hidden/g)).toBe(0)
     expect(html).not.toContain("data-loop=")
-    expect(count(html, /<button[^>]*disabled=""[^>]*data-testid="olavka-journal-rail-(prev|next)"/g)).toBe(2)
+    expect(count(html, /<button[^>]*disabled=""[^>]*data-testid="journal-rail-(prev|next)"/g)).toBe(2)
   })
 
   it("loops a long rail: clone · real · clone, the clones hidden from a screen reader and from Tab", async () => {
@@ -131,13 +131,20 @@ describe("OlavkaJournalRail, «Журнал здоровья» on the home page"
       ...Array(9).fill("after"),
     ])
     expect(count(html, /<li[^>]*aria-hidden="true"/g)).toBe(18)
-    expect(count(html, /<a[^>]*tabindex="-1"[^>]*data-testid="olavka-journal-card-clone"/g)).toBe(18)
-    expect(count(html, /data-testid="olavka-journal-card"/g)).toBe(9)
-    expect(html).not.toMatch(/<a[^>]*tabindex="-1"[^>]*data-testid="olavka-journal-card"/)
+    expect(count(html, /<a[^>]*tabindex="-1"[^>]*data-testid="journal-card-clone"/g)).toBe(18)
+    expect(count(html, /data-testid="journal-card"/g)).toBe(9)
+    expect(html).not.toMatch(/<a[^>]*tabindex="-1"[^>]*data-testid="journal-card"/)
     expect(html).toContain('data-loop="true"')
     expect(html).not.toMatch(/<button[^>]*\sdisabled=""/)
-    expect(html).toMatch(/<button[^>]*aria-label="Назад"[^>]*data-testid="olavka-journal-rail-prev"/)
-    expect(html).toMatch(/<button[^>]*aria-label="Далее"[^>]*data-testid="olavka-journal-rail-next"/)
+    expect(html).toMatch(/<button[^>]*aria-label="Назад"[^>]*data-testid="journal-rail-prev"/)
+    expect(html).toMatch(/<button[^>]*aria-label="Далее"[^>]*data-testid="journal-rail-next"/)
+  })
+
+  it("names the rail «Журнал» for a shop that is not an Olavka one", async () => {
+    feed = [article(1)]
+    const html = (await render(false)) as string
+
+    expect(html).toMatch(/<h2[^>]*id="journal-rail-heading"[^>]*>Журнал<\/h2>/)
   })
 
   it("keeps a card whole when the article has no cover, rubric or excerpt", async () => {
@@ -160,7 +167,7 @@ describe("journalRailCopies", () => {
   })
 
   it("counts the widest row the way the stylesheet lays it out", () => {
-    const css = readFileSync(join(__dirname, "olavka-journal-rail.module.css"), "utf8")
+    const css = readFileSync(join(__dirname, "journal-rail.module.css"), "utf8")
     const perView = Array.from(css.matchAll(/--n:\s*(\d+)/g), (m) => Number(m[1]))
     expect(Math.max(...perView)).toBe(JOURNAL_RAIL_PER_VIEW)
   })
@@ -168,7 +175,7 @@ describe("journalRailCopies", () => {
   // Ivan, 27.09: three products in a row from 720, four above 960. The rail stands under
   // that grid on the same page, so it changes its row at the grid's own widths.
   it("turns three and four cards in a row at the widths of the product grid above it", () => {
-    const css = readFileSync(join(__dirname, "olavka-journal-rail.module.css"), "utf8")
+    const css = readFileSync(join(__dirname, "journal-rail.module.css"), "utf8")
     const productCard = readFileSync(
       join(STOREFRONT, "src/modules/products/components/product-card/index.tsx"),
       "utf8"
@@ -188,17 +195,18 @@ describe("journalRailCopies", () => {
   })
 })
 
-describe("the home page: the journal rail is the Olavka shop's, under the tenant's own blocks", () => {
+describe("the home page: the journal rail is every shop's, under the tenant's own blocks", () => {
   const page = readFileSync(join(STOREFRONT, "src/app/[locale]/(main)/page.tsx"), "utf8")
-  const registry = readFileSync(join(__dirname, "index.ts"), "utf8")
+  const registry = readFileSync(join(STOREFRONT, "src/modules/home/variants/index.ts"), "utf8")
 
-  it("registers the rail in the blocks that close the page", () => {
-    expect(registry).toMatch(/OLAVKA_HOME_BLOCKS_AFTER = \{\s*olavkaJournalRail: OlavkaJournalRail,\s*\}/)
-    expect(registry).toMatch(/OLAVKA_HOME_ORDER_AFTER[^=]*= \["olavkaJournalRail"\]/)
+  it("is no Olavka block any more", () => {
+    expect(registry).not.toContain("JournalRail")
+    expect(page).not.toContain("OLAVKA_HOME_ORDER_AFTER")
   })
 
-  it("renders those blocks for the Olavka shop only, after the composed ones", () => {
-    expect(page).toMatch(/\{olavka &&\s*OLAVKA_HOME_ORDER_AFTER\.map\(/)
-    expect(page.indexOf("OLAVKA_HOME_ORDER_AFTER.map(")).toBeGreaterThan(page.indexOf("order.map("))
+  it("renders for every shop after the composed blocks, the Olavka flag only picking the title", () => {
+    expect(page).toContain("<JournalRail olavka={olavka} />")
+    expect(page).not.toMatch(/\{olavka &&\s*<JournalRail/)
+    expect(page.indexOf("<JournalRail")).toBeGreaterThan(page.indexOf("order.map("))
   })
 })

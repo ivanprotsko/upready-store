@@ -3,7 +3,7 @@
  * read. Plain data, no JSX.
  */
 
-/** The widest rail shows four cards in a row: the last `--n` of `olavka-journal-rail.module.css`. */
+/** The widest rail shows four cards in a row: the last `--n` of `journal-rail.module.css`. */
 export const JOURNAL_RAIL_PER_VIEW = 4
 
 /** The newest articles the rail carries: one page of the journal feed. */
