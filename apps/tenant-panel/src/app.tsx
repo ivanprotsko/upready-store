@@ -49,6 +49,12 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/home"),
           },
           {
+            path: "/analytics",
+            handle: { breadcrumb: () => t("shopAnalytics.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/analytics"),
+          },
+          {
             path: "/products",
             // tenant-panel: same breadcrumb handle as the Admin route map (get-route.map.tsx)
             handle: { breadcrumb: () => t("products.domain") },
@@ -1457,7 +1463,6 @@ const routes: RouteObject[] = [
             path: "*",
             lazy: () => import("./routes/no-match"),
           },
-          { path: "/analytics", handle: { breadcrumb: () => t("shopAnalytics.title") }, errorElement: <ErrorBoundary />, lazy: () => import("./routes/analytics") },
         ],
       },
     ],

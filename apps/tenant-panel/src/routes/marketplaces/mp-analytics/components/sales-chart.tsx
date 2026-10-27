@@ -236,7 +236,7 @@ export const SalesChart = ({ days, previous, currency, locale, hue, legend }: Pr
                     className={
                       hue
                         ? active === index
-                          ? "fill-ui-fg-interactive"
+                          ? "fill-ui-tag-orange-icon"
                           : "fill-ui-tag-blue-icon"
                         : active === index
                           ? "fill-ui-fg-base"
