@@ -18,9 +18,9 @@ import { FixtureChangesetBackend } from "../shop/changesets-fixture.ts";
 import { FIXTURE_PAGE } from "../shop/fixture-web.ts";
 import { FixtureUploadBackend } from "../shop/uploads.ts";
 import { ImageCapError, ImageService } from "./index.ts";
-import { assertPublic, guardedGet, isPrivateAddress, NetError } from "./net.ts";
+import { assertPublic, guardedGet, isPrivateAddress, NetError, pinnedLookup, type Transport } from "./net.ts";
 import { findPagePictures } from "./page.ts";
-import { FalProvider, PRICE_TABLE, ProviderError, ReplicateProvider, StubImageProvider } from "./providers.ts";
+import { FalProvider, isReplicateApi, PRICE_TABLE, ProviderError, ReplicateProvider, StubImageProvider } from "./providers.ts";
 
 const offline: FetchFn = async (url) => {
   throw new Error(`no network in this test: ${String(url)}`);
@@ -61,7 +61,7 @@ test("replicate: prediction with Prefer: wait, a poll while it runs, price from 
     calls.push(`${init?.method} ${url}`);
     if (String(url).includes("/predictions") && init.method === "POST") {
       assert.equal((init.headers as Record<string, string>).authorization, `Bearer ${KEY}`);
-      assert.match((init.headers as Record<string, string>).prefer, /wait/);
+      assert.match((init.headers as Record<string, string>).prefer ?? "", /wait/);
       return json({ status: "processing", urls: { get: "https://api.replicate.com/v1/predictions/p1" } });
     }
     if (String(url).endsWith("/predictions/p1")) return json({ status: "succeeded", output: ["https://replicate.delivery/out.png"], metrics: { cost_usd: 0.0123 } });
@@ -107,6 +107,86 @@ test("SSRF: every private class is refused, public ones pass", async () => {
   await refuse("https://rebind.example/a", async () => ["93.184.216.34", "10.0.0.5"]);
   await refuse("https://nowhere.example/a", async () => []);
   await refuse("not a url");
+});
+
+test("SSRF: the hex and compatible IPv6 forms of a private IPv4 are refused, as the URL parser writes them", async () => {
+  // `new URL` turns https://[::ffff:127.0.0.1]/ into the hostname [::ffff:7f00:1]: the check must read bytes, not a dotted tail.
+  assert.equal(new URL("https://[::ffff:127.0.0.1]/").hostname, "[::ffff:7f00:1]");
+  const private6 = [
+    "::ffff:7f00:1", // 127.0.0.1
+    "::ffff:a9fe:a9fe", // 169.254.169.254, cloud metadata
+    "::ffff:a00:1", // 10.0.0.1
+    "::ffff:c0a8:101", // 192.168.1.1
+    "::7f00:1", // IPv4-compatible 127.0.0.1
+    "::a9fe:a9fe",
+    "0:0:0:0:0:ffff:7f00:1", // long form
+    "0000:0000:0000:0000:0000:ffff:7f00:0001",
+    "64:ff9b::7f00:1", // NAT64 of 127.0.0.1
+    "64:ff9b::a9fe:a9fe",
+    "64:ff9b:1::1", // local-use NAT64
+    "2002:7f00:1::", // 6to4 of 127.0.0.1
+    "2002:a9fe:a9fe::1", // 6to4 of the metadata address
+    "2002:0a00:0001::1", // 6to4 of 10.0.0.1
+    "2001:0:4136:e378:8000:63bf:80ff:fefe", // Teredo
+    "::", "::1", "fe80::1%eth0", "fc00::1", "ff02::1",
+    "::ffff:127.0.0.1", // the dotted tail still works
+  ];
+  for (const ip of private6) assert.equal(isPrivateAddress(ip), true, ip);
+  for (const ip of ["::ffff:808:808", "::ffff:5db8:d822", "64:ff9b::808:808", "2002:808:808::1", "2606:2800:220:1:248:1893:25c8:1946"]) assert.equal(isPrivateAddress(ip), false, ip);
+  // Garbage is refused, not passed.
+  for (const ip of ["1:2:3", "::g", "1::2::3", "12345::1"]) assert.equal(isPrivateAddress(ip), true, ip);
+  // End to end: the hostname the parser makes from each form is refused before any request.
+  for (const url of ["https://[::ffff:127.0.0.1]/", "https://[::ffff:169.254.169.254]/", "https://[::127.0.0.1]/", "https://[64:ff9b::7f00:1]/", "https://[2002:7f00:1::]/"]) {
+    await assert.rejects(assertPublic(url, publicLookup), (err: unknown) => err instanceof NetError && err.code === "refused", url);
+  }
+});
+
+test("SSRF: the connection goes to the address that was checked, not to a second DNS answer", async () => {
+  // A rebinding DNS: public on the first question, private on every later one.
+  const asked: string[] = [];
+  const rebinding = async (host: string) => {
+    asked.push(host);
+    return asked.length === 1 ? ["93.184.216.34"] : ["127.0.0.1"];
+  };
+  const pins: { address: string; family: number; host: string; servername: string }[] = [];
+  const transport: Transport = async (url, pin) => {
+    pins.push({ ...pin, host: url.hostname, servername: url.hostname });
+    return new Response(PNG, { headers: { "content-type": "image/png" } });
+  };
+  const got = await guardedGet("https://rebind.example/p.png", { transport, lookup: rebinding, timeoutMs: 1000, maxBytes: 1000 });
+  assert.equal(got.data.length, PNG.length);
+  assert.deepEqual(pins.map((p) => p.address), ["93.184.216.34"], "only the checked address was dialled");
+  assert.equal(pins[0]!.host, "rebind.example", "the name stays for SNI and Host");
+  assert.equal(asked.length, 1, "the name was resolved once; no second answer to be fooled by");
+
+  // The pinned lookup answers with that address whatever name or options the socket asks with.
+  const lookup = pinnedLookup({ address: "93.184.216.34", family: 4 });
+  lookup("rebind.example", {}, (err, address, family) => assert.deepEqual([err, address, family], [null, "93.184.216.34", 4]));
+  lookup("rebind.example", { all: true }, (err, address) => assert.deepEqual([err, address], [null, [{ address: "93.184.216.34", family: 4 }]]));
+
+  // A redirect is resolved and pinned on its own: the new hop's checked address, nothing carried over.
+  const seen: string[] = [];
+  const hop: Transport = async (url, pin) => {
+    seen.push(`${url.hostname}@${pin.address}`);
+    return url.hostname === "a.example" ? new Response(null, { status: 302, headers: { location: "https://b.example/x" } }) : new Response(PNG, { headers: { "content-type": "image/png" } });
+  };
+  await guardedGet("https://a.example/", { transport: hop, lookup: async (h) => [h === "a.example" ? "93.184.216.34" : "8.8.8.8"], timeoutMs: 1000, maxBytes: 1000 });
+  assert.deepEqual(seen, ["a.example@93.184.216.34", "b.example@8.8.8.8"]);
+});
+
+test("replicate: the poll carries the token only to api.replicate.com", async () => {
+  for (const bad of ["https://evil.example/v1/predictions/p1", "https://api.replicate.com.evil.example/p", "https://api.replicate.com@evil.example/p", "http://api.replicate.com/p", "https://api.replicate.com:8443/p", "https://user@api.replicate.com/p", "//evil.example/p", "api.replicate.com/p", 5, null]) {
+    assert.equal(isReplicateApi(bad), false, String(bad));
+  }
+  assert.equal(isReplicateApi("https://api.replicate.com/v1/predictions/p1"), true);
+
+  const calls: { url: string; auth: string | undefined }[] = [];
+  const fetch = (async (url: string, init: RequestInit) => {
+    calls.push({ url: String(url), auth: (init.headers as Record<string, string> | undefined)?.authorization });
+    return json({ status: "processing", urls: { get: "https://evil.example/steal" } });
+  }) as FetchFn;
+  await assert.rejects(new ReplicateProvider({ key: KEY, fetch, lookup: publicLookup, pollMs: 1 }).generate("x"), (err: unknown) => err instanceof ProviderError && !new RegExp(KEY).test(err.message));
+  assert.deepEqual(calls.map((c) => new URL(c.url).hostname), ["api.replicate.com"], "the token never went to the host the answer named");
 });
 
 test("SSRF: a public page that redirects into a private address stops at the hop; more than 3 redirects stop too", async () => {
@@ -236,7 +316,7 @@ test("approval: «на товар» proposes, only the «да» uploads and stag
   const proposal = cardOf(proposed.card ? [proposed.card] : [], "proposal");
   assert.ok(proposal?.proposalId, "a proposal card");
   assert.equal(uploads.calls.length, 0, "before the «да» nothing is uploaded");
-  assert.equal(backend.changesets?.length ?? 0, 0, "and nothing is staged");
+  assert.equal(backend.list(new URLSearchParams()).count, 0, "and nothing is staged");
 
   const out = await app.commands.confirm(proposal.proposalId!);
   assert.equal(uploads.calls.length, 1);

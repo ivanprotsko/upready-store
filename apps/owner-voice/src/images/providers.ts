@@ -156,6 +156,8 @@ abstract class HttpDriver implements ImageProvider {
   abstract readonly name: "fal" | "replicate";
   protected readonly key: string;
   protected readonly fetchFn: FetchFn;
+  /** Set only by a test: a result download goes through the pinned connection unless this replaces it. */
+  protected readonly testFetch: FetchFn | undefined;
   protected readonly lookup: Lookup | undefined;
   protected readonly timeoutMs: number;
   protected readonly maxBytes: number;
@@ -163,6 +165,7 @@ abstract class HttpDriver implements ImageProvider {
   constructor(opts: DriverOptions) {
     this.key = opts.key;
     this.fetchFn = opts.fetch ?? fetch;
+    this.testFetch = opts.fetch;
     this.lookup = opts.lookup;
     this.timeoutMs = opts.timeoutMs ?? CALL_TIMEOUT_MS;
     this.maxBytes = opts.maxResultBytes ?? MAX_RESULT_BYTES;
@@ -189,7 +192,7 @@ abstract class HttpDriver implements ImageProvider {
   /** The result downloaded into bytes; the address is used once and not kept. */
   protected async download(url: string): Promise<{ data: Uint8Array; contentType: string }> {
     try {
-      const got = await guardedGet(url, { ...(this.lookup ? { lookup: this.lookup } : {}), fetch: this.fetchFn, timeoutMs: this.timeoutMs, maxBytes: this.maxBytes, type: /^image\// });
+      const got = await guardedGet(url, { ...(this.lookup ? { lookup: this.lookup } : {}), ...(this.testFetch ? { fetch: this.testFetch } : {}), timeoutMs: this.timeoutMs, maxBytes: this.maxBytes, type: /^image\// });
       return { data: got.data, contentType: got.contentType };
     } catch (err) {
       if (err instanceof NetError) throw new ProviderError(err.code === "timeout" ? "timeout" : err.code === "too_big" ? "too_big" : "failed", `Результат не скачался: ${err.message}`);
@@ -225,6 +228,17 @@ abstract class HttpDriver implements ImageProvider {
 }
 
 const num = (v: unknown): number | undefined => (typeof v === "number" && Number.isFinite(v) && v >= 0 ? v : undefined);
+
+/** The poll address carries the Bearer token, so it goes only to the API host itself, never to a host the answer names. */
+export function isReplicateApi(address: unknown): address is string {
+  if (typeof address !== "string") return false;
+  try {
+    const url = new URL(address);
+    return url.protocol === "https:" && url.hostname === "api.replicate.com" && url.port === "" && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
 
 /** fal.ai: `POST https://fal.run/<model>` with `Authorization: Key …`; the answer lists `images[].url` (or one `image.url`). */
 export class FalProvider extends HttpDriver {
@@ -266,7 +280,7 @@ export class ReplicateProvider extends HttpDriver {
     const deadline = Date.now() + this.timeoutMs;
     while (body.status === "starting" || body.status === "processing") {
       const poll = (body.urls as Record<string, unknown> | undefined)?.get;
-      if (typeof poll !== "string" || !poll.startsWith("https://api.replicate.com/")) throw new ProviderError("failed", "Провайдер replicate не дал, где забрать результат.");
+      if (!isReplicateApi(poll)) throw new ProviderError("failed", "Провайдер replicate не дал, где забрать результат.");
       if (Date.now() >= deadline) throw new ProviderError("timeout", "Провайдер replicate не успел вовремя.");
       await new Promise((r) => setTimeout(r, this.#pollMs));
       const next = await timed(this.fetchFn, poll, { method: "GET", headers: { ...auth, accept: "application/json" } }, this.timeoutMs).catch(() => {

@@ -38,7 +38,7 @@ export class UploadClient {
     const url = buildUrl(this.#opts.apiUrl, path);
     const form = () => {
       const f = new FormData();
-      f.append("files", new Blob([data as BlobPart], { type: contentType }), name);
+      f.append("files", new Blob([data as Uint8Array<ArrayBuffer>], { type: contentType }), name);
       return f;
     };
     const go = async (fresh: boolean) =>

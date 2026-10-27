@@ -195,7 +195,8 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
         config.changesets.stageHost,
       )
     : null;
-  const imgNet = { fetch: overrides.imageNet?.fetch ?? net, ...(overrides.imageNet?.lookup ? { lookup: overrides.imageNet.lookup } : {}) };
+  // No default fetch here: a result and a page go through the pinned connection unless a test replaces it.
+  const imgNet = { ...(overrides.imageNet?.fetch ? { fetch: overrides.imageNet.fetch } : {}), ...(overrides.imageNet?.lookup ? { lookup: overrides.imageNet.lookup } : {}) };
   const imageProvider: ImageProvider =
     overrides.imageProvider ??
     (config.images.provider === "fal" && config.images.falKey
