@@ -72,7 +72,8 @@ test("propose → confirm → stage → publish → rollback, the live site foll
   const { app, backend } = fixtureApp();
   const before = backend.live(TROY)?.title;
 
-  const asked = await app.text("переименуй тройчатку в Тройчатка Евдокименко", []);
+  // As speech-to-text writes it: a capital letter first.
+  const asked = await app.text("Переименуй тройчатку в Тройчатка Евдокименко.", []);
   const staged = await app.commands.confirm(proposalOf(asked.cards));
   assert.ok(staged && !("sent" in staged));
   assert.equal(staged.card?.kind, "changeset");

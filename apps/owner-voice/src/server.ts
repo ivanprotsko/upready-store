@@ -23,6 +23,7 @@
  *   POST /api/files?name=&type=   the raw file, up to 20 MB → its card and id
  *   POST /api/files/:id/voice     { history, voiceId } → transcript card + answer
  *   GET  /api/files/:id/transcript.txt
+ *   GET  /fixtures/files/*, /fixtures/voice/*   the test files, for the evidence scenes; on fixtures only
  *                     /api/text also takes `files`: ids attached to the question
  *
  *   GET  /api/voices?language=&q=&gender=&accent=&source=   the ElevenLabs catalog (reads only)
@@ -39,7 +40,7 @@
  * credits on every visitor's question.
  */
 import { timingSafeEqual } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { fileURLToPath } from "node:url";
 
@@ -52,6 +53,7 @@ import { placeholderWav, VoiceOffError } from "./voice.ts";
 import { VoiceError, type VoiceFilter } from "./voices.ts";
 
 const PAGE = fileURLToPath(new URL("./page.html", import.meta.url));
+const FIXTURES = fileURLToPath(new URL("../fixtures/", import.meta.url));
 const ASSISTANT_PAGE = fileURLToPath(new URL("./assistant.html", import.meta.url));
 const MAX_BODY = 12 * 1024 * 1024;
 const MAX_HISTORY = 8;
@@ -184,6 +186,15 @@ export function handler(app: App, password: string | null) {
       if (req.method === "GET" && path === "/") return send(res, 200, readFileSync(PAGE, "utf8"), "text/html; charset=utf-8");
       if (req.method === "GET" && path === "/assistant") return send(res, 200, readFileSync(ASSISTANT_PAGE, "utf8"), "text/html; charset=utf-8");
       if (req.method === "GET" && path === "/api/status") return send(res, 200, app.status());
+      // The scenes of the evidence screens attach the repo's test files; a stand with a real shop does not serve them.
+      const fixture = req.method === "GET" ? /^\/fixtures\/(files|voice)\/([a-z0-9-]+\.(pdf|wav))$/.exec(path) : null;
+      if (fixture) {
+        const status = app.status();
+        if (status.storeApi !== "fixture" || status.ownerApi !== "fixture") throw new HttpError(404, "Нет такого адреса.");
+        const file = `${FIXTURES}${fixture[1]}/${fixture[2]}`;
+        if (!existsSync(file)) throw new HttpError(404, "Нет такого файла.");
+        return send(res, 200, readFileSync(file), fixture[3] === "pdf" ? "application/pdf" : "audio/wav");
+      }
       if (req.method === "POST" && path === "/api/text") {
         const body = await readJson(req);
         const files = filesIn(body);
