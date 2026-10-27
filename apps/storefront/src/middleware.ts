@@ -27,6 +27,7 @@ import { requestNamesNoShop, resolveShopOfRequest } from "@lib/tenant/request-sh
 import { tenantIconFileOf } from "@lib/tenant/icon-file"
 import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
 import { isShoplessHost, resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
+import { STAGE_HEADER, STAGE_X_ROBOTS_TAG } from "@lib/tenant/stage"
 import { shopLocaleRedirect } from "@lib/util/shop-locales"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -437,12 +438,31 @@ function tenantRequestHeaders(
       "x-tenant-promo-code",
       encodeTenantHeaderValue(JSON.stringify({ enabled: tenant.promoCode }))
     )
+    // t-2026-10-27-04: a stage site's pages say noindex (`lib/tenant/stage.ts`).
+    if (tenant.stage) {
+      headers.set(STAGE_HEADER, "1")
+    }
   }
 
   return headers
 }
 
+/**
+ * Every response of a stage site carries `X-Robots-Tag` (t-2026-10-27-04), the
+ * redirects and the 404s included, so no crawler indexes it whatever it was
+ * answered. The handler below marks the request once it knows its shop.
+ */
+const stageRequests = new WeakSet<NextRequest>()
+
 export async function middleware(request: NextRequest) {
+  const response = await handleRequest(request)
+  if (stageRequests.has(request)) {
+    response.headers.set("X-Robots-Tag", STAGE_X_ROBOTS_TAG)
+  }
+  return response
+}
+
+async function handleRequest(request: NextRequest): Promise<NextResponse> {
   // A demo host answers before any tenant lookup: it has no tenant by design,
   // and resolveTenantByHost would be one pointless backend round trip per
   // request on a host whose whole purpose is to need nothing from the shop.
@@ -466,6 +486,10 @@ export async function middleware(request: NextRequest) {
     request.headers,
     (host) => resolveTenantByHost(BACKEND_URL, host)
   )
+
+  if (tenant?.stage) {
+    stageRequests.add(request)
+  }
 
   // No shop here, said the backend itself, and no single-store key to fall
   // back to: «магазин не найден» with a 404. A deployment that sets

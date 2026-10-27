@@ -1,5 +1,6 @@
 import type { MedusaRequest, MedusaStoreRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError, PUBLISHABLE_KEY_HEADER } from "@medusajs/framework/utils";
+import { isStageSite } from "../../../agent-changesets/stage";
 
 /**
  * The tenant behind a storefront call. Every `/store/*` request already carries
@@ -85,7 +86,9 @@ export const listGroupTenantIds = async (req: MedusaStoreRequest, tenantId: stri
         member.id &&
         member.id !== tenantId &&
         member.group?.id === groupId &&
-        typeof member.metadata?.["archived_at"] !== "string",
+        typeof member.metadata?.["archived_at"] !== "string" &&
+        // A stage site's own rows never reach a live site's read (t-2026-10-27-04).
+        !isStageSite(member.metadata),
     )
     .map((member) => member.id as string);
 
