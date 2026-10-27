@@ -2,8 +2,8 @@
   "format": "scenario/v1",
   "id": "buyer-open-product",
   "project": "upready-store",
-  "title": "Открываю товар из каталога и вижу его цену и кнопку добавления в корзину",
-  "goal": "Открываю товар из каталога и вижу его цену и кнопку добавления в корзину",
+  "title": "Открываю товар из каталога и вижу его фото, цену и кнопку «в корзину»",
+  "goal": "Открываю товар из каталога и вижу его фото, цену и кнопку «в корзину»",
   "actor": "buyer",
   "profiles": [
     "desktop-mouse"
@@ -17,7 +17,23 @@
   },
   "final": [
     {
-      "text": "В корзину"
+      "url": "^/ru/products/[^/]+$"
+    },
+    {
+      "visible": {
+        "testid": "product-gallery-hero-image"
+      }
+    },
+    {
+      "visible": {
+        "testid": "product-price"
+      }
+    },
+    {
+      "visible": {
+        "role": "button",
+        "name": "В корзину"
+      }
     }
   ],
   "work": null,

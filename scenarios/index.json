@@ -15,7 +15,7 @@
         "/[locale]/store",
         "/[locale]/categories/[...category]"
       ],
-      "status": "unstable",
+      "status": "recorded",
       "work": null
     },
     {
@@ -138,7 +138,7 @@
         "/products/create",
         "/products/:id"
       ],
-      "status": "unstable",
+      "status": "recorded",
       "work": null
     },
     {

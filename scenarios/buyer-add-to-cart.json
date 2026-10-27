@@ -2,8 +2,8 @@
   "format": "scenario/v1",
   "id": "buyer-add-to-cart",
   "project": "upready-store",
-  "title": "Кладу товар в корзину и вижу в корзине одну позицию с кнопкой оформления",
-  "goal": "Кладу товар в корзину и вижу в корзине одну позицию с кнопкой оформления",
+  "title": "Кладу товар в корзину и вижу его там с правильной суммой",
+  "goal": "Кладу товар в корзину и вижу его там с правильной суммой",
   "actor": "buyer",
   "profiles": [
     "desktop-mouse"
@@ -17,7 +17,17 @@
   },
   "final": [
     {
-      "text": "К оформлению"
+      "visible": {
+        "css": "[data-testid=cart-sidebar-body]",
+        "text": "Тестовая футболка"
+      }
+    },
+    {
+      "visible": {
+        "testid": "cart-subtotal",
+        "text": "1 500,00 ₽",
+        "within": "[data-testid=cart-sidebar]"
+      }
     }
   ],
   "work": null,

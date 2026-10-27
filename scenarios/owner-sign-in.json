@@ -2,8 +2,8 @@
   "format": "scenario/v1",
   "id": "owner-sign-in",
   "project": "upready-store",
-  "title": "Владелец входит в панель магазина по почте и паролю и видит панель",
-  "goal": "Владелец входит в панель магазина по почте и паролю и видит панель",
+  "title": "Захожу в панель магазина по почте и паролю и вижу обзор своего магазина",
+  "goal": "Захожу в панель магазина по почте и паролю и вижу обзор своего магазина",
   "actor": "guest",
   "profiles": [
     "desktop-mouse"
@@ -17,7 +17,13 @@
   },
   "final": [
     {
-      "text": "Заказы"
+      "url": "^/$"
+    },
+    {
+      "visible": {
+        "testid": "overview-products-published",
+        "text": "Опубликовано"
+      }
     }
   ],
   "work": null,
@@ -67,7 +73,7 @@
       "device": "keyboard",
       "action": "type",
       "target": {
-        "css": "#root > div > div > div:nth-of-type(3) > form > div > div:nth-of-type(2) > div:nth-of-type(2) > input"
+        "css": "input[type=password]"
       },
       "at": {
         "fx": 0.5,

@@ -2,8 +2,8 @@
   "format": "scenario/v1",
   "id": "buyer-checkout-place-order",
   "project": "upready-store",
-  "title": "Покупатель оформляет заказ: корзина, вход, адрес, доставка, оплата, подтверждение заказа",
-  "goal": "Покупатель оформляет заказ: корзина, вход, адрес, доставка, оплата, подтверждение заказа",
+  "title": "Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
+  "goal": "Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
   "actor": "buyer",
   "profiles": [
     "desktop-mouse"
@@ -17,7 +17,10 @@
   },
   "final": [
     {
-      "text": "Заказ"
+      "url": "^/ru/order/[^/]+/confirmed$"
+    },
+    {
+      "text": "Заказ подтверждён"
     }
   ],
   "work": null,
@@ -59,7 +62,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:28:14.151Z",
+        "at": "2026-10-27T23:32:34.291Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -92,10 +95,15 @@
         ],
         "hash": "0080809c8c908000"
       },
+      "after": [
+        {
+          "url": "^/ru/checkout$"
+        }
+      ],
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:28:22.222Z",
+        "at": "2026-10-27T23:32:40.103Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -136,7 +144,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:28:56.607Z",
+        "at": "2026-10-27T23:32:52.064Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -177,7 +185,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:29:08.021Z",
+        "at": "2026-10-27T23:32:54.943Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -214,7 +222,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:29:18.813Z",
+        "at": "2026-10-27T23:33:00.627Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -253,7 +261,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:29:21.211Z",
+        "at": "2026-10-27T23:33:05.357Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -289,7 +297,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:29:23.236Z",
+        "at": "2026-10-27T23:33:09.084Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -332,7 +340,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:29:44.721Z",
+        "at": "2026-10-27T23:33:24.897Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -374,7 +382,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:29:47.913Z",
+        "at": "2026-10-27T23:33:26.943Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -411,7 +419,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:29:51.780Z",
+        "at": "2026-10-27T23:33:29.580Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -429,7 +437,7 @@
         "fy": 0.5,
         "box": [
           24,
-          416.39,
+          392.39,
           912,
           44
         ]
@@ -438,7 +446,7 @@
         "url": "^/ru/checkout$",
         "region": [
           16,
-          408,
+          384,
           928,
           61
         ],
@@ -447,7 +455,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:30:07.246Z",
+        "at": "2026-10-27T23:33:31.865Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -474,7 +482,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:30:12.171Z",
+        "at": "2026-10-27T23:35:19.274Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -492,7 +500,7 @@
         "fy": 0.5,
         "box": [
           24,
-          532.39,
+          508.39,
           912,
           40
         ]
@@ -501,7 +509,7 @@
         "url": "^/ru/checkout$",
         "region": [
           16,
-          524,
+          500,
           928,
           57
         ],
@@ -515,7 +523,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:30:24.889Z",
+        "at": "2026-10-27T23:35:30.571Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -557,7 +565,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:31:21.828Z",
+        "at": "2026-10-27T23:35:40.420Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -598,7 +606,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:31:39.920Z",
+        "at": "2026-10-27T23:35:49.441Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -635,7 +643,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:32:46.358Z",
+        "at": "2026-10-27T23:36:07.902Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -672,7 +680,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:32:57.048Z",
+        "at": "2026-10-27T23:36:12.443Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -711,7 +719,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:33:00.328Z",
+        "at": "2026-10-27T23:36:15.413Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -741,7 +749,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:33:03.474Z",
+        "at": "2026-10-27T23:36:25.291Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -777,7 +785,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:33:14.543Z",
+        "at": "2026-10-27T23:36:27.928Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -808,18 +816,59 @@
           928,
           57
         ],
+        "hash": "0000003030000000"
+      },
+      "after": [
+        {
+          "text": "Оплатить1 500,00 ₽"
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T23:36:30.745Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s22",
+      "intent": "Оплачиваю заказ демо-картой",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "submit-order-button"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          754.78,
+          912,
+          40
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          746,
+          928,
+          57
+        ],
         "hash": "0080808c8c808080"
       },
       "after": [
         {
-          "text": "Оплатить1 500,00 ₽"
+          "text": "Оплатить1 500,00 ₽"
         }
       ],
       "checkpoint": true,
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T21:33:35.992Z",
+        "at": "2026-10-27T23:38:32.708Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -827,7 +876,7 @@
   ],
   "history": [
     {
-      "at": "2026-10-27T21:34:55.435Z",
+      "at": "2026-10-27T23:38:48.798Z",
       "by": "scenario.mjs agent",
       "kind": "record",
       "version": 2,
@@ -853,9 +902,10 @@
         "s18",
         "s19",
         "s20",
-        "s21"
+        "s21",
+        "s22"
       ],
-      "reason": "first pass: Покупатель оформляет заказ: корзина, вход, адрес, доставка, оплата, подтверждение заказа",
+      "reason": "first pass: Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
       "model": null,
       "tokens": null
     }

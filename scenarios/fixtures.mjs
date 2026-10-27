@@ -16,6 +16,7 @@
 //   SC_TEST_PASSWORD  the password of the test people (default: random per process)
 //   DATABASE_URL      optional: when set, its database name is checked against sc_store_*
 import crypto from "node:crypto";
+import zlib from "node:zlib";
 
 const BACKEND = (process.env.SC_BACKEND_URL || "http://localhost:9371").replace(/\/$/, "");
 const PANEL = (process.env.SC_PANEL_URL || "http://127.0.0.1:5180").replace(/\/$/, "");
@@ -154,9 +155,46 @@ async function region() {
   return found;
 }
 
+/** A 96x96 PNG made here (no file in the repository, no network): a photo for the test product, so a scenario can
+ *  check that the picture is on the page. */
+function photoPng() {
+  const w = 96, h = 96, raw = Buffer.alloc((w * 3 + 1) * h);
+  for (let y = 0; y < h; y += 1) {
+    raw[y * (w * 3 + 1)] = 0;
+    for (let x = 0; x < w; x += 1) {
+      const o = y * (w * 3 + 1) + 1 + x * 3;
+      raw[o] = 40 + x; raw[o + 1] = 90 + y; raw[o + 2] = 160;
+    }
+  }
+  const crcTable = Array.from({ length: 256 }, (_, n) => { let c = n; for (let k = 0; k < 8; k += 1) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; return c >>> 0; });
+  const crc = (b) => { let c = 0xffffffff; for (const v of b) c = crcTable[(c ^ v) & 255] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+  const chunk = (type, data) => {
+    const len = Buffer.alloc(4); len.writeUInt32BE(data.length);
+    const body = Buffer.concat([Buffer.from(type), data]);
+    const sum = Buffer.alloc(4); sum.writeUInt32BE(crc(body));
+    return Buffer.concat([len, body, sum]);
+  };
+  const ihdr = Buffer.alloc(13); ihdr.writeUInt32BE(w, 0); ihdr.writeUInt32BE(h, 4); ihdr[8] = 8; ihdr[9] = 2;
+  return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk("IHDR", ihdr), chunk("IDAT", zlib.deflateSync(raw)), chunk("IEND", Buffer.alloc(0))]);
+}
+
+/** The photo goes through the owner's own upload (POST /tenants/uploads), the way the panel does it. */
+async function uploadPhoto() {
+  const form = new FormData();
+  form.append("files", new Blob([photoPng()], { type: "image/png" }), "test-tshirt.png");
+  const res = await fetch(`${BACKEND}/tenants/uploads`, { method: "POST", headers: { authorization: `Bearer ${state.ownerToken}` }, body: form });
+  const data = await res.json().catch(() => ({}));
+  const url = data.files?.[0]?.url;
+  if (!res.ok || !url) throw new Error(`fixtures: photo upload answered ${res.status} ${JSON.stringify(data).slice(0, 160)}`);
+  return url;
+}
+
 async function ensureProduct() {
-  const seen = must(await call("GET", "/store/products?limit=1", { key: state.key }), "GET /store/products");
-  if ((seen.products ?? []).length) return;
+  const seen = must(await call("GET", "/store/products?limit=1&fields=id,title,thumbnail", { key: state.key }), "GET /store/products");
+  if ((seen.products ?? []).some((p) => p.thumbnail)) return;
+  // a product left by an older run has no photo: it is replaced, so the shop always starts from the same product
+  for (const p of seen.products ?? []) await call("DELETE", `/tenants/products/${p.id}`, { token: state.ownerToken });
+  const photo = await uploadPhoto();
   const created = must(
     await call("POST", "/tenants/products", {
       token: state.ownerToken,
@@ -164,6 +202,8 @@ async function ensureProduct() {
         title: "Тестовая футболка",
         handle: `test-tshirt-${state.handle}`,
         status: "published",
+        thumbnail: photo,
+        images: [{ url: photo }],
         options: [{ title: "Размер", values: ["M"] }],
         variants: [{ title: "M", options: { Размер: "M" }, manage_inventory: false, prices: [{ currency_code: "rub", amount: 1500 }] }],
       },

@@ -17,7 +17,19 @@
   },
   "final": [
     {
-      "text": "Тестовая футболка"
+      "url": "^/ru/store$"
+    },
+    {
+      "visible": {
+        "testid": "product-title",
+        "text": "Тестовая футболка"
+      }
+    },
+    {
+      "visible": {
+        "testid": "product-wrapper",
+        "text": "1 500,00 ₽"
+      }
     }
   ],
   "work": null,
