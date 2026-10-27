@@ -14,7 +14,10 @@ import { COMMAND_TOOLS } from "./commands/tools.ts";
 import { IMAGE_TOOLS } from "./images/tools.ts";
 import type { ProposalStore } from "./commands/run.ts";
 import type { ChangeFlow } from "./changes.ts";
+import type { FileStore } from "./files/index.ts";
 import type { ImageService } from "./images/index.ts";
+import type { Lookup } from "./images/net.ts";
+import type { FetchFn } from "./shop/api.ts";
 import type { Query, ShopApi } from "./shop/api.ts";
 import { fold, matchesQuery } from "./shop/fixtures.ts";
 
@@ -42,12 +45,14 @@ export interface Card {
   request?: { method: string; url: string; body: unknown };
   /** For a changeset card: which one and where it stands. */
   changeset?: { id: string; status: string };
-  /** Buttons: `publish`, `rollback`, `prepare-publish`, `prepare-rollback`, `place-product`, `place-banner`. */
+  /** Buttons: `publish`, `rollback`, `prepare-publish`, `prepare-rollback`, `place-product`, `place-banner`, `edit-bg`, `edit-light`, `redo`, `cancel`, `pick-photo`. */
   actions?: { label: string; action: string; id: string }[];
   /** For drift: what publishing left against what the live site holds now. */
   diff?: { field: string; before: string; after: string }[];
   /** For an image: the preview the stand serves. */
   image?: { src: string; alt: string };
+  /** The same card with several pictures: before and after, or the pictures found on a page. */
+  images?: { src: string; alt: string; label: string }[];
   /** A file to save, e.g. a transcript as .txt. */
   download?: { label: string; href: string };
 }
@@ -73,6 +78,21 @@ export interface ToolContext {
   images?: ImageService;
   /** Why images are off, said to the owner when absent. */
   imagesOff?: string;
+  /** The owner's uploads, for a photo sent in the chat. */
+  files?: FileStore;
+  /** What the photo flow remembers between messages: the working photo, the pictures found on a page, the operation asked. */
+  photos?: PhotoState;
+  /** The outgoing-request door for a page link and its pictures; tests put a fake in. */
+  net?: { fetch?: FetchFn; lookup?: Lookup };
+}
+
+export interface PhotoState {
+  /** A file id (sent in the chat) or an image id (picked from a page). */
+  lastFile: string | null;
+  /** The pictures found on the last page, as image ids, in the order shown. */
+  candidates: string[];
+  /** «убери фон» said with a link: it runs on the picture the owner picks. */
+  pendingOp: "remove-bg" | "even-light" | null;
 }
 
 export interface Tool extends ToolSpec {

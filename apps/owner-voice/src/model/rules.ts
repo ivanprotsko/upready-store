@@ -76,6 +76,21 @@ export function stage3Call(text: string): ToolCall | null {
   if (/^(о|за)?публику\S*(\s+(\S+\s+)?(изменени\S*|правк\S*|вс[её]|это|последн\S*|на (сайт|main|основн\S*)))*$/.test(t)) return call("prepare_publish", {});
   if (/^(откат\S*|откати\S*|верни (как было|назад|обратно))(\s+\S+){0,3}$/.test(t)) return call("prepare_rollback", {});
   if (/что (изменен|изменил|поменял|меняли|менял)|последние изменени|список изменени|какие изменени|история изменени/.test(t)) return call("list_changesets", {});
+  // A photo: «убери фон», «выровняй свет», «обработай фото», with or without a page link.
+  const link = /https:\/\/[^\s<>"«»]+/i.exec(text)?.[0]?.replace(/[.,;)]+$/, "");
+  const photoOp = /убер\S*\s+(?:с\s+(?:этого\s+)?(?:фото|снимка|картинки)\s+)?фон|удал\S*\s+фон|без фона|вырежи/.test(t) ? "remove-bg" : /выровня\S*\s+свет|выравни\S*\s+свет|исправ\S*\s+свет|поправ\S*\s+свет|свет.{0,20}выров/.test(t) ? "even-light" : null;
+  const photoAsk = /обработ\S*\s+(это\s+)?(фото|снимок|картинк\S*)|(фото|снимок)\s+обработ/.test(t);
+  if (link && (photoOp || photoAsk || /фото|картинк/.test(t))) return call("find_page_photos", { url: link, ...(photoOp ? { op: photoOp } : {}) });
+  // «убери фон на втором», «выбери второе»: a number or an ordinal inside the sentence picks from the page's pictures.
+  const WORDS = ["перв", "втор", "трет", "четв", "пят", "шест"];
+  const inside = /(?:на|фото|номер|№|вариант|выбери|возьми|бери)\s*([1-6])(?!\d)|(?:^|\s)(перв|втор|трет|четв[её]рт|пят|шест)\S*/.exec(t);
+  const nth = inside ? (inside[1] ? Number(inside[1]) : WORDS.findIndex((w) => inside[2]!.startsWith(w)) + 1) : 0;
+  if (nth && (photoOp || /^(выбери|возьми|бери|давай)\b/.test(t))) return call("pick_photo", { n: nth, ...(photoOp ? { op: photoOp } : {}) });
+  if (photoOp || photoAsk) return call("edit_photo", photoOp ? { op: photoOp } : {});
+  const pick = /^(?:(?:номер|фото|картинк\S*|вариант)\s*)?([1-6])(?:\s*(?:е|-?е|-?й|-?ое))?$/.exec(t);
+  if (pick) return call("pick_photo", { n: Number(pick[1]) });
+  const ordinal = /^(перв|втор|трет|четв[её]рт|пят|шест)\S*(\s+(фото|картинк\S*|вариант))?$/.exec(t);
+  if (ordinal) return call("pick_photo", { n: ["перв", "втор", "трет", "четв", "пят", "шест"].findIndex((w) => ordinal[1]!.startsWith(w)) + 1 });
   const draw = /^(нарисуй|сгенерируй|сделай картинку|создай картинку|сделай изображение|создай изображение|картинк\S* для)\s*:?\s*(.*)$/.exec(t);
   // The prompt in the owner's own case: `t` is `text` folded, letter for letter, with the same end stripped.
   const raw = text.trim().replace(/[.!?]+$/, "");

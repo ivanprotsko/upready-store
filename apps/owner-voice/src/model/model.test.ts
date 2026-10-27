@@ -48,8 +48,8 @@ test("AnthropicProvider sends the tools and reads tool_use back (mocked fetch)",
   assert.equal(sent.model, "claude-sonnet-5-5");
   assert.equal(sent.system, "sys");
   // Six stage 1 read tools, the two command-map tools of stage 2 (find_commands, run_command),
-  // and stage 3: list_changesets, prepare_publish, prepare_rollback, generate_image, place_image.
-  assert.equal((sent.tools as unknown[]).length, 13);
+  // and stage 3: list_changesets, prepare_publish, prepare_rollback, generate_image, place_image, and the photo tools edit_photo, find_page_photos, pick_photo.
+  assert.equal((sent.tools as unknown[]).length, 16);
   assert.equal(headers["x-api-key"], "test-key-not-real");
   assert.equal(provider.name, "anthropic claude-sonnet-5-5");
 });

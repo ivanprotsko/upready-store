@@ -14,8 +14,13 @@ import { type CommandInput, confirmProposal, type DryRun, runCommand } from "./c
 import { type Config, describeConfig } from "./config.ts";
 import type { Audio } from "./elevenlabs.ts";
 import { audioFormat, FileError, fileForModel, FileStore, type StoredFile } from "./files/index.ts";
-import { ImageService, StubImageProvider } from "./images/index.ts";
+import { type ImageProvider, ImageService } from "./images/index.ts";
+import type { Lookup } from "./images/net.ts";
+import { FalProvider, ReplicateProvider, StubImageProvider } from "./images/providers.ts";
+import { stage3Call } from "./model/rules.ts";
+import { FixtureUploadBackend, UploadClient } from "./shop/uploads.ts";
 import { runTool } from "./tools.ts";
+import { fixtureWeb } from "./shop/fixture-web.ts";
 import { AnthropicProvider } from "./model/anthropic.ts";
 import { BudgetProvider } from "./model/budget.ts";
 import { type FallbackNote, FallbackProvider } from "./model/fallback.ts";
@@ -76,6 +81,8 @@ export interface App {
     read(id: string): { data: Uint8Array; contentType: string } | null;
     /** The buttons of an image card: the same tool the chat calls. */
     place(id: string, target: "product" | "banner", product?: string): Promise<{ text: string; card?: Card }>;
+    /** The other buttons of an image card: edit-bg, edit-light, redo, cancel, pick-photo. */
+    act(id: string, action: string): Promise<{ text: string; card?: Card }>;
   };
   files: FileStore;
   /** Delete files and previews past their TTL (§7); the server runs it hourly. */
@@ -93,6 +100,12 @@ export interface Overrides {
   voice?: Voice;
   /** The changeset backend; on fixtures an in-memory one by default. */
   changesetFetch?: FetchFn;
+  /** The upload route; on fixtures an in-memory one by default. */
+  uploadFetch?: FetchFn;
+  /** The fetch for a page link and a provider's result, and the DNS lookup behind the SSRF guard; tests put fakes in. */
+  imageNet?: { fetch?: FetchFn; lookup?: Lookup };
+  /** A ready image provider in place of the one the config names; tests only. */
+  imageProvider?: ImageProvider;
 }
 
 /** The lines a question's words point at in a file, for the keyword router, which reads no file whole. */
@@ -105,6 +118,17 @@ function linesAbout(question: string, text: string): string[] {
     .filter((l) => l && words.some((w) => fold(l).includes(w)))
     .slice(0, 4);
 }
+
+/** The op's body with the local picture address replaced by the shop's, at any depth. */
+function swapUrl(value: unknown, from: string, to: string): unknown {
+  if (value === from) return to;
+  if (Array.isArray(value)) return value.map((v) => swapUrl(v, from, to));
+  if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, swapUrl(v, from, to)]));
+  return value;
+}
+
+/** What the server asks when a file arrives with no words; a photo with this question is asked what to do with. */
+export const DEFAULT_FILE_QUESTION = "Что в этом файле?";
 
 const MASKED = /\[(email|телефон|имя|адрес|индекс) скры(т|то)\]/g;
 
@@ -171,9 +195,18 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
         config.changesets.stageHost,
       )
     : null;
+  const imgNet = { fetch: overrides.imageNet?.fetch ?? net, ...(overrides.imageNet?.lookup ? { lookup: overrides.imageNet.lookup } : {}) };
+  const imageProvider: ImageProvider =
+    overrides.imageProvider ??
+    (config.images.provider === "fal" && config.images.falKey
+      ? new FalProvider({ key: config.images.falKey, ...imgNet })
+      : config.images.provider === "replicate" && config.images.replicateToken
+        ? new ReplicateProvider({ key: config.images.replicateToken, ...imgNet })
+        : new StubImageProvider(config.images.stubUsd));
   const images = config.images.on
-    ? new ImageService(new StubImageProvider(config.images.stubUsd), budget, {
+    ? new ImageService(imageProvider, budget, {
         dataDir,
+        shop: config.shop.host,
         publicUrl: config.publicUrl,
         cap: { usd: config.images.dailyUsd, count: config.images.dailyCount },
         ttlHours: config.filesTtlHours,
@@ -191,7 +224,15 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
     proposals: new ProposalStore(),
     ...(changes ? { changes } : {}),
     ...(images ? { images } : { imagesOff }),
+    files,
+    photos: { lastFile: null, candidates: [], pendingOp: null },
+    net: overrides.imageNet ?? (described.ownerApi === "live" ? imgNet : fixtureWeb),
   };
+  const bearer = described.ownerApi === "live" ? (fresh?: boolean) => shop.bearer(fresh) : async () => "fixture-token";
+  const fixtureUploads = new FixtureUploadBackend(config.shop.storefrontUrl);
+  const uploads = changes
+    ? new UploadClient({ apiUrl: config.shop.apiUrl, bearer, fetch: overrides.uploadFetch ?? (described.ownerApi === "live" ? net : fixtureUploads.fetch()) })
+    : null;
   const shopName = SHOP_NAMES[config.shop.host] ?? config.shop.host;
   const voices = new VoiceCatalog(
     { apiKey: config.elevenlabs.apiKey, defaultVoiceId: config.elevenlabs.voiceId, allowAdd: config.elevenlabs.allowAddVoice },
@@ -250,12 +291,20 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
     if (fileIds.length && !attached.length) throw new FileError(410, "Файл уже удалён или не загрузился. Приложите его заново.");
     const notice = capNotice();
     let turn: TurnResult;
-    if (attached.length && (!model || model.capped())) turn = filesByRules(question, attached);
+    const photo = attached.filter((f) => f.kind === "image").at(-1);
+    if (photo && ctx.photos) ctx.photos.lastFile = photo.id;
+    // A photo with words about it («убери фон») or with none at all is handled here, the same way with and without a model.
+    const wants = photo ? stage3Call(question) : null;
+    if (photo && images && (wants?.name === "edit_photo" || !question.trim() || question === DEFAULT_FILE_QUESTION)) {
+      const call = wants?.name === "edit_photo" ? wants : { id: "photo", name: "edit_photo", input: {} };
+      const out = await runTool(call.name, { ...call.input, file: photo.id }, ctx);
+      turn = { reply: out.text, cards: out.card ? [out.card] : [], calls: [{ name: call.name, input: call.input }] };
+    } else if (attached.length && (!model || model.capped())) turn = filesByRules(question, attached);
     else {
       const asked = attached.length ? `${question}\n\n${attached.map(fileForModel).join("\n\n")}` : question;
       turn = await runTurn(provider, ctx, shopName, history, asked);
     }
-    const cards = [...attached.map(fileCard), ...notice, ...turn.cards];
+    const cards = [...attached.filter((f) => f !== photo || !images).map(fileCard), ...notice, ...turn.cards];
     return { ...turn, cards, audio: await speak(turn.reply, speaker) };
   };
 
@@ -326,14 +375,56 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
       async confirm(proposalId) {
         if (!ctx.proposals) return null;
         if (!changes) return confirmProposal(ctx.proposals, proposalId);
-        const proposal = ctx.proposals.take(proposalId);
-        return proposal ? changes.stage(proposal) : null;
+        const waiting = ctx.proposals.peek(proposalId);
+        if (!waiting) return null;
+        // The owner said «да»: a picture goes to the shop first, and the op carries the shop's own address for it.
+        let carried = waiting;
+        if (waiting.upload && images && uploads) {
+          const bytes = images.read(waiting.upload.image);
+          if (!bytes) return { text: "Картинки уже нет: превью удалилось. Сделайте её заново.", card: { kind: "notice", title: "Картинки уже нет", rows: ["Превью живёт сутки и удалилось. На сайте ничего не изменилось."] } };
+          try {
+            const href = await uploads.upload(`${waiting.upload.image}.${bytes.contentType.split("/")[1]!.replace("jpeg", "jpg").replace("svg+xml", "svg")}`, bytes.contentType, bytes.data);
+            carried = { ...waiting, ...(waiting.op ? { op: { ...waiting.op, ...(waiting.op.body ? { body: swapUrl(waiting.op.body, waiting.upload.local, href) as Record<string, unknown> } : {}) } } : {}) };
+          } catch (err) {
+            console.error("[owner-voice] upload failed:", err instanceof Error ? err.message : err);
+            return { text: "Картинка не загрузилась в магазин. Ничего не изменено, попробуйте ещё раз.", card: { kind: "denied", title: "Загрузка не прошла", rows: ["Магазин не принял картинку.", "На сайте и на stage ничего не изменилось; предложение ещё ждёт."] } };
+          }
+        }
+        ctx.proposals.take(proposalId);
+        const out = await changes.stage(carried);
+        if (out.changeset && waiting.upload) images?.retire(waiting.upload.image);
+        return out;
       },
     },
     changes,
     images: {
       read: (id) => images?.read(id) ?? null,
       place: (id, target, product) => runTool("place_image", { target, image: id, ...(product ? { product } : {}) }, ctx),
+      async act(id, action) {
+        if (!images) return { text: imagesOff };
+        if (action === "edit-bg" || action === "edit-light") return runTool("edit_photo", { file: id, op: action === "edit-bg" ? "remove-bg" : "even-light" }, ctx);
+        if (action === "pick-photo") return runTool("pick_photo", { id }, ctx);
+        const meta = images.meta(id);
+        if (action === "cancel") {
+          const gone = images.discard(id);
+          return { text: gone ? "Отменил. Превью и исходное фото удалены, на сайт ничего не ушло." : "Это уже на сайте или удалено: отменять нечего." };
+        }
+        if (action === "redo") {
+          if (!meta) return { text: "Превью уже удалилось. Начните заново." };
+          if (meta.kind === "generated") {
+            const out = await runTool("generate_image", { prompt: meta.prompt }, ctx);
+            images.discard(id);
+            return out;
+          }
+          const original = meta.before ? images.source(meta.before) : null;
+          if (!original || !meta.op || (meta.op !== "remove-bg" && meta.op !== "even-light")) return { text: "Исходное фото уже удалилось. Пришлите его заново." };
+          const out = await runTool("edit_photo", { file: meta.before, op: meta.op }, ctx);
+          // The old result goes only when the new one came out; the original is shared and stays.
+          if (out.card?.kind === "image") images.discard(id);
+          return out;
+        }
+        return { text: "Такой кнопки нет." };
+      },
     },
     files,
     sweep: () => ({ files: files.sweep(), images: images?.sweep() ?? 0 }),

@@ -17,7 +17,8 @@
  *   POST /api/changesets/intent             { action: publish|rollback, id? } → the confirm card
  *   POST /api/changesets/:id/publish|rollback|discard   the confirmed action; drift → the diff
  *
- *   GET  /api/images/:id.svg      a generated picture; no password, the site links to it
+ *   GET  /api/images/:id.<ext>    a generated or edited picture (svg|png|jpg|webp|gif); no password, the site links to it
+ *   POST /api/images/:id/act      { action: edit-bg|edit-light|redo|cancel|pick-photo } → a card
  *   POST /api/images/:id/place    { target: product|banner, product } → a proposal
  *
  *   POST /api/files?name=&type=   the raw file, up to 20 MB → its card and id
@@ -168,7 +169,7 @@ export function handler(app: App, password: string | null) {
     try {
       const early = new URL(req.url ?? "/", "http://stand");
       // A generated picture is fetched by the site once placed: no password, the id is random.
-      const image = req.method === "GET" ? /^\/api\/images\/(img_[a-f0-9]{16})\.svg$/.exec(early.pathname) : null;
+      const image = req.method === "GET" ? /^\/api\/images\/(img_[a-f0-9]{16})\.(?:svg|png|jpg|webp|gif)$/.exec(early.pathname) : null;
       if (image) {
         const found = app.images.read(image[1]!);
         if (!found) return send(res, 404, { error: "Картинки уже нет." });
@@ -187,13 +188,13 @@ export function handler(app: App, password: string | null) {
       if (req.method === "GET" && path === "/assistant") return send(res, 200, readFileSync(ASSISTANT_PAGE, "utf8"), "text/html; charset=utf-8");
       if (req.method === "GET" && path === "/api/status") return send(res, 200, app.status());
       // The scenes of the evidence screens attach the repo's test files; a stand with a real shop does not serve them.
-      const fixture = req.method === "GET" ? /^\/fixtures\/(files|voice)\/([a-z0-9-]+\.(pdf|wav))$/.exec(path) : null;
+      const fixture = req.method === "GET" ? /^\/fixtures\/(files|voice)\/([a-z0-9-]+\.(pdf|wav|png))$/.exec(path) : null;
       if (fixture) {
         const status = app.status();
         if (status.storeApi !== "fixture" || status.ownerApi !== "fixture") throw new HttpError(404, "Нет такого адреса.");
         const file = `${FIXTURES}${fixture[1]}/${fixture[2]}`;
         if (!existsSync(file)) throw new HttpError(404, "Нет такого файла.");
-        return send(res, 200, readFileSync(file), fixture[3] === "pdf" ? "application/pdf" : "audio/wav");
+        return send(res, 200, readFileSync(file), fixture[3] === "pdf" ? "application/pdf" : fixture[3] === "png" ? "image/png" : "audio/wav");
       }
       if (req.method === "POST" && path === "/api/text") {
         const body = await readJson(req);
@@ -250,6 +251,15 @@ export function handler(app: App, password: string | null) {
         const body = await readJson(req);
         if (body.target !== "product" && body.target !== "banner") throw new HttpError(400, "Куда поставить: на товар или на баннер.");
         const out = await app.images.place(place[1]!, body.target, typeof body.product === "string" ? body.product : undefined);
+        return send(res, 200, { reply: out.text, cards: out.card ? [out.card] : [] });
+      }
+
+      const act = req.method === "POST" ? /^\/api\/images\/(img_[a-f0-9]{16}|file_[a-f0-9]{16})\/act$/.exec(path) : null;
+      if (act) {
+        const body = await readJson(req);
+        const actions = ["edit-bg", "edit-light", "redo", "cancel", "pick-photo"];
+        if (typeof body.action !== "string" || !actions.includes(body.action)) throw new HttpError(400, "Такого действия нет.");
+        const out = await app.images.act(act[1]!, body.action);
         return send(res, 200, { reply: out.text, cards: out.card ? [out.card] : [] });
       }
 
