@@ -110,8 +110,9 @@ const SIZES = {
 } as const
 
 /**
- * One «BannerLabel» of the node: the outer `surface` (4px ring, 7px padding; no background
- * blur since Ivan's remark 16) around the filled `inner`. An empty text →
+ * One «BannerLabel» of the node, a plain filled chip (t-2026-10-20-61 D1: the stamped
+ * `surface` ring around it and the card's white inset ring are gone; no background blur
+ * since Ivan's remark 16). An empty text →
  * no chip. The title keeps the editor's line breaks (`white-space: pre-line`).
  */
 function Chip({
@@ -164,7 +165,6 @@ function BannerCard({
           className={styles.image}
         />
       ) : null}
-      <span className={styles.border} aria-hidden />
       <Chip text={slide.kicker} className={`${styles.soft} ${styles.kicker}`} testId="kicker" />
       <Chip text={slide.label} className={`${styles.dark} ${styles.label}`} testId="label" />
       <Chip text={slide.title} className={`${styles.dark} ${styles.title}`} testId="title" />

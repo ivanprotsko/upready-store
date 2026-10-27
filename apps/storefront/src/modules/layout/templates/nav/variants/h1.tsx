@@ -70,7 +70,7 @@ export default async function NavH1() {
                 className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
                 data-testid="nav-mode-toggle"
               />
-              <div className="flex min-w-0">
+              <div className="hidden lg:flex min-w-0">
                 <RegionSelect
                   regions={regions}
                   currentCountryCode={countryCode ?? undefined}

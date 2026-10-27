@@ -203,7 +203,7 @@ export default async function ProductCard({
                 className={
                   onSale
                     ? "text-base font-semibold text-ui-fg-error"
-                    : "text-base font-semibold text-[color:var(--fg-accent,var(--fg-base))]"
+                    : "text-base font-semibold text-ui-fg-base"
                 }
                 data-testid="price"
               >
