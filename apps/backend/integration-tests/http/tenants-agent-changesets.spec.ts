@@ -153,6 +153,7 @@ medusaIntegrationTestRunner({
 
         await step(id, "publish", 200, "published");
         expect(await pageTitle(token)).toBe("О нас — новое");
+        expect((await get(`/tenants/agent-changesets/${id}`)).data.agent_changeset.drift).toEqual([]);
 
         const shown = await get(`/tenants/agent-changesets/${id}`);
         expect(shown.data.agent_changeset.ops[0]).toMatchObject({
@@ -219,6 +220,12 @@ medusaIntegrationTestRunner({
         await step(id, "publish", 200);
 
         expect((await call(api.put("/tenants/pages/about-us", page("Owner by hand"), bearer(token)))).status).toBe(200);
+
+        // The card shows the drift before anyone presses «Откатить».
+        const card = await get(`/tenants/agent-changesets/${id}`);
+        expect(card.data.agent_changeset.drift).toEqual([
+          expect.objectContaining({ op_index: 0, now: expect.objectContaining({ title: "Owner by hand" }) }),
+        ]);
 
         const refused = await step(id, "rollback", 409);
         expect(refused.data.type).toBe("drift");

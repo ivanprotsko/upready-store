@@ -295,6 +295,31 @@ export const publish = async (
 
 export type DriftEntry = { op_index: number; method: string; path: string; before: OpValue; now: OpValue };
 
+/**
+ * The targets of a published changeset that changed on the live site since:
+ * what is there now against what a rollback would write. Empty when a
+ * rollback can go ahead. The panel's card reads it too, so the owner sees the
+ * drift before pressing «Откатить».
+ */
+export const driftOf = async (
+  container: MedusaContainer,
+  caller: Caller,
+  changeset: ChangesetRow,
+): Promise<DriftEntry[]> => {
+  const checked = checkOpsFor(caller, changeset.ops);
+  const befores = changeset.snapshot ?? [];
+  const hashes = changeset.published_hashes ?? [];
+
+  const drift: DriftEntry[] = [];
+  for (const [index, { op, rule }] of checked.entries()) {
+    const now = await readValue(container, caller, changeset.tenant_id, op, rule);
+    if (hashValue(now) !== hashes[index]) {
+      drift.push({ op_index: index, method: op.method, path: op.path, before: befores[index] ?? null, now });
+    }
+  }
+  return drift;
+};
+
 export const rollback = async (
   container: MedusaContainer,
   caller: Caller,
@@ -304,17 +329,10 @@ export const rollback = async (
   const checked = checkOpsFor(caller, changeset.ops);
   const mainId = changeset.tenant_id;
   const befores = changeset.snapshot ?? [];
-  const hashes = changeset.published_hashes ?? [];
 
   // Someone changed it since: the person sees what is there now against what
   // the rollback would write, and nothing is touched.
-  const drift: DriftEntry[] = [];
-  for (const [index, { op, rule }] of checked.entries()) {
-    const now = await readValue(container, caller, mainId, op, rule);
-    if (hashValue(now) !== hashes[index]) {
-      drift.push({ op_index: index, method: op.method, path: op.path, before: befores[index] ?? null, now });
-    }
-  }
+  const drift = await driftOf(container, caller, changeset);
   if (drift.length) {
     throw new ChangesetRefusal(
       409,
