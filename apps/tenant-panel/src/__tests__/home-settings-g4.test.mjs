@@ -123,7 +123,7 @@ test("the order section numbers the shown blocks and names the hidden ones", () 
 test("every drawer is a lazy route child of /home-settings, registered without growing app.tsx", () => {
   assert.ok(app.includes('import { homeSettingsChildren } from "./routes/home-settings/routes"'))
   assert.ok(app.includes("children: homeSettingsChildren,"))
-  assert.ok(app.split("\n").length - 1 <= 1480, "app.tsx stays at its recorded 1480 lines")
+  assert.ok(app.split("\n").length - 1 <= 1481, "app.tsx stays at its recorded 1481 lines (1480 + the one-line /analytics route, t-2026-10-20-45)")
   for (const [route, file] of Object.entries(DRAWERS)) {
     const name = file.replace(".tsx", "")
     assert.ok(

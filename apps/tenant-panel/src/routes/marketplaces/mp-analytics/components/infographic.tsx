@@ -1,5 +1,5 @@
 import { Container, Heading, Text, clx } from "@medusajs/ui"
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 
 import type { MpAnalyticsResponse } from "../../../../hooks/api/marketplace-section"
@@ -70,6 +70,129 @@ const Change = ({ value, locale }: { value: number | null; locale: string }) =>
 
 /* ------------------------------------------------------------- категории */
 
+/** One slice of a share donut. `previous` is the same slice a period ago, `null` when unknown. */
+export type ShareRow = { label: string; revenue: number; share: number; previous: number | null }
+
+/** Hues for the slices of a donut that asks for them, in the order of the slices. */
+const HUES = [
+  { stroke: "stroke-ui-tag-blue-icon", bg: "bg-ui-tag-blue-icon" },
+  { stroke: "stroke-ui-tag-green-icon", bg: "bg-ui-tag-green-icon" },
+  { stroke: "stroke-ui-tag-orange-icon", bg: "bg-ui-tag-orange-icon" },
+  { stroke: "stroke-ui-tag-purple-icon", bg: "bg-ui-tag-purple-icon" },
+  { stroke: "stroke-ui-tag-red-icon", bg: "bg-ui-tag-red-icon" },
+  { stroke: "stroke-ui-tag-neutral-icon", bg: "bg-ui-tag-neutral-icon" },
+]
+
+/**
+ * The donut with its legend. With `hue` every slice has its own colour and
+ * hover, a touch or a click on a slice (or on its legend row) puts that
+ * slice's name, sum and share in the centre (Ivan, 21.10: «при клике на
+ * сегменты графика тоже показывались значения»); the others fade. Without it
+ * the slices are the shades of one grey, the way «Категории» always drew them.
+ */
+export const ShareDonut = ({
+  rows,
+  currency,
+  locale,
+  label,
+  hue,
+}: {
+  rows: ShareRow[]
+  currency: string | null
+  locale: string
+  label: string
+  hue?: boolean
+}) => {
+  const [hover, setHover] = useState<number | null>(null)
+  const [pinned, setPinned] = useState<number | null>(null)
+  const active = hover ?? pinned
+  const total = rows.reduce((sum, entry) => sum + entry.revenue, 0)
+  const radius = 52
+  const circumference = 2 * Math.PI * radius
+  let offset = 0
+  const chosen = active === null ? null : rows[active]
+  const toggle = (index: number) => setPinned((now) => (now === index ? null : index))
+
+  return (
+    <>
+      <div className="relative mx-auto size-40">
+        <svg viewBox="0 0 140 140" className="size-40 -rotate-90" role="img" aria-label={label}>
+          {rows.map((row, index) => {
+            const length = (row.revenue / total) * circumference
+            const dash = `${Math.max(0, length - 1.5)} ${circumference}`
+            const node = (
+              <circle
+                key={row.label}
+                cx={70}
+                cy={70}
+                r={radius}
+                fill="none"
+                strokeWidth={active === index ? 24 : 20}
+                strokeDasharray={dash}
+                strokeDashoffset={-offset}
+                className={hue ? HUES[index % HUES.length].stroke : "stroke-ui-fg-base"}
+                opacity={hue ? (active === null || active === index ? 1 : 0.35) : (SHADES[index] ?? 0.08)}
+                style={hue ? { cursor: "pointer" } : undefined}
+                data-testid={hue ? `share-donut-slice-${index}` : undefined}
+                onPointerEnter={hue ? (event) => event.pointerType === "mouse" && setHover(index) : undefined}
+                onPointerLeave={hue ? () => setHover(null) : undefined}
+                onClick={hue ? () => toggle(index) : undefined}
+              />
+            )
+            offset += length
+            return node
+          })}
+        </svg>
+        {/* The sum alone, or the chosen slice: the period is in the bar on top (t-2026-10-20-29). */}
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
+          {chosen ? (
+            <>
+              <Text size="xsmall" className="text-ui-fg-subtle line-clamp-2 leading-tight">
+                {chosen.label}
+              </Text>
+              <Text size="base" weight="plus" className="tabular-nums">
+                {moneyCompact(chosen.revenue, currency, locale)}
+              </Text>
+              <Text size="xsmall" className="text-ui-fg-subtle tabular-nums">
+                {pct(chosen.share, locale)}
+              </Text>
+            </>
+          ) : (
+            <Text size="base" weight="plus" className="tabular-nums">
+              {moneyCompact(total, currency, locale)}
+            </Text>
+          )}
+        </div>
+      </div>
+      <ul className="flex flex-col gap-y-2">
+        {rows.map((row, index) => (
+          <li
+            key={row.label}
+            className={clx("grid grid-cols-[12px_1fr_auto_auto] items-center gap-x-2", hue && "cursor-pointer", hue && active !== null && active !== index && "opacity-60")}
+            onPointerEnter={hue ? (event) => event.pointerType === "mouse" && setHover(index) : undefined}
+            onPointerLeave={hue ? () => setHover(null) : undefined}
+            onClick={hue ? () => toggle(index) : undefined}
+          >
+            <span
+              className={clx("size-2.5 rounded-sm", hue ? HUES[index % HUES.length].bg : "bg-ui-fg-base")}
+              style={hue ? undefined : { opacity: SHADES[index] ?? 0.08 }}
+            />
+            <Text size="small" className="truncate">
+              {row.label}
+            </Text>
+            <Text size="small" className="tabular-nums">
+              {pct(row.share, locale)}
+            </Text>
+            <Text size="xsmall" className="w-14 text-right">
+              <Change value={changeOf(row.revenue, row.previous)} locale={locale} />
+            </Text>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
 export const CategoryShares = ({ analytics, locale }: { analytics: Analytics; locale: string }) => {
   const { t } = useTranslation()
   const shares = analytics.by_category
@@ -97,10 +220,6 @@ export const CategoryShares = ({ analytics, locale }: { analytics: Analytics; lo
       : []),
   ]
 
-  const radius = 52
-  const circumference = 2 * Math.PI * radius
-  let offset = 0
-
   return (
     <Panel
       title={t("mp.analytics.v3.categories.title")}
@@ -111,54 +230,7 @@ export const CategoryShares = ({ analytics, locale }: { analytics: Analytics; lo
       {rows.length === 0 || total <= 0 ? (
         <Empty>{t("mp.analytics.v3.noSales")}</Empty>
       ) : (
-        <>
-          <div className="relative mx-auto size-40">
-            <svg viewBox="0 0 140 140" className="size-40 -rotate-90" role="img" aria-label={t("mp.analytics.v3.categories.title")}>
-              {rows.map((row, index) => {
-                const length = (row.revenue / total) * circumference
-                const dash = `${Math.max(0, length - 1.5)} ${circumference}`
-                const node = (
-                  <circle
-                    key={row.label}
-                    cx={70}
-                    cy={70}
-                    r={radius}
-                    fill="none"
-                    strokeWidth={20}
-                    strokeDasharray={dash}
-                    strokeDashoffset={-offset}
-                    className="stroke-ui-fg-base"
-                    opacity={SHADES[index] ?? 0.08}
-                  />
-                )
-                offset += length
-                return node
-              })}
-            </svg>
-            {/* The sum alone: the period is in the bar on top (t-2026-10-20-29). */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <Text size="base" weight="plus" className="tabular-nums">
-                {moneyCompact(total, analytics.currency, locale)}
-              </Text>
-            </div>
-          </div>
-          <ul className="flex flex-col gap-y-2">
-            {rows.map((row, index) => (
-              <li key={row.label} className="grid grid-cols-[12px_1fr_auto_auto] items-center gap-x-2">
-                <span className="bg-ui-fg-base size-2.5 rounded-sm" style={{ opacity: SHADES[index] ?? 0.08 }} />
-                <Text size="small" className="truncate">
-                  {row.label}
-                </Text>
-                <Text size="small" className="tabular-nums">
-                  {pct(row.share, locale)}
-                </Text>
-                <Text size="xsmall" className="w-14 text-right">
-                  <Change value={changeOf(row.revenue, row.previous)} locale={locale} />
-                </Text>
-              </li>
-            ))}
-          </ul>
-        </>
+        <ShareDonut rows={rows} currency={analytics.currency} locale={locale} label={t("mp.analytics.v3.categories.title")} />
       )}
     </Panel>
   )

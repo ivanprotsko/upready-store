@@ -44,6 +44,9 @@ export type OwnerNavGroup = {
 export const OWNER_HOME: OwnerNavItem = {
   labelKey: "app.nav.owner.overview",
   to: "/",
+  // t-2026-10-20-45: the shop's analytics page opens from the sales summary on
+  // the overview and keeps «Обзор» marked.
+  match: ["/analytics"],
 }
 
 export const OWNER_NAV: OwnerNavGroup[] = [
@@ -193,7 +196,7 @@ export const ownsPath = (prefix: string, pathname: string) =>
 export const findActive = (
   pathname: string
 ): { group: OwnerNavGroup | null; item: OwnerNavItem } | null => {
-  if (ownsPath("/", pathname)) {
+  if (ownsPath("/", pathname) || (OWNER_HOME.match ?? []).some((prefix) => ownsPath(prefix, pathname))) {
     return { group: null, item: OWNER_HOME }
   }
   let best: { group: OwnerNavGroup; item: OwnerNavItem; length: number } | null = null

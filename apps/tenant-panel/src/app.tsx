@@ -1457,6 +1457,7 @@ const routes: RouteObject[] = [
             path: "*",
             lazy: () => import("./routes/no-match"),
           },
+          { path: "/analytics", handle: { breadcrumb: () => t("shopAnalytics.title") }, errorElement: <ErrorBoundary />, lazy: () => import("./routes/analytics") },
         ],
       },
     ],

@@ -3,7 +3,6 @@ import { IconButton, Text } from "@medusajs/ui"
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react"
 import { useTranslation } from "react-i18next"
 
-import type { MpAnalyticsResponse } from "../../../../hooks/api/marketplace-section"
 import { count, dayShort, dayWithWeekday, moneyCompact, moneyWhole } from "./format"
 
 /**
@@ -25,14 +24,29 @@ import { count, dayShort, dayWithWeekday, moneyCompact, moneyWhole } from "./for
  * пустота.
  */
 
-type Day = MpAnalyticsResponse["by_day"][number]
+/** The one day the chart draws. A source without cancellations per day leaves them out. */
+export type SalesChartDay = {
+  day: string
+  revenue: number
+  orders: number
+  cancelled_revenue?: number
+  cancelled_units?: number
+}
 
 type Props = {
-  days: Day[]
+  days: SalesChartDay[]
   /** The previous period, day by day in the same order; `null` — no comparison. */
-  previous: Day[] | null
+  previous: SalesChartDay[] | null
   currency: string | null
   locale: string
+  /**
+   * Hues instead of greys: blue bars, the chosen one in the interactive blue,
+   * the previous period in purple (Ivan, 21.10: «оттенки цветов, а не шкала
+   * серого»). The marketplace page keeps its greys until it is asked.
+   */
+  hue?: boolean
+  /** The line under the chart; the default also names the cancelled cap. */
+  legend?: string
 }
 
 const HEIGHT = 220
@@ -66,13 +80,16 @@ const niceMax = (value: number): number => {
   return step * power
 }
 
-export const SalesChart = ({ days, previous, currency, locale }: Props) => {
+export const SalesChart = ({ days, previous, currency, locale, hue, legend }: Props) => {
   const { t } = useTranslation()
   const { ref, width } = useWidth()
-  const [active, setActive] = useState<number | null>(null)
+  const [hover, setActive] = useState<number | null>(null)
+  // A click keeps the day on screen after the pointer leaves; a second click on it lets go.
+  const [pinned, setPinned] = useState<number | null>(null)
+  const active = hover ?? pinned
 
   const top = useMemo(() => {
-    const values = days.map((day) => day.revenue + day.cancelled_revenue)
+    const values = days.map((day) => day.revenue + (day.cancelled_revenue ?? 0))
     for (const day of previous ?? []) {
       values.push(day.revenue)
     }
@@ -98,6 +115,7 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
       setActive((now) => Math.min(days.length - 1, Math.max(0, (now ?? days.length - 1) + step)))
     } else if (event.key === "Escape") {
       setActive(null)
+      setPinned(null)
     }
   }
 
@@ -115,10 +133,10 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
           revenue: money(shown.revenue),
           orders: count(shown.orders, locale),
         }),
-        shown.cancelled_units > 0
+        (shown.cancelled_units ?? 0) > 0
           ? t("mp.analytics.chart.dayCancelled", {
-              units: count(shown.cancelled_units, locale),
-              amount: money(shown.cancelled_revenue),
+              units: count(shown.cancelled_units ?? 0, locale),
+              amount: money(shown.cancelled_revenue ?? 0),
             })
           : null,
         before
@@ -179,6 +197,7 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
             className="touch-pan-y overflow-visible outline-none focus-visible:shadow-borders-focus rounded-md"
             onPointerMove={pick}
             onPointerDown={pick}
+            onClick={() => setPinned((now) => (active === null || now === active ? null : active))}
             onPointerLeave={(event) => (event.pointerType === "mouse" ? setActive(null) : undefined)}
             onKeyDown={onKey}
           >
@@ -205,8 +224,8 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
                   <rect
                     x={x}
                     width={bar}
-                    y={y(day.revenue + day.cancelled_revenue)}
-                    height={Math.max(0, y(day.revenue) - y(day.revenue + day.cancelled_revenue))}
+                    y={y(day.revenue + (day.cancelled_revenue ?? 0))}
+                    height={Math.max(0, y(day.revenue) - y(day.revenue + (day.cancelled_revenue ?? 0)))}
                     className="fill-ui-tag-orange-icon opacity-40"
                   />
                   <rect
@@ -214,13 +233,27 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
                     width={bar}
                     y={y(day.revenue)}
                     height={Math.max(0, TOP + HEIGHT - y(day.revenue))}
-                    className={active === index ? "fill-ui-fg-base" : "fill-ui-fg-subtle"}
+                    className={
+                      hue
+                        ? active === index
+                          ? "fill-ui-fg-interactive"
+                          : "fill-ui-tag-blue-icon"
+                        : active === index
+                          ? "fill-ui-fg-base"
+                          : "fill-ui-fg-subtle"
+                    }
                   />
                 </g>
               )
             })}
             {line ? (
-              <path d={line} fill="none" className="stroke-ui-fg-muted" strokeWidth={1.25} strokeDasharray="4 3" />
+              <path
+                d={line}
+                fill="none"
+                className={hue ? "stroke-ui-tag-purple-icon" : "stroke-ui-fg-muted"}
+                strokeWidth={hue ? 2 : 1.25}
+                strokeDasharray="4 3"
+              />
             ) : null}
             {active !== null ? (
               <line
@@ -249,7 +282,7 @@ export const SalesChart = ({ days, previous, currency, locale }: Props) => {
         )}
       </div>
       <Text size="xsmall" className="text-ui-fg-muted">
-        {t("mp.analytics.chart.legendV3")}
+        {legend ?? t("mp.analytics.chart.legendV3")}
       </Text>
     </div>
   )

@@ -1,11 +1,13 @@
-import { CalendarMini, Key, TriangleDownMini } from "@medusajs/icons"
-import { Alert, Badge, Button, Container, DatePicker, Heading, Text, clx } from "@medusajs/ui"
+import { Key } from "@medusajs/icons"
+import { Alert, Badge, Container, Heading, Text, clx } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { createColumnHelper } from "@tanstack/react-table"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useSearchParams } from "react-router-dom"
 
+import { PeriodBar } from "../../../components/analytics-period/period-bar"
+import { activePresetOf, presetFrom, type Preset } from "../../../components/analytics-period/period"
 import { NoRecords } from "../../../components/common/empty-table-content"
 import { SupportDetails, marketplaceErrorKey } from "../../../components/common/support-details"
 import type { Filter } from "../../../components/table/data-table"
@@ -23,9 +25,10 @@ import {
 import { CardCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 import { useMpListQuery } from "../common/use-mp-list-query"
-import { changeOf, count, dayLong, moneyWhole, pct, rangeShort, signedPct } from "./components/format"
+import { changeOf, count, dayLong, moneyWhole, pct, signedPct } from "./components/format"
 import { CategoryShares, ChecksByWeek, Panel, Regions, WarehouseSplit } from "./components/infographic"
 import { SalesChart } from "./components/sales-chart"
+import { Tile } from "./components/tile"
 
 /**
  * «Wildberries → Аналитика», v3 (t-2026-10-16-36), after the prototype Ivan
@@ -71,8 +74,6 @@ const FILTER_KEYS = ["category", "discount", "warehouse", "abc", "runs_out"]
 /** The value the API reads as «no category» (`NO_CATEGORY` of the backend). */
 const NO_CATEGORY = "__none__"
 
-const PRESETS = [7, 30, 90] as const
-
 const BANNER: Record<string, "info" | "warning" | "error"> = {
   missing: "info",
   never_run: "warning",
@@ -82,144 +83,6 @@ const BANNER: Record<string, "info" | "warning" | "error"> = {
 }
 
 type Card = MpAnalyticsResponse["cards"][number]
-
-const asDate = (value: string | undefined): Date | undefined => {
-  if (!value) {
-    return undefined
-  }
-  const [year, month, day] = value.split("-").map(Number)
-  if (!year || !month || !day) {
-    return undefined
-  }
-  return new Date(year, month - 1, day)
-}
-
-/** `Date` → `YYYY-MM-DD` by the LOCAL calendar; `toISOString` would shift the day east of Greenwich (w15). */
-const asIsoDay = (value: Date | null): string | null => {
-  if (!value || Number.isNaN(value.getTime())) {
-    return null
-  }
-  return `${value.getFullYear()}-${String(value.getMonth() + 1).padStart(2, "0")}-${String(value.getDate()).padStart(2, "0")}`
-}
-
-/** The first day of a ready period ending today; the server stops `to` at the shop's today itself. */
-const presetFrom = (preset: number | "month"): string | null => {
-  const today = new Date()
-  if (preset === "month") {
-    return asIsoDay(new Date(today.getFullYear(), today.getMonth(), 1))
-  }
-  const from = new Date(today)
-  from.setDate(from.getDate() - (preset - 1))
-  return asIsoDay(from)
-}
-
-type Period = MpAnalyticsResponse["period"]
-
-/**
- * The period in the heading row: the ready periods and the two date fields.
- * On a phone it is one chip with the range, as Metrica shrinks its bar; the
- * chip opens the controls under the heading. The ✕ of a field (the picker's
- * own clear button) drops that day from the address, both ✕ give the default
- * period back.
- */
-const PeriodBar = ({
-  from,
-  to,
-  period,
-  activePreset,
-  pickPreset,
-  setPeriod,
-  locale,
-}: {
-  from: string | undefined
-  to: string | undefined
-  period: Period | undefined
-  activePreset: number | "month" | null
-  pickPreset: (preset: number | "month") => void
-  setPeriod: (from: string | null, to: string | null) => void
-  locale: string
-}) => {
-  const { t } = useTranslation()
-  const [open, setOpen] = useState(false)
-  const shownFrom = from ?? period?.from_day
-  const shownTo = to ?? period?.to_day
-
-  return (
-    <>
-      <Button
-        type="button"
-        size="small"
-        variant="secondary"
-        className="min-h-11 gap-x-1.5 md:hidden"
-        aria-expanded={open}
-        aria-controls="mp-analytics-period"
-        aria-label={t("mp.analytics.v3.period")}
-        onClick={() => setOpen((value) => !value)}
-        data-testid="mp-analytics-period-chip"
-      >
-        <CalendarMini className="text-ui-fg-subtle" />
-        <span className="tabular-nums">
-          {shownFrom && shownTo ? rangeShort(shownFrom, shownTo, locale) : t("mp.analytics.v3.presets.days", { count: 30 })}
-        </span>
-        <TriangleDownMini className={clx("text-ui-fg-subtle transition-transform", open && "rotate-180")} />
-      </Button>
-      <div
-        id="mp-analytics-period"
-        role="group"
-        aria-label={t("mp.analytics.v3.period")}
-        className={clx("flex flex-wrap items-center gap-2 max-md:w-full", !open && "max-md:hidden")}
-        data-testid="mp-analytics-period"
-      >
-        <div className="bg-ui-bg-subtle flex rounded-md p-0.5 max-md:w-full">
-          {[...PRESETS, "month" as const].map((preset) => (
-            <button
-              key={preset}
-              type="button"
-              onClick={() => {
-                pickPreset(preset)
-                setOpen(false)
-              }}
-              aria-pressed={activePreset === preset}
-              className={clx(
-                "txt-compact-small-plus text-ui-fg-subtle rounded-[5px] px-3 py-1.5 max-md:min-h-11 max-md:flex-1",
-                activePreset === preset && "bg-ui-bg-base text-ui-fg-base shadow-borders-base"
-              )}
-            >
-              {preset === "month" ? t("mp.analytics.v3.presets.month") : t("mp.analytics.v3.presets.days", { count: preset })}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-2 max-md:w-full [&>*]:max-md:flex-1">
-          <DatePicker
-            aria-label={t("marketplaceAnalytics.filters.from")}
-            value={asDate(shownFrom)}
-            maxValue={asDate(shownTo)}
-            onChange={(value) => {
-              // The picker re-emits the day it was given on mount; only a
-              // day that differs from what is shown reaches the address.
-              const next = asIsoDay(value)
-              if (next !== (from ?? period?.from_day ?? null)) {
-                setPeriod(next, to ?? null)
-              }
-            }}
-          />
-          <DatePicker
-            aria-label={t("marketplaceAnalytics.filters.to")}
-            value={asDate(shownTo)}
-            minValue={asDate(shownFrom)}
-            maxValue={new Date()}
-            onChange={(value) => {
-              const next = asIsoDay(value)
-              if (next !== (to ?? period?.to_day ?? null)) {
-                setPeriod(from ?? null, next)
-              }
-            }}
-          />
-        </div>
-      </div>
-    </>
-  )
-}
 
 export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
   const { t, i18n } = useTranslation()
@@ -283,20 +146,9 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
   const nothingStored =
     !!connection && !connection.connected && connection.rows_in_period === 0 && (totals?.cards_total ?? 0) === 0
 
-  const activePreset = (() => {
-    if (!from && !to) {
-      return 30
-    }
-    if (to) {
-      return null
-    }
-    if (from === presetFrom("month")) {
-      return "month"
-    }
-    return PRESETS.find((preset) => presetFrom(preset) === from) ?? null
-  })()
+  const activePreset = activePresetOf(from, to)
 
-  const pickPreset = (preset: number | "month") =>
+  const pickPreset = (preset: Preset) =>
     preset === 30 ? setPeriod(null, null) : setPeriod(presetFrom(preset), null)
 
   return (
@@ -518,77 +370,6 @@ const ConnectionBanner = ({ connection, slug }: { connection: FeedConnection; sl
         {notice === "failed" && connection.last_run?.error ? <SupportDetails text={connection.last_run.error} /> : null}
       </div>
     </Alert>
-  )
-}
-
-/**
- * One of the four numbers on top, with its change against the previous
- * period. Green is good: for «Отменено» a rise is red (`inverse`); the average
- * check moves both ways for good reasons and stays grey (`neutral`).
- */
-const Tile = ({
-  label,
-  value,
-  change,
-  days,
-  hint,
-  rows,
-  inverse,
-  neutral,
-  wide,
-}: {
-  /** Across the whole row on a phone and a tablet; one of four on a wide screen. */
-  wide?: boolean
-  label: string
-  value: string
-  change: number | null
-  days: number
-  hint?: string
-  rows?: Array<[string, string]>
-  inverse?: boolean
-  neutral?: boolean
-}) => {
-  const { t, i18n } = useTranslation()
-  const good = change === null || neutral ? null : inverse ? change < 0 : change > 0
-  return (
-    <Container className={clx("flex min-w-0 flex-col gap-y-1 px-5 py-4 max-md:px-4", wide && "col-span-2 xl:col-span-1")}>
-      <Text size="small" className="text-ui-fg-subtle">
-        {label}
-      </Text>
-      <Text size="xlarge" weight="plus" className="whitespace-nowrap tabular-nums">
-        {value}
-      </Text>
-      {change !== null ? (
-        <Text
-          size="small"
-          className={clx(
-            "tabular-nums",
-            good === null ? "text-ui-fg-subtle" : good ? "text-ui-tag-green-text" : "text-ui-fg-error"
-          )}
-        >
-          {t("mp.analytics.v3.tiles.change", { value: signedPct(change, i18n.language || "ru"), days })}
-        </Text>
-      ) : null}
-      {rows?.length ? (
-        <div className="border-ui-border-base mt-1 flex flex-col gap-y-0.5 border-t pt-2">
-          {rows.map(([name, amount]) => (
-            <div key={name} className="flex items-center justify-between gap-x-2">
-              <Text size="small" className="text-ui-fg-subtle">
-                {name}
-              </Text>
-              <Text size="small" className="whitespace-nowrap tabular-nums">
-                {amount}
-              </Text>
-            </div>
-          ))}
-        </div>
-      ) : null}
-      {hint ? (
-        <Text size="xsmall" className="text-ui-fg-muted">
-          {hint}
-        </Text>
-      ) : null}
-    </Container>
   )
 }
 
