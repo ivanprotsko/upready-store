@@ -102,7 +102,7 @@ test("a picture by chat: the preview card offers the product and the banner; the
 });
 
 test("RU: Claude and pictures are off by flag, whatever keys are set", async () => {
-  const config = readConfig({ SHOP_FIXTURES: "1", SHOP_REGION: "ru", MODEL_PROVIDER: "anthropic", ANTHROPIC_API_KEY: "sk-ant-test-not-real", DATA_DIR: dataDir() });
+  const config = readConfig({ SHOP_FIXTURES: "1", SHOP_REGION: "ru", MODEL_PROVIDER: "anthropic", ANTHROPIC_API_KEY: "test-key-not-real", DATA_DIR: dataDir() });
   assert.equal(config.model.provider, "rules");
   assert.equal(config.images.on, false);
   const app = createApp(config, { fetch: offline });
