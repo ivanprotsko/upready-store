@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url"
 import type { HttpTypes } from "@medusajs/types"
 import { describe, expect, it } from "vitest"
 
-import { SEARCH_TINT, categoryTint } from "./palette"
+import { CATEGORY_TINTS, SEARCH_TINT, categoryTint } from "./palette"
 import { activeItemId, hasRailItems, railItems, railShownOn } from "./rail-items"
 
 /**
@@ -51,17 +51,26 @@ describe("railItems: the row's buttons", () => {
     ])
   })
 
-  it("every button takes the one neutral pair (t-2026-10-20-61 D2)", () => {
+  it("each button takes the tint of its place: the frame's sequence from the first", () => {
     const items = railItems(SHOP, "ru")
-    items.forEach((item) => {
-      expect(item.tint, item.name).toEqual(SEARCH_TINT)
+    items.forEach((item, position) => {
+      const { fill, ink, shade } = CATEGORY_TINTS[position]
+      expect(item.tint, item.name).toEqual({ fill, ink, shade })
     })
   })
 
-  it("a long row never repeats a colour because there is only one", () => {
+  it("the first ten never share a colour, the eleventh starts the run again", () => {
     const many = Array.from({ length: 11 }, (_, i) => category(`x${i}`, `Категория ${String(i).padStart(2, "0")}`, `k-${i}`))
     const tints = railItems(many, "ru").map((item) => item.tint.fill)
-    expect(new Set(tints).size).toBe(1)
+    expect(new Set(tints.slice(0, 10)).size).toBe(10)
+    expect(tints[10]).toBe(tints[0])
+  })
+
+  it("no name decides a colour: renamed categories keep the colours of their places", () => {
+    const renamed = SHOP.map((c, i) => category(c.id, `Новое имя ${String.fromCharCode(1072 + i)}`, `new-${i}`, c.parent_category_id))
+    const before = railItems(SHOP, "ru").map((item) => item.tint)
+    const after = railItems(renamed, "ru").map((item) => item.tint)
+    expect(after).toEqual(before)
   })
 
   it("a parent's button holds its children's handles", () => {
@@ -75,10 +84,10 @@ describe("railItems: the row's buttons", () => {
 })
 
 describe("categoryTint", () => {
-  it("is the same neutral pair for any position", () => {
-    expect(categoryTint(5)).toEqual(categoryTint(0))
-    expect(categoryTint(-1)).toEqual(categoryTint(0))
-    expect(categoryTint(0).fill).toBe("var(--muted)")
+  it("wraps in both directions and never returns the search pair", () => {
+    expect(categoryTint(CATEGORY_TINTS.length)).toEqual(categoryTint(0))
+    expect(categoryTint(-1)).toEqual(categoryTint(CATEGORY_TINTS.length - 1))
+    for (let i = 0; i < CATEGORY_TINTS.length; i++) expect(categoryTint(i).fill).not.toBe(SEARCH_TINT.fill)
   })
 })
 

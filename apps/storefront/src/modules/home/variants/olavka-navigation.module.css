@@ -49,9 +49,9 @@
 }
 
 .chip {
-  --chip-fill: var(--muted);
-  --chip-ink: var(--foreground);
-  --chip-shade: var(--border);
+  --chip-fill: #efeee5;
+  --chip-ink: #1d1e18;
+  --chip-shade: #5e5b3a;
   display: inline-flex;
   align-items: center;
   justify-content: center;
