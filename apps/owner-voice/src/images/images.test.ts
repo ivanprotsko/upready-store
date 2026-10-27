@@ -6,6 +6,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, readFileSync } from "node:fs";
+import vm from "node:vm";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -410,4 +411,36 @@ test("no key for the chosen provider: stub, and the status says «заглушк
   const app = createApp(readConfig({ SHOP_FIXTURES: "1", DATA_DIR: dataDir(), IMAGE_PROVIDER: "replicate" }), { fetch: offline });
   assert.match(String(app.status().images), /заглушка/);
   assert.equal(readConfig({ SHOP_FIXTURES: "1" }).images.provider, "stub");
+});
+
+// ---- the evidence scenes
+
+test("?show= scenes run only on fixtures with the stub driver; live or fal/replicate: not one /api/text", () => {
+  const html = readFileSync(new URL("../page.html", import.meta.url), "utf8");
+  const gate = /const sceneAllowed = (\(s\) => .+);\n/.exec(html)?.[1];
+  assert.ok(gate, "the page has the gate");
+  const allowed = vm.runInNewContext(gate) as (s: Record<string, unknown>) => boolean;
+  const fixture = { storeApi: "fixture", ownerApi: "fixture", images: "stub", provider: "rules (keyword router, no model)" };
+  assert.equal(allowed(fixture), true);
+  assert.equal(allowed({ ...fixture, images: "stub (заглушка: нет ключа для fal)" }), true, "a stub that stands in for a missing key is still a stub");
+  assert.equal(allowed({ ...fixture, ownerApi: "live" }), false, "a live owner API");
+  assert.equal(allowed({ ...fixture, storeApi: "live" }), false, "a live catalog");
+  assert.equal(allowed({ ...fixture, images: "fal" }), false, "the fal driver");
+  assert.equal(allowed({ ...fixture, images: "replicate" }), false, "the replicate driver");
+  assert.equal(allowed({ ...fixture, images: "выключены" }), false, "images off is not a stub");
+  assert.equal(allowed({ ...fixture, provider: "anthropic (claude)" }), false, "a live model");
+  assert.equal(allowed({}), false, "an empty status");
+
+  // The only way into a scene is through the gate: one call of runScene, inside `sceneAllowed(s)`.
+  assert.equal(html.match(/runScene\(/g)?.length, 1, "one call, and it is the gated one");
+  assert.match(html, /if \(sceneAllowed\(s\)\) runScene\(wantShow\)/);
+  assert.doesNotMatch(html, /const show = new URLSearchParams/, "no scene reads the parameter outside the gate");
+});
+
+test("the status the page reads says live or stub for each of those cases", () => {
+  const fixtures = createApp(readConfig({ SHOP_FIXTURES: "1", DATA_DIR: dataDir() }), { fetch: offline }).status();
+  assert.equal(fixtures.ownerApi, "fixture");
+  assert.match(String(fixtures.images), /^stub/);
+  const fal = createApp(readConfig({ SHOP_FIXTURES: "1", DATA_DIR: dataDir(), IMAGE_PROVIDER: "fal", FAL_KEY: KEY }), { fetch: offline }).status();
+  assert.equal(fal.images, "fal");
 });

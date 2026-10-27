@@ -746,7 +746,10 @@
   }));
 
   /* ---------- ?show= opens a state for the evidence screens, through the same handlers a person uses ---------- */
-  const show = new URLSearchParams(location.search).get("show");
+  const wantShow = new URLSearchParams(location.search).get("show");
+  // The scenes send real requests (they draw pictures and stage changes). They run only on fixtures with the stub image driver and no live model; anywhere else `show` is ignored without a word.
+  const sceneAllowed = (s) => s.storeApi !== "live" && s.ownerApi !== "live" && /^stub\b/.test(String(s.images)) && !String(s.provider).startsWith("anthropic");
+  const runScene = (show) => {
   if (show === "palette") {
     loadCommands.then(() => {
       document.dispatchEvent(new KeyboardEvent("keydown", { key: "K", code: "KeyK", shiftKey: true, metaKey: true, bubbles: true }));
@@ -816,6 +819,8 @@
       document.body.dataset.ready = "1";
     })();
   }
+  };
+  if (wantShow) fetch("/api/status").then((r) => r.json()).then((s) => { if (sceneAllowed(s)) runScene(wantShow); }, () => {});
 </script>
 </body>
 </html>

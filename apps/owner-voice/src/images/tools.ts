@@ -48,7 +48,7 @@ type Done = StoredImage & { url: string; beforeUrl: string };
 /** Before and after on the one image card the chat already has. */
 function editCard(images: ImageService, out: Done, op: EditOp): ToolOutcome {
   return {
-    text: `Готово: ${OPERATION_RU[op]}. Слева было, справа стало; ${images.provider === "stub" ? "это заглушка, настоящей обработки нет. " : ""}скажите «на товар …» или нажмите кнопку.`,
+    text: `Готово: ${OPERATION_RU[op]}. Слева было, справа стало; ${images.provider === "stub" ? "это заглушка, настоящей обработки нет. Скажите" : "скажите"} «на товар …» или нажмите кнопку.`,
     card: {
       kind: "image",
       title: `Фото: ${OPERATION_RU[op]}`,
