@@ -9,6 +9,7 @@ import { ChangesetRefusal, type ChangesetRow } from "../../../agent-changesets/l
 import { readAs, type Caller } from "../../../agent-changesets/loopback";
 import { OP_SPECS, productIdOf, type ChangesetOp, type OpValue } from "../../../agent-changesets/ops";
 import { STAGE_HOST_KEY, stageTenantIdOf } from "../../../agent-changesets/stage";
+import { primaryHostFor } from "../../storefront/by-host/hosts";
 
 /**
  * What the `/tenants/agent-changesets/*` routes share (t-2026-10-27-04): who
@@ -63,10 +64,15 @@ export type SiteLinks = { main_url: string | null; stage_url: string | null };
 
 const urlOf = (host: string | null | undefined) => (host ? `https://${host}` : null);
 
-/** The live site's address and its stage copy's, for the panel's «посмотреть» links. */
+/**
+ * The live site's address and its stage copy's, for the panel's «посмотреть»
+ * links. A shop without a domain of its own lives at its technical address,
+ * the same host the stage site's name is made from.
+ */
 export const siteLinksOf = async (req: AuthenticatedMedusaRequest, tenantId: string): Promise<SiteLinks> => {
   const main = await service(req).retrieveTenant(tenantId, { relations: ["domains"] });
-  const primary = (main.domains ?? []).find((domain) => domain?.is_primary)?.host ?? null;
+  const primaryDomain = (main.domains ?? []).find((domain) => domain?.is_primary)?.host ?? null;
+  const primary = primaryHostFor({ handle: main.handle, primaryDomain });
 
   const stageId = stageTenantIdOf(main.metadata);
   let stageHost: string | null = null;
@@ -143,6 +149,8 @@ export const summaryOf = (row: ChangesetRow) => ({
   published_at: row.published_at,
   rolled_back_at: row.rolled_back_at,
   discarded_at: row.discarded_at,
+  /** Where the list row's links open: the first op that has a page of its own; a product needs a read, so `/`. */
+  preview_path: (row.ops ?? []).map((op) => previewPathOf(op)).find(Boolean) ?? "/",
 });
 
 /**

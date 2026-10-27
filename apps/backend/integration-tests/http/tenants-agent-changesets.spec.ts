@@ -273,8 +273,8 @@ medusaIntegrationTestRunner({
         const listed = await get("/tenants/agent-changesets");
         expect(listed.status).toBe(200);
         expect(listed.data.agent_changesets.slice(0, 2).map((row: { id: string }) => row.id)).toEqual([second, first]);
-        expect(listed.data.agent_changesets[0]).toMatchObject({ source: "owner-voice", author_email: OWNER, op_count: 1 });
-        expect(listed.data.sites.stage_url).toBe(`https://${STAGE_HOST}`);
+        expect(listed.data.agent_changesets[0]).toMatchObject({ source: "owner-voice", author_email: OWNER, op_count: 1, preview_path: "/" });
+        expect(listed.data.sites).toEqual({ main_url: `https://${MAIN_HOST}`, stage_url: `https://${STAGE_HOST}` });
       });
 
       it("refuses a changeset made on the stage site itself", async () => {

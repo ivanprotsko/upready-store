@@ -1,10 +1,12 @@
 import { ArrowUpRightOnBox, EllipsisHorizontal } from "@medusajs/icons"
-import { IconButton, StatusBadge, Text } from "@medusajs/ui"
+import { format } from "date-fns"
+import { Button, IconButton, StatusBadge, Text } from "@medusajs/ui"
 import { createColumnHelper } from "@tanstack/react-table"
-import { useMemo } from "react"
+import { useMemo, type MouseEvent } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ActionMenu } from "../../../components/common/action-menu"
+import { LinkButton } from "../../../components/common/link-button"
 import type { Filter } from "../../../components/table/data-table"
 import {
   CHANGESET_STATUSES,
@@ -12,7 +14,6 @@ import {
   type ChangesetStatus,
   type SiteLinks,
 } from "../../../hooks/api/agent-changesets"
-import { useDate } from "../../../hooks/use-date"
 import { useQueryParams } from "../../../hooks/use-query-params"
 import {
   CHANGESET_STATUS_COLOR,
@@ -21,6 +22,7 @@ import {
   changesetStatusLabel,
   changesetWhat,
   changesetWhen,
+  siteLink,
 } from "../labels"
 import { ACTION_ICON, useChangesetActions } from "../use-changeset-actions"
 
@@ -80,13 +82,49 @@ const RowActions = ({ changeset, search }: { changeset: AgentChangesetSummary; s
   )
 }
 
+/** «27.10 12:02»: the year only when it is not this one; the full date on hover. */
 const WhenCell = ({ row }: { row: AgentChangesetSummary }) => {
-  const { getFullDate } = useDate()
   const when = changesetWhen(row)
+  if (!when) return <Text size="small">—</Text>
+  const date = new Date(when)
+  const short = format(date, date.getFullYear() === new Date().getFullYear() ? "dd.MM HH:mm" : "dd.MM.yyyy HH:mm")
   return (
-    <Text size="small" leading="compact" className="whitespace-nowrap">
-      {when ? getFullDate({ date: when, includeTime: true }) : "—"}
+    <Text size="small" leading="compact" className="whitespace-nowrap" title={format(date, "dd.MM.yyyy HH:mm")}>
+      {short}
     </Text>
+  )
+}
+
+/**
+ * The row's «Stage ↗ · Сайт ↗», opening the changed page. The row itself is a
+ * link, so these are buttons: a link inside a link is invalid HTML.
+ */
+const RowSiteLinks = ({ row, sites }: { row: AgentChangesetSummary; sites: SiteLinks | undefined }) => {
+  const { t } = useTranslation()
+  const open = (url: string | null) => (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    if (url) window.open(url, "_blank", "noopener,noreferrer")
+  }
+  const links = [
+    { key: "stage", url: siteLink(sites?.stage_url, row.preview_path) },
+    { key: "main", url: siteLink(sites?.main_url, row.preview_path) },
+  ].filter((link) => link.url)
+  return (
+    <div className="flex items-center whitespace-nowrap">
+      {links.map((link) => (
+        <Button
+          key={link.key}
+          type="button"
+          size="small"
+          variant="transparent"
+          title={link.url ?? undefined}
+          onClick={open(link.url)}
+        >
+          {t(`agentChanges.links.${link.key}`)}
+        </Button>
+      ))}
+    </div>
   )
 }
 
@@ -96,26 +134,14 @@ export const SiteLinksCell = ({ sites }: { sites: SiteLinks | undefined }) => {
   return (
     <div className="flex items-center gap-x-3 whitespace-nowrap">
       {sites?.stage_url ? (
-        <a
-          href={sites.stage_url}
-          target="_blank"
-          rel="noreferrer"
-          onClick={(event) => event.stopPropagation()}
-          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small"
-        >
+        <LinkButton to={sites.stage_url} target="_blank" rel="noreferrer">
           {t("agentChanges.links.stage")}
-        </a>
+        </LinkButton>
       ) : null}
       {sites?.main_url ? (
-        <a
-          href={sites.main_url}
-          target="_blank"
-          rel="noreferrer"
-          onClick={(event) => event.stopPropagation()}
-          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small"
-        >
+        <LinkButton to={sites.main_url} target="_blank" rel="noreferrer">
           {t("agentChanges.links.main")}
-        </a>
+        </LinkButton>
       ) : null}
     </div>
   )
@@ -137,14 +163,16 @@ export const useChangesetColumns = (search: string, sites: SiteLinks | undefined
       columnHelper.accessor("author_email", {
         header: t("agentChanges.columns.who"),
         cell: ({ row }) => (
-          <Text
-            size="small"
-            leading="compact"
-            className="truncate"
-            title={changesetSourceLabel(t, row.original.source)}
-          >
-            {row.original.author_email ?? changesetSourceLabel(t, row.original.source)}
-          </Text>
+          <div className="flex h-full w-full max-w-[88px] xl:max-w-[200px] items-center overflow-hidden">
+            <Text
+              size="small"
+              leading="compact"
+              className="truncate"
+              title={[row.original.author_email, changesetSourceLabel(t, row.original.source)].filter(Boolean).join(" · ")}
+            >
+              {row.original.author_email ?? changesetSourceLabel(t, row.original.source)}
+            </Text>
+          </div>
         ),
       }),
       columnHelper.display({
@@ -153,7 +181,7 @@ export const useChangesetColumns = (search: string, sites: SiteLinks | undefined
         cell: ({ row }) => {
           const what = changesetWhat(t, row.original)
           return (
-            <div className="flex h-full w-full max-w-[360px] items-center overflow-hidden">
+            <div className="flex h-full w-full max-w-[120px] xl:max-w-[280px] items-center overflow-hidden">
               <Text size="small" leading="compact" className="truncate" title={what}>
                 {what}
               </Text>
@@ -178,7 +206,7 @@ export const useChangesetColumns = (search: string, sites: SiteLinks | undefined
       columnHelper.display({
         id: "links",
         header: t("agentChanges.columns.links"),
-        cell: () => <SiteLinksCell sites={sites} />,
+        cell: ({ row }) => <RowSiteLinks row={row.original} sites={sites} />,
       }),
       columnHelper.display({
         id: "actions",

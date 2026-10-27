@@ -1,8 +1,8 @@
-import { ExclamationCircle } from "@medusajs/icons"
-import { Badge, Button, Heading, StatusBadge, Text } from "@medusajs/ui"
+import { Alert, Badge, Button, Heading, StatusBadge, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 
+import { LinkButton } from "../../../components/common/link-button"
 import { SectionRow } from "../../../components/common/section"
 import { RouteDrawer } from "../../../components/modals"
 import {
@@ -35,29 +35,18 @@ import { useChangesetActions } from "../use-changeset-actions"
 // changeset whose targets changed on the live site since shows that drift,
 // and «Откатить» stays off: the server would refuse it and change nothing.
 
-const LinkOut = ({ href, children }: { href: string; children: string }) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noreferrer"
-    className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small whitespace-nowrap"
-  >
-    {children}
-  </a>
-)
-
-const ValueText = ({ value, muted }: { value: unknown; muted?: boolean }) => {
+/** One field's «было → стало», in the owner's words: the old value struck through above the new one. */
+const ChangeValue = ({ before, after }: { before: unknown; after: unknown }) => {
   const { t } = useTranslation()
-  const text = formatValue(t, value)
   return (
-    <Text
-      size="small"
-      leading="compact"
-      className={`break-words ${muted ? "text-ui-fg-subtle line-through" : ""}`}
-      title={text}
-    >
-      {text}
-    </Text>
+    <div className="flex min-w-0 flex-col items-start gap-y-1">
+      <Text size="small" leading="compact" className="text-ui-fg-subtle [overflow-wrap:anywhere]">
+        {t("agentChanges.diff.before")}: <span className="line-through">{formatValue(t, before)}</span>
+      </Text>
+      <Text size="small" leading="compact" className="[overflow-wrap:anywhere]">
+        {t("agentChanges.diff.after")}: {formatValue(t, after)}
+      </Text>
+    </div>
   )
 }
 
@@ -67,7 +56,7 @@ const OpCard = ({ op, sites }: { op: AgentChangesetOp; sites: SiteLinks | undefi
   const main = siteLink(sites?.main_url, op.preview_path)
 
   return (
-    <div className="flex flex-col gap-y-3 px-6 py-4" data-testid="agent-change-op">
+    <div className="flex flex-col gap-y-3 px-6 pt-4" data-testid="agent-change-op">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
         <div className="flex min-w-0 items-center gap-x-2">
           <Badge size="2xsmall">{changesetKindLabel(t, op.kind)}</Badge>
@@ -76,38 +65,30 @@ const OpCard = ({ op, sites }: { op: AgentChangesetOp; sites: SiteLinks | undefi
           </Text>
         </div>
         <div className="flex items-center gap-x-3">
-          {stage ? <LinkOut href={stage}>{t("agentChanges.links.stage")}</LinkOut> : null}
-          {main ? <LinkOut href={main}>{t("agentChanges.links.main")}</LinkOut> : null}
+          {stage ? (
+            <LinkButton to={stage} target="_blank" rel="noreferrer">
+              {t("agentChanges.links.stage")}
+            </LinkButton>
+          ) : null}
+          {main ? (
+            <LinkButton to={main} target="_blank" rel="noreferrer">
+              {t("agentChanges.links.main")}
+            </LinkButton>
+          ) : null}
         </div>
       </div>
       {op.changes.length ? (
-        <div className="flex flex-col divide-y rounded-lg border">
-          <div className="text-ui-fg-subtle hidden grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,2fr)] gap-x-3 px-3 py-2 md:grid">
-            <Text size="xsmall" weight="plus">
-              {t("agentChanges.diff.field")}
-            </Text>
-            <Text size="xsmall" weight="plus">
-              {t("agentChanges.diff.before")}
-            </Text>
-            <Text size="xsmall" weight="plus">
-              {t("agentChanges.diff.after")}
-            </Text>
-          </div>
+        <div className="-mx-6 divide-y border-t">
           {op.changes.map((change) => (
-            <div
+            <SectionRow
               key={change.field}
-              className="grid grid-cols-1 gap-x-3 gap-y-1 px-3 py-2 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,2fr)]"
-            >
-              <Text size="small" leading="compact" weight="plus">
-                {fieldLabel(t, change.field)}
-              </Text>
-              <ValueText value={change.before} muted />
-              <ValueText value={change.after} />
-            </div>
+              title={fieldLabel(t, change.field)}
+              value={<ChangeValue before={change.before} after={change.after} />}
+            />
           ))}
         </div>
       ) : (
-        <Text size="small" leading="compact" className="text-ui-fg-muted">
+        <Text size="small" leading="compact" className="text-ui-fg-muted pb-4">
           {t("agentChanges.diff.none")}
         </Text>
       )}
@@ -115,32 +96,34 @@ const OpCard = ({ op, sites }: { op: AgentChangesetOp; sites: SiteLinks | undefi
   )
 }
 
-const DriftNotice = ({ drift }: { drift: ChangesetDrift[] }) => {
+const DriftNotice = ({ drift, ops }: { drift: ChangesetDrift[]; ops: AgentChangesetOp[] }) => {
   const { t } = useTranslation()
+  // Each place in the owner's words: what it is and its address on the site.
+  const place = (entry: ChangesetDrift) => {
+    const op = ops.find((candidate) => candidate.index === entry.op_index)
+    return op ? [changesetKindLabel(t, op.kind), op.preview_path].filter(Boolean).join(" · ") : entry.path
+  }
   return (
-    <div
-      className="bg-ui-bg-subtle mx-6 my-4 flex flex-col gap-y-2 rounded-lg border p-3"
-      data-testid="agent-change-drift"
-      role="status"
-    >
-      <div className="flex items-center gap-x-2">
-        <ExclamationCircle className="text-ui-fg-error shrink-0" />
-        <Text size="small" leading="compact" weight="plus">
-          {t("agentChanges.drift.title")}
-        </Text>
-      </div>
-      <Text size="small" className="text-ui-fg-subtle text-pretty">
-        {t("agentChanges.drift.description")}
-      </Text>
-      <ul className="flex flex-col gap-y-1">
-        {drift.map((entry) => (
-          <li key={entry.op_index}>
-            <Text size="small" leading="compact" className="truncate" title={entry.path}>
-              {entry.path}
-            </Text>
-          </li>
-        ))}
-      </ul>
+    <div className="px-6 py-4" data-testid="agent-change-drift">
+      <Alert variant="error">
+        <div className="flex flex-col gap-y-1">
+          <Text size="small" leading="compact" weight="plus">
+            {t("agentChanges.drift.title")}
+          </Text>
+          <Text size="small" className="text-pretty">
+            {t("agentChanges.drift.description")}
+          </Text>
+          <ul className="flex flex-col gap-y-1">
+            {drift.map((entry) => (
+              <li key={entry.op_index}>
+                <Text size="small" leading="compact" className="break-words">
+                  {place(entry)}
+                </Text>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Alert>
     </div>
   )
 }
@@ -174,7 +157,7 @@ const ChangesetRows = ({ changeset, sites }: { changeset: AgentChangeset; sites:
           </div>
         }
       />
-      {changeset.drift?.length ? <DriftNotice drift={changeset.drift} /> : null}
+      {changeset.drift?.length ? <DriftNotice drift={changeset.drift} ops={changeset.ops} /> : null}
       <div className="px-6 pb-1 pt-4">
         <Heading level="h3">{t("agentChanges.detail.ops", { count: changeset.ops.length })}</Heading>
       </div>

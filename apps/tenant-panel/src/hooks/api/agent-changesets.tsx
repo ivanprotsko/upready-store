@@ -46,6 +46,8 @@ export type AgentChangesetSummary = {
   published_at: string | null
   rolled_back_at: string | null
   discarded_at: string | null
+  /** Where the row's «Stage» and «Сайт» open: the first op's page, `/` for a product. */
+  preview_path: string
 }
 
 export type FieldChange = { field: string; before: unknown; after: unknown }

@@ -7827,7 +7827,7 @@
     "statusHint": {
       "draft": "Not visible anywhere yet.",
       "staged": "Visible on the site's copy; the live site has not changed.",
-      "published": "Visible on the live site. It can be rolled back.",
+      "published": "Visible on the live site.",
       "rolled_back": "The live site is back to what it was before publishing.",
       "discarded": "The change was discarded; the site did not change."
     },
