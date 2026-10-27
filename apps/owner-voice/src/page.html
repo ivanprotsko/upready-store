@@ -795,7 +795,10 @@
         await until(".card.image .pics");
         await new Promise((r) => setTimeout(r, 400));
       } else if (show === "image-capped") {
-        // The stand runs with IMAGE_DAILY_COUNT=1 and has drawn its one picture already: this request is the refused one.
+        // The stand runs with the default caps (30 a day, $3): the scene draws the day's 30 first, unseen, so this request is the refused one.
+        for (let n = 1; n <= 30; n += 1) {
+          await fetch("/api/text", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question: `Нарисуй баннер ${n}: осенняя скидка` }) });
+        }
         await post("/api/text", { question: "Нарисуй ещё один баннер: осенняя скидка 15%" });
         await until(".card.notice");
       } else if (show === "pdf") {
