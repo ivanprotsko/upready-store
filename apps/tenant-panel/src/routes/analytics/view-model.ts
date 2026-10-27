@@ -71,3 +71,13 @@ export const productSharesOf = (summary: Pick<SummaryShape, "current" | "top_pro
     rest: restRevenue > 0 ? { revenue: restRevenue, share: Math.round((restRevenue / total) * 1000) / 10 } : null,
   }
 }
+
+/**
+ * Orders a day for the sentence under the chart title. From ten a day it is a
+ * whole number; below that one decimal, so a small shop reads «1,3 заказа», not
+ * «0 заказов» or «1 заказов». `count` is the number the plural form is chosen by.
+ */
+export const averageOrdersOf = (orderCount: number, days: number): number => {
+  const perDay = days > 0 ? orderCount / days : 0
+  return perDay >= 10 ? Math.round(perDay) : Math.round(perDay * 10) / 10
+}

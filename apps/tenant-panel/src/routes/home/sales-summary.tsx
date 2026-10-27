@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
+import { TriangleRightMini } from "@medusajs/icons"
 import { Button, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
@@ -90,9 +91,10 @@ export const SalesSummary = () => {
             to="/analytics"
             aria-label={t("salesSummary.openAnalytics")}
             data-testid="sales-summary-open-analytics"
-            className="rounded-md outline-none hover:underline focus-visible:shadow-borders-focus"
+            className="inline-flex items-center gap-x-1 rounded-md outline-none hover:underline focus-visible:shadow-borders-focus"
           >
             {t("salesSummary.title")}
+            <TriangleRightMini className="text-ui-fg-muted rtl:rotate-180" />
           </Link>
         </Heading>
         <div className="flex flex-wrap items-center gap-2">

@@ -7809,6 +7809,11 @@
   },
   "shopAnalytics": {
     "title": "Shop analytics",
+    "empty": {
+      "title": "No orders yet",
+      "message": "Revenue, orders and best sellers will show up here after the first order.",
+      "action": "Open Overview"
+    },
     "tiles": {
       "revenue": "Revenue",
       "revenueHint": "Cancelled orders left out",
@@ -7822,7 +7827,8 @@
       "title": "Revenue by day",
       "hint": "Orders without cancelled ones",
       "dashed": "dashed line — previous {{days}} days",
-      "average": "On average {{revenue}} and {{orders}} orders a day.",
+      "average_one": "On average {{revenue}} and {{orders}} order a day.",
+      "average_other": "On average {{revenue}} and {{orders}} orders a day.",
       "legend": "Click a bar to keep the day on screen. Arrow keys step through days."
     },
     "shares": {

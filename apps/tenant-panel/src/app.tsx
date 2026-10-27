@@ -24,8 +24,10 @@ import {
   ReviewsRedirect,
   SyncRedirect,
 } from "./routes/marketplaces/common/redirects"
+import { shopAnalyticsChildren } from "./routes/analytics/routes"
 import { homeSettingsChildren } from "./routes/home-settings/routes"
 import { ozonChildren } from "./routes/marketplaces/ozon-routes"
+import { analyticsSettingsChildren } from "./routes/settings/analytics/routes"
 
 import "./index.css"
 
@@ -50,9 +52,7 @@ const routes: RouteObject[] = [
           },
           {
             path: "/analytics",
-            handle: { breadcrumb: () => t("shopAnalytics.title") },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/analytics"),
+            children: shopAnalyticsChildren,
           },
           {
             path: "/products",
@@ -1214,15 +1214,7 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("analyticsSettings.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/analytics"),
-            // t-2026-10-14-01 (panel redesign, G1): the screen only reads; its
-            // fields are edited in this drawer, the way profile-edit hangs
-            // under /settings/profile.
-            children: [
-              {
-                path: "edit",
-                lazy: () => import("./routes/settings/analytics/analytics-edit"),
-              },
-            ],
+            children: analyticsSettingsChildren,
           },
           {
             // mp-section-design: the old daily screens redirect to the

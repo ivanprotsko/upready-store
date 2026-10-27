@@ -13,16 +13,17 @@ import {
   summaryQueryOf,
   type Preset,
 } from "../../components/analytics-period/period"
+import { NoRecords } from "../../components/common/empty-table-content"
 import { useTenantAnalyticsSummary } from "../../hooks/api/analytics-summary"
 import { getStylizedAmount } from "../../lib/money-amount-helpers"
 import { SalesSummaryCurrencyPicker, SalesSummaryOtherCurrencies } from "../home/sales-summary-currency"
-import { SalesSummaryTopProducts } from "../home/sales-summary-top-products"
+import { SalesSummaryTopProductsList } from "../home/sales-summary-top-products"
 import { count, moneyWhole } from "../marketplaces/mp-analytics/components/format"
 import { Panel, ShareDonut } from "../marketplaces/mp-analytics/components/infographic"
 import { SalesChart } from "../marketplaces/mp-analytics/components/sales-chart"
 import { Tile } from "../marketplaces/mp-analytics/components/tile"
 import { MpPage } from "../marketplaces/common/mp-page"
-import { chartDaysOf, previousDaysOf, productSharesOf, tilesOf } from "./view-model"
+import { averageOrdersOf, chartDaysOf, previousDaysOf, productSharesOf, tilesOf } from "./view-model"
 
 /**
  * «Аналитика магазина» (t-2026-10-20-45): the shop's own sales on a page of
@@ -100,10 +101,12 @@ export const ShopAnalytics = () => {
           {t("salesSummary.loading")}
         </Text>
       ) : data && data.has_orders === false ? (
-        <Container className="px-6 py-8" data-testid="shop-analytics-empty">
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("salesSummary.noOrdersYet")}
-          </Text>
+        <Container className="p-0" data-testid="shop-analytics-empty">
+          <NoRecords
+            title={t("shopAnalytics.empty.title")}
+            message={t("shopAnalytics.empty.message")}
+            action={{ to: "/", label: t("shopAnalytics.empty.action") }}
+          />
         </Container>
       ) : data && data.has_orders ? (
         <ShopAnalyticsBody data={data} length={length} locale={locale} currencies={knownCurrencies} setCurrency={setCurrency} />
@@ -129,6 +132,7 @@ const ShopAnalyticsBody = ({
 }) => {
   const { t } = useTranslation()
   const code = data.currency_code ?? "usd"
+  const averageOrders = averageOrdersOf(data.current.order_count, length)
   const tiles = tilesOf(data)
   const money = (value: number) => getStylizedAmount(value, code)
   const previous = previousDaysOf(data)
@@ -187,7 +191,8 @@ const ShopAnalyticsBody = ({
           <Text size="small">
             {t("shopAnalytics.chart.average", {
               revenue: moneyWhole(data.current.revenue / length, code, locale),
-              orders: count(Math.round(data.current.order_count / length), locale),
+              count: averageOrders,
+              orders: new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(averageOrders),
             })}
           </Text>
           <SalesChart
@@ -211,7 +216,9 @@ const ShopAnalyticsBody = ({
         </Panel>
       </div>
 
-      <SalesSummaryTopProducts products={data.top_products} currencyCode={code} />
+      <Panel title={t("salesSummary.topProducts")} testId="shop-analytics-top-products">
+        <SalesSummaryTopProductsList products={data.top_products} currencyCode={code} />
+      </Panel>
     </>
   )
 }

@@ -4,7 +4,9 @@ import { readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { chartDaysOf, previousDaysOf, productSharesOf, tilesOf } from "../routes/analytics/view-model.ts"
+import i18next from "i18next"
+
+import { averageOrdersOf, chartDaysOf, previousDaysOf, productSharesOf, tilesOf } from "../routes/analytics/view-model.ts"
 import { activePresetOf, daysIn, resolveDays, summaryQueryOf } from "../components/analytics-period/period.ts"
 
 /**
@@ -126,11 +128,11 @@ test("the page uses the shared chart in colour, the donut with hues, and the sum
   assert.match(PAGE, /<ShareDonut hue/)
   assert.match(PAGE, /SalesSummaryCurrencyPicker/)
   assert.match(PAGE, /getStylizedAmount/)
-  assert.match(PAGE, /salesSummary\.noOrdersYet/)
 })
 
 test("the route exists, is reached from the summary heading and sits under «Обзор»", () => {
-  assert.match(APP, /path: "\/analytics"/)
+  assert.match(APP, /path: "\/analytics",\s+children: shopAnalyticsChildren/)
+  assert.match(src("routes", "analytics", "routes.tsx"), /handle: \{ breadcrumb: \(\) => t\("shopAnalytics\.title"\) \}/)
   assert.match(SUMMARY, /to="\/analytics"/)
   assert.match(src("components", "layout", "owner-nav", "nav-model.ts"), /match:\s*\["\/analytics"\]/)
 })
@@ -140,12 +142,52 @@ test("every shopAnalytics key the page uses exists in ru and en, and en is Engli
   assert.ok(used.size > 10, `${used.size} keys`)
   for (const lang of ["ru", "en"]) {
     for (const key of [...used, "salesSummary.openAnalytics"]) {
-      assert.equal(typeof get(catalog(lang), key), "string", `${lang}: ${key}`)
+      // A plural key lives as `key_one`, `key_few` ... beside the base name.
+      const found = get(catalog(lang), key) ?? get(catalog(lang), `${key}_other`)
+      assert.equal(typeof found, "string", `${lang}: ${key}`)
     }
   }
   const flat = (node) => (typeof node === "string" ? [node] : Object.values(node).flatMap(flat))
   for (const text of flat(catalog("en").shopAnalytics)) {
     assert.doesNotMatch(text, /[А-Яа-яЁё]/, text)
   }
+  const baseKeys = (lang) => Object.keys(catalog(lang).shopAnalytics.chart).filter((key) => !/_(one|few|many|other)$/.test(key))
+  assert.equal(baseKeys("ru").join(), baseKeys("en").join())
   assert.equal(Object.keys(catalog("ru").shopAnalytics).join(), Object.keys(catalog("en").shopAnalytics).join())
+})
+
+test("orders a day: the noun agrees with the number, and a small shop is not told «0 заказов»", async () => {
+  const sentence = async (lng, orderCount, days) => {
+    const instance = i18next.createInstance()
+    await instance.init({ lng, resources: { ru: { translation: catalog("ru") }, en: { translation: catalog("en") } } })
+    const averageOrders = averageOrdersOf(orderCount, days)
+    const orders = new Intl.NumberFormat(lng === "ru" ? "ru-RU" : "en-US", { maximumFractionDigits: 1 }).format(averageOrders)
+    return instance.t("shopAnalytics.chart.average", { revenue: "R", count: averageOrders, orders })
+  }
+  assert.equal(await sentence("ru", 30, 30), "В среднем R и 1 заказ в день.")
+  assert.equal(await sentence("ru", 60, 30), "В среднем R и 2 заказа в день.")
+  assert.equal(await sentence("ru", 150, 30), "В среднем R и 5 заказов в день.")
+  assert.equal(await sentence("ru", 39, 30), "В среднем R и 1,3 заказа в день.")
+  assert.equal(await sentence("ru", 3, 30), "В среднем R и 0,1 заказа в день.")
+  assert.equal(await sentence("ru", 0, 30), "В среднем R и 0 заказов в день.")
+  assert.equal(await sentence("en", 30, 30), "On average R and 1 order a day.")
+  assert.equal(await sentence("en", 39, 30), "On average R and 1.3 orders a day.")
+  assert.equal(await sentence("en", 150, 30), "On average R and 5 orders a day.")
+  // From ten a day it is a whole number.
+  assert.equal(averageOrdersOf(305, 30), 10)
+  assert.equal(averageOrdersOf(1000, 30), 33)
+})
+
+test("an empty shop gets the panel's NoRecords with a way to «Обзор», not a bare line", () => {
+  assert.match(PAGE, /<NoRecords\s+title=\{t\("shopAnalytics\.empty\.title"\)\}/)
+  assert.match(PAGE, /action=\{\{ to: "\/", label: t\("shopAnalytics\.empty\.action"\) \}\}/)
+  assert.doesNotMatch(PAGE, /salesSummary\.noOrdersYet/)
+})
+
+test("the heading of the sales summary looks like a link, and the best sellers sit in a Panel with the sums at the right edge", () => {
+  assert.match(SUMMARY, /<TriangleRightMini className="text-ui-fg-muted rtl:rotate-180" \/>/)
+  assert.match(PAGE, /<Panel title=\{t\("salesSummary\.topProducts"\)\} testId="shop-analytics-top-products">/)
+  const list = src("routes", "home", "sales-summary-top-products.tsx")
+  assert.match(list, /justify-between/)
+  assert.match(list, /narrow \? "flex flex-col gap-y-2 md:max-w-2xl" : "flex flex-col gap-y-2"/)
 })
