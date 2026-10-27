@@ -64,13 +64,45 @@ function route(text: string): ToolCall | null {
   return null;
 }
 
+/**
+ * Stage 3 phrases, read before the command map: the owner's «публикуй» and
+ * «откати» on their own (not «опубликуй тройчатку», which is a product's
+ * status), «что изменено», a picture to draw or to put on the site, and a
+ * product's new name.
+ */
+export function stage3Call(text: string): ToolCall | null {
+  const t = fold(text).trim().replace(/[.!?]+$/, "");
+  const call = (name: string, input: Record<string, unknown>): ToolCall => ({ id: `rules-${name}`, name, input });
+  if (/^(о|за)?публику\S*(\s+(\S+\s+)?(изменени\S*|правк\S*|вс[её]|это|последн\S*|на (сайт|main|основн\S*)))*$/.test(t)) return call("prepare_publish", {});
+  if (/^(откат\S*|откати\S*|верни (как было|назад|обратно))(\s+\S+){0,3}$/.test(t)) return call("prepare_rollback", {});
+  if (/что (изменен|изменил|поменял|меняли|менял)|последние изменени|список изменени|какие изменени|история изменени/.test(t)) return call("list_changesets", {});
+  const draw = /^(нарисуй|сгенерируй|сделай картинку|создай картинку|сделай изображение|создай изображение|картинк\S* для)\s*:?\s*(.*)$/.exec(t);
+  if (draw) return call("generate_image", { prompt: text.trim().slice(text.trim().length - draw[2]!.length) || "баннер магазина" });
+  const place = /^(поставь|поставить|помести|повесь)\s+(\S+\s+)?(на|в)\s+(баннер|товар)\s*(.*)$/.exec(t);
+  if (place) {
+    if (place[4] === "баннер") return call("place_image", { target: "banner", ...(/\d/.test(place[5]!) ? { banner: Number(/\d+/.exec(place[5]!)![0]) } : {}) });
+    return call("place_image", { target: "product", product: place[5]!.replace(/^[«"]|[»"]$/g, "") });
+  }
+  const rename = /^(переименуй|поменяй название|измени название)\s+(товара?\s+)?(.+?)\s+(в|на)\s+(.+)$/.exec(text.trim().replace(/[.!?]+$/, ""));
+  if (rename) {
+    return {
+      id: "rules-run_command-products.update",
+      name: "run_command",
+      input: { id: "products.update", product: rename[3]!.replace(/^[«"]|[»"]$/g, ""), body: { title: rename[5]!.replace(/^[«"]|[»"]$/g, "") } },
+    };
+  }
+  return null;
+}
+
 const READ_ONLY = "Я только читаю данные магазина и ничего в нём не меняю. Это можно сделать в панели.";
 export { READ_ONLY };
 
 const HELP =
   "Я могу назвать продажи за сегодня, неделю или месяц, последние заказы, остатки и цены товара, " +
   "отзывы покупателей, акции, возвраты, резервы, баннеры и способы оплаты, открыть товар в панели " +
-  "и подготовить изменение, например снять товар с публикации. Спросите, например: «сколько мы продали за неделю?»";
+  "и подготовить изменение, например снять товар с публикации или переименовать его. Изменение идёт на stage; " +
+  "«публикуй» переносит его на сайт, «откати» возвращает. Ещё могу нарисовать картинку и прочитать PDF. " +
+  "Спросите, например: «сколько мы продали за неделю?»";
 
 export class RulesProvider implements ModelProvider {
   readonly name = "rules (keyword router, no model)";
@@ -80,6 +112,8 @@ export class RulesProvider implements ModelProvider {
     if (last?.role === "tool") return { kind: "text", text: last.results.map((r) => r.content).join("\n") };
     if (last?.role !== "user") return { kind: "text", text: HELP };
     const text = fold(last.text);
+    const stage3 = stage3Call(last.text);
+    if (stage3) return { kind: "tools", text: "", calls: [stage3] };
     // Deleting, canceling and money stay in the panel; they are never proposed.
     if (/удал|отмени|верни деньги|спиши/.test(text)) return { kind: "text", text: READ_ONLY };
     // The map's aliases are infinitives: «сними» is said, «снять» is written.
