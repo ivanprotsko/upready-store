@@ -9,8 +9,12 @@
  * `get-sales-summary.ts`), and no buyer's name, email or address reaches the
  * model: reviews drop the author, orders ask for no customer fields at all.
  */
+import { CHANGE_TOOLS } from "./changes.ts";
 import { COMMAND_TOOLS } from "./commands/tools.ts";
+import { IMAGE_TOOLS } from "./images/tools.ts";
 import type { ProposalStore } from "./commands/run.ts";
+import type { ChangeFlow } from "./changes.ts";
+import type { ImageService } from "./images/index.ts";
 import type { Query, ShopApi } from "./shop/api.ts";
 import { fold, matchesQuery } from "./shop/fixtures.ts";
 
@@ -24,13 +28,28 @@ export interface ToolSpec {
 export interface Card {
   title: string;
   rows: string[];
-  link?: { label: string; href: string };
-  /** A result (the default), a write waiting for the owner, or the dry-run of a confirmed one. */
-  kind?: "result" | "proposal" | "dryrun";
+  link?: { label: string; href: string } | undefined;
+  /**
+   * A result (the default), a write waiting for the owner, the dry-run of a
+   * confirmed one; stage 3: a changeset, a refusal, a publish or rollback to
+   * confirm, a rollback stopped by drift, a generated image, a file read, a
+   * voice message's transcript, a notice (a cap, a flag).
+   */
+  kind?: "result" | "proposal" | "dryrun" | "changeset" | "denied" | "confirm" | "drift" | "image" | "file" | "voice-note" | "notice";
   /** For a proposal: the id the owner confirms it by. */
   proposalId?: string;
-  /** For a proposal or a dry-run: the exact request, which this stand never sends. */
+  /** For a proposal or a dry-run: the exact request (a dry-run never sends it). */
   request?: { method: string; url: string; body: unknown };
+  /** For a changeset card: which one and where it stands. */
+  changeset?: { id: string; status: string };
+  /** Buttons: `publish`, `rollback`, `prepare-publish`, `prepare-rollback`, `place-product`, `place-banner`. */
+  actions?: { label: string; action: string; id: string }[];
+  /** For drift: what publishing left against what the live site holds now. */
+  diff?: { field: string; before: string; after: string }[];
+  /** For an image: the preview the stand serves. */
+  image?: { src: string; alt: string };
+  /** A file to save, e.g. a transcript as .txt. */
+  download?: { label: string; href: string };
 }
 
 export interface ToolOutcome {
@@ -48,6 +67,12 @@ export interface ToolContext {
   apiUrl?: string;
   /** Where proposed writes wait for the owner's confirm. */
   proposals?: ProposalStore;
+  /** Stage 3, `CHANGESETS=1`: changesets on stage, publish and rollback. Absent: off. */
+  changes?: ChangeFlow;
+  /** Stage 3: image generation; absent when off (RU, `IMAGES=0`). */
+  images?: ImageService;
+  /** Why images are off, said to the owner when absent. */
+  imagesOff?: string;
 }
 
 export interface Tool extends ToolSpec {
@@ -405,8 +430,8 @@ const openProduct: Tool = {
 
 export const TOOLS: Tool[] = [findProducts, productStock, salesSummary, recentOrders, productReviews, openProduct];
 
-/** The stage 1 read tools and the command-map tools; read at call time, after both modules load. */
-const allTools = (): Tool[] => [...TOOLS, ...COMMAND_TOOLS];
+/** The stage 1 read tools, the command-map tools and stage 3's changes and images; read at call time, after the modules load. */
+const allTools = (): Tool[] => [...TOOLS, ...COMMAND_TOOLS, ...CHANGE_TOOLS, ...IMAGE_TOOLS];
 
 export const toolSpecs = (): ToolSpec[] =>
   allTools().map(({ name, description, inputSchema }) => ({ name, description, inputSchema }));

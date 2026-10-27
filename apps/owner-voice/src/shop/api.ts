@@ -9,7 +9,8 @@
  *     token. Only the login itself is a POST, and it writes nothing.
  *
  * Any other method or path is refused here, before a request leaves, so a
- * tool cannot change the shop even by mistake.
+ * tool cannot change the shop even by mistake. The one write of stage 3, a
+ * changeset, has its own client (`changesets.ts`) and only borrows the login.
  */
 import type { Config } from "../config.ts";
 
@@ -82,6 +83,15 @@ export class HttpShopApi implements ShopApi {
       this.#token = null;
       return this.#getJson(this.#fetch.owner, url, { authorization: `Bearer ${await this.#login()}` });
     }
+  }
+
+  /**
+   * The login's token, for the changeset client and nothing else. `fresh`
+   * drops the cached one first, after a 401.
+   */
+  bearer(fresh = false): Promise<string> {
+    if (fresh) this.#token = null;
+    return this.#login();
   }
 
   regionId(): Promise<string | null> {
