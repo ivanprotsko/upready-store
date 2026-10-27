@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 
 import { LinkButton } from "../../../components/common/link-button"
 import { SectionRow } from "../../../components/common/section"
+import { GeneralSectionSkeleton } from "../../../components/common/skeleton"
 import { RouteDrawer } from "../../../components/modals"
 import {
   useAgentChangeset,
@@ -12,6 +13,7 @@ import {
   type ChangesetDrift,
   type SiteLinks,
 } from "../../../hooks/api/agent-changesets"
+import { useProductCategories } from "../../../hooks/api/categories"
 import { useDate } from "../../../hooks/use-date"
 import {
   CHANGESET_STATUS_COLOR,
@@ -21,8 +23,9 @@ import {
   changesetStatusLabel,
   changesetWhat,
   changesetWhen,
+  categoryIdsOf,
   fieldLabel,
-  formatValue,
+  formatFieldValue,
   siteLink,
 } from "../labels"
 import { useChangesetActions } from "../use-changeset-actions"
@@ -35,22 +38,53 @@ import { useChangesetActions } from "../use-changeset-actions"
 // changeset whose targets changed on the live site since shows that drift,
 // and «Откатить» stays off: the server would refuse it and change nothing.
 
+type CategoryNames = ReadonlyMap<string, string>
+
 /** One field's «было → стало», in the owner's words: the old value struck through above the new one. */
-const ChangeValue = ({ before, after }: { before: unknown; after: unknown }) => {
+const ChangeValue = ({
+  field,
+  before,
+  after,
+  categoryNames,
+}: {
+  field: string
+  before: unknown
+  after: unknown
+  categoryNames: CategoryNames
+}) => {
   const { t } = useTranslation()
   return (
     <div className="flex min-w-0 flex-col items-start gap-y-1">
       <Text size="small" leading="compact" className="text-ui-fg-subtle [overflow-wrap:anywhere]">
-        {t("agentChanges.diff.before")}: <span className="line-through">{formatValue(t, before)}</span>
+        {t("agentChanges.diff.before")}:{" "}
+        <span className="line-through">{formatFieldValue(t, field, before, categoryNames)}</span>
       </Text>
       <Text size="small" leading="compact" className="[overflow-wrap:anywhere]">
-        {t("agentChanges.diff.after")}: {formatValue(t, after)}
+        {t("agentChanges.diff.after")}: {formatFieldValue(t, field, after, categoryNames)}
       </Text>
     </div>
   )
 }
 
-const OpCard = ({ op, sites }: { op: AgentChangesetOp; sites: SiteLinks | undefined }) => {
+/** Category names for the ids a changeset's diff names, through the panel's own categories list. */
+const useCategoryNames = (ops: AgentChangesetOp[]): CategoryNames => {
+  const ids = categoryIdsOf(ops.flatMap((op) => op.changes))
+  const { product_categories } = useProductCategories(
+    { id: ids, fields: "id,name", limit: ids.length },
+    { enabled: ids.length > 0 }
+  )
+  return new Map((product_categories ?? []).map((category) => [category.id, category.name]))
+}
+
+const OpCard = ({
+  op,
+  sites,
+  categoryNames,
+}: {
+  op: AgentChangesetOp
+  sites: SiteLinks | undefined
+  categoryNames: CategoryNames
+}) => {
   const { t } = useTranslation()
   const stage = op.scope ? siteLink(sites?.stage_url, op.preview_path) : null
   const main = siteLink(sites?.main_url, op.preview_path)
@@ -83,7 +117,14 @@ const OpCard = ({ op, sites }: { op: AgentChangesetOp; sites: SiteLinks | undefi
             <SectionRow
               key={change.field}
               title={fieldLabel(t, change.field)}
-              value={<ChangeValue before={change.before} after={change.after} />}
+              value={
+                <ChangeValue
+                  field={change.field}
+                  before={change.before}
+                  after={change.after}
+                  categoryNames={categoryNames}
+                />
+              }
             />
           ))}
         </div>
@@ -132,6 +173,7 @@ const ChangesetRows = ({ changeset, sites }: { changeset: AgentChangeset; sites:
   const { t } = useTranslation()
   const { getFullDate } = useDate()
   const when = changesetWhen(changeset)
+  const categoryNames = useCategoryNames(changeset.ops)
 
   return (
     <div className="divide-y" data-testid="agent-change-detail">
@@ -162,7 +204,7 @@ const ChangesetRows = ({ changeset, sites }: { changeset: AgentChangeset; sites:
         <Heading level="h3">{t("agentChanges.detail.ops", { count: changeset.ops.length })}</Heading>
       </div>
       {changeset.ops.map((op) => (
-        <OpCard key={op.index} op={op} sites={sites} />
+        <OpCard key={op.index} op={op} sites={sites} categoryNames={categoryNames} />
       ))}
     </div>
   )
@@ -216,7 +258,13 @@ export const ChangesetDetail = () => {
         <RouteDrawer.Description className="sr-only">{t("agentChanges.detail.description")}</RouteDrawer.Description>
       </RouteDrawer.Header>
       <RouteDrawer.Body className="overflow-y-auto p-0">
-        {isPending || !changeset ? null : <ChangesetRows changeset={changeset} sites={sites} />}
+        {isPending || !changeset ? (
+          <div className="p-4" aria-busy="true" data-testid="agent-change-loading">
+            <GeneralSectionSkeleton rowCount={4} />
+          </div>
+        ) : (
+          <ChangesetRows changeset={changeset} sites={sites} />
+        )}
       </RouteDrawer.Body>
       <RouteDrawer.Footer>{changeset ? <Footer changeset={changeset} /> : null}</RouteDrawer.Footer>
     </RouteDrawer>

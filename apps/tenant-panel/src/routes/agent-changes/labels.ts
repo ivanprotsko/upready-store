@@ -1,5 +1,7 @@
 import type { TFunction } from "i18next"
 
+import { formatCurrency } from "../../lib/format-currency.ts"
+
 import type {
   AgentChangesetSummary,
   ChangesetAction,
@@ -100,6 +102,47 @@ export const formatValue = (t: TFunction, value: unknown): string => {
   const text = typeof value === "string" ? value : JSON.stringify(value)
   return text.length > VALUE_MAX ? `${text.slice(0, VALUE_MAX - 1)}…` : text
 }
+
+const listOf = (value: unknown): Record<string, unknown>[] =>
+  Array.isArray(value) ? value.filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null) : []
+
+/**
+ * A field's value in the owner's words where the panel knows its shape:
+ * prices as money («690,00 ₽»), photos as a count («3 фото»), categories by
+ * name (the id while the names load or when one is gone). Any other field
+ * goes through `formatValue`.
+ */
+export const formatFieldValue = (
+  t: TFunction,
+  field: string,
+  value: unknown,
+  categoryNames?: ReadonlyMap<string, string>
+): string => {
+  if (field === "prices" && Array.isArray(value)) {
+    const prices = listOf(value)
+      .filter((price) => Number.isFinite(Number(price.amount)) && typeof price.currency_code === "string")
+      .map((price) => formatCurrency(Number(price.amount), String(price.currency_code).toUpperCase()))
+    return prices.length ? prices.join(", ") : t("agentChanges.diff.empty")
+  }
+  if (field === "images" && Array.isArray(value)) {
+    return value.length ? t("agentChanges.diff.photos", { count: value.length }) : t("agentChanges.diff.noPhotos")
+  }
+  if (field === "categories" && Array.isArray(value)) {
+    const names = listOf(value).map((category) => categoryNames?.get(String(category.id)) ?? String(category.id))
+    return names.length ? formatValue(t, names.join(", ")) : t("agentChanges.diff.noCategories")
+  }
+  return formatValue(t, value)
+}
+
+/** Category ids an op's diff names, before and after, for one names lookup. */
+export const categoryIdsOf = (changes: { field: string; before: unknown; after: unknown }[]): string[] => [
+  ...new Set(
+    changes
+      .filter((change) => change.field === "categories")
+      .flatMap((change) => [...listOf(change.before), ...listOf(change.after)])
+      .map((category) => String(category.id))
+  ),
+]
 
 /** The field's name in words where the panel knows it, the raw key otherwise. */
 const KNOWN_FIELDS = [

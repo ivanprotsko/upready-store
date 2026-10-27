@@ -8047,7 +8047,13 @@
       "empty": "пусто",
       "yes": "да",
       "no": "нет",
-      "none": "Изменений в полях нет."
+      "none": "Изменений в полях нет.",
+      "photos_one": "{{count}} фото",
+      "photos_few": "{{count}} фото",
+      "photos_many": "{{count}} фото",
+      "photos_other": "{{count}} фото",
+      "noPhotos": "без фото",
+      "noCategories": "без категорий"
     },
     "detail": {
       "title": "Изменение агента",

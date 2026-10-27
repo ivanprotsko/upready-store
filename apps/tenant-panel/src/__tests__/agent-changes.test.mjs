@@ -8,7 +8,9 @@ import {
   changesetKindLabel,
   changesetWhat,
   changesetWhen,
+  categoryIdsOf,
   fieldLabel,
+  formatFieldValue,
   formatValue,
   siteLink,
 } from "../routes/agent-changes/labels.ts"
@@ -27,8 +29,10 @@ const ru = JSON.parse(src("i18n/translations/ru.json"))
 const en = JSON.parse(src("i18n/translations/en.json"))
 
 const lookup = (catalogue, key) => key.split(".").reduce((node, part) => node?.[part], catalogue)
+const PLURAL = new Intl.PluralRules("ru")
 const t = (key, options = {}) => {
-  const value = lookup(ru, key)
+  const plural = typeof options.count === "number" ? lookup(ru, `${key}_${PLURAL.select(options.count)}`) : undefined
+  const value = plural ?? lookup(ru, key)
   if (typeof value !== "string") return key
   return value.replace(/{{(\w+)}}/g, (_, name) => String(options[name]))
 }
@@ -76,6 +80,42 @@ test("values read as words: empty, flags, long JSON cut short", () => {
   assert.ok(long.endsWith("…"))
 })
 
+test("prices, photos and categories read as money, a count and names, not JSON", () => {
+  const before = formatFieldValue(t, "prices", [{ amount: 690, currency_code: "rub" }])
+  const after = formatFieldValue(t, "prices", [{ amount: 750, currency_code: "rub" }])
+  assert.match(before, /690/)
+  assert.match(after, /750/)
+  for (const text of [before, after]) {
+    assert.doesNotMatch(text, /[{}"]|amount|currency_code/)
+    assert.match(text, /₽|RUB/)
+  }
+  assert.equal(formatFieldValue(t, "prices", []), "пусто")
+
+  assert.equal(formatFieldValue(t, "images", [{ url: "a" }, { url: "b" }, { url: "c" }]), "3 фото")
+  assert.equal(formatFieldValue(t, "images", [{ url: "a" }]), "1 фото")
+  assert.equal(formatFieldValue(t, "images", []), "без фото")
+
+  const names = new Map([["pcat_tea", "Чай"], ["pcat_ware", "Посуда"]])
+  assert.equal(formatFieldValue(t, "categories", [{ id: "pcat_tea" }, { id: "pcat_ware" }], names), "Чай, Посуда")
+  assert.equal(formatFieldValue(t, "categories", [{ id: "pcat_gone" }], names), "pcat_gone")
+  assert.equal(formatFieldValue(t, "categories", []), "без категорий")
+  assert.equal(formatFieldValue(t, "title", "Улун"), "Улун")
+
+  assert.deepEqual(
+    categoryIdsOf([
+      { field: "categories", before: [{ id: "pcat_tea" }], after: [{ id: "pcat_tea" }, { id: "pcat_ware" }] },
+      { field: "title", before: "a", after: "b" },
+    ]),
+    ["pcat_tea", "pcat_ware"]
+  )
+})
+
+test("the card shows the panel's skeleton while it loads", () => {
+  const detail = src("routes/agent-changes/changeset-detail/changeset-detail.tsx")
+  assert.match(detail, /isPending \|\| !changeset \? \(/)
+  assert.match(detail, /<GeneralSectionSkeleton rowCount=\{4\} \/>/)
+})
+
 test("labels: kinds, fields, what and when", () => {
   assert.equal(changesetKindLabel(t, "home"), "Главная")
   assert.equal(changesetKindLabel(t, null), "Недоступное действие")
@@ -110,9 +150,11 @@ test("every agentChanges key the section uses exists in RU and EN", () => {
   }
   for (const a of ["open", "stage", "publish", "rollback", "discard"]) keys.add(`agentChanges.actions.${a}`)
   for (const a of ["stage", "publish", "rollback", "discard"]) keys.add(`agentChanges.toasts.${a}`)
+  for (const k of ["noPhotos", "noCategories"]) keys.add(`agentChanges.diff.${k}`)
   for (const a of CONFIRMED_ACTIONS) keys.add(`agentChanges.confirm.${a}.title`).add(`agentChanges.confirm.${a}.description`)
   // A plural key lives as its forms; they are checked just below.
   keys.delete("agentChanges.detail.ops")
+  keys.delete("agentChanges.diff.photos")
   assert.ok(keys.size > 50)
   for (const key of keys) {
     assert.equal(typeof lookup(ru, key), "string", `ru: ${key}`)
@@ -120,6 +162,8 @@ test("every agentChanges key the section uses exists in RU and EN", () => {
   }
   for (const form of ["one", "few", "many", "other"]) assert.ok(ru.agentChanges.detail[`ops_${form}`])
   for (const form of ["one", "other"]) assert.ok(en.agentChanges.detail[`ops_${form}`])
+  for (const form of ["one", "few", "many", "other"]) assert.ok(ru.agentChanges.diff[`photos_${form}`])
+  for (const form of ["one", "other"]) assert.ok(en.agentChanges.diff[`photos_${form}`])
   assert.equal(ru.app.nav.owner.agentChanges, "Изменения агента")
   assert.equal(en.app.nav.owner.agentChanges, "Agent changes")
 })

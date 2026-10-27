@@ -7907,7 +7907,11 @@
       "empty": "empty",
       "yes": "yes",
       "no": "no",
-      "none": "No field changes."
+      "none": "No field changes.",
+      "photos_one": "{{count}} photo",
+      "photos_other": "{{count}} photos",
+      "noPhotos": "no photos",
+      "noCategories": "no categories"
     },
     "detail": {
       "title": "Agent change",
