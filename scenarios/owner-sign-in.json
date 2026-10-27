@@ -1,0 +1,159 @@
+{
+  "format": "scenario/v1",
+  "id": "owner-sign-in",
+  "project": "upready-store",
+  "title": "Владелец входит в панель магазина по почте и паролю и видит панель",
+  "goal": "Владелец входит в панель магазина по почте и паролю и видит панель",
+  "actor": "guest",
+  "profiles": [
+    "desktop-mouse"
+  ],
+  "start": {
+    "url": "/login",
+    "fixtures": [
+      "reset",
+      "seed"
+    ]
+  },
+  "final": [
+    {
+      "text": "Заказы"
+    }
+  ],
+  "work": null,
+  "version": 2,
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "Ввожу почту владельца",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "role": "textbox",
+        "name": "Email"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          580,
+          437.39,
+          280,
+          32
+        ]
+      },
+      "value": "owner-scgate@example.test",
+      "before": {
+        "url": "^/login$",
+        "region": [
+          572,
+          429,
+          296,
+          49
+        ],
+        "hash": "0000010181010000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T21:37:36.022Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s2",
+      "intent": "Ввожу пароль владельца",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "css": "#root > div > div > div:nth-of-type(3) > form > div > div:nth-of-type(2) > div:nth-of-type(2) > input"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          580,
+          481.39,
+          280,
+          32
+        ]
+      },
+      "value": {
+        "secret": "SC_TEST_PASSWORD"
+      },
+      "before": {
+        "url": "^/login$",
+        "region": [
+          572,
+          473,
+          296,
+          49
+        ],
+        "hash": "0000010181010000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T21:37:38.306Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s3",
+      "intent": "Нажимаю Продолжить с Email",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "role": "button",
+        "name": "Продолжить с Email"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          580,
+          582.19,
+          280,
+          32
+        ]
+      },
+      "before": {
+        "url": "^/login$",
+        "region": [
+          572,
+          574,
+          296,
+          49
+        ],
+        "hash": "0080809e9aa08000"
+      },
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T21:37:39.765Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-27T21:37:57.142Z",
+      "by": "scenario.mjs agent",
+      "kind": "record",
+      "version": 2,
+      "profile": "desktop-mouse",
+      "steps": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "reason": "first pass: Владелец входит в панель магазина по почте и паролю и видит панель",
+      "model": null,
+      "tokens": null
+    }
+  ]
+}
