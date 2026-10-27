@@ -34,8 +34,9 @@ describe("ProductReviews: as wide as the content without the buy box", () => {
 
   it("uses the product page's own three columns", () => {
     expect(PRODUCT_REVIEWS_GRID).toContain(columns)
-    // Both layouts of the page, the course one and the ordinary one.
-    expect(template.split(columns)).toHaveLength(3)
+    // The course layout keeps the three columns; the ordinary page is a two-column grid
+    // since D5 (t-2026-10-20-61) and the reviews block sits under it at the same width.
+    expect(template.split(columns)).toHaveLength(2)
   })
 
   it("has the gap the page has, or two columns would not add up to the same width", () => {

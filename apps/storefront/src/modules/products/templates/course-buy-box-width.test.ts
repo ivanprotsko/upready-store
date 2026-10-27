@@ -26,7 +26,9 @@ const BUY_BOX_TEMPLATE = "minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)"
 describe("course page buy box column", () => {
   it("uses the same three-way column template as the normal product page", () => {
     const occurrences = source.split(BUY_BOX_TEMPLATE).length - 1
-    expect(occurrences).toBe(2) // once for the normal layout, once for the course layout
+    // The course layout only: the ordinary page is one two-column grid since D5
+    // (t-2026-10-20-61), gallery left and the buy column right, nothing boxed.
+    expect(occurrences).toBe(1)
   })
 
   it("no longer pins the buy box to a fixed 24rem column", () => {

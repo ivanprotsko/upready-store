@@ -58,8 +58,11 @@ type ProductTemplateProps = {
   reviewsPage: number
 }
 
-/** A card on the page: 1px hairline on the page's own base colour, the large radius of the config. */
-const CARD = "rounded-large border border-ui-border-base bg-ui-bg-base"
+/**
+ * A part of the page. No frame, no fill (t-2026-10-20-61 D5): the gallery, the summary and
+ * the buy box stand on the page's own colour, one grid, nothing boxed.
+ */
+const CARD = "min-w-0"
 
 /**
  * The product page, laid out after Ivan's Figma mockup (frame «ProductPage», 1184 wide,
@@ -147,9 +150,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
     ? t("ProductInfo.supplementNotice")
     : null
 
+  // The trail is a plain line of text above the title, not a pill on a card's edge.
   const breadcrumbPill = (
-    <div className="absolute inset-x-4 top-0 flex -translate-y-1/2 justify-center">
-      <Breadcrumb items={breadcrumbItems.slice(0, -1)} variant="pill" />
+    <div data-testid="product-breadcrumb">
+      <Breadcrumb items={breadcrumbItems.slice(0, -1)} />
     </div>
   )
   const buyBox = (
@@ -173,7 +177,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
 
     const summaryCard = (
       <div
-        className={`${CARD} relative flex min-w-0 flex-col gap-y-5 px-4 pb-5 pt-7 small:px-6 small:pb-6 small:pt-9`}
+        className={`${CARD} relative flex min-w-0 flex-col gap-y-5`}
         data-testid="product-summary-card"
       >
         {/* ProductInfo and AttributesSummary are async, so lazy rows in the RSC
@@ -219,7 +223,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                         {cover ? (
                           <>
                             <div
-                              className={`${CARD} p-3 small:p-4`}
+                              className={CARD}
                               data-testid="product-gallery-card"
                             >
                               <HydrationSlot>
@@ -232,11 +236,14 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                           <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] small:gap-6">
                             <HydrationSlot>
                               <div
-                                className={`${CARD} p-3 small:p-4`}
+                                className={CARD}
                                 data-testid="product-gallery-card"
                               >
                                 <HydrationSlot>
-                                  <ImageGallery images={images} title={product.title} />
+                                  <ImageGallery
+                                    images={images}
+                                    title={product.title}
+                                  />
                                 </HydrationSlot>
                               </div>
                               {summaryCard}
@@ -249,7 +256,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                     <div className="min-w-0 small:col-start-3 small:row-span-2 small:row-start-1">
                       <HydrationSlot>
                         <aside
-                          className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
+                          className={`${CARD} flex min-w-0 flex-col gap-y-4 small:sticky small:top-20`}
                           data-testid="product-buy-card"
                         >
                           <HydrationSlot>{buyBox}</HydrationSlot>
@@ -265,7 +272,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                         {page && <CourseAbout sections={page.about} />}
                         {course && <CourseBlock data={course} />}
                         {page && <CourseFaq items={page.faq} />}
-                        {page && <CourseTestimonials items={page.testimonials} />}
+                        {page && (
+                          <CourseTestimonials items={page.testimonials} />
+                        )}
                       </HydrationSlot>
                     </div>
                   </HydrationSlot>
@@ -288,7 +297,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             />
 
             <div
-              className="content-container flex flex-col gap-y-12 py-12 small:gap-y-16 small:py-16"
+              className="content-container flex flex-col gap-y-12 pb-12 pt-0 small:gap-y-16 small:pb-16"
               data-testid="related-products-container"
             >
               <Suspense fallback={<SkeletonRelatedProducts />}>
@@ -320,33 +329,48 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             data-testid="product-container"
           >
             <ProductSelectionProvider product={product}>
-              {/* Three cards from 1024: the gallery, the summary (the widest), the buy box
-                  that stays in view beside them. On a phone they stack in that order. */}
-              <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)] small:gap-6">
-                <div
-                  className={`${CARD} p-3 small:p-4`}
-                  data-testid="product-gallery-card"
-                >
+              {/* One grid from 1024 (D5): the gallery on the left, one column on the right
+                  (trail, name, price, variants, «В корзину», stock, delivery), and under
+                  that the characteristics and the description. On a phone the same order,
+                  stacked. Nothing is boxed. */}
+              <div className="grid grid-cols-1 items-start gap-6 small:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] small:gap-12">
+                <div className={CARD} data-testid="product-gallery-card">
                   <ImageGallery images={images} title={product.title} />
                 </div>
 
                 <div
-                  className={`${CARD} relative flex min-w-0 flex-col gap-y-5 px-4 pb-5 pt-7 small:px-6 small:pb-6 small:pt-9`}
+                  className={`${CARD} flex flex-col gap-y-5 small:sticky small:top-20`}
                   data-testid="product-summary-card"
                 >
                   {/* ProductInfo, AttributesSummary and DescriptionExcerpt are async:
                       see HydrationSlot (46df U-06). */}
                   <HydrationSlot>
-                    {/* The trail hangs on the card's top edge, centred, without the product's
-                        own title: that is the heading right under it. */}
-                    <div className="absolute inset-x-4 top-0 flex -translate-y-1/2 justify-center">
-                      <Breadcrumb
-                        items={breadcrumbItems.slice(0, -1)}
-                        variant="pill"
-                      />
-                    </div>
+                    {breadcrumbPill}
                     <ProductInfo product={product} reviews={reviews.summary} />
                     <VariantPicker />
+                    <aside
+                      className="flex min-w-0 flex-col gap-y-4"
+                      data-testid="product-buy-card"
+                    >
+                      {/* ProductOnboardingCta is async: see HydrationSlot (46df U-06). */}
+                      <HydrationSlot>
+                        <ProductOnboardingCta />
+                        <Suspense
+                          fallback={
+                            <ProductActions
+                              disabled={true}
+                              product={product}
+                              region={region}
+                            />
+                          }
+                        >
+                          <ProductActionsWrapper
+                            id={product.id}
+                            region={region}
+                          />
+                        </Suspense>
+                      </HydrationSlot>
+                    </aside>
                     <AttributesSummary rows={attributeRows} />
                     <DescriptionExcerpt product={product} />
                     {supplementNotice && (
@@ -355,27 +379,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                     {hasDetails && <ProductDetailsOpener />}
                   </HydrationSlot>
                 </div>
-
-                <aside
-                  className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
-                  data-testid="product-buy-card"
-                >
-                  {/* ProductOnboardingCta is async: see HydrationSlot (46df U-06). */}
-                  <HydrationSlot>
-                    <ProductOnboardingCta />
-                    <Suspense
-                      fallback={
-                        <ProductActions
-                          disabled={true}
-                          product={product}
-                          region={region}
-                        />
-                      }
-                    >
-                      <ProductActionsWrapper id={product.id} region={region} />
-                    </Suspense>
-                  </HydrationSlot>
-                </aside>
               </div>
               {hasDetails && (
                 <ProductDetailsDrawer
@@ -398,7 +401,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
               product (server-rendered, the related query), then what this browser looked at
               before it (client-rendered from localStorage, absent until it has two tiles). */}
           <div
-            className="content-container flex flex-col gap-y-12 py-12 small:gap-y-16 small:py-16"
+            className="content-container flex flex-col gap-y-12 pb-12 pt-0 small:gap-y-16 small:pb-16"
             data-testid="related-products-container"
           >
             <Suspense fallback={<SkeletonRelatedProducts />}>
