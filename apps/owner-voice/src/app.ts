@@ -160,7 +160,8 @@ export function createApp(config: Config, overrides: Overrides = {}): App {
     ? new ChangeFlow(
         new ChangesetClient({
           apiUrl: config.shop.apiUrl,
-          bearer: (fresh) => shop.bearer(fresh),
+          // The live login's token; the in-memory backend only checks that one is sent.
+          bearer: described.ownerApi === "live" ? (fresh) => shop.bearer(fresh) : async () => "fixture-token",
           fetch:
             overrides.changesetFetch ??
             (described.ownerApi === "live"
