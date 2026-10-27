@@ -29,6 +29,8 @@ export interface Config {
     voiceId: string;
     ttsModelId: string;
     sttModelId: string;
+    /** `ELEVENLABS_ALLOW_ADD_VOICE=1` lets the settings panel add a library voice to the account; off by default. */
+    allowAddVoice: boolean;
   };
   model: {
     provider: "anthropic" | "rules";
@@ -70,6 +72,7 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
       voiceId: value(env, "ELEVENLABS_VOICE_ID") ?? DEFAULT_VOICE_ID,
       ttsModelId: value(env, "ELEVENLABS_TTS_MODEL_ID") ?? "eleven_flash_v2_5",
       sttModelId: value(env, "ELEVENLABS_STT_MODEL_ID") ?? "scribe_v1",
+      allowAddVoice: value(env, "ELEVENLABS_ALLOW_ADD_VOICE") === "1",
     },
     model: {
       // Without a key the rules provider answers, so the stand still works on fixtures.

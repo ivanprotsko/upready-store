@@ -22,7 +22,12 @@ const FILES: Record<string, string> = {
   "/tenants/orders": "tenants-orders.json",
   "/tenants/inventory-items": "tenants-inventory-items.json",
   "/tenants/reviews": "tenants-reviews.json",
+  "/store/tenant/product-categories": "assistant-store-categories.json",
+  "/store/tenant/pages": "assistant-store-pages.json",
 };
+
+/** The shaped answers of the command map's read routes, one file keyed by path. */
+const COMMANDS_FILE = "tenants-commands.json";
 
 type Row = Record<string, unknown>;
 
@@ -73,14 +78,75 @@ function narrow(path: string, body: Record<string, unknown>, params: URLSearchPa
   }
 }
 
+const ORDER_PATH = /^\/tenants\/orders\/([^/]+)(?:\/(changes|line-items|preview))?$/;
+const PRODUCT_PATH = /^\/tenants\/products\/([^/]+)$/;
+const PAGE_PATH = /^\/store\/tenant\/pages\/([^/]+)$/;
+
+/**
+ * The answer for a path with no file of its own: one order or product, a page
+ * body, a command-map list, or the buyer assistant's richer product list.
+ */
+function answer(path: string, params: URLSearchParams): Record<string, unknown> | null {
+  const order = ORDER_PATH.exec(path);
+  if (order) {
+    const found = ((read("tenants-orders.json").orders ?? []) as Row[]).find((o) => o.id === decodeURIComponent(order[1]!));
+    if (!found) return null;
+    const extra = read(COMMANDS_FILE)["order-extra"] as Row;
+    const full = { ...found, email: extra.email, shipping_address: extra.shipping_address, items: extra.items };
+    if (order[2] === "changes") return { order_changes: extra.changes };
+    if (order[2] === "line-items") return { order_items: (extra.items as Row[]).map((item) => ({ item, quantity: item.quantity })) };
+    return { order: full };
+  }
+  const product = PRODUCT_PATH.exec(path);
+  if (product && product[1] !== "export") {
+    const found = ((read("assistant-store-products.json").products ?? []) as Row[]).find((p) => p.id === decodeURIComponent(product[1]!));
+    return found ? { product: { ...found, status: "published" } } : null;
+  }
+  if (path === "/tenants/products") {
+    const rows = ((read("assistant-store-products.json").products ?? []) as Row[])
+      .filter((p) => matchesQuery(`${p.title} ${p.handle}`, params.get("q")))
+      .map((p) => ({ id: p.id, title: p.title, handle: p.handle, status: "published" }));
+    const limit = Number(params.get("limit") ?? 0) || rows.length;
+    return { products: rows.slice(0, limit), count: rows.length, offset: 0, limit };
+  }
+  const page = PAGE_PATH.exec(path);
+  if (page) return ((read("assistant-store-page-bodies.json").pages as Row)[decodeURIComponent(page[1]!)] as Row | undefined) ?? null;
+  const shaped = read(COMMANDS_FILE)[path];
+  return shaped && typeof shaped === "object" ? (shaped as Record<string, unknown>) : null;
+}
+
+/** The buyer assistant asks for descriptions and categories; those come from its own, richer recording. */
+function assistantProducts(params: URLSearchParams): Record<string, unknown> {
+  const body = read("assistant-store-products.json");
+  const q = params.get("q");
+  const ids = params.getAll("id");
+  const handles = params.getAll("handle");
+  const categories = params.getAll("category_id");
+  const rows = ((body.products as Row[] | undefined) ?? []).filter(
+    (p) =>
+      matchesQuery(`${p.title} ${p.handle}`, q) &&
+      (!ids.length || ids.includes(String(p.id))) &&
+      (!handles.length || handles.includes(String(p.handle))) &&
+      (!categories.length || ((p.categories as Row[] | undefined) ?? []).some((c) => categories.includes(String(c.id)))),
+  );
+  const limit = Number(params.get("limit") ?? 0) || rows.length;
+  return { products: rows.slice(0, limit), count: rows.length, offset: 0, limit };
+}
+
 export function fixtureFetch(): FetchFn {
   return async (input, init) => {
     const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url);
     const method = (init?.method ?? "GET").toUpperCase();
     if (url.pathname === "/auth/tenant/emailpass" && method === "POST") return json({ token: "fixture-token" });
     if (method !== "GET") return json({ message: `fixture: ${method} is not served` }, 405);
+    if (url.pathname === "/store/products" && /description|categories/.test(url.searchParams.get("fields") ?? "")) {
+      return json(assistantProducts(url.searchParams));
+    }
     const file = FILES[url.pathname];
-    if (!file) return json({ message: `fixture: no recording for ${url.pathname}` }, 404);
+    if (!file) {
+      const body = answer(url.pathname, url.searchParams);
+      return body ? json(body) : json({ message: `fixture: no recording for ${url.pathname}` }, 404);
+    }
     return json(narrow(url.pathname, read(file), url.searchParams));
   };
 }
