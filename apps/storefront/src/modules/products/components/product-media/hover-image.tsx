@@ -46,7 +46,7 @@ export default function HoverImage({ src, sizes, quality }: HoverImageProps) {
             sizes={sizes}
             draggable={false}
             onLoad={() => setLoaded(true)}
-            className="object-contain object-center"
+            className="object-cover object-center"
           />
         </span>
       ) : null}

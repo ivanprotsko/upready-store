@@ -1,6 +1,7 @@
 import type { HttpTypes } from "@medusajs/types"
 
 import { getProductPrice } from "@lib/util/get-product-price"
+import { convertToWholeLocale } from "@lib/util/money"
 
 import type { ProductRowItem } from "./tile"
 
@@ -21,8 +22,27 @@ export function toProductRowItem(
     handle: product.handle ?? "",
     title: product.title ?? "",
     thumbnail: product.thumbnail || product.images?.[0]?.url || null,
-    price: cheapestPrice?.calculated_price ?? null,
-    originalPrice: onSale ? cheapestPrice?.original_price ?? null : null,
+    price: cheapestPrice
+      ? convertToWholeLocale(
+          {
+            amount: cheapestPrice.calculated_price_number,
+            currency_code: cheapestPrice.currency_code,
+            locale,
+          },
+          cheapestPrice.calculated_price
+        )
+      : null,
+    originalPrice:
+      onSale && cheapestPrice
+        ? convertToWholeLocale(
+            {
+              amount: cheapestPrice.original_price_number,
+              currency_code: cheapestPrice.currency_code,
+              locale,
+            },
+            cheapestPrice.original_price
+          )
+        : null,
     onSale,
   }
 }

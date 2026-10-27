@@ -1,10 +1,14 @@
 import type { HttpTypes } from "@medusajs/types"
-import { getLocale, getTranslations } from "next-intl/server"
+import { getLocale } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
-import { getWishlistProductIds, isWishlistCustomerLoggedIn } from "@lib/data/wishlist"
+import {
+  getWishlistProductIds,
+  isWishlistCustomerLoggedIn,
+} from "@lib/data/wishlist"
 import { getOptionValueHex, isColorOption } from "@lib/util/color-option"
 import { getProductPrice } from "@lib/util/get-product-price"
+import { convertToWholeLocale } from "@lib/util/money"
 import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 import ProductMedia from "@modules/products/components/product-media"
 import WishlistButton from "@modules/products/components/wishlist-button"
@@ -13,11 +17,13 @@ import WishlistButton from "@modules/products/components/wishlist-button"
  * The product card. Every grid of products uses it: the catalog, a category, a
  * collection, the home listings and the related products of a product page.
  *
- * Cards in one row are equal in height by construction, not by luck. The frame has a
- * fixed ratio, the title reserves two lines whether it needs them or not, the unit line
- * keeps its slot when it is empty, and the price row is pushed to the bottom of a card
- * that stretches to the height of its grid row. So across a row the titles start on one
- * line and the prices stand on one line.
+ * Cards in one row are equal in height by construction, not by luck. The frame has one
+ * ratio (the profile's), the title is ONE line cut with «…» (t-2026-10-20-61 D3), the unit
+ * line is drawn only when the product has something to say in it, and the price row is
+ * pushed to the bottom of a card that stretches to the height of its grid row. So across a
+ * row the titles start on one line and the prices stand on one line. The price is in the
+ * foreground colour and in whole units when it has no fraction; a sale is the old price
+ * struck in muted grey and nothing else (no red, no badge).
  *
  * The grid itself is `PRODUCT_GRID_CLASS`: two columns on a phone, three from 1024 and
  * four from 1440, on one gap scale.
@@ -48,7 +54,8 @@ export const CATALOG_COLUMNS_CLASS =
   "grid grid-cols-1 gap-8 lg:grid-cols-[248px_1fr] [[data-shop=olavka]_&]:min-[1024px]:grid-cols-4 [[data-shop=olavka]_&]:min-[1024px]:gap-x-6"
 
 /** The cell of `CATALOG_COLUMNS_CLASS` that holds the cards: columns 2 to 4 on the Olavka shops. */
-export const CATALOG_MAIN_COLUMN_CLASS = "w-full [[data-shop=olavka]_&]:min-[1024px]:col-span-3"
+export const CATALOG_MAIN_COLUMN_CLASS =
+  "w-full [[data-shop=olavka]_&]:min-[1024px]:col-span-3"
 
 /**
  * The product grid inside `CATALOG_MAIN_COLUMN_CLASS`. On the Olavka shops it is three
@@ -90,6 +97,13 @@ export const PRODUCT_GRID_COLLAPSED_ITEM_CLASS =
 
 const MAX_SWATCHES = 5
 
+const tileMoney = (
+  amount: number,
+  currency_code: string,
+  locale: string,
+  formatted: string
+) => convertToWholeLocale({ amount, currency_code, locale }, formatted)
+
 export default async function ProductCard({
   product,
   priority,
@@ -104,23 +118,29 @@ export default async function ProductCard({
   layout?: "card" | "row"
 }) {
   const row = layout === "row"
-  const [locale, t, wishlistLoggedIn, wishlistProductIds] = await Promise.all([
+  const [locale, wishlistLoggedIn, wishlistProductIds] = await Promise.all([
     getLocale(),
-    getTranslations("ProductCard"),
     isWishlistCustomerLoggedIn(),
     getWishlistProductIds(),
   ])
   const { cheapestPrice } = getProductPrice({ product, locale })
 
   const usedOptionValueIds = new Set(
-    product.variants?.flatMap((v) => v.options?.map((o) => o.id).filter(Boolean) ?? []) ?? []
+    product.variants?.flatMap(
+      (v) => v.options?.map((o) => o.id).filter(Boolean) ?? []
+    ) ?? []
   )
 
   // Medusa's "Default option" of a product created without options is bookkeeping, not a
   // choice, and never reaches the card (measured on acme/globex/initech, 2026-09-12).
   const unitLine = (product.options ?? [])
     .filter((o) => !isColorOption(o) && !isPlaceholderOption(o))
-    .flatMap((o) => o.values?.filter((v) => usedOptionValueIds.has(v.id)).map((v) => v.value) ?? [])
+    .flatMap(
+      (o) =>
+        o.values
+          ?.filter((v) => usedOptionValueIds.has(v.id))
+          .map((v) => v.value) ?? []
+    )
     .join(" · ")
 
   const swatches = (product.options ?? [])
@@ -131,7 +151,8 @@ export default async function ProductCard({
   const onSale = cheapestPrice?.price_type === "sale"
   const images = product.images ?? []
   const first = product.thumbnail || images[0]?.url || null
-  const second = images.find((image) => image.url && image.url !== first)?.url ?? null
+  const second =
+    images.find((image) => image.url && image.url !== first)?.url ?? null
 
   return (
     <Link
@@ -144,54 +165,59 @@ export default async function ProductCard({
       data-testid="product-wrapper"
     >
       <div className={row ? "relative w-28 shrink-0 small:w-40" : "relative"}>
-        <ProductMedia src={first} secondSrc={second} alt={product.title ?? ""} priority={priority} />
+        <ProductMedia
+          src={first}
+          secondSrc={second}
+          alt={product.title ?? ""}
+          priority={priority}
+        />
         <WishlistButton
           productId={product.id}
           initialActive={wishlistProductIds.includes(product.id)}
           isLoggedIn={wishlistLoggedIn}
           className="absolute end-2 top-2 z-10 inline-flex items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--ui-bg-base)_80%,transparent)] p-1.5 text-ui-fg-subtle shadow-elevation-card-rest transition-colors hover:text-ui-fg-base disabled:opacity-60"
         />
-        {onSale && cheapestPrice?.percentage_diff ? (
-          <span
-            // theme-colours allowlist: the sale badge, a decorative tag colour and not an error status.
-            className="absolute start-2 top-2 rounded-full bg-ui-tag-red-bg px-2 py-0.5 text-xs font-medium tabular-nums text-ui-tag-red-text"
-            data-testid="product-sale-badge"
-          >
-            <span aria-hidden>−{cheapestPrice.percentage_diff}%</span>
-            <span className="sr-only">{t("sale", { percent: cheapestPrice.percentage_diff })}</span>
-          </span>
-        ) : null}
       </div>
 
       <div className={row ? "flex min-w-0 flex-1 flex-col self-stretch" : "mt-3 flex flex-1 flex-col"}>
         <h3
-          className="line-clamp-2 min-h-10 break-words text-sm font-medium leading-5 text-ui-fg-base group-hover:underline group-hover:underline-offset-2"
+          className="truncate text-sm font-medium leading-5 text-ui-fg-base group-hover:underline group-hover:underline-offset-2"
+          title={product.title ?? undefined}
           data-testid="product-title"
         >
           {product.title}
         </h3>
 
-        {/* The unit slot keeps its line when the product has nothing to say in it. */}
-        <div className="mt-1 flex h-5 items-center justify-between gap-x-2 text-[13px] leading-5 text-ui-fg-subtle">
-          <span className="min-w-0 truncate" title={unitLine || undefined} data-testid="product-unit">
-            {unitLine}
-          </span>
-          {swatches.length > 0 ? (
-            <span className="flex shrink-0 items-center gap-x-1">
-              {swatches.slice(0, MAX_SWATCHES).map((color) => (
-                <span
-                  key={color.id}
-                  title={color.value}
-                  className="inline-block size-3 rounded-full border border-ui-border-base"
-                  style={{ backgroundColor: getOptionValueHex(color) }}
-                />
-              ))}
+        {/* The unit line exists only when the product has a size or a colour to show. */}
+        {unitLine || swatches.length > 0 ? (
+          <div className="mt-1 flex h-5 items-center justify-between gap-x-2 text-[13px] leading-5 text-ui-fg-subtle">
+            <span
+              className="min-w-0 truncate"
+              title={unitLine || undefined}
+              data-testid="product-unit"
+            >
+              {unitLine}
             </span>
-          ) : null}
-        </div>
+            {swatches.length > 0 ? (
+              <span className="flex shrink-0 items-center gap-x-1">
+                {swatches.slice(0, MAX_SWATCHES).map((color) => (
+                  <span
+                    key={color.id}
+                    title={color.value}
+                    className="inline-block size-3 rounded-full border border-ui-border-base"
+                    style={{ backgroundColor: getOptionValueHex(color) }}
+                  />
+                ))}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
 
         {row && product.description ? (
-          <p className="mt-2 line-clamp-2 break-words text-sm leading-5 text-ui-fg-subtle" data-testid="product-excerpt">
+          <p
+            className="mt-2 line-clamp-2 break-words text-sm leading-5 text-ui-fg-subtle"
+            data-testid="product-excerpt"
+          >
             {product.description}
           </p>
         ) : null}
@@ -200,18 +226,27 @@ export default async function ProductCard({
           {cheapestPrice ? (
             <>
               <span
-                className={
-                  onSale
-                    ? "text-base font-semibold text-ui-fg-error"
-                    : "text-base font-semibold text-ui-fg-base"
-                }
+                className="text-base font-semibold text-ui-fg-base"
                 data-testid="price"
               >
-                {cheapestPrice.calculated_price}
+                {tileMoney(
+                  cheapestPrice.calculated_price_number,
+                  cheapestPrice.currency_code,
+                  locale,
+                  cheapestPrice.calculated_price
+                )}
               </span>
               {onSale ? (
-                <span className="text-[13px] text-ui-fg-muted line-through decoration-1" data-testid="original-price">
-                  {cheapestPrice.original_price}
+                <span
+                  className="text-[13px] text-ui-fg-muted line-through decoration-1"
+                  data-testid="original-price"
+                >
+                  {tileMoney(
+                    cheapestPrice.original_price_number,
+                    cheapestPrice.currency_code,
+                    locale,
+                    cheapestPrice.original_price
+                  )}
                 </span>
               ) : null}
             </>
