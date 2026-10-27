@@ -112,7 +112,7 @@ test("RU: Claude and pictures are off by flag, whatever keys are set", async () 
   assert.equal(status.images, "off (RU)");
   assert.equal(status.imageCap, null);
   assert.ok(status.notes.some((n) => /RU: Claude и картинки выключены/.test(n)));
-  assert.doesNotMatch(JSON.stringify(status), /sk-ant/);
+  assert.doesNotMatch(JSON.stringify(status), /test-key-not-real/);
   const turn = await app.text("нарисуй баннер с травами", []);
   assert.match(turn.reply, /на RU картинки выключены/);
 });
