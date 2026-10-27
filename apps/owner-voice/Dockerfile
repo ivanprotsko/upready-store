@@ -14,6 +14,9 @@ COPY scripts ./scripts
 
 ENV NODE_ENV=production
 ENV PORT=5470
+# Daily counts, uploads and image previews; compose mounts a volume here.
+ENV DATA_DIR=/data
+RUN mkdir -p /data && chown node:node /data
 EXPOSE 5470
 
 USER node

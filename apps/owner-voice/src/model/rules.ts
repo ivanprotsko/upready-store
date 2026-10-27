@@ -77,13 +77,16 @@ export function stage3Call(text: string): ToolCall | null {
   if (/^(откат\S*|откати\S*|верни (как было|назад|обратно))(\s+\S+){0,3}$/.test(t)) return call("prepare_rollback", {});
   if (/что (изменен|изменил|поменял|меняли|менял)|последние изменени|список изменени|какие изменени|история изменени/.test(t)) return call("list_changesets", {});
   const draw = /^(нарисуй|сгенерируй|сделай картинку|создай картинку|сделай изображение|создай изображение|картинк\S* для)\s*:?\s*(.*)$/.exec(t);
-  if (draw) return call("generate_image", { prompt: text.trim().slice(text.trim().length - draw[2]!.length) || "баннер магазина" });
+  // The prompt in the owner's own case: `t` is `text` folded, letter for letter, with the same end stripped.
+  const raw = text.trim().replace(/[.!?]+$/, "");
+  if (draw) return call("generate_image", { prompt: raw.slice(raw.length - draw[2]!.length) || "баннер магазина" });
   const place = /^(поставь|поставить|помести|повесь)\s+(\S+\s+)?(на|в)\s+(баннер|товар)\s*(.*)$/.exec(t);
   if (place) {
     if (place[4] === "баннер") return call("place_image", { target: "banner", ...(/\d/.test(place[5]!) ? { banner: Number(/\d+/.exec(place[5]!)![0]) } : {}) });
     return call("place_image", { target: "product", product: place[5]!.replace(/^[«"]|[»"]$/g, "") });
   }
-  const rename = /^(переименуй|поменяй название|измени название)\s+(товара?\s+)?(.+?)\s+(в|на)\s+(.+)$/.exec(text.trim().replace(/[.!?]+$/, ""));
+  // Case-blind: a transcript starts with a capital letter; the new title keeps the owner's own case.
+  const rename = /^(переименуй|поменяй название|измени название)\s+(товара?\s+)?(.+?)\s+(в|на)\s+(.+)$/i.exec(text.trim().replace(/[.!?]+$/, ""));
   if (rename) {
     return {
       id: "rules-run_command-products.update",

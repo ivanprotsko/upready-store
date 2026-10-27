@@ -1,6 +1,6 @@
 # Owner Voice Chat
 
-The shop owner's voice chat (t-2026-10-20-24), stage 1 and stage 2. The owner holds a button and asks a
+The shop owner's voice chat (t-2026-10-20-24), stages 1 to 3. The owner holds a button and asks a
 question. ElevenLabs turns the speech into text, a model answers with read-only tools that call the
 shop's HTTP API, and ElevenLabs speaks the answer while the screen shows it. The data comes from
 cherkashino.com through its API and never from a database connection (Ivan, 20.10.2026).
@@ -20,8 +20,34 @@ Product and stock search fold ё into е on both sides: speech to text writes «
 The API's own search does not fold ё, so when it finds nothing the tool reads the list (up to 500
 rows) and matches locally.
 
-Every request is a GET. The client in `src/shop/api.ts` refuses any other path or method before
-it leaves, and the only POST is the shop login.
+Every read is a GET. The client in `src/shop/api.ts` refuses any other path or method before
+it leaves. The POSTs are the shop login and, with `CHANGESETS=1`, the changeset client below.
+
+## Stage 3: Writes, Images, Files, Voice Messages
+
+- **Changesets.** `src/shop/changesets.ts` is the one client that sends a non-GET, and only to
+  `/tenants/agent-changesets*` (`CHANGESET_PATH`; a bad id is refused before it leaves). A confirmed
+  proposal becomes a changeset and is staged: the card shows its operations, a stage link and its
+  status. A refusal shows the backend's reason and its own words. What the agent may change is the
+  backend's allow-list (line A, t-2026-10-27-04), not this app's.
+- **«публикуй» and «откати».** By voice, text or the command palette. Both ask first with a confirm
+  card, then act. A drift (the live site changed after publish) shows a diff and changes nothing.
+  «что изменено» lists the latest changesets.
+- **Images.** «нарисуй баннер: …» draws a preview (a stub provider for now); «на товар» and «на баннер»
+  put it on the site as a changeset operation. Caps per UTC day on the server: `IMAGE_DAILY_USD` (3)
+  and `IMAGE_DAILY_COUNT` (30). Off in RU.
+- **Files.** The paperclip or drag-and-drop: PDF, pictures, text and CSV up to 20 MB. PDF text is
+  read in plain JS (`src/files/pdf.ts`); a PDF with no text layer is called a scan. Buyers' contacts
+  are masked by `src/pii.ts` before the model sees the text. Files live in `DATA_DIR/files` for
+  `FILES_TTL_HOURS` (24) and are swept at start and every hour.
+- **Voice messages.** Press, record with a timer, «Отправить» or «Удалить»; or upload mp3, m4a, ogg,
+  opus, wav or webm. ElevenLabs speech-to-text writes the transcript; the page shows it with a .txt
+  download, then the chat answers. Recording needs live speech-to-text; uploads work on fixtures.
+- **The model's cap.** `MODEL_DAILY_USD` (5) per UTC day on the server; past it the keyword router
+  answers and the page says why. `SHOP_REGION=ru` turns Claude and images off.
+
+Every flag and its default is in `.env.example`. Fixture scenes for screenshots:
+`/?show=changeset|publish|image|pdf|voice-note|recording` on a stand with `SHOP_FIXTURES=1 CHANGESETS=1`.
 
 ## Run It Locally
 
