@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 import { useActionState, useRef, useState } from "react"
 
@@ -95,20 +94,18 @@ function SignInForm({ id, returnTo, onSwitch }: Props & { onSwitch: () => void }
         data-testid="cart-sidebar-password-input"
       />
       <ErrorMessage error={message} data-testid="cart-sidebar-sign-in-error" />
-      <div className="grid grid-cols-2 gap-3 pt-1" data-testid="cart-sidebar-auth-actions">
+      <div className="flex flex-col items-center gap-y-3 pt-1" data-testid="cart-sidebar-auth-actions">
         <SubmitButton size="base" className="w-full min-w-0" data-testid="cart-sidebar-sign-in-submit">
           {t("signIn")}
         </SubmitButton>
-        <Button
+        <button
           type="button"
-          variant="secondary"
-          size="base"
-          className="w-full min-w-0"
           onClick={onSwitch}
+          className="text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
           data-testid="cart-sidebar-auth-switch"
         >
           {tSide("register")}
-        </Button>
+        </button>
       </div>
     </form>
   )
@@ -192,20 +189,18 @@ function RegisterForm({ id, returnTo, siteName, legal, onSwitch }: Props & { onS
         )}
         .
       </p>
-      <div className="grid grid-cols-2 gap-3 pt-1" data-testid="cart-sidebar-auth-actions">
+      <div className="flex flex-col items-center gap-y-3 pt-1" data-testid="cart-sidebar-auth-actions">
         <SubmitButton size="base" className="w-full min-w-0" data-testid="cart-sidebar-register-submit">
           {t("join")}
         </SubmitButton>
-        <Button
+        <button
           type="button"
-          variant="secondary"
-          size="base"
-          className="w-full min-w-0"
           onClick={onSwitch}
+          className="text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
           data-testid="cart-sidebar-auth-switch"
         >
           {t("signIn")}
-        </Button>
+        </button>
       </div>
     </form>
   )

@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, clx } from "@medusajs/ui"
+import { Button } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 import { useId, useState } from "react"
 
@@ -53,16 +53,16 @@ export default function SignInMethods({
   const formId = useId()
 
   const yandexSignIn = yandexLoginAvailable(loginSettings)
-  // Yandex ID is Yandex's own button (t-2026-10-04-45) on a row of its own: a half cell would be
-  // under the constructor's 156 px minimum, so the grid pairs only e-mail and Telegram.
-  const cells = [emailSignIn, telegramBot !== null].filter(Boolean).length
+  // D10 (t-2026-10-20-61): the ways in are equal full-width rows, one under the other, so no
+  // label can make one button of a pair taller and Yandex ID's own button (156 px minimum)
+  // never has to fit a half cell.
   // Labels sit in `truncate` spans: a 158 px cell keeps one line in every locale, so no
   // translation can make one button of the pair taller than the other.
 
   return (
     <div className="flex flex-col gap-y-3" data-testid="sign-in-methods">
       <div
-        className={clx("grid gap-3", cells > 1 ? "grid-cols-2" : "grid-cols-1")}
+        className="grid grid-cols-1 gap-3"
         data-testid="cart-sidebar-sign-in-methods"
       >
         {emailSignIn ? (
@@ -83,7 +83,6 @@ export default function SignInMethods({
         {yandexSignIn ? (
           <YandexIdButton
             returnTo={returnTo}
-            className={clx(cells > 1 && "col-span-2")}
             data-testid="cart-sidebar-sign-in-yandex"
           />
         ) : null}
