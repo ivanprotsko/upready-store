@@ -26,6 +26,7 @@ import {
 } from "./routes/marketplaces/common/redirects"
 import { homeSettingsChildren } from "./routes/home-settings/routes"
 import { ozonChildren } from "./routes/marketplaces/ozon-routes"
+import { agentChangesChildren } from "./routes/agent-changes/routes"
 
 import "./index.css"
 
@@ -853,6 +854,11 @@ const routes: RouteObject[] = [
               { path: ":id", lazy: () => import("./routes/reviews/review-detail") },
               { path: ":id/reply", lazy: () => import("./routes/reviews/review-reply") },
             ],
+          },
+          {
+            path: "/agent-changes",
+            handle: { breadcrumb: () => t("agentChanges.title") },
+            children: agentChangesChildren,
           },
           {
             // tenant-panel wave 2, piece 8: the panel's own home page settings (no Admin

@@ -145,6 +145,8 @@ export const OWNER_ROUTES = [
   { path: "/settings/branding/logo/edit", kind: "overlay" },
   { path: "/settings/branding/icons/edit", kind: "overlay" },
   { path: "/settings/branding/color/edit", kind: "overlay" },
+  { path: "/agent-changes" },
+  { path: "/agent-changes/:changeset_id", kind: "overlay" },
 
   // Доставка
   { path: "/shipping", core: true },
@@ -418,6 +420,10 @@ export const PARAM_RESOLVERS = {
     const list = body.pages ?? []
     const contacts = list.find((p) => /contact/i.test(p.key ?? ""))
     return (contacts ?? first(list, "pages")).key
+  },
+  changeset_id: async (api) => {
+    const { agent_changesets } = await api("/tenants/agent-changesets?limit=1")
+    return first(agent_changesets, "agent changesets").id
   },
   article_slug: async (api) => {
     const body = await api("/tenants/articles?limit=1")
