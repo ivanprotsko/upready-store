@@ -160,8 +160,7 @@ export default async function NavH7() {
             </div>
           </nav>
 
-          {/* Tablet and mobile: the wordmark alone. t-2026-10-20-61 D11: region, cart and menu
-              are the bottom bar's (`BottomNav`, below 1024), so the header no longer repeats them. */}
+          {/* Tablet and mobile: wordmark left, four plain icon buttons right. */}
           <nav className={`${styles.compact} ${styles.mobileOnly}`} data-testid="nav-h7-compact">
             <div className={styles.compactMain}>
               <BrandUnlock>
@@ -176,6 +175,28 @@ export default async function NavH7() {
                   </span>
                 </Link>
               </BrandUnlock>
+            </div>
+            <div className={styles.compactGroup}>
+              {/* `Scrolled=true`: this row becomes one white pill with 1×12 dividers. */}
+              <div className={styles.compactPill}>
+                <RegionSelect
+                  regions={regions}
+                  currentCountryCode={countryCode ?? undefined}
+                  locales={locales}
+                  variant="icons"
+                />
+                <span aria-hidden className={styles.divider} />
+                <span className={styles.iconButton}>
+                  <CartButton />
+                </span>
+                <span aria-hidden className={styles.divider} />
+                <SideMenu
+                  siteName={siteName}
+                  showJournal={showJournal}
+                  buttonClassName={styles.iconButton}
+                  modeToggle={olavka}
+                />
+              </div>
             </div>
           </nav>
         </header>
