@@ -1,0 +1,24 @@
+{
+  "_fixture": "Shaped after the ElevenLabs API docs (GET /v2/voices and GET /v1/shared-voices, checked 27.10.2026). NOT recorded: the build machine has no ElevenLabs key. Voice names and ids are made up except the stand's default voice id; previews point at the stand's own placeholder sample.",
+  "account": {
+    "voices": [
+      { "voice_id": "hRkvvKIawos7EupPfna0", "name": "Chrxn 2.0", "category": "cloned", "labels": { "language": "ru", "gender": "female", "accent": "russian" }, "description": "Голос магазина по умолчанию", "preview_url": "/api/voices/sample.wav", "verified_languages": [] },
+      { "voice_id": "fixAcctMaleRu0001", "name": "Борис", "category": "premade", "labels": { "gender": "male", "accent": "russian", "age": "middle_aged" }, "description": "Спокойный, деловой", "preview_url": "/api/voices/sample.wav", "verified_languages": [{ "language": "ru", "model_id": "eleven_flash_v2_5", "accent": "russian", "locale": "ru-RU", "preview_url": "/api/voices/sample.wav" }] },
+      { "voice_id": "fixAcctFemaleEn01", "name": "Grace", "category": "premade", "labels": { "gender": "female", "accent": "american", "age": "young" }, "description": "Warm, conversational", "preview_url": "/api/voices/sample.wav", "verified_languages": [{ "language": "en", "model_id": "eleven_flash_v2_5", "accent": "american", "locale": "en-US", "preview_url": "/api/voices/sample.wav" }] }
+    ],
+    "has_more": false,
+    "total_count": 3,
+    "next_page_token": null
+  },
+  "library": {
+    "voices": [
+      { "public_owner_id": "fixOwner01", "voice_id": "fixLibFemaleRu001", "name": "Алёна — диктор", "accent": "russian", "gender": "female", "age": "young", "language": "ru", "locale": "ru-RU", "description": "Чистая дикция, для озвучки", "preview_url": "/api/voices/sample.wav", "is_added_by_user": false, "verified_languages": [{ "language": "ru", "locale": "ru-RU" }] },
+      { "public_owner_id": "fixOwner02", "voice_id": "fixLibMaleRu00002", "name": "Дмитрий — подкаст", "accent": "russian", "gender": "male", "age": "middle_aged", "language": "ru", "locale": "ru-RU", "description": "Низкий, мягкий", "preview_url": "/api/voices/sample.wav", "is_added_by_user": false, "verified_languages": [{ "language": "ru", "locale": "ru-RU" }] },
+      { "public_owner_id": "fixOwner03", "voice_id": "fixLibFemaleUk001", "name": "Оксана — українська", "accent": "ukrainian", "gender": "female", "age": "young", "language": "uk", "locale": "uk-UA", "description": "Жива розмовна", "preview_url": "/api/voices/sample.wav", "is_added_by_user": false, "verified_languages": [{ "language": "uk", "locale": "uk-UA" }] },
+      { "public_owner_id": "fixOwner04", "voice_id": "fixLibMaleEnGb001", "name": "Oliver", "accent": "british", "gender": "male", "age": "old", "language": "en", "locale": "en-GB", "description": "Narration", "preview_url": "/api/voices/sample.wav", "is_added_by_user": false, "verified_languages": [{ "language": "en", "locale": "en-GB" }] },
+      { "public_owner_id": "fixOwner05", "voice_id": "fixLibFemaleDe001", "name": "Lena", "accent": "standard", "gender": "female", "age": "young", "language": "de", "locale": "de-DE", "description": "Freundlich", "preview_url": "/api/voices/sample.wav", "is_added_by_user": false, "verified_languages": [{ "language": "de", "locale": "de-DE" }] }
+    ],
+    "has_more": false,
+    "total_count": 5
+  }
+}

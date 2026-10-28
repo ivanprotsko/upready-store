@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Помощник покупателя</title>
+<style>
+  /* Laid out like the chrxnasdmds storefront assistant: a right panel over the shop, an inset sheet on a phone. */
+  :root { --bg: #f2f1ee; --text: #1a1b19; --muted: #6f706b; --pill: #ffffff; --line: #e2e0da; --accent: #1a1b19; --warn: #9a5b00; --panel: #fbfaf8; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151614; --text: #ecebe6; --muted: #9a9b95; --pill: #2a2b28; --line: #2f302d; --accent: #ecebe6; --warn: #e0a54a; --panel: #1d1e1c; }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; overflow-x: hidden; }
+  /* The shop behind the panel: only its name and a link, nothing the stand does not have. */
+  .shop { padding: 24px 456px 24px 32px; color: var(--muted); }
+  .shop h1 { color: var(--text); font-size: 22px; margin: 0 0 6px; }
+  .shop a { color: inherit; }
+  main { position: fixed; top: 16px; right: 16px; bottom: 16px; width: 400px; display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.12); overflow: hidden; }
+  main header { padding: 14px 16px 10px; border-bottom: 1px solid var(--line); }
+  main header h2 { font-size: 16px; margin: 0; }
+  main header p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+  #log { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+  .user { align-self: flex-end; background: var(--pill); border-radius: 20px; padding: 8px 14px; max-width: 85%; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  .bot { align-self: flex-start; max-width: 100%; white-space: pre-wrap; }
+  .card { margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 14px; white-space: normal; }
+  .card h3 { font-size: 14px; margin: 0 0 4px; }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card a { color: inherit; }
+  .tools { color: var(--muted); font-size: 12px; }
+  .err { color: var(--warn); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips button { font-size: 13px; padding: 6px 12px; border: 1px solid var(--line); background: transparent; }
+  form { display: flex; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--line); }
+  input { flex: 1; min-width: 0; border: 1px solid var(--line); background: var(--pill); color: var(--text); border-radius: 20px; padding: 10px 14px; font: inherit; }
+  button { border: 0; border-radius: 20px; padding: 10px 14px; font: inherit; cursor: pointer; background: var(--pill); color: var(--text); }
+  #send { background: var(--accent); color: var(--bg); }
+  #mic { touch-action: none; user-select: none; border: 1px solid var(--line); }
+  #mic.rec { background: #c0392b; color: #fff; }
+  #mic[hidden] { display: none; }
+  #note { margin: 0; padding: 0 16px 10px; color: var(--muted); font-size: 12px; }
+  @media (max-width: 600px) {
+    .shop { padding: 16px; }
+    main { top: auto; left: 8px; right: 8px; bottom: 8px; width: auto; height: calc(100dvh - 96px); }
+  }
+</style>
+</head>
+<body>
+<div class="shop">
+  <h1 id="shop">Магазин</h1>
+  <div>Витрина магазина. Помощник отвечает по открытому каталогу.</div>
+</div>
+<main>
+  <header>
+    <h2>Помощник магазина</h2>
+    <p>Подскажет по товарам, ценам, наличию и условиям.</p>
+  </header>
+  <section id="log" aria-live="polite">
+    <div class="bot">Здравствуйте! Что ищете?
+      <div class="chips" id="chips"></div>
+    </div>
+  </section>
+  <p id="note">Про заказы и личные данные помощник не спрашивает и не отвечает.</p>
+  <form id="ask">
+    <button type="button" id="mic" aria-label="Нажмите и говорите" hidden>🎙</button>
+    <input id="q" autocomplete="off" placeholder="Спросите о товаре" aria-label="Вопрос" />
+    <button type="submit" id="send" aria-label="Отправить">→</button>
+  </form>
+</main>
+<script>
+  const log = document.getElementById("log");
+  const mic = document.getElementById("mic");
+  const history = [];
+  let player = null;
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const scroll = () => { log.scrollTop = log.scrollHeight; };
+
+  fetch("/api/status").then((r) => r.json()).then((s) => {
+    document.getElementById("shop").textContent = s.shop;
+    // Voice only where the stand has it; text works everywhere.
+    if (s.voice === "live" && navigator.mediaDevices && window.MediaRecorder) mic.hidden = false;
+  }).catch(() => {});
+
+  for (const text of ["Есть свечи от варикоза?", "Какие разделы есть?", "Как вернуть товар?"]) {
+    const b = el("button", null, text); b.type = "button";
+    b.addEventListener("click", () => ask(text));
+    document.getElementById("chips").append(b);
+  }
+
+  function card(c) {
+    const box = el("div", "card");
+    box.append(el("h3", null, c.title));
+    const ul = el("ul");
+    for (const row of c.rows) ul.append(el("li", null, row));
+    box.append(ul);
+    if (c.link) { const a = el("a", null, c.link.label); a.href = c.link.href; a.target = "_blank"; a.rel = "noopener"; box.append(a); }
+    return box;
+  }
+
+  function showAnswer(data) {
+    if (data.transcript) { log.append(el("div", "user", data.transcript)); history.push({ role: "user", text: data.transcript }); }
+    const bot = el("div", "bot", data.reply);
+    for (const c of data.cards || []) bot.append(card(c));
+    log.append(bot);
+    history.push({ role: "assistant", text: data.reply });
+    if (data.audio) { if (player) player.pause(); player = new Audio(`data:${data.audioType};base64,${data.audio}`); player.play().catch(() => {}); }
+    scroll();
+  }
+
+  async function post(path, body) {
+    const pending = el("div", "bot tools", "Смотрю каталог…");
+    log.append(pending); scroll();
+    try {
+      const res = await fetch(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...body, history: history.slice(-8) }) });
+      const data = await res.json();
+      pending.remove();
+      if (!res.ok) { log.append(el("div", "bot err", data.error || "Сейчас не получилось ответить.")); return; }
+      showAnswer(data);
+    } catch {
+      pending.remove();
+      log.append(el("div", "bot err", "Сейчас не получилось ответить, попробуйте ещё раз."));
+    }
+  }
+  const ask = (question) => post("/api/assistant/text", { question });
+
+  document.getElementById("ask").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = document.getElementById("q");
+    const text = q.value.trim();
+    if (!text) return;
+    q.value = "";
+    ask(text);
+  });
+
+  let recorder = null, chunks = [];
+  async function start() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recorder = new MediaRecorder(stream);
+      chunks = [];
+      recorder.ondataavailable = (e) => chunks.push(e.data);
+      recorder.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop());
+        const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" });
+        if (blob.size < 2000) return;
+        const bytes = new Uint8Array(await blob.arrayBuffer());
+        let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+        post("/api/assistant/voice", { audio: btoa(bin), contentType: blob.type });
+      };
+      recorder.start();
+      mic.classList.add("rec");
+    } catch { log.append(el("div", "bot err", "Нет доступа к микрофону.")); }
+  }
+  function stop() { if (recorder && recorder.state === "recording") { recorder.stop(); mic.classList.remove("rec"); } }
+  mic.addEventListener("pointerdown", start);
+  mic.addEventListener("pointerup", stop);
+  mic.addEventListener("pointerleave", stop);
+
+  // ?show=exchange: two questions through the same form, for the evidence screens.
+  if (new URLSearchParams(location.search).get("show") === "exchange") {
+    (async () => { await ask("Есть свечи от варикоза?"); await ask("Как вернуть товар?"); })();
+  }
+</script>
+</body>
+</html>

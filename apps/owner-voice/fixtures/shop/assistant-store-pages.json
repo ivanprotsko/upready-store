@@ -1,0 +1,38 @@
+{
+  "_fixture": {
+    "source": "https://shipshift.dev for cherkashino.com, GET /store/* with the public publishable key (left out)",
+    "recorded": "2026-10-27T09:35:10.405Z"
+  },
+  "pages": [
+    {
+      "key": "contacts",
+      "title": "Контакты",
+      "locale": "ru"
+    },
+    {
+      "key": "about",
+      "title": "Черкашина Оксана",
+      "locale": "ru"
+    },
+    {
+      "key": "privacy",
+      "title": "Политика конфиденциальности",
+      "locale": "ru"
+    },
+    {
+      "key": "offer",
+      "title": "Условия продажи",
+      "locale": "ru"
+    },
+    {
+      "key": "returns",
+      "title": "Возврат",
+      "locale": "ru"
+    },
+    {
+      "key": "consent",
+      "title": "Согласие на обработку персональных данных",
+      "locale": "ru"
+    }
+  ]
+}
