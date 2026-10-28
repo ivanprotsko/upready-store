@@ -25,7 +25,9 @@ describe("agent changeset diff (t-2026-10-27-04)", () => {
         { method: "POST", path: "/tenants/products/p/variants/v", body: { prices: [{ amount: 500, currency_code: "RUB" }] } },
         { prices: [{ amount: 900, currency_code: "rub" }] },
       ),
-    ).toEqual({ prices: [{ amount: 500, currency_code: "rub" }] });
+    ).toEqual({
+      prices: [{ amount: 500, currency_code: "rub", min_quantity: null, max_quantity: null, rules: {} }],
+    });
     expect(
       afterOf(
         "attributes",
