@@ -1,0 +1,8 @@
+{
+  "retry": "summary-late.html",
+  "connect": "link-first.html",
+  "summary": "summary-late.html",
+  "detail": {
+    "intl-storefront": "source-com-local.html"
+  }
+}

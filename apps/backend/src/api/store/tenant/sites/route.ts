@@ -6,6 +6,7 @@ import {
   type HreflangSister,
 } from "../../../tenants/hreflang-sisters/hreflang-sisters";
 import { resolveTenantFromPublishableKey } from "../resolve-tenant";
+import { isStageSite } from "../../../../agent-changesets/stage";
 
 type GroupMember = {
   id?: string;
@@ -66,6 +67,11 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
       }
 
       if (typeof member.metadata?.["archived_at"] === "string") {
+        continue;
+      }
+
+      // A stage site is a preview, never a language version (t-2026-10-27-04).
+      if (isStageSite(member.metadata)) {
         continue;
       }
 

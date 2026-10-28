@@ -28,6 +28,7 @@ import {
   primaryHostFor,
   tenantIdsFromLabel,
 } from "./hosts";
+import { isStageSite } from "../../../agent-changesets/stage";
 
 /**
  * `GET /storefront/by-host?host=<host>` — the one call a storefront makes before
@@ -297,6 +298,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // with that shop's address; the storefront asks a first-time visitor the
     // region only when this list is not empty.
     region_redirects: readRegionRedirects(tenant.metadata as Record<string, unknown> | null),
+    // t-2026-10-27-04: a stage site, the owner's agent's preview copy. The
+    // storefront answers it with noindex three ways (`lib/tenant/stage.ts`).
+    stage: isStageSite(tenant.metadata),
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved

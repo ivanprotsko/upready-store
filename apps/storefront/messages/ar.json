@@ -563,7 +563,11 @@
     "copyLink": "نسخ الرابط",
     "linkCopied": "تم نسخ الرابط",
     "allCategories": "كل الأقسام",
-    "categories": "أقسام المجلة"
+    "categories": "أقسام المجلة",
+    "feed": "الأحدث",
+    "toc": "في هذه المقالة",
+    "readNext": "اقرأ التالي",
+    "toCatalog": "إلى الكتالوج"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "مفقود"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "مجلة الصحة",
+      "subtitle": "أعشاب وطقوس وبرامج وقصص — لمن يرى الصحة ممارسة يومية لا إجراءً طارئًا."
+    },
     "slider": {
       "course": "دورة",
       "goTo": "الانتقال إلى «{title}»",

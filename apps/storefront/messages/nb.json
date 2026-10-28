@@ -563,7 +563,11 @@
     "copyLink": "Kopier lenke",
     "linkCopied": "Lenke kopiert",
     "allCategories": "Alle temaer",
-    "categories": "Temaer"
+    "categories": "Temaer",
+    "feed": "Nyheter",
+    "toc": "I denne artikkelen",
+    "readNext": "Les videre",
+    "toCatalog": "Til katalogen"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "Forsvunnet"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Helsemagasin",
+      "subtitle": "Urter, ritualer, programmer og historier — for dem som ser på helse som en praksis, ikke en nødløsning."
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "Gå til «{title}»",

@@ -563,7 +563,11 @@
     "copyLink": "Copiar ligação",
     "linkCopied": "Ligação copiada",
     "allCategories": "Todas as rubricas",
-    "categories": "Rubricas"
+    "categories": "Rubricas",
+    "feed": "Novidades",
+    "toc": "Neste artigo",
+    "readNext": "Leia a seguir",
+    "toCatalog": "Ver catálogo"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "Extraviado"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Revista de saúde",
+      "subtitle": "Ervas, rituais, programas e histórias — para quem trata a saúde como uma prática, e não como último recurso."
+    },
     "slider": {
       "course": "Curso",
       "goTo": "Ir para “{title}”",

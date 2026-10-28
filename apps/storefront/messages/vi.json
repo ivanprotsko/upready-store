@@ -563,7 +563,11 @@
     "copyLink": "Sao chép liên kết",
     "linkCopied": "Đã sao chép liên kết",
     "allCategories": "Tất cả chuyên mục",
-    "categories": "Chuyên mục"
+    "categories": "Chuyên mục",
+    "feed": "Bảng tin",
+    "toc": "Trong bài viết này",
+    "readNext": "Đọc tiếp",
+    "toCatalog": "Xem danh mục"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "Thất lạc"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Tạp chí sức khỏe",
+      "subtitle": "Thảo mộc, nghi thức, chương trình và câu chuyện — dành cho những ai xem sức khỏe là một thực hành, không phải giải pháp cuối cùng."
+    },
     "slider": {
       "course": "Khóa học",
       "goTo": "Đi tới “{title}”",

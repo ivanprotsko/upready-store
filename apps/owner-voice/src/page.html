@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Голосовой чат владельца</title>
+<style>
+  /* Bubbles after the chrxnasdmds owner chat (Ivan, 13.06): the assistant is plain text on the canvas, the owner a white pill. */
+  :root { --bg: #f2f1ee; --text: #1a1b19; --muted: #6f706b; --pill: #ffffff; --line: #e2e0da; --accent: #1a1b19; --warn: #9a5b00; --ok: #2f7a3a; --panel: #fbfaf8; --hover: #ecebe6; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151614; --text: #ecebe6; --muted: #9a9b95; --pill: #2a2b28; --line: #2f302d; --accent: #ecebe6; --warn: #e0a54a; --ok: #7cc68a; --panel: #1d1e1c; --hover: #2a2b28; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 720px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; padding: 16px; }
+  header h1 { font-size: 18px; margin: 4px 0 2px; }
+  #mode { color: var(--muted); font-size: 13px; }
+  #mode b { color: var(--warn); font-weight: 600; }
+  #log { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 20px 0; }
+  .user { align-self: flex-end; background: var(--pill); border-radius: 22px; padding: 9px 16px; max-width: 85%; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  .bot { align-self: flex-start; max-width: 92%; white-space: pre-wrap; }
+  .card { margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .card h2 { font-size: 14px; margin: 0 0 4px; }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card a { color: inherit; }
+  .tools { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .err { color: var(--warn); }
+  form { display: flex; gap: 8px; align-items: center; position: sticky; bottom: 0; background: var(--bg); padding: 12px 0 4px; }
+  input { flex: 1; min-width: 0; border: 1px solid var(--line); background: var(--pill); color: var(--text); border-radius: 22px; padding: 11px 16px; font: inherit; }
+  button { border: 0; border-radius: 22px; padding: 11px 16px; font: inherit; cursor: pointer; background: var(--pill); color: var(--text); }
+  #mic { background: var(--accent); color: var(--bg); min-width: 120px; touch-action: none; user-select: none; }
+  #mic.rec { background: #c0392b; color: #fff; }
+  #mic:disabled { opacity: .4; cursor: not-allowed; }
+  #hint { color: var(--muted); font-size: 13px; text-align: center; margin: 0; }
+
+  header { display: flex; align-items: flex-start; gap: 12px; }
+  header .grow { flex: 1; min-width: 0; }
+  .icon { background: transparent; border: 1px solid var(--line); border-radius: 12px; padding: 7px 11px; font-size: 14px; color: var(--text); white-space: nowrap; }
+  kbd { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px; color: var(--muted); }
+  .card.proposal { border-color: var(--warn); }
+  .card.dryrun { border-style: dashed; }
+  .card pre { margin: 6px 0; padding: 8px 10px; background: var(--pill); border-radius: 8px; font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-all; }
+  .card .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .card .actions button { padding: 7px 14px; font-size: 14px; border: 1px solid var(--line); }
+  .card .actions .go { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .badge { display: inline-block; font-size: 11px; line-height: 1; padding: 4px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+  .badge.write { color: var(--warn); border-color: var(--warn); }
+  .badge.off { opacity: .7; }
+  .badge.sent { color: var(--ok); border-color: var(--ok); }
+
+  /* The command palette (Shift+Cmd+K), after chrxnasdmds CommandPalette: groups, risk badges, keyboard only if wanted. */
+  .veil { position: fixed; inset: 0; background: rgba(0,0,0,.32); display: none; z-index: 20; }
+  .veil.open { display: block; }
+  #palette { position: fixed; left: 50%; top: 12vh; transform: translateX(-50%); width: min(640px, calc(100vw - 32px)); max-height: 72vh; display: none; flex-direction: column; background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.25); z-index: 21; overflow: hidden; }
+  #palette.open { display: flex; }
+  #palette input { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; padding: 14px 16px; font-size: 16px; }
+  #palette input:focus { outline: none; }
+  #plist { overflow-y: auto; padding: 6px 0 8px; }
+  #plist h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 10px 16px 4px; font-weight: 600; }
+  .pitem { display: flex; gap: 10px; align-items: center; padding: 8px 16px; cursor: pointer; }
+  .pitem .what { flex: 1; min-width: 0; }
+  .pitem .en, .pitem .href { display: block; color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pitem.sel { background: var(--hover); }
+  .pitem.none { cursor: default; opacity: .62; }
+  #pfoot { border-top: 1px solid var(--line); padding: 8px 16px; color: var(--muted); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
+  #pempty { padding: 18px 16px; color: var(--muted); }
+
+  /* Voice settings (Do 9): a drawer on the right, a sheet from the bottom on a phone. */
+  #voices { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 100vw; background: var(--panel); border-left: 1px solid var(--line); z-index: 21; display: none; flex-direction: column; }
+  #voices.open { display: flex; }
+  #voices header { padding: 14px 16px 6px; align-items: center; }
+  #voices h2 { font-size: 16px; margin: 0; }
+  #vnow { padding: 0 16px 8px; color: var(--muted); font-size: 13px; }
+  .vfilters { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 16px 10px; }
+  .vfilters input, .vfilters select { width: 100%; border: 1px solid var(--line); background: var(--pill); color: var(--text); border-radius: 10px; padding: 8px 10px; font: inherit; font-size: 14px; }
+  .vfilters .wide { grid-column: 1 / -1; }
+  .vtabs { display: flex; gap: 6px; padding: 0 16px 10px; }
+  .vtabs button { padding: 6px 12px; font-size: 13px; border: 1px solid var(--line); background: transparent; }
+  .vtabs button[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  #vlist { flex: 1; overflow-y: auto; padding: 0 8px 16px; }
+  .voice { display: flex; gap: 10px; align-items: center; padding: 10px 8px; border-top: 1px solid var(--line); }
+  .voice .what { flex: 1; min-width: 0; }
+  .voice .meta { display: block; color: var(--muted); font-size: 12px; }
+  .voice .play { width: 36px; height: 36px; padding: 0; border-radius: 50%; border: 1px solid var(--line); flex: none; }
+  .voice .pick { padding: 6px 12px; font-size: 13px; border: 1px solid var(--line); flex: none; }
+  .voice.chosen .pick { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .voice .need { font-size: 12px; color: var(--warn); flex: none; max-width: 110px; text-align: right; line-height: 1.3; }
+  #vstate { padding: 14px 16px; color: var(--muted); font-size: 14px; }
+  @media (max-width: 600px) {
+    #voices { top: auto; left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 82vh; border: 1px solid var(--line); border-radius: 16px; }
+    #palette { top: 8px; max-height: calc(100dvh - 16px); }
+    header h1 { font-size: 17px; }
+    .kbd-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="grow">
+      <h1>Голосовой чат владельца</h1>
+      <div id="mode">Загрузка…</div>
+    </div>
+    <button type="button" class="icon" id="open-palette" aria-label="Команды панели" title="Команды панели (Shift+Cmd+K)">Команды <span class="kbd-hint"><kbd>⇧⌘K</kbd></span></button>
+    <button type="button" class="icon" id="gear" aria-label="Настройки голоса" title="Настройки голоса">⚙</button>
+  </header>
+  <section id="log" aria-live="polite"></section>
+  <form id="ask">
+    <button type="button" id="mic" aria-label="Нажмите и говорите">🎙 Говорить</button>
+    <input id="q" autocomplete="off" placeholder="Или спросите текстом: сколько продали за неделю?" />
+    <button type="submit">→</button>
+  </form>
+  <p id="hint">Держите кнопку, пока говорите. Чат читает данные, а изменения только предлагает.</p>
+</main>
+<div class="veil" id="veil"></div>
+<div id="palette" role="dialog" aria-modal="true" aria-label="Команды панели">
+  <input id="pq" autocomplete="off" placeholder="Команда: заказы, акции, returns, снять с публикации…" aria-controls="plist" />
+  <div id="plist" role="listbox"></div>
+  <div id="pfoot"><span><kbd>↑</kbd><kbd>↓</kbd> выбрать</span><span><kbd>Enter</kbd> выполнить</span><span><kbd>Esc</kbd> закрыть</span></div>
+</div>
+<aside id="voices" role="dialog" aria-modal="true" aria-label="Настройки голоса">
+  <header><div class="grow"><h2>Голос ответов</h2></div><button type="button" class="icon" id="vclose" aria-label="Закрыть">✕</button></header>
+  <div id="vnow"></div>
+  <div class="vfilters">
+    <select id="vlang" aria-label="Язык"></select>
+    <select id="vgender" aria-label="Пол"><option value="">Любой пол</option></select>
+    <input id="vq" class="wide" placeholder="Поиск по имени" autocomplete="off" aria-label="Поиск по имени" />
+    <select id="vaccent" class="wide" aria-label="Акцент"><option value="">Любой акцент</option></select>
+  </div>
+  <div class="vtabs" role="group" aria-label="Откуда голос">
+    <button type="button" data-source="all" aria-pressed="true">Все</button>
+    <button type="button" data-source="account" aria-pressed="false">Мой аккаунт</button>
+    <button type="button" data-source="library" aria-pressed="false">Библиотека</button>
+  </div>
+  <div id="vlist"></div>
+</aside>
+<script>
+  const log = document.getElementById("log");
+  const mic = document.getElementById("mic");
+  const history = [];
+  let player = null;
+
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const scroll = () => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+
+  // The owner sees plain words only: no variable names, codes or vendor errors; those are in the server log.
+  // Read again after every answer, so a model that just fell back shows in the header.
+  const loadStatus = () => fetch("/api/status").then((r) => r.json()).then((s) => {
+    const part = (label, mode) => mode === "live" ? `${label}: живые` : `${label}: <b>записи</b>`;
+    const model = !s.provider.startsWith("anthropic") ? "модель: <b>выключена</b>, отвечает разбор по словам"
+      : s.modelFallback ? "модель: <b>недоступна</b>, отвечает разбор по словам" : "модель: Claude";
+    document.getElementById("mode").innerHTML =
+      `${s.shop} · ${part("каталог", s.storeApi)} · ${part("заказы и продажи", s.ownerApi)} · ${part("голос", s.voice)} · ${model}`;
+    if (s.voice !== "live") {
+      mic.disabled = true;
+      document.getElementById("hint").textContent = "Голос на этом стенде выключен, спросите текстом";
+    }
+  }).catch(() => {});
+  loadStatus();
+
+  const TOOL_WORDS = {
+    find_products: "каталог", product_stock: "склад", sales_summary: "продажи",
+    recent_orders: "заказы", product_reviews: "отзывы", open_product: "карточку товара",
+    find_commands: "команды панели", run_command: "команду панели",
+  };
+  const VOICE_KEY = "owner-voice.voiceId";
+  const store = {
+    get() { try { return localStorage.getItem(VOICE_KEY) || ""; } catch { return ""; } },
+    set(v) { try { v ? localStorage.setItem(VOICE_KEY, v) : localStorage.removeItem(VOICE_KEY); } catch {} },
+  };
+
+  // A card: a result, a proposed write with its Confirm button, or the dry-run of a confirmed one.
+  function renderCard(card) {
+    const box = el("div", "card" + (card.kind && card.kind !== "result" ? " " + card.kind : ""));
+    const head = el("h2", null, card.title + " ");
+    if (card.kind === "proposal") head.append(el("span", "badge write", "ждёт подтверждения"));
+    if (card.kind === "dryrun") head.append(el("span", "badge sent", "не отправлено"));
+    box.append(head);
+    if (card.request) {
+      const rest = card.rows.filter((r) => !r.startsWith(card.request.method + " ") && !r.startsWith("Тело: "));
+      box.append(el("pre", null, `${card.request.method} ${card.request.url}\n${JSON.stringify(card.request.body, null, 2)}`));
+      if (rest.length) { const ul = el("ul"); for (const row of rest) ul.append(el("li", null, row)); box.append(ul); }
+    } else {
+      const ul = el("ul");
+      for (const row of card.rows) ul.append(el("li", null, row));
+      box.append(ul);
+    }
+    if (card.link) { const a = el("a", null, card.link.label); a.href = card.link.href; a.target = "_blank"; a.rel = "noopener"; box.append(a); }
+    if (card.kind === "proposal" && card.proposalId) {
+      const actions = el("div", "actions");
+      const yes = el("button", "go", "Подтвердить");
+      const no = el("button", null, "Отмена");
+      yes.type = no.type = "button";
+      yes.addEventListener("click", () => confirmProposal(card.proposalId, actions));
+      no.addEventListener("click", () => { actions.replaceChildren(el("span", "tools", "Отменено, ничего не отправлено.")); });
+      actions.append(yes, no);
+      box.append(actions);
+    }
+    return box;
+  }
+
+  async function confirmProposal(id, actions) {
+    actions.replaceChildren(el("span", "tools", "Готовлю запрос…"));
+    try {
+      const res = await fetch("/api/commands/confirm", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ proposalId: id }) });
+      const data = await res.json();
+      if (!res.ok) { actions.replaceChildren(el("span", "err", data.error || "Не получилось.")); return; }
+      actions.replaceChildren();
+      const bot = el("div", "bot", "Подтверждено. На этом стенде запрос показан и не отправлен: стенд читает живой магазин.");
+      bot.append(renderCard(data.card));
+      log.append(bot);
+      scroll();
+    } catch { actions.replaceChildren(el("span", "err", "Стенд не ответил.")); }
+  }
+
+  function showAnswer(data) {
+    if (data.transcript) { log.append(el("div", "user", data.transcript)); history.push({ role: "user", text: data.transcript }); }
+    const bot = el("div", "bot", data.reply);
+    for (const card of data.cards || []) bot.append(renderCard(card));
+    if (data.calls && data.calls.length) bot.append(el("div", "tools", "Посмотрел: " + data.calls.map((c) => TOOL_WORDS[c.name] || "данные магазина").join(", ")));
+    log.append(bot);
+    history.push({ role: "assistant", text: data.reply });
+    if (data.audio) {
+      if (player) player.pause();
+      player = new Audio(`data:${data.audioType};base64,${data.audio}`);
+      player.play().catch(() => {});
+    }
+    scroll();
+  }
+
+  async function post(path, body) {
+    const pending = el("div", "bot tools", "Думаю…");
+    log.append(pending); scroll();
+    try {
+      const voiceId = store.get() || undefined;
+      const res = await fetch(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...body, voiceId, history: history.slice(-8) }) });
+      const data = await res.json();
+      pending.remove();
+      if (!res.ok) {
+        // A voice the catalog refused falls back to the shop's default for the next question.
+        if ((res.status === 400 || res.status === 409) && voiceId && /голос/i.test(data.error || "")) { store.set(""); renderNow(); }
+        log.append(el("div", "bot err", data.error || "Сейчас не получилось ответить."));
+        return;
+      }
+      showAnswer(data);
+    } catch (e) {
+      pending.remove();
+      log.append(el("div", "bot err", "Стенд не ответил."));
+    }
+    loadStatus();
+  }
+
+  document.getElementById("ask").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = document.getElementById("q");
+    const question = input.value.trim();
+    if (!question) return;
+    input.value = "";
+    post("/api/text", { question });
+  });
+
+  let recorder = null, chunks = [], holding = false;
+  async function start() {
+    if (mic.disabled) return;
+    holding = true;
+    if (recorder) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recorder = new MediaRecorder(stream);
+      chunks = [];
+      recorder.ondataavailable = (e) => chunks.push(e.data);
+      recorder.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop());
+        const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" });
+        recorder = null;
+        mic.classList.remove("rec"); mic.textContent = "🎙 Говорить";
+        if (blob.size < 2000) return;
+        const bytes = new Uint8Array(await blob.arrayBuffer());
+        let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+        post("/api/voice", { audio: btoa(bin), contentType: blob.type });
+      };
+      recorder.start();
+      mic.classList.add("rec"); mic.textContent = "● Слушаю";
+      // The button was let go while the microphone was still being opened.
+      if (!holding) recorder.stop();
+    } catch (e) {
+      log.append(el("div", "bot err", "Нет доступа к микрофону. Спросите текстом."));
+    }
+  }
+  const stop = () => { holding = false; if (recorder && recorder.state === "recording") recorder.stop(); };
+  mic.addEventListener("pointerdown", start);
+  mic.addEventListener("pointerup", stop);
+  mic.addEventListener("pointerleave", stop);
+
+  /* ---------- Command palette: Shift+Cmd+K (Shift+Ctrl+K off a Mac), Esc closes ---------- */
+  const palette = document.getElementById("palette");
+  const veil = document.getElementById("veil");
+  const pq = document.getElementById("pq");
+  const plist = document.getElementById("plist");
+  let commands = [], panelUrl = "", shown = [], sel = 0, picking = null;
+  const RISK = { safe: "чтение", write: "запись", destructive: "необратимо", financial: "деньги" };
+  const USE = { read: "выполнить", propose: "предложить", goto: "перейти", none: "недоступно агенту" };
+  const fold = (t) => t.toLowerCase().replace(/ё/g, "е");
+  const words = (t) => fold(t).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+
+  const loadCommands = fetch("/api/commands").then((r) => r.json()).then((d) => { commands = d.commands; panelUrl = d.panelUrl; }).catch(() => {});
+
+  // The same search as src/commands/index.ts searchCommands: every word by its first five letters, RU, EN and aliases.
+  function search(query) {
+    const q = words(query);
+    if (!q.length) return commands.slice();
+    const whole = q.join(" ");
+    return commands.map((c) => {
+      const names = [c.label_ru, c.label_en, ...c.aliases];
+      const hay = words([...names, c.id.replace(/[._]/g, " "), c.section_ru, c.section].join(" "));
+      if (!q.every((w) => hay.some((h) => h.startsWith(w.slice(0, 5)) || (w.length < 5 && h.startsWith(w))))) return null;
+      let score = 1;
+      for (const n of names) { const f = words(n).join(" "); if (f === whole) score = Math.max(score, 4); else if (f.startsWith(whole)) score = Math.max(score, 3); }
+      return { c, score: score + (c.agent === "read" ? 0.5 : 0) };
+    }).filter(Boolean).sort((a, b) => b.score - a.score).map((x) => x.c);
+  }
+
+  const hrefOf = (c) => c.panel ? panelUrl + c.panel.split("/{")[0] : null;
+
+  function renderList() {
+    plist.replaceChildren();
+    if (picking) {
+      plist.append(el("h3", null, `${picking.command.label_ru}: выберите`));
+      shown = picking.rows.filter((r) => !pq.value.trim() || fold(r.label).includes(fold(pq.value.trim())));
+      shown.forEach((row, i) => {
+        const item = el("div", "pitem" + (i === sel ? " sel" : ""));
+        item.setAttribute("role", "option");
+        item.append(el("span", "what", row.label));
+        item.addEventListener("click", () => { sel = i; choose(); });
+        plist.append(item);
+      });
+      if (!shown.length) plist.append(el("div", null, "Ничего не нашлось.")).id = "pempty";
+      return;
+    }
+    shown = search(pq.value);
+    if (!pq.value.trim()) shown = shown.filter((c) => c.agent !== "none").concat(shown.filter((c) => c.agent === "none"));
+    if (!shown.length) { const e = el("div", null, "Такой команды нет. Попробуйте другое слово: заказы, товары, акции."); e.id = "pempty"; plist.append(e); return; }
+    let group = null;
+    if (pq.value.trim()) plist.append(el("h3", null, "Найдено"));
+    shown.forEach((c, i) => {
+      if (!pq.value.trim() && c.section_ru !== group) { group = c.section_ru; plist.append(el("h3", null, group)); }
+      const item = el("div", "pitem" + (i === sel ? " sel" : "") + (c.agent === "none" ? " none" : ""));
+      item.setAttribute("role", "option");
+      item.setAttribute("aria-selected", i === sel ? "true" : "false");
+      const what = el("span", "what", c.label_ru);
+      const sub = c.agent === "goto" && hrefOf(c) ? el("span", "href", "→ " + hrefOf(c))
+        : c.agent === "none" ? el("span", "en", c.target.kind === "missing" ? c.target.reason : (c.risk === "destructive" || c.risk === "financial" ? "только в панели" : c.label_en))
+        : el("span", "en", c.label_en);
+      what.append(sub);
+      item.append(what, el("span", "badge" + (c.risk === "safe" ? "" : " write"), RISK[c.risk]), el("span", "badge" + (c.agent === "none" ? " off" : ""), USE[c.agent]));
+      item.addEventListener("mousemove", () => { if (sel !== i) { sel = i; mark(); } });
+      item.addEventListener("click", () => { sel = i; choose(); });
+      plist.append(item);
+    });
+  }
+  function mark() {
+    plist.querySelectorAll(".pitem").forEach((n, i) => { n.classList.toggle("sel", i === sel); n.setAttribute("aria-selected", i === sel ? "true" : "false"); });
+    const cur = plist.querySelectorAll(".pitem")[sel];
+    if (cur) cur.scrollIntoView({ block: "nearest" });
+  }
+
+  async function openPalette(query = "") {
+    await loadCommands;
+    closeVoices();
+    picking = null; sel = 0; pq.value = query;
+    palette.classList.add("open"); veil.classList.add("open");
+    renderList();
+    pq.focus();
+  }
+  function closePalette() { palette.classList.remove("open"); if (!voicesBox.classList.contains("open")) veil.classList.remove("open"); picking = null; }
+
+  async function runFromPalette(c, extra = {}) {
+    closePalette();
+    if (c.agent === "goto" && !extra.params) {
+      const href = hrefOf(c);
+      const bot = el("div", "bot", `«${c.label_ru}» — в панели магазина.`);
+      bot.append(renderCard({ title: c.label_ru, rows: [href], link: { label: "Открыть в панели", href } }));
+      log.append(bot); scroll();
+      return;
+    }
+    log.append(el("div", "user", c.label_ru + (extra.label ? `: ${extra.label}` : "")));
+    const pending = el("div", "bot tools", "Выполняю…"); log.append(pending); scroll();
+    try {
+      const res = await fetch("/api/commands/run", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id: c.id, ...(extra.params ? { params: extra.params } : {}) }) });
+      const data = await res.json();
+      pending.remove();
+      if (!res.ok) { log.append(el("div", "bot err", data.error || "Не получилось.")); return; }
+      showAnswer({ reply: data.reply, cards: data.cards });
+    } catch { pending.remove(); log.append(el("div", "bot err", "Стенд не ответил.")); }
+  }
+
+  async function choose() {
+    if (picking) {
+      const row = shown[sel];
+      if (row) runFromPalette(picking.command, { params: { id: row.id }, label: row.label });
+      return;
+    }
+    const c = shown[sel];
+    if (!c || c.agent === "none") return;
+    // A command about one record asks which one first, from its list.
+    if ((c.agent === "read" || c.agent === "propose") && c.target.kind === "route" && /\{id\}/.test(c.target.path)) {
+      const rows = await fetch("/api/commands/pick?id=" + encodeURIComponent(c.id)).then((r) => r.json()).then((d) => d.rows).catch(() => []);
+      if (rows.length) { picking = { command: c, rows }; sel = 0; pq.value = ""; pq.placeholder = "Найти в списке…"; renderList(); pq.focus(); return; }
+    }
+    runFromPalette(c);
+  }
+
+  pq.addEventListener("input", () => { sel = 0; renderList(); });
+  pq.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(sel + 1, shown.length - 1); mark(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(sel - 1, 0); mark(); }
+    else if (e.key === "Enter") { e.preventDefault(); choose(); }
+    else if (e.key === "Backspace" && picking && !pq.value) { picking = null; pq.placeholder = "Команда: заказы, акции, returns, снять с публикации…"; renderList(); }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if (palette.classList.contains("open")) { e.preventDefault(); closePalette(); }
+      else if (voicesBox.classList.contains("open")) { e.preventDefault(); closeVoices(); }
+      return;
+    }
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === "k" || e.key === "K" || e.code === "KeyK")) {
+      e.preventDefault();
+      palette.classList.contains("open") ? closePalette() : openPalette();
+    }
+  });
+  document.getElementById("open-palette").addEventListener("click", () => openPalette());
+  veil.addEventListener("click", () => { closePalette(); closeVoices(); });
+
+  /* ---------- Voice settings (Do 9): the ElevenLabs catalog, read only; the choice lives in this browser ---------- */
+  const voicesBox = document.getElementById("voices");
+  const vlist = document.getElementById("vlist");
+  const vlang = document.getElementById("vlang"), vgender = document.getElementById("vgender"), vaccent = document.getElementById("vaccent"), vq = document.getElementById("vq");
+  let source = "all", catalog = null, sample = null, vtimer = null, filled = false;
+
+  function renderNow() {
+    const id = store.get();
+    const known = catalog && catalog.voices.find((v) => v.id === id);
+    document.getElementById("vnow").textContent = id
+      ? `Сейчас: ${known ? known.name : "выбранный голос"} · `
+      : "Сейчас: голос магазина по умолчанию";
+    if (id) {
+      const reset = el("a", null, "вернуть по умолчанию"); reset.href = "#";
+      reset.addEventListener("click", (e) => { e.preventDefault(); store.set(""); renderNow(); renderVoices(); });
+      document.getElementById("vnow").append(reset);
+    }
+  }
+
+  function renderVoices() {
+    vlist.replaceChildren();
+    if (!catalog) return;
+    if (!catalog.voices.length) { const s = el("div", null, "Голосов с такими фильтрами нет. Смените язык или уберите поиск."); s.id = "vstate"; vlist.append(s); return; }
+    const chosen = store.get() || catalog.defaultVoiceId;
+    for (const v of catalog.voices) {
+      const row = el("div", "voice" + (v.id === chosen ? " chosen" : ""));
+      const play = el("button", "play", "▶"); play.type = "button"; play.setAttribute("aria-label", `Прослушать ${v.name}`);
+      play.disabled = !v.previewUrl;
+      play.addEventListener("click", () => { if (sample) sample.pause(); sample = new Audio(v.previewUrl); sample.play().catch(() => {}); });
+      const what = el("span", "what", v.name);
+      const langs = v.languages.length ? v.languages.map((l) => catalog.languages[l] || l).join(", ") : "язык не указан";
+      const meta = [v.source === "account" ? "мой аккаунт" : "библиотека", langs, catalog.genders[v.gender] || null, v.accent].filter(Boolean).join(" · ");
+      what.append(el("span", "meta", meta));
+      row.append(play, what);
+      if (v.needsAdd) row.append(el("span", "need", "нужно добавить в аккаунт"));
+      else {
+        const pick = el("button", "pick", v.id === chosen ? "Выбран" : "Выбрать"); pick.type = "button";
+        pick.addEventListener("click", () => { store.set(v.id === catalog.defaultVoiceId ? "" : v.id); renderNow(); renderVoices(); });
+        row.append(pick);
+      }
+      vlist.append(row);
+    }
+  }
+
+  async function loadVoices() {
+    const p = new URLSearchParams({ language: vlang.value || "ru", source });
+    if (vq.value.trim()) p.set("q", vq.value.trim());
+    if (vgender.value) p.set("gender", vgender.value);
+    if (vaccent.value) p.set("accent", vaccent.value);
+    vlist.replaceChildren(Object.assign(el("div", null, "Загружаю каталог…"), { id: "vstate" }));
+    try {
+      const res = await fetch("/api/voices?" + p);
+      if (!res.ok) throw new Error();
+      catalog = await res.json();
+      if (!filled) {
+        filled = true;
+        for (const [code, name] of Object.entries(catalog.languages)) vlang.append(new Option(name, code, code === "ru", code === "ru"));
+        for (const [code, name] of Object.entries(catalog.genders)) vgender.append(new Option(name[0].toUpperCase() + name.slice(1), code));
+      }
+      const keep = vaccent.value;
+      vaccent.replaceChildren(new Option("Любой акцент", ""), ...catalog.accents.map((a) => new Option(a, a)));
+      vaccent.value = catalog.accents.includes(keep) ? keep : "";
+      renderNow(); renderVoices();
+    } catch {
+      catalog = null;
+      vlist.replaceChildren(Object.assign(el("div", "err", "Каталог голосов сейчас недоступен. Ответы звучат голосом по умолчанию."), { id: "vstate" }));
+    }
+  }
+
+  function openVoices() { closePalette(); voicesBox.classList.add("open"); veil.classList.add("open"); loadVoices(); }
+  function closeVoices() { voicesBox.classList.remove("open"); if (!palette.classList.contains("open")) veil.classList.remove("open"); if (sample) sample.pause(); }
+  document.getElementById("gear").addEventListener("click", openVoices);
+  document.getElementById("vclose").addEventListener("click", closeVoices);
+  for (const n of [vlang, vgender, vaccent]) n.addEventListener("change", loadVoices);
+  vq.addEventListener("input", () => { clearTimeout(vtimer); vtimer = setTimeout(loadVoices, 300); });
+  voicesBox.querySelectorAll(".vtabs button").forEach((b) => b.addEventListener("click", () => {
+    source = b.dataset.source;
+    voicesBox.querySelectorAll(".vtabs button").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+    loadVoices();
+  }));
+
+  /* ---------- ?show= opens a state for the evidence screens, through the same handlers a person uses ---------- */
+  const show = new URLSearchParams(location.search).get("show");
+  if (show === "palette") {
+    loadCommands.then(() => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "K", code: "KeyK", shiftKey: true, metaKey: true, bubbles: true }));
+      setTimeout(() => { pq.value = "акц"; pq.dispatchEvent(new Event("input")); }, 50);
+    });
+  } else if (show === "exchange") {
+    (async () => {
+      await post("/api/text", { question: "Покажи список акций" });
+      await post("/api/text", { question: "Сними с публикации тройчатку" });
+      const yes = [...document.querySelectorAll(".card.proposal .go")].pop();
+      if (yes) yes.click();
+    })();
+  } else if (show === "voices") {
+    openVoices();
+  }
+</script>
+</body>
+</html>

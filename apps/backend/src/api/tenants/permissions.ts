@@ -193,6 +193,18 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   "/tenants/article-categories": { GET: "storefront" },
   "/tenants/branding/upload": { POST: "storefront" },
 
+  // ---- the owner's agent's changes (t-2026-10-27-04). The list and each
+  // step need `storefront`; every op inside is then checked against its own
+  // route's row here, for the caller's role (`agent-changesets/lifecycle.ts`).
+  // Making the stage site creates a site: `settings`, the owner's.
+  "/tenants/agent-changesets": { GET: "storefront", POST: "storefront" },
+  "/tenants/agent-changesets/[id]": { GET: "storefront" },
+  "/tenants/agent-changesets/[id]/stage": { POST: "storefront" },
+  "/tenants/agent-changesets/[id]/publish": { POST: "storefront" },
+  "/tenants/agent-changesets/[id]/rollback": { POST: "storefront" },
+  "/tenants/agent-changesets/[id]/discard": { POST: "storefront" },
+  "/tenants/agent-changesets/stage-site": { GET: "storefront", POST: "settings" },
+
   // ---- marketing
   "/tenants/promotions": { GET: "marketing", POST: "marketing" },
   "/tenants/promotions/[id]": { GET: "marketing", POST: "marketing", DELETE: "marketing" },

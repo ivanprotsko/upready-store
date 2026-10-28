@@ -6,6 +6,8 @@ import { getClientMessages } from "@lib/data/client-messages"
 import Analytics from "@modules/common/components/analytics"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { getSiteTestMode } from "@lib/data/tenant-test-mode"
+import { isStageSite } from "@lib/data/tenant-stage"
+import { NOINDEX } from "@lib/util/robots"
 import { visibleTestMode } from "@lib/tenant/test-mode"
 import { buildIconMetadata } from "@lib/tenant/icons"
 import type { Metadata } from "next"
@@ -44,10 +46,21 @@ import "styles/globals.css"
 // (`lib/tenant/icons.ts`). A tenant with no set keeps the icons it had.
 // The PWA manifest is not linked here: the `app/manifest.ts` file convention
 // links `/manifest.webmanifest` from every page itself.
+//
+// t-2026-10-27-04: a stage site's every page says noindex. A page that sets its
+// own `robots` sets NOINDEX too (cart, account, checkout), so none undoes it.
 export async function generateMetadata(): Promise<Metadata> {
-  const [baseURL, branding] = await Promise.all([getRequestBaseURL(), getSiteBranding()])
+  const [baseURL, branding, stage] = await Promise.all([
+    getRequestBaseURL(),
+    getSiteBranding(),
+    isStageSite(),
+  ])
 
-  return { metadataBase: new URL(baseURL), ...buildIconMetadata(branding) }
+  return {
+    metadataBase: new URL(baseURL),
+    ...buildIconMetadata(branding),
+    ...(stage ? { robots: NOINDEX } : {}),
+  }
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

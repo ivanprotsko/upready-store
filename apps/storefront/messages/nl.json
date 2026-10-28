@@ -563,7 +563,11 @@
     "copyLink": "Link kopiëren",
     "linkCopied": "Link gekopieerd",
     "allCategories": "Alle rubrieken",
-    "categories": "Rubrieken"
+    "categories": "Rubrieken",
+    "feed": "Nieuw",
+    "toc": "In dit artikel",
+    "readNext": "Lees verder",
+    "toCatalog": "Naar de catalogus"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "Verloren"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Gezondheidsmagazine",
+      "subtitle": "Kruiden, rituelen, programma's en verhalen — voor wie gezondheid als een praktijk ziet, niet als laatste redmiddel."
+    },
     "slider": {
       "course": "Cursus",
       "goTo": "Ga naar “{title}”",

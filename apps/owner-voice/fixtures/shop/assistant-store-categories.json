@@ -1,0 +1,71 @@
+{
+  "_fixture": {
+    "source": "https://shipshift.dev for cherkashino.com, GET /store/* with the public publishable key (left out)",
+    "recorded": "2026-10-27T09:35:10.405Z"
+  },
+  "product_categories": [
+    {
+      "id": "pcat_01M2GQWVZZVVY2F1GCWMCYM679",
+      "name": "Мультиварки",
+      "handle": "multivarki-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M2GQWX6GYDJY9J8K0S98C5SE",
+      "name": "Стевия",
+      "handle": "steviya-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+      "name": "АСД",
+      "handle": "asd-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M2GQX1GV8MP045N91E9BWZYF",
+      "name": "Фито-свечи",
+      "handle": "fito-svechi-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M2GQX279ZJ26N4SSXST15XGM",
+      "name": "Масла",
+      "handle": "masla-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M2GQX2YG252810GXF50ZNR91",
+      "name": "Мёд",
+      "handle": "myod-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+      "name": "Добавки",
+      "handle": "dobavki-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+      "name": "Гигиена и уход",
+      "handle": "gigiena-i-uhod-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M48QCQW3ECFWKVZS560C25EM",
+      "name": "Приборы",
+      "handle": "pribory-cherkashino",
+      "parent_category_id": null
+    },
+    {
+      "id": "pcat_01M48QCQW5VFVR38W7RB64XHDV",
+      "name": "Книги",
+      "handle": "knigi-cherkashino",
+      "parent_category_id": null
+    }
+  ],
+  "count": 10,
+  "offset": 0,
+  "limit": 100
+}

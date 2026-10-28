@@ -1,0 +1,65 @@
+{
+  "_fixture": "Shaped after apps/backend/src/api/tenants/reviews/route.ts and review-helpers.ts toReviewDto. NOT recorded from cherkashino.com: the build machine has no shop login. Numbers are made up.",
+  "reviews": [
+    {
+      "id": "prev_fixture_0",
+      "product_id": "prod_01M2GRCGSCKDNQ4SCAPEVBCCN9",
+      "author_name": "Анна К.",
+      "rating": 5,
+      "title": "Помогло",
+      "body": "Прошла курс, самочувствие лучше, всё подробно расписано.",
+      "language": "ru",
+      "status": "published",
+      "source": "storefront",
+      "reply": null,
+      "replied_at": null,
+      "written_at": "2026-10-18T09:12:00.000Z",
+      "created_at": "2026-10-18T09:12:00.000Z",
+      "product": {
+        "id": "prod_01M2GRCGSCKDNQ4SCAPEVBCCN9",
+        "title": null
+      }
+    },
+    {
+      "id": "prev_fixture_1",
+      "product_id": "prod_01M2GREFG0PEWGYRHR3F3Z139P",
+      "author_name": "Сергей",
+      "rating": 4,
+      "title": null,
+      "body": "Капсулы хорошие, доставка шла 9 дней.",
+      "language": "ru",
+      "status": "published",
+      "source": "storefront",
+      "reply": "Спасибо! Ускоряем отправку.",
+      "replied_at": null,
+      "written_at": "2026-10-16T14:40:00.000Z",
+      "created_at": "2026-10-16T14:40:00.000Z",
+      "product": {
+        "id": "prod_01M2GREFG0PEWGYRHR3F3Z139P",
+        "title": null
+      }
+    },
+    {
+      "id": "prev_fixture_2",
+      "product_id": "prod_01M2GRC9BG5GJG7CV5X0WKMNNC",
+      "author_name": "Мария Петрова",
+      "rating": 2,
+      "title": "Долго",
+      "body": "Заказ шёл почти три недели.",
+      "language": "ru",
+      "status": "published",
+      "source": "storefront",
+      "reply": null,
+      "replied_at": null,
+      "written_at": "2026-10-12T07:03:00.000Z",
+      "created_at": "2026-10-12T07:03:00.000Z",
+      "product": {
+        "id": "prod_01M2GRC9BG5GJG7CV5X0WKMNNC",
+        "title": null
+      }
+    }
+  ],
+  "count": 3,
+  "offset": 0,
+  "limit": 50
+}

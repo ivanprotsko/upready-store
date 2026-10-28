@@ -3,6 +3,8 @@ import type React from "react"
 import { Link } from "@i18n/navigation"
 import type { MarkdownBlock, MarkdownInline } from "@lib/util/markdown"
 import { parseMarkdown } from "@lib/util/markdown"
+import { articleHeadingLevel, headingAnchors } from "@lib/util/markdown-toc"
+import { DISPLAY_2, DISPLAY_3, EYEBROW } from "@modules/journal/typography"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 
 /**
@@ -104,7 +106,28 @@ const HEADING_CLASS: Record<1 | 2 | 3, string> = {
   3: "text-base-semi text-ui-fg-base mt-4 first:mt-0",
 }
 
-const Block = ({ block }: { block: MarkdownBlock }) => {
+/**
+ * How a body is set. `default` is a content page's: one step of type below the page title.
+ * `article` is a journal article's (t-2026-10-05-03), after the chrxnasdmds journal: large
+ * section headings with anchors for the table of contents, body text a size up in the
+ * theme's secondary ink, the opening quote as a «Кратко» callout.
+ */
+export type MarkdownVariant = "default" | "article"
+
+const Block = ({
+  block,
+  variant = "default",
+  anchor = null,
+}: {
+  block: MarkdownBlock
+  variant?: MarkdownVariant
+  /** The heading's id, from `headingAnchors`, in the `article` variant. */
+  anchor?: string | null
+}) => {
+  if (variant === "article") {
+    return <ArticleBlock block={block} anchor={anchor} />
+  }
+
   if (block.type === "heading") {
     const Tag = (`h${block.level + 1}` as unknown) as React.ElementType
 
@@ -224,18 +247,141 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
   )
 }
 
-const MarkdownContent = ({ source }: { source: string }) => {
+const ARTICLE_TEXT = "text-base leading-relaxed text-ui-fg-subtle small:text-lg"
+
+/**
+ * The quote every article of the journal opens with, as the chrxnasdmds «Кратко» callout.
+ * A first line that is bold alone becomes the callout's small-caps title, and the lines
+ * under it its numbered points: the parser has already dropped their `- ` markers, keeping
+ * each quoted line apart (`parseMarkdown`), so a titled quote's lines are its points. A
+ * quote without such a title stays a callout of paragraphs.
+ */
+const ArticleCallout = ({ lines }: { lines: MarkdownInline[][] }) => {
+  const [first, ...others] = lines
+  const titled = first?.length === 1 && first[0].type === "strong"
+  const items = titled ? others : []
+  const paragraphs = titled ? [] : lines
+
+  return (
+    <aside
+      className="flex flex-col gap-5 rounded-rounded border border-ui-border-base bg-ui-bg-subtle px-5 py-5 small:px-7 small:py-7"
+      data-testid="article-callout"
+    >
+      <HydrationSlot>
+        {titled ? (
+          <p className={`${EYEBROW} text-ui-fg-interactive`}>{first[0].value}</p>
+        ) : null}
+        {paragraphs.length > 0 ? (
+          <div className="flex flex-col gap-2">
+            <HydrationSlot>
+              {paragraphs.map((line, index) => (
+                <p key={index} className={ARTICLE_TEXT}>
+                  <Inline nodes={line} />
+                </p>
+              ))}
+            </HydrationSlot>
+          </div>
+        ) : null}
+        {items.length > 0 ? (
+          <ol className="m-0 flex list-none flex-col gap-3 p-0">
+            <HydrationSlot>
+              {items.map((item, index) => (
+                <li key={index} className="flex items-start gap-4">
+                  <span className="w-6 flex-none pt-0.5 text-end text-xl leading-none tabular-nums text-ui-fg-interactive">
+                    {index + 1}
+                  </span>
+                  <span className="min-w-0 flex-1 text-base leading-relaxed text-ui-fg-base small:text-lg">
+                    <Inline nodes={item} />
+                  </span>
+                </li>
+              ))}
+            </HydrationSlot>
+          </ol>
+        ) : null}
+      </HydrationSlot>
+    </aside>
+  )
+}
+
+const ArticleBlock = ({ block, anchor }: { block: MarkdownBlock; anchor: string | null }) => {
+  if (block.type === "heading") {
+    const level = articleHeadingLevel(block.level)
+    const Tag = (`h${level}` as unknown) as React.ElementType
+
+    return (
+      <Tag
+        id={anchor ?? undefined}
+        className={
+          level === 2
+            ? `${DISPLAY_2} scroll-mt-24 text-ui-fg-base mt-6 first:mt-0 small:mt-8`
+            : `${DISPLAY_3} scroll-mt-24 text-ui-fg-base pt-2`
+        }
+      >
+        <Inline nodes={block.content} />
+      </Tag>
+    )
+  }
+
+  if (block.type === "list") {
+    const Tag = (block.ordered ? "ol" : "ul") as React.ElementType
+
+    return (
+      <Tag
+        className={`${ARTICLE_TEXT} flex flex-col gap-2 ps-5 marker:text-ui-fg-muted ${
+          block.ordered ? "list-decimal" : "list-disc"
+        }`}
+      >
+        <HydrationSlot>
+          {block.items.map((item, index) => (
+            <li key={index}>
+              <Inline nodes={item} />
+            </li>
+          ))}
+        </HydrationSlot>
+      </Tag>
+    )
+  }
+
+  if (block.type === "quote") {
+    return <ArticleCallout lines={block.content} />
+  }
+
+  if (block.type === "rule") {
+    return <hr className="my-2 border-t border-ui-border-base small:my-4" />
+  }
+
+  if (block.type === "paragraph") {
+    return (
+      <p className={ARTICLE_TEXT}>
+        <Inline nodes={block.content} />
+      </p>
+    )
+  }
+
+  // A table reads the same in an article as on a content page.
+  return <Block block={block} />
+}
+
+const MarkdownContent = ({
+  source,
+  variant = "default",
+}: {
+  source: string
+  variant?: MarkdownVariant
+}) => {
   const blocks = parseMarkdown(source)
 
   if (blocks.length === 0) {
     return null
   }
 
+  const anchors = variant === "article" ? headingAnchors(blocks) : []
+
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className={variant === "article" ? "flex flex-col gap-5 small:gap-6" : "flex flex-col gap-y-4"}>
       <HydrationSlot>
         {blocks.map((block, index) => (
-          <Block key={index} block={block} />
+          <Block key={index} block={block} variant={variant} anchor={anchors[index] ?? null} />
         ))}
       </HydrationSlot>
     </div>

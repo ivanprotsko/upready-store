@@ -1,8 +1,8 @@
-import { ArrowPath, Key } from "@medusajs/icons"
+import { CalendarMini, Key, TriangleDownMini } from "@medusajs/icons"
 import { Alert, Badge, Button, Container, DatePicker, Heading, Text, clx } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { createColumnHelper } from "@tanstack/react-table"
-import { useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useSearchParams } from "react-router-dom"
 
@@ -23,7 +23,7 @@ import {
 import { CardCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 import { useMpListQuery } from "../common/use-mp-list-query"
-import { changeOf, count, dayLong, moneyWhole, pct, range, signedPct } from "./components/format"
+import { changeOf, count, dayLong, moneyWhole, pct, rangeShort, signedPct } from "./components/format"
 import { CategoryShares, ChecksByWeek, Panel, Regions, WarehouseSplit } from "./components/infographic"
 import { SalesChart } from "./components/sales-chart"
 
@@ -33,12 +33,21 @@ import { SalesChart } from "./components/sales-chart"
  * фильтры … А над ним сделать инфорграфику с графиками … ну и разумеется
  * сделать выборку по датам и за период».
  *
- * Top to bottom: the period (ready periods, from/to, the comparison with the
- * previous period of the same length), four tiles with the change against
- * it, the infographic (daily dynamics with the previous period dashed, the
- * share of each category, the average check by week, WB or seller warehouse,
+ * Top to bottom: the heading with the period in it (ready periods, from/to),
+ * four tiles with the change against the previous period of the same length,
+ * the infographic (daily dynamics with the previous period dashed, the share
+ * of each category, the average check by week, WB or seller warehouse,
  * regions), then the compact list of products with its filters. The filters
  * narrow the list only; the tiles and the charts stay over the whole shop.
+ *
+ * EVERY DATE ONCE (t-2026-10-20-29, Ivan 20.10 with Yandex Metrica as the
+ * reference): the heading container sticks to the top while the page scrolls,
+ * so the period is always on screen and no block repeats it. The current
+ * period is said by the bar alone (on a phone, one chip «21 сент — 20 окт»
+ * that opens the controls). The comparison is named by its length, «прошлые
+ * 30 дн.», never by dates: once in the legend of the dashed line it draws,
+ * and on the tiles and the change column as «к прошлым 30 дн.». The ✕ of a
+ * date field returns to the default period; there is no «Сбросить».
  *
  * Read only, as w19 decided: every number is folded from what the import
  * stored (`GET /tenants/marketplaces/:marketplace/analytics`), opening the
@@ -102,6 +111,114 @@ const presetFrom = (preset: number | "month"): string | null => {
   const from = new Date(today)
   from.setDate(from.getDate() - (preset - 1))
   return asIsoDay(from)
+}
+
+type Period = MpAnalyticsResponse["period"]
+
+/**
+ * The period in the heading row: the ready periods and the two date fields.
+ * On a phone it is one chip with the range, as Metrica shrinks its bar; the
+ * chip opens the controls under the heading. The ✕ of a field (the picker's
+ * own clear button) drops that day from the address, both ✕ give the default
+ * period back.
+ */
+const PeriodBar = ({
+  from,
+  to,
+  period,
+  activePreset,
+  pickPreset,
+  setPeriod,
+  locale,
+}: {
+  from: string | undefined
+  to: string | undefined
+  period: Period | undefined
+  activePreset: number | "month" | null
+  pickPreset: (preset: number | "month") => void
+  setPeriod: (from: string | null, to: string | null) => void
+  locale: string
+}) => {
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+  const shownFrom = from ?? period?.from_day
+  const shownTo = to ?? period?.to_day
+
+  return (
+    <>
+      <Button
+        type="button"
+        size="small"
+        variant="secondary"
+        className="min-h-11 gap-x-1.5 md:hidden"
+        aria-expanded={open}
+        aria-controls="mp-analytics-period"
+        aria-label={t("mp.analytics.v3.period")}
+        onClick={() => setOpen((value) => !value)}
+        data-testid="mp-analytics-period-chip"
+      >
+        <CalendarMini className="text-ui-fg-subtle" />
+        <span className="tabular-nums">
+          {shownFrom && shownTo ? rangeShort(shownFrom, shownTo, locale) : t("mp.analytics.v3.presets.days", { count: 30 })}
+        </span>
+        <TriangleDownMini className={clx("text-ui-fg-subtle transition-transform", open && "rotate-180")} />
+      </Button>
+      <div
+        id="mp-analytics-period"
+        role="group"
+        aria-label={t("mp.analytics.v3.period")}
+        className={clx("flex flex-wrap items-center gap-2 max-md:w-full", !open && "max-md:hidden")}
+        data-testid="mp-analytics-period"
+      >
+        <div className="bg-ui-bg-subtle flex rounded-md p-0.5 max-md:w-full">
+          {[...PRESETS, "month" as const].map((preset) => (
+            <button
+              key={preset}
+              type="button"
+              onClick={() => {
+                pickPreset(preset)
+                setOpen(false)
+              }}
+              aria-pressed={activePreset === preset}
+              className={clx(
+                "txt-compact-small-plus text-ui-fg-subtle rounded-[5px] px-3 py-1.5 max-md:min-h-11 max-md:flex-1",
+                activePreset === preset && "bg-ui-bg-base text-ui-fg-base shadow-borders-base"
+              )}
+            >
+              {preset === "month" ? t("mp.analytics.v3.presets.month") : t("mp.analytics.v3.presets.days", { count: preset })}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-2 max-md:w-full [&>*]:max-md:flex-1">
+          <DatePicker
+            aria-label={t("marketplaceAnalytics.filters.from")}
+            value={asDate(shownFrom)}
+            maxValue={asDate(shownTo)}
+            onChange={(value) => {
+              // The picker re-emits the day it was given on mount; only a
+              // day that differs from what is shown reaches the address.
+              const next = asIsoDay(value)
+              if (next !== (from ?? period?.from_day ?? null)) {
+                setPeriod(next, to ?? null)
+              }
+            }}
+          />
+          <DatePicker
+            aria-label={t("marketplaceAnalytics.filters.to")}
+            value={asDate(shownTo)}
+            minValue={asDate(shownFrom)}
+            maxValue={new Date()}
+            onChange={(value) => {
+              const next = asIsoDay(value)
+              if (next !== (to ?? period?.to_day ?? null)) {
+                setPeriod(from ?? null, next)
+              }
+            }}
+          />
+        </div>
+      </div>
+    </>
+  )
 }
 
 export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
@@ -185,85 +302,20 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
   return (
     <MpPage
       stacked
+      sticky
       title={t("mp.analytics.title")}
-      subtitle={
-        period
-          ? t(period.is_default ? "mp.analytics.v3.subtitleDefault" : "mp.analytics.v3.subtitle", {
-              marketplace: label,
-              range: range(period.from_day, period.to_day, locale),
-              count: period.days,
-            })
-          : null
+      bar={
+        <PeriodBar
+          from={from}
+          to={to}
+          period={period}
+          activePreset={activePreset}
+          pickPreset={pickPreset}
+          setPeriod={setPeriod}
+          locale={locale}
+        />
       }
     >
-      <Container className="flex flex-col gap-y-3 px-6 py-4" data-testid="mp-analytics-period">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="bg-ui-bg-subtle flex rounded-md p-0.5 max-md:w-full">
-            {[...PRESETS, "month" as const].map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                onClick={() => pickPreset(preset)}
-                aria-pressed={activePreset === preset}
-                className={clx(
-                  "txt-compact-small-plus text-ui-fg-subtle rounded-[5px] px-3 py-1.5 max-md:min-h-11 max-md:flex-1",
-                  activePreset === preset && "bg-ui-bg-base text-ui-fg-base shadow-borders-base"
-                )}
-              >
-                {preset === "month" ? t("mp.analytics.v3.presets.month") : t("mp.analytics.v3.presets.days", { count: preset })}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap items-center gap-2 max-md:w-full [&>*]:max-md:flex-1">
-            <DatePicker
-              aria-label={t("marketplaceAnalytics.filters.from")}
-              value={asDate(from ?? period?.from_day)}
-              maxValue={asDate(to ?? period?.to_day)}
-              onChange={(value) => {
-                // The picker re-emits the day it was given on mount; only a
-                // day that differs from what is shown reaches the address.
-                const next = asIsoDay(value)
-                if (next !== (from ?? period?.from_day ?? null)) {
-                  setPeriod(next, to ?? null)
-                }
-              }}
-            />
-            <DatePicker
-              aria-label={t("marketplaceAnalytics.filters.to")}
-              value={asDate(to ?? period?.to_day)}
-              minValue={asDate(from ?? period?.from_day)}
-              maxValue={new Date()}
-              onChange={(value) => {
-                const next = asIsoDay(value)
-                if (next !== (to ?? period?.to_day ?? null)) {
-                  setPeriod(from ?? null, next)
-                }
-              }}
-            />
-          </div>
-          {from || to ? (
-            <Button size="small" variant="secondary" onClick={() => setPeriod(null, null)}>
-              {t("marketplaceAnalytics.filters.reset")}
-            </Button>
-          ) : null}
-        </div>
-        {comparison ? (
-          <div className="flex items-center gap-x-1.5" data-testid="mp-analytics-comparison">
-            <ArrowPath className="text-ui-fg-muted shrink-0" />
-            <Text size="small" className="text-ui-fg-subtle">
-              {comparison.available
-                ? t("mp.analytics.v3.comparison.with", { range: range(comparison.from_day, comparison.to_day, locale) })
-                : comparison.data_from_day
-                  ? t("mp.analytics.v3.comparison.noData", {
-                      range: range(comparison.from_day, comparison.to_day, locale),
-                      since: dayLong(comparison.data_from_day, locale),
-                    })
-                  : t("mp.analytics.v3.comparison.nothing")}
-            </Text>
-          </div>
-        ) : null}
-      </Container>
-
       {connection?.notice && !nothingStored ? <ConnectionBanner connection={connection} slug={slug} /> : null}
 
       {nothingStored ? (
@@ -327,8 +379,16 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
               hint={
                 <>
                   {t("mp.analytics.v3.dynamics.hint")}
-                  {comparison?.available ? (
-                    <span className="text-ui-fg-muted"> · {t("mp.analytics.v3.dynamics.dashed", { range: range(comparison.from_day, comparison.to_day, locale) })}</span>
+                  {/* The one line about the comparison: what the dashed line is, or why there is none. */}
+                  {comparison ? (
+                    <span className="text-ui-fg-muted" data-testid="mp-analytics-comparison">
+                      {" · "}
+                      {comparison.available
+                        ? t("mp.analytics.v3.dynamics.dashed", { days: analytics.period.days })
+                        : comparison.data_from_day
+                          ? t("mp.analytics.v3.comparison.noData", { since: dayLong(comparison.data_from_day, locale) })
+                          : t("mp.analytics.v3.comparison.nothing")}
+                    </span>
                   ) : null}
                 </>
               }

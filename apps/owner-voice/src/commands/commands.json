@@ -1,0 +1,2878 @@
+{
+ "_source": "chrxnasdmds packages/admin-actions/src/admin-actions-map.json (feature/voice-widget-revive 296b3e3), each command mapped onto this repo's /tenants/* routes (apps/backend/src/api/tenants) and tenant-panel pages (apps/tenant-panel/src/app.tsx) on 27.10.2026",
+ "legend": {
+  "agent": "read = the agent runs it (GET); propose = the agent drafts it and the owner confirms, which on this stand is a dry-run; goto = a link into the panel only; none = not given to the agent (destructive, financial, or no target)"
+ },
+ "commands": [
+  {
+   "id": "orders.list",
+   "label_ru": "Список заказов (поиск/фильтры)",
+   "label_en": "List orders",
+   "aliases": [
+    "список заказов",
+    "все заказы",
+    "заказы списком"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/orders"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/orders",
+    "file": "apps/backend/src/api/tenants/orders/route.ts",
+    "line": 19
+   },
+   "panel": "/orders"
+  },
+  {
+   "id": "orders.get",
+   "label_ru": "Карточка заказа",
+   "label_en": "Order details",
+   "aliases": [
+    "карточка заказа",
+    "открой заказ",
+    "заказ номер"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/orders/{id}"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/orders/{id}",
+    "file": "apps/backend/src/api/tenants/orders/[id]/route.ts",
+    "line": 15
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "orders.update",
+   "label_ru": "Изменить почту, адреса и доп. поля заказа",
+   "label_en": "Edit order email and addresses",
+   "aliases": [
+    "изменить почту заказа",
+    "адрес заказа"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:421)"
+   },
+   "panel": null
+  },
+  {
+   "id": "orders.cancel",
+   "label_ru": "Отменить заказ",
+   "label_en": "Cancel order",
+   "aliases": [
+    "отменить заказ"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/cancel"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/orders/{id}/cancel",
+    "file": "apps/backend/src/api/tenants/orders/[id]/cancel/route.ts",
+    "line": 12
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "orders.complete",
+   "label_ru": "Завершить заказ",
+   "label_en": "Complete order",
+   "aliases": [
+    "завершить заказ"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/complete"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута завершения"
+   },
+   "panel": null
+  },
+  {
+   "id": "orders.archive",
+   "label_ru": "Архивировать заказ",
+   "label_en": "Archive order",
+   "aliases": [
+    "архивировать заказ"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/archive"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута архива"
+   },
+   "panel": null
+  },
+  {
+   "id": "orders.changes",
+   "label_ru": "История изменений заказа",
+   "label_en": "Order change history",
+   "aliases": [
+    "история заказа",
+    "изменения заказа"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/orders/{id}/changes"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/orders/{id}/changes",
+    "file": "apps/backend/src/api/tenants/orders/[id]/changes/route.ts",
+    "line": 15
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "orders.line_items",
+   "label_ru": "Позиции заказа",
+   "label_en": "Order line items",
+   "aliases": [
+    "позиции заказа",
+    "состав заказа"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/orders/{id}/line-items"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/orders/{id}/line-items",
+    "file": "apps/backend/src/api/tenants/orders/[id]/line-items/route.ts",
+    "line": 19
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "orders.preview",
+   "label_ru": "Превью заказа с незакоммиченными правками",
+   "label_en": "Order preview with pending edits",
+   "aliases": [
+    "превью заказа"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/orders/{id}/preview"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/orders/{id}/preview",
+    "file": "apps/backend/src/api/tenants/orders/[id]/preview/route.ts",
+    "line": 16
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "orders.shipping_options",
+   "label_ru": "Доступные способы доставки для заказа",
+   "label_en": "Shipping options",
+   "aliases": [
+    "способы доставки",
+    "варианты доставки"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/orders/{id}/shipping-options"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/shipping-options",
+    "file": "apps/backend/src/api/tenants/shipping-options/route.ts",
+    "line": 22
+   },
+   "panel": "/shipping",
+   "note": "общий список магазина, не по заказу"
+  },
+  {
+   "id": "orders.transfer",
+   "label_ru": "Передать заказ другому клиенту (запрос на подтверждение)",
+   "label_en": "Transfer order to another customer",
+   "aliases": [
+    "передать заказ"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/transfer"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:416)"
+   },
+   "panel": null
+  },
+  {
+   "id": "orders.transfer_cancel",
+   "label_ru": "Отменить передачу заказа",
+   "label_en": "Cancel order transfer",
+   "aliases": [
+    "отменить передачу заказа"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/transfer/cancel"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:416)"
+   },
+   "panel": null
+  },
+  {
+   "id": "orders.export",
+   "label_ru": "Выгрузить заказы таблицей",
+   "label_en": "Export orders",
+   "aliases": [
+    "выгрузить заказы",
+    "экспорт заказов"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/export"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/orders/export",
+    "file": "apps/backend/src/api/tenants/orders/export/route.ts",
+    "line": 99
+   },
+   "panel": "/orders/export"
+  },
+  {
+   "id": "orders.warehouse_split",
+   "label_ru": "Разбивка заказа по складам",
+   "label_en": "Order split by warehouse",
+   "aliases": [
+    "разбивка по складам"
+   ],
+   "section": "orders",
+   "section_ru": "Заказы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/orders/{id}/warehouse-split"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута разбивки по складам"
+   },
+   "panel": null
+  },
+  {
+   "id": "fulfillments.create",
+   "label_ru": "Создать отгрузку (склад + позиции)",
+   "label_en": "Create fulfillment",
+   "aliases": [
+    "создать отгрузку",
+    "собрать заказ"
+   ],
+   "section": "fulfillments",
+   "section_ru": "Заказы → Отгрузка",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/fulfillments"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/orders/{id}/fulfillments",
+    "file": "apps/backend/src/api/tenants/orders/[id]/fulfillments/route.ts",
+    "line": 18
+   },
+   "panel": "/orders/{id}/fulfillment"
+  },
+  {
+   "id": "fulfillments.cancel",
+   "label_ru": "Отменить отгрузку",
+   "label_en": "Cancel fulfillment",
+   "aliases": [
+    "отменить отгрузку"
+   ],
+   "section": "fulfillments",
+   "section_ru": "Заказы → Отгрузка",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/fulfillments/{fulfillment_id}/cancel"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/orders/{id}/fulfillments/{fulfillment_id}/cancel",
+    "file": "apps/backend/src/api/tenants/orders/[id]/fulfillments/[fulfillment_id]/cancel/route.ts",
+    "line": 12
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "fulfillments.ship",
+   "label_ru": "Отметить отправленным (трек-номер)",
+   "label_en": "Mark as shipped",
+   "aliases": [
+    "отметить отправленным",
+    "трек-номер"
+   ],
+   "section": "fulfillments",
+   "section_ru": "Заказы → Отгрузка",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/fulfillments/{fulfillment_id}/shipments"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/orders/{id}/fulfillments/{fulfillment_id}/shipments",
+    "file": "apps/backend/src/api/tenants/orders/[id]/fulfillments/[fulfillment_id]/shipments/route.ts",
+    "line": 31
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "fulfillments.delivered",
+   "label_ru": "Отметить доставленным",
+   "label_en": "Mark as delivered",
+   "aliases": [
+    "отметить доставленным"
+   ],
+   "section": "fulfillments",
+   "section_ru": "Заказы → Отгрузка",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/orders/{id}/fulfillments/{fulfillment_id}/mark-as-delivered"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/orders/{id}/fulfillments/{fulfillment_id}/mark-as-delivered",
+    "file": "apps/backend/src/api/tenants/orders/[id]/fulfillments/[fulfillment_id]/mark-as-delivered/route.ts",
+    "line": 14
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "order_edits.create",
+   "label_ru": "Начать правку заказа",
+   "label_en": "Start order edit",
+   "aliases": [
+    "править заказ",
+    "начать правку заказа"
+   ],
+   "section": "order_edits",
+   "section_ru": "Заказы → Правка состава (Order Edit)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/order-edits"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:406)"
+   },
+   "panel": null
+  },
+  {
+   "id": "order_edits.add_items",
+   "label_ru": "Добавить позиции",
+   "label_en": "Add items to edit",
+   "aliases": [
+    "добавить позиции в заказ"
+   ],
+   "section": "order_edits",
+   "section_ru": "Заказы → Правка состава (Order Edit)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/order-edits/{id}/items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:406)"
+   },
+   "panel": null
+  },
+  {
+   "id": "order_edits.update_item",
+   "label_ru": "Изменить количество позиции",
+   "label_en": "Change item quantity",
+   "aliases": [
+    "изменить количество позиции"
+   ],
+   "section": "order_edits",
+   "section_ru": "Заказы → Правка состава (Order Edit)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/order-edits/{id}/items/item/{item_id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:406)"
+   },
+   "panel": null
+  },
+  {
+   "id": "order_edits.update_action",
+   "label_ru": "Править/убрать действие правки",
+   "label_en": "Edit or remove edit action",
+   "aliases": [
+    "убрать действие правки"
+   ],
+   "section": "order_edits",
+   "section_ru": "Заказы → Правка состава (Order Edit)",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/order-edits/{id}/items/{action_id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:406)"
+   },
+   "panel": null
+  },
+  {
+   "id": "order_edits.shipping_method",
+   "label_ru": "Добавить способ доставки к правке",
+   "label_en": "Add shipping method to edit",
+   "aliases": [
+    "доставка в правке"
+   ],
+   "section": "order_edits",
+   "section_ru": "Заказы → Правка состава (Order Edit)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/order-edits/{id}/shipping-method"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:406)"
+   },
+   "panel": null
+  },
+  {
+   "id": "order_edits.request",
+   "label_ru": "Запросить подтверждение правки",
+   "label_en": "Request edit confirmation",
+   "aliases": [
+    "запросить подтверждение правки"
+   ],
+   "section": "order_edits",
+   "section_ru": "Заказы → Правка состава (Order Edit)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/order-edits/{id}/request"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:406)"
+   },
+   "panel": null
+  },
+  {
+   "id": "order_edits.confirm",
+   "label_ru": "Подтвердить правку (пересчёт сумм)",
+   "label_en": "Confirm order edit",
+   "aliases": [
+    "подтвердить правку заказа"
+   ],
+   "section": "order_edits",
+   "section_ru": "Заказы → Правка состава (Order Edit)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/order-edits/{id}/confirm"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:406)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.list",
+   "label_ru": "Список возвратов",
+   "label_en": "List returns",
+   "aliases": [
+    "возвраты",
+    "список возвратов"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/returns"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/returns",
+    "file": "apps/backend/src/api/tenants/returns/route.ts",
+    "line": 20
+   },
+   "panel": "/orders",
+   "note": "маршрут пока всегда отвечает пустым списком (returns/route.ts:21)"
+  },
+  {
+   "id": "returns.create",
+   "label_ru": "Начать возврат по заказу",
+   "label_en": "Start a return",
+   "aliases": [
+    "начать возврат",
+    "оформить возврат"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:391)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.request_items",
+   "label_ru": "Выбрать позиции возврата",
+   "label_en": "Pick return items",
+   "aliases": [
+    "позиции возврата"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/request-items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:391)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.shipping_method",
+   "label_ru": "Способ обратной доставки",
+   "label_en": "Return shipping",
+   "aliases": [
+    "обратная доставка возврата"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/shipping-method"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:391)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.request",
+   "label_ru": "Отправить возврат (зафиксировать)",
+   "label_en": "Submit return",
+   "aliases": [
+    "отправить возврат"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/request"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:391)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.cancel",
+   "label_ru": "Отменить возврат",
+   "label_en": "Cancel return",
+   "aliases": [
+    "отменить возврат"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/cancel"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:391)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.receive",
+   "label_ru": "Начать приём возврата",
+   "label_en": "Start receiving return",
+   "aliases": [
+    "принять возврат"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/receive"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:381)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.receive_items",
+   "label_ru": "Принять позиции (что реально вернулось)",
+   "label_en": "Receive return items",
+   "aliases": [
+    "принять позиции возврата"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/receive-items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:381)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.dismiss_items",
+   "label_ru": "Списать повреждённые позиции",
+   "label_en": "Dismiss damaged items",
+   "aliases": [
+    "списать повреждённые"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/dismiss-items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:381)"
+   },
+   "panel": null
+  },
+  {
+   "id": "returns.receive_confirm",
+   "label_ru": "Подтвердить приём (возврат на склад)",
+   "label_en": "Confirm return receipt",
+   "aliases": [
+    "подтвердить приём возврата"
+   ],
+   "section": "returns",
+   "section_ru": "Заказы → Возвраты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/returns/{id}/receive/confirm"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:381)"
+   },
+   "panel": null
+  },
+  {
+   "id": "exchanges.list",
+   "label_ru": "Список обменов",
+   "label_en": "List exchanges",
+   "aliases": [
+    "обмены",
+    "список обменов"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/exchanges"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/exchanges",
+    "file": "apps/backend/src/api/tenants/exchanges/route.ts",
+    "line": 20
+   },
+   "panel": "/orders",
+   "note": "маршрут пока всегда отвечает пустым списком (exchanges/route.ts:21)"
+  },
+  {
+   "id": "exchanges.create",
+   "label_ru": "Начать обмен по заказу",
+   "label_en": "Start an exchange",
+   "aliases": [
+    "начать обмен"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/exchanges"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:401)"
+   },
+   "panel": null
+  },
+  {
+   "id": "exchanges.inbound_items",
+   "label_ru": "Входящие позиции (клиент возвращает)",
+   "label_en": "Exchange inbound items",
+   "aliases": [
+    "входящие позиции обмена"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/exchanges/{id}/inbound/items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:401)"
+   },
+   "panel": null
+  },
+  {
+   "id": "exchanges.inbound_shipping",
+   "label_ru": "Обратная доставка",
+   "label_en": "Exchange inbound shipping",
+   "aliases": [
+    "обратная доставка обмена"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/exchanges/{id}/inbound/shipping-method"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:401)"
+   },
+   "panel": null
+  },
+  {
+   "id": "exchanges.outbound_items",
+   "label_ru": "Исходящие позиции (отправляем взамен)",
+   "label_en": "Exchange outbound items",
+   "aliases": [
+    "позиции замены"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/exchanges/{id}/outbound/items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:401)"
+   },
+   "panel": null
+  },
+  {
+   "id": "exchanges.outbound_shipping",
+   "label_ru": "Доставка замены",
+   "label_en": "Exchange outbound shipping",
+   "aliases": [
+    "доставка замены"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/exchanges/{id}/outbound/shipping-method"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:401)"
+   },
+   "panel": null
+  },
+  {
+   "id": "exchanges.request",
+   "label_ru": "Зафиксировать обмен (разница к оплате/возврату)",
+   "label_en": "Submit exchange",
+   "aliases": [
+    "зафиксировать обмен"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/exchanges/{id}/request"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:401)"
+   },
+   "panel": null
+  },
+  {
+   "id": "exchanges.cancel",
+   "label_ru": "Отменить обмен",
+   "label_en": "Cancel exchange",
+   "aliases": [
+    "отменить обмен"
+   ],
+   "section": "exchanges",
+   "section_ru": "Заказы → Обмены",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/exchanges/{id}/cancel"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:401)"
+   },
+   "panel": null
+  },
+  {
+   "id": "claims.list",
+   "label_ru": "Список претензий",
+   "label_en": "List claims",
+   "aliases": [
+    "претензии",
+    "список претензий",
+    "рекламации"
+   ],
+   "section": "claims",
+   "section_ru": "Заказы → Претензии",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/claims"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/claims",
+    "file": "apps/backend/src/api/tenants/claims/route.ts",
+    "line": 20
+   },
+   "panel": "/orders",
+   "note": "маршрут пока всегда отвечает пустым списком (claims/route.ts:21)"
+  },
+  {
+   "id": "claims.create",
+   "label_ru": "Создать претензию (replace/refund)",
+   "label_en": "Create claim",
+   "aliases": [
+    "создать претензию"
+   ],
+   "section": "claims",
+   "section_ru": "Заказы → Претензии",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/claims"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:396)"
+   },
+   "panel": null
+  },
+  {
+   "id": "claims.claim_items",
+   "label_ru": "Позиции претензии",
+   "label_en": "Claim items",
+   "aliases": [
+    "позиции претензии"
+   ],
+   "section": "claims",
+   "section_ru": "Заказы → Претензии",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/claims/{id}/claim-items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:396)"
+   },
+   "panel": null
+  },
+  {
+   "id": "claims.inbound_outbound",
+   "label_ru": "Входящие/исходящие позиции и доставка",
+   "label_en": "Claim inbound and outbound",
+   "aliases": [
+    "доставка претензии"
+   ],
+   "section": "claims",
+   "section_ru": "Заказы → Претензии",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/claims/{id}/(inbound|outbound)/(items|shipping-method)"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:396)"
+   },
+   "panel": null
+  },
+  {
+   "id": "claims.request",
+   "label_ru": "Зафиксировать претензию",
+   "label_en": "Submit claim",
+   "aliases": [
+    "зафиксировать претензию"
+   ],
+   "section": "claims",
+   "section_ru": "Заказы → Претензии",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/claims/{id}/request"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:396)"
+   },
+   "panel": null
+  },
+  {
+   "id": "claims.cancel",
+   "label_ru": "Отменить претензию",
+   "label_en": "Cancel claim",
+   "aliases": [
+    "отменить претензию"
+   ],
+   "section": "claims",
+   "section_ru": "Заказы → Претензии",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/claims/{id}/cancel"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:396)"
+   },
+   "panel": null
+  },
+  {
+   "id": "payments.list",
+   "label_ru": "Список платежей",
+   "label_en": "List payments",
+   "aliases": [
+    "платежи",
+    "список платежей"
+   ],
+   "section": "payments",
+   "section_ru": "Заказы → Платежи",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/payments"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет GET /tenants/payments"
+   },
+   "panel": null
+  },
+  {
+   "id": "payments.providers",
+   "label_ru": "Платёжные провайдеры",
+   "label_en": "Payment providers",
+   "aliases": [
+    "платёжные провайдеры",
+    "эквайринг"
+   ],
+   "section": "payments",
+   "section_ru": "Заказы → Платежи",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/payments/payment-providers"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/settings/payments",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 1004
+   },
+   "panel": "/settings/payments"
+  },
+  {
+   "id": "payments.capture",
+   "label_ru": "Списать (capture) авторизованный платёж",
+   "label_en": "Capture payment",
+   "aliases": [
+    "списать платёж"
+   ],
+   "section": "payments",
+   "section_ru": "Заказы → Платежи",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/payments/{id}/capture"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/payments/{id}/capture",
+    "file": "apps/backend/src/api/tenants/payments/[id]/capture/route.ts",
+    "line": 17
+   },
+   "panel": "/orders/{id}"
+  },
+  {
+   "id": "payments.refund",
+   "label_ru": "Возврат денег (полный/частичный)",
+   "label_en": "Refund",
+   "aliases": [
+    "вернуть деньги",
+    "возврат денег"
+   ],
+   "section": "payments",
+   "section_ru": "Заказы → Платежи",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/payments/{id}/refund"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута; страница панели — заглушка not-built (app.tsx:411)"
+   },
+   "panel": null
+  },
+  {
+   "id": "draft_orders.list",
+   "label_ru": "Список черновиков",
+   "label_en": "List draft orders",
+   "aliases": [
+    "черновики заказов"
+   ],
+   "section": "draft_orders",
+   "section_ru": "Заказы → Черновики",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/draft-orders"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "черновиков заказов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "draft_orders.create",
+   "label_ru": "Создать черновик (товары, клиент, адреса)",
+   "label_en": "Create draft order",
+   "aliases": [
+    "создать черновик заказа"
+   ],
+   "section": "draft_orders",
+   "section_ru": "Заказы → Черновики",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/draft-orders"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "черновиков заказов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "draft_orders.update",
+   "label_ru": "Править черновик",
+   "label_en": "Edit draft order",
+   "aliases": [
+    "править черновик"
+   ],
+   "section": "draft_orders",
+   "section_ru": "Заказы → Черновики",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/draft-orders/{id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "черновиков заказов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "draft_orders.delete",
+   "label_ru": "Удалить черновик",
+   "label_en": "Delete draft order",
+   "aliases": [
+    "удалить черновик"
+   ],
+   "section": "draft_orders",
+   "section_ru": "Заказы → Черновики",
+   "admin": {
+    "method": "DELETE",
+    "path": "/admin/draft-orders/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "черновиков заказов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "draft_orders.edit_flow",
+   "label_ru": "Правка состава черновика (items/promotions/shipping → request → confirm)",
+   "label_en": "Edit draft order items",
+   "aliases": [
+    "состав черновика"
+   ],
+   "section": "draft_orders",
+   "section_ru": "Заказы → Черновики",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/draft-orders/{id}/edit/*"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "черновиков заказов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "draft_orders.convert",
+   "label_ru": "Конвертировать в заказ",
+   "label_en": "Convert draft to order",
+   "aliases": [
+    "черновик в заказ"
+   ],
+   "section": "draft_orders",
+   "section_ru": "Заказы → Черновики",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/draft-orders/{id}/convert-to-order"
+   },
+   "scope": "write",
+   "risk": "financial",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "черновиков заказов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "products.list",
+   "label_ru": "Список товаров (поиск/фильтры)",
+   "label_en": "List products",
+   "aliases": [
+    "список товаров",
+    "все товары",
+    "каталог товаров"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/products"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/products",
+    "file": "apps/backend/src/api/tenants/products/route.ts",
+    "line": 60
+   },
+   "panel": "/products"
+  },
+  {
+   "id": "products.create",
+   "label_ru": "Создать товар",
+   "label_en": "Create product",
+   "aliases": [
+    "создать товар",
+    "новый товар"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/products"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/products",
+    "file": "apps/backend/src/api/tenants/products/route.ts",
+    "line": 22
+   },
+   "panel": "/products/create"
+  },
+  {
+   "id": "products.get",
+   "label_ru": "Карточка товара",
+   "label_en": "Product details",
+   "aliases": [
+    "карточка товара в панели"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/products/{id}"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/products/{id}",
+    "file": "apps/backend/src/api/tenants/products/[id]/route.ts",
+    "line": 41
+   },
+   "panel": "/products/{id}"
+  },
+  {
+   "id": "products.update",
+   "label_ru": "Править товар (поля/статус/медиа/organize)",
+   "label_en": "Edit product",
+   "aliases": [
+    "править товар",
+    "снять с публикации",
+    "опубликовать товар",
+    "в черновик"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/products/{id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/products/{id}",
+    "file": "apps/backend/src/api/tenants/products/[id]/route.ts",
+    "line": 87
+   },
+   "panel": "/products/{id}/edit",
+   "body": {
+    "status": "draft"
+   }
+  },
+  {
+   "id": "products.delete",
+   "label_ru": "Удалить товар",
+   "label_en": "Delete product",
+   "aliases": [
+    "удалить товар"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "DELETE",
+    "path": "/admin/products/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "route",
+    "method": "DELETE",
+    "path": "/tenants/products/{id}",
+    "file": "apps/backend/src/api/tenants/products/[id]/route.ts",
+    "line": 172
+   },
+   "panel": "/products/{id}"
+  },
+  {
+   "id": "products.batch",
+   "label_ru": "Массовое создание/правка/удаление",
+   "label_en": "Bulk create, edit, delete",
+   "aliases": [
+    "массовая правка товаров"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/products/batch"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет /tenants/products/batch"
+   },
+   "panel": null
+  },
+  {
+   "id": "products.options",
+   "label_ru": "Опции: создать/править/удалить",
+   "label_en": "Product options",
+   "aliases": [
+    "опции товара"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/products/{id}/options(/{option_id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/products/{id}/options/manage",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 192
+   },
+   "panel": "/products/{id}/options/manage"
+  },
+  {
+   "id": "products.variants",
+   "label_ru": "Варианты товара: создать, изменить, удалить (цены, артикулы, дозаказ)",
+   "label_en": "Product variants",
+   "aliases": [
+    "варианты товара"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/products/{id}/variants(/{variant_id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/products/{id}/variants/create",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 177
+   },
+   "panel": "/products/{id}/variants/create"
+  },
+  {
+   "id": "products.variants_batch",
+   "label_ru": "Массовая правка вариантов",
+   "label_en": "Bulk edit variants",
+   "aliases": [
+    "массовая правка вариантов"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/products/{id}/variants/batch"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/products/{id}/variants/batch",
+    "file": "apps/backend/src/api/tenants/products/[id]/variants/batch/route.ts",
+    "line": 20
+   },
+   "panel": "/products/{id}"
+  },
+  {
+   "id": "products.variant_inventory",
+   "label_ru": "Связать вариант с inventory items (комплекты)",
+   "label_en": "Link variant to inventory",
+   "aliases": [
+    "комплекты",
+    "связать вариант со складом"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/products/{id}/variants/{variant_id}/inventory-items(/{inventory_item_id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/products/{id}/variants/{variant_id}/manage-items",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 230
+   },
+   "panel": "/products/{id}/variants/{variant_id}/manage-items"
+  },
+  {
+   "id": "products.import",
+   "label_ru": "Импорт товаров таблицей (загрузка → подтверждение)",
+   "label_en": "Import products",
+   "aliases": [
+    "импорт товаров",
+    "загрузить таблицу товаров"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/products/imports → /admin/products/imports/{transaction_id}/confirm"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/products/import",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 75
+   },
+   "panel": "/products/import"
+  },
+  {
+   "id": "products.export",
+   "label_ru": "Выгрузить товары таблицей",
+   "label_en": "Export products",
+   "aliases": [
+    "выгрузить товары",
+    "экспорт товаров"
+   ],
+   "section": "products",
+   "section_ru": "Товары",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/products/export"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "goto",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/products/export",
+    "file": "apps/backend/src/api/tenants/products/export/route.ts",
+    "line": 28
+   },
+   "panel": "/products/export",
+   "note": "маршрут отдаёт CSV-файл, не JSON: скачивается в панели"
+  },
+  {
+   "id": "collections.crud",
+   "label_ru": "Создать/править/удалить коллекцию",
+   "label_en": "Collections",
+   "aliases": [
+    "коллекции"
+   ],
+   "section": "collections",
+   "section_ru": "Товары → Коллекции",
+   "admin": {
+    "method": "GET|POST|DELETE",
+    "path": "/admin/collections(/{id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "коллекций нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "collections.products",
+   "label_ru": "Добавить/убрать товары коллекции",
+   "label_en": "Collection products",
+   "aliases": [
+    "товары коллекции"
+   ],
+   "section": "collections",
+   "section_ru": "Товары → Коллекции",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/collections/{id}/products"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "коллекций нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "categories.crud",
+   "label_ru": "Создать/править/удалить категорию (дерево, rank, active/internal)",
+   "label_en": "Categories",
+   "aliases": [
+    "категории",
+    "разделы каталога"
+   ],
+   "section": "product_categories",
+   "section_ru": "Товары → Категории",
+   "admin": {
+    "method": "GET|POST|DELETE",
+    "path": "/admin/product-categories(/{id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/categories",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 573
+   },
+   "panel": "/categories"
+  },
+  {
+   "id": "categories.products",
+   "label_ru": "Добавить/убрать товары категории",
+   "label_en": "Category products",
+   "aliases": [
+    "товары категории"
+   ],
+   "section": "product_categories",
+   "section_ru": "Товары → Категории",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/product-categories/{id}/products"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/product-categories/{id}/products",
+    "file": "apps/backend/src/api/tenants/product-categories/[id]/products/route.ts",
+    "line": 28
+   },
+   "panel": "/categories/{id}/products"
+  },
+  {
+   "id": "inventory.list",
+   "label_ru": "Список складских позиций",
+   "label_en": "List inventory items",
+   "aliases": [
+    "складские позиции",
+    "склад списком",
+    "все остатки"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/inventory-items"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/inventory-items",
+    "file": "apps/backend/src/api/tenants/inventory-items/route.ts",
+    "line": 18
+   },
+   "panel": "/products"
+  },
+  {
+   "id": "inventory.create",
+   "label_ru": "Создать позицию",
+   "label_en": "Create inventory item",
+   "aliases": [
+    "создать складскую позицию"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/inventory-items"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет POST /tenants/inventory-items"
+   },
+   "panel": null
+  },
+  {
+   "id": "inventory.update",
+   "label_ru": "Править позицию / удалить",
+   "label_en": "Edit inventory item",
+   "aliases": [
+    "править складскую позицию"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/inventory-items/{id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет /tenants/inventory-items/{id}"
+   },
+   "panel": null
+  },
+  {
+   "id": "inventory.level_create",
+   "label_ru": "Подключить склад к позиции",
+   "label_en": "Attach location",
+   "aliases": [
+    "подключить склад"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/inventory-items/{id}/location-levels"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет location-levels на одну позицию"
+   },
+   "panel": null
+  },
+  {
+   "id": "inventory.level_update",
+   "label_ru": "Править количество на складе / отключить склад",
+   "label_en": "Edit stock level",
+   "aliases": [
+    "изменить остаток"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/inventory-items/{id}/location-levels/{location_id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/products/{id}/stock",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 182
+   },
+   "panel": "/products/{id}/stock"
+  },
+  {
+   "id": "inventory.levels_batch",
+   "label_ru": "Массовая правка остатков",
+   "label_en": "Bulk stock edit",
+   "aliases": [
+    "массовая правка остатков"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/inventory-items/location-levels/batch"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/inventory-items/location-levels/batch",
+    "file": "apps/backend/src/api/tenants/inventory-items/location-levels/batch/route.ts",
+    "line": 18
+   },
+   "panel": "/products"
+  },
+  {
+   "id": "reservations.list",
+   "label_ru": "Список резервов",
+   "label_en": "List reservations",
+   "aliases": [
+    "резервы",
+    "список резервов"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/reservations"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/reservations",
+    "file": "apps/backend/src/api/tenants/reservations/route.ts",
+    "line": 16
+   },
+   "panel": "/orders"
+  },
+  {
+   "id": "reservations.create",
+   "label_ru": "Создать резерв вручную",
+   "label_en": "Create reservation",
+   "aliases": [
+    "создать резерв"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/reservations"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет POST /tenants/reservations"
+   },
+   "panel": null
+  },
+  {
+   "id": "reservations.update_delete",
+   "label_ru": "Править/снять резерв",
+   "label_en": "Edit or remove reservation",
+   "aliases": [
+    "снять резерв"
+   ],
+   "section": "inventory",
+   "section_ru": "Склад",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/reservations/{id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет /tenants/reservations/{id}"
+   },
+   "panel": null
+  },
+  {
+   "id": "customers.list",
+   "label_ru": "Список клиентов",
+   "label_en": "List customers",
+   "aliases": [
+    "клиенты",
+    "покупатели",
+    "список клиентов"
+   ],
+   "section": "customers",
+   "section_ru": "Клиенты",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/customers"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "goto",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/customers",
+    "file": "apps/backend/src/api/tenants/customers/route.ts",
+    "line": 61
+   },
+   "panel": "/customers"
+  },
+  {
+   "id": "customers.create",
+   "label_ru": "Создать клиента",
+   "label_en": "Create customer",
+   "aliases": [
+    "создать клиента"
+   ],
+   "section": "customers",
+   "section_ru": "Клиенты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/customers"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет POST /tenants/customers"
+   },
+   "panel": null
+  },
+  {
+   "id": "customers.update",
+   "label_ru": "Править клиента / удалить",
+   "label_en": "Edit or delete customer",
+   "aliases": [
+    "править клиента"
+   ],
+   "section": "customers",
+   "section_ru": "Клиенты",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/customers/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "page",
+    "path": "/customers/{id}",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 457
+   },
+   "panel": "/customers/{id}"
+  },
+  {
+   "id": "customers.addresses",
+   "label_ru": "Адреса: добавить/править/удалить",
+   "label_en": "Customer addresses",
+   "aliases": [
+    "адреса клиента"
+   ],
+   "section": "customers",
+   "section_ru": "Клиенты",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/customers/{id}/addresses(/{address_id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/customers/{id}",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 457
+   },
+   "panel": "/customers/{id}"
+  },
+  {
+   "id": "customers.groups_of",
+   "label_ru": "Группы клиента",
+   "label_en": "Customer's groups",
+   "aliases": [
+    "группы клиента"
+   ],
+   "section": "customers",
+   "section_ru": "Клиенты",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/customers/{id}/customer-groups"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "групп клиентов нет в API"
+   },
+   "panel": null
+  },
+  {
+   "id": "customer_groups.crud",
+   "label_ru": "Группы: создать/править/удалить",
+   "label_en": "Customer groups",
+   "aliases": [
+    "группы клиентов"
+   ],
+   "section": "customers",
+   "section_ru": "Клиенты",
+   "admin": {
+    "method": "GET|POST|DELETE",
+    "path": "/admin/customer-groups(/{id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "групп клиентов нет в API"
+   },
+   "panel": null
+  },
+  {
+   "id": "customer_groups.members",
+   "label_ru": "Добавить/убрать клиентов из группы",
+   "label_en": "Customer group members",
+   "aliases": [
+    "участники группы"
+   ],
+   "section": "customers",
+   "section_ru": "Клиенты",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/customer-groups/{id}/customers"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "групп клиентов нет в API"
+   },
+   "panel": null
+  },
+  {
+   "id": "promotions.list",
+   "label_ru": "Список акций",
+   "label_en": "List promotions",
+   "aliases": [
+    "акции",
+    "скидки",
+    "промокоды",
+    "список акций"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/promotions"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/promotions",
+    "file": "apps/backend/src/api/tenants/promotions/route.ts",
+    "line": 25
+   },
+   "panel": "/promotions"
+  },
+  {
+   "id": "promotions.create",
+   "label_ru": "Создать акцию (тип, код/автоматическая, значение)",
+   "label_en": "Create promotion",
+   "aliases": [
+    "создать акцию",
+    "новый промокод"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/promotions"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/promotions",
+    "file": "apps/backend/src/api/tenants/promotions/route.ts",
+    "line": 68
+   },
+   "panel": "/promotions/create"
+  },
+  {
+   "id": "promotions.update",
+   "label_ru": "Править акцию / удалить",
+   "label_en": "Edit or delete promotion",
+   "aliases": [
+    "править акцию"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/promotions/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "page",
+    "path": "/promotions/{id}/edit",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 667
+   },
+   "panel": "/promotions/{id}/edit"
+  },
+  {
+   "id": "promotions.rules",
+   "label_ru": "Правила «кто» (batch add/update/delete)",
+   "label_en": "Promotion rules: who",
+   "aliases": [
+    "правила акции"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/promotions/{id}/rules/batch"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/promotions/{id}/rules/batch",
+    "file": "apps/backend/src/api/tenants/promotions/[id]/rules/batch/route.ts",
+    "line": 22
+   },
+   "panel": "/promotions/{id}"
+  },
+  {
+   "id": "promotions.target_rules",
+   "label_ru": "Правила «на что» (товары/категории)",
+   "label_en": "Promotion rules: what",
+   "aliases": [
+    "на что акция"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/promotions/{id}/target-rules/batch"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/promotions/{id}/target-rules/batch",
+    "file": "apps/backend/src/api/tenants/promotions/[id]/target-rules/batch/route.ts",
+    "line": 17
+   },
+   "panel": "/promotions/{id}"
+  },
+  {
+   "id": "promotions.buy_rules",
+   "label_ru": "Правила «купи X» (для buy X get Y)",
+   "label_en": "Promotion rules: buy X",
+   "aliases": [
+    "купи икс"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/promotions/{id}/buy-rules/batch"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/promotions/{id}/buy-rules/batch",
+    "file": "apps/backend/src/api/tenants/promotions/[id]/buy-rules/batch/route.ts",
+    "line": 17
+   },
+   "panel": "/promotions/{id}"
+  },
+  {
+   "id": "promotions.rule_options",
+   "label_ru": "Справочники атрибутов/значений правил (для форм)",
+   "label_en": "Promotion rule lookups",
+   "aliases": [
+    "справочник правил акции"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/promotions/rule-attribute-options/{rule_type} · /admin/promotions/rule-value-options/{rule_type}/{rule_attribute_id}"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/promotions/rule-value-options/{rule_type}/{rule_attribute_id}",
+    "file": "apps/backend/src/api/tenants/promotions/rule-value-options/[rule_type]/[rule_attribute_id]/route.ts",
+    "line": 54
+   },
+   "panel": null,
+   "note": "есть только rule-value-options; rule-attribute-options нет"
+  },
+  {
+   "id": "campaigns.crud",
+   "label_ru": "Кампании: создать/править/удалить (период, бюджет spend|usage)",
+   "label_en": "Campaigns",
+   "aliases": [
+    "кампании"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "GET|POST|DELETE",
+    "path": "/admin/campaigns(/{id})"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/campaigns",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 686
+   },
+   "panel": "/campaigns"
+  },
+  {
+   "id": "campaigns.promotions",
+   "label_ru": "Привязать/отвязать акции кампании",
+   "label_en": "Campaign promotions",
+   "aliases": [
+    "акции кампании"
+   ],
+   "section": "promotions",
+   "section_ru": "Акции",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/campaigns/{id}/promotions"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "propose",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/campaigns/{id}/promotions",
+    "file": "apps/backend/src/api/tenants/campaigns/[id]/promotions/route.ts",
+    "line": 17
+   },
+   "panel": "/campaigns/{id}/add-promotions"
+  },
+  {
+   "id": "price_lists.list",
+   "label_ru": "Список прайс-листов",
+   "label_en": "List price lists",
+   "aliases": [
+    "прайс-листы"
+   ],
+   "section": "price_lists",
+   "section_ru": "Прайс-листы",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/price-lists"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "прайс-листов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "price_lists.create",
+   "label_ru": "Создать (sale|override, период, customer groups)",
+   "label_en": "Create price list",
+   "aliases": [
+    "создать прайс-лист"
+   ],
+   "section": "price_lists",
+   "section_ru": "Прайс-листы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/price-lists"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "прайс-листов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "price_lists.update",
+   "label_ru": "Править / удалить",
+   "label_en": "Edit or delete price list",
+   "aliases": [
+    "править прайс-лист"
+   ],
+   "section": "price_lists",
+   "section_ru": "Прайс-листы",
+   "admin": {
+    "method": "POST|DELETE",
+    "path": "/admin/price-lists/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "прайс-листов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "price_lists.prices_batch",
+   "label_ru": "Цены: добавить/править/удалить пачкой",
+   "label_en": "Price list prices",
+   "aliases": [
+    "цены прайс-листа"
+   ],
+   "section": "price_lists",
+   "section_ru": "Прайс-листы",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/price-lists/{id}/prices/batch"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "прайс-листов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "price_lists.remove_products",
+   "label_ru": "Убрать товары из прайс-листа",
+   "label_en": "Remove products from price list",
+   "aliases": [
+    "убрать из прайс-листа"
+   ],
+   "section": "price_lists",
+   "section_ru": "Прайс-листы",
+   "admin": {
+    "method": "DELETE",
+    "path": "/admin/price-lists/{id}/products"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "прайс-листов нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "home_banners.list",
+   "label_ru": "Список баннеров",
+   "label_en": "Home banners",
+   "aliases": [
+    "баннеры",
+    "главная страница",
+    "баннеры главной"
+   ],
+   "section": "home_banners",
+   "section_ru": "Home Banners (расширение)",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/home-banners"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/home",
+    "file": "apps/backend/src/api/tenants/home/route.ts",
+    "line": 84
+   },
+   "panel": "/home-settings",
+   "note": "баннеры внутри настроек главной"
+  },
+  {
+   "id": "home_banners.create",
+   "label_ru": "Создать баннер (дефолты: hero, text_image_cta, неактивен)",
+   "label_en": "Create banner",
+   "aliases": [
+    "создать баннер"
+   ],
+   "section": "home_banners",
+   "section_ru": "Home Banners (расширение)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/home-banners"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/home-settings",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 860
+   },
+   "panel": "/home-settings"
+  },
+  {
+   "id": "home_banners.get",
+   "label_ru": "Карточка баннера",
+   "label_en": "Banner details",
+   "aliases": [
+    "карточка баннера"
+   ],
+   "section": "home_banners",
+   "section_ru": "Home Banners (расширение)",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/home-banners/{id}"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/home-settings",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 860
+   },
+   "panel": "/home-settings"
+  },
+  {
+   "id": "home_banners.update",
+   "label_ru": "Править баннер (slot/template/layout/тексты/CTA/картинка+focal/фон карусели/bg_class/sort/active/переводы)",
+   "label_en": "Edit banner",
+   "aliases": [
+    "править баннер"
+   ],
+   "section": "home_banners",
+   "section_ru": "Home Banners (расширение)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/home-banners/{id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/home-settings",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 860
+   },
+   "panel": "/home-settings"
+  },
+  {
+   "id": "home_banners.delete",
+   "label_ru": "Удалить баннер",
+   "label_en": "Delete banner",
+   "aliases": [
+    "удалить баннер"
+   ],
+   "section": "home_banners",
+   "section_ru": "Home Banners (расширение)",
+   "admin": {
+    "method": "DELETE",
+    "path": "/admin/home-banners/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "page",
+    "path": "/home-settings",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 860
+   },
+   "panel": "/home-settings"
+  },
+  {
+   "id": "payment_methods.list",
+   "label_ru": "Список способов оплаты",
+   "label_en": "Payment methods",
+   "aliases": [
+    "способы оплаты",
+    "оплата",
+    "настройки оплаты"
+   ],
+   "section": "payment_methods",
+   "section_ru": "Способы оплаты (расширение)",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/payment-methods"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "read",
+   "target": {
+    "kind": "route",
+    "method": "GET",
+    "path": "/tenants/payment-settings",
+    "file": "apps/backend/src/api/tenants/payment-settings/route.ts",
+    "line": 23
+   },
+   "panel": "/settings/payments"
+  },
+  {
+   "id": "payment_methods.create",
+   "label_ru": "Добавить способ оплаты (по умолчанию выключен)",
+   "label_en": "Add payment method",
+   "aliases": [
+    "добавить способ оплаты"
+   ],
+   "section": "payment_methods",
+   "section_ru": "Способы оплаты (расширение)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/payment-methods"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/settings/payments",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 1004
+   },
+   "panel": "/settings/payments"
+  },
+  {
+   "id": "payment_methods.update",
+   "label_ru": "Способ оплаты: включить/выключить, логотипы (светлый/тёмный), порядок",
+   "label_en": "Edit payment method",
+   "aliases": [
+    "включить способ оплаты",
+    "выключить оплату"
+   ],
+   "section": "payment_methods",
+   "section_ru": "Способы оплаты (расширение)",
+   "admin": {
+    "method": "PATCH",
+    "path": "/admin/payment-methods/{id}"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "goto",
+   "target": {
+    "kind": "page",
+    "path": "/settings/payments",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 1004
+   },
+   "panel": "/settings/payments"
+  },
+  {
+   "id": "payment_methods.delete",
+   "label_ru": "Удалить способ оплаты",
+   "label_en": "Delete payment method",
+   "aliases": [
+    "удалить способ оплаты"
+   ],
+   "section": "payment_methods",
+   "section_ru": "Способы оплаты (расширение)",
+   "admin": {
+    "method": "DELETE",
+    "path": "/admin/payment-methods/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "page",
+    "path": "/settings/payments",
+    "file": "apps/tenant-panel/src/app.tsx",
+    "line": 1004
+   },
+   "panel": "/settings/payments"
+  },
+  {
+   "id": "warehouse_shipments.list",
+   "label_ru": "Сводка «что собирать на каждом складе» (+ мульти-склад бейдж)",
+   "label_en": "Warehouse picking summary",
+   "aliases": [
+    "что собирать",
+    "сборка по складам"
+   ],
+   "section": "warehouse_shipments",
+   "section_ru": "Отгрузки по складам (расширение, read-only)",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/warehouse-shipments"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет сводки по складам"
+   },
+   "panel": null
+  },
+  {
+   "id": "ai_images.list",
+   "label_ru": "Список сгенерированных изображений",
+   "label_en": "AI images",
+   "aliases": [
+    "сгенерированные картинки"
+   ],
+   "section": "ai_images",
+   "section_ru": "AI Studio (расширение, бэкенд генерации картинок)",
+   "admin": {
+    "method": "GET",
+    "path": "/admin/ai-images"
+   },
+   "scope": "read",
+   "risk": "safe",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "ИИ-картинок нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "ai_images.generate",
+   "label_ru": "Сгенерировать изображение (AI Studio в карточке баннера)",
+   "label_en": "Generate image",
+   "aliases": [
+    "сгенерировать картинку"
+   ],
+   "section": "ai_images",
+   "section_ru": "AI Studio (расширение, бэкенд генерации картинок)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/ai-images"
+   },
+   "scope": "write",
+   "risk": "write",
+   "paid": true,
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "ИИ-картинок нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "ai_images.delete",
+   "label_ru": "Удалить изображение",
+   "label_en": "Delete image",
+   "aliases": [
+    "удалить картинку"
+   ],
+   "section": "ai_images",
+   "section_ru": "AI Studio (расширение, бэкенд генерации картинок)",
+   "admin": {
+    "method": "DELETE",
+    "path": "/admin/ai-images/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "ИИ-картинок нет в API и панели"
+   },
+   "panel": null
+  },
+  {
+   "id": "i18n.translate",
+   "label_ru": "Перевод строк (хелпер переводов баннеров)",
+   "label_en": "Translate strings",
+   "aliases": [
+    "перевести строки"
+   ],
+   "section": "misc_custom",
+   "section_ru": "Прочие кастомные роуты (вне сайдбара)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/i18n/translate"
+   },
+   "scope": "write",
+   "risk": "write",
+   "paid": true,
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет маршрута перевода"
+   },
+   "panel": null
+  },
+  {
+   "id": "uploads.create",
+   "label_ru": "Загрузка файлов (логотипы, таблицы импорта)",
+   "label_en": "Upload files",
+   "aliases": [
+    "загрузить файл"
+   ],
+   "section": "misc_custom",
+   "section_ru": "Прочие кастомные роуты (вне сайдбара)",
+   "admin": {
+    "method": "POST",
+    "path": "/admin/uploads"
+   },
+   "scope": "write",
+   "risk": "write",
+   "agent": "none",
+   "target": {
+    "kind": "route",
+    "method": "POST",
+    "path": "/tenants/uploads",
+    "file": "apps/backend/src/api/tenants/uploads/route.ts",
+    "line": 36
+   },
+   "panel": null,
+   "note": "тело — файл (multipart), агенту не выдаётся"
+  },
+  {
+   "id": "uploads.delete",
+   "label_ru": "Удалить загруженный файл",
+   "label_en": "Delete uploaded file",
+   "aliases": [
+    "удалить файл"
+   ],
+   "section": "misc_custom",
+   "section_ru": "Прочие кастомные роуты (вне сайдбара)",
+   "admin": {
+    "method": "DELETE",
+    "path": "/admin/uploads/{id}"
+   },
+   "scope": "write",
+   "risk": "destructive",
+   "agent": "none",
+   "target": {
+    "kind": "missing",
+    "reason": "нет DELETE /tenants/uploads"
+   },
+   "panel": null
+  }
+ ]
+}

@@ -57,6 +57,7 @@ export const BrandingSettings = () => {
             label={t("brandingSettings.fields.logoLight")}
             url={branding?.logo_light_url}
             shape="logo"
+            name={shopName}
           />
           <BrandingImageTile
             id="logo_dark"
@@ -65,6 +66,7 @@ export const BrandingSettings = () => {
             url={branding?.logo_dark_url}
             shape="logo"
             dark
+            name={shopName}
           />
           <BrandingImageTile
             id="og_image"

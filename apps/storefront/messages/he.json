@@ -563,7 +563,11 @@
     "copyLink": "העתקת קישור",
     "linkCopied": "הקישור הועתק",
     "allCategories": "כל הנושאים",
-    "categories": "נושאים"
+    "categories": "נושאים",
+    "feed": "פיד",
+    "toc": "במאמר זה",
+    "readNext": "לקריאה הבאה",
+    "toCatalog": "לקטלוג"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "אבד"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "מגזין הבריאות",
+      "subtitle": "צמחים, טקסים, תוכניות וסיפורים — למי שרואה בבריאות תרגול יומיומי ולא פתרון חירום."
+    },
     "slider": {
       "course": "קורס",
       "goTo": "עבור אל ”{title}”",

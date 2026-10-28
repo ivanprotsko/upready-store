@@ -563,7 +563,11 @@
     "copyLink": "Kopírovať odkaz",
     "linkCopied": "Odkaz skopírovaný",
     "allCategories": "Všetky rubriky",
-    "categories": "Rubriky"
+    "categories": "Rubriky",
+    "feed": "Novinky",
+    "toc": "V tomto článku",
+    "readNext": "Čítať ďalej",
+    "toCatalog": "Do katalógu"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "Stratená"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Magazín o zdraví",
+      "subtitle": "Byliny, rituály, programy a príbehy — pre tých, ktorí berú zdravie ako prax, nie ako krajné riešenie."
+    },
     "slider": {
       "course": "Kurz",
       "goTo": "Prejsť na „{title}“",

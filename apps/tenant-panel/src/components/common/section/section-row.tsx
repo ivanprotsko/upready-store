@@ -6,9 +6,17 @@ export type SectionRowProps = {
   title: string
   value?: ReactNode | string | null
   actions?: ReactNode
+  /**
+   * `setting`: a settings screen's row (t-2026-10-20-30, Ivan 25.10 on
+   * «Основной адрес» at 375: «не надо верстать в 2 колонки. заголовок сделать
+   * светлее чем значение»). Below `sm` the label sits above its value in one
+   * column; at every width the label is the subtle grey, the value the base ink.
+   */
+  variant?: "default" | "setting"
 }
 
-export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
+export const SectionRow = ({ title, value, actions, variant = "default" }: SectionRowProps) => {
+  const setting = variant === "setting"
   const isValueString = typeof value === "string" || !value
   // o21-owner-panel-ux (P6): a long text (a product description) in half of a
   // phone screen is a column of three words per line. It goes under its label.
@@ -28,10 +36,16 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
           "grid-cols-[1fr_1fr_28px]": !!actions,
           "items-start": isLongText,
           "max-md:grid-cols-1 max-md:gap-1": isLongText && !actions,
+          "max-sm:grid-cols-1 max-sm:items-start max-sm:gap-1": setting && !actions,
         }
       )}
     >
-      <Text size="small" weight="plus" leading="compact">
+      <Text
+        size="small"
+        weight={setting ? "regular" : "plus"}
+        leading="compact"
+        className={clx({ "text-ui-fg-subtle": setting })}
+      >
         {title}
       </Text>
 
@@ -58,7 +72,9 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
           ) : null}
         </div>
       ) : (
-        <div className="flex flex-wrap gap-1 min-w-0">{value}</div>
+        <div className={clx("flex flex-wrap gap-1 min-w-0", { "text-ui-fg-base": setting })}>
+          {value}
+        </div>
       )}
 
       {actions && <div>{actions}</div>}

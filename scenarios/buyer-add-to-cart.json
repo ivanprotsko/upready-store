@@ -1,0 +1,94 @@
+{
+  "format": "scenario/v1",
+  "id": "buyer-add-to-cart",
+  "project": "upready-store",
+  "title": "Кладу товар в корзину и вижу его там с правильной суммой",
+  "goal": "Кладу товар в корзину и вижу его там с правильной суммой",
+  "actor": "buyer",
+  "profiles": [
+    "desktop-mouse"
+  ],
+  "start": {
+    "url": "/ru/products/test-tshirt-scgate",
+    "fixtures": [
+      "reset",
+      "seed"
+    ]
+  },
+  "final": [
+    {
+      "visible": {
+        "css": "[data-testid=cart-sidebar-body]",
+        "text": "Тестовая футболка"
+      }
+    },
+    {
+      "visible": {
+        "testid": "cart-subtotal",
+        "text": "1 500,00 ₽",
+        "within": "[data-testid=cart-sidebar]"
+      }
+    }
+  ],
+  "work": null,
+  "version": 2,
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "Добавляю товар в корзину",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "add-product-button"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          1083.31,
+          201,
+          311.67,
+          40
+        ]
+      },
+      "before": {
+        "url": "^/ru/products/test-tshirt-scgate$",
+        "region": [
+          1075,
+          193,
+          328,
+          56
+        ],
+        "hash": "0080808c8c848080"
+      },
+      "after": [
+        {
+          "text": "Корзина"
+        }
+      ],
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T20:57:23.809Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-27T20:57:32.619Z",
+      "by": "scenario.mjs agent",
+      "kind": "record",
+      "version": 2,
+      "profile": "desktop-mouse",
+      "steps": [
+        "s1"
+      ],
+      "reason": "first pass: Кладу товар в корзину и вижу в корзине одну позицию с кнопкой оформления",
+      "model": null,
+      "tokens": null
+    }
+  ]
+}

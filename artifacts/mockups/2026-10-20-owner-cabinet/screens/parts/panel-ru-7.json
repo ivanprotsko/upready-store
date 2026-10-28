@@ -1,0 +1,43 @@
+{
+  "shop": {
+    "name": "Черкашино",
+    "domain": "cherkashino.ru",
+    "letter": "Ч"
+  },
+  "user": {
+    "name": "Оксана",
+    "letter": "О"
+  },
+  "shops": [
+    {
+      "tenant_id": "ten_01JAB3CH3RK45H1N0R00000001",
+      "instance": "ru",
+      "name": "Черкашино",
+      "domain": "cherkashino.ru",
+      "href": "summary-ru.html",
+      "current": true
+    },
+    {
+      "tenant_id": "ten_01JAB3CH3RK45H1N0C0M000002",
+      "instance": "intl",
+      "name": "Cherkashino",
+      "domain": "cherkashino.com",
+      "href": "overview-com.html",
+      "current": false
+    },
+    {
+      "tenant_id": "ten_01JAB3CH3RK45H1N0PT0000003",
+      "instance": "ru",
+      "name": "Черкашино Опт",
+      "domain": "opt.cherkashino.ru",
+      "href": "summary-7.html",
+      "current": false
+    }
+  ],
+  "marketplaces": true,
+  "counters": {
+    "ordersToPack": 6,
+    "reviewsToModerate": 4
+  },
+  "logoutHref": "login-ru.html"
+}

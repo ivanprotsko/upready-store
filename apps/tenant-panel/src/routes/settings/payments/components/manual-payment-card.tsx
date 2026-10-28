@@ -243,11 +243,11 @@ export const ManualRequisitesCard = ({ record }: { record: TenantManualPayment }
           </div>
         ))
       ) : (
-        <div className="flex flex-col items-center gap-y-4 px-6 pb-8" data-testid="manual-requisites-empty">
+        <div className="flex flex-col items-start gap-y-4 px-6 pb-8" data-testid="manual-requisites-empty">
           <NoRecords
             title={t("paymentMethods.manual.emptyTitle")}
             message={t("paymentMethods.manual.emptyMessage")}
-            className="h-auto pt-8"
+            className="h-auto px-0 pt-8"
           />
           <AddButtons disabled={false} />
         </div>

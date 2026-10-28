@@ -1,0 +1,15 @@
+{
+  "title": "Добавить cherkashino.com во вход",
+  "template": "plain",
+  "props": {
+    "body": [
+      {
+        "component": "linkFirst",
+        "props": {
+          "next": "overview-com.html",
+          "back": "summary-missing.html"
+        }
+      }
+    ]
+  }
+}

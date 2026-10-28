@@ -1,0 +1,58 @@
+{
+  "_fixture": "Shaped after apps/backend/src/api/tenants/orders/route.ts (Admin list shape). NOT recorded from cherkashino.com: the build machine has no shop login. Numbers are made up.",
+  "orders": [
+    {
+      "id": "order_fixture_1041",
+      "display_id": 1041,
+      "created_at": "2026-10-20T06:00:00Z",
+      "currency_code": "usd",
+      "total": 214,
+      "status": "pending",
+      "payment_status": "captured",
+      "fulfillment_status": "not_fulfilled"
+    },
+    {
+      "id": "order_fixture_1040",
+      "display_id": 1040,
+      "created_at": "2026-10-20T01:00:00Z",
+      "currency_code": "usd",
+      "total": 45,
+      "status": "pending",
+      "payment_status": "captured",
+      "fulfillment_status": "shipped"
+    },
+    {
+      "id": "order_fixture_1039",
+      "display_id": 1039,
+      "created_at": "2026-10-19T19:00:00Z",
+      "currency_code": "usd",
+      "total": 199,
+      "status": "completed",
+      "payment_status": "captured",
+      "fulfillment_status": "delivered"
+    },
+    {
+      "id": "order_fixture_1038",
+      "display_id": 1038,
+      "created_at": "2026-10-19T10:00:00Z",
+      "currency_code": "usd",
+      "total": 30,
+      "status": "canceled",
+      "payment_status": "canceled",
+      "fulfillment_status": "canceled"
+    },
+    {
+      "id": "order_fixture_1037",
+      "display_id": 1037,
+      "created_at": "2026-10-19T03:00:00Z",
+      "currency_code": "usd",
+      "total": 63,
+      "status": "pending",
+      "payment_status": "awaiting",
+      "fulfillment_status": "not_fulfilled"
+    }
+  ],
+  "count": 148,
+  "offset": 0,
+  "limit": 5
+}

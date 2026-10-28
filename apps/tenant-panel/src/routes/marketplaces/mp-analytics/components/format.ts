@@ -69,6 +69,6 @@ export const dayLong = (day: string, locale: string): string =>
 export const dayWithWeekday = (day: string, locale: string): string =>
   new Intl.DateTimeFormat(locale, { weekday: "short", day: "numeric", month: "long" }).format(dayDate(day))
 
-/** «16 сентября — 15 октября». */
-export const range = (from: string, to: string, locale: string): string =>
-  `${dayLong(from, locale)} — ${dayLong(to, locale)}`
+/** «21 сент — 20 окт»: the period chip of the phone bar. */
+export const rangeShort = (from: string, to: string, locale: string): string =>
+  `${dayShort(from, locale)} — ${dayShort(to, locale)}`

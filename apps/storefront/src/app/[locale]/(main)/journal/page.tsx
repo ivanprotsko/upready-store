@@ -1,12 +1,21 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
-import { listTenantArticleCategories, listTenantArticles } from "@lib/data/tenant-articles"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
+import {
+  listTenantArticleCategories,
+  listTenantArticles,
+  type TenantArticleSummary,
+} from "@lib/data/tenant-articles"
 import { buildAlternates } from "@lib/util/alternates"
 import { getSiteName } from "@lib/data/cookies"
 import { pageTitle } from "@lib/util/page-title"
+import CategoryRail from "@modules/journal/components/category-rail"
+import FeedRow from "@modules/journal/components/feed-row"
+import JournalCard from "@modules/journal/components/journal-card"
+import JournalHero from "@modules/journal/components/journal-hero"
+import Masthead from "@modules/journal/components/masthead"
 
 /**
  * The shop's journal feed (t10-blog). This platform's shops are «магазины-
@@ -22,9 +31,23 @@ import { pageTitle } from "@lib/util/page-title"
  * rather than a 404: the URL is part of the storefront, and the navigation
  * simply does not link it until there is something to read
  * (`hasPublishedArticles`).
+ *
+ * t-2026-10-05-03: the front page is composed after the chrxnasdmds «Журнал здоровья»: the
+ * masthead, the hero (the newest article and the two after it), the «Лента» row, then one
+ * rail per rubric. A rubric (`?category=`) or a later page is the plain grid with paging,
+ * under the same masthead. The reference's «Авторы журнала», «Сезонные сборы», «Читают
+ * чаще всего» and «Истории» are not drawn: the shop has no data behind them.
  */
 
 const PER_PAGE = 12
+
+/** The whole journal for the front page's rails; the store API's own ceiling. */
+const FRONT_LIMIT = 100
+
+/** The hero takes three articles, the «Лента» cards the next three, its title list six more. */
+const HERO_SIZE = 3
+const FEED_CARDS = 3
+const FEED_LIST = 6
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -52,10 +75,13 @@ const parsePage = (raw: string | undefined): number => {
 }
 
 export default async function JournalFeed(props: Props) {
-  const [searchParams, t, locale] = await Promise.all([
+  const [searchParams, t, tOlavka, tSlider, siteName, olavka] = await Promise.all([
     props.searchParams,
     getTranslations("Journal"),
-    getLocale(),
+    getTranslations("OlavkaHome.journal"),
+    getTranslations("OlavkaHome.slider"),
+    getSiteName(),
+    isOlavkaShop(),
   ])
 
   const page = parsePage(searchParams.page)
@@ -63,13 +89,12 @@ export default async function JournalFeed(props: Props) {
   // use answers an empty feed rather than the whole journal — a stale link must
   // not silently show «everything» and pass it off as the rubric.
   const category = searchParams.category?.trim() || undefined
+  const front = !category && page === 1
 
   const [{ articles, count }, categories] = await Promise.all([
-    listTenantArticles({
-      limit: PER_PAGE,
-      offset: (page - 1) * PER_PAGE,
-      category,
-    }),
+    front
+      ? listTenantArticles({ limit: FRONT_LIMIT })
+      : listTenantArticles({ limit: PER_PAGE, offset: (page - 1) * PER_PAGE, category }),
     listTenantArticleCategories(),
   ])
   const lastPage = Math.max(1, Math.ceil(count / PER_PAGE))
@@ -83,140 +108,147 @@ export default async function JournalFeed(props: Props) {
     return suffix ? `/journal?${suffix}` : "/journal"
   }
 
-  const dateFormat = new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const masthead = (
+    <div className="content-container">
+      <Masthead
+        title={olavka ? tOlavka("title") : t("feedTitle")}
+        subtitle={olavka ? tOlavka("subtitle") : t("feedDescription", { siteName })}
+      />
+    </div>
+  )
+
+  if (articles.length === 0 && !category) {
+    return (
+      <>
+        {masthead}
+        <div className="content-container pb-16 small:pb-24">
+          <p className="text-center text-base text-ui-fg-subtle" data-testid="journal-empty">
+            {t("empty")}
+          </p>
+        </div>
+      </>
+    )
+  }
+
+  if (front) {
+    const rest = articles.slice(HERO_SIZE)
+    const byCategory = (name: string): TenantArticleSummary[] =>
+      articles.filter((article) => article.category === name)
+
+    return (
+      <>
+        {masthead}
+        <div className="content-container flex flex-col gap-16 pb-16 small:gap-24 small:pb-24">
+          <JournalHero main={articles[0]} aside={articles.slice(1, HERO_SIZE)} />
+          <FeedRow
+            title={t("feed")}
+            cards={rest.slice(0, FEED_CARDS)}
+            list={rest.slice(FEED_CARDS, FEED_CARDS + FEED_LIST)}
+          />
+          {categories.map((option, index) => (
+            <CategoryRail
+              key={option.category}
+              index={index}
+              title={option.category}
+              articles={byCategory(option.category)}
+              labels={{ previous: tSlider("previous"), next: tSlider("next") }}
+            />
+          ))}
+        </div>
+      </>
+    )
+  }
 
   return (
-    <div className="content-container py-12">
-      <h1 className="text-2xl-semi text-ui-fg-base" data-testid="journal-heading">
-        {t("feedTitle")}
-      </h1>
-
-      {categories.length > 0 ? (
-        <nav
-          className="mt-6 flex flex-wrap items-center gap-2"
-          aria-label={t("categories")}
-          data-testid="journal-categories"
-        >
-          <Link
-            href={feedHref({ category: undefined })}
-            className={`txt-compact-small rounded-full border px-3 py-1 transition-colors ${
-              category
-                ? "border-ui-border-base text-ui-fg-subtle hover:text-ui-fg-base"
-                : "border-ui-border-interactive text-ui-fg-base"
-            }`}
+    <>
+      {masthead}
+      <div className="content-container flex flex-col gap-8 pb-16 small:gap-10 small:pb-24">
+        {categories.length > 0 ? (
+          <nav
+            className="flex flex-wrap items-center justify-center gap-2"
+            aria-label={t("categories")}
+            data-testid="journal-categories"
           >
-            {t("allCategories")}
-          </Link>
-          {categories.map((option) => (
             <Link
-              key={option.category}
-              href={feedHref({ category: option.category })}
+              href={feedHref({ category: undefined })}
               className={`txt-compact-small rounded-full border px-3 py-1 transition-colors ${
-                option.category === category
-                  ? "border-ui-border-interactive text-ui-fg-base"
-                  : "border-ui-border-base text-ui-fg-subtle hover:text-ui-fg-base"
+                category
+                  ? "border-ui-border-base text-ui-fg-subtle hover:text-ui-fg-base"
+                  : "border-ui-border-interactive text-ui-fg-base"
               }`}
-              data-testid="journal-category-chip"
             >
-              {option.category}
+              {t("allCategories")}
             </Link>
-          ))}
-        </nav>
-      ) : null}
-
-      {articles.length === 0 ? (
-        <p className="text-base-regular text-ui-fg-subtle mt-6" data-testid="journal-empty">
-          {t("empty")}
-        </p>
-      ) : (
-        <ul
-          className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 small:grid-cols-2 medium:grid-cols-3"
-          data-testid="journal-list"
-        >
-          {articles.map((article) => (
-            <li key={article.slug}>
+            {categories.map((option) => (
               <Link
-                href={`/journal/${article.slug}`}
-                className="group flex flex-col gap-y-3"
-                data-testid="journal-card"
+                key={option.category}
+                href={feedHref({ category: option.category })}
+                className={`txt-compact-small rounded-full border px-3 py-1 transition-colors ${
+                  option.category === category
+                    ? "border-ui-border-interactive text-ui-fg-base"
+                    : "border-ui-border-base text-ui-fg-subtle hover:text-ui-fg-base"
+                }`}
+                aria-current={option.category === category ? "page" : undefined}
+                data-testid="journal-category-chip"
               >
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-rounded bg-ui-bg-subtle">
-                  {article.cover_url ? (
-                    <Image
-                      src={article.cover_url}
-                      alt={article.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-200 group-hover:scale-105"
-                    />
-                  ) : null}
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <div className="txt-compact-small text-ui-fg-muted flex flex-wrap items-center gap-x-2">
-                    {article.published_at ? (
-                      <time dateTime={article.published_at}>
-                        {dateFormat.format(new Date(article.published_at))}
-                      </time>
-                    ) : null}
-                    {article.published_at ? <span aria-hidden>·</span> : null}
-                    <span>{t("readingTime", { minutes: article.reading_minutes })}</span>
-                    {article.category ? (
-                      <>
-                        <span aria-hidden>·</span>
-                        <span>{article.category}</span>
-                      </>
-                    ) : null}
-                  </div>
-                  <h2 className="text-base-semi text-ui-fg-base group-hover:text-ui-fg-interactive transition-colors">
-                    {article.title}
-                  </h2>
-                  {article.excerpt ? (
-                    <p className="txt-compact-small text-ui-fg-subtle line-clamp-3">
-                      {article.excerpt}
-                    </p>
-                  ) : null}
-                </div>
+                {option.category}
               </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+            ))}
+          </nav>
+        ) : null}
 
-      {lastPage > 1 ? (
-        <nav
-          className="mt-12 flex items-center justify-between"
-          aria-label={t("pagination")}
-          data-testid="journal-pagination"
-        >
-          {page > 1 ? (
-            <Link
-              href={feedHref({ page: page - 1, category })}
-              className="txt-compact-small text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-            >
-              {t("previous")}
-            </Link>
-          ) : (
-            <span />
-          )}
-          <span className="txt-compact-small text-ui-fg-muted">
-            {t("pageOf", { page, lastPage })}
-          </span>
-          {page < lastPage ? (
-            <Link
-              href={feedHref({ page: page + 1, category })}
-              className="txt-compact-small text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-            >
-              {t("next")}
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
-      ) : null}
-    </div>
+        {articles.length === 0 ? (
+          <p className="text-center text-base text-ui-fg-subtle" data-testid="journal-empty">
+            {t("empty")}
+          </p>
+        ) : (
+          <ul
+            className="grid grid-cols-1 gap-x-6 gap-y-10 xsmall:grid-cols-2 small:grid-cols-3"
+            data-testid="journal-list"
+          >
+            {articles.map((article) => (
+              <li key={article.slug} className="flex">
+                <JournalCard
+                  article={article}
+                  sizes="(max-width: 511px) 100vw, (max-width: 1023px) 50vw, 440px"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {lastPage > 1 ? (
+          <nav
+            className="flex items-center justify-between"
+            aria-label={t("pagination")}
+            data-testid="journal-pagination"
+          >
+            {page > 1 ? (
+              <Link
+                href={feedHref({ page: page - 1, category })}
+                className="txt-compact-small text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              >
+                {t("previous")}
+              </Link>
+            ) : (
+              <span />
+            )}
+            <span className="txt-compact-small text-ui-fg-muted">
+              {t("pageOf", { page, lastPage })}
+            </span>
+            {page < lastPage ? (
+              <Link
+                href={feedHref({ page: page + 1, category })}
+                className="txt-compact-small text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              >
+                {t("next")}
+              </Link>
+            ) : (
+              <span />
+            )}
+          </nav>
+        ) : null}
+      </div>
+    </>
   )
 }

@@ -1,0 +1,11 @@
+{
+  "retry": "summary-ru.html",
+  "connect": "link-first.html",
+  "summary": "summary-ru.html",
+  "detail": {
+    "ru-storefront": "source-ru.html",
+    "intl-storefront": "source-com.html",
+    "ru-wildberries": "source-wb.html",
+    "ru-ozon": "source-ozon.html"
+  }
+}

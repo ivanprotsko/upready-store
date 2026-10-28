@@ -1,0 +1,457 @@
+{
+  "products": [
+    {
+      "id": "prod_01M2GRC5XMX78M72NZSXTM8B6X",
+      "title": "Свечи АСД с чесноком",
+      "handle": "svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "variants": [
+        {
+          "title": "Свечи АСД с чесноком, 10 шт",
+          "sku": "1268099764-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRC9BG5GJG7CV5X0WKMNNC",
+      "title": "Тройчатка плюс",
+      "handle": "troychatka-plyus-60-kapsul-cherkashino",
+      "variants": [
+        {
+          "title": "Тройчатка плюс от глистов и паразитов 120 капсул",
+          "sku": "PL-09-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCBYS09739FAZRESA7R5A",
+      "title": "Натуральный сорбент от отравлений от температуры",
+      "handle": "naturalnyy-sorbent-ot-otravleniy-ot-temperatury-cherkashino",
+      "variants": [
+        {
+          "title": "Натуральный сорбент от отравлений, 2 банки",
+          "sku": "3302187378-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 30,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCDGVX45S8NT9HZQGXRYM",
+      "title": "Стевия в таблетках, сахарозаменитель",
+      "handle": "steviya-v-tabletkah-saharozamenitel-100-sht-cherkashino",
+      "variants": [
+        {
+          "title": "Стевия в таблетках, 100 шт",
+          "sku": "3266733589-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCEWSG287QMN5A6Y8R9PR",
+      "title": "Антисептик-стимулятор Дорогова, таблетки",
+      "handle": "antiseptikom-stumulyatorom-dorogova-tabletki-60-shtuk-cherkashino",
+      "variants": [
+        {
+          "title": "Антисептик-стимулятор Дорогова, таблетки, 60 штук",
+          "sku": "3501688032-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 18,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCGSCKDNQ4SCAPEVBCCN9",
+      "title": "Очищение печени",
+      "handle": "course-ochishchenie-pecheni-cherkashino",
+      "variants": [
+        {
+          "title": "Полный курс",
+          "sku": "COURSE-OCHISHCHENIE-PECHENI-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 199,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRDSXKGZ3MY1JC17B5NFR9",
+      "title": "Мультиварка для дома и авто 2 л 12 В / 24 В / 220 В",
+      "handle": "multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino",
+      "variants": [
+        {
+          "title": "Мультиварка для дома и авто 2 л 12 В / 24 В / 220 В",
+          "sku": "168523959-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 100,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRDVP5QGWWQ9HJWHP6R7GX",
+      "title": "Зубная паста тайская 2 шт",
+      "handle": "zubnaya-pasta-tayskaya-travyanaya-cherkashino",
+      "variants": [
+        {
+          "title": "Зубная паста тайская 2 шт",
+          "sku": "219762882-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 8,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRDXE3SXG7HYYDDX903QWS",
+      "title": "Иван-чай ферментированный крепкий черный",
+      "handle": "ivan-chay-fermentirovannyy-krepkiy-chernyy-cherkashino",
+      "variants": [
+        {
+          "title": "Иван-чай ферментированный крепкий черный",
+          "sku": "71807904-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 12,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRDZBZST9G3BPQD3BG5H8D",
+      "title": "Мумиё алтайское очищенное натуральное 100%",
+      "handle": "mumie-altayskoe-ochischennoe-naturalnoe-100-cherkashino",
+      "variants": [
+        {
+          "title": "Мумиё алтайское очищенное натуральное 100%",
+          "sku": "94372564-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 30,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE12E1WJ06NJMCCQHS3Q9",
+      "title": "Мазь с АСД 3 15% 100 мл",
+      "handle": "maz-s-asd-3-15-100-ml-cherkashino",
+      "variants": [
+        {
+          "title": "Мазь с АСД 3 15% 100 мл",
+          "sku": "254498035-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE2MP3CAKRFZNPK709JKB",
+      "title": "АСД 2 фракция Армавир Дорогова",
+      "handle": "asd-2-fraktsiya-armavir-dorogova-cherkashino",
+      "variants": [
+        {
+          "title": "АСД 2 фракция Армавир Дорогова",
+          "sku": "341315642-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 22,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE4ANMM6MZ2DHRWSEHJ4Q",
+      "title": "Тестер для воды электронный. ТДС-метр (солемер) TDS",
+      "handle": "tester-dlya-vody-elektronnyy-tds-metr-solemer-tds-cherkashino",
+      "variants": [
+        {
+          "title": "Тестер для воды электронный. ТДС-метр (солемер) TDS",
+          "sku": "99099867-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 25,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE5W7847ZMFVWN2RV16JQ",
+      "title": "Капсулы Антисептик Стимулятор Дорогова фракция 2 120 шт",
+      "handle": "kapsuly-s-asd-fraktsiya-2-dorogova-30-sht-cherkashino",
+      "variants": [
+        {
+          "title": "Капсулы с АСД фракция 2 Дорогова 120 шт",
+          "sku": "317200269-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 60,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE814EDDBFDQPV101QJ6R",
+      "title": "Карандаш бальзам 2 в 1 от простуды 2 шт",
+      "handle": "karandash-balzam-2-v-1-ot-prostudy-2-sht-cherkashino",
+      "variants": [
+        {
+          "title": "Карандаш бальзам 2 в 1 от простуды 2 шт",
+          "sku": "147255286-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 5,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREAGVHNP8CH3ZJSH7XWBT",
+      "title": "Касторовое масло, касторка индийская",
+      "handle": "kastorovoe-maslo-kastorka-indiyskaya-cherkashino",
+      "variants": [
+        {
+          "title": "Касторовое масло, касторка индийская",
+          "sku": "291156821-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 10,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRECS4YSDX6G25MCNCP55R",
+      "title": "Книга рецептов для мультиварок авто и для дома",
+      "handle": "kniga-retseptov-dlya-multivarok-avto-i-dlya-doma-cherkashino",
+      "variants": [
+        {
+          "title": "Книга рецептов для мультиварок авто и для дома",
+          "sku": "265554235-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREEBVSKH4JKM2S447X80F",
+      "title": "Гепачисты",
+      "handle": "gepachisty-cherkashino",
+      "variants": [
+        {
+          "title": "Гепачисты",
+          "sku": "248117904-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 20,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREFG0PEWGYRHR3F3Z139P",
+      "title": "Каштан капсулы от варикоза 60 шт",
+      "handle": "kapsuly-ot-varikoza-s-kashtanom-cherkashino",
+      "variants": [
+        {
+          "title": "Капсулы от варикоза и отёков, с каштаном, 60 шт",
+          "sku": "966747909-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 20,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREGF9VENVNXE4PJ4QP5Z9",
+      "title": "Свечи Каштан от варикоза, фитосвечи 10 штук",
+      "handle": "svechi-ot-varikoza-s-kashtanom-cherkashino",
+      "variants": [
+        {
+          "title": "Свечи от варикоза и отёков, с каштаном, 10 шт",
+          "sku": "966792712-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREHGZGXD07DDKDF89REW0",
+      "title": "Сила раздельного питания, 250 рецептов полезных блюд",
+      "handle": "sila-razdelnogo-pitaniya-250-retseptov-poleznyh-blyud-cherkashino",
+      "variants": [
+        {
+          "title": "Сила раздельного питания, 250 рецептов полезных блюд",
+          "sku": "831207662-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREMJX103FNCHEBPT5FY5H",
+      "title": "Шампунь-концентрат для блеска тайский",
+      "handle": "shampun-koncentrat-dlya-bleska-tayskiy-90-gr-cherkashino",
+      "variants": [
+        {
+          "title": "Шампунь-концентрат для блеска тайский, 90 гр",
+          "sku": "PL-21-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREPT6TTNC36CVBNFF891G",
+      "title": "Капли в нос АСД и серебро",
+      "handle": "kapli-v-nos-asd-i-serebro-cherkashino",
+      "variants": [
+        {
+          "title": "Капли в нос АСД и серебро",
+          "sku": "PL-26-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRER1WWKQCTD1WR31K2HZ8",
+      "title": "Ингалятор портативный",
+      "handle": "ingalyator-portativnyy-cherkashino",
+      "variants": [
+        {
+          "title": "Ингалятор портативный",
+          "sku": "PL-28-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 40,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREW9NXRDAH8KMVC6AW21X",
+      "title": "Набор для очищения лимфы",
+      "handle": "nabor-dlya-ochischeniya-limfy-cherkashino",
+      "variants": [
+        {
+          "title": "Набор для очищения лимфы",
+          "sku": "PL-36-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 70,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREX6783YGKYERYMVFJ4MG",
+      "title": "Мазь Каштан от варикоза, 100 мл",
+      "handle": "maz-ot-varikoza-s-kashtanom-cherkashino",
+      "variants": [
+        {
+          "title": "Мазь от варикоза и отёков, с каштаном, 100 мл",
+          "sku": "966976362-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 20,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREY09JZM4ZGKBGXTQ5WHS",
+      "title": "Каштан таблетки от варикоза 60 шт",
+      "handle": "tabletki-ot-varikoza-s-kashtanom-cherkashino",
+      "variants": [
+        {
+          "title": "Таблетки от варикоза с каштаном, 60 шт",
+          "sku": "966729961-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 15,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREYVDC6Y88J57P6RRSV8B",
+      "title": "Зубная паста с углем тайская травяная, 25 г",
+      "handle": "zubnaya-pasta-tayskaya-s-uglem-cherkashino",
+      "variants": [
+        {
+          "title": "Зубная паста тайская с углем, 25 г",
+          "sku": "1199734029-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 8,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREZY2QEKK85JK6QAAAZ3J",
+      "title": "Зубная паста с гвоздикой тайская травяная, 25 г",
+      "handle": "zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino",
+      "variants": [
+        {
+          "title": "Зубная паста тайская с гвоздикой, 25 г",
+          "sku": "1199673895-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 8,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRF1ATGNYFQGJENJX78WX3",
+      "title": "Зубная паста тайская отбеливающая 2 шт по 50 грамм",
+      "handle": "zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino",
+      "variants": [
+        {
+          "title": "Зубная паста тайская отбеливающая, 2 шт по 50 г",
+          "sku": "701444504-CHERKASHINO",
+          "calculated_price": {
+            "calculated_amount": 12,
+            "currency_code": "usd"
+          }
+        }
+      ]
+    }
+  ],
+  "count": 30,
+  "offset": 0,
+  "limit": 40
+}

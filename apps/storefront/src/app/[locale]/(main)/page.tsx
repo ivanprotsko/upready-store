@@ -3,6 +3,7 @@ import { Fragment, Suspense } from "react"
 
 import CategoryTiles from "@modules/home/components/category-tiles"
 import HomeBrands from "@modules/home/components/home-brands"
+import JournalRail from "@modules/journal/components/journal-rail"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import {
   DEFAULT_BLOCK_ORDER,
@@ -232,6 +233,9 @@ export default async function Home() {
       ))}
       {/* The shop's brands, when it keeps a `brands` category (ask a0e1); nothing otherwise. */}
       <HomeBrands />
+      {/* The shop's journal closes the page (t-2026-10-05-03): every shop with a published
+          article gets the rail, the Olavka shops under their own «Журнал здоровья» title. */}
+      <JournalRail olavka={olavka} />
     </>
   )
 }

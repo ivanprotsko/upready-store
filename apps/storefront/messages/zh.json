@@ -563,7 +563,11 @@
     "copyLink": "复制链接",
     "linkCopied": "链接已复制",
     "allCategories": "全部栏目",
-    "categories": "栏目"
+    "categories": "栏目",
+    "feed": "动态",
+    "toc": "本文内容",
+    "readNext": "继续阅读",
+    "toCatalog": "前往目录"
   },
   "LanguageSelect": {
     "locales": {
@@ -1244,6 +1248,10 @@
     "lost": "已丢失"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "健康专栏",
+      "subtitle": "草本、习惯、方案与故事——献给把健康当作日常实践、而非最后手段的人。"
+    },
     "slider": {
       "course": "课程",
       "goTo": "前往「{title}」",

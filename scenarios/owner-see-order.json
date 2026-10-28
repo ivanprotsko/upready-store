@@ -1,0 +1,83 @@
+{
+  "format": "scenario/v1",
+  "id": "owner-see-order",
+  "project": "upready-store",
+  "title": "Вижу в панели заказ, который оформил покупатель, и открываю его карточку",
+  "goal": "Вижу в панели заказ, который оформил покупатель, и открываю его карточку",
+  "actor": "owner",
+  "profiles": [
+    "desktop-mouse"
+  ],
+  "start": {
+    "url": "/orders",
+    "fixtures": [
+      "reset",
+      "seed",
+      "login"
+    ]
+  },
+  "final": [
+    {
+      "url": "^/orders/[^/]+$"
+    },
+    {
+      "text": "Тестовая футболка"
+    }
+  ],
+  "work": null,
+  "version": 2,
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "Открываю свежий заказ из списка",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "role": "link",
+        "name": "buyer-order@example.test"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          656.34,
+          239.5,
+          213.03,
+          47
+        ]
+      },
+      "before": {
+        "url": "^/orders$",
+        "region": [
+          648,
+          231,
+          230,
+          64
+        ],
+        "hash": "00000049e9000000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T21:54:06.520Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-27T21:54:21.399Z",
+      "by": "scenario.mjs agent",
+      "kind": "record",
+      "version": 2,
+      "profile": "desktop-mouse",
+      "steps": [
+        "s1"
+      ],
+      "reason": "first pass: Открываю заказ покупателя в панели и вижу его состав",
+      "model": null,
+      "tokens": null
+    }
+  ]
+}

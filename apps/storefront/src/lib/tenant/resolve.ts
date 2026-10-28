@@ -30,6 +30,7 @@ import {
 import { readTenantPromoCode } from "./promo-code"
 import { readRegionRedirects, type RegionRedirect } from "./region-redirects"
 import { readTenantTestMode, type TenantTestMode } from "./test-mode"
+import { readTenantStage } from "./stage"
 
 export type { TenantAttribution }
 export type { TenantBranding }
@@ -117,6 +118,11 @@ export type ResolvedTenant = {
    * every shop that never set it, and then the region popup does not appear.
    */
   regionRedirects: RegionRedirect[]
+  /**
+   * A stage site (t-2026-10-27-04): never indexed (`lib/tenant/stage.ts`).
+   * Absent reads as a live shop.
+   */
+  stage?: boolean
 }
 
 const TTL_MS = 60_000
@@ -197,6 +203,7 @@ export async function resolveTenantByHost(
         test_mode?: unknown
         promo_code?: unknown
         region_redirects?: unknown
+        stage?: unknown
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -251,6 +258,7 @@ export async function resolveTenantByHost(
           testMode: readTenantTestMode(body.test_mode),
           promoCode: readTenantPromoCode(body.promo_code),
           regionRedirects: readRegionRedirects(body.region_redirects),
+          stage: readTenantStage(body.stage),
         }
       }
     }

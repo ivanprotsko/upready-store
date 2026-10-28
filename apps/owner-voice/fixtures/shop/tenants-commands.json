@@ -1,0 +1,58 @@
+{
+  "_fixture": "Shaped after the apps/backend/src/api/tenants/* routes the command map points at. NOT recorded from cherkashino.com: the build machine has no shop login. Names and numbers are made up; contacts are fake and there to prove they never reach the model.",
+  "/tenants/returns": { "returns": [], "count": 0, "offset": 0, "limit": 50 },
+  "/tenants/exchanges": { "exchanges": [], "count": 0, "offset": 0, "limit": 50 },
+  "/tenants/claims": { "claims": [], "count": 0, "offset": 0, "limit": 50 },
+  "/tenants/reservations": {
+    "reservations": [
+      { "id": "resitem_fixture_1", "line_item_id": "item_fixture_1041_1", "quantity": 2, "created_at": "2026-10-20T06:00:00Z", "inventory_item": { "sku": "1268099764-CHERKASHINO", "title": "Свечи АСД с чесноком, 10 шт" } },
+      { "id": "resitem_fixture_2", "line_item_id": "item_fixture_1039_1", "quantity": 1, "created_at": "2026-10-18T09:10:00Z", "inventory_item": { "sku": "MUMIYO-CHERKASHINO", "title": "Мумиё алтайское" } }
+    ],
+    "count": 2, "offset": 0, "limit": 50
+  },
+  "/tenants/promotions": {
+    "promotions": [
+      { "id": "promo_fixture_1", "code": "OSEN10", "type": "standard", "status": "active", "is_automatic": false, "created_at": "2026-10-01T08:00:00Z" },
+      { "id": "promo_fixture_2", "code": "SVECHI2PLUS1", "type": "buyget", "status": "active", "is_automatic": true, "created_at": "2026-09-20T08:00:00Z" },
+      { "id": "promo_fixture_3", "code": "LETO15", "type": "standard", "status": "inactive", "is_automatic": false, "created_at": "2026-06-01T08:00:00Z" }
+    ],
+    "count": 3, "offset": 0, "limit": 50
+  },
+  "/tenants/shipping-options": {
+    "shipping_options": [
+      { "id": "so_fixture_1", "name": "Почта России", "price_type": "flat" },
+      { "id": "so_fixture_2", "name": "СДЭК до пункта выдачи", "price_type": "calculated" }
+    ],
+    "count": 2, "offset": 0, "limit": 50
+  },
+  "/tenants/home": {
+    "home": {
+      "settings": { "layout": "banners" },
+      "content": {
+        "banners": [
+          { "id": "b1", "image": "/img/b1.jpg", "kicker": "Осень", "label": "Скидка", "title": "Осенняя скидка 10% по коду OSEN10", "button": "В каталог", "link": "/ru/store", "sort": 1 },
+          { "id": "b2", "image": "/img/b2.jpg", "kicker": "АСД", "label": "Хит", "title": "Свечи АСД: 2 + 1 в подарок", "button": "Выбрать", "link": "/ru/categories/asd-cherkashino", "sort": 2 }
+        ]
+      }
+    }
+  },
+  "/tenants/payment-settings": {
+    "settings": { "robokassa": { "merchant_login": "fixture-login", "password_1": "••••", "password_2": "••••" } },
+    "unreadable": false,
+    "result_url": "https://shipshift.dev/hooks/robokassa/result",
+    "providers": ["robokassa", "manualManager"],
+    "methods": { "robokassa": true, "tribute": false, "btcpay": false, "bitcart": false, "x402": false, "manualCrypto": false, "manualManager": true, "demo": false },
+    "robokassa_methods": []
+  },
+  "order-extra": {
+    "email": "pokupatel@example.com",
+    "shipping_address": { "first_name": "Пример", "last_name": "Покупатель", "phone": "+7 900 000-00-00", "city": "Москва", "address_1": "ул. Примерная, 1" },
+    "items": [
+      { "id": "item_fixture_1", "title": "Свечи АСД с чесноком, 10 шт", "quantity": 2, "unit_price": 15, "total": 30 },
+      { "id": "item_fixture_2", "title": "Мумиё алтайское", "quantity": 1, "unit_price": 12, "total": 12 }
+    ],
+    "changes": [
+      { "id": "ordch_fixture_1", "change_type": "edit", "status": "confirmed", "created_at": "2026-10-20T07:00:00Z" }
+    ]
+  }
+}

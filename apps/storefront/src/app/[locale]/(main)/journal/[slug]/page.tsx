@@ -1,20 +1,31 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import { notFound } from "next/navigation"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
-import { getTenantArticle, getTenantArticleWithRelated } from "@lib/data/tenant-articles"
+import {
+  getTenantArticle,
+  getTenantArticleWithRelated,
+  listTenantArticles,
+} from "@lib/data/tenant-articles"
 import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
 import { buildAlternates } from "@lib/util/alternates"
 import { decodeSegment } from "@lib/util/decode-segment"
 import { localeUrl } from "@lib/util/json-ld"
+import { parseMarkdown } from "@lib/util/markdown"
 import { markdownText } from "@lib/util/markdown-text"
+import { buildToc } from "@lib/util/markdown-toc"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
 import ArticleShare from "@modules/content/components/article-share"
 import JsonLd from "@modules/common/components/json-ld"
 import MarkdownContent from "@modules/content/components/markdown-content"
+import ArticleCover from "@modules/journal/components/article-cover"
+import ArticleToc from "@modules/journal/components/article-toc"
+import ArticleTocFab from "@modules/journal/components/article-toc-fab"
+import { JournalRailSection } from "@modules/journal/components/journal-rail"
+import NextArticleLink from "@modules/journal/components/next-article-link"
+import { BUTTON_FILLED, BUTTON_OUTLINE, DISPLAY_TITLE } from "@modules/journal/typography"
 
 /**
  * One article of the shop's journal (t10-blog).
@@ -27,9 +38,21 @@ import MarkdownContent from "@modules/content/components/markdown-content"
  * `@modules/content/components/markdown-content`, never as HTML
  * (`@lib/util/markdown`'s own note on why). The platform never writes the text:
  * the articles are the owner's.
+ *
+ * t-2026-10-05-03: laid out after an article of the chrxnasdmds «Журнал здоровья»: the
+ * rubric and the title with «Читать далее» to the next article beside them, the excerpt,
+ * then the text with a sticky table of contents on its right (a floating button and a
+ * bottom sheet under 720 px), two buttons out, and «Читайте также», the rest of the journal
+ * starting with the next article. No date, author or reading time is shown: the reference
+ * shows none, and the shop's articles carry no byline to show.
  */
 
 type Props = { params: Promise<{ slug: string }> }
+
+/** The whole journal, for the next article and the «Читайте также» rail; the API's own ceiling. */
+const JOURNAL_LIMIT = 100
+
+const TITLE_ID = "journal-article-title"
 
 /** Absolute, because an og:image and a JSON-LD image must both resolve off-site. */
 const absolute = (base: string, src: string) =>
@@ -78,13 +101,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function JournalArticle(props: Props) {
-  const [params, t, tBreadcrumb, locale] = await Promise.all([
+  const [params, t, tBreadcrumb, tCommon, tSlider, locale] = await Promise.all([
     props.params,
     getTranslations("Journal"),
     getTranslations("Breadcrumb"),
+    getTranslations("Common"),
+    getTranslations("OlavkaHome.slider"),
     getLocale(),
   ])
-  const found = await getTenantArticleWithRelated(decodeSegment(params.slug))
+  const [found, journal] = await Promise.all([
+    getTenantArticleWithRelated(decodeSegment(params.slug)),
+    listTenantArticles({ limit: JOURNAL_LIMIT }),
+  ])
 
   if (!found) {
     notFound()
@@ -95,6 +123,20 @@ export default async function JournalArticle(props: Props) {
   const [base, siteName] = await Promise.all([getRequestBaseURL(), getSiteName()])
   const cover = article.cover_url ? absolute(base, article.cover_url) : null
   const url = localeUrl(base, locale, `/journal/${params.slug}`)
+
+  // The reading order of the journal, from this article on: the next one is «Читать
+  // далее», and the rest after it, wrapping round, is «Читайте также». An article the
+  // feed does not list (the feed is newest-first and capped) falls back to the backend's
+  // related three.
+  const articles = journal.articles
+  const index = articles.findIndex((item) => item.slug === article.slug)
+  const rolled =
+    index === -1
+      ? related
+      : [...articles.slice(index + 1), ...articles.slice(0, index)]
+  const next = rolled[0] ?? null
+
+  const toc = buildToc(parseMarkdown(article.body))
 
   // schema.org/Article. `dateModified` is deliberately absent rather than
   // filled with «now»: this storefront does not know when the text last
@@ -119,96 +161,28 @@ export default async function JournalArticle(props: Props) {
       : { "@type": "Organization", name: siteName },
   }
 
-  const dateFormat = new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
-
-  return (
-    <div className="content-container flex flex-col gap-y-6 py-12 max-w-2xl">
-      <JsonLd data={jsonLd} />
-
-      {/* b18-blog-full: breadcrumbs, the same pair the catalogue pages use —
-          a reader landing from search needs a way up, and one link «back to the
-          feed» is not a path. */}
-      <nav
-        className="txt-compact-small text-ui-fg-subtle flex flex-wrap items-center gap-x-2"
-        aria-label={tBreadcrumb("home")}
-        data-testid="journal-breadcrumbs"
-      >
-        <Link href="/" className="hover:text-ui-fg-base transition-colors">
-          {tBreadcrumb("home")}
-        </Link>
-        <span aria-hidden>/</span>
-        <Link
-          href="/journal"
-          className="hover:text-ui-fg-base transition-colors"
-          data-testid="journal-back-link"
-        >
-          {t("feedTitle")}
-        </Link>
-        {article.category ? (
-          <>
-            <span aria-hidden>/</span>
-            <Link
-              href={`/journal?category=${encodeURIComponent(article.category)}`}
-              className="hover:text-ui-fg-base transition-colors"
-            >
-              {article.category}
-            </Link>
-          </>
-        ) : null}
-      </nav>
-
-      <div className="flex flex-col gap-y-2">
-        <div className="txt-compact-small text-ui-fg-muted flex flex-wrap items-center gap-x-2">
-          {article.published_at ? (
-            <time dateTime={article.published_at}>
-              {dateFormat.format(new Date(article.published_at))}
-            </time>
-          ) : null}
-          {article.published_at ? <span aria-hidden>·</span> : null}
-          <span data-testid="journal-article-reading-time">
-            {t("readingTime", { minutes: article.reading_minutes })}
-          </span>
-          {article.author ? (
-            <>
-              <span aria-hidden>·</span>
-              <span data-testid="journal-article-author">{article.author}</span>
-            </>
-          ) : null}
-        </div>
-        <h1 className="text-2xl-semi text-ui-fg-base" data-testid="journal-article-title">
-          {article.title}
-        </h1>
-        {article.excerpt ? (
-          <p className="text-base-regular text-ui-fg-subtle">{article.excerpt}</p>
-        ) : null}
-      </div>
-
+  const main = (
+    <div className="flex min-w-0 flex-col gap-8 small:gap-10">
       {cover ? (
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-rounded bg-ui-bg-subtle">
-          <Image
+        <div data-testid="journal-article-cover">
+          <ArticleCover
             src={cover}
-            alt={article.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 672px"
-            className="object-cover"
+            aspect="aspect-[16/9]"
+            sizes="(max-width: 719px) 100vw, (max-width: 1439px) 70vw, 768px"
             priority
-            data-testid="journal-article-cover"
+            zoom={false}
           />
         </div>
       ) : null}
 
-      <MarkdownContent source={article.body} />
+      <MarkdownContent source={article.body} variant="article" />
 
       {article.tags.length > 0 ? (
-        <ul className="flex flex-wrap gap-2 pt-4" data-testid="journal-article-tags">
+        <ul className="flex flex-wrap gap-2" data-testid="journal-article-tags">
           {article.tags.map((tag) => (
             <li
               key={tag}
-              className="txt-compact-small text-ui-fg-subtle bg-ui-bg-subtle rounded-full px-3 py-1"
+              className="txt-compact-small rounded-full bg-ui-bg-subtle px-3 py-1 text-ui-fg-subtle"
             >
               {tag}
             </li>
@@ -226,40 +200,113 @@ export default async function JournalArticle(props: Props) {
         }}
       />
 
-      {related.length > 0 ? (
-        <section className="border-ui-border-base border-t pt-8" data-testid="journal-related">
-          <h2 className="text-base-semi text-ui-fg-base">{t("related")}</h2>
-          <ul className="mt-4 grid grid-cols-1 gap-x-6 gap-y-6 small:grid-cols-3">
-            {related.map((item) => (
-              <li key={item.slug}>
-                <Link
-                  href={`/journal/${item.slug}`}
-                  className="group flex flex-col gap-y-2"
-                  data-testid="journal-related-card"
-                >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-rounded bg-ui-bg-subtle">
-                    {item.cover_url ? (
-                      <Image
-                        src={absolute(base, item.cover_url)}
-                        alt={item.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 224px"
-                        className="object-cover transition-transform duration-200 group-hover:scale-105"
-                      />
-                    ) : null}
-                  </div>
-                  <span className="txt-compact-small text-ui-fg-muted">
-                    {t("readingTime", { minutes: item.reading_minutes })}
-                  </span>
-                  <span className="text-base-semi text-ui-fg-base group-hover:text-ui-fg-interactive transition-colors">
-                    {item.title}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <div className="flex flex-col gap-3 pt-2 xsmall:flex-row">
+        <Link href="/journal" className={BUTTON_OUTLINE} data-testid="journal-article-to-feed">
+          {t("backToFeed")}
+        </Link>
+        <Link href="/store" className={BUTTON_FILLED} data-testid="journal-article-to-catalog">
+          {t("toCatalog")}
+        </Link>
+      </div>
     </div>
+  )
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+
+      <article className="content-container flex flex-col gap-8 py-10 small:gap-10 small:py-14">
+        {/* b18-blog-full: breadcrumbs, the same pair the catalogue pages use —
+            a reader landing from search needs a way up, and one link «back to the
+            feed» is not a path. */}
+        <nav
+          className="txt-compact-small flex flex-wrap items-center gap-x-2 text-ui-fg-subtle"
+          aria-label={tBreadcrumb("home")}
+          data-testid="journal-breadcrumbs"
+        >
+          <Link href="/" className="transition-colors hover:text-ui-fg-base">
+            {tBreadcrumb("home")}
+          </Link>
+          <span aria-hidden>/</span>
+          <Link
+            href="/journal"
+            className="transition-colors hover:text-ui-fg-base"
+            data-testid="journal-back-link"
+          >
+            {t("feedTitle")}
+          </Link>
+          {article.category ? (
+            <>
+              <span aria-hidden>/</span>
+              <Link
+                href={`/journal?category=${encodeURIComponent(article.category)}`}
+                className="transition-colors hover:text-ui-fg-base"
+              >
+                {article.category}
+              </Link>
+            </>
+          ) : null}
+        </nav>
+
+        <header className="grid grid-cols-1 gap-x-10 gap-y-3 small:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] small:[align-items:last_baseline]">
+          <div className="flex flex-col gap-3">
+            {article.category ? (
+              <span
+                className="text-xs uppercase tracking-wide text-ui-fg-muted"
+                data-testid="journal-article-category"
+              >
+                {article.category}
+              </span>
+            ) : null}
+            <h1
+              id={TITLE_ID}
+              className={`${DISPLAY_TITLE} text-balance text-ui-fg-base`}
+              data-testid="journal-article-title"
+            >
+              {article.title}
+            </h1>
+          </div>
+          {next ? (
+            <NextArticleLink
+              href={`/journal/${next.slug}`}
+              title={next.title}
+              label={t("readNext")}
+              titleId={TITLE_ID}
+            />
+          ) : null}
+        </header>
+
+        {article.excerpt ? (
+          <p className="max-w-3xl text-base leading-relaxed text-ui-fg-subtle small:text-lg">
+            {article.excerpt}
+          </p>
+        ) : null}
+
+        {toc.length > 0 ? (
+          <div className="grid grid-cols-1 gap-y-10 min-[720px]:grid-cols-[minmax(0,1fr)_14rem] min-[720px]:gap-x-8 large:grid-cols-[minmax(0,48rem)_16rem] large:gap-x-16">
+            {main}
+            <aside className="hidden min-[720px]:block">
+              <div className="no-scrollbar sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto">
+                <ArticleToc items={toc} label={t("toc")} />
+              </div>
+            </aside>
+          </div>
+        ) : (
+          <div className="max-w-3xl">{main}</div>
+        )}
+      </article>
+
+      {toc.length > 0 ? (
+        <ArticleTocFab items={toc} labels={{ toc: t("toc"), close: tCommon("close") }} />
+      ) : null}
+
+      <JournalRailSection
+        articles={rolled}
+        title={t("related")}
+        headingId="journal-related-heading"
+        labels={{ previous: tSlider("previous"), next: tSlider("next") }}
+        data-testid="journal-related"
+      />
+    </>
   )
 }

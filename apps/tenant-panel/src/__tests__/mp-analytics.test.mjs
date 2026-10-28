@@ -22,6 +22,8 @@ const DIR = join(root, "routes", "marketplaces", "mp-analytics")
 const SCREEN = src("routes", "marketplaces", "mp-analytics", "mp-analytics.tsx")
 const CHART = src("routes", "marketplaces", "mp-analytics", "components", "sales-chart.tsx")
 const HOOK = src("hooks", "api", "marketplace-section.tsx")
+const PAGE = src("routes", "marketplaces", "common", "mp-page.tsx")
+const INFOGRAPHIC = src("routes", "marketplaces", "mp-analytics", "components", "infographic.tsx")
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((entry) => {
@@ -43,8 +45,9 @@ test("the hook asks the live route unless the fixture flag is set", () => {
 test("the period lives in the address and is written only when the owner picks a day", () => {
   assert.match(SCREEN, /nextFrom \? next\.set\("from", nextFrom\) : next\.delete\("from"\)/)
   assert.match(SCREEN, /nextTo \? next\.set\("to", nextTo\) : next\.delete\("to"\)/)
-  // «Сбросить» drops both days, and is there only when a day is in the address.
-  assert.match(SCREEN, /\{from \|\| to \? \(\s*<Button[^>]*onClick=\{\(\) => setPeriod\(null, null\)\}/)
+  // No «Сбросить» (t-2026-10-20-29): the ✕ of a date field is the picker's own clear, `onChange(null)` drops that day.
+  assert.doesNotMatch(SCREEN, /filters\.reset/)
+  assert.doesNotMatch(SCREEN, /setPeriod\(null, null\)\}>/)
   // The picker re-emits its day on mount; a day equal to the shown one is not written.
   assert.match(SCREEN, /if \(next !== \(from \?\? period\?\.from_day \?\? null\)\)/)
   assert.match(SCREEN, /if \(next !== \(to \?\? period\?\.to_day \?\? null\)\)/)
@@ -117,4 +120,51 @@ test("every mp.analytics key the screen and the chart use exists in ru and en, a
 test("the chart prints no Russian of its own: every word goes through the catalog", () => {
   assert.doesNotMatch(withoutComments(CHART), /[А-Яа-яЁё]/)
   assert.match(CHART, /type Day = MpAnalyticsResponse\["by_day"\]\[number\]/)
+})
+
+/**
+ * t-2026-10-20-29, Ivan 20.10 with Yandex Metrica as the reference: «нужно
+ * убрать подпись "Сравнение с …" … убрать кнопку "сбросить" … это снова
+ * дублирует дату … прилипающую панель с датами в хедере». Every date once:
+ * the period lives in the heading, which sticks to the top; the comparison is
+ * named by its length only, in the legend of the dashed line.
+ */
+test("the period sits in the heading, which sticks to the top while the page scrolls", () => {
+  assert.match(SCREEN, /<MpPage\s+stacked\s+sticky\s+title=\{t\("mp\.analytics\.title"\)\}\s+bar=\{\s*<PeriodBar/)
+  assert.match(PAGE, /sticky && "sticky top-0 z-10"/)
+  // The bar is in the heading row itself, not stretched under it like `actions`.
+  assert.match(PAGE, /<\/div>\s*\{bar\}\s*\{actions \?/)
+  // On a phone: one chip with the range that opens the controls, as Metrica shrinks its bar.
+  assert.match(SCREEN, /data-testid="mp-analytics-period-chip"/)
+  assert.match(SCREEN, /className="min-h-11 gap-x-1\.5 md:hidden"/)
+  assert.match(SCREEN, /rangeShort\(shownFrom, shownTo, locale\)/)
+  assert.match(SCREEN, /!open && "max-md:hidden"/)
+})
+
+test("every date is said once: no subtitle with the range, no «Сравнение с», the comparison named by its length", () => {
+  // The heading has no subtitle any more; the period is the bar.
+  assert.doesNotMatch(SCREEN, /subtitle=\{\s*period/)
+  for (const key of ["v3.subtitle", "v3.subtitleDefault", "v3.comparison.with", "v3.forDays"]) {
+    assert.doesNotMatch(SCREEN, new RegExp(key.replace(/\./g, "\\.")), key)
+    assert.doesNotMatch(INFOGRAPHIC, new RegExp(key.replace(/\./g, "\\.")), key)
+  }
+  // The one line about the comparison is the legend of the dashed line, and it carries the «no data» fact.
+  const legend = SCREEN.slice(SCREEN.indexOf('data-testid="mp-analytics-comparison"'))
+  assert.match(legend, /t\("mp\.analytics\.v3\.dynamics\.dashed", \{ days: analytics\.period\.days \}\)/)
+  assert.match(legend, /t\("mp\.analytics\.v3\.comparison\.noData", \{ since: dayLong\(comparison\.data_from_day, locale\) \}\)/)
+  assert.equal((SCREEN.match(/data-testid="mp-analytics-comparison"/g) ?? []).length, 1)
+  // No date range of the comparison anywhere on the screen: `range(` is gone from the formatters too.
+  assert.doesNotMatch(src("routes", "marketplaces", "mp-analytics", "components", "format.ts"), /export const range =/)
+  for (const lang of ["ru", "en"]) {
+    const v3 = catalog(lang).mp.analytics.v3
+    assert.equal(v3.subtitle, undefined, `${lang}: v3.subtitle`)
+    assert.equal(v3.subtitleDefault, undefined, `${lang}: v3.subtitleDefault`)
+    assert.equal(v3.comparison.with, undefined, `${lang}: v3.comparison.with`)
+    assert.ok(!Object.keys(v3).some((key) => key.startsWith("forDays")), `${lang}: v3.forDays_*`)
+    assert.equal(catalog(lang).marketplaceAnalytics.filters.reset, undefined, `${lang}: filters.reset`)
+    assert.match(v3.dynamics.dashed, /\{\{days\}\}/)
+    assert.doesNotMatch(v3.dynamics.dashed, /\{\{range\}\}/)
+    assert.doesNotMatch(v3.comparison.noData, /\{\{range\}\}/)
+    assert.equal(typeof v3.period, "string")
+  }
 })
