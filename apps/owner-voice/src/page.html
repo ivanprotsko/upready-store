@@ -49,6 +49,10 @@
   .card th, .card td { text-align: left; padding: 5px 10px 5px 0; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
   .card th { color: var(--muted); font-weight: 600; border-top: 0; }
   .card img.preview { display: block; width: 100%; max-width: 480px; height: auto; border-radius: 10px; margin: 8px 0; border: 1px solid var(--line); }
+  .card .pics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 8px 0; }
+  .card .pics figure { margin: 0; }
+  .card .pics img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); background: var(--pill); }
+  .card .pics figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
   .card .links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
   .card .actions input { flex: 1 1 160px; padding: 7px 12px; font-size: 14px; }
   form { flex-wrap: wrap; }
@@ -218,6 +222,7 @@
     find_commands: "команды панели", run_command: "команду панели",
     list_changesets: "изменения сайта", prepare_publish: "что опубликовать", prepare_rollback: "что откатить",
     generate_image: "картинку", place_image: "место для картинки",
+    edit_photo: "обработку фото", find_page_photos: "фото на странице", pick_photo: "выбор фото",
   };
   const STATUS = { draft: "черновик", staged: "на stage", published: "на сайте", rolled_back: "откачено", discarded: "отменено" };
   const json = (body) => ({ method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
@@ -240,6 +245,14 @@
     if (card.kind === "image") head.append(el("span", "badge", "превью"));
     box.append(head);
     if (card.image) { const img = el("img", "preview"); img.src = card.image.src; img.alt = card.image.alt; img.width = 1200; img.height = 628; box.append(img); }
+    if (card.images && card.images.length) {
+      const pics = el("div", "pics");
+      for (const p of card.images) {
+        const fig = el("figure"), img = el("img"); img.src = p.src; img.alt = p.alt; img.width = 640; img.height = 480; img.loading = "lazy";
+        fig.append(img, el("figcaption", null, p.label)); pics.append(fig);
+      }
+      box.append(pics);
+    }
     if (card.request) {
       const rest = card.rows.filter((r) => !r.startsWith(card.request.method + " ") && !r.startsWith("Тело: "));
       box.append(el("pre", null, `${card.request.method} ${card.request.url}\n${JSON.stringify(card.request.body, null, 2)}`));
@@ -318,6 +331,11 @@
       return;
     }
     const routes = {
+      "edit-bg": [`/api/images/${a.id}/act`, { action: "edit-bg" }],
+      "edit-light": [`/api/images/${a.id}/act`, { action: "edit-light" }],
+      redo: [`/api/images/${a.id}/act`, { action: "redo" }],
+      cancel: [`/api/images/${a.id}/act`, { action: "cancel" }],
+      "pick-photo": [`/api/images/${a.id}/act`, { action: "pick-photo" }],
       "place-banner": [`/api/images/${a.id}/place`, { target: "banner" }],
       "prepare-publish": ["/api/changesets/intent", { action: "publish", id: a.id }],
       "prepare-rollback": ["/api/changesets/intent", { action: "rollback", id: a.id }],
@@ -728,7 +746,10 @@
   }));
 
   /* ---------- ?show= opens a state for the evidence screens, through the same handlers a person uses ---------- */
-  const show = new URLSearchParams(location.search).get("show");
+  const wantShow = new URLSearchParams(location.search).get("show");
+  // The scenes send real requests (they draw pictures and stage changes). They run only on fixtures with the stub image driver and no live model; anywhere else `show` is ignored without a word.
+  const sceneAllowed = (s) => s.storeApi !== "live" && s.ownerApi !== "live" && /^stub\b/.test(String(s.images)) && !String(s.provider).startsWith("anthropic");
+  const runScene = (show) => {
   if (show === "palette") {
     loadCommands.then(() => {
       document.dispatchEvent(new KeyboardEvent("keydown", { key: "K", code: "KeyK", shiftKey: true, metaKey: true, bubbles: true }));
@@ -757,7 +778,33 @@
       if (show === "changeset") await stage();
       else if (show === "publish") { await stage(); await post("/api/text", { question: "Публикуй" }); await until(".card.confirm"); }
       else if (show === "image") { await post("/api/text", { question: "Нарисуй баннер: алтайские травы, осенняя скидка 15%" }); await until(".card.image img"); await new Promise((r) => setTimeout(r, 300)); }
-      else if (show === "pdf") {
+      else if (show === "photo-edit" || show === "photo-placed") {
+        await addFiles([await fixture("/fixtures/files/photo-jar.png", "банка.png", "image/png")]);
+        document.getElementById("q").value = "Убери фон";
+        form.requestSubmit();
+        await until(".card.image .pics");
+        if (show === "photo-placed") {
+          [...document.querySelectorAll(".card.image .actions button")].find((b) => b.textContent.startsWith("На товар"))?.click();
+          const input = await until(".card.image .actions input");
+          input.value = "тройчатка";
+          [...document.querySelectorAll(".card.image .actions button.go")].pop()?.click();
+          await until(".card.proposal .go");
+          lastGo(".card.proposal .go").click();
+          await until(".card.changeset");
+        }
+        await new Promise((r) => setTimeout(r, 400));
+      } else if (show === "photo-link") {
+        await post("/api/text", { question: "Возьми фото отсюда https://shop.example/tovar/trojchatka и убери фон" });
+        await until(".card.image .pics");
+        await new Promise((r) => setTimeout(r, 400));
+      } else if (show === "image-capped") {
+        // The stand runs with the default caps (30 a day, $3): the scene draws the day's 30 first, unseen, so this request is the refused one.
+        for (let n = 1; n <= 30; n += 1) {
+          await fetch("/api/text", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question: `Нарисуй баннер ${n}: осенняя скидка` }) });
+        }
+        await post("/api/text", { question: "Нарисуй ещё один баннер: осенняя скидка 15%" });
+        await until(".card.notice");
+      } else if (show === "pdf") {
         await addFiles([await fixture("/fixtures/files/price.pdf", "price.pdf", "application/pdf")]);
         document.getElementById("q").value = "Сколько стоит тройчатка по этому прайсу?";
         form.requestSubmit();
@@ -772,6 +819,8 @@
       document.body.dataset.ready = "1";
     })();
   }
+  };
+  if (wantShow) fetch("/api/status").then((r) => r.json()).then((s) => { if (sceneAllowed(s)) runScene(wantShow); }, () => {});
 </script>
 </body>
 </html>

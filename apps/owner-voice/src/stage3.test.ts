@@ -88,7 +88,7 @@ test("a picture by chat: the preview card offers the product and the banner; the
   const turn = await app.text("нарисуй баннер с алтайскими травами", []);
   const card = turn.cards.find((c) => c.kind === "image");
   assert.match(card?.image?.src ?? "", /^http:\/\/localhost:\d+\/api\/images\/img_[a-f0-9]{16}\.svg$/);
-  assert.deepEqual(card?.actions?.map((a) => a.action), ["place-product", "place-banner"]);
+  assert.deepEqual(card?.actions?.map((a) => a.action), ["place-product", "place-banner", "redo", "cancel"]);
   const id = card!.image!.src.match(/(img_[a-f0-9]{16})/)![1]!;
   assert.match(new TextDecoder().decode(app.images.read(id)!.data), /^<svg/);
 

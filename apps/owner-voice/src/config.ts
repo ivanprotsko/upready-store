@@ -56,7 +56,13 @@ export interface Config {
   images: {
     /** `IMAGES=0` turns them off; on by default outside RU, always off in RU. */
     on: boolean;
-    provider: "stub";
+    /** The driver that runs: `IMAGE_PROVIDER` when its key is set, else the stub. */
+    provider: "stub" | "fal" | "replicate";
+    /** What `IMAGE_PROVIDER` asked for; differs from `provider` when the key is missing. */
+    requested: "stub" | "fal" | "replicate";
+    /** Server environment only: `FAL_KEY`, `REPLICATE_API_TOKEN`. Never printed, never sent to the model or the page. */
+    falKey: string | null;
+    replicateToken: string | null;
     dailyUsd: number;
     dailyCount: number;
     /** What one stub picture costs, so the cap can be shown on fixtures (`IMAGE_STUB_USD`). */
@@ -89,10 +95,15 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const email = value(env, "SHOP_LOGIN_EMAIL");
   const password = value(env, "SHOP_LOGIN_PASSWORD");
   const anthropicKey = value(env, "ANTHROPIC_API_KEY");
-  const requested = value(env, "MODEL_PROVIDER");
+  const modelAsked = value(env, "MODEL_PROVIDER");
   const region = value(env, "SHOP_REGION") === "ru" ? "ru" : "intl";
   const host = value(env, "SHOP_HOST") ?? "cherkashino.com";
   const port = Number(value(env, "PORT") ?? 5470);
+  const asked = value(env, "IMAGE_PROVIDER");
+  const requested = asked === "fal" || asked === "replicate" ? asked : "stub";
+  const falKey = value(env, "FAL_KEY");
+  const replicateToken = value(env, "REPLICATE_API_TOKEN");
+  const keyed = requested === "fal" ? falKey : requested === "replicate" ? replicateToken : null;
 
   return {
     port,
@@ -116,7 +127,7 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     model: {
       // Without a key the rules provider answers, so the stand still works on fixtures.
       // In RU Claude stays off whatever the key: the flag wins.
-      provider: requested === "rules" || !anthropicKey || region === "ru" ? "rules" : "anthropic",
+      provider: modelAsked === "rules" || !anthropicKey || region === "ru" ? "rules" : "anthropic",
       anthropicKey,
       anthropicModel: value(env, "ANTHROPIC_MODEL") ?? "claude-sonnet-5-5",
       dailyUsd: num(env, "MODEL_DAILY_USD", 5),
@@ -130,7 +141,11 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     },
     images: {
       on: region !== "ru" && value(env, "IMAGES") !== "0",
-      provider: "stub",
+      // No key for the chosen provider: the stub runs, and the status says «заглушка».
+      provider: requested !== "stub" && keyed ? requested : "stub",
+      requested,
+      falKey,
+      replicateToken,
       dailyUsd: num(env, "IMAGE_DAILY_USD", 3),
       dailyCount: num(env, "IMAGE_DAILY_COUNT", 30),
       stubUsd: num(env, "IMAGE_STUB_USD", 0.04),
@@ -157,6 +172,12 @@ export function describeConfig(config: Config) {
     region: config.region,
     changesets: config.changesets.on ? "on" : "off (dry-run)",
     stageHost: config.changesets.stageHost,
-    images: config.images.on ? config.images.provider : config.region === "ru" ? "off (RU)" : "off",
+    images: config.images.on
+      ? config.images.provider === "stub" && config.images.requested !== "stub"
+        ? `stub (заглушка: нет ключа для ${config.images.requested})`
+        : config.images.provider
+      : config.region === "ru"
+        ? "off (RU)"
+        : "off",
   };
 }

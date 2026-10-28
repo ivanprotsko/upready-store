@@ -30,6 +30,8 @@ export interface Proposal {
   request: { method: string; url: string; body: unknown };
   /** The same write as a changeset op (stage 3): method, `/tenants/*` path, body. */
   op?: Op;
+  /** A picture to upload to the shop on the owner's «да»; `local` is the address the op carries until then. */
+  upload?: { image: string; local: string };
   expiresAt: number;
 }
 
@@ -53,6 +55,17 @@ export class ProposalStore {
     };
     this.#items.set(proposal.id, proposal);
     return proposal;
+  }
+
+  /** The proposal without taking it, so a failed upload leaves it waiting. */
+  peek(id: string): Proposal | null {
+    const proposal = this.#items.get(id) ?? null;
+    return proposal && proposal.expiresAt > this.#now() ? proposal : null;
+  }
+
+  attach(id: string, upload: NonNullable<Proposal["upload"]>): void {
+    const proposal = this.#items.get(id);
+    if (proposal) proposal.upload = upload;
   }
 
   /** The proposal, once: a confirmed or expired one is gone. */

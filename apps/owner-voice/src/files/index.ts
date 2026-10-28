@@ -169,7 +169,7 @@ export function fileForModel(meta: StoredFile): string {
   if (meta.kind === "pdf" && meta.encrypted) return `${head}: PDF защищён паролем, текст не прочитан.`;
   if (meta.kind === "pdf" && meta.scan) return `${head}: скан без текстового слоя, ${meta.pages} стр.; текст из него не прочитан.`;
   if (meta.text) return `${head}${meta.pages ? `, ${meta.pages} стр.` : ""}${(meta.textLength ?? 0) > meta.text.length ? `, показано ${meta.text.length} из ${meta.textLength} знаков` : ""}:\n${meta.text}`;
-  if (meta.kind === "image") return `${head}: картинка, ${Math.round(meta.size / 1024)} КБ. Её содержимое я не вижу.`;
+  if (meta.kind === "image") return `${head}: картинка (id ${meta.id}), ${Math.round(meta.size / 1024)} КБ. Её содержимое я не вижу; обработать её можно инструментом edit_photo.`;
   if (meta.transcript) return `${head}: голосовое сообщение. Расшифровка:\n${meta.transcript}`;
   return `${head}: текста нет.`;
 }
