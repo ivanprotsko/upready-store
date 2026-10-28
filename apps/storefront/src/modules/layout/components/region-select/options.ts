@@ -201,3 +201,39 @@ export function languageSearchText(option: LanguageOption, locales: Locale[]) {
     .join(" ")
     .toLowerCase()
 }
+
+/**
+ * The value of a redirect row in the country list (t-2026-10-20-22, return 1).
+ * A redirect country can also be the visitor's own (cherkashino.com/ru prices
+ * in `ru`), so the row that leaves for the other shop and the row that stays
+ * cannot share a value or an id.
+ */
+export const AWAY_PREFIX = "away:"
+
+export const awayValueOf = (country: string) => `${AWAY_PREFIX}${country}`
+
+export function awayCountryOf(value: string | undefined) {
+  return value?.startsWith(AWAY_PREFIX) ? value.slice(AWAY_PREFIX.length) : undefined
+}
+
+export type ApplyAction = "redirect" | "region" | "language" | "close"
+
+/**
+ * What «Apply» does. Only a redirect row leaves for the other shop; picking
+ * the visitor's own row, whatever it is called, never does.
+ */
+export function applyActionOf({
+  currentCountry,
+  pendingCountry,
+  currentLocale,
+  pendingLocale,
+}: {
+  currentCountry?: string
+  pendingCountry?: string
+  currentLocale: string
+  pendingLocale: string
+}): ApplyAction {
+  if (awayCountryOf(pendingCountry)) return "redirect"
+  if (pendingCountry && pendingCountry !== currentCountry) return "region"
+  return pendingLocale !== currentLocale ? "language" : "close"
+}
