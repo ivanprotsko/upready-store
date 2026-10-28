@@ -90,3 +90,34 @@ The stand and the scripts are in [stand/](/Users/ivanprotsko/upready/worktrees/u
 ## Time
 
 Estimate 35–75 min. Actual about 55 min.
+
+## Return 1 fix (28.10)
+
+The switcher now leaves for cherkashino.ru only when the visitor picks the redirect row. A language-only change stays on this shop, no change closes the dialog, and a served country keeps the `updateRegion` path.
+
+**Change** (all in `/Users/ivanprotsko/upready/worktrees/upready-store/feat/t22-region-popup/apps/storefront/src/modules/layout/components/region-select/`):
+- `options.ts`: new pure `applyActionOf` (redirect, region, language or close), `AWAY_PREFIX`, `awayValueOf`, `awayCountryOf`.
+- `index.tsx`: `handleApply` runs on that decision. The own row of a redirect country (`ru` on .com/ru) stays listed and is checked on open.
+- `country-list.tsx` (new): the country radio list. A redirect row has value `away:<cc>` and id `region-away-<cc>`; the own row keeps `<cc>` and `region-country-<cc>`.
+- `option-row.tsx` (new): the row component moved out of `index.tsx`, unchanged.
+
+**Decision:** the prefix is `away:`, as the brief suggested. Not a fork, so no decide record. /en looks as before, because there `ru` is not the visitor's country and its own row stays hidden behind the redirect row.
+
+**Tests:** region-select and tenant suites, 19 files, 155 tests passed before the merge. After merging origin/dev: storefront `src/lib/tenant`, `src/modules/layout`, `src/middleware`: 35 files, 311 tests passed. New: five apply cases in `options.test.ts` and one render test in `index.test.tsx` (own row checked beside the redirect row). `npx tsc --noEmit` clean, `npm run lint` 0 errors, `npx next build` OK (before the merge).
+
+**Stand** (`next dev` on port 8123 plus the mock backend, `STAND_BASE=http://localhost:8123 node check.mjs <screenshots>`): 38 PASS, 0 FAIL. The 30 old cases pass. New /ru cases:
+- PASS /ru: own row listed and checked on open
+- PASS /ru: redirect row listed, not checked
+- PASS /ru: English + Apply stays on the stand at /en
+- PASS /ru: Apply with no change stays on /ru
+- PASS /ru: Apply with no change closes the dialog
+- PASS /ru: Kazakhstan in the popup, then English in the switcher, stays on this shop
+- PASS /ru: the redirect row goes to https://cherkashino.ru/
+
+The /en case selector moved to `#region-away-ru`. Desktop shots are now 1440 wide. The no-redirect stand (`check-off.mjs`) was not rerun; the popup and tenant setting are untouched.
+
+**Screenshot:** [switcher-ru-desktop-light.png](/Users/ivanprotsko/upready/worktrees/upready-store/feat/t22-region-popup/artifacts/docs/t-2026-10-20-22/screenshots/switcher-ru-desktop-light.png), plus a dark one beside it. Both show two «Россия» rows, the own one checked.
+
+**Merge:** #481 was not mergeable, so origin/dev went in (no rebase). Five additive conflicts, both sides kept: by-host `route.ts`, `headers.ts`, `headers.test.ts`, `resolve.ts`, `middleware.ts` (the `x-tenant-stage` header beside `x-tenant-region-redirects`). These are outside region-select/ and are named here for that reason.
+
+**Heads:** fix commit bc00ce2c, merge head c22994d6; the report commit follows it.
