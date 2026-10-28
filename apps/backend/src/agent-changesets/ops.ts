@@ -105,12 +105,28 @@ const PRODUCT_FIELD_SHAPES: Record<string, (value: unknown) => unknown> = {
       : [],
 };
 
-/** A variant's prices as `POST …/variants/:variant_id` takes them back: amount and currency, sorted. */
+/**
+ * A variant's prices as `POST …/variants/:variant_id` takes them back: amount,
+ * currency, quantity bounds and price rules. No `id`: publishing replaces the
+ * price rows, so an old id points at nothing. Sorted, so one set hashes the same.
+ */
 export const pricesOf = (value: unknown) =>
   (Array.isArray(value) ? value : [])
     .filter(isRecord)
-    .map((price) => ({ amount: Number(price.amount), currency_code: String(price.currency_code).toLowerCase() }))
-    .sort((left, right) => left.currency_code.localeCompare(right.currency_code) || left.amount - right.amount);
+    .map((price) => ({
+      amount: Number(price.amount),
+      currency_code: String(price.currency_code).toLowerCase(),
+      min_quantity: price.min_quantity ?? null,
+      max_quantity: price.max_quantity ?? null,
+      rules: isRecord(price.rules) ? price.rules : {},
+    }))
+    .sort(
+      (left, right) =>
+        left.currency_code.localeCompare(right.currency_code) ||
+        stableJson(left.rules).localeCompare(stableJson(right.rules)) ||
+        Number(left.min_quantity ?? -1) - Number(right.min_quantity ?? -1) ||
+        left.amount - right.amount,
+    );
 
 const bodyKeys = (op: ChangesetOp) => Object.keys(op.body ?? {});
 
@@ -244,6 +260,21 @@ export const hashValue = (value: OpValue): string =>
 export type OpCheck = { ok: true; rule: AllowedOp } | { ok: false; reason: string };
 
 /**
+ * The path part (before `?`) is spelled the way `fetch` will send it: no `%`
+ * (an encoded `%2e%2e` turns back into `..`) and no `.`/`..` segment or
+ * backslash that WHATWG URL rewrites.
+ */
+const plainPath = (path: string): boolean => {
+  const pathPart = path.split("?")[0];
+  if (pathPart.includes("%")) return false;
+  try {
+    return new URL(pathPart, "http://loopback").pathname === pathPart;
+  } catch {
+    return false;
+  }
+};
+
+/**
  * Whether the agent may store `op` at all: the route is allowed, the body
  * carries only the allowed fields, and the path names its target. The
  * caller's role is checked apart (`routes`), because it depends on who asks.
@@ -253,7 +284,7 @@ export const checkOp = (op: unknown): OpCheck => {
     return { ok: false, reason: "an op is {method, path, body}" };
   }
 
-  if (!op.path.startsWith("/tenants/") || op.path.includes("..") || /[#\s]/.test(op.path)) {
+  if (!op.path.startsWith("/tenants/") || op.path.includes("..") || /[#\s]/.test(op.path) || !plainPath(op.path)) {
     return { ok: false, reason: "an op's path is a /tenants/* path" };
   }
 

@@ -23,6 +23,26 @@ describe("agent changeset ops (t-2026-10-27-04)", () => {
       expect(checkOp("PUT /tenants/home").ok).toBe(false);
     });
 
+    it("refuses encoded dot segments, dot segments and backslashes in the path", () => {
+      for (const path of [
+        "/tenants/pages/%2e%2e",
+        "/tenants/pages/.%2E",
+        "/tenants/pages/%2E.",
+        "/tenants/products/p1/variants/%2e%2e",
+        "/tenants/pages/./about",
+        "/tenants/pages/a\\b",
+      ]) {
+        expect({ path, ok: checkOp({ method: "PUT", path, body: {} }).ok }).toEqual({ path, ok: false });
+      }
+    });
+
+    it("still takes a query string and plain ids", () => {
+      expect(checkOp({ method: "PUT", path: "/tenants/pages/about?locale=en", body: { title: "x" } }).ok).toBe(true);
+      expect(
+        checkOp({ method: "POST", path: "/tenants/products/prod_1/variants/variant_1", body: { prices: [] } }).ok,
+      ).toBe(true);
+    });
+
     it("wants an article op's language and a new page's slug", () => {
       expect(checkOp({ method: "PUT", path: "/tenants/articles/a", body: { title: "x" } }).ok).toBe(false);
       expect(checkOp({ method: "PUT", path: "/tenants/articles/a", body: { title: "x", locale: "ru" } }).ok).toBe(true);
@@ -90,16 +110,47 @@ describe("agent changeset ops (t-2026-10-27-04)", () => {
       });
     });
 
-    it("keeps a variant's prices as amount and currency, sorted", () => {
+    it("keeps a variant's prices with their rules and quantity bounds, sorted, without ids", () => {
       const op: ChangesetOp = { method: "POST", path: "/tenants/products/prod_1/variants/variant_1", body: { prices: [] } };
+      const plain = { amount: 0, currency_code: "", min_quantity: null, max_quantity: null, rules: {} };
       expect(
         OP_SPECS.variant.project(
           { variant: { prices: [{ id: "p2", amount: 10, currency_code: "USD" }, { id: "p1", amount: 900, currency_code: "rub" }] } },
           op,
         ),
-      ).toEqual({ prices: [{ amount: 900, currency_code: "rub" }, { amount: 10, currency_code: "usd" }] });
+      ).toEqual({
+        prices: [
+          { ...plain, amount: 900, currency_code: "rub" },
+          { ...plain, amount: 10, currency_code: "usd" },
+        ],
+      });
       expect(productIdOf(op)).toBe("prod_1");
       expect(variantIdOf(op)).toBe("variant_1");
+    });
+
+    it("keeps price rules and quantities through a snapshot and a restore", () => {
+      const op: ChangesetOp = { method: "POST", path: "/tenants/products/prod_1/variants/variant_1", body: { prices: [] } };
+      const answer = {
+        variant: {
+          prices: [
+            { id: "p2", amount: 800, currency_code: "rub", min_quantity: 2, max_quantity: null, rules: { region_id: "reg_1" } },
+            { id: "p1", amount: 900, currency_code: "rub", rules: {} },
+          ],
+        },
+      };
+      const before = OP_SPECS.variant.project(answer, op);
+      expect(before).toEqual({
+        prices: [
+          { amount: 800, currency_code: "rub", min_quantity: 2, max_quantity: null, rules: { region_id: "reg_1" } },
+          { amount: 900, currency_code: "rub", min_quantity: null, max_quantity: null, rules: {} },
+        ],
+      });
+      expect(OP_SPECS.variant.restore(op, before)?.body?.prices).toEqual(
+        (before as { prices: unknown[] }).prices,
+      );
+      // The same set in another order hashes the same.
+      const reversed = OP_SPECS.variant.project({ variant: { prices: [...answer.variant.prices].reverse() } }, op);
+      expect(hashValue(reversed)).toBe(hashValue(before));
     });
 
     it("restores a characteristic the product did not have as empty", () => {

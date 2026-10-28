@@ -1,9 +1,10 @@
-import type { MedusaContainer } from "@medusajs/framework/types";
+import type { ILockingModule, MedusaContainer } from "@medusajs/framework/types";
+import { MedusaError, Modules } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../modules/tenant";
 import type TenantModuleService from "../modules/tenant/service";
 import { decideAccess } from "../api/tenants/permissions";
 import type { AllowedOp } from "./allow-list";
-import { callAs, readAs, type Caller } from "./loopback";
+import { callAs, LOOPBACK_TIMEOUT_CODE, readAs, type Caller } from "./loopback";
 import { checkOp, hashValue, OP_SPECS, type ChangesetOp, type OpValue } from "./ops";
 import { isStageSite, stageTenantIdOf } from "./stage";
 
@@ -99,6 +100,73 @@ const requireStatus = (changeset: ChangesetRow, allowed: ChangesetStatus[], acti
   }
 };
 
+/**
+ * Seconds a step may wait for the changeset's lock. In Medusa's providers the
+ * same number is the lock's expiry, so it is well above a whole step: a long
+ * publish must not lose its lock halfway.
+ */
+export const LOCK_TIMEOUT_SECONDS = 300;
+
+/**
+ * Runs `step` on the changeset `id` alone. Two requests for one changeset
+ * (a double click, two tabs) take turns: the second re-reads the row inside
+ * the lock, so it sees the status the first left and refuses on it.
+ */
+const withChangesetLock = async <T>(
+  container: MedusaContainer,
+  id: string,
+  step: (fresh: ChangesetRow) => Promise<T>,
+): Promise<T> => {
+  const locking = container.resolve<ILockingModule>(Modules.LOCKING);
+  let started = false;
+
+  try {
+    return await locking.execute(
+      `agent-changeset:${id}`,
+      async () => {
+        started = true;
+        const [row] = await service(container).listAgentChangesets({ id }, { take: 1 });
+        if (!row) {
+          throw new MedusaError(MedusaError.Types.NOT_FOUND, `Agent changeset ${id} was not found.`);
+        }
+        return step(row as unknown as ChangesetRow);
+      },
+      { timeout: LOCK_TIMEOUT_SECONDS },
+    );
+  } catch (error) {
+    if (!started) {
+      throw new ChangesetRefusal(409, "busy", "This change is being applied by another request.");
+    }
+    throw error;
+  }
+};
+
+/**
+ * A read, write or hash read that threw (a loopback timeout, a dead socket)
+ * after the first write: the ops written so far are undone and the step
+ * refuses like a failed op answer. A timeout says the op may still have landed.
+ */
+const refuseThrown = async (
+  error: unknown,
+  index: number,
+  where: string,
+  undo: () => Promise<{ op_index: number; status: number; message: string }[]>,
+  tail: string,
+): Promise<never> => {
+  if (error instanceof ChangesetRefusal) throw error;
+
+  const timedOut = error instanceof MedusaError && error.code === LOOPBACK_TIMEOUT_CODE;
+  const undone = await undo();
+  const reason = timedOut
+    ? "did not answer in time and may still have landed"
+    : `broke off: ${(error as Error).message}`;
+  throw new ChangesetRefusal(422, "op_failed", `Op ${index + 1} ${where} ${reason}.${tail}`, {
+    op_index: index,
+    ...(timedOut ? { op_timeout: true } : {}),
+    undo_failures: undone,
+  });
+};
+
 /** The answer's own message, for a refusal the panel shows as it is. */
 const messageOf = (body: Record<string, unknown>): string =>
   typeof body.message === "string" ? body.message : typeof body.reason === "string" ? body.reason : "";
@@ -129,9 +197,14 @@ const restoreAll = async (
     const { op, rule } = checked[index];
     const restore = OP_SPECS[rule.kind].restore(op, befores[index]);
     if (!restore) continue;
-    const answer = await callAs(container, caller, tenantId, restore);
-    if (answer.status >= 400) {
-      failures.push({ op_index: index, status: answer.status, message: messageOf(answer.body) });
+    try {
+      const answer = await callAs(container, caller, tenantId, restore);
+      if (answer.status >= 400) {
+        failures.push({ op_index: index, status: answer.status, message: messageOf(answer.body) });
+      }
+    } catch (error) {
+      // A dead call (a timeout) is a failure to report; the next op still gets its undo.
+      failures.push({ op_index: index, status: 504, message: (error as Error).message });
     }
   }
   return failures;
@@ -169,7 +242,14 @@ export const createDraft = async (
 
 // ---- stage
 
-export const applyToStage = async (
+export const applyToStage = (
+  container: MedusaContainer,
+  caller: Caller,
+  changeset: ChangesetRow,
+): Promise<ChangesetRow> =>
+  withChangesetLock(container, changeset.id, (fresh) => applyToStageLocked(container, caller, fresh));
+
+const applyToStageLocked = async (
   container: MedusaContainer,
   caller: Caller,
   changeset: ChangesetRow,
@@ -191,31 +271,41 @@ export const applyToStage = async (
   const answers: { op_index: number; status: number; where: "stage" | "overlay" }[] = [];
 
   for (const [index, { op, rule }] of checked.entries()) {
-    if (rule.scope === "product") {
-      // The group shares its products: writing one on stage would write it on
-      // the live shop. The op stays in the changeset and the stage storefront
-      // overlays it (`overlay.ts`); here it is only checked to name a product
-      // the main site can read.
-      const value = await readValue(container, caller, changeset.tenant_id, op, rule);
-      if (value === null) {
-        throw new ChangesetRefusal(422, "op_failed", `Op ${index + 1}: the product was not found.`, { op_index: index });
+    try {
+      if (rule.scope === "product") {
+        // The group shares its products: writing one on stage would write it on
+        // the live shop. The op stays in the changeset and the stage storefront
+        // overlays it (`overlay.ts`); here it is only checked to name a product
+        // the main site can read.
+        const value = await readValue(container, caller, changeset.tenant_id, op, rule);
+        if (value === null) {
+          throw new ChangesetRefusal(422, "op_failed", `Op ${index + 1}: the product was not found.`, { op_index: index });
+        }
+        stageBefores.push(null);
+        answers.push({ op_index: index, status: 200, where: "overlay" });
+        continue;
       }
-      stageBefores.push(null);
-      answers.push({ op_index: index, status: 200, where: "overlay" });
-      continue;
-    }
 
-    stageBefores.push(await readValue(container, caller, stageId, op, rule));
-    const answer = await callAs(container, caller, stageId, op);
-    if (answer.status >= 400) {
-      const undo = await restoreAll(container, caller, stageId, checked, stageBefores, index);
-      throw new ChangesetRefusal(422, "op_failed", `Op ${index + 1} failed on stage: ${messageOf(answer.body)}`, {
-        op_index: index,
-        op_status: answer.status,
-        undo_failures: undo,
-      });
+      stageBefores.push(await readValue(container, caller, stageId, op, rule));
+      const answer = await callAs(container, caller, stageId, op);
+      if (answer.status >= 400) {
+        const undo = await restoreAll(container, caller, stageId, checked, stageBefores, index);
+        throw new ChangesetRefusal(422, "op_failed", `Op ${index + 1} failed on stage: ${messageOf(answer.body)}`, {
+          op_index: index,
+          op_status: answer.status,
+          undo_failures: undo,
+        });
+      }
+      answers.push({ op_index: index, status: answer.status, where: "stage" });
+    } catch (error) {
+      await refuseThrown(
+        error,
+        index,
+        "on stage",
+        () => restoreAll(container, caller, stageId, checked, stageBefores, stageBefores.length),
+        "",
+      );
     }
-    answers.push({ op_index: index, status: answer.status, where: "stage" });
   }
 
   const updated = await service(container).updateAgentChangesets({
@@ -230,7 +320,10 @@ export const applyToStage = async (
 
 // ---- publish
 
-export const publish = async (
+export const publish = (container: MedusaContainer, caller: Caller, changeset: ChangesetRow): Promise<ChangesetRow> =>
+  withChangesetLock(container, changeset.id, (fresh) => publishLocked(container, caller, fresh));
+
+const publishLocked = async (
   container: MedusaContainer,
   caller: Caller,
   changeset: ChangesetRow,
@@ -262,23 +355,43 @@ export const publish = async (
 
   const befores: OpValue[] = [];
   for (const [index, { op, rule }] of checked.entries()) {
-    befores.push(await readValue(container, caller, mainId, op, rule));
-    const answer = await callAs(container, caller, mainId, op);
-    if (answer.status >= 400) {
-      const undo = await restoreAll(container, caller, mainId, checked, befores, index);
-      throw new ChangesetRefusal(
-        422,
-        "op_failed",
-        `Op ${index + 1} failed on the live site: ${messageOf(answer.body)}. Nothing stays published.`,
-        { op_index: index, op_status: answer.status, undo_failures: undo },
+    try {
+      befores.push(await readValue(container, caller, mainId, op, rule));
+      const answer = await callAs(container, caller, mainId, op);
+      if (answer.status >= 400) {
+        const undo = await restoreAll(container, caller, mainId, checked, befores, index);
+        throw new ChangesetRefusal(
+          422,
+          "op_failed",
+          `Op ${index + 1} failed on the live site: ${messageOf(answer.body)}. Nothing stays published.`,
+          { op_index: index, op_status: answer.status, undo_failures: undo },
+        );
+      }
+    } catch (error) {
+      await refuseThrown(
+        error,
+        index,
+        "on the live site",
+        () => restoreAll(container, caller, mainId, checked, befores, befores.length),
+        " Nothing stays published.",
       );
     }
   }
 
   // Hashed after the last op, so two ops on one target agree on its value.
   const hashes: string[] = [];
-  for (const { op, rule } of checked) {
-    hashes.push(hashValue(await readValue(container, caller, mainId, op, rule)));
+  try {
+    for (const { op, rule } of checked) {
+      hashes.push(hashValue(await readValue(container, caller, mainId, op, rule)));
+    }
+  } catch (error) {
+    await refuseThrown(
+      error,
+      checked.length - 1,
+      "on the live site (final read)",
+      () => restoreAll(container, caller, mainId, checked, befores, checked.length),
+      " Nothing stays published.",
+    );
   }
 
   const updated = await service(container).updateAgentChangesets({
@@ -293,7 +406,13 @@ export const publish = async (
 
 // ---- rollback
 
-export type DriftEntry = { op_index: number; method: string; path: string; before: OpValue; now: OpValue };
+export type DriftEntry = {
+  op_index: number;
+  method: string;
+  path: string;
+  before: OpValue;
+  now: OpValue;
+};
 
 /**
  * The targets of a published changeset that changed on the live site since:
@@ -320,7 +439,10 @@ export const driftOf = async (
   return drift;
 };
 
-export const rollback = async (
+export const rollback = (container: MedusaContainer, caller: Caller, changeset: ChangesetRow): Promise<ChangesetRow> =>
+  withChangesetLock(container, changeset.id, (fresh) => rollbackLocked(container, caller, fresh));
+
+const rollbackLocked = async (
   container: MedusaContainer,
   caller: Caller,
   changeset: ChangesetRow,
@@ -363,7 +485,10 @@ export const rollback = async (
 
 // ---- discard
 
-export const discard = async (
+export const discard = (container: MedusaContainer, caller: Caller, changeset: ChangesetRow): Promise<ChangesetRow> =>
+  withChangesetLock(container, changeset.id, (fresh) => discardLocked(container, caller, fresh));
+
+const discardLocked = async (
   container: MedusaContainer,
   caller: Caller,
   changeset: ChangesetRow,

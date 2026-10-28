@@ -34,6 +34,9 @@ export type OpAnswer = { status: number; body: Record<string, unknown> };
 export const loopbackBase = (): string =>
   (process.env.AGENT_CHANGESET_API_URL ?? `http://127.0.0.1:${process.env.PORT ?? "9000"}`).replace(/\/+$/, "");
 
+/** One loopback request gives up after this long (the repo's cdek and apiship clients do the same). */
+export const LOOPBACK_TIMEOUT_MS = 30_000;
+
 /** Short: one changeset action, then it is useless. */
 const TOKEN_LIFETIME = "5m";
 
@@ -87,6 +90,14 @@ const tokenFor = (container: MedusaContainer, caller: Caller, adminId: string): 
   );
 };
 
+/** The `MedusaError.code` of a loopback timeout, so a step can tell it from other failures. */
+export const LOOPBACK_TIMEOUT_CODE = "loopback_timeout";
+
+const isTimeout = (error: unknown): boolean =>
+  typeof error === "object" &&
+  error !== null &&
+  ["TimeoutError", "AbortError"].includes(String((error as { name?: unknown }).name));
+
 /** One request as the caller on `tenantId`. Never throws for a refusal: the status says it. */
 export const callAs = async (
   container: MedusaContainer,
@@ -106,8 +117,16 @@ export const callAs = async (
         ...(op.body ? { "content-type": "application/json" } : {}),
       },
       body: op.body ? JSON.stringify(op.body) : undefined,
+      signal: AbortSignal.timeout(LOOPBACK_TIMEOUT_MS),
     });
   } catch (error) {
+    if (isTimeout(error)) {
+      throw new MedusaError(
+        MedusaError.Types.UNEXPECTED_STATE,
+        `${op.method} ${op.path} did not answer within ${LOOPBACK_TIMEOUT_MS / 1000} s (loopback timeout).`,
+        LOOPBACK_TIMEOUT_CODE,
+      );
+    }
     throw new MedusaError(
       MedusaError.Types.UNEXPECTED_STATE,
       `The backend could not reach itself at ${loopbackBase()}: ${(error as Error).message}`,
