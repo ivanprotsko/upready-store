@@ -12,7 +12,8 @@ import type { FetchFn } from "./shop/api.ts";
 export interface Voice {
   readonly mode: "live" | "fixture";
   transcribe(audio: Audio): Promise<string>;
-  speak(text: string): Promise<Audio>;
+  /** `voiceId` is already checked against the catalog; absent, the env default speaks. */
+  speak(text: string, voiceId?: string): Promise<Audio>;
 }
 
 export class ElevenLabsVoice implements Voice {
@@ -29,8 +30,8 @@ export class ElevenLabsVoice implements Voice {
     return speechToText(this.#opts, audio, this.#fetch);
   }
 
-  speak(text: string): Promise<Audio> {
-    return textToSpeech(this.#opts, text, this.#fetch);
+  speak(text: string, voiceId?: string): Promise<Audio> {
+    return textToSpeech(this.#opts, text, this.#fetch, voiceId);
   }
 }
 

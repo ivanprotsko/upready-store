@@ -81,6 +81,7 @@ export const ROUTE_PERMISSIONS: [prefix: string, permission: Permission | null][
   ["/pages", "storefront"],
   ["/journal", "storefront"],
   ["/settings/branding", "storefront"],
+  ["/agent-changes", "storefront"],
   ["/promotions", "marketing"],
   ["/campaigns", "marketing"],
   ["/marketplaces", "marketplaces"],

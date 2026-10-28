@@ -122,7 +122,7 @@ export const ShareDonut = ({
             const dash = `${Math.max(0, length - 1.5)} ${circumference}`
             const node = (
               <circle
-                key={row.label}
+                key={`${index}-${row.label}`}
                 cx={70}
                 cy={70}
                 r={radius}
@@ -167,7 +167,7 @@ export const ShareDonut = ({
       <ul className="flex flex-col gap-y-2">
         {rows.map((row, index) => (
           <li
-            key={row.label}
+            key={`${index}-${row.label}`}
             className={clx("grid grid-cols-[12px_1fr_auto_auto] items-center gap-x-2", hue && "cursor-pointer", hue && active !== null && active !== index && "opacity-60")}
             onPointerEnter={hue ? (event) => event.pointerType === "mouse" && setHover(index) : undefined}
             onPointerLeave={hue ? () => setHover(null) : undefined}

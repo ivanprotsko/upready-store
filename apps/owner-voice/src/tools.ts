@@ -9,6 +9,8 @@
  * `get-sales-summary.ts`), and no buyer's name, email or address reaches the
  * model: reviews drop the author, orders ask for no customer fields at all.
  */
+import { COMMAND_TOOLS } from "./commands/tools.ts";
+import type { ProposalStore } from "./commands/run.ts";
 import type { Query, ShopApi } from "./shop/api.ts";
 import { fold, matchesQuery } from "./shop/fixtures.ts";
 
@@ -23,6 +25,12 @@ export interface Card {
   title: string;
   rows: string[];
   link?: { label: string; href: string };
+  /** A result (the default), a write waiting for the owner, or the dry-run of a confirmed one. */
+  kind?: "result" | "proposal" | "dryrun";
+  /** For a proposal: the id the owner confirms it by. */
+  proposalId?: string;
+  /** For a proposal or a dry-run: the exact request, which this stand never sends. */
+  request?: { method: string; url: string; body: unknown };
 }
 
 export interface ToolOutcome {
@@ -36,6 +44,10 @@ export interface ToolContext {
   panelUrl: string;
   storefrontUrl: string;
   locale: string;
+  /** The engine's base URL, for the request a proposal shows. */
+  apiUrl?: string;
+  /** Where proposed writes wait for the owner's confirm. */
+  proposals?: ProposalStore;
 }
 
 export interface Tool extends ToolSpec {
@@ -393,11 +405,14 @@ const openProduct: Tool = {
 
 export const TOOLS: Tool[] = [findProducts, productStock, salesSummary, recentOrders, productReviews, openProduct];
 
+/** The stage 1 read tools and the command-map tools; read at call time, after both modules load. */
+const allTools = (): Tool[] => [...TOOLS, ...COMMAND_TOOLS];
+
 export const toolSpecs = (): ToolSpec[] =>
-  TOOLS.map(({ name, description, inputSchema }) => ({ name, description, inputSchema }));
+  allTools().map(({ name, description, inputSchema }) => ({ name, description, inputSchema }));
 
 export async function runTool(name: string, input: Record<string, unknown>, ctx: ToolContext): Promise<ToolOutcome> {
-  const tool = TOOLS.find((t) => t.name === name);
+  const tool = allTools().find((t) => t.name === name);
   if (!tool) return { text: `Инструмента ${name} нет.` };
   try {
     return await tool.run(input, ctx);

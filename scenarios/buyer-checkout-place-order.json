@@ -1,0 +1,900 @@
+{
+  "format": "scenario/v1",
+  "id": "buyer-checkout-place-order",
+  "project": "upready-store",
+  "title": "Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
+  "goal": "Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
+  "actor": "buyer",
+  "profiles": [
+    "desktop-mouse"
+  ],
+  "start": {
+    "url": "/ru/products/test-tshirt-scgate",
+    "fixtures": [
+      "reset",
+      "seed"
+    ]
+  },
+  "final": [
+    {
+      "url": "^/ru/order/[^/]+/confirmed$"
+    },
+    {
+      "text": "Заказ подтверждён"
+    }
+  ],
+  "work": null,
+  "version": 2,
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "Добавляю товар в корзину",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "add-product-button"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          1083.31,
+          201,
+          311.67,
+          40
+        ]
+      },
+      "before": {
+        "url": "^/ru/products/test-tshirt-scgate$",
+        "region": [
+          1075,
+          193,
+          328,
+          56
+        ],
+        "hash": "0080808c8c848080"
+      },
+      "after": [
+        {
+          "text": "Корзина"
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:29:53.171Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s2",
+      "intent": "Перехожу к оформлению",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "cart-sidebar-checkout"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          1097,
+          852,
+          327,
+          32
+        ]
+      },
+      "before": {
+        "url": "^/ru/products/test-tshirt-scgate$",
+        "region": [
+          1089,
+          844,
+          343,
+          48
+        ],
+        "hash": "0080809c8c908000"
+      },
+      "after": [
+        {
+          "url": "^/ru/checkout$"
+        },
+        {
+          "visible": {
+            "testid": "checkout-sign-in-step-action"
+          }
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:29:55.367Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s3",
+      "intent": "Нажимаю Войти",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "checkout-sign-in-step-action"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          894.66,
+          113,
+          41.34,
+          24
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          886,
+          105,
+          58,
+          40
+        ],
+        "hash": "000000d0e6c40000"
+      },
+      "after": [
+        {
+          "visible": {
+            "testid": "cart-sidebar-sign-in-email"
+          }
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:29:56.789Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s4",
+      "intent": "Выбираю вход по электронной почте",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "cart-sidebar-sign-in-email"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          560,
+          468.39,
+          320,
+          32
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          552,
+          460,
+          336,
+          49
+        ],
+        "hash": "0000003030008000"
+      },
+      "after": [
+        {
+          "visible": {
+            "testid": "cart-sidebar-email-input"
+          }
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:29:58.972Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s5",
+      "intent": "Ввожу почту покупателя",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "cart-sidebar-email-input"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          560,
+          436.39,
+          320,
+          44
+        ]
+      },
+      "value": "buyer-scgate@example.test",
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          552,
+          428,
+          336,
+          61
+        ],
+        "hash": "8000818101010080"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:02.892Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s6",
+      "intent": "Ввожу пароль покупателя",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "cart-sidebar-password-input"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          560,
+          488.39,
+          320,
+          44
+        ]
+      },
+      "value": {
+        "secret": "SC_TEST_PASSWORD"
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          552,
+          480,
+          336,
+          61
+        ],
+        "hash": "8080008383008000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:07.427Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s7",
+      "intent": "Нажимаю Войти в форме",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "cart-sidebar-sign-in-submit"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          560,
+          544.39,
+          154,
+          32
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          552,
+          536,
+          170,
+          49
+        ],
+        "hash": "0080808c8c808000"
+      },
+      "after": [
+        {
+          "visible": {
+            "role": "textbox",
+            "name": "Адрес *"
+          }
+        }
+      ],
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:13.568Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s8",
+      "intent": "Ввожу адрес доставки",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "role": "textbox",
+        "name": "Адрес *"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          280.39,
+          912,
+          44
+        ]
+      },
+      "value": "ул. Баумана, 12",
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          272,
+          928,
+          61
+        ],
+        "hash": "0000000000000000"
+      },
+      "after": [
+        {
+          "text": "Заполните обязательные поля адреса"
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:16.022Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s9",
+      "intent": "Ввожу почтовый индекс",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "address-postal-code-input"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          336.39,
+          450,
+          44
+        ]
+      },
+      "value": "420111",
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          328,
+          466,
+          61
+        ],
+        "hash": "00000080c0008000"
+      },
+      "after": [
+        {
+          "text": "Заполните обязательные поля адреса: Город."
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:17.743Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s10",
+      "intent": "Ввожу город",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "address-city-suggest"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          486,
+          336.39,
+          450,
+          44
+        ]
+      },
+      "value": "Казань",
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          478,
+          328,
+          466,
+          61
+        ],
+        "hash": "0000000000008000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:19.270Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s11",
+      "intent": "Открываю список областей",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "address-province-select"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          392.39,
+          912,
+          44
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          384,
+          928,
+          61
+        ],
+        "hash": "0000000101000000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:20.543Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s12",
+      "intent": "Выбираю Москву в списке",
+      "device": "keyboard",
+      "action": "press",
+      "value": {
+        "keys": [
+          "ArrowDown",
+          "Enter"
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$"
+      },
+      "after": [
+        {
+          "text": "Область*"
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:21.465Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s13",
+      "intent": "Сохраняю адрес: далее",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "checkout-address-next"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          508.39,
+          912,
+          40
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          500,
+          928,
+          57
+        ],
+        "hash": "0080808888808000"
+      },
+      "after": [
+        {
+          "visible": {
+            "role": "radio",
+            "name": "Pickup"
+          }
+        }
+      ],
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:24.550Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s14",
+      "intent": "Выбираю самовывоз",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "role": "radio",
+        "name": "Pickup"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          25,
+          386.98,
+          910,
+          92
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          17,
+          378,
+          926,
+          109
+        ],
+        "hash": "0001018080808000"
+      },
+      "after": [
+        {
+          "visible": {
+            "testid": "checkout-contacts-next"
+          }
+        }
+      ],
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:28.246Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s15",
+      "intent": "Сохраняю контакты: далее",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "checkout-contacts-next"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          698.98,
+          912,
+          40
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          690,
+          928,
+          57
+        ],
+        "hash": "0080808888888080"
+      },
+      "after": [
+        {
+          "visible": {
+            "testid": "demo-card-number-input"
+          }
+        }
+      ],
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:34.361Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s16",
+      "intent": "Ввожу номер демо-карты",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "demo-card-number-input"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          727.97,
+          912,
+          44
+        ]
+      },
+      "value": "4242424242424242",
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          719,
+          928,
+          61
+        ],
+        "hash": "0000000000000000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:43.353Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s17",
+      "intent": "Ввожу срок действия",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "demo-card-expiry-input"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          783.97,
+          450,
+          44
+        ]
+      },
+      "value": "1230",
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          775,
+          466,
+          61
+        ],
+        "hash": "0000008080000080"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:44.480Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s18",
+      "intent": "Ввожу CVC",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "demo-card-cvc-input"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          486,
+          783.97,
+          450,
+          44
+        ]
+      },
+      "value": {
+        "secret": "SC_TEST_CVC"
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          478,
+          775,
+          466,
+          61
+        ],
+        "hash": "0000000000000080"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:45.785Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s19",
+      "intent": "Прокручиваю к кнопке оплаты",
+      "device": "mouse",
+      "action": "wheel",
+      "at": {
+        "x": 720,
+        "y": 450
+      },
+      "value": {
+        "dy": 600
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          672,
+          402,
+          96,
+          96
+        ],
+        "hash": "0000000000000000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:46.953Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s20",
+      "intent": "Даю согласие на обработку данных",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "consent-personal-data"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          655.97,
+          20,
+          20
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          647,
+          36,
+          37
+        ],
+        "hash": "0000604444602000"
+      },
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:30:51.463Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s21",
+      "intent": "Оплачиваю заказ демо-картой",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "submit-order-button"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          754.78,
+          912,
+          40
+        ]
+      },
+      "before": {
+        "url": "^/ru/checkout$",
+        "region": [
+          16,
+          746,
+          928,
+          57
+        ],
+        "hash": "0080808c8c808080"
+      },
+      "after": [
+        {
+          "url": "^/ru/order/[^/]+/confirmed$"
+        }
+      ],
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-28T01:31:02.779Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-28T01:31:06.718Z",
+      "by": "scenario.mjs agent",
+      "kind": "record",
+      "version": 2,
+      "profile": "desktop-mouse",
+      "steps": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14",
+        "s15",
+        "s16",
+        "s17",
+        "s18",
+        "s19",
+        "s20",
+        "s21"
+      ],
+      "reason": "first pass: Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
+      "model": null,
+      "tokens": null
+    }
+  ]
+}

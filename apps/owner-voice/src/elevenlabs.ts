@@ -46,9 +46,9 @@ export async function speechToText(opts: ElevenLabsOptions, audio: Audio, fetchF
   return (json.text ?? "").trim();
 }
 
-/** Speak a reply. */
-export async function textToSpeech(opts: ElevenLabsOptions, text: string, fetchFn: FetchFn = fetch): Promise<Audio> {
-  const res = await fetchFn(`${API_BASE}/text-to-speech/${encodeURIComponent(opts.voiceId)}`, {
+/** Speak a reply, in the voice chosen in the settings panel when one is given. */
+export async function textToSpeech(opts: ElevenLabsOptions, text: string, fetchFn: FetchFn = fetch, voiceId: string = opts.voiceId): Promise<Audio> {
+  const res = await fetchFn(`${API_BASE}/text-to-speech/${encodeURIComponent(voiceId)}`, {
     method: "POST",
     headers: {
       "xi-api-key": opts.apiKey,

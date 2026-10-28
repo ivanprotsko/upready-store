@@ -29,6 +29,7 @@ import {
 } from "../util/payment-pre-notice"
 import { readTenantPromoCode } from "./promo-code"
 import { readTenantTestMode, type TenantTestMode } from "./test-mode"
+import { readTenantStage } from "./stage"
 
 export type { TenantAttribution }
 export type { TenantBranding }
@@ -110,6 +111,11 @@ export type ResolvedTenant = {
    * the shop switched it off.
    */
   promoCode: boolean
+  /**
+   * A stage site (t-2026-10-27-04): never indexed (`lib/tenant/stage.ts`).
+   * Absent reads as a live shop.
+   */
+  stage?: boolean
 }
 
 const TTL_MS = 60_000
@@ -189,6 +195,7 @@ export async function resolveTenantByHost(
         payment_pre_notice?: unknown
         test_mode?: unknown
         promo_code?: unknown
+        stage?: unknown
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -242,6 +249,7 @@ export async function resolveTenantByHost(
             : EMPTY_PAYMENT_PRE_NOTICE,
           testMode: readTenantTestMode(body.test_mode),
           promoCode: readTenantPromoCode(body.promo_code),
+          stage: readTenantStage(body.stage),
         }
       }
     }

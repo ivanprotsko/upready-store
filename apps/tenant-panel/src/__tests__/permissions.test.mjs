@@ -190,6 +190,7 @@ test("the manager sees sales, catalog, storefront, marketing and the marketplace
     "/pages",
     "/journal",
     "/settings/branding",
+    "/agent-changes",
     "/promotions",
     "/marketplaces/wildberries/products",
     "/marketplaces/wildberries/price-stock",

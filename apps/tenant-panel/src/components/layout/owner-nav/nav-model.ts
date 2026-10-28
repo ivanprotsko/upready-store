@@ -77,6 +77,7 @@ export const OWNER_NAV: OwnerNavGroup[] = [
       { labelKey: "app.nav.owner.pages", to: "/pages" },
       { labelKey: "app.nav.owner.journal", to: "/journal" },
       { labelKey: "app.nav.owner.branding", to: "/settings/branding" },
+      { labelKey: "app.nav.owner.agentChanges", to: "/agent-changes" },
     ],
   },
   {

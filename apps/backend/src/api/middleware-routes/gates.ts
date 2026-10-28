@@ -12,6 +12,7 @@ import { guardRequestedFields } from "../field-guard";
 import { allowStoreMetadataOnAnswer } from "../store-metadata";
 import { keepPublishedCategoryProductsOnAnswer } from "../store-category-products";
 import { rateLimit } from "../rate-limit";
+import { overlayStagedProductsOnAnswer } from "../../agent-changesets/overlay";
 
 /**
  * The gates in front of every route. They are the registration route, the field
@@ -46,9 +47,17 @@ export const gateRoutes: MiddlewareRoute[] = [
   // `keepPublishedCategoryProductsOnAnswer` comes after the guard: it reads the
   // fields the guard let through, and a category answers with its published
   // products only (t-2026-10-12-32).
+  //
+  // `overlayStagedProductsOnAnswer` lays a stage site's staged product ops over
+  // the answer; a main site's key passes it untouched (t-2026-10-27-04).
   {
     matcher: "/store/*",
-    middlewares: [guardRequestedFields, allowStoreMetadataOnAnswer, keepPublishedCategoryProductsOnAnswer],
+    middlewares: [
+      guardRequestedFields,
+      allowStoreMetadataOnAnswer,
+      keepPublishedCategoryProductsOnAnswer,
+      overlayStagedProductsOnAnswer,
+    ],
   },
   { matcher: "/tenants/*", middlewares: [guardRequestedFields] },
   {

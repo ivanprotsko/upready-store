@@ -98,6 +98,7 @@ export const PANEL_ROUTES = [
   { name: "campaigns", path: "/campaigns" },
   { name: "campaign-detail", path: "/campaigns/:campaign", needs: "campaign" },
   { name: "reviews", path: "/reviews" },
+  { name: "agent-changes", path: "/agent-changes" },
   { name: "pages", path: "/pages" },
   { name: "journal", path: "/journal" },
   { name: "journal-new", path: "/journal/new" },

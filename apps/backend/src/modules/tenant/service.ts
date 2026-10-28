@@ -1,4 +1,5 @@
 import { MedusaService } from "@medusajs/framework/utils";
+import AgentChangeset from "./models/agent-changeset";
 import Tenant from "./models/tenant";
 import TenantAdmin from "./models/tenant-admin";
 import TenantArticle from "./models/tenant-article";
@@ -37,6 +38,7 @@ class TenantModuleService extends MedusaService({
   TenantRedirect,
   TenantRequisites,
   TelegramBotUpdate,
+  AgentChangeset,
 }) {}
 
 export default TenantModuleService;

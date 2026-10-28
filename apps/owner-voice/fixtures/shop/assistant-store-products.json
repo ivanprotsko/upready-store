@@ -1,0 +1,2021 @@
+{
+  "_fixture": {
+    "source": "https://shipshift.dev for cherkashino.com, GET /store/* with the public publishable key (left out)",
+    "recorded": "2026-10-27T09:35:10.405Z"
+  },
+  "products": [
+    {
+      "id": "prod_01M2GRC5XMX78M72NZSXTM8B6X",
+      "title": "Свечи АСД с чесноком",
+      "handle": "svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "subtitle": null,
+      "description": "Выпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, свечи мумиё. Набор свечей восстанавливает утраченное, повышает иммунитет, улучшает обмен веществ, антипаразитарные. Профилактика и лечение кандидоза, молочницы, цистита, простатита. Противоопухолевое, противомикробное, противовирусное средство, для лечения парапроктитов, геморроя и трещин прямой кишки, язвенно-некротических поражений прямой кишки, колитов; при переломах костей, костно-гнойных инфекциях, для лечения ран, ожогов, трофических язв и пролежней; при угнетении иммунитета и кроветворной функции у детей и больных после внешнего и внутреннего облучения; для лечения артритов, радикулитов, невралгии, невритов периферических нервов. Препарат показан как профилактическое средство при нарушениях липидного обмена, лицам пожилого возраста, ослабленным больным и детям для восстановления резистентности организма, улучшения процессов адаптации и повышения сопротивляемости организма к действию неблагоприятных факторов окружающей среды, при психических и физических перегрузках, стрессе. Можно использовать ректально и вагинально. На курс 20 свечей одного вида. Можно чередовать свечи АСД и свечи мумиё: 20 дней одни, 20 дней другие. Свечи АСД 2 – уникальное средство, помогающее вылечить многие заболевания. Активные компоненты состава имеют натуральное происхождение, поэтому они действуют мягко, не вызывая побочных реакций. Мощный стимулятор, натуральные компоненты которого проникают в ткани и воздействуют на организм в целом. Средство оказывает противовоспалительную, противовирусную, противоопухолевую и иммуномодулирующую активность. Свечи применяются во многих сферах медицины для терапии ряда заболеваний. Препарат используется для устранения лёгочных и желудочно-кишечных расстройств, болезней сердца, кожных патологий, рака. Эта фракция в основном и применяется для лечения, так как имеет максимальную эффективность.",
+      "variants": [
+        {
+          "title": "Свечи АСД с чесноком, 10 шт",
+          "sku": "1268099764-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRC6CJB0VZGW034SG084G0",
+          "calculated_price": {
+            "id": "pset_01M2GRC6F8GVVE2VJW38GDFX6G",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRC6F79WJY5WDCDK8X0H85",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRC6F79WJY5WDCDK8X0H85",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "name": "АСД",
+          "description": "",
+          "handle": "asd-cherkashino",
+          "mpath": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 2,
+          "external_id": null,
+          "metadata": {
+            "image_alt": null,
+            "image_url": null
+          },
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:55.244Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRC9BG5GJG7CV5X0WKMNNC",
+      "title": "Тройчатка плюс",
+      "handle": "troychatka-plyus-60-kapsul-cherkashino",
+      "subtitle": null,
+      "description": "Антипаразитарный комплекс Тройчатка плюс - это натуральный сбор, разработанный для эффективной чистки организма от всех видов паразитов и глистов. Эффективно работает с дисбактериозом кишечника, восстанавливает и очищает печень, поддерживает здоровье желудка и микрофлоры, а также способствует улучшению иммунитета и похудению. Поддерживают нормальное функционирование желчегонной системы и лимфы.",
+      "variants": [
+        {
+          "title": "Тройчатка плюс от глистов и паразитов 120 капсул",
+          "sku": "PL-09-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRCARCYE7T5BJEQK8P5J32",
+          "calculated_price": {
+            "id": "pset_01M2GRCAXY325DBXEQFVJ55Z5E",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRCAXX18HY66AB6D6Z6H1T",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRCAXX18HY66AB6D6Z6H1T",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCBYS09739FAZRESA7R5A",
+      "title": "Натуральный сорбент от отравлений от температуры",
+      "handle": "naturalnyy-sorbent-ot-otravleniy-ot-temperatury-cherkashino",
+      "subtitle": null,
+      "description": "Спектос это сорбент с пектином, спектос используют как сорбенты от аллергии, от отравления, от боли в животе, от алкогольной интоксикации, от головной боли. Он относится к группе энтеросорбент. Спектос помогает так же как хитозан. Спектос содержит пектина больше в 20 раз, чем в Зостерин ультра 60. Полисорб это синтезированный сорбент. Его можно принимать до 20 дней. Спектос можно принимать всегда, без ограничений, потому что это натуральный продукт, полученный из пектин яблок.",
+      "variants": [
+        {
+          "title": "Натуральный сорбент от отравлений, 2 банки",
+          "sku": "3302187378-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRCCDENDBS234B2HFEWK1T",
+          "calculated_price": {
+            "id": "pset_01M2GRCCHCJC7AENEM2F2MF4SB",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 30,
+            "raw_calculated_amount": {
+              "value": "30",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 30,
+            "raw_original_amount": {
+              "value": "30",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRCCHAJJC2SEZGYZP2D4SA",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRCCHAJJC2SEZGYZP2D4SA",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCDGVX45S8NT9HZQGXRYM",
+      "title": "Стевия в таблетках, сахарозаменитель",
+      "handle": "steviya-v-tabletkah-saharozamenitel-100-sht-cherkashino",
+      "subtitle": null,
+      "description": "1 таблетка (0,5 г стевии) содержит не менее 98 % основного вещества - порошка получаемого из измельченного листа растения STEVIA REBAUDIANA BERTONI и до 2 % вспомогательных веществ. В состав измельченного листа стевии входят: гликозиды, стевиозиды, реба.Листья стевии прессованные в таблетки - 100% натуральный подсластитель. Слаще сахара в 15 раз, содержат более 50-ти полезных для организма веществ. Нулевая калорийность.При регулярном употреблении стевии снижается содержание глюкозы в крови, радионуклидов и холестерина, улучшается регенерация клеток и свойства крови, укрепляются стенки кровеносных сосудов.Препарат стевии применяется для лечебно-профилактического (диетического) питания больных сахарным диабетом, алиментарном ожирением; для профилактики гипертонической болезни, атеросклероза и других сердечно-сосудистых заболеваний, застойных явлений в печени.Применение: стевия используется в виде таблеток, настойки, чая и в виде добавки к другим чаям. Ее можно добавлять во все блюда, где традиционно применяется сахар: каши, супы, напитки, чаи, молоко, кефир, йогурты, кондитерские изделия и пр. Настой стевии добавляют в компоты, чай, желе, кисломолочные продукты по вкусу. Чай употребляют по одной чашке два раза в сутки. Неповторимый вкусовой оттенок с добавлением стевии приобретают черный байховый чай, травяные чаи с шиповником, суданской розой, мятой, ромашкой и др. Употребление: 1-2 таблетки (по вкусу) на 200-250 мл. жидкости, залить кипятком настоять 5-10 минут.\n\nУсловия хранения: Без холодидьника Состав стевия",
+      "variants": [
+        {
+          "title": "Стевия в таблетках, 100 шт",
+          "sku": "3266733589-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRCDYF9Z8138491BENNT3F",
+          "calculated_price": {
+            "id": "pset_01M2GRCE1F31BP19FYJR2RVN8C",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRCE1FNWSN8S59S3A8SHYV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRCE1FNWSN8S59S3A8SHYV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWX6GYDJY9J8K0S98C5SE",
+          "name": "Стевия",
+          "description": "",
+          "handle": "steviya-cherkashino",
+          "mpath": "pcat_01M2GQWX6GYDJY9J8K0S98C5SE",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 1,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:54.365Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCEWSG287QMN5A6Y8R9PR",
+      "title": "Антисептик-стимулятор Дорогова, таблетки",
+      "handle": "antiseptikom-stumulyatorom-dorogova-tabletki-60-shtuk-cherkashino",
+      "subtitle": null,
+      "description": "Таблетки антисептик стимулятор Дорогова фракция 2 направлены на эффективное очищение печени, укрепление здоровья и улучшение микрофлоры кишечника и пищеварения. Этот натуральный, растительный комплекс способствует нормализации ферментов желудка, функции желчного пузыря и поджелудочной железы. Рекомендуется людям, соблюдающим диету, как поддержка при снижении веса и нарушениях аппетита, для ускорения метаболизма, а также для нормализации стула и профилактики запоров. Таблетки с содержанием антисептика стимулятора дорогова способствуют восстановлению обмена веществ, уровню холестерина, разжижению крови и от застоя желчи. Средство рекомендовано взрослым в качестве биодобавки от старения, благодаря нейтрализации свободных радикалов и уменьшению воспалений в организме применение даст омолаживающий эффект, улучшит состояние кожи и волос. Препарат выводит соли из организма, в частности, при подагре, ревматизме и артрите, укрепляет стенки сосудов, улучшает зрение при синдроме так называемого «сухого глаза». Фракция 2 благоприятно влияет на работу мозга, ЦНС и памяти при интенсивных умственных нагрузках. Противовирусные таблетки укрепляют сопротивляемость к инфекциям, замедляют развитие опухоли, метастазы, можно использовать против рака для профилактики от полипов, кист, от мастопатии и аденоме простаты для быстрого восстановления после химиотерапии и операций. Таблетки нужно принимать для повышения иммунитета от 1 шт три раза в день, 20 дней, перерыв 7 дней, и можно постоянно повторять курсами. Если есть проблемы со здоровьем, то принимать нужно по 2-4 таблетки 3 раза в день, 20 дней, перерыв 7 дней, и можно постоянно повторять курсами. Не является лекарственным средством.",
+      "variants": [
+        {
+          "title": "Антисептик-стимулятор Дорогова, таблетки, 60 штук",
+          "sku": "3501688032-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRCF7JPZ7JDQZ6XN6VAXZV",
+          "calculated_price": {
+            "id": "pset_01M2GRCFBY0ZZCXZF10N1TYQTT",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 18,
+            "raw_calculated_amount": {
+              "value": "18",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 18,
+            "raw_original_amount": {
+              "value": "18",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRCFBXPCGT9BS7JWX60CF5",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRCFBXPCGT9BS7JWX60CF5",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "name": "АСД",
+          "description": "",
+          "handle": "asd-cherkashino",
+          "mpath": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 2,
+          "external_id": null,
+          "metadata": {
+            "image_alt": null,
+            "image_url": null
+          },
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:55.244Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRCGSCKDNQ4SCAPEVBCCN9",
+      "title": "Очищение печени",
+      "handle": "course-ochishchenie-pecheni-cherkashino",
+      "subtitle": null,
+      "description": "Без лекарств и препаратов. Мягкое и естественное очищение до последнего камня.\n\nЭТОТ КУРС ДЛЯ ВАС, ЕСЛИ:\n- Быстро утомляетесь Мало энергии\n- Есть проблемы с печенью или желчным пузырем\n- Если у вас есть хоть один из 70 симптомов\n- Заботитесь о своем здоровье\n\n«ПЕЧЕНЬ НЕ БОЛИТ, НО ОНА ПОСЫЛАЕТ НАМ СИМПТОМЫ. ЕСЛИ ОНИ ЕСТЬ, ЗНАЧИТ ПРИШЛО ВРЕМЯ О НЕЙ ПОЗАБОТИТЬСЯ» © Оксана Черкашина\n\nЕсли чувствуешь:\n- Боль в спине, шее, под правой лопаткой\n- Хрустят суставы\n- Головные боли и мигрени\n- Кишечные расстройства, тошнота и чувство тяжести\n- Хроническая усталость и потеря энергии\n\nЕсли видишь:\n- Избыточный вес, отечность\n- Темные круги под глазами\n- Желтеет кожа и белки глаз\n- Налет на языке (белый или желтый)\n- Жировики, папилломы, экземы\n- Повышен сахар в крови",
+      "variants": [
+        {
+          "title": "Полный курс",
+          "sku": "COURSE-OCHISHCHENIE-PECHENI-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRCP6Y4WH2R5YZSCR75ACN",
+          "calculated_price": {
+            "id": "pset_01M2GRCPHSKP0ETFZS3XSV9AF9",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 199,
+            "raw_calculated_amount": {
+              "value": "199",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 199,
+            "raw_original_amount": {
+              "value": "199",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRCPHRXADA29JGTBXDZ38V",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRCPHRXADA29JGTBXDZ38V",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": []
+    },
+    {
+      "id": "prod_01M2GRDSXKGZ3MY1JC17B5NFR9",
+      "title": "Мультиварка для дома и авто 2 л 12 В / 24 В / 220 В",
+      "handle": "multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino",
+      "subtitle": null,
+      "description": "Эта универсальная мультиварка работает дома и в автомобиле. Ещё она хороша тем, что имеет объем 2 л, поэтому занимает мало места. В комплекте два шнура, поэтому в ней можно готовить в дороге, в путешествиях и дома (в рейсах, в походах, в гостиницах, больницах).\n\n\nВ ней можно готовить любые блюда:\n-варить (каши, супы, макароны, картофель (подходит для приготовления пюре) тушенку, сосиски, холодец);\nжарить (яйца, картошку, овощи, мясо, рыбу);\nготовить на пару (овощи, курицу, тефтели, рыбу, фрукты);\nзапекать (кексы, запеканки, омлет);\nготовить масло гхи.\n\n\nУ мультиварки 9 функций: медленная готовка, быстрая готовка, каши, детские каши, поддержка температуры, пар, выпечка, разогрев, отсрочка старта.\n\n\n\nВ комплект входят основные аксессуары: тефлоновая чаша, ложка, мерный стакан, подставка для приготовления на пару, инструкция и 2 шнура: шнур для розетки дома и шнур от прикуривателя.  Если вы не хотите готовить в тефлоновой чаши, то можете вместо нее  купить чашу из нержавейки (артикул 248910254).\n\n\nМультиварка удобна тем, что в ней никогда ничего не подгорает, и она автоматически отключается по завершении приготовления и встает в режим подогрева. И у вас всегда под рукой горячая еда.\n\nЭта мини мультиварка идеально подойдет как для дальнобойщиков, путешествеников, так и для домашних хозяек. Крышка плотно закрывается. В машине она устойчива за счет широкого дна, на ходу никогда ничего не проливается.\n\nМультиварка не выделяет посторонние запахи, потому что выполнена из высококачественной пластмассы.\n\nЭто отличный подарок на любой праздник; Новый год, 8 марта, день рождений, 23 февраля. Получить такой подарок будет приятно всем: маме, бабушке, жене, подруге, другу, мужу, сыну, коллеге.\n",
+      "variants": [
+        {
+          "title": "Мультиварка для дома и авто 2 л 12 В / 24 В / 220 В",
+          "sku": "168523959-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRDTC74RMY6HKP7FYMH3BZ",
+          "calculated_price": {
+            "id": "pset_01M2GRDTGACJ5Z9RG5RJA97QZ4",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 100,
+            "raw_calculated_amount": {
+              "value": "100",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 100,
+            "raw_original_amount": {
+              "value": "100",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRDTG9WQP5JSHWX35TQG67",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRDTG9WQP5JSHWX35TQG67",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWVZZVVY2F1GCWMCYM679",
+          "name": "Мультиварки",
+          "description": "",
+          "handle": "multivarki-cherkashino",
+          "mpath": "pcat_01M2GQWVZZVVY2F1GCWMCYM679",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 0,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:53.124Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRDVP5QGWWQ9HJWHP6R7GX",
+      "title": "Зубная паста тайская 2 шт",
+      "handle": "zubnaya-pasta-tayskaya-travyanaya-cherkashino",
+      "subtitle": null,
+      "description": "Травяная паста концентрат.  Состоит только из натуральных продуктов: трав и минералов. \nАбсолютно безвредная для здоровья. Имеется экосертификат. Эффективное средство для очищения зубов и дезинфекции ротовой полости. Отличается от всех других паст тем, что является концентратом. Обычной пасты 150 гр хватает на 2 месяца. Тайской пасты расход в разы меньше, поэтому 30 грамм пасты хватит минимум на полгода. Её нужно брать шарик размером со спичечную головку на одну процедуру очищения зубов. Тайская зубная паста состоит полностью из натуральных компонентов. В том числе, в её состав входит гвоздика, сильнейший антипаразитарный продукт. Поэтому, эта зубная паста является отличным средством профилактики кариеса, стоматита, герпеса, ангины. Тайская зубная паста отлично пенится и освежает рот и устраняет посторонние запахи. Она прекрасно отбеливает зубы. Эффективно применять одновременно: антипаразитарный сбор, антипаразитарный комплекс и тайская зубная паста. Отличное сочетание в борьбе с паразитами.",
+      "variants": [
+        {
+          "title": "Зубная паста тайская 2 шт",
+          "sku": "219762882-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRDW0HFT11PH7MZP0SES6K",
+          "calculated_price": {
+            "id": "pset_01M2GRDWCV7243XC3316Z7KMW8",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 8,
+            "raw_calculated_amount": {
+              "value": "8",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 8,
+            "raw_original_amount": {
+              "value": "8",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRDWCTJAWVC5TTCPZ6Y82R",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRDWCTJAWVC5TTCPZ6Y82R",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "name": "Гигиена и уход",
+          "description": "",
+          "handle": "gigiena-i-uhod-cherkashino",
+          "mpath": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 36,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRDXE3SXG7HYYDDX903QWS",
+      "title": "Иван-чай ферментированный крепкий черный",
+      "handle": "ivan-chay-fermentirovannyy-krepkiy-chernyy-cherkashino",
+      "subtitle": null,
+      "description": "Иван чай ферментированный, гранулированный. Гранулы плотные, получается крепкий и вкусный чай, имеет характерный аромат сухофруктов! В производстве используются отборные листочки, это делает чай ярким, насыщенным. Пачка удобная, имеет замочек. Иван-чай не содержит кофеина, поэтому его можно пить ежедневно в течение длительного времени практически всем. Травяной чай утром зарядит вас энергией на весь день.  Иван-чай нормализует давление и обмен веществ, повышает защитные функции организма и улучшает настроение. Черный чай от отеков защищает от простуды и имеет детокс эффект. ",
+      "variants": [
+        {
+          "title": "Иван-чай ферментированный крепкий черный",
+          "sku": "71807904-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRDXW7QTBXKT86Y6TGG5R6",
+          "calculated_price": {
+            "id": "pset_01M2GRDY0YV3Y1Y8ZFVG8FE1DP",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 12,
+            "raw_calculated_amount": {
+              "value": "12",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 12,
+            "raw_original_amount": {
+              "value": "12",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRDY0P0EVDR7BD9SBASDXC",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRDY0P0EVDR7BD9SBASDXC",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRDZBZST9G3BPQD3BG5H8D",
+      "title": "Мумиё алтайское очищенное натуральное 100%",
+      "handle": "mumie-altayskoe-ochischennoe-naturalnoe-100-cherkashino",
+      "subtitle": null,
+      "description": " Мумие это древнейшее уникальное средство, которое содержит: аминокислоты, микроэлементы медь, железо, кальций, кремний, цинк. серу, магний, калий, витамины группы В, Е. Д.\n\nДля повышения иммунитета мумие нужно принимать каждый день по горошине три раза в день, столько всего, сколько вес тела в граммах.\n\nДля роста волос, для улучшения качества кожи, для укрепления суставов и костей, стимулирует выведение вредных веществ из организма, для повышения иммунитета.\n\nМумиё лучше и быстрее усваивается в смеси с мёдом, особенно полезен Алтайский мёд с мумиё. Мёд является проводником полезных веществ из мумиё.\n\nЧерез кожу во время принятия ванн в организм попадают витамины.\n\nВ ваннах с мумиё содержатся  витамины для женщин\n\nМумиё можно использовать для лица это маска для лица.\n\n Для тела можно делать компрессы на больные участки: от болей в коленях, от болей в суставах.\n\nМумиё это отличный активатор для роста волос.\nОно применяется как маска для роста волос, от выпадения волос, от перхоти.\n\nМожно сделать шампунь от выпадения волос: положить кусочек мумиё в любимый шампунь, тщательно встряхнуть и мыть волосы по мере загрязнения.\n\nМаска с мумиё содержит витамины от выпадения волос и для роста волос: витамин Д3, Фолиевая кислота, фолиевая кислота для женщин, фолиевая кислота, гуминовый комплекс.\n\nВ мумиё содержатся гуминовые и фульвовые кислоты, поэтому мумиё можно использовать как удобрение для растений.\n\n1) Маски на голову: развести 3 гр мумиё в 50 гр тёплой воды. Нанести на голову. Надеть шапочку. Держать 3-4 часа. Помыть голову шампунем.\n2) Можно добавить в шампунь: 3 гр на 200 гр шампуня. Использовать такой шампунь при мытье волос.\nНожные ванночки: 5 гр мумиё развести в 5 л горячей воды. Принимать ванночки\n3) 10гр мумиё развести в 100 гр тёплой воды. Развести в ванной. Принимать 10-15 минут ванну.\n4) развести 50 гр мумиё на 10 литров воды. Разбавлять полученный раствор из расчёта: 1 литр на 10 литров воды. Поливать под куст 0,5 л раствора. К продукту прилагается книжка-подробная инструкция по применению.",
+      "variants": [
+        {
+          "title": "Мумиё алтайское очищенное натуральное 100%",
+          "sku": "94372564-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRDZT53NSTMRW96WZMJ1TP",
+          "calculated_price": {
+            "id": "pset_01M2GRDZX1WPNKS75Q83MQZ42X",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 30,
+            "raw_calculated_amount": {
+              "value": "30",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 30,
+            "raw_original_amount": {
+              "value": "30",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRDZX1FNC02N9FPKYTDDTS",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRDZX1FNC02N9FPKYTDDTS",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE12E1WJ06NJMCCQHS3Q9",
+      "title": "Мазь с АСД 3 15% 100 мл",
+      "handle": "maz-s-asd-3-15-100-ml-cherkashino",
+      "subtitle": null,
+      "description": "Мазь с АСД 3 15% (антисептик Дорогова)  это средство, созданное для наружного применения, обладающее антисептическими, противовоспалительными, противомикробными, ранозаживляющими, противогрибковыми, противовирусными и регенерирующими свойствами.\n\nЭтот продукт предназначен для внешнего применения и имеет широкий спектр использования: при лечених кожных заболеваний и при доброкачественных и злокачественных новообразованиях.\n\nМазь содержит только натуральные компоненты, поэтому её можно регулярно использовать. Противопоказаний нет.\n\nСостав: АСД 3  15%, касторовое масло, пчелиный воск, масло чайного дерева, масло календулы.\n\nРекомендуется для ежедневного использования:\n-новообразования (доброкачественных и злокачественных опухолях);\nтрофические язвы;\nполипы;\nартроз;\nподагра;\nкожные заболевания (псориаз, акне, прыщи, дерматит);\nгерпес;\nпапилломы;\nбородавки;\nожоги;\nмозоли;\nсиняки;\nварикоз;\nотёки;\nморщины;\nячмень;\nконъюнктивит;\nхалязион (прыщи на глазу);\nтрещины на губах;\nхейлит (заеды на губах);\nсеборея (перхоти);\nгрибок на ногтях;\nнасморк;\nгайморит;\nотит;\nвыпадение волос;\nпролежни;\nтрещины на пятках;\nгеморрой.\n\nПротивопоказания: Индивидуальная непереносимость компонентов препарата.\n\nСпособ применения: наносить на проблемные места тонким слоем, мягкими массирующими движениями, 2-3 раза в день.\n\n\nУсловия хранения: От  +5°C до +25°C.\nПосле открытия использовать в течении 6 мес.\nСрок годности:  2 года с даты упаковки.",
+      "variants": [
+        {
+          "title": "Мазь с АСД 3 15% 100 мл",
+          "sku": "254498035-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRE1E6P5DZ00ZT6GG6TVH0",
+          "calculated_price": {
+            "id": "pset_01M2GRE1H32HR6C6KYNSCTX1TD",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRE1H3PACCK3J22V9665RR",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRE1H3PACCK3J22V9665RR",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "name": "АСД",
+          "description": "",
+          "handle": "asd-cherkashino",
+          "mpath": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 2,
+          "external_id": null,
+          "metadata": {
+            "image_alt": null,
+            "image_url": null
+          },
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:55.244Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE2MP3CAKRFZNPK709JKB",
+      "title": "АСД 2 фракция Армавир Дорогова",
+      "handle": "asd-2-fraktsiya-armavir-dorogova-cherkashino",
+      "subtitle": null,
+      "description": "  Антисептик стимулятор Дорогова, Армавир, бутылочка 100 мл. \n\n        Эффективен: При болезнях ЖКТ, органов дыхания, мочеполовой системы. При поражениях кожных покровов. При нарушении обмена веществ различной этиологии. Для стимуляции деятельности центральной и вегетативной нервной системы. Это уникальный активный комплекс низкомолекулярных компонентов, который повышает обменные и тканевые процессы, способствует естественному восстановлению организма, самоисцелению и повышению иммунитета.   \n    \n          Рекомендуется в качестве добавки к пище - дополнительного источника витаминов, холина, кальция, минералов, фолиевой кислоты, селена. Он имеет полностью натуральный состав.        \n                                                                                 \n         Приём внутрь (улучшение состава крови, онкологии, язвы, колиты, запоры, простудные заболевания, пневмония и  многие другие проблемы со здоровьем):\n         1) начинать пить с 3-х капель 3 раза в день, добавить 50 мл воды. \n         2) Довести до 20 капель, прибавляя по 1-й капле в день.\n         3) После 20 капель уменьшать каждый день по капле.\n         4) Перерыв 10 дней. \n        \n        Маски для роста и улучшения качества волос. \n        1) делаем 2% раствор.\n        2) Наливаем в распылитель и наносим равномерно на волосы и кожу головы до полного смачивания.\n        3) Одеваем полиэтиленовую шапочку, сверху махровую. Ходить 3-4 часа. \n        4) Смыть горячей водой, помыв шампунем. \n        \n       Пропитки раствором (для улучшения качества кожи, от аллергии, от варикоза, отёков, от дерматита, псориаза): \n       1) делаем 2-3% раствор АСД около 1 л, греем до +42*. \n       2) Опускаем нательное х/б бельё в этот раствор (штаны, водолазка, носки, перчатки, шапочка), как следует смачиваем, выжимаем. \n       3) Надеваем на тело. \n       4) Оборачиваем все части тела стреч плёнкой и укутываемся одеялом (сидя).\n       5) Или накрываемся пленкой, подворачивая со всех сторон и накрываемся одеялом (лежа).  \n       6) Эту процедуру нужно делать с помощником.\n      \n       Чтобы удобно было извлевать раствор из бутылочки, пользуйтесь шприцом. Вскрывать не нужно. Протыкайте резиновую пробку иглой, набирайте в шприц и переливайте в бутылочку с капельницей.\n       \n       Если крышку не вскрывать, извлекать шприцом, протыкая резиновую крышку, то хранить можно 4 года. ",
+      "variants": [
+        {
+          "title": "АСД 2 фракция Армавир Дорогова",
+          "sku": "341315642-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRE30F8Z39K00C8YWVYGGC",
+          "calculated_price": {
+            "id": "pset_01M2GRE3592PKSRZV528PD53PG",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 22,
+            "raw_calculated_amount": {
+              "value": "22",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 22,
+            "raw_original_amount": {
+              "value": "22",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRE359KZ50C5SBTE7SKEVN",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRE359KZ50C5SBTE7SKEVN",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "name": "АСД",
+          "description": "",
+          "handle": "asd-cherkashino",
+          "mpath": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 2,
+          "external_id": null,
+          "metadata": {
+            "image_alt": null,
+            "image_url": null
+          },
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:55.244Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE4ANMM6MZ2DHRWSEHJ4Q",
+      "title": "Тестер для воды электронный. ТДС-метр (солемер) TDS",
+      "handle": "tester-dlya-vody-elektronnyy-tds-metr-solemer-tds-cherkashino",
+      "subtitle": null,
+      "description": "Прибор-тестер качества воды (солемер, TDS-метр) предназначен для определения количества минералов в воде (ОМ — общая минерализация). Другими словами, прибор определяет жёсткость воды.\n\nЭтот показатель очень важно знать, ведь наше тело состоит на 70–80% из воды. Воду необходимо пить максимально чистую.\n\nЧем меньше в воде минералов, тем она чище и пригоднее для питья. Воду с низкой минерализацией употребляют долгожители — это талая вода (из горных рек, родников или дождевая).\n\nМинерализация может составлять от 20 до 100 мг/литр. Если показатель выше 100 мг/литр, лишние минералы, содержащиеся в воде, могут откладываться в виде камней в печени, почках, жёлчном пузыре и поджелудочной железе, а также на стенках сосудов. Это сравнимо с накипью в чайнике, утюге или стиральной машине — там откладываются те же минералы из воды, которую вы пьёте.\n\nСолемер (TDS-метр) поможет вам найти качественную воду. Он компактный — чуть больше обычной ручки.\n\nПрибор состоит из корпуса и двух батареек, которые входят в комплект. Наш солемер прослужит долго — не менее трёх лет.\n\nСолемер прост в использовании: откройте колпачок, нажмите кнопку — появится «0». Затем опустите прибор в стакан с водой, и вы сразу увидите результат.\n\nПомните: вода с показателем ОМ выше 100 мг/литр может быть вредна для здоровья. Проверяйте воду, которую вы пьёте и используете для приготовления пищи. Выбирайте воду с ОМ ниже 100 мг/литр — ваше здоровье в ваших руках.\n\nНе выбирайте дешёвые подделки: они быстро выходят из строя и дают неточные измерения. Мы протестировали несколько моделей разных производителей и остановились на этой. Пользуемся сами и продаём уже более 10 лет.",
+      "variants": [
+        {
+          "title": "Тестер для воды электронный. ТДС-метр (солемер) TDS",
+          "sku": "99099867-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRE4P7ZGG7N70DSAG0MZZQ",
+          "calculated_price": {
+            "id": "pset_01M2GRE4QY1RRAR86J46JBEWMF",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 25,
+            "raw_calculated_amount": {
+              "value": "25",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 25,
+            "raw_original_amount": {
+              "value": "25",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRE4QYTYP5HS954T56BWZ4",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRE4QYTYP5HS954T56BWZ4",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW3ECFWKVZS560C25EM",
+          "name": "Приборы",
+          "description": "",
+          "handle": "pribory-cherkashino",
+          "mpath": "pcat_01M48QCQW3ECFWKVZS560C25EM",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 37,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE5W7847ZMFVWN2RV16JQ",
+      "title": "Капсулы Антисептик Стимулятор Дорогова фракция 2 120 шт",
+      "handle": "kapsuly-s-asd-fraktsiya-2-dorogova-30-sht-cherkashino",
+      "subtitle": null,
+      "description": "Капсулы содержат растительную клетчатку, лён, антисептик стимулятор Дорогова, АСД 2, производство Армавир, льняное семя, в составе которого льняное масло(жир). АСД фракция 2 капсулы БАД.\n\nСостав самой капсулы: растительная микроцеллюлоза, что позволяет использовать этот продукт всем без исключения, и веганам в том числе.\n\nЭтот продукт идеально подходит для тех, кто не переносит запах АСД. Оболочка капсулы начинает растворяться уже в желудке, и поэтому начинает положительное воздействие уже с желудка.\n\nВ капсуле содержится 10 капель живого АСД.\n\nКапсулы нужно принимать для повышения иммунитета от 1 шт три раза в день, 20 дней, перерыв 7 дней, и можно постоянно повторять курсами.\n\nЕсли есть проблемы со здоровьем, то принимать нужно по 2-4 капсулы 3 раза в день, 20 дней, перерыв 7 дней, и можно постоянно повторять курсами.\n\nПротивопоказания: индивидуальная непереносимость, беременность.",
+      "variants": [
+        {
+          "title": "Капсулы с АСД фракция 2 Дорогова 120 шт",
+          "sku": "317200269-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRE6MW8K8G664312KZNJXD",
+          "calculated_price": {
+            "id": "pset_01M2GRE6Q1DN5ZZKAQ5DK8NM4Z",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 60,
+            "raw_calculated_amount": {
+              "value": "60",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 60,
+            "raw_original_amount": {
+              "value": "60",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRE6Q1KW137MWH7G64MXCH",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRE6Q1KW137MWH7G64MXCH",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "name": "АСД",
+          "description": "",
+          "handle": "asd-cherkashino",
+          "mpath": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 2,
+          "external_id": null,
+          "metadata": {
+            "image_alt": null,
+            "image_url": null
+          },
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:55.244Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRE814EDDBFDQPV101QJ6R",
+      "title": "Карандаш бальзам 2 в 1 от простуды 2 шт",
+      "handle": "karandash-balzam-2-v-1-ot-prostudy-2-sht-cherkashino",
+      "subtitle": null,
+      "description": "Карандаш с эфирными маслами. Поможет при насморке, заложенности носа, эффективен при головокружении, тошноте, помогает побороть дискомфорт от неприятных запахов. Комплекс эфирных масел активирует работу головного мозга, быстро выводит из обморочного состояния, помогает при тепловом ударе. Показания к применению: при первых признаках насморка или простуды; при гриппе, бронхите, ОРЗ, ОРВИ; при синдромах морской болезни, укачивании в транспорте; при бессоннице и расстройствах нервной системы; при головных болях. Действие основных компонентов: Ментоловое масло получают путем дистилляции из мяты перечной. Масло обладает противовоспалительными свойствами, мгновенно снимает заложенность носа, стимулирует кровообращение. Масло оказывает местное раздражающее действие, способствуя регенерации тканей, устранению отеков и воспалений. Обладает сосудорасширяющими, антиангинальными свойствами. Эвкалиптовое масло оказывает антибактериальное, противовирусное, противовоспалительное, антисептическое действие. Камфорное масло помогает облегчить дыхание, снимает заложенность носа, эффективно при пневмонии и укачивании. Камфора обладает мощным антибактериальным действием. Камфора может помочь при внезапно проявившемся насморке. Борнеол экстрагируют из растений, в основном - из коры камфорных деревьев. Борнеол обладает ярко выраженным бактерицидными, антисептическими и противовоспалительными свойствами, его применение позволяет избавиться от заложенности носа. Состав: ментол, борнеол, камфора, эвкалиптовое масло, ментоловое масло. Способ применения:  Green Herb (Грин Херб) имеет два съемных колпачка. В нижней части находится контейнер с эфирными маслами, в верхней - со стержнем, выполненный в форме карандаша. Снять колпачок, вдохнуть эфирные пары несколько раз. При головной боли втирать масла в виски, при насморке нанести на кожу под носом, смазать крылья носа. При тошноте или головокружении нанести на виски и переносицу.",
+      "variants": [
+        {
+          "title": "Карандаш бальзам 2 в 1 от простуды 2 шт",
+          "sku": "147255286-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRE8K3C074R9BZ7EPYANDN",
+          "calculated_price": {
+            "id": "pset_01M2GRE8P76H9Z8C20Y0SZPRBJ",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 5,
+            "raw_calculated_amount": {
+              "value": "5",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 5,
+            "raw_original_amount": {
+              "value": "5",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRE8P7QA4HAR9WBJZ9RF5R",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRE8P7QA4HAR9WBJZ9RF5R",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "name": "Гигиена и уход",
+          "description": "",
+          "handle": "gigiena-i-uhod-cherkashino",
+          "mpath": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 36,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREAGVHNP8CH3ZJSH7XWBT",
+      "title": "Касторовое масло, касторка индийская",
+      "handle": "kastorovoe-maslo-kastorka-indiyskaya-cherkashino",
+      "subtitle": null,
+      "description": "Натуральное масло холодного отжима, подходит для наружного и внутреннего использования. Касторовое масло предназначено для ухода за кожей лица и тела, для питания, укрепления и стимуляции роста волос, для мыловарения. Показания к применению: острые запоры; отравления; пищевые интоксикации; очищение кишечника перед диагностическими процедурами. Эффективно при ожогах, язвах, порезах, ранах, садинах, бородавках. Смягчает мозоли, натоптыши, заживляет трещины на подошвах ног. Рекомендуется при бородавках, шрамах, кистовых и других наростах на коже. Способствует глубокому питанию и увлажнению кожи, выравнивает рельеф, обладает выраженным смягчающим свойством, поэтому его часто используют для варки мыла. Эффективное средство для роста и укрепления ресниц, бровей и волос, препятствующее их выпадению. Меры предосторожности: избегать попадания в глаза. При попадании тщательно промыть большим количеством теплой воды. Возможна индивидуальная непереносимость компонентов. Способ применения: Применять в чистом виде и для обогащения косметических средств (кремов, лосьонов, бальзамов, т.д.). Для ухода за кожей лица - нанести по массажным линиям. Для ухода за волосами - нанести подогретое масло на волосы. Время экспозиции до 120 мин. Для стимуляции роста волос. Рекомендации по применению в качестве слабительного средства назначают взрослым по 15 – 30 г 1-3 раз в сутки. При очищении кишечника перед диагностическими процедурами его принимают за 2 - 6 ч до выполнения исследования. Детям в возрасте 12 - 14 лет назначают по 5 – 15 г 1 раз в сутки.",
+      "variants": [
+        {
+          "title": "Касторовое масло, касторка индийская",
+          "sku": "291156821-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREAZ4ZGE5GY0D0F1FXDDP",
+          "calculated_price": {
+            "id": "pset_01M2GREB21P4S18EXDHR74XAEP",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 10,
+            "raw_calculated_amount": {
+              "value": "10",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 10,
+            "raw_original_amount": {
+              "value": "10",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREB205S6AZAF97EJ0DDBV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREB205S6AZAF97EJ0DDBV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX279ZJ26N4SSXST15XGM",
+          "name": "Масла",
+          "description": "",
+          "handle": "masla-cherkashino",
+          "mpath": "pcat_01M2GQX279ZJ26N4SSXST15XGM",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 6,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:59.512Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRECS4YSDX6G25MCNCP55R",
+      "title": "Книга рецептов для мультиварок авто и для дома",
+      "handle": "kniga-retseptov-dlya-multivarok-avto-i-dlya-doma-cherkashino",
+      "subtitle": null,
+      "description": "В книге 200 рецептов для автомобильных мультиварок и мультиварок для дома, которые есть в продаже у бренда Фабрика Натуральных Продуктов. Мы сами собрали для вас из личного опыта множество рецептов, все подробно описали, теперь готовить в наших мультиварках вам будет так же легко, как нажать кнопку чайника. Желаем вам приятного аппетита!!! ",
+      "variants": [
+        {
+          "title": "Книга рецептов для мультиварок авто и для дома",
+          "sku": "265554235-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRED5ME67F2728J7WC6YKM",
+          "calculated_price": {
+            "id": "pset_01M2GREDDMAXHNAGWB50AR6AWW",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREDDMR7J2HZC3WKD8R350",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREDDMR7J2HZC3WKD8R350",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW5VFVR38W7RB64XHDV",
+          "name": "Книги",
+          "description": "",
+          "handle": "knigi-cherkashino",
+          "mpath": "pcat_01M48QCQW5VFVR38W7RB64XHDV",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 38,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREEBVSKH4JKM2S447X80F",
+      "title": "Гепачисты",
+      "handle": "gepachisty-cherkashino",
+      "subtitle": null,
+      "description": null,
+      "variants": [
+        {
+          "title": "Гепачисты",
+          "sku": "248117904-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREEH92Q9YTKGYJ9KEYX01",
+          "calculated_price": {
+            "id": "pset_01M2GREEMVTWEQEEGKYQHWJDWW",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 20,
+            "raw_calculated_amount": {
+              "value": "20",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 20,
+            "raw_original_amount": {
+              "value": "20",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREEMVZ5TD640CTAY9ZCFZ",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREEMVZ5TD640CTAY9ZCFZ",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREFG0PEWGYRHR3F3Z139P",
+      "title": "Каштан капсулы от варикоза 60 шт",
+      "handle": "kapsuly-ot-varikoza-s-kashtanom-cherkashino",
+      "subtitle": null,
+      "description": "Каштан в таблетках - это биологически активная добавка к пище, предназначенная для укрепления сосудистой стенки и улучшения кровообращения. Изготовлена на основе натуральных плодов каштана конского. Таблетки с каштаном применяют в комплексном лечении при венозном застое, варикозном расширении вен, острых и хронических тромбофлебитах, трофических язвах голеней, нарушениях артериального периферического кровообращения, воспалении геморроидальных узлов без кровотечения, воспалительных заболеваниях кишечника.\n\nРЕКОМЕНДАЦИИ ПО ПРИМЕНЕНИЮ:\nВзрослым принимать по 1 таблетке 3 раза в деньво время еды, запивая 100 мл воды. Курс 20 дней.\n",
+      "variants": [
+        {
+          "title": "Капсулы от варикоза и отёков, с каштаном, 60 шт",
+          "sku": "966747909-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREFQAB9GKH08AK4NKB97Y",
+          "calculated_price": {
+            "id": "pset_01M2GREFRQGQ7VZGSWPZ4JJJWK",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 20,
+            "raw_calculated_amount": {
+              "value": "20",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 20,
+            "raw_original_amount": {
+              "value": "20",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREFRQTYJ29KT9BCERYSG2",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREFRQTYJ29KT9BCERYSG2",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREGF9VENVNXE4PJ4QP5Z9",
+      "title": "Свечи Каштан от варикоза, фитосвечи 10 штук",
+      "handle": "svechi-ot-varikoza-s-kashtanom-cherkashino",
+      "subtitle": null,
+      "description": "Конский каштан — мощное природное средство для сосудов, содержащее эсцин, который укрепляет вены, разжижает кровь и снимает отеки. Основная польза заключается в лечении варикоза, тромбозов, геморроя и снятии воспалений.\nПоказания к применению мази с конским каштаном:\nварикоз;\nотёки;\nтяжесть в ногах;\nсосудистая сетка;\nгеморрой;\nзуд и жжение в анусе;\nанальные трещины;\nвенозный застой в области малого таза;\nпростатит;\nревматизм;\nартрит;\nрадикулит;\nпериод восстановления после операций на прямой кишке.",
+      "variants": [
+        {
+          "title": "Свечи от варикоза и отёков, с каштаном, 10 шт",
+          "sku": "966792712-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREGPX7BMPXB7CQ0ZDTPCQ",
+          "calculated_price": {
+            "id": "pset_01M2GREGSBRRN3S0HKQ7HEYQYT",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREGSARAH9T33TG50SHG5G",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREGSARAH9T33TG50SHG5G",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX1GV8MP045N91E9BWZYF",
+          "name": "Фито-свечи",
+          "description": "",
+          "handle": "fito-svechi-cherkashino",
+          "mpath": "pcat_01M2GQX1GV8MP045N91E9BWZYF",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 5,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:58.786Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREHGZGXD07DDKDF89REW0",
+      "title": "Сила раздельного питания, 250 рецептов полезных блюд",
+      "handle": "sila-razdelnogo-pitaniya-250-retseptov-poleznyh-blyud-cherkashino",
+      "subtitle": null,
+      "description": "«Сила раздельного питания» – это уникальное, практичное издание от эксперта здорового питания, объясняющее принципы рационального сочетания продуктов для максимальной пользы организма. В книге собрали 250 простых и вкусных рецептов, помогающих ежедневно питаться правильно, оставаясь здоровыми, полными энергии и физических сил. Книга поможет подобрать для вас меню, которое повышает энергетический уровень и способствует долгосрочному благополучию. Книга про здоровье.\n\nКнига изменит Вашу жизнь. Подходит тем, кто стремится контролировать здоровье через осознанное отношение к еде.\n\nЛегкая и компактная форма позволяет взять её с собой куда угодно – идеальный спутник для планирования завтраков, перекусов и полноценных обедов и ужинов. Книга станет лучшим подарком для ваших близких и родных. Попробовать простые блюда можно уже сегодня!",
+      "variants": [
+        {
+          "title": "Сила раздельного питания, 250 рецептов полезных блюд",
+          "sku": "831207662-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREHPFBR3S4DP2790Z2HFP",
+          "calculated_price": {
+            "id": "pset_01M2GREHRSKTGE7Y689WP8ZYJ6",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREHRSPPNH2WDZWB0S57JR",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREHRSPPNH2WDZWB0S57JR",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW5VFVR38W7RB64XHDV",
+          "name": "Книги",
+          "description": "",
+          "handle": "knigi-cherkashino",
+          "mpath": "pcat_01M48QCQW5VFVR38W7RB64XHDV",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 38,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREMJX103FNCHEBPT5FY5H",
+      "title": "Шампунь-концентрат для блеска тайский",
+      "handle": "shampun-koncentrat-dlya-bleska-tayskiy-90-gr-cherkashino",
+      "subtitle": null,
+      "description": null,
+      "variants": [
+        {
+          "title": "Шампунь-концентрат для блеска тайский, 90 гр",
+          "sku": "PL-21-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREMZ6V3FFRQM7JPKX48FB",
+          "calculated_price": {
+            "id": "pset_01M2GREN0HXCF9DRDC60SP23B3",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREN0HDKBBBKG3YDAZ03JP",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREN0HDKBBBKG3YDAZ03JP",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "name": "Гигиена и уход",
+          "description": "",
+          "handle": "gigiena-i-uhod-cherkashino",
+          "mpath": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 36,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREPT6TTNC36CVBNFF891G",
+      "title": "Капли в нос АСД и серебро",
+      "handle": "kapli-v-nos-asd-i-serebro-cherkashino",
+      "subtitle": null,
+      "description": "Капли для носа с АСД  облегчают симптомы простуды и насморка. Их можно использовать для промывания носовых проходов и удаления слизи, что может способствовать улучшению дыхания. Капли от гайморита. АСД, входящий в состав капель, обладает противовоспалительными и антисептическими свойствами, которые могут способствовать уменьшению отека и раздражения слизистой оболочки носа.  Капли для носа с АСД могут быть полезны при лечении различных ринитов, включая аллергический и вазомоторный. Рекомендованы капли для носа от заложенности взрослым и детям.\nКапли в нос от заложенности не вызывают привыкания.",
+      "variants": [
+        {
+          "title": "Капли в нос АСД и серебро",
+          "sku": "PL-26-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREQ24PQPTTXN2R7FDDTVG",
+          "calculated_price": {
+            "id": "pset_01M2GREQ4JJNXEKY2FR9D8S2A8",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREQ4HSY6NTS562XPXK4QP",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREQ4HSY6NTS562XPXK4QP",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "name": "АСД",
+          "description": "",
+          "handle": "asd-cherkashino",
+          "mpath": "pcat_01M2GQWY21SSF86N68NZ0WP4ZS",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 2,
+          "external_id": null,
+          "metadata": {
+            "image_alt": null,
+            "image_url": null
+          },
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:56:55.244Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRER1WWKQCTD1WR31K2HZ8",
+      "title": "Ингалятор портативный",
+      "handle": "ingalyator-portativnyy-cherkashino",
+      "subtitle": null,
+      "description": "Ингалятор-небулайзер в нежном цвете «розовая гвоздика» станет незаменимым помощником для всей семьи. Этот компактный прибор позволит быстро и эффективно проводить ингаляции, помогая справиться с простудными заболеваниями, аллергическими реакциями и другими проблемами дыхательной системы. Благодаря своей простоте в использовании и удобной конструкции, ингалятор-небулайзер подходит как для взрослых, так и для детей.",
+      "variants": [
+        {
+          "title": "Ингалятор портативный",
+          "sku": "PL-28-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRER7HMKQWCXM8ZG092QS7",
+          "calculated_price": {
+            "id": "pset_01M2GRERA6MKWZ9EX4FE3779R5",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 40,
+            "raw_calculated_amount": {
+              "value": "40",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 40,
+            "raw_original_amount": {
+              "value": "40",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRERA6FD75GP1CWK5A3437",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRERA6FD75GP1CWK5A3437",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW3ECFWKVZS560C25EM",
+          "name": "Приборы",
+          "description": "",
+          "handle": "pribory-cherkashino",
+          "mpath": "pcat_01M48QCQW3ECFWKVZS560C25EM",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 37,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREW9NXRDAH8KMVC6AW21X",
+      "title": "Набор для очищения лимфы",
+      "handle": "nabor-dlya-ochischeniya-limfy-cherkashino",
+      "subtitle": null,
+      "description": "Очищение лимфы\nonline-формат\n\nАвторский курс Оксаны Черкашиной\n\nПриведите свою лимфу в порядок за 2 дня!",
+      "variants": [
+        {
+          "title": "Набор для очищения лимфы",
+          "sku": "PL-36-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREWFJJM8TYM5ST5BADRMZ",
+          "calculated_price": {
+            "id": "pset_01M2GREWJ8MJ428P1Y9FEKRK2X",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 70,
+            "raw_calculated_amount": {
+              "value": "70",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 70,
+            "raw_original_amount": {
+              "value": "70",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREWJ8C8DHE6FK1QY46GFZ",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREWJ8C8DHE6FK1QY46GFZ",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREX6783YGKYERYMVFJ4MG",
+      "title": "Мазь Каштан от варикоза, 100 мл",
+      "handle": "maz-ot-varikoza-s-kashtanom-cherkashino",
+      "subtitle": null,
+      "description": "Конский каштан — мощное природное средство для сосудов, содержащее эсцин, который укрепляет вены, разжижает кровь и снимает отеки. Основная польза заключается в лечении варикоза, тромбозов, геморроя и снятии воспалений.\nПоказания к применению мази с конским каштаном:\nварикоз;\nотёки;\nтяжесть в ногах;\nсосудистая сетка;\nгеморрой;\nзуд и жжение в анусе;\nанальные трещины;\nвенозный застой в области малого таза;\nпростатит;\nревматизм;\nартрит;\nрадикулит;\nпериод восстановления после операций на прямой кишке.",
+      "variants": [
+        {
+          "title": "Мазь от варикоза и отёков, с каштаном, 100 мл",
+          "sku": "966976362-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREX9TS9AWHGBG6HN3W3WD",
+          "calculated_price": {
+            "id": "pset_01M2GREXBBJNJC2WWCYB78T83H",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 20,
+            "raw_calculated_amount": {
+              "value": "20",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 20,
+            "raw_original_amount": {
+              "value": "20",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREXBA19SYE73YX10Z7WYH",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREXBA19SYE73YX10Z7WYH",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "name": "Гигиена и уход",
+          "description": "",
+          "handle": "gigiena-i-uhod-cherkashino",
+          "mpath": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 36,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREY09JZM4ZGKBGXTQ5WHS",
+      "title": "Каштан таблетки от варикоза 60 шт",
+      "handle": "tabletki-ot-varikoza-s-kashtanom-cherkashino",
+      "subtitle": null,
+      "description": "Каштан в таблетках - это биологически активная добавка к пище, предназначенная для укрепления сосудистой стенки и улучшения кровообращения. Изготовлена на основе натуральных плодов каштана конского. Таблетки с каштаном применяют в комплексном лечении при венозном застое, варикозном расширении вен, острых и хронических тромбофлебитах, трофических язвах голеней, нарушениях артериального периферического кровообращения, воспалении геморроидальных узлов без кровотечения, воспалительных заболеваниях кишечника.\n\nРЕКОМЕНДАЦИИ ПО ПРИМЕНЕНИЮ:\nВзрослым принимать по 1 таблетке 3 раза в деньво время еды, запивая 100 мл воды. Курс 20 дней.\n",
+      "variants": [
+        {
+          "title": "Таблетки от варикоза с каштаном, 60 шт",
+          "sku": "966729961-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREY4GQJGPESDCGEM3F4J6",
+          "calculated_price": {
+            "id": "pset_01M2GREY65TSWBK75QWG81755P",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 15,
+            "raw_calculated_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 15,
+            "raw_original_amount": {
+              "value": "15",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREY6581SW4TTFT8KJ0XY3",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREY6581SW4TTFT8KJ0XY3",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "name": "Добавки",
+          "description": "",
+          "handle": "dobavki-cherkashino",
+          "mpath": "pcat_01M2GQX3S6T5RWV2P6Y4JY0GK8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 8,
+          "external_id": null,
+          "metadata": {},
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-14T19:57:01.098Z",
+          "updated_at": "2026-10-08T14:55:27.367Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREYVDC6Y88J57P6RRSV8B",
+      "title": "Зубная паста с углем тайская травяная, 25 г",
+      "handle": "zubnaya-pasta-tayskaya-s-uglem-cherkashino",
+      "subtitle": null,
+      "description": null,
+      "variants": [
+        {
+          "title": "Зубная паста тайская с углем, 25 г",
+          "sku": "1199734029-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GREZ0HRPBJERBKRCCWM8RC",
+          "calculated_price": {
+            "id": "pset_01M2GREZ1V9W8K06TQ2478J8P6",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 8,
+            "raw_calculated_amount": {
+              "value": "8",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 8,
+            "raw_original_amount": {
+              "value": "8",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GREZ1VR2RT08R0THZRZK06",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GREZ1VR2RT08R0THZRZK06",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "name": "Гигиена и уход",
+          "description": "",
+          "handle": "gigiena-i-uhod-cherkashino",
+          "mpath": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 36,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GREZY2QEKK85JK6QAAAZ3J",
+      "title": "Зубная паста с гвоздикой тайская травяная, 25 г",
+      "handle": "zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino",
+      "subtitle": null,
+      "description": null,
+      "variants": [
+        {
+          "title": "Зубная паста тайская с гвоздикой, 25 г",
+          "sku": "1199673895-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRF0AZMFJFSPGK819C7A9P",
+          "calculated_price": {
+            "id": "pset_01M2GRF0FPQA69ZRH0SRG40WS5",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 8,
+            "raw_calculated_amount": {
+              "value": "8",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 8,
+            "raw_original_amount": {
+              "value": "8",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRF0FPXK9FEY8C8DV8EAMS",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRF0FPXK9FEY8C8DV8EAMS",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "name": "Гигиена и уход",
+          "description": "",
+          "handle": "gigiena-i-uhod-cherkashino",
+          "mpath": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 36,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M2GRF1ATGNYFQGJENJX78WX3",
+      "title": "Зубная паста тайская отбеливающая 2 шт по 50 грамм",
+      "handle": "zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino",
+      "subtitle": null,
+      "description": null,
+      "variants": [
+        {
+          "title": "Зубная паста тайская отбеливающая, 2 шт по 50 г",
+          "sku": "701444504-CHERKASHINO",
+          "manage_inventory": false,
+          "allow_backorder": false,
+          "id": "variant_01M2GRF25V3EJFQ47STC6R922Y",
+          "calculated_price": {
+            "id": "pset_01M2GRF28RC3W4S6K1A1B81R3K",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 12,
+            "raw_calculated_amount": {
+              "value": "12",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 12,
+            "raw_original_amount": {
+              "value": "12",
+              "precision": 20
+            },
+            "currency_code": "usd",
+            "calculated_price": {
+              "id": "price_01M2GRF28R6P365P4817J2TM6F",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M2GRF28R6P365P4817J2TM6F",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "name": "Гигиена и уход",
+          "description": "",
+          "handle": "gigiena-i-uhod-cherkashino",
+          "mpath": "pcat_01M48QCQW00VK4E45CGMQPYTP8",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 36,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-10-06T14:40:58.405Z",
+          "updated_at": "2026-10-08T14:55:27.370Z",
+          "deleted_at": null
+        }
+      ]
+    }
+  ],
+  "count": 30,
+  "offset": 0,
+  "limit": 60
+}

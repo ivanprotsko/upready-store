@@ -281,6 +281,7 @@
         "pages": "Pages",
         "journal": "Journal",
         "branding": "Look and feel",
+        "agentChanges": "Agent changes",
         "promotions": "Promotions",
         "marketplaces": "Marketplaces",
         "delivery": "Delivery",
@@ -7835,6 +7836,123 @@
       "title": "Product shares of revenue",
       "hint": "The five best products and everything else. Click a segment or a row to see its sum.",
       "rest": "Other products"
+    }
+  },
+  "agentChanges": {
+    "title": "Agent changes",
+    "subtitle": "What your assistant changed on the site. A change shows on the site's copy (stage) first and reaches the live site only when you publish it.",
+    "columns": {
+      "when": "When",
+      "who": "Who",
+      "what": "What",
+      "status": "Status",
+      "links": "Where to look"
+    },
+    "status": {
+      "draft": "Draft",
+      "staged": "On stage",
+      "published": "Published",
+      "rolled_back": "Rolled back",
+      "discarded": "Discarded"
+    },
+    "statusHint": {
+      "draft": "Not visible anywhere yet.",
+      "staged": "Visible on the site's copy; the live site has not changed.",
+      "published": "Visible on the live site.",
+      "rolled_back": "The live site is back to what it was before publishing.",
+      "discarded": "The change was discarded; the site did not change."
+    },
+    "source": {
+      "owner-voice": "Voice assistant",
+      "telegram": "Telegram",
+      "panel": "Panel"
+    },
+    "kind": {
+      "home": "Home page",
+      "branding": "Branding",
+      "page-create": "New page",
+      "page": "Page",
+      "article-create": "New article",
+      "article": "Article",
+      "product": "Product",
+      "variant": "Price",
+      "attributes": "Characteristics",
+      "denied": "Action not allowed"
+    },
+    "field": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "description": "Description",
+      "body": "Text",
+      "published": "Published",
+      "thumbnail": "Cover",
+      "images": "Photos",
+      "categories": "Categories",
+      "prices": "Prices",
+      "values": "Values",
+      "theme": "Theme",
+      "settings": "Settings",
+      "content": "Content",
+      "slug": "Address"
+    },
+    "links": {
+      "stage": "Stage ↗",
+      "main": "Site ↗"
+    },
+    "actions": {
+      "open": "Open",
+      "stage": "Show on stage",
+      "publish": "Publish",
+      "rollback": "Roll back",
+      "discard": "Discard"
+    },
+    "confirm": {
+      "publish": {
+        "title": "Publish the change?",
+        "description": "“{{what}}” will appear on the live site. A snapshot is saved first, so the change can be rolled back."
+      },
+      "rollback": {
+        "title": "Roll the change back?",
+        "description": "The live site returns to what it was before “{{what}}” was published."
+      },
+      "discard": {
+        "title": "Discard the change?",
+        "description": "“{{what}}” will not reach the site, and the site's copy returns to the live one. This cannot be undone."
+      }
+    },
+    "toasts": {
+      "stage": "The change is shown on stage",
+      "publish": "The change is published",
+      "rollback": "The change is rolled back",
+      "discard": "The change is discarded"
+    },
+    "drift": {
+      "title": "The site changed after publishing",
+      "description": "These places were edited after publishing. A rollback would overwrite the new edits, so it is not available.",
+      "toast": "The site changed after publishing. Nothing was rolled back."
+    },
+    "diff": {
+      "field": "Field",
+      "before": "Before",
+      "after": "After",
+      "empty": "empty",
+      "yes": "yes",
+      "no": "no",
+      "none": "No field changes.",
+      "photos_one": "{{count}} photo",
+      "photos_other": "{{count}} photos",
+      "noPhotos": "no photos",
+      "noCategories": "no categories"
+    },
+    "detail": {
+      "title": "Agent change",
+      "description": "The change's operations, what they change and where to look at it.",
+      "ops_one": "{{count}} operation",
+      "ops_other": "{{count}} operations"
+    },
+    "empty": {
+      "title": "No changes yet",
+      "message": "When the assistant changes something on the site, it shows here."
     }
   }
 }
