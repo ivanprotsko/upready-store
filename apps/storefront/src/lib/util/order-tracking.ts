@@ -21,7 +21,17 @@ export type TrackedFulfillment = {
 }
 
 /** One tracking line and the carrier's tracking page for it, when the label has one. */
-export type TrackingEntry = { line: string; url: string | null }
+export type TrackingEntry = {
+  line: string
+  url: string | null
+  /** The carrier's name, apart from the number, for «перевозчик · номер» (D9, t-2026-10-20-61). */
+  carrier: string | null
+  number: string
+}
+
+/** «СДЭК · 1005248796431»: the carrier and the number with a dot between, or the bare number. */
+export const trackingDisplay = (entry: Pick<TrackingEntry, "carrier" | "number">): string =>
+  entry.carrier ? `${entry.carrier} · ${entry.number}` : entry.number
 
 /** Only a web address is a link: anything else in `tracking_url` is not one to follow. */
 const webUrl = (raw: string | null | undefined): string | null => {
@@ -55,7 +65,7 @@ export const trackingEntries = (
     const labelled = (fulfillment.labels ?? []).flatMap((label) => {
       const number = label.tracking_number?.trim()
       if (!number) return []
-      return [{ number, entry: { line: carrier ? `${carrier} ${number}` : number, url: webUrl(label.tracking_url) } }]
+      return [{ number, entry: { line: carrier ? `${carrier} ${number}` : number, url: webUrl(label.tracking_url), carrier, number } }]
     })
 
     // Direct СДЭК (t-2026-10-14-58, step C): the webhook writes the carrier's
@@ -65,7 +75,7 @@ export const trackingEntries = (
     const cdekNumber = typeof rawCdek === "string" || typeof rawCdek === "number" ? String(rawCdek).trim() : ""
     const cdek =
       cdekNumber && !labelled.some(({ number }) => number === cdekNumber)
-        ? [{ line: `${CDEK_NAME} ${cdekNumber}`, url: cdekTrackingUrl(cdekNumber) }]
+        ? [{ line: `${CDEK_NAME} ${cdekNumber}`, url: cdekTrackingUrl(cdekNumber), carrier: CDEK_NAME, number: cdekNumber }]
         : []
 
     return [...labelled.map(({ entry }) => entry), ...cdek]
