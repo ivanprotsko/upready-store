@@ -9,6 +9,7 @@ import {
 } from "@lib/data/cookies"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { getSeoVerification } from "@lib/data/seo-verification"
+import { getTenantRegionRedirects } from "@lib/data/tenant-region-redirects"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import LoginModalHost from "@modules/account/components/login-modal/host"
@@ -17,6 +18,8 @@ import CartNotifications from "@modules/layout/components/cart-notifications"
 import { CartSidebarProvider } from "@modules/layout/components/cart-sidebar/context"
 import CartSidebarHost from "@modules/layout/components/cart-sidebar/host"
 import PromoBanner from "@modules/layout/components/promo-banner"
+import { RegionRedirectsProvider } from "@modules/layout/components/region-popup/context"
+import RegionPopupHost from "@modules/layout/components/region-popup/host"
 import SearchPalette from "@modules/layout/components/search/palette"
 import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
@@ -45,11 +48,12 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   // The promo-banner cookie is a cookie lookup, not a fetch. The settings read
   // shares its cache tag with `Nav`'s own read below (`storefront-settings`,
   // Next's fetch request memoization) so this costs no second round trip.
-  const [promoBannerDismissed, settings, tenantHandle, t] = await Promise.all([
+  const [promoBannerDismissed, settings, tenantHandle, t, regionRedirects] = await Promise.all([
     getPromoBannerDismissed(),
     getEffectiveSettings(),
     getTenantHandle(),
     getTranslations("Nav"),
+    getTenantRegionRedirects(),
   ])
   // Two reasons the site-wide strip does not render.
   //
@@ -84,48 +88,57 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
       </a>
       {/* The cart sidebar's open state (batch 5) is shared by the header's «Корзина»
           trigger, the sidebar itself and every «В корзину» under this layout. */}
-      <CartSidebarProvider>
-        <PromoBanner
-          dismissed={promoBannerDismissed}
-          suppressed={suppressPromoBanner}
-        />
-        {/* Nav and Footer are themselves the site-wide header/footer composition
-            switches now (`nav/index.tsx`, `footer/index.tsx`): each reads
-            `store.metadata.storefrontSettings` on its own — including Footer's own
-            `footer === "none"` guard — so neither takes a composition prop from here
-            (`2026-09-09-block-port-map.md` §2: header/footer are site-wide because
-            they render once here, wrapping every route under `(main)`, cart and
-            checkout included). This layout reads the same settings document only for
-            `PromoBanner`'s H3 suppression above — a cache hit against `Nav`'s read,
-            never a second source of truth. */}
-        <Nav />
-        <div className="pb-16 lg:pb-0">
-          {/* Footer is async, so a lazy row in the RSC payload: the slot keeps it
-              off this <div>'s own children, see HydrationSlot (46df U-06). */}
-          <HydrationSlot>
-            <Suspense fallback={null}>
-              <CartNotifications />
-            </Suspense>
-            {/* The page is the one `main` landmark; the header above is `banner` and the
-                footer below `contentinfo` because they sit outside it. */}
-            <main id="main-content">{props.children}</main>
-            <Footer />
-            {/* The desktop cart sidebar, rendered once for the whole page (the header draws
-                its trigger up to three times); async, so behind its own Suspense. */}
-            <Suspense fallback={null}>
-              <CartSidebarHost />
-            </Suspense>
-            {/* The sign-in modal every guest «Войти» opens (t-2026-10-04-24); none for a customer. */}
-            <Suspense fallback={null}>
-              <LoginModalHost />
-            </Suspense>
-            {/* The one search palette, which Cmd+K / Ctrl+K and every search control on the
-                page (header, bottom nav, the Olavka home navigation) open. */}
-            <SearchPalette />
-          </HydrationSlot>
-        </div>
-        <BottomNav />
-      </CartSidebarProvider>
+      {/* t-2026-10-20-22: the header's region switcher lists the countries that lead
+          to another shop, the same rows the first-visit popup below offers. */}
+      <RegionRedirectsProvider redirects={regionRedirects}>
+        <CartSidebarProvider>
+          <PromoBanner
+            dismissed={promoBannerDismissed}
+            suppressed={suppressPromoBanner}
+          />
+          {/* Nav and Footer are themselves the site-wide header/footer composition
+              switches now (`nav/index.tsx`, `footer/index.tsx`): each reads
+              `store.metadata.storefrontSettings` on its own — including Footer's own
+              `footer === "none"` guard — so neither takes a composition prop from here
+              (`2026-09-09-block-port-map.md` §2: header/footer are site-wide because
+              they render once here, wrapping every route under `(main)`, cart and
+              checkout included). This layout reads the same settings document only for
+              `PromoBanner`'s H3 suppression above — a cache hit against `Nav`'s read,
+              never a second source of truth. */}
+          <Nav />
+          <div className="pb-16 lg:pb-0">
+            {/* Footer is async, so a lazy row in the RSC payload: the slot keeps it
+                off this <div>'s own children, see HydrationSlot (46df U-06). */}
+            <HydrationSlot>
+              <Suspense fallback={null}>
+                <CartNotifications />
+              </Suspense>
+              {/* The page is the one `main` landmark; the header above is `banner` and the
+                  footer below `contentinfo` because they sit outside it. */}
+              <main id="main-content">{props.children}</main>
+              <Footer />
+              {/* The desktop cart sidebar, rendered once for the whole page (the header draws
+                  its trigger up to three times); async, so behind its own Suspense. */}
+              <Suspense fallback={null}>
+                <CartSidebarHost />
+              </Suspense>
+              {/* The sign-in modal every guest «Войти» opens (t-2026-10-04-24); none for a customer. */}
+              <Suspense fallback={null}>
+                <LoginModalHost />
+              </Suspense>
+              {/* The one search palette, which Cmd+K / Ctrl+K and every search control on the
+                  page (header, bottom nav, the Olavka home navigation) open. */}
+              <SearchPalette />
+              {/* The first-visit region question (t-2026-10-20-22): only on a shop that
+                  sends some country to another shop, and only until it is answered. */}
+              <Suspense fallback={null}>
+                <RegionPopupHost />
+              </Suspense>
+            </HydrationSlot>
+          </div>
+          <BottomNav />
+        </CartSidebarProvider>
+      </RegionRedirectsProvider>
     </>
   )
 }

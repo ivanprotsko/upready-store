@@ -1079,6 +1079,12 @@
     "close": "Stäng",
     "message": "Fullfjädrad produktionsklar DTC-starter."
   },
+  "RegionPopup": {
+    "description": "Vi frågar en gång för att visa rätt butik, priser och leverans.",
+    "goesTo": "Öppnar {site}",
+    "otherCountry": "Annat land",
+    "title": "Var handlar du ifrån?"
+  },
   "RegionSelect": {
     "apply": "Tillämpa",
     "close": "Stäng",

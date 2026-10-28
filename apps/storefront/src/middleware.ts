@@ -438,6 +438,14 @@ function tenantRequestHeaders(
       "x-tenant-promo-code",
       encodeTenantHeaderValue(JSON.stringify({ enabled: tenant.promoCode }))
     )
+    // t-2026-10-20-22: the region popup and the switcher's rows that lead to
+    // another shop. Absent for a shop without them, which reads as «no popup».
+    if (tenant.regionRedirects.length) {
+      headers.set(
+        "x-tenant-region-redirects",
+        encodeTenantHeaderValue(JSON.stringify(tenant.regionRedirects))
+      )
+    }
     // t-2026-10-27-04: a stage site's pages say noindex (`lib/tenant/stage.ts`).
     if (tenant.stage) {
       headers.set(STAGE_HEADER, "1")

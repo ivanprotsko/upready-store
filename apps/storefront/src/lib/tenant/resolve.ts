@@ -28,6 +28,7 @@ import {
   type TenantPaymentPreNotice,
 } from "../util/payment-pre-notice"
 import { readTenantPromoCode } from "./promo-code"
+import { readRegionRedirects, type RegionRedirect } from "./region-redirects"
 import { readTenantTestMode, type TenantTestMode } from "./test-mode"
 import { readTenantStage } from "./stage"
 
@@ -112,6 +113,12 @@ export type ResolvedTenant = {
    */
   promoCode: boolean
   /**
+   * The countries whose buyers belong to another shop, each with that shop's home
+   * (t-2026-10-20-22): cherkashino.com sends «Россия» to cherkashino.ru. Empty for
+   * every shop that never set it, and then the region popup does not appear.
+   */
+  regionRedirects: RegionRedirect[]
+  /**
    * A stage site (t-2026-10-27-04): never indexed (`lib/tenant/stage.ts`).
    * Absent reads as a live shop.
    */
@@ -195,6 +202,7 @@ export async function resolveTenantByHost(
         payment_pre_notice?: unknown
         test_mode?: unknown
         promo_code?: unknown
+        region_redirects?: unknown
         stage?: unknown
         primary_host?: string | null
         locale?: {
@@ -249,6 +257,7 @@ export async function resolveTenantByHost(
             : EMPTY_PAYMENT_PRE_NOTICE,
           testMode: readTenantTestMode(body.test_mode),
           promoCode: readTenantPromoCode(body.promo_code),
+          regionRedirects: readRegionRedirects(body.region_redirects),
           stage: readTenantStage(body.stage),
         }
       }
