@@ -62,7 +62,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:32:34.291Z",
+        "at": "2026-10-28T01:29:53.171Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -98,12 +98,17 @@
       "after": [
         {
           "url": "^/ru/checkout$"
+        },
+        {
+          "visible": {
+            "testid": "checkout-sign-in-step-action"
+          }
         }
       ],
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:32:40.103Z",
+        "at": "2026-10-28T01:29:55.367Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -138,13 +143,15 @@
       },
       "after": [
         {
-          "text": "Вход"
+          "visible": {
+            "testid": "cart-sidebar-sign-in-email"
+          }
         }
       ],
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:32:52.064Z",
+        "at": "2026-10-28T01:29:56.789Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -179,13 +186,15 @@
       },
       "after": [
         {
-          "text": "Электронная почта"
+          "visible": {
+            "testid": "cart-sidebar-email-input"
+          }
         }
       ],
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:32:54.943Z",
+        "at": "2026-10-28T01:29:58.972Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -222,7 +231,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:33:00.627Z",
+        "at": "2026-10-28T01:30:02.892Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -261,7 +270,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:33:05.357Z",
+        "at": "2026-10-28T01:30:07.427Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -294,10 +303,19 @@
         ],
         "hash": "0080808c8c808000"
       },
+      "after": [
+        {
+          "visible": {
+            "role": "textbox",
+            "name": "Адрес *"
+          }
+        }
+      ],
+      "checkpoint": true,
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:33:09.084Z",
+        "at": "2026-10-28T01:30:13.568Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -334,13 +352,13 @@
       },
       "after": [
         {
-          "text": "Заполните обязательные поля адреса: Почтовый индекс и Город."
+          "text": "Заполните обязательные поля адреса"
         }
       ],
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:33:24.897Z",
+        "at": "2026-10-28T01:30:16.022Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -382,7 +400,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:33:26.943Z",
+        "at": "2026-10-28T01:30:17.743Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -419,7 +437,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:33:29.580Z",
+        "at": "2026-10-28T01:30:19.270Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -455,7 +473,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:33:31.865Z",
+        "at": "2026-10-28T01:30:20.543Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -482,7 +500,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:35:19.274Z",
+        "at": "2026-10-28T01:30:21.465Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -517,13 +535,17 @@
       },
       "after": [
         {
-          "text": "Сохранение..."
+          "visible": {
+            "role": "radio",
+            "name": "Pickup"
+          }
         }
       ],
+      "checkpoint": true,
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:35:30.571Z",
+        "at": "2026-10-28T01:30:24.550Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -559,13 +581,16 @@
       },
       "after": [
         {
-          "text": "Pickup · Бесплатно"
+          "visible": {
+            "testid": "checkout-contacts-next"
+          }
         }
       ],
+      "checkpoint": true,
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:35:40.420Z",
+        "at": "2026-10-28T01:30:28.246Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -600,13 +625,16 @@
       },
       "after": [
         {
-          "text": "Сохранение..."
+          "visible": {
+            "testid": "demo-card-number-input"
+          }
         }
       ],
+      "checkpoint": true,
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:35:49.441Z",
+        "at": "2026-10-28T01:30:34.361Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -643,7 +671,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:36:07.902Z",
+        "at": "2026-10-28T01:30:43.353Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -680,7 +708,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:36:12.443Z",
+        "at": "2026-10-28T01:30:44.480Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -719,7 +747,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:36:15.413Z",
+        "at": "2026-10-28T01:30:45.785Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -749,7 +777,7 @@
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:36:25.291Z",
+        "at": "2026-10-28T01:30:46.953Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -782,10 +810,11 @@
         ],
         "hash": "0000604444602000"
       },
+      "checkpoint": true,
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:36:27.928Z",
+        "at": "2026-10-28T01:30:51.463Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -816,59 +845,18 @@
           928,
           57
         ],
-        "hash": "0000003030000000"
-      },
-      "after": [
-        {
-          "text": "Оплатить1 500,00 ₽"
-        }
-      ],
-      "recorded": {
-        "by": "scenario.mjs agent",
-        "model": null,
-        "at": "2026-10-27T23:36:30.745Z",
-        "tokens": null,
-        "profile": "desktop-mouse"
-      }
-    },
-    {
-      "id": "s22",
-      "intent": "Оплачиваю заказ демо-картой",
-      "device": "mouse",
-      "action": "click",
-      "target": {
-        "testid": "submit-order-button"
-      },
-      "at": {
-        "fx": 0.5,
-        "fy": 0.5,
-        "box": [
-          24,
-          754.78,
-          912,
-          40
-        ]
-      },
-      "before": {
-        "url": "^/ru/checkout$",
-        "region": [
-          16,
-          746,
-          928,
-          57
-        ],
         "hash": "0080808c8c808080"
       },
       "after": [
         {
-          "text": "Оплатить1 500,00 ₽"
+          "url": "^/ru/order/[^/]+/confirmed$"
         }
       ],
       "checkpoint": true,
       "recorded": {
         "by": "scenario.mjs agent",
         "model": null,
-        "at": "2026-10-27T23:38:32.708Z",
+        "at": "2026-10-28T01:31:02.779Z",
         "tokens": null,
         "profile": "desktop-mouse"
       }
@@ -876,7 +864,7 @@
   ],
   "history": [
     {
-      "at": "2026-10-27T23:38:48.798Z",
+      "at": "2026-10-28T01:31:06.718Z",
       "by": "scenario.mjs agent",
       "kind": "record",
       "version": 2,
@@ -902,8 +890,7 @@
         "s18",
         "s19",
         "s20",
-        "s21",
-        "s22"
+        "s21"
       ],
       "reason": "first pass: Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
       "model": null,

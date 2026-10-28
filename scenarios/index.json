@@ -61,7 +61,7 @@
         "/[locale]/checkout",
         "/[locale]/order/[id]/confirmed"
       ],
-      "status": "unstable",
+      "status": "recorded",
       "work": null
     },
     {

@@ -1,3 +1,5 @@
+Superseded by attempt 3: the scenario was re-recorded with an `after` on every step that leads to a new state; see /Users/ivanprotsko/upready/worktrees/upready-store/feat/t28-26-sc-store/scenarios/report/index.md.
+
 # Scenario failed: buyer-checkout-place-order
 
 - Goal: Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»
