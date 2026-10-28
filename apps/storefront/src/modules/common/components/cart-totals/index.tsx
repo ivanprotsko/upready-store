@@ -45,16 +45,16 @@ const CartTotals: React.FC<CartTotalsProps> = ({
     discount_subtotal,
   } = totals
 
-  // t-2026-10-04-19 N5: a cart with nothing to post (an online course alone) has no
-  // delivery to leave out, so its subtotal reads plain «Промежуточный итог», and its
-  // taxes row shows only when there is a tax, never as «Налоги 0,00 ₽».
-  const showTaxes = needsShipping || !!tax_total
+  // t-2026-10-04-19 N5, t-2026-10-20-61 D7: the subtotal reads plain «Промежуточный итог»
+  // (no parenthesis about what it leaves out), and the taxes row shows only when there is
+  // a tax, never as «Налоги 0,00 ₽».
+  const showTaxes = !!tax_total
 
   return (
     <div>
       <div className={`flex flex-col txt-medium text-ui-fg-subtle ${rowsClassName}`}>
         <div className="flex items-center justify-between gap-x-4">
-          <span>{needsShipping ? t("subtotal") : t("subtotalNothingToShip")}</span>
+          <span>{t("subtotalNothingToShip")}</span>
           <span data-testid="cart-subtotal" data-value={item_subtotal || 0}>
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code, locale })}
           </span>
