@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "एकल उद्यमी की पंजीकरण संख्या: {value}",
     "aboutHeading": "स्टोर के बारे में",
     "trackOrder": "अपना ऑर्डर ट्रैक करें",
-    "badgesLabel": "डिलीवरी और भुगतान"
+    "paymentsLabel": "भुगतान के तरीके"
   },
   "ForgotPassword": {
     "backToSignIn": "साइन इन पर लौटें",

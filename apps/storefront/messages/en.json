@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Sole trader registration no. (OGRNIP): {value}",
     "aboutHeading": "About the shop",
     "trackOrder": "Track your order",
-    "badgesLabel": "Delivery and payment"
+    "paymentsLabel": "Payment methods"
   },
   "ForgotPassword": {
     "backToSignIn": "Back to sign in",

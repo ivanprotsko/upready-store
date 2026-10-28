@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "N.º de registro de empresario individual (OGRNIP): {value}",
     "aboutHeading": "Sobre la tienda",
     "trackOrder": "Seguimiento del pedido",
-    "badgesLabel": "Envío y pago"
+    "paymentsLabel": "Métodos de pago"
   },
   "ForgotPassword": {
     "backToSignIn": "Volver al inicio de sesión",

@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "ინდივიდუალური მეწარმის სარეგისტრაციო ნომერი: {value}",
     "aboutHeading": "მაღაზიის შესახებ",
     "trackOrder": "შეკვეთის თვალყურის დევნება",
-    "badgesLabel": "მიწოდება და გადახდა"
+    "paymentsLabel": "გადახდის მეთოდები"
   },
   "ForgotPassword": {
     "backToSignIn": "დაბრუნება შესვლაზე",

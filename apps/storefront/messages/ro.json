@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Nr. de înregistrare al întreprinzătorului individual (OGRNIP): {value}",
     "aboutHeading": "Despre magazin",
     "trackOrder": "Urmărește comanda",
-    "badgesLabel": "Livrare și plată"
+    "paymentsLabel": "Metode de plată"
   },
   "ForgotPassword": {
     "backToSignIn": "Înapoi la autentificare",

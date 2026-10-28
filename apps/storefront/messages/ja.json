@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "個人事業主登録番号：{value}",
     "aboutHeading": "ショップについて",
     "trackOrder": "注文状況を確認",
-    "badgesLabel": "配送と支払い"
+    "paymentsLabel": "お支払い方法"
   },
   "ForgotPassword": {
     "backToSignIn": "ログインに戻る",

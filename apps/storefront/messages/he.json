@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "מספר רישום של עוסק יחיד: {value}",
     "aboutHeading": "על החנות",
     "trackOrder": "מעקב אחר ההזמנה",
-    "badgesLabel": "משלוח ותשלום"
+    "paymentsLabel": "אמצעי תשלום"
   },
   "ForgotPassword": {
     "backToSignIn": "חזרה להתחברות",

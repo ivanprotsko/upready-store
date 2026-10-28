@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Αρ. μητρώου ατομικής επιχείρησης (OGRNIP): {value}",
     "aboutHeading": "Σχετικά με το κατάστημα",
     "trackOrder": "Παρακολούθηση παραγγελίας",
-    "badgesLabel": "Αποστολή και πληρωμή"
+    "paymentsLabel": "Τρόποι πληρωμής"
   },
   "ForgotPassword": {
     "backToSignIn": "Επιστροφή στη σύνδεση",

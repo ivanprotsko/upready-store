@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Egyéni vállalkozó nyilvántartási száma (OGRNIP): {value}",
     "aboutHeading": "Az üzletről",
     "trackOrder": "Rendelés követése",
-    "badgesLabel": "Szállítás és fizetés"
+    "paymentsLabel": "Fizetési módok"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",

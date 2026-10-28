@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Registreringsnr för enskild firma (OGRNIP): {value}",
     "aboutHeading": "Om butiken",
     "trackOrder": "Spåra din beställning",
-    "badgesLabel": "Leverans och betalning"
+    "paymentsLabel": "Betalningssätt"
   },
   "ForgotPassword": {
     "backToSignIn": "Tillbaka till inloggningen",

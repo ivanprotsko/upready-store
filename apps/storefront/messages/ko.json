@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "개인사업자 등록 번호: {value}",
     "aboutHeading": "쇼핑몰 소개",
     "trackOrder": "주문 조회",
-    "badgesLabel": "배송 및 결제"
+    "paymentsLabel": "결제 수단"
   },
   "ForgotPassword": {
     "backToSignIn": "로그인으로 돌아가기",

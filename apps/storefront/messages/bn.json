@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "একক উদ্যোক্তার নিবন্ধন নম্বর: {value}",
     "aboutHeading": "দোকান সম্পর্কে",
     "trackOrder": "আপনার অর্ডার ট্র্যাক করুন",
-    "badgesLabel": "ডেলিভারি ও পেমেন্ট"
+    "paymentsLabel": "পেমেন্টের পদ্ধতি"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",

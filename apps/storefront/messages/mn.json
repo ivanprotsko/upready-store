@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Хувиараа бизнес эрхлэгчийн бүртгэлийн дугаар: {value}",
     "aboutHeading": "Дэлгүүрийн тухай",
     "trackOrder": "Захиалгаа хянах",
-    "badgesLabel": "Хүргэлт ба төлбөр"
+    "paymentsLabel": "Төлбөрийн аргууд"
   },
   "ForgotPassword": {
     "backToSignIn": "Нэвтрэх рүү буцах",

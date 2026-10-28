@@ -256,7 +256,7 @@ export default async function FooterF7() {
 
         {paymentLabels.length > 0 && (
           <ul
-            aria-label={t("badgesLabel")}
+            aria-label={t("paymentsLabel")}
             className="flex flex-wrap items-center gap-2 mt-6"
             data-testid="footer-badges"
           >
