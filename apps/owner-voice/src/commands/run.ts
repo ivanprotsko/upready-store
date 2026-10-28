@@ -13,6 +13,7 @@ import { randomUUID } from "node:crypto";
 
 import { scrub } from "../pii.ts";
 import type { Query } from "../shop/api.ts";
+import type { Op, OpMethod } from "../shop/changesets.ts";
 import { fold, matchesQuery } from "../shop/fixtures.ts";
 import { type Card, money, type ToolContext, type ToolOutcome } from "../tools.ts";
 import { type Command, commandById, fillPath, panelHref, pathParams, RISK_RU } from "./index.ts";
@@ -27,6 +28,10 @@ export interface Proposal {
   command: string;
   label: string;
   request: { method: string; url: string; body: unknown };
+  /** The same write as a changeset op (stage 3): method, `/tenants/*` path, body. */
+  op?: Op;
+  /** A picture to upload to the shop on the owner's «да»; `local` is the address the op carries until then. */
+  upload?: { image: string; local: string };
   expiresAt: number;
 }
 
@@ -38,11 +43,29 @@ export class ProposalStore {
     this.#now = now;
   }
 
-  add(command: Command, request: Proposal["request"]): Proposal {
+  add(command: Pick<Command, "id" | "label_ru">, request: Proposal["request"], op?: Op): Proposal {
     for (const [id, p] of this.#items) if (p.expiresAt <= this.#now()) this.#items.delete(id);
-    const proposal = { id: randomUUID(), command: command.id, label: command.label_ru, request, expiresAt: this.#now() + PROPOSAL_TTL_MS };
+    const proposal: Proposal = {
+      id: randomUUID(),
+      command: command.id,
+      label: command.label_ru,
+      request,
+      ...(op ? { op } : {}),
+      expiresAt: this.#now() + PROPOSAL_TTL_MS,
+    };
     this.#items.set(proposal.id, proposal);
     return proposal;
+  }
+
+  /** The proposal without taking it, so a failed upload leaves it waiting. */
+  peek(id: string): Proposal | null {
+    const proposal = this.#items.get(id) ?? null;
+    return proposal && proposal.expiresAt > this.#now() ? proposal : null;
+  }
+
+  attach(id: string, upload: NonNullable<Proposal["upload"]>): void {
+    const proposal = this.#items.get(id);
+    if (proposal) proposal.upload = upload;
   }
 
   /** The proposal, once: a confirmed or expired one is gone. */
@@ -274,14 +297,25 @@ export async function runCommand(id: string, input: CommandInput, ctx: ToolConte
   if (!ctx.proposals) return { text: "Изменения на этом стенде выключены." };
   const body = input.body ?? command.body ?? {};
   const request = { method: command.target.method, url: `${ctx.apiUrl ?? ""}${path}`, body };
-  const proposal = ctx.proposals.add(command, request);
   const what = typeof params._name === "string" ? ` для «${params._name}»` : "";
+  const proposal = ctx.proposals.add({ id: command.id, label_ru: `${command.label_ru}${what}` }, request, {
+    method: command.target.method as OpMethod,
+    path,
+    body: body as Record<string, unknown>,
+  });
   return {
-    text: `Подготовил «${command.label_ru}»${what}. Нужна ваша кнопка «Подтвердить»; на этом стенде запрос только покажется и не уйдёт.`,
+    text: ctx.changes
+      ? `Подготовил «${command.label_ru}»${what}. После вашей кнопки «Подтвердить» изменение попадёт на stage, на сайте пока ничего не изменится.`
+      : `Подготовил «${command.label_ru}»${what}. Нужна ваша кнопка «Подтвердить»; на этом стенде запрос только покажется и не уйдёт.`,
     card: {
       kind: "proposal",
       title: `Предложение: ${command.label_ru}${what}`,
-      rows: [`${request.method} ${request.url}`, `Тело: ${JSON.stringify(body)}`, `Риск: ${RISK_RU[command.risk]}. Ждёт подтверждения 5 минут.`],
+      rows: [
+        `${request.method} ${request.url}`,
+        `Тело: ${JSON.stringify(body)}`,
+        `Риск: ${RISK_RU[command.risk]}. Ждёт подтверждения 5 минут.`,
+        ...(ctx.changes ? ["Подтверждение кладёт изменение на stage; на сайт — только после «публикуй»."] : []),
+      ],
       proposalId: proposal.id,
       request,
       ...(href ? { link: { label: "Открыть в панели", href } } : {}),

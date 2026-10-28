@@ -27,7 +27,13 @@ export type ChatMessage =
   | { role: "assistant"; text: string; toolCalls?: ToolCall[] }
   | { role: "tool"; results: ToolResult[] };
 
-export type ModelStep = { kind: "tools"; text: string; calls: ToolCall[] } | { kind: "text"; text: string };
+/** Tokens a paid model reports for one call, for the daily spend cap. */
+export interface Usage {
+  inputTokens: number;
+  outputTokens: number;
+}
+
+export type ModelStep = ({ kind: "tools"; text: string; calls: ToolCall[] } | { kind: "text"; text: string }) & { usage?: Usage };
 
 export interface ModelRequest {
   system: string;

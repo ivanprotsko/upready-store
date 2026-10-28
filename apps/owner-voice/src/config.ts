@@ -36,7 +36,44 @@ export interface Config {
     provider: "anthropic" | "rules";
     anthropicKey: string | null;
     anthropicModel: string;
+    /** `MODEL_DAILY_USD`, default 5: past it the keyword router answers until the next UTC day. */
+    dailyUsd: number;
+    /** Price per million tokens, in and out, for the spend count (`MODEL_USD_PER_MTOK_IN/OUT`). */
+    usdPerMTokIn: number;
+    usdPerMTokOut: number;
   };
+  /**
+   * `SHOP_REGION=ru` turns Claude and images off: both wait for Ivan's decision
+   * on sending RU data abroad (architecture §6). Default `intl`.
+   */
+  region: "ru" | "intl";
+  changesets: {
+    /** `CHANGESETS=1` lets a confirm become a changeset on stage. Off: the stage 2 dry-run. */
+    on: boolean;
+    /** The stage site's host, for the links on a card; `stage.<SHOP_HOST>` by default. */
+    stageHost: string;
+  };
+  images: {
+    /** `IMAGES=0` turns them off; on by default outside RU, always off in RU. */
+    on: boolean;
+    /** The driver that runs: `IMAGE_PROVIDER` when its key is set, else the stub. */
+    provider: "stub" | "fal" | "replicate";
+    /** What `IMAGE_PROVIDER` asked for; differs from `provider` when the key is missing. */
+    requested: "stub" | "fal" | "replicate";
+    /** Server environment only: `FAL_KEY`, `REPLICATE_API_TOKEN`. Never printed, never sent to the model or the page. */
+    falKey: string | null;
+    replicateToken: string | null;
+    dailyUsd: number;
+    dailyCount: number;
+    /** What one stub picture costs, so the cap can be shown on fixtures (`IMAGE_STUB_USD`). */
+    stubUsd: number;
+  };
+  /** Where the stand keeps its counts and the owner's files (`DATA_DIR`). */
+  dataDir: string;
+  /** The stand's own origin, for image links a changeset op carries (`PUBLIC_URL`). */
+  publicUrl: string;
+  /** Uploaded files and image previews are deleted after this many hours (`FILES_TTL_HOURS`, default 24). */
+  filesTtlHours: number;
 }
 
 /** Oksana's cloned voice "Chrxn 2.0", the default of chrxnasdmds; it plays only on the account that owns it. */
@@ -47,19 +84,32 @@ const value = (env: NodeJS.ProcessEnv, name: string): string | null => {
   return raw ? raw : null;
 };
 
+const num = (env: NodeJS.ProcessEnv, name: string, fallback: number): number => {
+  const parsed = Number(value(env, name));
+  return Number.isFinite(parsed) && value(env, name) !== null && parsed >= 0 ? parsed : fallback;
+};
+
 const trimSlash = (url: string): string => url.replace(/\/+$/, "");
 
 export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const email = value(env, "SHOP_LOGIN_EMAIL");
   const password = value(env, "SHOP_LOGIN_PASSWORD");
   const anthropicKey = value(env, "ANTHROPIC_API_KEY");
-  const requested = value(env, "MODEL_PROVIDER");
+  const modelAsked = value(env, "MODEL_PROVIDER");
+  const region = value(env, "SHOP_REGION") === "ru" ? "ru" : "intl";
+  const host = value(env, "SHOP_HOST") ?? "cherkashino.com";
+  const port = Number(value(env, "PORT") ?? 5470);
+  const asked = value(env, "IMAGE_PROVIDER");
+  const requested = asked === "fal" || asked === "replicate" ? asked : "stub";
+  const falKey = value(env, "FAL_KEY");
+  const replicateToken = value(env, "REPLICATE_API_TOKEN");
+  const keyed = requested === "fal" ? falKey : requested === "replicate" ? replicateToken : null;
 
   return {
-    port: Number(value(env, "PORT") ?? 5470),
+    port,
     shop: {
       apiUrl: trimSlash(value(env, "SHOP_API_URL") ?? "https://shipshift.dev"),
-      host: value(env, "SHOP_HOST") ?? "cherkashino.com",
+      host,
       panelUrl: trimSlash(value(env, "SHOP_PANEL_URL") ?? "https://panel.cherkashino.com"),
       storefrontUrl: trimSlash(value(env, "SHOP_STOREFRONT_URL") ?? "https://cherkashino.com"),
       locale: value(env, "SHOP_LOCALE") ?? "ru",
@@ -76,10 +126,33 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     },
     model: {
       // Without a key the rules provider answers, so the stand still works on fixtures.
-      provider: requested === "rules" || !anthropicKey ? "rules" : "anthropic",
+      // In RU Claude stays off whatever the key: the flag wins.
+      provider: modelAsked === "rules" || !anthropicKey || region === "ru" ? "rules" : "anthropic",
       anthropicKey,
       anthropicModel: value(env, "ANTHROPIC_MODEL") ?? "claude-sonnet-5-5",
+      dailyUsd: num(env, "MODEL_DAILY_USD", 5),
+      usdPerMTokIn: num(env, "MODEL_USD_PER_MTOK_IN", 3),
+      usdPerMTokOut: num(env, "MODEL_USD_PER_MTOK_OUT", 15),
     },
+    region,
+    changesets: {
+      on: value(env, "CHANGESETS") === "1",
+      stageHost: value(env, "STAGE_HOST") ?? `stage.${host}`,
+    },
+    images: {
+      on: region !== "ru" && value(env, "IMAGES") !== "0",
+      // No key for the chosen provider: the stub runs, and the status says «заглушка».
+      provider: requested !== "stub" && keyed ? requested : "stub",
+      requested,
+      falKey,
+      replicateToken,
+      dailyUsd: num(env, "IMAGE_DAILY_USD", 3),
+      dailyCount: num(env, "IMAGE_DAILY_COUNT", 30),
+      stubUsd: num(env, "IMAGE_STUB_USD", 0.04),
+    },
+    dataDir: value(env, "DATA_DIR") ?? ".data",
+    publicUrl: trimSlash(value(env, "PUBLIC_URL") ?? `http://localhost:${port}`),
+    filesTtlHours: num(env, "FILES_TTL_HOURS", 24),
   };
 }
 
@@ -93,6 +166,18 @@ export function describeConfig(config: Config) {
     model:
       config.model.provider === "anthropic"
         ? `anthropic ${config.model.anthropicModel}`
-        : "rules (no model key, keyword router)",
+        : config.region === "ru" && config.model.anthropicKey
+          ? "rules (Claude off in RU)"
+          : "rules (no model key, keyword router)",
+    region: config.region,
+    changesets: config.changesets.on ? "on" : "off (dry-run)",
+    stageHost: config.changesets.stageHost,
+    images: config.images.on
+      ? config.images.provider === "stub" && config.images.requested !== "stub"
+        ? `stub (заглушка: нет ключа для ${config.images.requested})`
+        : config.images.provider
+      : config.region === "ru"
+        ? "off (RU)"
+        : "off",
   };
 }

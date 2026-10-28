@@ -4,6 +4,7 @@
  * feature/voice-widget-revive). Raw HTTPS, no SDK; the key is passed in and
  * stays on the server, and nothing is stored: chat audio is ephemeral.
  */
+import { audioFormat } from "./files/index.ts";
 import type { FetchFn } from "./shop/api.ts";
 
 const API_BASE = "https://api.elevenlabs.io/v1";
@@ -20,6 +21,8 @@ export interface ElevenLabsOptions {
 export interface Audio {
   data: Uint8Array;
   contentType: string;
+  /** The file name speech-to-text is sent; absent, it follows the type. */
+  name?: string;
 }
 
 const fail = async (what: string, res: Response): Promise<never> => {
@@ -31,8 +34,9 @@ const fail = async (what: string, res: Response): Promise<never> => {
 export async function speechToText(opts: ElevenLabsOptions, audio: Audio, fetchFn: FetchFn = fetch): Promise<string> {
   // Multipart: do not set content-type by hand, fetch derives the boundary from the FormData.
   const form = new FormData();
-  const extension = audio.contentType.includes("wav") ? "wav" : audio.contentType.includes("mp4") ? "m4a" : "webm";
-  form.append("file", new Blob([audio.data], { type: audio.contentType }), `speech.${extension}`);
+  // mp3, m4a, ogg, opus, wav or webm: the name tells the service the container.
+  const name = audio.name ?? `speech.${audioFormat("", audio.contentType)?.ext ?? "webm"}`;
+  form.append("file", new Blob([audio.data], { type: audio.contentType }), name);
   form.append("model_id", opts.sttModelId);
   form.append("language_code", opts.languageCode);
 

@@ -63,7 +63,7 @@ export class AnthropicProvider implements ModelProvider {
       const detail = await res.text().catch(() => "");
       throw new Error(`Anthropic answered ${res.status}: ${detail.slice(0, 200)}`);
     }
-    const body = (await res.json()) as { content?: Block[] };
+    const body = (await res.json()) as { content?: Block[]; usage?: { input_tokens?: number; output_tokens?: number } };
     const blocks = body.content ?? [];
     const text = blocks
       .filter((b): b is Extract<Block, { type: "text" }> => b.type === "text")
@@ -73,6 +73,7 @@ export class AnthropicProvider implements ModelProvider {
     const calls: ToolCall[] = blocks
       .filter((b): b is Extract<Block, { type: "tool_use" }> => b.type === "tool_use")
       .map((b) => ({ id: b.id, name: b.name, input: b.input ?? {} }));
-    return calls.length ? { kind: "tools", text, calls } : { kind: "text", text };
+    const usage = { inputTokens: Number(body.usage?.input_tokens ?? 0), outputTokens: Number(body.usage?.output_tokens ?? 0) };
+    return calls.length ? { kind: "tools", text, calls, usage } : { kind: "text", text, usage };
   }
 }
