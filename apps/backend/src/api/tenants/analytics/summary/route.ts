@@ -7,7 +7,16 @@ import {
   joinCurrentOrderSummary,
 } from "../../order-totals";
 import { listTenantOrderIds } from "../../tenant-scope";
-import { ANALYTICS_TIMEZONE, formatDateInZone, parseDateInZone, startOfDayInZone } from "../timezone";
+import {
+  aggregate,
+  canceledOnly,
+  changeOf,
+  dailySeries,
+  ordersBetween,
+  resolveRange,
+  sold,
+  type PeriodOrder,
+} from "../../../../analytics-summary/period";
 import { pickCurrency, summariseByCurrency, withSelectedCurrency } from "../../../../analytics-summary/currency";
 import {
   topProductsFromItemRows,
@@ -18,7 +27,9 @@ import {
  * `GET /tenants/analytics/summary` (t17-analytics, step 5) — revenue, order
  * count and average order value for a period the owner picks, the change
  * against the immediately preceding period of the same length, a daily
- * breakdown and the five best-selling products. Computed here, over the
+ * breakdown (with the previous period's own daily series, `previous_daily`,
+ * for the dashed line of the panel's analytics page) and the five best-selling
+ * products. The period arithmetic is `src/analytics-summary/period.ts`. Computed here, over the
  * tenant's own orders (`listTenantOrderIds`), never fetched whole into the
  * panel.
  *
@@ -46,92 +57,7 @@ import {
  * state is a separate, third value the frontend tracks itself (rule 19h).
  */
 
-type OrderRow = {
-  id: string;
-  created_at: Date;
-  total: number;
-  currency_code: string | null;
-  /** Canceled orders are money the shop did not earn: out of revenue, reported apart. */
-  canceled: boolean;
-};
-
-const DAY_MS = 24 * 60 * 60 * 1000;
-
-/**
- * `{ start, end }` (end exclusive) for the requested period, plus the
- * immediately preceding period of the same length, so "change against the
- * previous period" always compares like-for-like durations.
- *
- * Every boundary is midnight in `ANALYTICS_TIMEZONE`, not UTC (round 1,
- * finding 3): an order placed at 01:00 Moscow time is 22:00 UTC the day
- * before, and a UTC-midnight cut put it in the wrong day and closed the
- * "today" card three hours early for this shop's own morning.
- */
-const resolveRange = (
-  req: AuthenticatedMedusaRequest,
-  now: Date,
-): { start: Date; end: Date; prevStart: Date; prevEnd: Date; key: string } => {
-  const period = typeof req.query.period === "string" ? req.query.period : "7d";
-  const today = startOfDayInZone(now, ANALYTICS_TIMEZONE);
-  const end = new Date(today.getTime() + DAY_MS);
-
-  if (period === "custom") {
-    const fromRaw = typeof req.query.from === "string" ? req.query.from : null;
-    const toRaw = typeof req.query.to === "string" ? req.query.to : null;
-    const from = fromRaw ? parseDateInZone(fromRaw, ANALYTICS_TIMEZONE) : null;
-    const to = toRaw ? parseDateInZone(toRaw, ANALYTICS_TIMEZONE) : null;
-
-    if (from && to && to.getTime() >= from.getTime()) {
-      const start = from;
-      const rangeEnd = new Date(to.getTime() + DAY_MS);
-      const length = rangeEnd.getTime() - start.getTime();
-
-      return {
-        start,
-        end: rangeEnd,
-        prevStart: new Date(start.getTime() - length),
-        prevEnd: start,
-        key: "custom",
-      };
-    }
-    // Fall through to the 7-day default on a malformed custom range: the
-    // range is what the caller asked for, not a fact that can 400 the whole
-    // panel screen.
-  }
-
-  const days = period === "today" ? 1 : period === "30d" ? 30 : 7;
-  const start = new Date(end.getTime() - days * DAY_MS);
-
-  return {
-    start,
-    end,
-    prevStart: new Date(start.getTime() - days * DAY_MS),
-    prevEnd: start,
-    key: period === "today" || period === "30d" ? period : "7d",
-  };
-};
-
-const round2 = (value: number): number => Math.round(value * 100) / 100;
-
-const aggregate = (orders: OrderRow[]) => {
-  const revenue = round2(orders.reduce((sum, order) => sum + order.total, 0));
-  const order_count = orders.length;
-  const aov = order_count > 0 ? round2(revenue / order_count) : 0;
-  return { revenue, order_count, aov };
-};
-
-/** The orders that are revenue, and the ones the shop cancelled. */
-const sold = (orders: OrderRow[]): OrderRow[] => orders.filter((order) => !order.canceled);
-const canceledOnly = (orders: OrderRow[]): OrderRow[] =>
-  orders.filter((order) => order.canceled);
-
-/** Percent change, or null when the previous period has nothing to compare against. */
-const changeOf = (current: number, previous: number): number | null => {
-  if (previous === 0) {
-    return null;
-  }
-  return round2(((current - previous) / previous) * 100);
-};
+type OrderRow = PeriodOrder;
 
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const ownedIds = await listTenantOrderIds(req);
@@ -143,7 +69,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const now = new Date();
-  const { start, end, prevStart, prevEnd, key } = resolveRange(req, now);
+  const { start, end, prevStart, prevEnd, key } = resolveRange(req.query, now);
 
   const rawOrders: {
     id: string;
@@ -166,11 +92,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     canceled: isCanceledOrder(row.status),
   }));
 
-  const inRange = (from: Date, to: Date) =>
-    orders.filter((order) => {
-      const at = order.created_at.getTime();
-      return at >= from.getTime() && at < to.getTime();
-    });
+  const inRange = (from: Date, to: Date) => ordersBetween(orders, from, to);
 
   const currentOrders = inRange(start, end);
 
@@ -194,18 +116,12 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   const current = aggregate(sold(selectedCurrent));
   const previous = aggregate(sold(selectedPrevious));
   const canceled = aggregate(canceledOnly(selectedCurrent));
+  const previousCanceled = aggregate(canceledOnly(selectedPrevious));
 
-  const daily: { date: string; revenue: number; order_count: number }[] = [];
-  for (let cursor = start.getTime(); cursor < end.getTime(); cursor += DAY_MS) {
-    const dayStart = new Date(cursor);
-    const dayEnd = new Date(cursor + DAY_MS);
-    const dayOrders = sold(inCurrency(inRange(dayStart, dayEnd)));
-    daily.push({
-      date: formatDateInZone(dayStart, ANALYTICS_TIMEZONE),
-      revenue: aggregate(dayOrders).revenue,
-      order_count: dayOrders.length,
-    });
-  }
+  const daily = dailySeries(inCurrency(orders), start, end);
+  // The previous period day by day, same length and order as `daily`: the
+  // panel draws it dashed over the chosen one (t-2026-10-20-45).
+  const previous_daily = dailySeries(inCurrency(orders), prevStart, prevEnd);
 
   let top_products = [] as ReturnType<typeof topProductsFromItemRows>;
 
@@ -276,12 +192,15 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     current,
     previous,
     canceled: { order_count: canceled.order_count, revenue: canceled.revenue },
+    previous_canceled: { order_count: previousCanceled.order_count, revenue: previousCanceled.revenue },
     change: {
       revenue_pct: changeOf(current.revenue, previous.revenue),
       order_count_pct: changeOf(current.order_count, previous.order_count),
       aov_pct: changeOf(current.aov, previous.aov),
+      canceled_pct: changeOf(canceled.order_count, previousCanceled.order_count),
     },
     daily,
+    previous_daily,
     top_products,
   });
 };

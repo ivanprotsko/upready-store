@@ -79,6 +79,7 @@ export function parseArgs(argv) {
 export const PANEL_ROUTES = [
   { name: "home", path: "/" },
   { name: "home-settings", path: "/home-settings" },
+  { name: "analytics", path: "/analytics" },
   { name: "products", path: "/products" },
   { name: "product-detail", path: "/products/:product", needs: "product" },
   { name: "product-variant", path: "/products/:product/variants/:variant", needs: "variant" },
