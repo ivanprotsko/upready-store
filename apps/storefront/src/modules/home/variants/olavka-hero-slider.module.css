@@ -105,7 +105,9 @@
 }
 
 .loop > .track {
-  flex: 0 0 100%;
+  /* The track's margin box is the whole line: 100% of the content box plus the two 24px
+     it pulls outward minus those same two, so the arrows always wrap to their own row. */
+  flex: 0 0 calc(100% + 48px);
   min-width: 0;
   margin-inline: -24px;
 }
