@@ -1079,6 +1079,12 @@
     "close": "Kapat",
     "message": "Tam donanımlı, üretime hazır DTC starter."
   },
+  "RegionPopup": {
+    "description": "Doğru mağazayı, fiyatları ve teslimatı göstermek için bir kez soruyoruz.",
+    "goesTo": "{site} açılır",
+    "otherCountry": "Başka ülke",
+    "title": "Nereden alışveriş yapıyorsunuz?"
+  },
   "RegionSelect": {
     "apply": "Uygula",
     "close": "Kapat",

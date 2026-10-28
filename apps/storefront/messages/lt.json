@@ -1079,6 +1079,12 @@
     "close": "Uždaryti",
     "message": "Pilnavertis, gamybai paruoštas DTC starteris."
   },
+  "RegionPopup": {
+    "description": "Klausiame vieną kartą, kad parodytume tinkamą parduotuvę, kainas ir pristatymą.",
+    "goesTo": "Atidaroma {site}",
+    "otherCountry": "Kita šalis",
+    "title": "Iš kur apsiperkate?"
+  },
   "RegionSelect": {
     "apply": "Taikyti",
     "close": "Uždaryti",

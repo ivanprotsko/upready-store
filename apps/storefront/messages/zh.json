@@ -1079,6 +1079,12 @@
     "close": "关闭",
     "message": "功能齐全、可用于生产环境的 DTC 启动模板。"
   },
+  "RegionPopup": {
+    "description": "我们只问一次，以便为您显示合适的商店、价格和配送。",
+    "goesTo": "将打开 {site}",
+    "otherCountry": "其他国家/地区",
+    "title": "您从哪里购物？"
+  },
   "RegionSelect": {
     "apply": "应用",
     "close": "关闭",

@@ -4,6 +4,7 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { Logger } from "@medusajs/framework/types";
 import { isAttributionHidden, resolveAttribution } from "./attribution";
 import { isPromoCodeEnabled } from "./promo-code";
+import { readRegionRedirects } from "./region-redirects";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
 import {
@@ -293,6 +294,10 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     promo_code: {
       enabled: isPromoCodeEnabled(tenant.metadata as Record<string, unknown> | null),
     },
+    // t-2026-10-20-22: the countries whose buyers belong to another shop, each
+    // with that shop's address; the storefront asks a first-time visitor the
+    // region only when this list is not empty.
+    region_redirects: readRegionRedirects(tenant.metadata as Record<string, unknown> | null),
     // t-2026-10-27-04: a stage site, the owner's agent's preview copy. The
     // storefront answers it with noindex three ways (`lib/tenant/stage.ts`).
     stage: isStageSite(tenant.metadata),

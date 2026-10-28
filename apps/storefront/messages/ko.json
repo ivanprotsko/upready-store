@@ -1079,6 +1079,12 @@
     "close": "닫기",
     "message": "모든 기능을 갖춘 프로덕션 준비 완료 DTC 스타터."
   },
+  "RegionPopup": {
+    "description": "알맞은 스토어, 가격, 배송을 보여 드리기 위해 한 번만 묻습니다.",
+    "goesTo": "{site}(으)로 이동",
+    "otherCountry": "다른 국가",
+    "title": "어디에서 쇼핑하시나요?"
+  },
   "RegionSelect": {
     "apply": "적용",
     "close": "닫기",

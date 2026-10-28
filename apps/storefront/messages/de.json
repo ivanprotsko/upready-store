@@ -1079,6 +1079,12 @@
     "close": "Schließen",
     "message": "Voll ausgestatteter, produktionsreifer DTC Starter."
   },
+  "RegionPopup": {
+    "description": "Wir fragen einmal, damit Sie den richtigen Shop, die Preise und den Versand sehen.",
+    "goesTo": "Öffnet {site}",
+    "otherCountry": "Anderes Land",
+    "title": "Von wo aus kaufen Sie ein?"
+  },
   "RegionSelect": {
     "apply": "Anwenden",
     "close": "Schließen",

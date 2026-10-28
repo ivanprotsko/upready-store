@@ -1079,6 +1079,12 @@
     "close": "Zavrieť",
     "message": "Plnohodnotný, produkčne pripravený DTC starter."
   },
+  "RegionPopup": {
+    "description": "Pýtame sa len raz, aby sme vám ukázali správny obchod, ceny a doručenie.",
+    "goesTo": "Otvorí {site}",
+    "otherCountry": "Iná krajina",
+    "title": "Odkiaľ nakupujete?"
+  },
   "RegionSelect": {
     "apply": "Použiť",
     "close": "Zavrieť",

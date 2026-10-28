@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -140,8 +140,12 @@ test("each G1 screen is a SettingsDetail read page with no form of its own", () 
 test("each G1 screen edits in a SettingsEditDrawer on its nested `edit` route", () => {
   for (const name of SCREENS) {
     assert.ok(editPage(name).includes("<SettingsEditDrawer"), `${name}-edit must use SettingsEditDrawer`)
+    // «Счётчики» keeps its drawer route in `routes.ts` beside the screen, so that app.tsx stays within its length.
+    const routesModule = join(SRC, "routes", "settings", name, "routes.ts")
+    const registered = existsSync(routesModule) ? readFileSync(routesModule, "utf8") : ""
     assert.ok(
-      app.includes(`lazy: () => import("./routes/settings/${name}/${name}-edit"),`),
+      app.includes(`lazy: () => import("./routes/settings/${name}/${name}-edit"),`) ||
+        registered.includes(`lazy: () => import("./${name}-edit"),`),
       `${name}: app.tsx must register the edit drawer as a child route`
     )
   }

@@ -1079,6 +1079,12 @@
     "close": "閉じる",
     "message": "本番環境対応のフル機能DTCスターター。"
   },
+  "RegionPopup": {
+    "description": "最適なショップ、価格、配送を表示するため、一度だけお尋ねします。",
+    "goesTo": "{site} を開きます",
+    "otherCountry": "その他の国",
+    "title": "どちらからご購入ですか？"
+  },
   "RegionSelect": {
     "apply": "適用",
     "close": "閉じる",

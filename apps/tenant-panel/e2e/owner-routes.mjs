@@ -81,6 +81,9 @@ export const OWNER_ROUTES = [
   { path: "/categories/:category_id/organize", kind: "overlay" },
   { path: "/categories/:category_id/metadata/edit", note: "redirects to the parent screen" },
 
+  // Аналитика магазина (t-2026-10-20-45)
+  { path: "/analytics", core: true },
+
   // Заказы
   { path: "/orders", core: true },
   { path: "/orders?q=zzzz-nothing-matches", note: "empty search result" },

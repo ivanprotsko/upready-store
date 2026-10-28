@@ -3802,7 +3802,8 @@
     "singleDay_one": "{{date}}: {{count}} order for {{revenue}}.",
     "singleDay_other": "{{date}}: {{count}} orders for {{revenue}}.",
     "noDays": "No sales in this period.",
-    "chartMax": "Best day: {{revenue}}"
+    "chartMax": "Best day: {{revenue}}",
+    "openAnalytics": "Open shop analytics"
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"
@@ -7806,6 +7807,36 @@
     "imageFailed": "Could not upload the picture",
     "uploadNoUrl": "The upload returned no file address",
     "previewEmpty": "What the reader sees appears here. Start writing on the left."
+  },
+  "shopAnalytics": {
+    "title": "Shop analytics",
+    "empty": {
+      "title": "No orders yet",
+      "message": "Revenue, orders and best sellers will show up here after the first order.",
+      "action": "Open Overview"
+    },
+    "tiles": {
+      "revenue": "Revenue",
+      "revenueHint": "Cancelled orders left out",
+      "orders": "Orders",
+      "aov": "Average order value",
+      "canceled": "Cancelled orders",
+      "canceledSum": "Worth",
+      "canceledHint": "Not counted in revenue"
+    },
+    "chart": {
+      "title": "Revenue by day",
+      "hint": "Orders without cancelled ones",
+      "dashed": "dashed line — previous {{days}} days",
+      "average_one": "On average {{revenue}} and {{orders}} order a day.",
+      "average_other": "On average {{revenue}} and {{orders}} orders a day.",
+      "legend": "Click a bar to keep the day on screen. Arrow keys step through days."
+    },
+    "shares": {
+      "title": "Product shares of revenue",
+      "hint": "The five best products and everything else. Click a segment or a row to see its sum.",
+      "rest": "Other products"
+    }
   },
   "agentChanges": {
     "title": "Agent changes",

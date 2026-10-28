@@ -69,6 +69,8 @@ export const ROUTE_PERMISSIONS: [prefix: string, permission: Permission | null][
   ["/", null],
   ["/settings/profile", null],
   ["/orders", "orders"],
+  // t-2026-10-20-45: the sales summary's own page, open to whoever sees the summary.
+  ["/analytics", "orders"],
   ["/customers", "customers"],
   ["/reviews", "reviews"],
   ["/products", "catalog"],

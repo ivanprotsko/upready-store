@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react"
+import { TriangleRightMini } from "@medusajs/icons"
 import { Button, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 import { useTenantAnalyticsSummary } from "../../hooks/api/analytics-summary"
 import type { AnalyticsPeriodKey } from "../../hooks/api/analytics-summary"
 import { SalesSummaryMetrics } from "./sales-summary-metrics"
@@ -84,7 +86,17 @@ export const SalesSummary = () => {
   return (
     <div className="flex flex-col gap-y-4 border-t pt-6">
       <div className="flex flex-wrap items-center justify-between gap-y-2">
-        <Heading level="h2">{t("salesSummary.title")}</Heading>
+        <Heading level="h2">
+          <Link
+            to="/analytics"
+            aria-label={t("salesSummary.openAnalytics")}
+            data-testid="sales-summary-open-analytics"
+            className="inline-flex items-center gap-x-1 rounded-md outline-none hover:underline focus-visible:shadow-borders-focus"
+          >
+            {t("salesSummary.title")}
+            <TriangleRightMini className="text-ui-fg-muted rtl:rotate-180" />
+          </Link>
+        </Heading>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex flex-wrap gap-1 max-md:gap-2">
             {PERIODS.map((key) => (

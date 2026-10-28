@@ -32,6 +32,13 @@ test("fixture mode is what the status says, with no key anywhere", () => {
     model: "rules (no model key, keyword router)",
     provider: "rules (keyword router, no model)",
     modelFallback: null,
+    region: "intl",
+    changesets: "off (dry-run)",
+    stageHost: "stage.cherkashino.com",
+    images: "stub",
+    modelCap: null,
+    imageCap: { usd: 0, count: 0, capUsd: 3, capCount: 30, capped: false },
+    notes: ["Изменения через stage выключены: подтверждение показывает запрос и ничего не отправляет (CHANGESETS=1 включает)."],
   });
 });
 

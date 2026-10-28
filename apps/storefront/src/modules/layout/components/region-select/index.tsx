@@ -1,17 +1,13 @@
 "use client"
 
 import CountryFlag from "@modules/common/components/country-flag"
+import RegionOptionRow from "./option-row"
 import { updateRegion } from "@lib/data/cart"
 import { updateLocale } from "@lib/data/locale-actions"
 import type { Locale } from "@i18n/config"
 import { ChevronDown, XMark } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
-import {
-  Button,
-  Input,
-  RadioGroup,
-  clx,
-} from "@medusajs/ui"
+import { Button, Input, RadioGroup, clx } from "@medusajs/ui"
 import {
   Dialog,
   DialogPanel,
@@ -23,11 +19,17 @@ import { useLocale, useTranslations } from "next-intl"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useMemo, useState, useTransition } from "react"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
+import { regionChoiceCookie } from "@lib/tenant/region-redirects"
+import { useRegionRedirects } from "@modules/layout/components/region-popup/context"
+import CountryList from "./country-list"
 import {
+  applyActionOf,
+  awayCountryOf,
   countryOptionsOf,
   countrySearchText,
   languageOptionsOf,
   languageSearchText,
+  regionNameOf,
 } from "./options"
 
 type RegionSelectProps = {
@@ -55,44 +57,6 @@ const ICON_CLASS =
 /** The node's «Currency / USD»: the sign alone, Rubik Medium 15. */
 const SIGN_CLASS = "font-[family-name:var(--font-olavka-sign)] text-[15px] font-medium leading-[1.1] tracking-[0.01em]"
 
-type RegionOptionRowProps = {
-  id: string
-  value: string
-  label: string
-  description: string
-  flagCode?: string
-}
-
-const RegionOptionRow = ({
-  id,
-  value,
-  label,
-  description,
-  flagCode,
-}: RegionOptionRowProps) => {
-  return (
-    <label
-      htmlFor={id}
-      className="flex items-center gap-x-3 rounded-lg px-3 py-2 cursor-pointer hover:bg-ui-bg-base-hover transition-colors min-w-0"
-    >
-      <RadioGroup.Item value={value} id={id} />
-      <span className="flex flex-col min-w-0">
-        <span className="txt-compact-small text-ui-fg-base truncate">{label}</span>
-        <span className="flex items-center gap-x-1.5 txt-compact-xsmall text-ui-fg-subtle truncate">
-          {flagCode ? (
-            <CountryFlag
-              countryCode={flagCode}
-              style={{ width: "14px", height: "14px" }}
-              className="shrink-0 rounded-sm"
-            />
-          ) : null}
-          {description}
-        </span>
-      </span>
-    </label>
-  )
-}
-
 const RegionSelect = ({
   regions,
   currentCountryCode,
@@ -118,6 +82,27 @@ const RegionSelect = ({
     [regions, currentLocale]
   )
 
+  // t-2026-10-20-22: the countries that lead to another shop (cherkashino.com's
+  // «Россия» → cherkashino.ru). Listed first, named by that shop's address, and a
+  // pick sends the visitor there, the way the first-visit popup does.
+  const redirects = useRegionRedirects()
+  const redirectOptions = useMemo(
+    () =>
+      redirects.map((r) => ({
+        country: r.country,
+        url: r.url,
+        label:
+          countryOptions.find((o) => o.country === r.country)?.label ??
+          regionNameOf(r.country, currentLocale),
+        host: new URL(r.url).host,
+      })),
+    [redirects, countryOptions, currentLocale]
+  )
+  const awayCountries = useMemo(
+    () => new Set(redirects.map((r) => r.country)),
+    [redirects]
+  )
+
   const languageOptions = useMemo(
     () =>
       languageOptionsOf(locales, currentLocale, (l) =>
@@ -130,7 +115,7 @@ const RegionSelect = ({
   // a shop that sells in one country has nothing to pick there. The dialog then
   // keeps only the languages; with one language as well there is no dialog at
   // all, and the header just names the country and the currency it prices in.
-  const canPickCountry = countryOptions.length > 1
+  const canPickCountry = countryOptions.length + redirectOptions.length > 1
   const canPickLanguage = languageOptions.length > 1
   const interactive = canPickCountry || canPickLanguage
 
@@ -155,11 +140,23 @@ const RegionSelect = ({
   )
 
   const filteredCountryOptions = useMemo(() => {
-    if (!searching) return countryOptions
-    return countryOptions.filter((_, i) =>
-      countrySearchTexts[i].includes(normalizedQuery)
+    // A redirect country is listed once, as its redirect row; the one the
+    // visitor is priced in (cherkashino.com/ru → `ru`) also stays as their own row.
+    const own = countryOptions.filter(
+      (o) => !awayCountries.has(o.country) || o.country === currentCountryCode
     )
-  }, [searching, countryOptions, countrySearchTexts, normalizedQuery])
+    if (!searching) return own
+    return own.filter((o) =>
+      countrySearchTexts[countryOptions.indexOf(o)].includes(normalizedQuery)
+    )
+  }, [searching, countryOptions, awayCountries, currentCountryCode, countrySearchTexts, normalizedQuery])
+
+  const filteredRedirectOptions = useMemo(() => {
+    if (!searching) return redirectOptions
+    return redirectOptions.filter((o) =>
+      `${o.label} ${o.country} ${o.host}`.toLowerCase().includes(normalizedQuery)
+    )
+  }, [searching, redirectOptions, normalizedQuery])
 
   const filteredLanguageOptions = useMemo(() => {
     if (!searching) return languageOptions
@@ -226,14 +223,32 @@ const RegionSelect = ({
   const countryLabel = `${t("tabCountry")}: ${selectedCountryOption.label}`
 
   function handleApply() {
-    const countryChanged =
-      !!pendingCountry && pendingCountry !== selectedCountryOption?.country
-    const localeChanged = pendingLocale !== currentLocale
+    const action = applyActionOf({
+      currentCountry: selectedCountryOption?.country,
+      pendingCountry,
+      currentLocale,
+      pendingLocale,
+    })
 
-    if (!countryChanged && !localeChanged) {
+    if (action === "redirect") {
+      const away = redirectOptions.find(
+        (o) => o.country === awayCountryOf(pendingCountry)
+      )
+      if (away) {
+        startTransition(() => {
+          window.location.assign(away.url)
+        })
+        return
+      }
+    }
+
+    if (action === "close") {
       setOpen(false)
       return
     }
+
+    const countryChanged = action === "region"
+    const localeChanged = pendingLocale !== currentLocale
 
     const segments = pathname.split("/").filter(Boolean)
     if (localeChanged) {
@@ -246,6 +261,13 @@ const RegionSelect = ({
         await updateLocale(pendingLocale)
       }
       if (countryChanged && pendingCountry) {
+        // The switcher answers the first-visit region popup as well (t-2026-10-20-22).
+        if (redirectOptions.length) {
+          document.cookie = regionChoiceCookie(
+            pendingCountry,
+            window.location.protocol === "https:"
+          )
+        }
         await updateRegion(pendingCountry, newPath)
         return
       }
@@ -420,24 +442,14 @@ const RegionSelect = ({
                           {t("tabCountry")}
                         </span>
                         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar">
-                          <RadioGroup
+                          <CountryList
                             dir={dir}
                             value={pendingCountry}
                             onValueChange={setPendingCountry}
                             disabled={isPending}
-                            className="gap-1"
-                          >
-                            {filteredCountryOptions.map((opt) => (
-                              <RegionOptionRow
-                                key={opt.country}
-                                id={`region-country-${opt.country}`}
-                                value={opt.country}
-                                label={opt.label}
-                                description={opt.currencyCode}
-                                flagCode={opt.country.toUpperCase()}
-                              />
-                            ))}
-                          </RadioGroup>
+                            redirectRows={filteredRedirectOptions}
+                            countryRows={filteredCountryOptions}
+                          />
                         </div>
                       </div>
                     )}

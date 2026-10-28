@@ -11,6 +11,8 @@ export type AnalyticsPeriodKey = "today" | "7d" | "30d" | "custom"
 
 export type AnalyticsAggregate = { revenue: number; order_count: number; aov: number }
 
+export type AnalyticsDailyPoint = { date: string; revenue: number; order_count: number }
+
 export type AnalyticsSummaryEmpty = { has_orders: false }
 
 /** One currency's own money for the chosen period. Never summed with another one. */
@@ -46,12 +48,18 @@ export type AnalyticsSummary = {
    * where they went instead of leaving an unexplained zero (b01-owner-numbers).
    */
   canceled: { order_count: number; revenue: number }
+  /** The same for the previous period of the same length (t-2026-10-20-45). */
+  previous_canceled: { order_count: number; revenue: number }
   change: {
     revenue_pct: number | null
     order_count_pct: number | null
     aov_pct: number | null
+    /** Cancelled orders against the previous period; `null` when it had none. */
+    canceled_pct: number | null
   }
-  daily: { date: string; revenue: number; order_count: number }[]
+  daily: AnalyticsDailyPoint[]
+  /** The previous period day by day, as long as `daily` and in the same order. */
+  previous_daily: AnalyticsDailyPoint[]
   top_products: { product_id: string; title: string; quantity: number; revenue: number }[]
 }
 

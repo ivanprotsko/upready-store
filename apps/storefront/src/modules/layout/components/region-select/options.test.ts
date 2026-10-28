@@ -4,6 +4,8 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 import { appLocales, type Locale } from "@i18n/config"
 
 import {
+  applyActionOf,
+  awayValueOf,
   countryOptionsOf,
   countrySearchText,
   languageOptionsOf,
@@ -273,5 +275,36 @@ describe("the switcher's formatters (FX5)", () => {
     expect(names).toBe(2 * valid)
     // ru and en, each with RUB, EUR, USD (the rejected "US" throws before it is counted).
     expect(numbers).toBe(2 * 3)
+  })
+})
+
+describe("what Apply does (t-2026-10-20-22, return 1)", () => {
+  const ru = { currentCountry: "ru", currentLocale: "ru", pendingLocale: "ru" }
+
+  it("current ru, only the language changed: no redirect", () => {
+    expect(applyActionOf({ ...ru, pendingCountry: "ru", pendingLocale: "en" })).toBe("language")
+  })
+
+  it("current ru, nothing changed: close", () => {
+    expect(applyActionOf({ ...ru, pendingCountry: "ru" })).toBe("close")
+  })
+
+  it("current ru, the redirect row picked: redirect", () => {
+    expect(applyActionOf({ ...ru, pendingCountry: awayValueOf("ru") })).toBe("redirect")
+  })
+
+  it("current us, the redirect row picked: redirect", () => {
+    expect(
+      applyActionOf({
+        currentCountry: "us",
+        currentLocale: "en",
+        pendingLocale: "en",
+        pendingCountry: awayValueOf("ru"),
+      })
+    ).toBe("redirect")
+  })
+
+  it("current ru, kz picked: switch region", () => {
+    expect(applyActionOf({ ...ru, pendingCountry: "kz" })).toBe("region")
   })
 })

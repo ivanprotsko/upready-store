@@ -21,6 +21,7 @@ const catalog = (lang) => JSON.parse(src("i18n", "translations", `${lang}.json`)
 const DIR = join(root, "routes", "marketplaces", "mp-analytics")
 const SCREEN = src("routes", "marketplaces", "mp-analytics", "mp-analytics.tsx")
 const CHART = src("routes", "marketplaces", "mp-analytics", "components", "sales-chart.tsx")
+const BAR = src("components", "analytics-period", "period-bar.tsx")
 const HOOK = src("hooks", "api", "marketplace-section.tsx")
 const PAGE = src("routes", "marketplaces", "common", "mp-page.tsx")
 const INFOGRAPHIC = src("routes", "marketplaces", "mp-analytics", "components", "infographic.tsx")
@@ -49,8 +50,8 @@ test("the period lives in the address and is written only when the owner picks a
   assert.doesNotMatch(SCREEN, /filters\.reset/)
   assert.doesNotMatch(SCREEN, /setPeriod\(null, null\)\}>/)
   // The picker re-emits its day on mount; a day equal to the shown one is not written.
-  assert.match(SCREEN, /if \(next !== \(from \?\? period\?\.from_day \?\? null\)\)/)
-  assert.match(SCREEN, /if \(next !== \(to \?\? period\?\.to_day \?\? null\)\)/)
+  assert.match(BAR, /if \(next !== \(from \?\? period\?\.from_day \?\? null\)\)/)
+  assert.match(BAR, /if \(next !== \(to \?\? period\?\.to_day \?\? null\)\)/)
   // `toISOString` would shift the day east of Greenwich.
   assert.doesNotMatch(withoutComments(SCREEN), /toISOString/)
 })
@@ -119,7 +120,7 @@ test("every mp.analytics key the screen and the chart use exists in ru and en, a
 
 test("the chart prints no Russian of its own: every word goes through the catalog", () => {
   assert.doesNotMatch(withoutComments(CHART), /[А-Яа-яЁё]/)
-  assert.match(CHART, /type Day = MpAnalyticsResponse\["by_day"\]\[number\]/)
+  assert.match(CHART, /SalesChartDay/)
 })
 
 /**
@@ -135,10 +136,10 @@ test("the period sits in the heading, which sticks to the top while the page scr
   // The bar is in the heading row itself, not stretched under it like `actions`.
   assert.match(PAGE, /<\/div>\s*\{bar\}\s*\{actions \?/)
   // On a phone: one chip with the range that opens the controls, as Metrica shrinks its bar.
-  assert.match(SCREEN, /data-testid="mp-analytics-period-chip"/)
-  assert.match(SCREEN, /className="min-h-11 gap-x-1\.5 md:hidden"/)
-  assert.match(SCREEN, /rangeShort\(shownFrom, shownTo, locale\)/)
-  assert.match(SCREEN, /!open && "max-md:hidden"/)
+  assert.match(BAR, /data-testid="analytics-period-chip"/)
+  assert.match(BAR, /className="min-h-11 gap-x-1\.5 md:hidden"/)
+  assert.match(BAR, /rangeShort\(shownFrom, shownTo, locale\)/)
+  assert.match(BAR, /!open && "max-md:hidden"/)
 })
 
 test("every date is said once: no subtitle with the range, no «Сравнение с», the comparison named by its length", () => {

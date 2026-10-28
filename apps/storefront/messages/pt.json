@@ -1079,6 +1079,12 @@
     "close": "Fechar",
     "message": "Starter DTC completo, pronto para produção."
   },
+  "RegionPopup": {
+    "description": "Perguntamos uma vez para mostrar a loja, os preços e a entrega certos.",
+    "goesTo": "Abre {site}",
+    "otherCountry": "Outro país",
+    "title": "De onde você está comprando?"
+  },
   "RegionSelect": {
     "apply": "Aplicar",
     "close": "Fechar",

@@ -69,6 +69,7 @@ describe("tenant header values", () => {
       "x-tenant-payment-pre-notice",
       "x-tenant-test-mode",
       "x-tenant-promo-code",
+      "x-tenant-region-redirects",
       "x-tenant-stage",
     ])
   })

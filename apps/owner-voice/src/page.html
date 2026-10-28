@@ -6,10 +6,12 @@
 <title>Голосовой чат владельца</title>
 <style>
   /* Bubbles after the chrxnasdmds owner chat (Ivan, 13.06): the assistant is plain text on the canvas, the owner a white pill. */
-  :root { --bg: #f2f1ee; --text: #1a1b19; --muted: #6f706b; --pill: #ffffff; --line: #e2e0da; --accent: #1a1b19; --warn: #9a5b00; --ok: #2f7a3a; --panel: #fbfaf8; --hover: #ecebe6; }
+  /* ?scheme=light|dark pins a theme (the evidence screens); otherwise the system's. */
+  :root { --bg: #f2f1ee; --text: #1a1b19; --muted: #6f706b; --pill: #ffffff; --line: #e2e0da; --accent: #1a1b19; --warn: #9a5b00; --ok: #2f7a3a; --panel: #fbfaf8; --hover: #ecebe6; --rec: #c0392b; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #151614; --text: #ecebe6; --muted: #9a9b95; --pill: #2a2b28; --line: #2f302d; --accent: #ecebe6; --warn: #e0a54a; --ok: #7cc68a; --panel: #1d1e1c; --hover: #2a2b28; }
+    :root:not([data-theme="light"]) { --bg: #151614; --text: #ecebe6; --muted: #9a9b95; --pill: #2a2b28; --line: #2f302d; --accent: #ecebe6; --warn: #e0a54a; --ok: #7cc68a; --panel: #1d1e1c; --hover: #2a2b28; --rec: #e0645a; }
   }
+  :root[data-theme="dark"] { --bg: #151614; --text: #ecebe6; --muted: #9a9b95; --pill: #2a2b28; --line: #2f302d; --accent: #ecebe6; --warn: #e0a54a; --ok: #7cc68a; --panel: #1d1e1c; --hover: #2a2b28; --rec: #e0645a; }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
   main { max-width: 720px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; padding: 16px; }
@@ -32,6 +34,44 @@
   #mic.rec { background: #c0392b; color: #fff; }
   #mic:disabled { opacity: .4; cursor: not-allowed; }
   #hint { color: var(--muted); font-size: 13px; text-align: center; margin: 0; }
+  #notes { color: var(--warn); font-size: 13px; margin-top: 2px; }
+  #notes:empty { display: none; }
+
+  /* Stage 3: changesets, pictures, files, voice messages. */
+  .card li, .card a { overflow-wrap: anywhere; }
+  .card.changeset { border-color: var(--ok); }
+  .card.confirm { border: 2px solid var(--accent); }
+  .card.denied, .card.drift, .card.notice { border-color: var(--warn); }
+  .card.voice-note li { white-space: pre-wrap; list-style: none; margin-left: -18px; }
+  .badge.ok { color: var(--ok); border-color: var(--ok); }
+  .card .diff { overflow-x: auto; margin: 6px 0; }
+  .card table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  .card th, .card td { text-align: left; padding: 5px 10px 5px 0; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+  .card th { color: var(--muted); font-weight: 600; border-top: 0; }
+  .card img.preview { display: block; width: 100%; max-width: 480px; height: auto; border-radius: 10px; margin: 8px 0; border: 1px solid var(--line); }
+  .card .pics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 8px 0; }
+  .card .pics figure { margin: 0; }
+  .card .pics img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); background: var(--pill); }
+  .card .pics figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .card .links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
+  .card .actions input { flex: 1 1 160px; padding: 7px 12px; font-size: 14px; }
+  form { flex-wrap: wrap; }
+  #chips { flex-basis: 100%; display: flex; gap: 6px; flex-wrap: wrap; }
+  #chips:empty { display: none; }
+  .chip { display: inline-flex; gap: 4px; align-items: center; font-size: 13px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 4px 3px 10px; background: var(--pill); max-width: 100%; }
+  .chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 240px; }
+  .chip.busy { opacity: .6; }
+  .chip button { padding: 0 8px; background: transparent; font-size: 14px; }
+  #attach { padding: 11px 13px; }
+  #rec { display: none; flex: 1; align-items: center; gap: 8px; min-width: 0; }
+  form.recording #rec { display: flex; }
+  form.recording > #attach, form.recording > #mic, form.recording > #q, form.recording > #send { display: none; }
+  #rec .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--rec); flex: none; animation: blink 1.2s infinite; }
+  #timer { flex: 1; font-variant-numeric: tabular-nums; }
+  #rec .go { background: var(--accent); color: var(--bg); }
+  @keyframes blink { 50% { opacity: .25; } }
+  #drop { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.4); color: #fff; font-size: 20px; z-index: 30; pointer-events: none; padding: 16px; text-align: center; }
+  #drop.on { display: flex; }
 
   header { display: flex; align-items: flex-start; gap: 12px; }
   header .grow { flex: 1; min-width: 0; }
@@ -91,6 +131,8 @@
     #palette { top: 8px; max-height: calc(100dvh - 16px); }
     header h1 { font-size: 17px; }
     .kbd-hint { display: none; }
+    #mic { min-width: 0; }
+    .mic-word { display: none; }
   }
 </style>
 </head>
@@ -100,18 +142,28 @@
     <div class="grow">
       <h1>Голосовой чат владельца</h1>
       <div id="mode">Загрузка…</div>
+      <div id="notes"></div>
     </div>
     <button type="button" class="icon" id="open-palette" aria-label="Команды панели" title="Команды панели (Shift+Cmd+K)">Команды <span class="kbd-hint"><kbd>⇧⌘K</kbd></span></button>
     <button type="button" class="icon" id="gear" aria-label="Настройки голоса" title="Настройки голоса">⚙</button>
   </header>
   <section id="log" aria-live="polite"></section>
   <form id="ask">
-    <button type="button" id="mic" aria-label="Нажмите и говорите">🎙 Говорить</button>
-    <input id="q" autocomplete="off" placeholder="Или спросите текстом: сколько продали за неделю?" />
-    <button type="submit">→</button>
+    <div id="chips" aria-label="Приложенные файлы"></div>
+    <button type="button" class="icon" id="attach" aria-label="Приложить файл" title="PDF, картинка, текст, CSV или аудио до 20 МБ">📎</button>
+    <input type="file" id="file" multiple hidden accept=".pdf,.png,.jpg,.jpeg,.webp,.gif,.txt,.md,.csv,.mp3,.m4a,.ogg,.oga,.opus,.wav,.webm,application/pdf,image/*,text/plain,text/csv,audio/*" />
+    <button type="button" id="mic" aria-label="Записать голосовое">🎙<span class="mic-word"> Голосовое</span></button>
+    <input id="q" autocomplete="off" placeholder="Спросите или попросите: переименуй тройчатку в…" />
+    <button type="submit" id="send" aria-label="Отправить">→</button>
+    <div id="rec" role="status" aria-live="polite">
+      <span class="dot" aria-hidden="true"></span><span id="timer">0:00</span>
+      <button type="button" id="rec-drop">Удалить</button>
+      <button type="button" id="rec-send" class="go">Отправить</button>
+    </div>
   </form>
-  <p id="hint">Держите кнопку, пока говорите. Чат читает данные, а изменения только предлагает.</p>
+  <p id="hint">Изменения сначала уходят на stage; на сайт — только после «публикуй». Файлы можно перетащить в окно.</p>
 </main>
+<div id="drop">Отпустите файл: PDF, картинка, текст, CSV или аудио до 20 МБ</div>
 <div class="veil" id="veil"></div>
 <div id="palette" role="dialog" aria-modal="true" aria-label="Команды панели">
   <input id="pq" autocomplete="off" placeholder="Команда: заказы, акции, returns, снять с публикации…" aria-controls="plist" />
@@ -138,7 +190,9 @@
   const log = document.getElementById("log");
   const mic = document.getElementById("mic");
   const history = [];
-  let player = null;
+  let player = null, changesOn = false;
+  const scheme = new URLSearchParams(location.search).get("scheme");
+  if (scheme === "light" || scheme === "dark") document.documentElement.dataset.theme = scheme;
 
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const scroll = () => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
@@ -149,11 +203,15 @@
     const part = (label, mode) => mode === "live" ? `${label}: живые` : `${label}: <b>записи</b>`;
     const model = !s.provider.startsWith("anthropic") ? "модель: <b>выключена</b>, отвечает разбор по словам"
       : s.modelFallback ? "модель: <b>недоступна</b>, отвечает разбор по словам" : "модель: Claude";
+    const changes = s.changesets === "on" ? `изменения: через ${s.stageHost}` : "изменения: <b>только показ</b>";
+    const cap = s.modelCap ? ` · модель сегодня $${s.modelCap.usd.toFixed(2)} из $${s.modelCap.capUsd}` : "";
     document.getElementById("mode").innerHTML =
-      `${s.shop} · ${part("каталог", s.storeApi)} · ${part("заказы и продажи", s.ownerApi)} · ${part("голос", s.voice)} · ${model}`;
+      `${s.shop} · ${part("каталог", s.storeApi)} · ${part("заказы и продажи", s.ownerApi)} · ${part("голос", s.voice)} · ${model} · ${changes}${cap}`;
+    document.getElementById("notes").textContent = (s.notes || []).join(" ");
+    changesOn = s.changesets === "on";
     if (s.voice !== "live") {
       mic.disabled = true;
-      document.getElementById("hint").textContent = "Голос на этом стенде выключен, спросите текстом";
+      mic.title = "Распознавание речи на этом стенде выключено: спросите текстом или приложите аудиофайл";
     }
   }).catch(() => {});
   loadStatus();
@@ -162,7 +220,12 @@
     find_products: "каталог", product_stock: "склад", sales_summary: "продажи",
     recent_orders: "заказы", product_reviews: "отзывы", open_product: "карточку товара",
     find_commands: "команды панели", run_command: "команду панели",
+    list_changesets: "изменения сайта", prepare_publish: "что опубликовать", prepare_rollback: "что откатить",
+    generate_image: "картинку", place_image: "место для картинки",
+    edit_photo: "обработку фото", find_page_photos: "фото на странице", pick_photo: "выбор фото",
   };
+  const STATUS = { draft: "черновик", staged: "на stage", published: "на сайте", rolled_back: "откачено", discarded: "отменено" };
+  const json = (body) => ({ method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
   const VOICE_KEY = "owner-voice.voiceId";
   const store = {
     get() { try { return localStorage.getItem(VOICE_KEY) || ""; } catch { return ""; } },
@@ -175,7 +238,21 @@
     const head = el("h2", null, card.title + " ");
     if (card.kind === "proposal") head.append(el("span", "badge write", "ждёт подтверждения"));
     if (card.kind === "dryrun") head.append(el("span", "badge sent", "не отправлено"));
+    if (card.changeset && card.kind !== "confirm") head.append(el("span", "badge" + (card.changeset.status === "published" ? " ok" : card.changeset.status === "staged" ? " write" : ""), STATUS[card.changeset.status] || card.changeset.status));
+    if (card.kind === "confirm") head.append(el("span", "badge write", "ждёт вашего «да»"));
+    if (card.kind === "denied") head.append(el("span", "badge write", "отказ"));
+    if (card.kind === "drift") head.append(el("span", "badge write", "ничего не изменено"));
+    if (card.kind === "image") head.append(el("span", "badge", "превью"));
     box.append(head);
+    if (card.image) { const img = el("img", "preview"); img.src = card.image.src; img.alt = card.image.alt; img.width = 1200; img.height = 628; box.append(img); }
+    if (card.images && card.images.length) {
+      const pics = el("div", "pics");
+      for (const p of card.images) {
+        const fig = el("figure"), img = el("img"); img.src = p.src; img.alt = p.alt; img.width = 640; img.height = 480; img.loading = "lazy";
+        fig.append(img, el("figcaption", null, p.label)); pics.append(fig);
+      }
+      box.append(pics);
+    }
     if (card.request) {
       const rest = card.rows.filter((r) => !r.startsWith(card.request.method + " ") && !r.startsWith("Тело: "));
       box.append(el("pre", null, `${card.request.method} ${card.request.url}\n${JSON.stringify(card.request.body, null, 2)}`));
@@ -185,7 +262,34 @@
       for (const row of card.rows) ul.append(el("li", null, row));
       box.append(ul);
     }
-    if (card.link) { const a = el("a", null, card.link.label); a.href = card.link.href; a.target = "_blank"; a.rel = "noopener"; box.append(a); }
+    if (card.diff && card.diff.length) {
+      const wrap = el("div", "diff"), table = el("table"), head = el("tr");
+      for (const h of ["Поле", "Опубликовал агент", "Сейчас на сайте"]) head.append(el("th", null, h));
+      table.append(head);
+      for (const d of card.diff) { const tr = el("tr"); tr.append(el("td", null, d.field), el("td", null, d.before), el("td", null, d.after)); table.append(tr); }
+      wrap.append(table); box.append(wrap);
+    }
+    if (card.link || card.download) {
+      const links = el("div", "links");
+      if (card.link) { const a = el("a", null, card.link.label); a.href = card.link.href; a.target = "_blank"; a.rel = "noopener"; links.append(a); }
+      if (card.download) { const a = el("a", null, card.download.label); a.href = card.download.href; a.download = ""; links.append(a); }
+      box.append(links);
+    }
+    if (card.actions && card.actions.length) {
+      const actions = el("div", "actions");
+      card.actions.forEach((a, i) => {
+        const b = el("button", i === 0 && /^(publish|rollback)$/.test(a.action) ? "go" : null, a.label);
+        b.type = "button";
+        b.addEventListener("click", () => act(a, actions));
+        actions.append(b);
+      });
+      if (card.kind === "confirm") {
+        const no = el("button", null, "Не сейчас"); no.type = "button";
+        no.addEventListener("click", () => actions.replaceChildren(el("span", "tools", "Хорошо, ничего не меняю.")));
+        actions.append(no);
+      }
+      box.append(actions);
+    }
     if (card.kind === "proposal" && card.proposalId) {
       const actions = el("div", "actions");
       const yes = el("button", "go", "Подтвердить");
@@ -200,21 +304,64 @@
   }
 
   async function confirmProposal(id, actions) {
-    actions.replaceChildren(el("span", "tools", "Готовлю запрос…"));
+    actions.replaceChildren(el("span", "tools", changesOn ? "Отправляю на stage…" : "Готовлю запрос…"));
     try {
-      const res = await fetch("/api/commands/confirm", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ proposalId: id }) });
+      const res = await fetch("/api/commands/confirm", json({ proposalId: id }));
       const data = await res.json();
       if (!res.ok) { actions.replaceChildren(el("span", "err", data.error || "Не получилось.")); return; }
       actions.replaceChildren();
-      const bot = el("div", "bot", "Подтверждено. На этом стенде запрос показан и не отправлен: стенд читает живой магазин.");
-      bot.append(renderCard(data.card));
-      log.append(bot);
-      scroll();
+      if (data.sent === false) {
+        const bot = el("div", "bot", "Подтверждено. На этом стенде запрос показан и не отправлен: стенд читает живой магазин.");
+        bot.append(renderCard(data.card));
+        log.append(bot);
+        scroll();
+      } else showAnswer(data);
     } catch { actions.replaceChildren(el("span", "err", "Стенд не ответил.")); }
   }
 
-  function showAnswer(data) {
-    if (data.transcript) { log.append(el("div", "user", data.transcript)); history.push({ role: "user", text: data.transcript }); }
+  /* Card buttons. Publish and rollback ask first (a confirm card), then act on the owner's «да». */
+  async function act(a, actions) {
+    if (a.action === "place-product") {
+      const input = el("input"); input.placeholder = "Какой товар? Например, тройчатка";
+      const go = el("button", "go", "Поставить"); go.type = "button";
+      const send = () => { const product = input.value.trim(); if (product) call(`/api/images/${a.id}/place`, { target: "product", product }, actions); };
+      go.addEventListener("click", send);
+      input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); send(); } });
+      actions.replaceChildren(input, go); input.focus();
+      return;
+    }
+    const routes = {
+      "edit-bg": [`/api/images/${a.id}/act`, { action: "edit-bg" }],
+      "edit-light": [`/api/images/${a.id}/act`, { action: "edit-light" }],
+      redo: [`/api/images/${a.id}/act`, { action: "redo" }],
+      cancel: [`/api/images/${a.id}/act`, { action: "cancel" }],
+      "pick-photo": [`/api/images/${a.id}/act`, { action: "pick-photo" }],
+      "place-banner": [`/api/images/${a.id}/place`, { target: "banner" }],
+      "prepare-publish": ["/api/changesets/intent", { action: "publish", id: a.id }],
+      "prepare-rollback": ["/api/changesets/intent", { action: "rollback", id: a.id }],
+      publish: [`/api/changesets/${a.id}/publish`, {}],
+      rollback: [`/api/changesets/${a.id}/rollback`, {}],
+      discard: [`/api/changesets/${a.id}/discard`, {}],
+    };
+    const route = routes[a.action];
+    if (route) call(route[0], route[1], actions);
+  }
+
+  async function call(path, body, actions) {
+    if (actions) actions.replaceChildren(el("span", "tools", "Выполняю…"));
+    try {
+      const res = await fetch(path, json(body));
+      const data = await res.json();
+      if (!res.ok) { (actions || log).append(el(actions ? "span" : "div", actions ? "err" : "bot err", data.error || "Не получилось.")); if (actions) actions.firstChild.remove(); return; }
+      if (actions) actions.replaceChildren();
+      showAnswer({ reply: data.reply, cards: data.cards });
+    } catch { if (actions) actions.replaceChildren(el("span", "err", "Стенд не ответил.")); }
+    loadStatus();
+  }
+
+  // `quiet`: the owner's bubble is already shown (files, a voice message); only the history learns the words.
+  function showAnswer(data, opts = {}) {
+    if (data.transcript) { if (!opts.quiet) log.append(el("div", "user", data.transcript)); history.push({ role: "user", text: data.transcript }); }
     const bot = el("div", "bot", data.reply);
     for (const card of data.cards || []) bot.append(renderCard(card));
     if (data.calls && data.calls.length) bot.append(el("div", "tools", "Посмотрел: " + data.calls.map((c) => TOOL_WORDS[c.name] || "данные магазина").join(", ")));
@@ -228,7 +375,7 @@
     scroll();
   }
 
-  async function post(path, body) {
+  async function post(path, body, opts = {}) {
     const pending = el("div", "bot tools", "Думаю…");
     log.append(pending); scroll();
     try {
@@ -242,7 +389,7 @@
         log.append(el("div", "bot err", data.error || "Сейчас не получилось ответить."));
         return;
       }
-      showAnswer(data);
+      showAnswer(data, opts);
     } catch (e) {
       pending.remove();
       log.append(el("div", "bot err", "Стенд не ответил."));
@@ -254,43 +401,110 @@
     e.preventDefault();
     const input = document.getElementById("q");
     const question = input.value.trim();
-    if (!question) return;
+    const ready = attached.filter((f) => f.id);
+    if (!question && !ready.length) return;
     input.value = "";
-    post("/api/text", { question });
+    if (ready.length) {
+      log.append(el("div", "user", (question ? question + "\n" : "") + ready.map((f) => "📎 " + f.name).join("\n")));
+      attached = attached.filter((f) => !f.id); renderChips();
+      post("/api/text", { question, files: ready.map((f) => f.id) }, { quiet: true });
+    } else post("/api/text", { question });
   });
 
-  let recorder = null, chunks = [], holding = false;
-  async function start() {
-    if (mic.disabled) return;
-    holding = true;
-    if (recorder) return;
+  /* ---------- Files: the paperclip and drag-and-drop; audio goes as a voice message ---------- */
+  const MAX = 20 * 1024 * 1024;
+  const chips = document.getElementById("chips");
+  const fileInput = document.getElementById("file");
+  let attached = [];
+  function renderChips() {
+    chips.replaceChildren(...attached.map((f) => {
+      const chip = el("span", "chip" + (f.id ? "" : " busy")); chip.append(el("span", null, (f.id ? "📎 " : "⏳ ") + f.name));
+      const x = el("button", null, "✕"); x.type = "button"; x.setAttribute("aria-label", "Убрать " + f.name);
+      x.addEventListener("click", () => { attached = attached.filter((g) => g !== f); renderChips(); });
+      chip.append(x); return chip;
+    }));
+  }
+  async function upload(blob, name) {
+    const res = await fetch(`/api/files?name=${encodeURIComponent(name)}&type=${encodeURIComponent(blob.type || "")}`, { method: "POST", body: blob });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Файл не загрузился.");
+    return data.file;
+  }
+  async function addFiles(list) {
+    for (const f of list) {
+      if (f.size > MAX) { log.append(el("div", "bot err", `«${f.name}» больше 20 МБ.`)); scroll(); continue; }
+      const entry = { name: f.name, id: null };
+      attached.push(entry); renderChips();
+      try {
+        const file = await upload(f, f.name);
+        if (file.kind === "audio") { attached = attached.filter((g) => g !== entry); renderChips(); voiceNote(file.id, f.name); continue; }
+        entry.id = file.id; renderChips();
+      } catch (e) { attached = attached.filter((g) => g !== entry); renderChips(); log.append(el("div", "bot err", `«${f.name}»: ${e.message}`)); scroll(); }
+    }
+  }
+  function voiceNote(id, name) {
+    log.append(el("div", "user", "🎤 " + name));
+    post(`/api/files/${id}/voice`, {}, { quiet: true });
+  }
+  document.getElementById("attach").addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", () => { addFiles([...fileInput.files]); fileInput.value = ""; });
+  const drop = document.getElementById("drop");
+  let dragDepth = 0;
+  window.addEventListener("dragenter", (e) => { if ([...(e.dataTransfer?.types || [])].includes("Files")) { dragDepth++; drop.classList.add("on"); } });
+  window.addEventListener("dragleave", () => { dragDepth = Math.max(0, dragDepth - 1); if (!dragDepth) drop.classList.remove("on"); });
+  window.addEventListener("dragover", (e) => e.preventDefault());
+  window.addEventListener("drop", (e) => { e.preventDefault(); dragDepth = 0; drop.classList.remove("on"); if (e.dataTransfer?.files?.length) addFiles([...e.dataTransfer.files]); });
+
+  /* ---------- Voice messages: press, speak with a timer running, then «Отправить» or «Удалить» ---------- */
+  const form = document.getElementById("ask");
+  const timer = document.getElementById("timer");
+  const LIMIT_S = 300;
+  let recorder = null, chunks = [], ticking = null, began = 0, keep = false;
+  const clock = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  function recordingUi(on) {
+    form.classList.toggle("recording", on);
+    clearInterval(ticking);
+    if (on) {
+      began = Date.now(); timer.textContent = "0:00";
+      ticking = setInterval(() => {
+        const s = Math.floor((Date.now() - began) / 1000);
+        timer.textContent = clock(s) + (s >= LIMIT_S - 30 ? ` из ${clock(LIMIT_S)}` : "");
+        if (s >= LIMIT_S) finish(true);
+      }, 250);
+    }
+  }
+  async function begin() {
+    if (mic.disabled || recorder) return;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       recorder = new MediaRecorder(stream);
       chunks = [];
       recorder.ondataavailable = (e) => chunks.push(e.data);
       recorder.onstop = async () => {
+        const secs = Math.round((Date.now() - began) / 1000);
         stream.getTracks().forEach((t) => t.stop());
-        const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" });
+        const type = recorder.mimeType || "audio/webm";
         recorder = null;
-        mic.classList.remove("rec"); mic.textContent = "🎙 Говорить";
-        if (blob.size < 2000) return;
-        const bytes = new Uint8Array(await blob.arrayBuffer());
-        let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-        post("/api/voice", { audio: btoa(bin), contentType: blob.type });
+        recordingUi(false);
+        if (!keep) return;
+        const blob = new Blob(chunks, { type });
+        if (blob.size < 2000) { log.append(el("div", "bot err", "Запись слишком короткая.")); return; }
+        const ext = /ogg/.test(type) ? "ogg" : /mp4|m4a|aac/.test(type) ? "m4a" : "webm";
+        try {
+          const file = await upload(blob, `voice-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.${ext}`);
+          voiceNote(file.id, `Голосовое, ${clock(secs)}`);
+        } catch (e) { log.append(el("div", "bot err", e.message)); }
       };
       recorder.start();
-      mic.classList.add("rec"); mic.textContent = "● Слушаю";
-      // The button was let go while the microphone was still being opened.
-      if (!holding) recorder.stop();
+      recordingUi(true);
     } catch (e) {
-      log.append(el("div", "bot err", "Нет доступа к микрофону. Спросите текстом."));
+      log.append(el("div", "bot err", "Нет доступа к микрофону. Спросите текстом или приложите аудиофайл."));
     }
   }
-  const stop = () => { holding = false; if (recorder && recorder.state === "recording") recorder.stop(); };
-  mic.addEventListener("pointerdown", start);
-  mic.addEventListener("pointerup", stop);
-  mic.addEventListener("pointerleave", stop);
+  function finish(send) { keep = send; if (recorder && recorder.state === "recording") recorder.stop(); else recordingUi(false); }
+  mic.addEventListener("click", begin);
+  document.getElementById("rec-send").addEventListener("click", () => finish(true));
+  document.getElementById("rec-drop").addEventListener("click", () => finish(false));
 
   /* ---------- Command palette: Shift+Cmd+K (Shift+Ctrl+K off a Mac), Esc closes ---------- */
   const palette = document.getElementById("palette");
@@ -299,11 +513,17 @@
   const plist = document.getElementById("plist");
   let commands = [], panelUrl = "", shown = [], sel = 0, picking = null;
   const RISK = { safe: "чтение", write: "запись", destructive: "необратимо", financial: "деньги" };
-  const USE = { read: "выполнить", propose: "предложить", goto: "перейти", none: "недоступно агенту" };
+  const USE = { read: "выполнить", propose: "предложить", goto: "перейти", none: "недоступно агенту", local: "с подтверждением" };
+  // Stage 3: the site's changes, first in the palette. Publish and rollback show a confirm card first.
+  const CHANGE_COMMANDS = [
+    { id: "changes.publish", label_ru: "Опубликовать изменения со stage", label_en: "Publish what is on stage", aliases: ["публикуй", "опубликовать", "publish"], intent: "publish", risk: "write" },
+    { id: "changes.rollback", label_ru: "Откатить последнюю публикацию", label_en: "Roll back the last publish", aliases: ["откати", "откатить", "верни как было", "rollback"], intent: "rollback", risk: "write" },
+    { id: "changes.list", label_ru: "Что изменено", label_en: "Recent changes", aliases: ["изменения", "история", "changes"], intent: "list", risk: "safe" },
+  ].map((c) => ({ ...c, section: "changes", section_ru: "Изменения сайта", agent: "local", target: { kind: "local" } }));
   const fold = (t) => t.toLowerCase().replace(/ё/g, "е");
   const words = (t) => fold(t).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
 
-  const loadCommands = fetch("/api/commands").then((r) => r.json()).then((d) => { commands = d.commands; panelUrl = d.panelUrl; }).catch(() => {});
+  const loadCommands = fetch("/api/commands").then((r) => r.json()).then((d) => { commands = CHANGE_COMMANDS.concat(d.commands); panelUrl = d.panelUrl; }).catch(() => {});
 
   // The same search as src/commands/index.ts searchCommands: every word by its first five letters, RU, EN and aliases.
   function search(query) {
@@ -376,6 +596,19 @@
 
   async function runFromPalette(c, extra = {}) {
     closePalette();
+    if (c.agent === "local") {
+      log.append(el("div", "user", c.label_ru));
+      if (c.intent === "list") {
+        try {
+          const res = await fetch("/api/changesets"); const data = await res.json();
+          if (!res.ok) log.append(el("div", "bot err", data.error || "Не получилось."));
+          else showAnswer(data);
+        } catch { log.append(el("div", "bot err", "Стенд не ответил.")); }
+        scroll();
+        return;
+      }
+      return call("/api/changesets/intent", { action: c.intent });
+    }
     if (c.agent === "goto" && !extra.params) {
       const href = hrefOf(c);
       const bot = el("div", "bot", `«${c.label_ru}» — в панели магазина.`);
@@ -513,7 +746,10 @@
   }));
 
   /* ---------- ?show= opens a state for the evidence screens, through the same handlers a person uses ---------- */
-  const show = new URLSearchParams(location.search).get("show");
+  const wantShow = new URLSearchParams(location.search).get("show");
+  // The scenes send real requests (they draw pictures and stage changes). They run only on fixtures with the stub image driver and no live model; anywhere else `show` is ignored without a word.
+  const sceneAllowed = (s) => s.storeApi !== "live" && s.ownerApi !== "live" && /^stub\b/.test(String(s.images)) && !String(s.provider).startsWith("anthropic");
+  const runScene = (show) => {
   if (show === "palette") {
     loadCommands.then(() => {
       document.dispatchEvent(new KeyboardEvent("keydown", { key: "K", code: "KeyK", shiftKey: true, metaKey: true, bubbles: true }));
@@ -528,7 +764,63 @@
     })();
   } else if (show === "voices") {
     openVoices();
+  } else if (show) {
+    // Stage 3 scenes on fixtures. `body[data-ready]` tells the screenshot tool the scene is done.
+    const lastGo = (sel) => [...document.querySelectorAll(sel)].pop();
+    const until = async (sel) => { for (let i = 0; i < 100 && !document.querySelector(sel); i++) await new Promise((r) => setTimeout(r, 50)); return lastGo(sel); };
+    const fixture = async (path, name, type) => new File([await fetch(path).then((r) => r.blob())], name, { type });
+    const stage = async () => {
+      await post("/api/text", { question: "Переименуй тройчатку в Тройчатка Евдокименко" });
+      lastGo(".card.proposal .go")?.click();
+      await until(".card.changeset");
+    };
+    (async () => {
+      if (show === "changeset") await stage();
+      else if (show === "publish") { await stage(); await post("/api/text", { question: "Публикуй" }); await until(".card.confirm"); }
+      else if (show === "image") { await post("/api/text", { question: "Нарисуй баннер: алтайские травы, осенняя скидка 15%" }); await until(".card.image img"); await new Promise((r) => setTimeout(r, 300)); }
+      else if (show === "photo-edit" || show === "photo-placed") {
+        await addFiles([await fixture("/fixtures/files/photo-jar.png", "банка.png", "image/png")]);
+        document.getElementById("q").value = "Убери фон";
+        form.requestSubmit();
+        await until(".card.image .pics");
+        if (show === "photo-placed") {
+          [...document.querySelectorAll(".card.image .actions button")].find((b) => b.textContent.startsWith("На товар"))?.click();
+          const input = await until(".card.image .actions input");
+          input.value = "тройчатка";
+          [...document.querySelectorAll(".card.image .actions button.go")].pop()?.click();
+          await until(".card.proposal .go");
+          lastGo(".card.proposal .go").click();
+          await until(".card.changeset");
+        }
+        await new Promise((r) => setTimeout(r, 400));
+      } else if (show === "photo-link") {
+        await post("/api/text", { question: "Возьми фото отсюда https://shop.example/tovar/trojchatka и убери фон" });
+        await until(".card.image .pics");
+        await new Promise((r) => setTimeout(r, 400));
+      } else if (show === "image-capped") {
+        // The stand runs with the default caps (30 a day, $3): the scene draws the day's 30 first, unseen, so this request is the refused one.
+        for (let n = 1; n <= 30; n += 1) {
+          await fetch("/api/text", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question: `Нарисуй баннер ${n}: осенняя скидка` }) });
+        }
+        await post("/api/text", { question: "Нарисуй ещё один баннер: осенняя скидка 15%" });
+        await until(".card.notice");
+      } else if (show === "pdf") {
+        await addFiles([await fixture("/fixtures/files/price.pdf", "price.pdf", "application/pdf")]);
+        document.getElementById("q").value = "Сколько стоит тройчатка по этому прайсу?";
+        form.requestSubmit();
+        await until(".card.file");
+      } else if (show === "voice-note") {
+        await addFiles([await fixture("/fixtures/voice/question-sales-week.wav", "вопрос-продажи.wav", "audio/wav")]);
+        await until(".card.voice-note");
+      } else if (show === "recording") {
+        form.classList.add("recording"); timer.textContent = "0:07";
+      }
+      await new Promise((r) => setTimeout(r, 400));
+      document.body.dataset.ready = "1";
+    })();
   }
+  };
+  if (wantShow) fetch("/api/status").then((r) => r.json()).then((s) => { if (sceneAllowed(s)) runScene(wantShow); }, () => {});
 </script>
 </body>
 </html>

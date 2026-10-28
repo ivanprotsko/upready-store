@@ -19,6 +19,8 @@ vi.mock("@lib/data/cart", () => ({ updateRegion: vi.fn() }))
 vi.mock("@lib/data/locale-actions", () => ({ updateLocale: vi.fn() }))
 
 import RegionSelect from "./index"
+import CountryList from "./country-list"
+import { countryOptionsOf, awayValueOf } from "./options"
 
 /**
  * FX5 (t-2026-10-12-32). The header bar renders the switcher on every page, on
@@ -54,5 +56,27 @@ describe("a render of the region switcher (FX5)", () => {
     expect(html).toContain("Россия")
     expect(html).toContain("₽")
     expect(asked).toEqual({ region: ISO.length + 6, language: appLocales.length })
+  })
+})
+
+describe("the country list on a redirect country (t-2026-10-20-22, return 1)", () => {
+  it("on current ru keeps the own row, checked, beside the redirect row", () => {
+    const html = renderToStaticMarkup(
+      <CountryList
+        value="ru"
+        onValueChange={() => {}}
+        redirectRows={[{ country: "ru", label: "Россия", host: "cherkashino.ru" }]}
+        countryRows={countryOptionsOf(regions, "ru").filter(
+          (o) => o.country === "ru" || o.country === "kz"
+        )}
+      />
+    )
+    const own = html.match(/<button[^>]*id="region-country-ru"[^>]*>/)?.[0]
+    const away = html.match(/<button[^>]*id="region-away-ru"[^>]*>/)?.[0]
+
+    expect(own).toContain('aria-checked="true"')
+    expect(own).toContain('value="ru"')
+    expect(away).toContain('aria-checked="false"')
+    expect(away).toContain(`value="${awayValueOf("ru")}"`)
   })
 })

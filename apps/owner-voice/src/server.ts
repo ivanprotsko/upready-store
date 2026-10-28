@@ -10,7 +10,22 @@
  *   GET  /api/commands            the command map, for the palette
  *   POST /api/commands/run        { id, params, product, order, body } → result, link or proposal
  *   GET  /api/commands/pick?id=   the rows a command's `{id}` is picked from
- *   POST /api/commands/confirm    { proposalId } → the dry-run: the exact request, never sent
+ *   POST /api/commands/confirm    { proposalId } → the dry-run: the exact request, never sent;
+ *                                 with CHANGESETS=1 the changeset on stage and its card
+ *
+ *   GET  /api/changesets                    the last changesets, as a card ("что изменено")
+ *   POST /api/changesets/intent             { action: publish|rollback, id? } → the confirm card
+ *   POST /api/changesets/:id/publish|rollback|discard   the confirmed action; drift → the diff
+ *
+ *   GET  /api/images/:id.<ext>    a generated or edited picture (svg|png|jpg|webp|gif); no password, the site links to it
+ *   POST /api/images/:id/act      { action: edit-bg|edit-light|redo|cancel|pick-photo } → a card
+ *   POST /api/images/:id/place    { target: product|banner, product } → a proposal
+ *
+ *   POST /api/files?name=&type=   the raw file, up to 20 MB → its card and id
+ *   POST /api/files/:id/voice     { history, voiceId } → transcript card + answer
+ *   GET  /api/files/:id/transcript.txt
+ *   GET  /fixtures/files/*, /fixtures/voice/*   the test files, for the evidence scenes; on fixtures only
+ *                     /api/text also takes `files`: ids attached to the question
  *
  *   GET  /api/voices?language=&q=&gender=&accent=&source=   the ElevenLabs catalog (reads only)
  *   POST /api/voices/add          { voiceId } → refused unless ELEVENLABS_ALLOW_ADD_VOICE=1
@@ -26,18 +41,20 @@
  * credits on every visitor's question.
  */
 import { timingSafeEqual } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { fileURLToPath } from "node:url";
 
 import { type App, createApp } from "./app.ts";
 import { type Config, readConfig } from "./config.ts";
 import type { Audio } from "./elevenlabs.ts";
+import { FileError, MAX_FILE_BYTES } from "./files/index.ts";
 import type { ChatMessage } from "./model/types.ts";
 import { placeholderWav, VoiceOffError } from "./voice.ts";
 import { VoiceError, type VoiceFilter } from "./voices.ts";
 
 const PAGE = fileURLToPath(new URL("./page.html", import.meta.url));
+const FIXTURES = fileURLToPath(new URL("../fixtures/", import.meta.url));
 const ASSISTANT_PAGE = fileURLToPath(new URL("./assistant.html", import.meta.url));
 const MAX_BODY = 12 * 1024 * 1024;
 const MAX_HISTORY = 8;
@@ -50,6 +67,17 @@ class HttpError extends Error {
     super(message);
     this.status = status;
   }
+}
+
+async function readRaw(req: IncomingMessage, max: number, tooBig: string): Promise<Buffer> {
+  const chunks: Buffer[] = [];
+  let size = 0;
+  for await (const chunk of req) {
+    size += (chunk as Buffer).length;
+    if (size > max) throw new HttpError(413, tooBig);
+    chunks.push(chunk as Buffer);
+  }
+  return Buffer.concat(chunks);
 }
 
 async function readJson(req: IncomingMessage): Promise<Record<string, unknown>> {
@@ -94,6 +122,10 @@ const questionIn = (body: Record<string, unknown>): string => {
   return question.slice(0, 1000);
 };
 
+/** Ids of uploads attached to a question; a file alone asks what is in it. */
+const filesIn = (body: Record<string, unknown>): string[] =>
+  Array.isArray(body.files) ? body.files.filter((f): f is string => typeof f === "string").slice(0, 5) : [];
+
 const objectIn = (value: unknown): Record<string, unknown> | undefined =>
   value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : undefined;
 
@@ -135,6 +167,16 @@ export function passwordReasons(config: Config): string[] {
 export function handler(app: App, password: string | null) {
   return async (req: IncomingMessage, res: ServerResponse) => {
     try {
+      const early = new URL(req.url ?? "/", "http://stand");
+      // A generated picture is fetched by the site once placed: no password, the id is random.
+      const image = req.method === "GET" ? /^\/api\/images\/(img_[a-f0-9]{16})\.(?:svg|png|jpg|webp|gif)$/.exec(early.pathname) : null;
+      if (image) {
+        const found = app.images.read(image[1]!);
+        if (!found) return send(res, 404, { error: "Картинки уже нет." });
+        res.writeHead(200, { "content-type": found.contentType, "cache-control": "public, max-age=86400", "x-content-type-options": "nosniff", "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'" });
+        res.end(found.data);
+        return;
+      }
       if (!authorized(req.headers.authorization, password)) {
         res.writeHead(401, { "www-authenticate": 'Basic realm="owner-voice"' });
         res.end();
@@ -145,10 +187,20 @@ export function handler(app: App, password: string | null) {
       if (req.method === "GET" && path === "/") return send(res, 200, readFileSync(PAGE, "utf8"), "text/html; charset=utf-8");
       if (req.method === "GET" && path === "/assistant") return send(res, 200, readFileSync(ASSISTANT_PAGE, "utf8"), "text/html; charset=utf-8");
       if (req.method === "GET" && path === "/api/status") return send(res, 200, app.status());
+      // The scenes of the evidence screens attach the repo's test files; a stand with a real shop does not serve them.
+      const fixture = req.method === "GET" ? /^\/fixtures\/(files|voice)\/([a-z0-9-]+\.(pdf|wav|png))$/.exec(path) : null;
+      if (fixture) {
+        const status = app.status();
+        if (status.storeApi !== "fixture" || status.ownerApi !== "fixture") throw new HttpError(404, "Нет такого адреса.");
+        const file = `${FIXTURES}${fixture[1]}/${fixture[2]}`;
+        if (!existsSync(file)) throw new HttpError(404, "Нет такого файла.");
+        return send(res, 200, readFileSync(file), fixture[3] === "pdf" ? "application/pdf" : fixture[3] === "png" ? "image/png" : "audio/wav");
+      }
       if (req.method === "POST" && path === "/api/text") {
         const body = await readJson(req);
-        const question = questionIn(body);
-        const turn = await app.text(question, parseHistory(body.history), body.voiceId);
+        const files = filesIn(body);
+        const question = files.length && !(typeof body.question === "string" && body.question.trim()) ? "Что в этом файле?" : questionIn(body);
+        const turn = await app.text(question, parseHistory(body.history), body.voiceId, files);
         return send(res, 200, { transcript: question, ...turn, ...encodeAudio(turn.audio) });
       }
       if (req.method === "POST" && path === "/api/voice") {
@@ -172,9 +224,69 @@ export function handler(app: App, password: string | null) {
       }
       if (req.method === "POST" && path === "/api/commands/confirm") {
         const body = await readJson(req);
-        const done = app.commands.confirm(typeof body.proposalId === "string" ? body.proposalId : "");
+        const done = await app.commands.confirm(typeof body.proposalId === "string" ? body.proposalId : "");
         if (!done) throw new HttpError(410, "Предложение устарело или уже подтверждено. Попросите заново.");
-        return send(res, 200, done);
+        // Stage 2's dry-run as it was; with changesets, the card of what is now on stage.
+        if ("sent" in done) return send(res, 200, done);
+        return send(res, 200, { reply: done.text, cards: done.card ? [done.card] : [], changeset: done.changeset ?? null });
+      }
+
+      if (path === "/api/changesets" || path.startsWith("/api/changesets/")) {
+        const changes = app.changes;
+        if (!changes) throw new HttpError(409, "Изменения через stage выключены на этом стенде (CHANGESETS=1 включает).");
+        let out;
+        const act = /^\/api\/changesets\/([A-Za-z0-9_-]{1,80})\/(publish|rollback|discard)$/.exec(path);
+        if (req.method === "GET" && path === "/api/changesets") out = await changes.list(Number(url.searchParams.get("limit")) || 5);
+        else if (req.method === "POST" && path === "/api/changesets/intent") {
+          const body = await readJson(req);
+          if (body.action !== "publish" && body.action !== "rollback") throw new HttpError(400, "Нужно действие: publish или rollback.");
+          out = await changes.prepare(body.action, typeof body.id === "string" && body.id ? body.id : undefined);
+        } else if (req.method === "POST" && act) out = await changes.run(act[2] as "publish" | "rollback" | "discard", act[1]!);
+        else throw new HttpError(404, "Нет такого адреса.");
+        return send(res, 200, { reply: out.text, cards: out.card ? [out.card] : [], changeset: out.changeset ?? null });
+      }
+
+      const place = req.method === "POST" ? /^\/api\/images\/(img_[a-f0-9]{16})\/place$/.exec(path) : null;
+      if (place) {
+        const body = await readJson(req);
+        if (body.target !== "product" && body.target !== "banner") throw new HttpError(400, "Куда поставить: на товар или на баннер.");
+        const out = await app.images.place(place[1]!, body.target, typeof body.product === "string" ? body.product : undefined);
+        return send(res, 200, { reply: out.text, cards: out.card ? [out.card] : [] });
+      }
+
+      const act = req.method === "POST" ? /^\/api\/images\/(img_[a-f0-9]{16}|file_[a-f0-9]{16})\/act$/.exec(path) : null;
+      if (act) {
+        const body = await readJson(req);
+        const actions = ["edit-bg", "edit-light", "redo", "cancel", "pick-photo"];
+        if (typeof body.action !== "string" || !actions.includes(body.action)) throw new HttpError(400, "Такого действия нет.");
+        const out = await app.images.act(act[1]!, body.action);
+        return send(res, 200, { reply: out.text, cards: out.card ? [out.card] : [] });
+      }
+
+      if (req.method === "POST" && path === "/api/files") {
+        const data = await readRaw(req, MAX_FILE_BYTES, "Файл больше 20 МБ.");
+        const name = (url.searchParams.get("name") ?? "file").slice(0, 200);
+        const file = app.files.save(name, url.searchParams.get("type") ?? req.headers["content-type"] ?? "", new Uint8Array(data));
+        const { text: _text, transcript: _transcript, ...meta } = file;
+        return send(res, 200, { file: meta });
+      }
+      const voiceNote = req.method === "POST" ? /^\/api\/files\/(file_[a-f0-9]{16})\/voice$/.exec(path) : null;
+      if (voiceNote) {
+        const body = await readJson(req);
+        const turn = await app.voiceNote(voiceNote[1]!, parseHistory(body.history), body.voiceId);
+        return send(res, 200, { ...turn, ...encodeAudio(turn.audio) });
+      }
+      const transcript = req.method === "GET" ? /^\/api\/files\/(file_[a-f0-9]{16})\/transcript\.txt$/.exec(path) : null;
+      if (transcript) {
+        const file = app.files.get(transcript[1]!);
+        if (!file?.transcript) throw new HttpError(404, "Расшифровки нет: запись удалена или ещё не распознана.");
+        res.writeHead(200, {
+          "content-type": "text/plain; charset=utf-8",
+          "content-disposition": `attachment; filename="transcript-${file.id}.txt"`,
+          "cache-control": "no-store",
+        });
+        res.end(`${file.transcript}\n`);
+        return;
       }
 
       if (req.method === "GET" && path === "/api/voices") return send(res, 200, await app.voices.list(voiceFilter(url.searchParams)));
@@ -199,7 +311,7 @@ export function handler(app: App, password: string | null) {
       send(res, 404, { error: "Нет такого адреса." });
     } catch (err) {
       // The owner sees a plain sentence; the cause (keys, codes, paths) stays in the log.
-      if (err instanceof HttpError || err instanceof VoiceError) return send(res, err.status, { error: err.message });
+      if (err instanceof HttpError || err instanceof VoiceError || err instanceof FileError) return send(res, err.status, { error: err.message });
       if (err instanceof VoiceOffError) {
         console.error("[owner-voice] voice off:", err.cause);
         return send(res, 409, { error: err.message });
@@ -220,6 +332,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1);
   }
   const app = createApp(config);
+  // Files and previews past their TTL go at start and every hour (architecture §7).
+  const sweep = () => {
+    const gone = app.sweep();
+    if (gone.files || gone.images) console.log(`[owner-voice] swept ${gone.files} files, ${gone.images} images`);
+  };
+  sweep();
+  setInterval(sweep, 3_600_000).unref();
   createServer(handler(app, password)).listen(config.port, () => {
     console.log(`[owner-voice] http://localhost:${config.port}`, JSON.stringify(app.status()));
   });

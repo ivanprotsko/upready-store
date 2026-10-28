@@ -1079,6 +1079,12 @@
     "close": "Lukk",
     "message": "Fullverdig produksjonsklar DTC-starter."
   },
+  "RegionPopup": {
+    "description": "Vi spør én gang for å vise deg riktig butikk, priser og levering.",
+    "goesTo": "Åpner {site}",
+    "otherCountry": "Annet land",
+    "title": "Hvor handler du fra?"
+  },
   "RegionSelect": {
     "apply": "Bruk",
     "close": "Lukk",

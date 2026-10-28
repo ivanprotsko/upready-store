@@ -1079,6 +1079,12 @@
     "close": "Tutup",
     "message": "DTC starter sedia pengeluaran dengan ciri lengkap."
   },
+  "RegionPopup": {
+    "description": "Kami bertanya sekali untuk menunjukkan kedai, harga dan penghantaran yang betul.",
+    "goesTo": "Membuka {site}",
+    "otherCountry": "Negara lain",
+    "title": "Anda membeli-belah dari mana?"
+  },
   "RegionSelect": {
     "apply": "Guna",
     "close": "Tutup",
