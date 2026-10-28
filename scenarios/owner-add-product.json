@@ -1,0 +1,167 @@
+{
+  "format": "scenario/v1",
+  "id": "owner-add-product",
+  "project": "upready-store",
+  "title": "Добавляю в панели новый товар с названием и ценой и нахожу его в списке товаров",
+  "goal": "Добавляю в панели новый товар с названием и ценой и нахожу его в списке товаров",
+  "actor": "owner",
+  "profiles": [
+    "desktop-mouse"
+  ],
+  "start": {
+    "url": "/products/create",
+    "fixtures": [
+      "reset",
+      "seed",
+      "login"
+    ]
+  },
+  "final": [
+    {
+      "url": "^/products$"
+    },
+    {
+      "text": "Пробная кружка"
+    }
+  ],
+  "work": null,
+  "version": 2,
+  "steps": [
+    {
+      "id": "s2",
+      "intent": "Ввожу название товара",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "role": "textbox",
+        "name": "Название"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          360,
+          390.41,
+          229.33,
+          32
+        ]
+      },
+      "value": "Пробная кружка",
+      "before": {
+        "url": "^/products/create$",
+        "region": [
+          352,
+          382,
+          246,
+          49
+        ],
+        "hash": "008080a0a0c08000"
+      },
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T21:39:23.841Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s3",
+      "intent": "Ввожу цену",
+      "device": "keyboard",
+      "action": "type",
+      "target": {
+        "testid": "product-create-quick-price"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          360,
+          494.41,
+          720,
+          32
+        ]
+      },
+      "value": "700",
+      "before": {
+        "url": "^/products/create$",
+        "region": [
+          352,
+          486,
+          736,
+          49
+        ],
+        "hash": "0080000000008000"
+      },
+      "after": [
+        {
+          "text": "Опубликовать"
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T21:39:25.868Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s4",
+      "intent": "Публикую товар",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "role": "button",
+        "name": "Опубликовать"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          1301.13,
+          847,
+          113.88,
+          28
+        ]
+      },
+      "before": {
+        "url": "^/products/create$",
+        "region": [
+          1293,
+          839,
+          131,
+          44
+        ],
+        "hash": "008080decaa08000"
+      },
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T21:39:41.273Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-27T21:40:02.719Z",
+      "by": "scenario.mjs agent",
+      "kind": "record",
+      "version": 2,
+      "profile": "desktop-mouse",
+      "steps": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "reason": "first pass: Владелец создаёт новый товар с названием и ценой и видит его в списке товаров",
+      "model": null,
+      "tokens": null
+    }
+  ]
+}

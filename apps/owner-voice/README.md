@@ -1,6 +1,6 @@
 # Owner Voice Chat
 
-Stage 1 of the shop owner's voice chat (t-2026-10-20-24). The owner holds a button and asks a
+The shop owner's voice chat (t-2026-10-20-24), stage 1 and stage 2. The owner holds a button and asks a
 question. ElevenLabs turns the speech into text, a model answers with read-only tools that call the
 shop's HTTP API, and ElevenLabs speaks the answer while the screen shows it. The data comes from
 cherkashino.com through its API and never from a database connection (Ivan, 20.10.2026).
@@ -37,20 +37,35 @@ npx tsc --noEmit                   # after pnpm install, for the types
 
 ## Stand on a Mac without Docker
 
-One Node process, no build. Pass the keys as environment variables of that one command, from your
-own key store, never typed into a chat:
+One Node process, no build, no Docker. Stage 2 runs on port 5476; the stage 1 stand stays on 5475.
+
+The stand on fixtures, which needs no key at all. It reads the recorded shop, the keyword router
+answers, ElevenLabs runs on its fixture:
 
 ```bash
 cd apps/owner-voice
-PORT=5475 \
-STAND_PASSWORD=<a password for the page> \
-ELEVENLABS_API_KEY=<key> \
-ANTHROPIC_API_KEY=<key> \
-node src/server.ts
+PORT=5476 MODEL_PROVIDER=rules SHOP_FIXTURES=1 node src/server.ts
 ```
 
-- `STAND_PASSWORD` is required once any key or the shop login is set: without it the server
-  prints why and exits. With no key at all the stand runs open, on fixtures.
+- `http://localhost:5476` is the owner page: the chat, the command palette on Shift+Cmd+K
+  (Shift+Ctrl+K elsewhere), the voice settings behind the gear.
+- `http://localhost:5476/assistant` is the buyer assistant: a right panel over the shop, as in the
+  chrxnasdmds storefront. It reads the public `/store/*` only, never `/tenants/*`, and masks a
+  buyer's email, phone, name and address before the model sees the text.
+- `?show=palette`, `?show=exchange`, `?show=voices` on the owner page and `?show=exchange` on the
+  assistant play a fixed exchange, for screenshots.
+
+Keys reach the process only through a file you keep outside the repo, read by `node --env-file`.
+Never pass a key on the command line or in a chat:
+
+```bash
+cd apps/owner-voice
+PORT=5476 node --env-file=/path/outside/the/repo/owner-voice.env src/server.ts
+```
+
+- The env file holds `STAND_PASSWORD` and the keys you have (`ELEVENLABS_API_KEY`,
+  `ANTHROPIC_API_KEY`, the shop login). With any of them set, `STAND_PASSWORD` is required: without
+  it the server prints why and exits.
 - Leave out a key and that part runs on fixtures. With no `ELEVENLABS_API_KEY` the mic button is
   off and the page says «Голос на этом стенде выключен, спросите текстом».
 - `MODEL_PROVIDER=rules` turns the model off and the keyword router answers.
@@ -60,7 +75,20 @@ node src/server.ts
   answers again.
 - The page shows the owner plain sentences only. Variable names, HTTP codes and vendor errors
   stay in the server log.
-- Open `http://localhost:5475`: the browser opens the microphone on `localhost` without HTTPS.
+- The browser opens the microphone on `localhost` without HTTPS.
+
+What the stand never does, whatever the keys:
+
+- It writes nothing to the shop. A write command in the chat or the palette shows a card with the
+  exact request (method, path, body); «Подтвердить» shows it as a dry-run and sends nothing.
+  `src/shop/api.ts` refuses every method but GET before it leaves, the login aside.
+- Destructive and financial commands (delete, refund, payouts) are not given to the agent at all.
+- It adds no voice to the ElevenLabs account. The settings panel lists the account's voices and
+  the public library with GET; a library voice not in the account shows «нужно добавить в аккаунт».
+  Adding one is a write to the account and stays off unless `ELEVENLABS_ALLOW_ADD_VOICE=1`.
+- The ElevenLabs key stays in the server. The browser keeps the chosen `voice_id` only, and the
+  server checks it against the catalog before it speaks. An unknown voice is refused and the page
+  forgets it; with no choice the server speaks with `ELEVENLABS_VOICE_ID`.
 
 ## Put It on a Stand
 
@@ -81,7 +109,8 @@ default is in `.env.example` and in `src/config.ts`; they point at cherkashino.c
 | `SHOP_LOGIN_EMAIL`, `SHOP_LOGIN_PASSWORD` | A shop panel login for orders, sales, stock and reviews. Give it the role `manager` | those four run on fixtures |
 | `STAND_PASSWORD` | HTTP Basic password for the page, any user name | required once the shop login, `ELEVENLABS_API_KEY` or `ANTHROPIC_API_KEY` is set: the server refuses to start. Only a stand on fixtures alone runs open |
 | `ELEVENLABS_API_KEY` | Speech to text and text to speech | speech runs on fixtures, the mic button is off, a typed question still works |
-| `ELEVENLABS_VOICE_ID` | The voice | Oksana's cloned voice from chrxnasdmds, which plays only on the account that owns it |
+| `ELEVENLABS_VOICE_ID` | The default voice; the settings panel can choose another from the account | Oksana's cloned voice from chrxnasdmds, which plays only on the account that owns it |
+| `ELEVENLABS_ALLOW_ADD_VOICE` | `1` lets the settings panel add a library voice to the account, a write to that account | `0`, off: such voices show «нужно добавить в аккаунт» |
 | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | The model | a keyword router answers instead; it also answers any turn the model fails |
 | `MODEL_PROVIDER=rules` | The keyword router even with a model key | the model answers when its key is set |
 | `SHOP_FIXTURES=1` | The Store API on fixtures as well | the Store API is live, it needs no key |

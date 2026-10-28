@@ -38,20 +38,25 @@ const AccountLayout = async ({ customer, children }: AccountLayoutProps) => {
             {children}
           </div>
         </div>
-        <div className="h-px bg-ui-border-base" />
-        <div className="flex flex-col small:flex-row items-end justify-between py-12 gap-8 content-container">
-          <div>
-            <h2 className="text-xl-semi mb-4">{t("gotQuestions")}</h2>
-            <span className="txt-medium" data-testid="account-support-text">
-              {t(support.text)}
-            </span>
-          </div>
-          {support.href && (
-            <div>
-              <UnderlineLink href={support.href}>{t(support.label)}</UnderlineLink>
+        {/* D10 (t-2026-10-20-61): the sign-in card stands alone, no «Questions and answers» strip under it. */}
+        {customer && (
+          <>
+            <div className="h-px bg-ui-border-base" />
+            <div className="flex flex-col small:flex-row items-end justify-between py-12 gap-8 content-container">
+              <div>
+                <h2 className="text-xl-semi mb-4">{t("gotQuestions")}</h2>
+                <span className="txt-medium" data-testid="account-support-text">
+                  {t(support.text)}
+                </span>
+              </div>
+              {support.href && (
+                <div>
+                  <UnderlineLink href={support.href}>{t(support.label)}</UnderlineLink>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </div>
   )

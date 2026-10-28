@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   TIMELINE_STEP_KEYS,
   timelineProgress,
+  trackingDisplay,
   trackingEntries,
   trackingLines,
 } from "./order-tracking"
@@ -35,8 +36,15 @@ describe("trackingEntries (t-2026-10-14-58)", () => {
       {
         line: "СДЭК 1005248796431",
         url: "https://www.cdek.ru/ru/tracking?order_id=1005248796431",
+        carrier: "СДЭК",
+        number: "1005248796431",
       },
     ])
+  })
+
+  it("shows «перевозчик · номер», or the bare number without a carrier (D9, t-2026-10-20-61)", () => {
+    expect(trackingDisplay({ carrier: "СДЭК", number: "1005248796431" })).toBe("СДЭК · 1005248796431")
+    expect(trackingDisplay({ carrier: null, number: "42" })).toBe("42")
   })
 
   it("gives no link for an empty or a non-web tracking_url", () => {
@@ -228,7 +236,12 @@ describe("trackingEntries: direct СДЭК (t-2026-10-14-58, step C)", () => {
     expect(
       trackingEntries([{ data: { cdek_order_uuid: "u1", cdek_number: "1110019201" }, labels: [] }])
     ).toEqual([
-      { line: "СДЭК 1110019201", url: "https://www.cdek.ru/ru/tracking?order_id=1110019201" },
+      {
+        line: "СДЭК 1110019201",
+        url: "https://www.cdek.ru/ru/tracking?order_id=1110019201",
+        carrier: "СДЭК",
+        number: "1110019201",
+      },
     ])
   })
 
@@ -245,7 +258,7 @@ describe("trackingEntries: direct СДЭК (t-2026-10-14-58, step C)", () => {
           data: { cdek_number: "1110019201" },
         },
       ])
-    ).toEqual([{ line: "СДЭК 1110019201", url: null }])
+    ).toEqual([{ line: "СДЭК 1110019201", url: null, carrier: "СДЭК", number: "1110019201" }])
   })
 
   it("adds nothing before СДЭК has given a number", () => {

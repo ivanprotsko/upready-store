@@ -326,6 +326,14 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "GET /tenants/article-categories",
     "PUT /tenants/branding",
     "POST /tenants/branding/upload",
+    "GET /tenants/agent-changesets",
+    "POST /tenants/agent-changesets",
+    "GET /tenants/agent-changesets/[id]",
+    "POST /tenants/agent-changesets/[id]/stage",
+    "POST /tenants/agent-changesets/[id]/publish",
+    "POST /tenants/agent-changesets/[id]/rollback",
+    "POST /tenants/agent-changesets/[id]/discard",
+    "GET /tenants/agent-changesets/stage-site",
   ],
   marketing: [
     "GET /tenants/promotions",
@@ -474,6 +482,7 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "PUT /tenants/redirects/[id]",
     "DELETE /tenants/redirects/[id]",
     "POST /tenants/seed",
+    "POST /tenants/agent-changesets/stage-site",
   ],
   staff: [
     "GET /tenants/staff",

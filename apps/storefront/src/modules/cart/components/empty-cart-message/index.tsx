@@ -6,7 +6,7 @@ import InteractiveLink from "@modules/common/components/interactive-link"
 const EmptyCartMessage = async () => {
   const t = await getTranslations("Cart")
   return (
-    <div className="py-48 px-2 flex flex-col justify-center items-start" data-testid="empty-cart-message">
+    <div className="mx-auto flex max-w-[32rem] flex-col items-center px-2 py-16 text-center small:py-24" data-testid="empty-cart-message">
       <Heading
         level="h1"
         className="flex flex-row text-3xl-regular gap-x-2 items-baseline"

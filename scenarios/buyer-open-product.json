@@ -1,0 +1,95 @@
+{
+  "format": "scenario/v1",
+  "id": "buyer-open-product",
+  "project": "upready-store",
+  "title": "Открываю товар из каталога и вижу его фото, цену и кнопку «в корзину»",
+  "goal": "Открываю товар из каталога и вижу его фото, цену и кнопку «в корзину»",
+  "actor": "buyer",
+  "profiles": [
+    "desktop-mouse"
+  ],
+  "start": {
+    "url": "/ru/store",
+    "fixtures": [
+      "reset",
+      "seed"
+    ]
+  },
+  "final": [
+    {
+      "url": "^/ru/products/[^/]+$"
+    },
+    {
+      "visible": {
+        "testid": "product-gallery-hero-image"
+      }
+    },
+    {
+      "visible": {
+        "testid": "product-price"
+      }
+    },
+    {
+      "visible": {
+        "role": "button",
+        "name": "В корзину"
+      }
+    }
+  ],
+  "work": null,
+  "version": 2,
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "Открываю карточку товара из каталога",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "product-wrapper"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          304,
+          216,
+          260,
+          454.66
+        ]
+      },
+      "before": {
+        "url": "^/ru/store$",
+        "region": [
+          296,
+          208,
+          276,
+          471
+        ],
+        "hash": "8280b0f080808080"
+      },
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T20:52:48.470Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-27T20:53:24.657Z",
+      "by": "scenario.mjs agent",
+      "kind": "record",
+      "version": 2,
+      "profile": "desktop-mouse",
+      "steps": [
+        "s1"
+      ],
+      "reason": "first pass: Открываю товар из каталога и вижу его цену и кнопку добавления в корзину",
+      "model": null,
+      "tokens": null
+    }
+  ]
+}

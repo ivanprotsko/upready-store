@@ -1,0 +1,175 @@
+{
+  "format": "scenario-index/v1",
+  "project": "upready-store",
+  "scenarios": [
+    {
+      "id": "buyer-browse-catalog",
+      "goal": "Захожу в магазин и смотрю, что в нём продаётся: открываю каталог и вижу товары с ценами",
+      "actor": "buyer",
+      "weight": "critical",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/[locale]",
+        "/[locale]/store",
+        "/[locale]/categories/[...category]"
+      ],
+      "status": "recorded",
+      "work": null
+    },
+    {
+      "id": "buyer-open-product",
+      "goal": "Открываю товар из каталога и вижу его фото, цену и кнопку «в корзину»",
+      "actor": "buyer",
+      "weight": "critical",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/[locale]/store",
+        "/[locale]/products/[handle]"
+      ],
+      "status": "recorded",
+      "work": null
+    },
+    {
+      "id": "buyer-add-to-cart",
+      "goal": "Кладу товар в корзину и вижу его там с правильной суммой",
+      "actor": "buyer",
+      "weight": "critical",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/[locale]/products/[handle]",
+        "/[locale]/cart"
+      ],
+      "status": "recorded",
+      "work": null
+    },
+    {
+      "id": "buyer-checkout-place-order",
+      "goal": "Оформляю заказ из корзины: адрес, доставка, оплата, и вижу страницу «заказ принят»",
+      "actor": "buyer",
+      "weight": "critical",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/[locale]/cart",
+        "/[locale]/checkout",
+        "/[locale]/order/[id]/confirmed"
+      ],
+      "status": "recorded",
+      "work": null
+    },
+    {
+      "id": "buyer-phone-buy",
+      "goal": "С телефона нахожу товар, кладу в корзину и дохожу до оформления заказа",
+      "actor": "buyer",
+      "weight": "normal",
+      "profiles": [
+        "phone-touch"
+      ],
+      "routes": [
+        "/[locale]/store",
+        "/[locale]/products/[handle]",
+        "/[locale]/cart",
+        "/[locale]/checkout"
+      ],
+      "status": "draft",
+      "work": null
+    },
+    {
+      "id": "buyer-switch-language",
+      "goal": "Меняю язык магазина и вижу страницу на другом языке",
+      "actor": "buyer",
+      "weight": "normal",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/[locale]"
+      ],
+      "status": "draft",
+      "work": null
+    },
+    {
+      "id": "buyer-register-account",
+      "goal": "Создаю личный кабинет покупателя и вижу его после входа",
+      "actor": "buyer",
+      "weight": "normal",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/[locale]/account",
+        "/[locale]/account/profile"
+      ],
+      "status": "draft",
+      "work": null
+    },
+    {
+      "id": "owner-sign-in",
+      "goal": "Захожу в панель магазина по почте и паролю и вижу обзор своего магазина",
+      "actor": "guest",
+      "weight": "critical",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/login",
+        "/"
+      ],
+      "status": "recorded",
+      "work": null
+    },
+    {
+      "id": "owner-add-product",
+      "goal": "Добавляю в панели новый товар с названием и ценой и нахожу его в списке товаров",
+      "actor": "owner",
+      "weight": "critical",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/products",
+        "/products/create",
+        "/products/:id"
+      ],
+      "status": "recorded",
+      "work": null
+    },
+    {
+      "id": "owner-see-order",
+      "goal": "Вижу в панели заказ, который оформил покупатель, и открываю его карточку",
+      "actor": "owner",
+      "weight": "critical",
+      "profiles": [
+        "desktop-mouse"
+      ],
+      "routes": [
+        "/orders",
+        "/orders/[id]"
+      ],
+      "status": "recorded",
+      "work": null
+    },
+    {
+      "id": "owner-phone-orders",
+      "goal": "С телефона открываю заказы в панели и вижу, какой ждёт упаковки",
+      "actor": "owner",
+      "weight": "normal",
+      "profiles": [
+        "phone-touch"
+      ],
+      "routes": [
+        "/login",
+        "/orders"
+      ],
+      "status": "draft",
+      "work": null
+    }
+  ]
+}

@@ -42,7 +42,8 @@ test("AnthropicProvider sends the tools and reads tool_use back (mocked fetch)",
   assert.deepEqual(step, { kind: "tools", text: "Смотрю.", calls: [{ id: "tu_9", name: "recent_orders", input: { limit: 3 } }] });
   assert.equal(sent.model, "claude-sonnet-5-5");
   assert.equal(sent.system, "sys");
-  assert.equal((sent.tools as unknown[]).length, 6);
+  // Six stage 1 read tools and the two command-map tools of stage 2 (find_commands, run_command).
+  assert.equal((sent.tools as unknown[]).length, 8);
   assert.equal(headers["x-api-key"], "test-key-not-real");
   assert.equal(provider.name, "anthropic claude-sonnet-5-5");
 });

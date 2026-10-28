@@ -5,6 +5,20 @@
  *   GET  /api/status  what runs live and what on fixtures (no keys in it)
  *   POST /api/text    { question, history } → answer + audio
  *   POST /api/voice   { audio (base64), contentType, history } → transcript + answer + audio
+ *                     both take `voiceId`, the voice chosen in the settings panel
+ *
+ *   GET  /api/commands            the command map, for the palette
+ *   POST /api/commands/run        { id, params, product, order, body } → result, link or proposal
+ *   GET  /api/commands/pick?id=   the rows a command's `{id}` is picked from
+ *   POST /api/commands/confirm    { proposalId } → the dry-run: the exact request, never sent
+ *
+ *   GET  /api/voices?language=&q=&gender=&accent=&source=   the ElevenLabs catalog (reads only)
+ *   POST /api/voices/add          { voiceId } → refused unless ELEVENLABS_ALLOW_ADD_VOICE=1
+ *   GET  /api/voices/sample.wav   the fixture catalog's placeholder preview
+ *
+ *   GET  /assistant               the buyer assistant page
+ *   POST /api/assistant/text      { question, history } → answer (public catalog only)
+ *   POST /api/assistant/voice     { audio, contentType, history } → transcript + answer
  *
  * Once anything real is behind the page, the stand asks for `STAND_PASSWORD`
  * (HTTP Basic, any user name) and refuses to start without it: the shop login
@@ -20,9 +34,11 @@ import { type App, createApp } from "./app.ts";
 import { type Config, readConfig } from "./config.ts";
 import type { Audio } from "./elevenlabs.ts";
 import type { ChatMessage } from "./model/types.ts";
-import { VoiceOffError } from "./voice.ts";
+import { placeholderWav, VoiceOffError } from "./voice.ts";
+import { VoiceError, type VoiceFilter } from "./voices.ts";
 
 const PAGE = fileURLToPath(new URL("./page.html", import.meta.url));
+const ASSISTANT_PAGE = fileURLToPath(new URL("./assistant.html", import.meta.url));
 const MAX_BODY = 12 * 1024 * 1024;
 const MAX_HISTORY = 8;
 /** What the owner sees when something behind the page failed. */
@@ -66,9 +82,36 @@ export function parseHistory(raw: unknown): ChatMessage[] {
 const encodeAudio = (audio: Audio | null) =>
   audio ? { audio: Buffer.from(audio.data).toString("base64"), audioType: audio.contentType } : { audio: null, audioType: null };
 
+const audioIn = (body: Record<string, unknown>): Audio => {
+  const data = typeof body.audio === "string" ? Buffer.from(body.audio, "base64") : null;
+  if (!data?.length) throw new HttpError(400, "Пустая аудиозапись.");
+  return { data: new Uint8Array(data), contentType: typeof body.contentType === "string" ? body.contentType : "audio/webm" };
+};
+
+const questionIn = (body: Record<string, unknown>): string => {
+  const question = typeof body.question === "string" ? body.question.trim() : "";
+  if (!question) throw new HttpError(400, "Пустой вопрос.");
+  return question.slice(0, 1000);
+};
+
+const objectIn = (value: unknown): Record<string, unknown> | undefined =>
+  value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : undefined;
+
+const voiceFilter = (params: URLSearchParams): VoiceFilter => {
+  const pick = (name: string, max = 60) => params.get(name)?.trim().slice(0, max) || undefined;
+  const source = pick("source");
+  return {
+    language: pick("language", 5),
+    q: pick("q"),
+    gender: pick("gender", 10),
+    accent: pick("accent", 30),
+    source: source === "account" || source === "library" ? source : "all",
+  };
+};
+
 function send(res: ServerResponse, status: number, body: unknown, type = "application/json; charset=utf-8"): void {
   res.writeHead(status, { "content-type": type, "cache-control": "no-store" });
-  res.end(typeof body === "string" ? body : JSON.stringify(body));
+  res.end(typeof body === "string" || body instanceof Uint8Array ? body : JSON.stringify(body));
 }
 
 export function authorized(header: string | undefined, password: string | null): boolean {
@@ -97,28 +140,66 @@ export function handler(app: App, password: string | null) {
         res.end();
         return;
       }
-      const path = new URL(req.url ?? "/", "http://stand").pathname;
+      const url = new URL(req.url ?? "/", "http://stand");
+      const path = url.pathname;
       if (req.method === "GET" && path === "/") return send(res, 200, readFileSync(PAGE, "utf8"), "text/html; charset=utf-8");
+      if (req.method === "GET" && path === "/assistant") return send(res, 200, readFileSync(ASSISTANT_PAGE, "utf8"), "text/html; charset=utf-8");
       if (req.method === "GET" && path === "/api/status") return send(res, 200, app.status());
       if (req.method === "POST" && path === "/api/text") {
         const body = await readJson(req);
-        const question = typeof body.question === "string" ? body.question.trim() : "";
-        if (!question) throw new HttpError(400, "Пустой вопрос.");
-        const turn = await app.text(question.slice(0, 1000), parseHistory(body.history));
+        const question = questionIn(body);
+        const turn = await app.text(question, parseHistory(body.history), body.voiceId);
         return send(res, 200, { transcript: question, ...turn, ...encodeAudio(turn.audio) });
       }
       if (req.method === "POST" && path === "/api/voice") {
         const body = await readJson(req);
-        const data = typeof body.audio === "string" ? Buffer.from(body.audio, "base64") : null;
-        if (!data?.length) throw new HttpError(400, "Пустая аудиозапись.");
-        const contentType = typeof body.contentType === "string" ? body.contentType : "audio/webm";
-        const turn = await app.voice({ data: new Uint8Array(data), contentType }, parseHistory(body.history));
+        const turn = await app.voice(audioIn(body), parseHistory(body.history), body.voiceId);
+        return send(res, 200, { ...turn, ...encodeAudio(turn.audio) });
+      }
+
+      if (req.method === "GET" && path === "/api/commands") return send(res, 200, { commands: app.commands.list(), panelUrl: app.commands.panelUrl });
+      if (req.method === "GET" && path === "/api/commands/pick") return send(res, 200, { rows: await app.commands.pick(url.searchParams.get("id") ?? "") });
+      if (req.method === "POST" && path === "/api/commands/run") {
+        const body = await readJson(req);
+        if (typeof body.id !== "string" || !body.id) throw new HttpError(400, "Нет id команды.");
+        const { text, card } = await app.commands.run(body.id, {
+          params: objectIn(body.params),
+          body: objectIn(body.body),
+          product: typeof body.product === "string" ? body.product : undefined,
+          order: typeof body.order === "string" || typeof body.order === "number" ? body.order : undefined,
+        });
+        return send(res, 200, { reply: text, cards: card ? [card] : [] });
+      }
+      if (req.method === "POST" && path === "/api/commands/confirm") {
+        const body = await readJson(req);
+        const done = app.commands.confirm(typeof body.proposalId === "string" ? body.proposalId : "");
+        if (!done) throw new HttpError(410, "Предложение устарело или уже подтверждено. Попросите заново.");
+        return send(res, 200, done);
+      }
+
+      if (req.method === "GET" && path === "/api/voices") return send(res, 200, await app.voices.list(voiceFilter(url.searchParams)));
+      if (req.method === "GET" && path === "/api/voices/sample.wav") return send(res, 200, Buffer.from(placeholderWav("Образец.")), "audio/wav");
+      if (req.method === "POST" && path === "/api/voices/add") {
+        const body = await readJson(req);
+        await app.voices.add(typeof body.voiceId === "string" ? body.voiceId : "");
+        return send(res, 200, { added: true });
+      }
+
+      if (req.method === "POST" && path === "/api/assistant/text") {
+        const body = await readJson(req);
+        const question = questionIn(body);
+        const turn = await app.assistant.text(question, parseHistory(body.history));
+        return send(res, 200, { transcript: question, ...turn, ...encodeAudio(turn.audio) });
+      }
+      if (req.method === "POST" && path === "/api/assistant/voice") {
+        const body = await readJson(req);
+        const turn = await app.assistant.voice(audioIn(body), parseHistory(body.history));
         return send(res, 200, { ...turn, ...encodeAudio(turn.audio) });
       }
       send(res, 404, { error: "Нет такого адреса." });
     } catch (err) {
       // The owner sees a plain sentence; the cause (keys, codes, paths) stays in the log.
-      if (err instanceof HttpError) return send(res, err.status, { error: err.message });
+      if (err instanceof HttpError || err instanceof VoiceError) return send(res, err.status, { error: err.message });
       if (err instanceof VoiceOffError) {
         console.error("[owner-voice] voice off:", err.cause);
         return send(res, 409, { error: err.message });

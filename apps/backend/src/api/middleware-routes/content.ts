@@ -15,6 +15,7 @@ import {
 } from "../tenants/product-attributes/validators";
 import { PutTenantProductTranslationBody } from "../tenants/products/translations-validators";
 import { PutTenantLocaleSettingsBody } from "../tenants/locale-settings/validators";
+import { PostAgentChangesetSchema } from "../tenants/agent-changesets/validators";
 
 /**
  * The shop's content. It covers pages, journal articles, the home page
@@ -120,5 +121,13 @@ export const contentRoutes: MiddlewareRoute[] = [
     matcher: "/tenants/locale-settings",
     method: ["PUT"],
     middlewares: [validateAndTransformBody(PutTenantLocaleSettingsBody)],
+  },
+
+  // ---- t-2026-10-27-04: the owner's agent's changesets. Only the create
+  // takes a body; the steps take none and act on the id in the path.
+  {
+    matcher: "/tenants/agent-changesets",
+    method: ["POST"],
+    middlewares: [validateAndTransformBody(PostAgentChangesetSchema)],
   },
 ];
