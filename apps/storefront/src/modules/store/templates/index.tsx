@@ -74,12 +74,15 @@ const StoreTemplate = async ({
         ]}
       />
 
-      {/* D4 (t-2026-10-20-61): one compact row — the title at 28px with the count beside it,
-          the sorting at the end. The breadcrumb above is the text line. */}
+      {/* D4 (t-2026-10-20-61): one compact head. From lg the title at 28px, the count beside it
+          and the sorting sit in one row. Below lg the count goes under the title, so a phone
+          never wraps either of them; both stay on one line (the title is cut with an ellipsis
+          before it would wrap) and the filters button keeps its width. The breadcrumb above is
+          the text line. */}
       <div className="mb-6 flex items-center justify-between gap-x-4">
-        <div className="flex min-w-0 items-baseline gap-x-3">
+        <div className="flex min-w-0 flex-col whitespace-nowrap lg:flex-row lg:items-baseline lg:gap-x-3">
           <h1
-            className="text-[28px] font-semibold leading-9 tracking-[-0.01em] text-ui-fg-base"
+            className="truncate text-[28px] font-semibold leading-9 tracking-[-0.01em] text-ui-fg-base"
             data-testid="store-page-title"
           >
             {t("Store.allProducts")}
@@ -93,7 +96,7 @@ const StoreTemplate = async ({
             />
           </Suspense>
         </div>
-        <div className="flex items-center gap-x-4">
+        <div className="flex shrink-0 items-center gap-x-4">
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
