@@ -1,0 +1,133 @@
+{
+  "format": "scenario/v1",
+  "id": "buyer-browse-catalog",
+  "project": "upready-store",
+  "title": "Захожу в магазин и смотрю, что в нём продаётся: открываю каталог и вижу товары с ценами",
+  "goal": "Захожу в магазин и смотрю, что в нём продаётся: открываю каталог и вижу товары с ценами",
+  "actor": "buyer",
+  "profiles": [
+    "desktop-mouse"
+  ],
+  "start": {
+    "url": "/ru",
+    "fixtures": [
+      "reset",
+      "seed"
+    ]
+  },
+  "final": [
+    {
+      "url": "^/ru/store$"
+    },
+    {
+      "visible": {
+        "testid": "product-title",
+        "text": "Тестовая футболка"
+      }
+    },
+    {
+      "visible": {
+        "testid": "product-wrapper",
+        "text": "1 500,00 ₽"
+      }
+    }
+  ],
+  "work": null,
+  "version": 2,
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "открыть меню магазина",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "nav-menu-button"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          24,
+          0,
+          15,
+          63
+        ]
+      },
+      "before": {
+        "url": "^/ru$",
+        "region": [
+          16,
+          0,
+          31,
+          71
+        ],
+        "hash": "0000006060000000"
+      },
+      "after": [
+        {
+          "text": "Витрина"
+        }
+      ],
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T20:44:39.577Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    },
+    {
+      "id": "s2",
+      "intent": "перейти в каталог",
+      "device": "mouse",
+      "action": "click",
+      "target": {
+        "testid": "store-link"
+      },
+      "at": {
+        "fx": 0.5,
+        "fy": 0.5,
+        "box": [
+          33,
+          395.3,
+          137.42,
+          38
+        ]
+      },
+      "before": {
+        "url": "^/ru$",
+        "region": [
+          25,
+          387,
+          154,
+          55
+        ],
+        "hash": "000080e4d4d40000"
+      },
+      "checkpoint": true,
+      "recorded": {
+        "by": "scenario.mjs agent",
+        "model": null,
+        "at": "2026-10-27T20:44:46.408Z",
+        "tokens": null,
+        "profile": "desktop-mouse"
+      }
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-27T20:45:09.199Z",
+      "by": "scenario.mjs agent",
+      "kind": "record",
+      "version": 2,
+      "profile": "desktop-mouse",
+      "steps": [
+        "s1",
+        "s2"
+      ],
+      "reason": "first pass: Захожу в магазин и смотрю, что в нём продаётся: открываю каталог и вижу товары с ценами",
+      "model": null,
+      "tokens": null
+    }
+  ]
+}
