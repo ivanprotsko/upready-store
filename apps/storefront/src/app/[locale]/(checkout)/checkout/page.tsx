@@ -5,11 +5,13 @@ import PaymentWrapper from "@modules/checkout/components/payment-wrapper"
 import { CartUpdateProvider } from "@modules/checkout/context/cart-update-context"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutPayment from "@modules/checkout/templates/checkout-payment"
+import CheckoutSummaryFold from "@modules/checkout/components/checkout-summary-fold"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { getLocale, getTranslations } from "next-intl/server"
+import { convertToLocale } from "@lib/util/money"
 import { pageTitle } from "@lib/util/page-title"
 import { readPaymentReturnNotice } from "@lib/util/robokassa-return"
 
@@ -59,6 +61,7 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
 
   const cart = initialCart
   const customer = await retrieveCustomer()
+  const tSummary = await getTranslations("OrderSummary")
 
   return (
     <PaymentWrapper cart={cart}>
@@ -67,7 +70,8 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
             the summary in the middle of the form. From 1024 px it is two columns now,
             the Medusa starter checkout's own split: the form and the payment on the
             left, the order summary on the right, sticky under the 64px header. Below
-            1024 px it stays one column in the old order: form, summary, payment. */}
+            1024 px it is one column: the summary folded at the top (D8,
+            t-2026-10-20-61), then the form, then the payment. */}
         <div className="content-container grid grid-cols-1 gap-y-8 py-6 small:grid-cols-[minmax(0,1fr)_400px] small:grid-rows-[auto_1fr] small:gap-x-12 small:gap-y-10 small:py-10 large:gap-x-20">
           <div className="min-w-0 small:col-start-1 small:row-start-1">
             <HydrationSlot>
@@ -79,10 +83,19 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
               />
             </HydrationSlot>
           </div>
-          <div className="min-w-0 small:col-start-2 small:row-start-1 small:row-span-2">
+          <div className="order-first min-w-0 small:order-none small:col-start-2 small:row-start-1 small:row-span-2">
             <div className="small:sticky small:top-24">
               <HydrationSlot>
-                <CheckoutSummary cart={cart} />
+                <CheckoutSummaryFold
+                  heading={tSummary("heading")}
+                  total={convertToLocale({
+                    amount: cart.total ?? 0,
+                    currency_code: cart.currency_code,
+                    locale,
+                  })}
+                >
+                  <CheckoutSummary cart={cart} />
+                </CheckoutSummaryFold>
               </HydrationSlot>
             </div>
           </div>

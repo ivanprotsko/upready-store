@@ -65,7 +65,7 @@ const Login = ({
       {/* In the modal the text sits left, on the button's edge (t-2026-10-04-45, Ivan 04.10:
           «Текст в контейнере выровнять по левому краю»); the page keeps its centred column. */}
       <div className={clx("flex flex-col gap-y-3", inModal ? "items-start text-start" : "items-center text-center")}>
-        {inModal ? null : <h1 className="text-large-semi uppercase">{t("heading")}</h1>}
+        {inModal ? null : <h1 className="text-large-semi">{t("heading")}</h1>}
         <p className="text-base-regular text-ui-fg-base">{t("description")}</p>
       </div>
       <SignInMethods
@@ -81,10 +81,11 @@ const Login = ({
         <button
           type="button"
           onClick={() => setCurrentView(LOGIN_VIEW.FORGOT_PASSWORD)}
-          className={clx(
-            "text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline",
+          // A template string, not `clx`: tailwind-merge reads `text-small-regular` as a colour and
+          // drops it next to `text-ui-fg-interactive`, so the link came out at 16 px (D10).
+          className={`text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline ${
             inModal ? "self-start" : "self-center"
-          )}
+          }`}
           data-testid="forgot-password-button"
         >
           {t("forgotPassword")}

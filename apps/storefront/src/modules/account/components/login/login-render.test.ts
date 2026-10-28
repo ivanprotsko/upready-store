@@ -120,9 +120,9 @@ describe("Yandex ID: the button from Yandex's constructor, one shared place (t-2
     expect(buttonSource).toContain("/images/yandex-id/avatar-placeholder.png")
   })
 
-  it("gives Yandex ID a row of its own: only e-mail and Telegram pair up", () => {
-    expect(methodsSource).toContain("const cells = [emailSignIn, telegramBot !== null].filter(Boolean).length")
-    expect(methodsSource).toContain('className={clx(cells > 1 && "col-span-2")}')
+  it("draws the ways in as equal full-width rows, one under the other (D10, t-2026-10-20-61)", () => {
+    expect(methodsSource).toContain('className="grid grid-cols-1 gap-3"')
+    expect(methodsSource).not.toContain("col-span-2")
   })
 
   it("the modal is a 320 px column, 24 px all round from 640 px up and 16 on a phone", () => {

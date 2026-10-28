@@ -38,7 +38,7 @@ export default function CartContent({
   }
 
   return (
-    <div className="min-h-[70vh] py-6">
+    <div className="py-6">
       <h1 className="mb-6 text-[2rem] font-medium leading-[2.25rem] small:mb-8">
         {t("heading")}
       </h1>

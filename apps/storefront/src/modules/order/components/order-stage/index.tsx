@@ -12,7 +12,8 @@ import {
   type StageOrder,
 } from "@lib/util/order-stage"
 import type { StatusTone } from "@lib/util/order-status"
-import { trackingEntries } from "@lib/util/order-tracking"
+import { trackingDisplay, trackingEntries } from "@lib/util/order-tracking"
+import TrackingLine from "@modules/order/components/tracking-line"
 import StatusDot from "@modules/account/components/status-dot"
 
 /**
@@ -49,6 +50,7 @@ type BlockProps = {
 export const OrderStageBlock = async ({ order, level = "h1", hint, children }: BlockProps) => {
   const t = await getTranslations("OrderStage")
   const tTimeline = await getTranslations("OrderTimeline")
+  const tCopy = await getTranslations("ManualPayment")
 
   const stageOrder = asStageOrder(order)
   const stage = orderStage(stageOrder)
@@ -110,23 +112,15 @@ export const OrderStageBlock = async ({ order, level = "h1", hint, children }: B
           className="flex flex-col gap-y-1 rounded-lg bg-ui-bg-subtle px-4 py-3"
           data-testid="order-tracking"
         >
-          {tracking.map(({ line, url }) => (
-            <span key={line} className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+          {tracking.map((entry) => (
+            <span key={entry.line} className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
               <span className="txt-compact-small text-ui-fg-subtle">{tTimeline("trackingNumber")}</span>
-              <span className="txt-compact-medium-plus text-ui-fg-base tabular-nums" data-testid="order-tracking-number">
-                {line}
-              </span>
-              {url && (
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm w-fit"
-                  data-testid="order-tracking-link"
-                >
-                  {tTimeline("trackLink")}
-                </a>
-              )}
+              <TrackingLine
+                display={trackingDisplay(entry)}
+                number={entry.number}
+                url={entry.url}
+                labels={{ copy: tCopy("copy"), copied: tCopy("copied"), track: tTimeline("trackLink") }}
+              />
             </span>
           ))}
         </div>
@@ -175,7 +169,7 @@ export const OrderStageTracking = async ({ order, className }: MarkProps) => {
   const t = await getTranslations("OrderTimeline")
   return (
     <span className={clx("txt-small text-ui-fg-subtle", className)} data-testid="order-tracking">
-      {t("trackingNumber")} <span className="tabular-nums">{entry.line}</span>
+      {t("trackingNumber")} <span className="tabular-nums">{trackingDisplay(entry)}</span>
       {entry.url && (
         <>
           {" · "}
