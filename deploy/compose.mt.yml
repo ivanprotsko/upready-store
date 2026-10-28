@@ -330,6 +330,10 @@ services:
       # value as the backend's.
       SCHOOL_SSO_RETURN_HOSTS: ${SCHOOL_SSO_RETURN_HOSTS:-}
       REGION_PIN: "true"
+      # `all` keeps every country in «Смена региона» for every shop on this
+      # host (INTL sells abroad); unset narrows a shop to the countries of its
+      # locales (N9, the RU host). See apps/storefront/src/lib/geolocation/shop-regions.ts.
+      SHOP_REGIONS: ${SHOP_REGIONS:-}
       # A visitor without a locale in the URL gets NEXT_PUBLIC_DEFAULT_LOCALE
       # whatever their browser sends: this storefront's audience is Russian
       # speaking (Ivan's order 4.1, 2026-09-12). A pick in the language switcher
