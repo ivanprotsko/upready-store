@@ -1,6 +1,12 @@
 import "server-only"
-import { EMPTY_BRANDING, parseBrandingHeader, type TenantBranding } from "@lib/tenant/branding"
+import {
+  EMPTY_BRANDING,
+  parseBrandingHeader,
+  shopNameForLocale,
+  type TenantBranding,
+} from "@lib/tenant/branding"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
+import { getLocale } from "next-intl/server"
 import { headers as nextHeaders } from "next/headers"
 
 /**
@@ -21,7 +27,15 @@ export const getSiteBranding = async (): Promise<TenantBranding> => {
     )
 
     if (parsed) {
-      return parsed
+      // Cyrillic name on Russian pages, Latin on every other (`shopNameForLocale`).
+      return {
+        ...parsed,
+        shop_name_short: shopNameForLocale(
+          parsed.shop_name_short,
+          decodeTenantHeaderValue(headers.get("x-tenant-name")),
+          await getLocale().catch(() => null)
+        ),
+      }
     }
   } catch {
     // No request context or a header this process cannot parse — render with

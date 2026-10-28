@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { EMPTY_BRANDING, parseBrandingHeader } from "./branding"
+import { EMPTY_BRANDING, parseBrandingHeader, shopNameForLocale } from "./branding"
 
 const FULL_APP_ICONS = {
   icon_svg_url: "https://cdn.example.com/icon.svg",
@@ -53,5 +53,20 @@ describe("parseBrandingHeader", () => {
 
   it("reads a full app_icons object through unchanged", () => {
     expect(parseBrandingHeader(JSON.stringify(FULL))?.app_icons).toEqual(FULL_APP_ICONS)
+  })
+})
+
+describe("shopNameForLocale", () => {
+  it("Cyrillic on Russian pages, Latin on every other (Ivan 21.10.2026)", () => {
+    expect(shopNameForLocale("Cherkashino", "Черкашино", "ru")).toBe("Черкашино")
+    expect(shopNameForLocale("Cherkashino", "Черкашино", "en")).toBe("Cherkashino")
+    expect(shopNameForLocale("Cherkashino", "Черкашино", "de")).toBe("Cherkashino")
+    expect(shopNameForLocale("Черкашино", "Cherkashino", "en")).toBe("Cherkashino")
+  })
+
+  it("keeps the short name when there is nothing to choose", () => {
+    expect(shopNameForLocale(null, "Черкашино", "en")).toBeNull()
+    expect(shopNameForLocale("Olavka", "Olavka shop", "ru")).toBe("Olavka")
+    expect(shopNameForLocale("Cherkashino", "Черкашино", null)).toBe("Cherkashino")
   })
 })

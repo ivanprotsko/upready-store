@@ -78,3 +78,31 @@ export const parseBrandingHeader = (raw: string | null | undefined): TenantBrand
     return null
   }
 }
+
+// `new RegExp` rather than a literal: the storefront compiles to ES5, which rejects a `u` literal.
+const CYRILLIC = new RegExp("\\p{Script=Cyrillic}", "u")
+const LATIN = new RegExp("\\p{Script=Latin}", "u")
+
+/**
+ * The name the logo shows in this locale. Ivan 21.10.2026: «он должен меняться
+ * в зависимости от локали! Если русский язык, то кириллица, есть английский или
+ * любой другой, то латиница». A shop has two names — its own (`tenant.name`) and
+ * the short one from the branding settings. Russian takes the Cyrillic one, every
+ * other locale the Latin one. With one name, both in one script, or no locale
+ * known, the short name wins exactly as before.
+ */
+export const shopNameForLocale = (
+  short: string | null,
+  name: string | null,
+  locale: string | null
+): string | null => {
+  if (!short || !name || !locale) {
+    return short
+  }
+
+  const cyrillic = locale.toLowerCase().split("-")[0] === "ru"
+  const fits = (value: string) =>
+    cyrillic ? CYRILLIC.test(value) : LATIN.test(value) && !CYRILLIC.test(value)
+
+  return [short, name].find(fits) ?? short
+}
