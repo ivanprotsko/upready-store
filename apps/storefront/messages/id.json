@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "No. registrasi pengusaha perorangan (OGRNIP): {value}",
     "aboutHeading": "Tentang toko",
     "trackOrder": "Lacak pesanan Anda",
-    "badgesLabel": "Pengiriman dan pembayaran"
+    "paymentsLabel": "Metode pembayaran"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke masuk",

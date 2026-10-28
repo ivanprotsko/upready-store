@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "ОДРНІП: {value}",
     "aboutHeading": "Про магазин",
     "trackOrder": "Відстежити замовлення",
-    "badgesLabel": "Доставка й оплата"
+    "paymentsLabel": "Способи оплати"
   },
   "ForgotPassword": {
     "backToSignIn": "Повернутися до входу",

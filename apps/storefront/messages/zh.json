@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "个体经营者注册号：{value}",
     "aboutHeading": "关于本店",
     "trackOrder": "查询订单",
-    "badgesLabel": "配送与支付"
+    "paymentsLabel": "支付方式"
   },
   "ForgotPassword": {
     "backToSignIn": "返回登录",

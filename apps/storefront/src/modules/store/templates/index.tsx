@@ -21,7 +21,7 @@ import CategoryImageTiles from "@modules/categories/components/category-image-ti
 import { categoriesWithImages } from "@lib/util/category-image"
 import { listProductOptionFilters } from "@lib/data/products"
 
-import ProductsListing from "./products-listing"
+import ProductsListing, { CatalogCount } from "./products-listing"
 import Breadcrumb from "@modules/common/components/breadcrumb"
 
 
@@ -74,27 +74,42 @@ const StoreTemplate = async ({
         ]}
       />
 
-      <div className="mb-8 lg:grid lg:grid-cols-[280px_1fr] lg:items-center">
-        <div className="flex items-center justify-between">
-          <h1 className="h3-webs" data-testid="store-page-title">
+      {/* D4 (t-2026-10-20-61): one compact head. From lg the title at 28px, the count beside it
+          and the sorting sit in one row. Below lg the count goes under the title, so a phone
+          never wraps either of them; both stay on one line (the title is cut with an ellipsis
+          before it would wrap) and the filters button keeps its width. The breadcrumb above is
+          the text line. */}
+      <div className="mb-6 flex items-center justify-between gap-x-4">
+        <div className="flex min-w-0 flex-col whitespace-nowrap lg:flex-row lg:items-baseline lg:gap-x-3">
+          <h1
+            className="truncate text-[28px] font-semibold leading-9 tracking-[-0.01em] text-ui-fg-base"
+            data-testid="store-page-title"
+          >
             {t("Store.allProducts")}
           </h1>
+          <Suspense fallback={null}>
+            <CatalogCount
+              sortBy={sort}
+              countryCode={countryCode}
+              optionValueIds={optionValueIds}
+              attributeProductIds={attributeFacets.productIds}
+            />
+          </Suspense>
+        </div>
+        <div className="flex shrink-0 items-center gap-x-4">
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
             attributeFacets={attributeFacets.facets}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
-        </div>
-        <div className="mt-4 hidden lg:mt-0 lg:flex lg:flex-row lg:items-center lg:justify-between">
-          {/* The filters live in the left column now (`FilterSidebar`); this row keeps the
-              sorting, on the right where the grid ends. */}
-          <span />
-          <RefinementList
-            sortBy={sort}
-            display="sort"
-            data-testid="sort-by-container"
-          />
+          <div className="hidden lg:block">
+            <RefinementList
+              sortBy={sort}
+              display="sort"
+              data-testid="sort-by-container"
+            />
+          </div>
         </div>
       </div>
 

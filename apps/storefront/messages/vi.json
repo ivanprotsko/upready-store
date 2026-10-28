@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Số đăng ký hộ kinh doanh cá thể: {value}",
     "aboutHeading": "Về cửa hàng",
     "trackOrder": "Theo dõi đơn hàng",
-    "badgesLabel": "Giao hàng và thanh toán"
+    "paymentsLabel": "Phương thức thanh toán"
   },
   "ForgotPassword": {
     "backToSignIn": "Quay lại đăng nhập",

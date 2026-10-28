@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "رقم تسجيل رائد الأعمال الفردي: {value}",
     "aboutHeading": "عن المتجر",
     "trackOrder": "تتبع طلبك",
-    "badgesLabel": "التوصيل والدفع"
+    "paymentsLabel": "طرق الدفع"
   },
   "ForgotPassword": {
     "backToSignIn": "العودة إلى تسجيل الدخول",

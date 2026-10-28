@@ -164,7 +164,7 @@ export default function OlavkaLoopTrack({
       <ul ref={ref} id={trackId} className={className} data-loop="true">
         {children}
       </ul>
-      <div className={`${headerStyles.tokens} ${styles.arrow} ${styles.arrowPrevious}`}>
+      <div className={`${headerStyles.tokens} ${styles.arrow}`}>
         <button
           type="button"
           className={ARROW_CLASS}
@@ -176,7 +176,7 @@ export default function OlavkaLoopTrack({
           <ChevronLeft aria-hidden />
         </button>
       </div>
-      <div className={`${headerStyles.tokens} ${styles.arrow} ${styles.arrowNext}`}>
+      <div className={`${headerStyles.tokens} ${styles.arrow}`}>
         <button
           type="button"
           className={ARROW_CLASS}

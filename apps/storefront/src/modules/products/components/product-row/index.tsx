@@ -35,7 +35,7 @@ export const productRowSizes = (columns: ProductRowColumns) =>
 
 /**
  * A row of products under the product page's cards, after Ivan's Figma mockup (frame
- * «ProductPage», `handoff/o-20260921-01/t-2026-09-22-01-pdp-figma-layout.md`): a centred
+ * «ProductPage», `handoff/o-20260921-01/t-2026-09-22-01-pdp-figma-layout.md`): a left-aligned
  * heading in regular weight, then the tiles in one line. Plain and synchronous on
  * purpose — the server-rendered «bought with this» row and the client-rendered «recently
  * viewed» row are the same component fed the same `ProductRowItem`s.
@@ -55,7 +55,7 @@ export default function ProductRow({
 
   return (
     <section className="flex flex-col" data-testid={dataTestid}>
-      <h2 className="mb-6 text-center text-2xl font-normal leading-8 tracking-[-0.01em] text-ui-fg-base small:mb-8 small:text-[28px] small:leading-9">
+      <h2 className="mb-6 text-start text-2xl font-normal leading-8 tracking-[-0.01em] text-ui-fg-base small:mb-8 small:text-[28px] small:leading-9">
         {heading}
       </h2>
       <ul className={productRowListClass(columns)} data-testid="product-row">

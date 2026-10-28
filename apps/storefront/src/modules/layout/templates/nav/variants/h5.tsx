@@ -76,9 +76,9 @@ export default async function NavH5() {
                 data-testid="nav-mode-toggle"
               />
               <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
-              {/* Country and language at every width, as in H1: on a phone too, not only
-                  behind the bottom bar's menu (t-2026-09-12-seeded-hosts-no-locale-controls). */}
-              <div className="flex min-w-0">
+              {/* Country and language from 1024px up. Below that they live in the bottom
+                  bar's menu (t-2026-09-12-seeded-hosts-no-locale-controls). */}
+              <div className="hidden lg:flex min-w-0">
                 <RegionSelect
                   regions={regions}
                   currentCountryCode={countryCode ?? undefined}

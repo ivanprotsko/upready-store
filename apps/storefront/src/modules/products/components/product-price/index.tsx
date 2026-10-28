@@ -42,7 +42,7 @@ export default function ProductPrice({
       data-testid="product-price-row"
     >
       <span className="inline-flex min-w-0 items-center gap-x-2 text-2xl font-semibold leading-8 tabular-nums text-ui-fg-base">
-        <Wallet className="shrink-0 text-ui-fg-interactive" aria-hidden />
+        <Wallet className="shrink-0 text-ui-fg-subtle" aria-hidden />
         {!variant && (
           <span className="text-base font-normal text-ui-fg-subtle">
             {t("from")}
@@ -51,7 +51,7 @@ export default function ProductPrice({
         <span
           data-testid="product-price"
           data-value={selectedPrice.calculated_price_number}
-          className="text-[color:var(--fg-accent,var(--fg-base))]"
+          className="text-ui-fg-base"
         >
           {selectedPrice.calculated_price}
         </span>

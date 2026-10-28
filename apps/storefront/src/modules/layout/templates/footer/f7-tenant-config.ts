@@ -1,9 +1,10 @@
 /**
- * Per-shop copy for footer F7: the badge row and the two link columns that stand beside
+ * Per-shop copy for footer F7: the two link columns that stand beside
  * «О магазине» in Ivan's Figma mockup (node 9-70418, `t-2026-09-22-01` block 6).
  *
- * Why a file and not a panel field: neither of those two things has a source in the
- * tenant data today. `GET /store/tenant/seller` carries requisites and contacts only,
+ * Why a file and not a panel field: the columns have no source in the tenant data today.
+ * (The payment row used to live here too; t-2026-10-20-61 D12 moved it to the shop's own
+ * payment settings, see `f7.tsx`.) `GET /store/tenant/seller` carries requisites and contacts only,
  * `listTenantPages()` carries the owner's published pages, and the tenant module's
  * `telegram_chat_id` is an order-notification setting, not a public channel link. The
  * brief's own answer for the badges is «badges from a static list per tenant config», so
@@ -44,11 +45,9 @@ export type F7Column = {
 export type F7TenantConfig = {
   /** The extra columns, after the shop's own «О магазине» column. At most two fit the row. */
   columns: F7Column[]
-  /** Outlined pills, left to right, exactly as typed. Empty hides the whole row. */
-  badges: string[]
 }
 
-const EMPTY: F7TenantConfig = { columns: [], badges: [] }
+const EMPTY: F7TenantConfig = { columns: [] }
 
 const BY_HANDLE: Record<string, F7TenantConfig> = {
   /**
@@ -74,23 +73,6 @@ const BY_HANDLE: Record<string, F7TenantConfig> = {
           { label: "Про АСД", href: null },
         ],
       },
-    ],
-    /**
-     * The mockup's own row, read off the frame left to right. Mastercard is the word, not
-     * the two-circle mark: that mark is a registered logo and this storefront ships no
-     * third-party brand assets (`public/` holds `flags`, `og` and `medusa.svg` only), so
-     * every pill is text and the row stays one consistent shape.
-     */
-    badges: [
-      "DHL",
-      "CDEK",
-      "AMEX",
-      "VISA",
-      "Mastercard",
-      "stripe",
-      "PayPal",
-      "G Pay",
-      "Apple Pay",
     ],
   },
 }

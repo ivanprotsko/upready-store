@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "เลขทะเบียนผู้ประกอบการรายบุคคล: {value}",
     "aboutHeading": "เกี่ยวกับร้านค้า",
     "trackOrder": "ติดตามคำสั่งซื้อ",
-    "badgesLabel": "การจัดส่งและการชำระเงิน"
+    "paymentsLabel": "วิธีการชำระเงิน"
   },
   "ForgotPassword": {
     "backToSignIn": "กลับไปเข้าสู่ระบบ",

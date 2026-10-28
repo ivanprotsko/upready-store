@@ -1,6 +1,7 @@
 import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 import { getSiteName, getTenantHandle } from "@lib/data/cookies"
+import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
 import { listTenantPages } from "@lib/data/tenant-pages"
 import { getTenantSeller } from "@lib/data/tenant-seller"
 
@@ -45,9 +46,11 @@ import { f7TenantConfig, type F7Column, type F7Icon } from "../f7-tenant-config"
  *   mockup drew them at the end of the last line; that corner now holds the attribution
  *   and the credit only.
  *
- * Columns 2 and 3 and the badge row have no tenant-data source today and come from
+ * Columns 2 and 3 have no tenant-data source today and come from
  * `../f7-tenant-config.ts`, keyed by the tenant handle — see that file for why, and for
- * what replaces it.
+ * what replaces it. The payment row is the shop's own (D12, t-2026-10-20-61): the methods
+ * it has connected, as text, never a brand image or a method it does not take; delivery
+ * carriers are no longer listed.
  *
  * Colours are theme tokens throughout (`bg-ui-bg-base`, `border-ui-border-base`,
  * `text-ui-fg-base/-subtle/-muted`), so the panel reads on the dark preset as well as the
@@ -155,12 +158,29 @@ function F7ShopColumn({ column }: { column: F7Column }) {
 }
 
 export default async function FooterF7() {
-  const [t, siteName, handle, seller] = await Promise.all([
-    getTranslations("Footer"),
-    getSiteName(),
-    getTenantHandle(),
-    getTenantSeller(),
-  ])
+  const [t, tPay, tManual, siteName, handle, seller, paymentMethods] =
+    await Promise.all([
+      getTranslations("Footer"),
+      getTranslations("PaymentMethods"),
+      getTranslations("ManualPayment"),
+      getSiteName(),
+      getTenantHandle(),
+      getTenantSeller(),
+      getSitePaymentMethods(),
+    ])
+  // D12 (t-2026-10-20-61): only the ways this shop really takes money, as plain text taken
+  // from its own payment settings. The demo card is a test, never listed.
+  const paymentLabels = [
+    paymentMethods.robokassa ? tPay("pp_robokassa_robokassa") : null,
+    paymentMethods.tribute ? "Tribute" : null,
+    paymentMethods.btcpay ||
+    paymentMethods.bitcart ||
+    paymentMethods.x402 ||
+    paymentMethods.manualCrypto
+      ? tManual("methodCrypto")
+      : null,
+    paymentMethods.manualManager ? tManual("methodOther") : null,
+  ].filter((label): label is string => label !== null)
   const tenantPages = await listTenantPages()
 
   const aboutPage = tenantPages.find((page) => page.key === "about")
@@ -234,18 +254,18 @@ export default async function FooterF7() {
           </div>
         </div>
 
-        {config.badges.length > 0 && (
+        {paymentLabels.length > 0 && (
           <ul
-            aria-label={t("badgesLabel")}
+            aria-label={t("paymentsLabel")}
             className="flex flex-wrap items-center gap-2 mt-6"
             data-testid="footer-badges"
           >
-            {config.badges.map((badge) => (
+            {paymentLabels.map((label) => (
               <li
-                key={badge}
+                key={label}
                 className="rounded-lg border border-ui-border-base px-3 py-1 txt-compact-small text-ui-fg-muted"
               >
-                {badge}
+                {label}
               </li>
             ))}
           </ul>

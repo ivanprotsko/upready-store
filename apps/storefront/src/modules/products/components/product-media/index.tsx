@@ -14,7 +14,11 @@ import ProductMediaPlaceholder from "./placeholder"
  * 1. The frame's aspect ratio is fixed per context and chosen once, in `FRAME_ASPECT`
  *    below. A shop's photos never decide the height of a card, so a grid row is even
  *    whatever the owner uploaded.
- * 2. Product media is never cropped. The picture is `object-fit: contain`, centred, with
+ * 2. The gallery and the lines never crop a product picture (t-2026-10-20-61 D15 changed
+ *    the CARD only: a tile in a grid is cropped to its one aspect with `object-fit: cover`,
+ *    centred, because owner photos of mixed ratios made the grid ragged; the owner's photo
+ *    stays, the full picture is on the product page). Everywhere else the picture is
+ *    `object-fit: contain`, centred, with
  *    no inner padding: a picture whose ratio equals the frame fills it edge to edge under
  *    the frame's own radius. What is left of the frame around a picture of another ratio
  *    continues that picture's own EDGE (`./backdrop`): a strip beside a white packshot is
@@ -37,7 +41,9 @@ export type ProductMediaContext = "card" | "gallery" | "line"
  * mark next to it, not a showcase.
  */
 export const FRAME_ASPECT: Record<ProductMediaContext, string> = {
-  card: "var(--product-media-ratio, 3 / 4)",
+  // The profile's `layout.imageTreatment.aspect` (`--image-aspect`, set on <html> by the
+  // pre-paint script from the profile) decides the tile; a theme's own ratio still outranks it.
+  card: "var(--product-media-ratio, var(--image-aspect, 3 / 4))",
   gallery: "var(--product-media-ratio, 3 / 4)",
   line: "1 / 1",
 }
@@ -104,7 +110,7 @@ export default function ProductMedia({
     >
       {src ? (
         <>
-          <ProductMediaBackdrop src={src} />
+          {context === "card" ? null : <ProductMediaBackdrop src={src} />}
           <Image
             src={src}
             alt={alt}
@@ -113,7 +119,7 @@ export default function ProductMedia({
             quality={quality}
             sizes={slot}
             draggable={false}
-            className="object-contain object-center"
+            className={context === "card" ? "object-cover object-center" : "object-contain object-center"}
           />
           {showSecond ? (
             <HoverImage

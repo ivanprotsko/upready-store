@@ -25,3 +25,19 @@ export const convertToLocale = ({
       }).format(amount)
     : amount.toString()
 }
+
+/**
+ * A tile's price: whole units when the amount has no fraction («1 050 ₽», not «1 050,00 ₽»),
+ * otherwise the string the caller already formatted (t-2026-10-20-61 D3).
+ */
+export const convertToWholeLocale = (
+  params: ConvertToLocaleParams,
+  formatted: string
+) =>
+  Number.isInteger(params.amount)
+    ? convertToLocale({
+        ...params,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })
+    : formatted

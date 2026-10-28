@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Registrační číslo podnikatele (OGRNIP): {value}",
     "aboutHeading": "O obchodu",
     "trackOrder": "Sledovat objednávku",
-    "badgesLabel": "Doprava a platba"
+    "paymentsLabel": "Způsoby platby"
   },
   "ForgotPassword": {
     "backToSignIn": "Zpět na přihlášení",

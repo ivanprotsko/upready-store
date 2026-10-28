@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "Numero ng rehistro ng solong negosyante (OGRNIP): {value}",
     "aboutHeading": "Tungkol sa tindahan",
     "trackOrder": "Subaybayan ang order",
-    "badgesLabel": "Paghahatid at pagbabayad"
+    "paymentsLabel": "Mga paraan ng pagbabayad"
   },
   "ForgotPassword": {
     "backToSignIn": "Bumalik sa pag-sign in",

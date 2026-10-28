@@ -456,7 +456,7 @@
     "regNumberSoleTrader": "ОГРНИП: {value}",
     "aboutHeading": "За магазина",
     "trackOrder": "Проследяване на поръчка",
-    "badgesLabel": "Доставка и плащане"
+    "paymentsLabel": "Начини на плащане"
   },
   "ForgotPassword": {
     "backToSignIn": "Обратно към входа",

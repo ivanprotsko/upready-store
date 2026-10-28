@@ -96,3 +96,35 @@ export default async function ProductsListing(input: ListingInput) {
     </>
   )
 }
+
+/**
+ * The catalog header's counter (t-2026-10-20-61 D4): how many products the current filters
+ * leave, in the existing «N products» string. One product is asked for, only to read the
+ * total. Renders nothing when there is no region or no query, so a header never shows a
+ * wrong zero.
+ */
+export async function CatalogCount(input: ListingInput) {
+  const queryParams = listingQuery(input)
+  const region = queryParams ? await getRegion(input.countryCode) : null
+
+  if (!queryParams || !region) {
+    return null
+  }
+
+  const [t, { response }] = await Promise.all([
+    getTranslations("Home"),
+    listProductsWithSort({
+      offset: 0,
+      queryParams: { ...queryParams, limit: 1 },
+      sortBy: input.sortBy,
+      countryCode: input.countryCode,
+      optionValueIds: input.optionValueIds,
+    }),
+  ])
+
+  return (
+    <span className="txt-medium text-ui-fg-muted tabular-nums" data-testid="store-count">
+      {t("gallery.productsCount", { count: response.count })}
+    </span>
+  )
+}
