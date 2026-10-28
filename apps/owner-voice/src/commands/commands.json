@@ -1192,7 +1192,7 @@
     "kind": "page",
     "path": "/settings/payments",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 1004
+    "line": 1010
    },
    "panel": "/settings/payments"
   },
@@ -1552,7 +1552,7 @@
     "kind": "page",
     "path": "/products/{id}/options/manage",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 192
+    "line": 193
    },
    "panel": "/products/{id}/options/manage"
   },
@@ -1576,7 +1576,7 @@
     "kind": "page",
     "path": "/products/{id}/variants/create",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 177
+    "line": 178
    },
    "panel": "/products/{id}/variants/create"
   },
@@ -1626,7 +1626,7 @@
     "kind": "page",
     "path": "/products/{id}/variants/{variant_id}/manage-items",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 230
+    "line": 231
    },
    "panel": "/products/{id}/variants/{variant_id}/manage-items"
   },
@@ -1651,7 +1651,7 @@
     "kind": "page",
     "path": "/products/import",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 75
+    "line": 76
    },
    "panel": "/products/import"
   },
@@ -1747,7 +1747,7 @@
     "kind": "page",
     "path": "/categories",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 573
+    "line": 574
    },
    "panel": "/categories"
   },
@@ -1889,7 +1889,7 @@
     "kind": "page",
     "path": "/products/{id}/stock",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 182
+    "line": 183
    },
    "panel": "/products/{id}/stock"
   },
@@ -2057,7 +2057,7 @@
     "kind": "page",
     "path": "/customers/{id}",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 457
+    "line": 458
    },
    "panel": "/customers/{id}"
   },
@@ -2081,7 +2081,7 @@
     "kind": "page",
     "path": "/customers/{id}",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 457
+    "line": 458
    },
    "panel": "/customers/{id}"
   },
@@ -2225,7 +2225,7 @@
     "kind": "page",
     "path": "/promotions/{id}/edit",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 667
+    "line": 668
    },
    "panel": "/promotions/{id}/edit"
   },
@@ -2350,7 +2350,7 @@
     "kind": "page",
     "path": "/campaigns",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 686
+    "line": 687
    },
    "panel": "/campaigns"
   },
@@ -2537,7 +2537,7 @@
     "kind": "page",
     "path": "/home-settings",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 860
+    "line": 866
    },
    "panel": "/home-settings"
   },
@@ -2561,7 +2561,7 @@
     "kind": "page",
     "path": "/home-settings",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 860
+    "line": 866
    },
    "panel": "/home-settings"
   },
@@ -2585,7 +2585,7 @@
     "kind": "page",
     "path": "/home-settings",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 860
+    "line": 866
    },
    "panel": "/home-settings"
   },
@@ -2609,7 +2609,7 @@
     "kind": "page",
     "path": "/home-settings",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 860
+    "line": 866
    },
    "panel": "/home-settings"
   },
@@ -2660,7 +2660,7 @@
     "kind": "page",
     "path": "/settings/payments",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 1004
+    "line": 1010
    },
    "panel": "/settings/payments"
   },
@@ -2685,7 +2685,7 @@
     "kind": "page",
     "path": "/settings/payments",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 1004
+    "line": 1010
    },
    "panel": "/settings/payments"
   },
@@ -2709,7 +2709,7 @@
     "kind": "page",
     "path": "/settings/payments",
     "file": "apps/tenant-panel/src/app.tsx",
-    "line": 1004
+    "line": 1010
    },
    "panel": "/settings/payments"
   },
